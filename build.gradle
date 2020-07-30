@@ -87,7 +87,7 @@ repositories {
 }
 
 group = "mekanism"
-version = "${minecraft_version}-${mod_version}." + (System.env.BUILD_NUMBER ?: "homebaked")
+version = "${minecraft_version}-${mod_version}." + "390"
 archivesBaseName = "MekanismAll"
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
