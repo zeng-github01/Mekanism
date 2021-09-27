@@ -32,9 +32,12 @@ idea {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 repositories {
+    flatDir {
+        dirs 'libs/'
+    }
     maven {
-        name 'ForgeFS'
-        url 'https://files.minecraftforge.net/maven'
+        name 'opencomputers'
+        url 'https://maven.cil.li/'
     }
     maven {
         name 'amadornes'
@@ -47,14 +50,6 @@ repositories {
     maven {
         name 'tesla'
         url 'https://maven.mcmoddev.com'
-    }
-    maven {
-        name 'curseforge'
-        url 'https://minecraft.curseforge.com/api/maven/'
-    }
-    maven {
-        name 'opencomputers'
-        url 'https://maven.cil.li/'
     }
     maven {
         name 'CoFH Maven'
@@ -80,10 +75,18 @@ repositories {
         name 'thiakil'
         url 'https://maven.thiakil.com'
     }
-    maven {
-        name 'hwyla'
-        url 'https://maven.tehnut.info'
-    }
+    // maven {
+    //     name 'ForgeFS'
+    //     url 'https://files.minecraftforge.net/maven'
+    // }
+    // maven {
+    //     name 'hwyla'
+    //     url 'https://maven.tehnut.info'
+    // }
+    // maven {
+    //     name 'curseforge'
+    //     url 'https://minecraft.curseforge.com/api/maven/'
+    // }
 }
 
 group = "mekanism"
