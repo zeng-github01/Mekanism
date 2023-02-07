@@ -13,6 +13,7 @@ import mekanism.common.Mekanism;
 import mekanism.common.MekanismFluids;
 import mekanism.common.MekanismItems;
 import mekanism.common.Resource;
+import mekanism.common.block.states.BlockStateMachine;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.RecipeHandler.Recipe;
@@ -32,6 +33,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -42,10 +44,19 @@ import net.minecraftforge.oredict.OreDictionary;
 public final class OreDictManager {
 
     private static final List<String> minorCompatIngot = Arrays.asList("Aluminum", "Draconium", "Iridium", "Mithril", "Nickel", "Platinum", "Uranium");
+    private static final List<String> siliconcompat = Arrays.asList("itemSilicon", "silicon");
     private static final List<String> minorCompatGem = Arrays.asList("Amber", "Diamond", "Emerald", "Malachite", "Peridot", "Ruby", "Sapphire", "Tanzanite", "Topaz");
-
+    public static boolean isSiliconLoaded;
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void init(RegistryEvent.Register<IRecipe> event) {
+        //Silicon Module
+        if (MekanismConfig.current().mekce.EnableSiliconCompat.val())
+        {
+            if (Loader.isModLoaded("EnderIO") || Loader.isModLoaded("GalacticraftCore") || Loader.isModLoaded("ProjRed|Core") || Loader.isModLoaded("appliedenergistics2")) {
+                isSiliconLoaded = true;
+            }
+        }
+
         addLogRecipes();
 
         List<ItemStack> oreDict;
@@ -83,12 +94,13 @@ public final class OreDictManager {
             RecipeHandler.addEnrichmentChamberRecipe(StackUtils.size(ore, 1), new ItemStack(MekanismItems.OtherDust, 4, 1));
         }
 
-        oreDict = OreDictionary.getOres("itemRubber", false);
-        if (oreDict.size() > 0) {
-            ItemStack itemRubber = StackUtils.size(oreDict.get(0), 1);
-            for (ItemStack rubber : OreDictionary.getOres("woodRubber", false)) {
-                RecipeHandler.addPrecisionSawmillRecipe(StackUtils.size(rubber, 1), new ItemStack(Blocks.PLANKS, BlockPlanks.EnumType.JUNGLE.getMetadata(), 4),
-                      itemRubber, 1F);
+        if (OreDictionary.getOres("itemRawRubber").size() > 0) {
+            for (ItemStack ore : OreDictionary.getOres("woodRubber")) {
+                RecipeHandler.addPrecisionSawmillRecipe(StackUtils.size(ore, 1), new ItemStack(Blocks.PLANKS, BlockPlanks.EnumType.JUNGLE.getMetadata(), 4), StackUtils.size(OreDictionary.getOres("itemRawRubber").get(0), 2), 1F);
+            }
+        } else if (OreDictionary.getOres("itemRubber").size() > 0) {
+            for (ItemStack ore : OreDictionary.getOres("woodRubber")) {
+                RecipeHandler.addPrecisionSawmillRecipe(StackUtils.size(ore, 1), new ItemStack(Blocks.PLANKS, BlockPlanks.EnumType.JUNGLE.getMetadata(),  4), StackUtils.size(OreDictionary.getOres("itemRubber").get(0), 2), 1F);
             }
         }
 
@@ -305,11 +317,20 @@ public final class OreDictManager {
         for (ItemStack ingot : OreDictionary.getOres("ingotRefinedObsidian", false)) {
             RecipeHandler.addCrusherRecipe(StackUtils.size(ingot, 1), new ItemStack(MekanismItems.OtherDust, 1, 5));
         }
-
-        InfuseType redstoneInfuseType = InfuseRegistry.get("REDSTONE");
-        for (ItemStack ingot : OreDictionary.getOres("ingotOsmium", false)) {
-            RecipeHandler.addMetallurgicInfuserRecipe(redstoneInfuseType, 10, StackUtils.size(ingot, 1),
-                  new ItemStack(MekanismItems.ControlCircuit, 1, 0));
+        if (isSiliconLoaded) {
+            for (String s : siliconcompat) {
+                InfuseType redstoneInfuseType = InfuseRegistry.get("REDSTONE");
+                for (ItemStack ingot : OreDictionary.getOres(s, false)) {
+                    RecipeHandler.addMetallurgicInfuserRecipe(redstoneInfuseType, 10, StackUtils.size(ingot, 1),
+                            new ItemStack(MekanismItems.ControlCircuit, 1, 0));
+                }
+            }
+        } else {
+            InfuseType redstoneInfuseType = InfuseRegistry.get("REDSTONE");
+            for (ItemStack ingot : OreDictionary.getOres("ingotOsmium", false)) {
+                RecipeHandler.addMetallurgicInfuserRecipe(redstoneInfuseType, 10, StackUtils.size(ingot, 1),
+                        new ItemStack(MekanismItems.ControlCircuit, 1, 0));
+            }
         }
 
         for (ItemStack ingot : OreDictionary.getOres("ingotRedstone", false)) {
@@ -329,6 +350,8 @@ public final class OreDictManager {
         if (Mekanism.hooks.IC2Loaded) {
             addIC2BronzeRecipe();
         }
+
+        mekanismce();
 
         oreDict = OreDictionary.getOres("ingotSilver", false);
         if (oreDict.size() > 0) {
@@ -530,6 +553,58 @@ public final class OreDictManager {
             } else {
                 for (ItemStack gem : gems) {
                     RecipeHandler.addCombinerRecipe(StackUtils.size(gem, 3), base, ore);
+                }
+            }
+        }
+    }
+    public static void mekanismce() {
+        if (MekanismConfig.current().mekce.EnableQuartzCompat.val() && MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.ENRICHMENT_CHAMBER)) {
+            // Enrich quartz dust into quartz
+            for (ItemStack ore : OreDictionary.getOres("dustQuartz")) {
+                RecipeHandler.addEnrichmentChamberRecipe(StackUtils.size(ore, 1), new ItemStack(Items.QUARTZ));
+            }
+            for (ItemStack ore : OreDictionary.getOres("dustNetherQuartz")) {
+                RecipeHandler.addEnrichmentChamberRecipe(StackUtils.size(ore, 1), new ItemStack(Items.QUARTZ));
+            }
+            // Enrich quartz ore into 2 quartz dust
+            for (ItemStack ore : OreDictionary.getOres("dustQuartz")) {
+                RecipeHandler.addEnrichmentChamberRecipe(new ItemStack(Blocks.QUARTZ_ORE), StackUtils.size(ore, 2));
+            }
+            for (ItemStack ore : OreDictionary.getOres("dustNetherQuartz")) {
+                RecipeHandler.addEnrichmentChamberRecipe(new ItemStack(Blocks.QUARTZ_ORE), StackUtils.size(ore, 2));
+            }
+        }
+        // Add gemdiamond oredict for compressed diamond
+        if (MekanismConfig.current().mekce.EnableDiamondCompat.val() && MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.ENRICHMENT_CHAMBER)) {
+            for (ItemStack ore : OreDictionary.getOres("gemDiamond")) {
+                InfuseRegistry.registerInfuseObject(ore, new InfuseObject(InfuseRegistry.get("DIAMOND"), 10));
+                RecipeHandler.addEnrichmentChamberRecipe(StackUtils.size(ore, 1), new ItemStack(MekanismItems.CompressedDiamond));
+            }
+        }
+        if (MekanismConfig.current().mekce.EnablePoorOresCompat.val() && MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.PURIFICATION_CHAMBER)) {
+            for (ItemStack ore : OreDictionary.getOres("orePoorIron")) {
+                for (ItemStack ore2 : OreDictionary.getOres("clumpIron")) {
+                    RecipeHandler.addPurificationChamberRecipe(ore, ore2);
+                }
+            }
+            for (ItemStack ore : OreDictionary.getOres("orePoorGold")) {
+                for (ItemStack ore2 : OreDictionary.getOres("clumpGold")) {
+                    RecipeHandler.addPurificationChamberRecipe(ore, ore2);
+                }
+            }
+            for (ItemStack ore : OreDictionary.getOres("orePoorCopper")) {
+                for (ItemStack ore2 : OreDictionary.getOres("clumpCopper")) {
+                    RecipeHandler.addPurificationChamberRecipe(ore, ore2);
+                }
+            }
+            for (ItemStack ore : OreDictionary.getOres("orePoorTin")) {
+                for (ItemStack ore2 : OreDictionary.getOres("clumpTin")) {
+                    RecipeHandler.addPurificationChamberRecipe(ore, ore2);
+                }
+            }
+            for (ItemStack ore : OreDictionary.getOres("orePoorLead")) {
+                for (ItemStack ore2 : OreDictionary.getOres("clumpLead")) {
+                    RecipeHandler.addPurificationChamberRecipe(ore, ore2);
                 }
             }
         }
