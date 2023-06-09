@@ -8,6 +8,7 @@ import mekanism.api.Coord4D;
 import mekanism.api.util.BlockInfo;
 import mekanism.common.tile.TileEntityBoundingBlock;
 import mekanism.common.tile.TileEntityDigitalMiner;
+import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
@@ -121,15 +122,23 @@ public class ThreadMinerSearch extends Thread {
     }
 
     public enum State {
-        IDLE("Not ready"),
-        SEARCHING("Searching"),
-        PAUSED("Paused"),
-        FINISHED("Ready");
+        IDLE("gui.teleporter.notReady"),
+        SEARCHING("gui.teleporter.Searching"),
+        PAUSED("gui.teleporter.Paused"),
+        FINISHED("gui.teleporter.ready");
 
         public String desc;
 
         State(String s) {
             desc = s;
+        }
+
+        public String localize() {
+            return LangUtils.localize(getTranslationKey());
+        }
+
+        public String getTranslationKey() {
+            return desc;
         }
     }
 }
