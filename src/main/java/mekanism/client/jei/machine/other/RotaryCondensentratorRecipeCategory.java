@@ -1,6 +1,11 @@
 package mekanism.client.jei.machine.other;
 
 import mekanism.api.gas.GasStack;
+import mekanism.client.gui.element.GuiProgress;
+import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.gauge.GuiFluidGauge;
+import mekanism.client.gui.element.gauge.GuiGasGauge;
+import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.client.jei.MekanismJEI;
 import mezz.jei.api.IGuiHelper;
@@ -16,16 +21,32 @@ public class RotaryCondensentratorRecipeCategory extends BaseRecipeCategory<Rota
     private final boolean condensentrating;
 
     public RotaryCondensentratorRecipeCategory(IGuiHelper helper, boolean condensentrating) {
-        super(helper, "mekanism:gui/nei/GuiRotaryCondensentrator.png",
+        super(helper, "mekanism:gui/GuiBlank.png",
               condensentrating ? "mekanism.rotary_condensentrator_condensentrating" : "mekanism.rotary_condensentrator_decondensentrating",
               condensentrating ? "gui.condensentrating" : "gui.decondensentrating", null, 3, 12, 170, 71);
         this.condensentrating = condensentrating;
     }
 
     @Override
+    protected void addGuiElements() {
+        guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 133, 13));
+        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 25, 13));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 4, 24).with(GuiSlot.SlotOverlay.PLUS));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 4, 55).with(GuiSlot.SlotOverlay.MINUS));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 154, 24));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 154, 55));
+    }
+
+    @Override
     public void drawExtras(Minecraft minecraft) {
         super.drawExtras(minecraft);
-        drawTexturedRect(64 - xOffset, 39 - yOffset, 176, condensentrating ? 123 : 115, 48, 8);
+        guiElements.add(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
+                    @Override
+                    public double getProgress() {
+                        return 1F;
+                    }
+                }, condensentrating ? GuiProgress.ProgressBar.LARGE_RIGHT : GuiProgress.ProgressBar.LARGE_LEFT, this, guiLocation, 62, 38)
+        );
     }
 
     @Override
