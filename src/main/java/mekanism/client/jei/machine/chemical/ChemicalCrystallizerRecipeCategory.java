@@ -1,6 +1,10 @@
 package mekanism.client.jei.machine.chemical;
 
 import mekanism.api.gas.GasStack;
+import mekanism.client.gui.element.GuiProgress;
+import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.gauge.GuiGasGauge;
+import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.client.jei.MekanismJEI;
 import mekanism.common.recipe.RecipeHandler.Recipe;
@@ -10,19 +14,25 @@ import mezz.jei.api.gui.IGuiIngredientGroup;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import net.minecraft.client.Minecraft;
 
 public class ChemicalCrystallizerRecipeCategory<WRAPPER extends ChemicalCrystallizerRecipeWrapper<CrystallizerRecipe>> extends BaseRecipeCategory<WRAPPER> {
 
     public ChemicalCrystallizerRecipeCategory(IGuiHelper helper) {
-        super(helper, "mekanism:gui/nei/GuiChemicalCrystallizer.png", Recipe.CHEMICAL_CRYSTALLIZER.getJEICategory(),
-              "tile.MachineBlock2.ChemicalCrystallizer.name", null, 5, 3, 147, 79);
+        super(helper, "mekanism:gui/GuiChemicalCrystallizer.png", Recipe.CHEMICAL_CRYSTALLIZER.getJEICategory(),
+              "tile.MachineBlock2.ChemicalCrystallizer.name", GuiProgress.ProgressBar.LARGE_RIGHT, 5, 3, 147, 79);
     }
 
     @Override
-    public void drawExtras(Minecraft minecraft) {
-        super.drawExtras(minecraft);
-        drawTexturedRect(53 - xOffset, 61 - yOffset, 176, 63, (int) (48 * ((float) timer.getValue() / 20F)), 8);
+    protected void addGuiElements() {
+        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 5, 4));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.EXTRA, this, guiLocation, 5, 64).with(GuiSlot.SlotOverlay.PLUS));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, guiLocation, 130, 56));
+        guiElements.add(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
+            @Override
+            public double getProgress() {
+                return (float) timer.getValue() / 20F;
+            }
+        }, progressBar, this, guiLocation, 51, 60));
     }
 
     @Override
