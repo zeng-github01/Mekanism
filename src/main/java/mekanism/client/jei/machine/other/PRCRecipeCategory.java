@@ -26,8 +26,8 @@ import mezz.jei.api.ingredients.IIngredients;
 public class PRCRecipeCategory<WRAPPER extends PRCRecipeWrapper<PressurizedRecipe>> extends BaseRecipeCategory<WRAPPER> {
 
     public PRCRecipeCategory(IGuiHelper helper) {
-        super(helper, "mekanism:gui/nei/GuiPRC.png", Recipe.PRESSURIZED_REACTION_CHAMBER.getJEICategory(),
-              "tile.MachineBlock2.PressurizedReactionChamber.short.name", ProgressBar.MEDIUM, 3, 11, 170, 68);
+        super(helper, "mekanism:gui/GuiBlank.png", Recipe.PRESSURIZED_REACTION_CHAMBER.getJEICategory(),
+              "tile.MachineBlock2.PressurizedReactionChamber.short.name", ProgressBar.MEDIUM, 3, 11, 170, 60);
     }
 
     @Override

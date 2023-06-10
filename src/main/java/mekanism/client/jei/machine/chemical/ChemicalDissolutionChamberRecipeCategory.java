@@ -1,6 +1,10 @@
 package mekanism.client.jei.machine.chemical;
 
 import mekanism.api.gas.GasStack;
+import mekanism.client.gui.element.GuiProgress;
+import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.gauge.GuiGasGauge;
+import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.client.jei.MekanismJEI;
 import mekanism.common.MekanismFluids;
@@ -17,14 +21,24 @@ import net.minecraft.client.Minecraft;
 public class ChemicalDissolutionChamberRecipeCategory<WRAPPER extends ChemicalDissolutionChamberRecipeWrapper<DissolutionRecipe>> extends BaseRecipeCategory<WRAPPER> {
 
     public ChemicalDissolutionChamberRecipeCategory(IGuiHelper helper) {
-        super(helper, "mekanism:gui/nei/GuiChemicalDissolutionChamber.png",
-              Recipe.CHEMICAL_DISSOLUTION_CHAMBER.getJEICategory(), "gui.chemicalDissolutionChamber.short", null, 3, 3, 170, 79);
+        super(helper, "mekanism:gui/GuiBlank.png",
+              Recipe.CHEMICAL_DISSOLUTION_CHAMBER.getJEICategory(), "gui.chemicalDissolutionChamber.short", GuiProgress.ProgressBar.LARGE_RIGHT, 3, 3, 170, 79);
     }
 
     @Override
-    public void drawExtras(Minecraft minecraft) {
-        super.drawExtras(minecraft);
-        drawTexturedRect(64 - xOffset, 40 - yOffset, 176, 63, (int) (48 * ((float) timer.getValue() / 20F)), 8);
+    protected void addGuiElements() {
+        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 5, 4));
+        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 133, 13));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 154, 4).with(GuiSlot.SlotOverlay.POWER));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 25, 35));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 154, 24).with(GuiSlot.SlotOverlay.PLUS));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 5, 64).with(GuiSlot.SlotOverlay.MINUS));
+        guiElements.add(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
+            @Override
+            public double getProgress() {
+                return (float) timer.getValue() / 20F;
+            }
+        }, progressBar, this, guiLocation, 62, 39));
     }
 
     @Override

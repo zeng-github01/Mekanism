@@ -1,6 +1,12 @@
 package mekanism.client.jei.machine.other;
 
 import mekanism.api.gas.GasStack;
+import mekanism.client.gui.element.GuiProgress;
+import mekanism.client.gui.element.GuiProgress.*;
+import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.GuiSlot.*;
+import mekanism.client.gui.element.gauge.GuiGasGauge;
+import mekanism.client.gui.element.gauge.GuiGauge.*;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.client.jei.MekanismJEI;
 import mekanism.common.recipe.RecipeHandler.Recipe;
@@ -9,19 +15,26 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IGuiIngredientGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import net.minecraft.client.Minecraft;
 
 public class SolarNeutronRecipeCategory<WRAPPER extends SolarNeutronRecipeWrapper<SolarNeutronRecipe>> extends BaseRecipeCategory<WRAPPER> {
 
     public SolarNeutronRecipeCategory(IGuiHelper helper) {
-        super(helper, "mekanism:gui/nei/GuiSolarNeutronActivator.png", Recipe.SOLAR_NEUTRON_ACTIVATOR.getJEICategory(),
-              "tile.MachineBlock3.SolarNeutronActivator.name", null, 3, 12, 170, 70);
+        super(helper, "mekanism:gui/GuiBlank.png", Recipe.SOLAR_NEUTRON_ACTIVATOR.getJEICategory(),
+                "tile.MachineBlock3.SolarNeutronActivator.name", ProgressBar.LARGE_RIGHT, 3, 12, 170, 62);
     }
 
     @Override
-    public void drawExtras(Minecraft minecraft) {
-        super.drawExtras(minecraft);
-        drawTexturedRect(64 - xOffset, 39 - yOffset, 176, 58, 55, 8);
+    protected void addGuiElements() {
+        guiElements.add(GuiGasGauge.getDummy(Type.STANDARD, this, guiLocation, 25, 13));
+        guiElements.add(GuiGasGauge.getDummy(Type.STANDARD, this, guiLocation, 133, 13));
+        guiElements.add(new GuiSlot(SlotType.NORMAL, this, guiLocation, 4, 55).with(SlotOverlay.MINUS));
+        guiElements.add(new GuiSlot(SlotType.NORMAL, this, guiLocation, 154, 55).with(SlotOverlay.PLUS));
+        guiElements.add(new GuiProgress(new IProgressInfoHandler() {
+            @Override
+            public double getProgress() {
+                return (float) timer.getValue() / 20F;
+            }
+        }, progressBar, this, guiLocation, 62, 38));
     }
 
     @Override
