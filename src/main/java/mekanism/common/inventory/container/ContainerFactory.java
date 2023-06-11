@@ -2,6 +2,7 @@ package mekanism.common.inventory.container;
 
 import javax.annotation.Nonnull;
 import mekanism.api.infuse.InfuseRegistry;
+import mekanism.common.base.IFactory;
 import mekanism.common.base.IFactory.RecipeType;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.inventory.slot.SlotEnergy.SlotDischarge;
@@ -38,22 +39,16 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
         if (tileEntity.tier == FactoryTier.BASIC) {
             for (int i = 0; i < tileEntity.tier.processes; i++) {
                 addSlotToContainer(new FactoryInputSlot(tileEntity, getInputSlotIndex(i), 55 + (i * 38), 13, i));
-            }
-            for (int i = 0; i < tileEntity.tier.processes; i++) {
                 addSlotToContainer(new SlotOutput(tileEntity, getOutputSlotIndex(i), 55 + (i * 38), 57));
             }
         } else if (tileEntity.tier == FactoryTier.ADVANCED) {
             for (int i = 0; i < tileEntity.tier.processes; i++) {
                 addSlotToContainer(new FactoryInputSlot(tileEntity, getInputSlotIndex(i), 35 + (i * 26), 13, i));
-            }
-            for (int i = 0; i < tileEntity.tier.processes; i++) {
                 addSlotToContainer(new SlotOutput(tileEntity, getOutputSlotIndex(i), 35 + (i * 26), 57));
             }
         } else if (tileEntity.tier == FactoryTier.ELITE) {
             for (int i = 0; i < tileEntity.tier.processes; i++) {
                 addSlotToContainer(new FactoryInputSlot(tileEntity, getInputSlotIndex(i), 29 + (i * 19), 13, i));
-            }
-            for (int i = 0; i < tileEntity.tier.processes; i++) {
                 addSlotToContainer(new SlotOutput(tileEntity, getOutputSlotIndex(i), 29 + (i * 19), 57));
             }
         }
@@ -61,7 +56,11 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
 
     @Override
     protected int getInventoryOffset() {
-        return 95;
+        if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING){
+            return 95;
+        }else {
+            return 84;
+        }
     }
 
     @Nonnull
