@@ -8,46 +8,44 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiBucketIO extends GuiElement {
+public class GuiBucketIcon extends GuiElement {
 
-    public GuiBucketIO(IGuiWrapper gui, ResourceLocation def) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiBucketIO.png"), gui, def);
+    private final int xLocation;
+    private final int yLocation;
+
+    private final int width = 12;
+    private final int height = 15;
+
+
+    public GuiBucketIcon(IGuiWrapper gui, ResourceLocation def,int x, int y) {
+        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiBucket.png"), gui, def);
+        xLocation = x;
+        yLocation = y;
+
     }
 
     @Override
     public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + 176, guiHeight + 66, 26, 57);
+        return new Rectangle4i(guiWidth + xLocation, guiHeight + yLocation, width, height);
     }
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         mc.renderEngine.bindTexture(RESOURCE);
-        guiObj.drawTexturedRect(guiWidth + 176, guiHeight + 66, 0, 0, 26, 57);
+        guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, width, height);
         mc.renderEngine.bindTexture(defaultLocation);
     }
 
     @Override
     public void renderForeground(int xAxis, int yAxis) {
-        mc.renderEngine.bindTexture(RESOURCE);
-        mc.renderEngine.bindTexture(defaultLocation);
     }
 
-    @Override
-    protected boolean inBounds(int xAxis, int yAxis) {
-        return xAxis >= 180 && xAxis <= 196 && yAxis >= 71 && yAxis <= 87 || xAxis >= 180 && xAxis <= 196 && yAxis >= 102 && yAxis <= 118;
-    }
 
     @Override
     public void preMouseClicked(int xAxis, int yAxis, int button) {
-        if (inBounds(xAxis, yAxis)) {
-            offsetX(26);
-        }
     }
 
     @Override
     public void mouseClicked(int xAxis, int yAxis, int button) {
-        if (inBounds(xAxis, yAxis)) {
-            offsetX(-26);
-        }
     }
 }

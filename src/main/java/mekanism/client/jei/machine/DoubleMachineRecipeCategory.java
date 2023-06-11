@@ -18,7 +18,7 @@ import mezz.jei.api.ingredients.IIngredients;
 public class DoubleMachineRecipeCategory<RECIPE extends DoubleMachineRecipe<RECIPE>, WRAPPER extends DoubleMachineRecipeWrapper<RECIPE>> extends BaseRecipeCategory<WRAPPER> {
 
     public DoubleMachineRecipeCategory(IGuiHelper helper, String name, String unlocalized, ProgressBar progress) {
-        super(helper, "mekanism:gui/guibasicmachine.png", name, unlocalized, progress, 28, 16, 144, 54);
+        super(helper, "mekanism:gui/GuiBlank.png", name, unlocalized, progress, 28, 16, 144, 54);
     }
 
     @Override
@@ -39,6 +39,13 @@ public class DoubleMachineRecipeCategory<RECIPE extends DoubleMachineRecipe<RECI
                 return (double) timer.getValue() / 20F;
             }
         }, progressBar, this, guiLocation, 77, 37));
+
+        guiElements.add(new GuiProgress(new IProgressInfoHandler() {
+            @Override
+            public double getProgress() {
+                return 0F;
+            }
+        }, ProgressBar.UP_ARROW, this, guiLocation, 58, 37));
     }
 
     @Override
