@@ -1,6 +1,9 @@
 package mekanism.client.gui;
 
 import java.util.Arrays;
+
+import mekanism.client.gui.element.GuiBlackScreen;
+import mekanism.client.gui.element.GuiBucketIcon;
 import mekanism.client.gui.element.GuiEnergyInfo;
 import mekanism.client.gui.element.tab.GuiMatrixTab;
 import mekanism.client.gui.element.tab.GuiMatrixTab.MatrixTab;
@@ -26,6 +29,8 @@ public class GuiInductionMatrix extends GuiMekanismTile<TileEntityInductionCasin
         addGuiElement(new GuiEnergyInfo(() -> Arrays.asList(LangUtils.localize("gui.storing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()),
               LangUtils.localize("gui.input") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getLastInput()) + "/t",
               LangUtils.localize("gui.output") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getLastOutput()) + "/t"), this, resource));
+        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.DYNAMICTANK_INDUCTIONMATRIX_PUMP,this,resource,50,23));
+        addGuiElement(new GuiBucketIcon(GuiBucketIcon.IconType.INDUCTIONMATRIX,this,resource,141,15));
     }
 
     @Override
@@ -55,7 +60,7 @@ public class GuiInductionMatrix extends GuiMekanismTile<TileEntityInductionCasin
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiInductionMatrix.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiDynamicTankInductionMatrix.png");
     }
 
     public void displayGauge(int xPos, int yPos, int scale, int side /*0-left, 1-right*/) {

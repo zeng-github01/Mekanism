@@ -2,10 +2,7 @@ package mekanism.generators.client.gui;
 
 import java.util.Arrays;
 import mekanism.client.gui.GuiMekanismTile;
-import mekanism.client.gui.element.GuiEnergyInfo;
-import mekanism.client.gui.element.GuiPowerBar;
-import mekanism.client.gui.element.GuiRedstoneControl;
-import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
@@ -13,6 +10,7 @@ import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
+import mekanism.generators.client.gui.element.GuiBioFuelBar;
 import mekanism.generators.common.inventory.container.ContainerBioGenerator;
 import mekanism.generators.common.tile.TileEntityBioGenerator;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -34,6 +32,16 @@ public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 16, 34));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 142, 34).with(SlotOverlay.POWER));
+        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.BIO_EVAPORATION,this,resource,48,23));
+        addGuiElement(new GuiBioFuelBar(this, new GuiBioFuelBar.IPowerInfoHandler() {
+            @Override
+            public String getTooltip(){
+                return tileEntity.bioFuelSlot.fluidStored > 0 ? LangUtils.localize("gui.bioGenerator.bioFuel") + ":" + tileEntity.bioFuelSlot.fluidStored : LangUtils.localize("gui.empty");}
+            @Override
+            public double getLevel() {
+                return (double) tileEntity.bioFuelSlot.fluidStored / tileEntity.bioFuelSlot.MAX_FLUID;
+            }
+        },resource,6,15));
     }
 
     @Override
@@ -47,14 +55,7 @@ public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
-        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        int displayInt = tileEntity.getScaledFuelLevel(52);
-        drawTexturedModalRect(guiLeft + 7, guiTop + 17 + 52 - displayInt, 176, 52 + 52 - displayInt, 4, displayInt);
-    }
-
-    @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBioGenerator.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlank.png");
     }
 }
