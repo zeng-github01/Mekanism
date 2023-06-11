@@ -6,17 +6,15 @@ import mekanism.common.block.states.BlockStateMachine.MachineType;
 import net.minecraft.util.ResourceLocation;
 
 public enum FactoryTier implements ITier {
-    BASIC(3, new ResourceLocation(Mekanism.MODID, "gui/factory/GuiBasicFactory.png")),
-    ADVANCED(5, new ResourceLocation(Mekanism.MODID, "gui/factory/GuiAdvancedFactory.png")),
-    ELITE(7, new ResourceLocation(Mekanism.MODID, "gui/factory/GuiEliteFactory.png"));
+    BASIC(3),
+    ADVANCED(5),
+    ELITE(7);
 
     public final int processes;
-    public final ResourceLocation guiLocation;
     private final BaseTier baseTier;
 
-    FactoryTier(int process, ResourceLocation gui) {
+    FactoryTier(int process) {
         processes = process;
-        guiLocation = gui;
         baseTier = BaseTier.values()[ordinal()];
     }
 
