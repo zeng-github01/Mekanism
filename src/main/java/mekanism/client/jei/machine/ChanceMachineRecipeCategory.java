@@ -19,7 +19,7 @@ import mezz.jei.api.ingredients.IIngredients;
 public class ChanceMachineRecipeCategory<RECIPE extends ChanceMachineRecipe<RECIPE>, WRAPPER extends ChanceMachineRecipeWrapper<RECIPE>> extends BaseRecipeCategory<WRAPPER> {
 
     public ChanceMachineRecipeCategory(IGuiHelper helper, String name, String unlocalized, ProgressBar progress) {
-        super(helper, "mekanism:gui/GuiBasicMachine.png", name, unlocalized, progress, 28, 16, 144, 54);
+        super(helper, "mekanism:gui/GuiBlank.png", name, unlocalized, progress, 28, 16, 144, 54);
     }
 
     @Override
@@ -39,6 +39,13 @@ public class ChanceMachineRecipeCategory<RECIPE extends ChanceMachineRecipe<RECI
                 return (double) timer.getValue() / 20F;
             }
         }, progressBar, this, guiLocation, 77, 37));
+
+        guiElements.add(new GuiProgress(new IProgressInfoHandler() {
+            @Override
+            public double getProgress() {
+                return 0F;
+            }
+        }, ProgressBar.UP_ARROW, this, guiLocation, 58, 37));
     }
 
     @Override

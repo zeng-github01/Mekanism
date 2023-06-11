@@ -22,7 +22,7 @@ import mezz.jei.api.ingredients.IIngredients;
 public class AdvancedMachineRecipeCategory<RECIPE extends AdvancedMachineRecipe<RECIPE>, WRAPPER extends AdvancedMachineRecipeWrapper<RECIPE>> extends BaseRecipeCategory<WRAPPER> {
 
     public AdvancedMachineRecipeCategory(IGuiHelper helper, String name, String unlocalized, ProgressBar progress) {
-        super(helper, "mekanism:gui/GuiAdvancedMachine.png", name, unlocalized, progress, 28, 16, 144, 54);
+        super(helper, "mekanism:gui/GuiBlank.png", name, unlocalized, progress, 28, 16, 144, 54);
     }
 
     @Override
@@ -43,6 +43,12 @@ public class AdvancedMachineRecipeCategory<RECIPE extends AdvancedMachineRecipe<
                 return (double) timer.getValue() / 20F;
             }
         }, progressBar, this, guiLocation, 77, 37));
+        guiElements.add(new GuiProgress(new IProgressInfoHandler() {
+            @Override
+            public double getProgress() {
+                return 0F;
+            }
+        }, ProgressBar.ADVANCED, this, guiLocation, 59, 35));
     }
 
     @Override

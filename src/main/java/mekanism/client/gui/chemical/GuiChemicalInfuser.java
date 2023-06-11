@@ -1,12 +1,11 @@
 package mekanism.client.gui.chemical;
 
 import java.util.Arrays;
-import mekanism.client.gui.element.GuiEnergyInfo;
-import mekanism.client.gui.element.GuiProgress;
+
+import mekanism.client.gui.GuiMekanismTile;
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
-import mekanism.client.gui.element.GuiRedstoneControl;
-import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
@@ -24,7 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiChemicalInfuser extends GuiChemical<TileEntityChemicalInfuser> {
+public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuser> {
 
     public GuiChemicalInfuser(InventoryPlayer inventory, TileEntityChemicalInfuser tile) {
         super(tile, new ContainerChemicalInfuser(inventory, tile));
@@ -32,6 +31,7 @@ public class GuiChemicalInfuser extends GuiChemical<TileEntityChemicalInfuser> {
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
+        addGuiElement(new GuiPowerBarHorizontal(this, tileEntity, resource, 115 , 74));
         addGuiElement(new GuiEnergyInfo(() -> {
             String usage = MekanismUtils.getEnergyDisplay(tileEntity.clientEnergyUsed);
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + usage + "/t",
@@ -60,11 +60,11 @@ public class GuiChemicalInfuser extends GuiChemical<TileEntityChemicalInfuser> {
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiChemical.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlank.png");
     }
 
     @Override
-    protected void drawForegroundText() {
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(LangUtils.localize("gui.chemicalInfuser.short"), 5, 5, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 4, 0x404040);
     }
