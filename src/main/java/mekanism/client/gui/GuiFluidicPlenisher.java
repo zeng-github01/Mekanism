@@ -1,10 +1,8 @@
 package mekanism.client.gui;
 
 import java.util.Arrays;
-import mekanism.client.gui.element.GuiEnergyInfo;
-import mekanism.client.gui.element.GuiPowerBar;
-import mekanism.client.gui.element.GuiRedstoneControl;
-import mekanism.client.gui.element.GuiSlot;
+
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
@@ -41,6 +39,13 @@ public class GuiFluidicPlenisher extends GuiMekanismTile<TileEntityFluidicPlenis
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
+        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.DYNAMICTANK_INDUCTIONMATRIX_PUMP,this,resource,48,23));
+        addGuiElement(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
+            @Override
+            public double getProgress() {
+                return 0F;
+            }
+        }, GuiProgress.ProgressBar.DOWN_ARROW, this, resource, 30, 38));
     }
 
     @Override
@@ -56,6 +61,6 @@ public class GuiFluidicPlenisher extends GuiMekanismTile<TileEntityFluidicPlenis
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiElectricPump.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlank.png");
     }
 }

@@ -70,7 +70,7 @@ public class GuiProgress extends GuiElement {
         BI(20, 8, 128, 50),
         ADVANCED(11, 16, 0, 77),
         UP_ARROW(12,12,128,58),
-        DOWN_ARROW(12,22,128,70);
+        DOWN_ARROW(12,11,128,70);
 
         public final int width;
         public final int height;

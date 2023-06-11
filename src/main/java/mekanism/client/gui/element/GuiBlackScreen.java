@@ -8,29 +8,29 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiBucketIcon extends GuiElement {
+public class GuiBlackScreen extends GuiElement {
 
     private final int xLocation;
     private final int yLocation;
-
     private final int textureX;
     private final int textureY;
-
 
     private final int width;
     private final int height;
 
+    public GuiBlackScreen(BlackScreen type, IGuiWrapper gui, ResourceLocation def, int x, int y) {
+        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiBlackScreen.png"), gui, def);
 
-    public GuiBucketIcon(IconType type,IGuiWrapper gui, ResourceLocation def,int x, int y) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiBucket.png"), gui, def);
         xLocation = x;
         yLocation = y;
+
         width = type.width;
         height = type.height;
 
         textureX = type.textureX;
         textureY = type.textureY;
     }
+
 
     @Override
     public Rectangle4i getBounds(int guiWidth, int guiHeight) {
@@ -46,8 +46,8 @@ public class GuiBucketIcon extends GuiElement {
 
     @Override
     public void renderForeground(int xAxis, int yAxis) {
-    }
 
+    }
 
     @Override
     public void preMouseClicked(int xAxis, int yAxis, int button) {
@@ -57,10 +57,15 @@ public class GuiBucketIcon extends GuiElement {
     public void mouseClicked(int xAxis, int yAxis, int button) {
     }
 
-    public enum IconType {
-        BUCKET(12,13,0,1),
-        DYNAMICTANK(26,57,0,16),
-        INDUCTIONMATRIX(26,57,0,75);
+    public enum BlackScreen {
+
+        BIO_EVAPORATION(80,40,0,0),
+        CRYSTALLIZER(121,42,81,0),
+        DYNAMICTANK_INDUCTIONMATRIX_PUMP(80,41,0,41),
+        SEISMICVIBRATOR(112,40,81,44),
+        THERMOELECTRICBOILER(96,32,0,84)
+        ;
+
 
         public final int width;
         public final int height;
@@ -68,11 +73,13 @@ public class GuiBucketIcon extends GuiElement {
         public final int textureX;
         public final int textureY;
 
-        IconType(int w, int h, int x, int y) {
+        BlackScreen(int w, int h, int x, int y) {
             width = w;
             height = h;
+
             textureX = x;
             textureY = y;
         }
     }
+
 }

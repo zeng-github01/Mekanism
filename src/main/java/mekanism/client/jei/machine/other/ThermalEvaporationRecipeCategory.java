@@ -1,8 +1,16 @@
 package mekanism.client.jei.machine.other;
 
+import mekanism.client.gui.element.GuiBlackScreen;
+import mekanism.client.gui.element.GuiProgress;
+import mekanism.client.gui.element.GuiRateBarHorizontal;
+import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.gauge.GuiFluidGauge;
+import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.jei.BaseRecipeCategory;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.machines.ThermalEvaporationRecipe;
+import mekanism.common.util.LangUtils;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IGuiFluidStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -12,15 +20,38 @@ import net.minecraft.client.Minecraft;
 public class ThermalEvaporationRecipeCategory<WRAPPER extends ThermalEvaporationRecipeWrapper<ThermalEvaporationRecipe>> extends BaseRecipeCategory<WRAPPER> {
 
     public ThermalEvaporationRecipeCategory(IGuiHelper helper) {
-        super(helper, "mekanism:gui/GuiThermalEvaporationController.png",
+        super(helper, "mekanism:gui/GuiBlank.png",
               Recipe.THERMAL_EVAPORATION_PLANT.getJEICategory(), "gui.thermalEvaporationController.short", null, 3, 12, 170, 62);
     }
-
     @Override
-    public void drawExtras(Minecraft minecraft) {
-        super.drawExtras(minecraft);
-        drawTexturedRect(49 - xOffset, 64 - yOffset, 176, 59, 78, 8);
+    protected void addGuiElements() {
+        guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 6, 13));
+        guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 152, 13));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 27, 19));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 27, 50));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 131, 19));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 131, 50));
+        guiElements.add(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
+            @Override
+            public double getProgress() {
+                return 0F;
+            }
+        }, GuiProgress.ProgressBar.DOWN_ARROW, this, guiLocation, 30, 38));
+        guiElements.add(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
+            @Override
+            public double getProgress() {
+                return 0F;
+            }
+        }, GuiProgress.ProgressBar.DOWN_ARROW, this, guiLocation, 134, 38));
+        guiElements.add(new GuiBlackScreen(GuiBlackScreen.BlackScreen.BIO_EVAPORATION,this,guiLocation,48,19));
+        guiElements.add(new GuiRateBarHorizontal(this, new GuiRateBarHorizontal.IRateInfoHandler() {
+            @Override
+            public double getLevel() {
+                return 1F;
+            }
+        },guiLocation,48,62));
     }
+
 
     @Override
     public void setRecipe(IRecipeLayout recipeLayout, WRAPPER recipeWrapper, IIngredients ingredients) {

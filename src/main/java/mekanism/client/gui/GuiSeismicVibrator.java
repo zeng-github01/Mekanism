@@ -1,10 +1,8 @@
 package mekanism.client.gui;
 
 import java.util.Arrays;
-import mekanism.client.gui.element.GuiEnergyInfo;
-import mekanism.client.gui.element.GuiPowerBar;
-import mekanism.client.gui.element.GuiRedstoneControl;
-import mekanism.client.gui.element.GuiSlot;
+
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
@@ -34,6 +32,7 @@ public class GuiSeismicVibrator extends GuiMekanismTile<TileEntitySeismicVibrato
                   LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 142, 34).with(SlotOverlay.POWER));
+        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.SEISMICVIBRATOR,this,resource,16,23));
     }
 
     @Override
@@ -47,6 +46,6 @@ public class GuiSeismicVibrator extends GuiMekanismTile<TileEntitySeismicVibrato
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiSeismicVibrator.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlank.png");
     }
 }

@@ -1,9 +1,12 @@
 package mekanism.client.gui;
 
 import java.util.Collections;
+
+import mekanism.client.gui.element.GuiBlackScreen;
 import mekanism.client.gui.element.GuiHeatInfo;
 import mekanism.client.gui.element.GuiRateBar;
 import mekanism.client.gui.element.GuiRateBar.IRateInfoHandler;
+import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.tab.GuiBoilerTab;
 import mekanism.client.gui.element.tab.GuiBoilerTab.BoilerTab;
 import mekanism.common.config.MekanismConfig;
@@ -56,6 +59,8 @@ public class GuiThermoelectricBoiler extends GuiEmbeddedGaugeTile<TileEntityBoil
             String environment = UnitDisplayUtils.getDisplayShort(tileEntity.getLastEnvironmentLoss() * unit.intervalSize, false, unit);
             return Collections.singletonList(LangUtils.localize("gui.dissipated") + ": " + environment + "/t");
         }, this, resource));
+
+        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.THERMOELECTRICBOILER,this,resource,40,27));
     }
 
     @Override
@@ -81,6 +86,8 @@ public class GuiThermoelectricBoiler extends GuiEmbeddedGaugeTile<TileEntityBoil
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        drawTexturedModalRect(guiLeft + 6, guiTop + 13, 177, 83, 18, 60);
+        drawTexturedModalRect(guiLeft + 152, guiTop + 13, 177, 83, 18, 60);
         if (tileEntity.structure != null) {
             if (tileEntity.getScaledWaterLevel(58) > 0) {
                 displayGauge(7, 14, tileEntity.getScaledWaterLevel(58), tileEntity.structure.waterStored);

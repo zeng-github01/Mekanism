@@ -1,5 +1,7 @@
 package mekanism.client.gui;
 
+import mekanism.client.gui.element.GuiBlackScreen;
+import mekanism.client.gui.element.GuiBucketIcon;
 import mekanism.client.gui.element.GuiContainerEditMode;
 import mekanism.common.content.tank.TankUpdateProtocol;
 import mekanism.common.inventory.container.ContainerDynamicTank;
@@ -18,7 +20,10 @@ public class GuiDynamicTank extends GuiEmbeddedGaugeTile<TileEntityDynamicTank> 
 
     public GuiDynamicTank(InventoryPlayer inventory, TileEntityDynamicTank tile) {
         super(tile, new ContainerDynamicTank(inventory, tile));
-        addGuiElement(new GuiContainerEditMode(this, tileEntity, getGuiLocation()));
+        ResourceLocation resource = getGuiLocation();
+        addGuiElement(new GuiContainerEditMode(this, tileEntity, resource));
+        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.DYNAMICTANK_INDUCTIONMATRIX_PUMP,this,resource,50,23));
+        addGuiElement(new GuiBucketIcon(GuiBucketIcon.IconType.DYNAMICTANK,this,resource,141,15));
     }
 
     @Override
@@ -51,7 +56,7 @@ public class GuiDynamicTank extends GuiEmbeddedGaugeTile<TileEntityDynamicTank> 
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiDynamicTank.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiDynamicTankInductionMatrix.png");
     }
 
     @Override

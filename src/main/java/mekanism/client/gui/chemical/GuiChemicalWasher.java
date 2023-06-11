@@ -42,7 +42,7 @@ public class GuiChemicalWasher extends GuiMekanismTile<TileEntityChemicalWasher>
         addGuiElement(new GuiFluidGauge(() -> tileEntity.fluidTank, Type.STANDARD, this, resource, 5, 4));
         addGuiElement(new GuiGasGauge(() -> tileEntity.inputTank, GuiGauge.Type.STANDARD, this, resource, 26, 13));
         addGuiElement(new GuiGasGauge(() -> tileEntity.outputTank, GuiGauge.Type.STANDARD, this, resource, 133, 13));
-        addGuiElement(new GuiBucketIcon(this, resource,8,65));
+        addGuiElement(new GuiBucketIcon(GuiBucketIcon.IconType.BUCKET,this, resource,8,66));
         addGuiElement(new GuiBucketIO(this, resource));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 154, 4).with(SlotOverlay.POWER));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 154, 55).with(SlotOverlay.MINUS));

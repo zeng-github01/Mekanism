@@ -6,13 +6,9 @@ import java.util.List;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.OreGas;
 import mekanism.client.gui.GuiMekanismTile;
-import mekanism.client.gui.element.GuiEnergyInfo;
-import mekanism.client.gui.element.GuiPowerBar;
-import mekanism.client.gui.element.GuiProgress;
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
-import mekanism.client.gui.element.GuiRedstoneControl;
-import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
@@ -68,6 +64,7 @@ public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalC
                 return tileEntity.getScaledProgress();
             }
         }, ProgressBar.LARGE_RIGHT, this, resource, 51, 60));
+        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.CRYSTALLIZER,this,resource,27,13));
     }
 
     @Override
@@ -92,7 +89,7 @@ public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalC
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiChemicalCrystallizer.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlank.png");
     }
 
     private Gas getInputGas() {

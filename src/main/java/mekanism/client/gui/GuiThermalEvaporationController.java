@@ -1,7 +1,8 @@
 package mekanism.client.gui;
 
 import java.util.Collections;
-import mekanism.client.gui.element.GuiHeatInfo;
+
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.common.config.MekanismConfig;
@@ -31,6 +32,33 @@ public class GuiThermalEvaporationController extends GuiMekanismTile<TileEntityT
             String environment = UnitDisplayUtils.getDisplayShort(tileEntity.totalLoss * unit.intervalSize, false, unit);
             return Collections.singletonList(LangUtils.localize("gui.dissipated") + ": " + environment + "/t");
         }, this, resource));
+        addGuiElement(new GuiRateBarHorizontal(this, new GuiRateBarHorizontal.IRateInfoHandler() {
+            @Override
+            public String getTooltip() {
+                return LangUtils.localize("gui.temp") + ": " + getTemp();
+            }
+            @Override
+            public double getLevel() {
+                return Math.min(1, tileEntity.getTemperature() / MekanismConfig.current().general.evaporationMaxTemp.val());
+            }
+        },resource,48,62));
+        addGuiElement(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
+            @Override
+            public double getProgress() {
+                return 0F;
+            }
+        }, GuiProgress.ProgressBar.DOWN_ARROW, this, resource, 30, 38));
+        addGuiElement(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
+            @Override
+            public double getProgress() {
+                return 0F;
+            }
+        }, GuiProgress.ProgressBar.DOWN_ARROW, this, resource, 134, 38));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 27, 19));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 27, 50));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 131, 19));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 131, 50));
+        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.BIO_EVAPORATION,this,resource,48,19));
     }
 
     @Override
@@ -49,8 +77,6 @@ public class GuiThermalEvaporationController extends GuiMekanismTile<TileEntityT
         } else if (xAxis >= 153 && xAxis <= 169 && yAxis >= 14 && yAxis <= 72) {
             FluidStack fluid = tileEntity.outputTank.getFluid();
             displayTooltip(fluid != null ? LangUtils.localizeFluidStack(fluid) + ": " + tileEntity.outputTank.getFluidAmount() : LangUtils.localize("gui.empty"), xAxis, yAxis);
-        } else if (xAxis >= 49 && xAxis <= 127 && yAxis >= 64 && yAxis <= 72) {
-            displayTooltip(getTemp(), xAxis, yAxis);
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
@@ -69,13 +95,7 @@ public class GuiThermalEvaporationController extends GuiMekanismTile<TileEntityT
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
-        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 49, guiTop + 64, 176, 59, tileEntity.getScaledTempLevel(78), 8);
-    }
-
-    @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiThermalEvaporationController.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlank.png");
     }
 }
