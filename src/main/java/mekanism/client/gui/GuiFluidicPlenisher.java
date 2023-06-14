@@ -36,9 +36,9 @@ public class GuiFluidicPlenisher extends GuiMekanismTile<TileEntityFluidicPlenis
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
                   LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
-        addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
-        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
-        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
+        addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.DYNAMICTANK_INDUCTIONMATRIX_PUMP,this,resource,48,23));
         addGuiElement(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override

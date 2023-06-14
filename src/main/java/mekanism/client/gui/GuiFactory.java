@@ -46,8 +46,16 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         }
         if (tile.tier == FactoryTier.BASIC || tile.tier == FactoryTier.ADVANCED || tile.tier == FactoryTier.ELITE){
             addGuiElement(new GuiPowerBar(this, tileEntity, resource,164,15));
+            addGuiElement(new GuiRecipeType(this, tileEntity, resource,0,0));
+            addGuiElement(new GuiUpgradeTab(this, tileEntity, resource,0,0));
+            addGuiElement(new GuiSecurityTab(this, tileEntity, resource,0,0));
+            addGuiElement(new GuiRedstoneControl(this, tileEntity, resource,0,0));
         }else {
             addGuiElement(new GuiPowerBar(this, tileEntity, resource,164,15));
+            addGuiElement(new GuiRecipeType(this, tileEntity, resource,0,0));
+            addGuiElement(new GuiUpgradeTab(this, tileEntity, resource,0,0));
+            addGuiElement(new GuiSecurityTab(this, tileEntity, resource,0,0));
+            addGuiElement(new GuiRedstoneControl(this, tileEntity, resource,0,0));
         }
         //slot
         //Energy
@@ -78,10 +86,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
                 addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, resource, 28 + (i * 19), 56));
             }
         }
-        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
-        addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
-        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
-        addGuiElement(new GuiRecipeType(this, tileEntity, resource));
+
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         addGuiElement(new GuiSortingTab(this, tileEntity, resource));
@@ -170,8 +175,6 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
                 displayGauge(8, 78, tileEntity.getScaledInfuseLevel(138), 5, tileEntity.infuseStored.getType().sprite);
             }
         }
-
-
     }
 
 

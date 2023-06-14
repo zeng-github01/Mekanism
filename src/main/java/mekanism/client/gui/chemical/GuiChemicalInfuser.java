@@ -28,9 +28,9 @@ public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuse
     public GuiChemicalInfuser(InventoryPlayer inventory, TileEntityChemicalInfuser tile) {
         super(tile, new ContainerChemicalInfuser(inventory, tile));
         ResourceLocation resource = getGuiLocation();
-        addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
-        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
-        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
+        addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiPowerBarHorizontal(this, tileEntity, resource, 115 , 74));
         addGuiElement(new GuiEnergyInfo(() -> {
             String usage = MekanismUtils.getEnergyDisplay(tileEntity.clientEnergyUsed);

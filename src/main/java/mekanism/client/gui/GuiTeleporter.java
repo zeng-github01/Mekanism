@@ -70,9 +70,9 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         super(tile, new ContainerTeleporter(inventory, tile));
         isPortable = false;
         ResourceLocation resource = getGuiLocation();
-        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
-        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
-        addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
+        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiPowerBar(this, new IPowerInfoHandler() {
             @Override
             public String getTooltip() {

@@ -31,34 +31,40 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiSecurityTab extends GuiTileEntityElement<TileEntity> {
 
+    private final int xLocation;
+    private final int yLocation;
     private final EnumHand currentHand;
     private boolean isItem;
 
-    public GuiSecurityTab(IGuiWrapper gui, TileEntity tile, ResourceLocation def) {
+    public GuiSecurityTab(IGuiWrapper gui, TileEntity tile, ResourceLocation def, int x, int y) {
         super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSecurityTab.png"), gui, def, tile);
         this.currentHand = EnumHand.MAIN_HAND;
+        xLocation = x;
+        yLocation = y;
     }
 
-    public GuiSecurityTab(IGuiWrapper gui, ResourceLocation def, EnumHand hand) {
+    public GuiSecurityTab(IGuiWrapper gui, ResourceLocation def, EnumHand hand, int x, int y) {
         super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSecurityTab.png"), gui, def, null);
         isItem = true;
         currentHand = hand;
+        xLocation = x;
+        yLocation = y;
     }
 
     @Override
     public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + 176, guiHeight + 32, 26, 26);
+        return new Rectangle4i(guiWidth + 176 + xLocation, guiHeight + 32 + yLocation, 26, 26);
     }
 
     @Override
     protected boolean inBounds(int xAxis, int yAxis) {
-        return xAxis >= 179 && xAxis <= 197 && yAxis >= 36 && yAxis <= 54;
+        return xAxis >= 179 + xLocation && xAxis <= 197 + xLocation && yAxis >= 36 + yLocation && yAxis <= 54 + yLocation;
     }
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         mc.renderEngine.bindTexture(RESOURCE);
-        guiObj.drawTexturedRect(guiWidth + 176, guiHeight + 32, 0, 0, 26, 26);
+        guiObj.drawTexturedRect(guiWidth + 176 + xLocation, guiHeight + 32 + yLocation, 0, 0, 26, 26);
         SecurityMode mode = getSecurity();
         SecurityData data = MekanismClient.clientSecurityMap.get(getOwner());
         if (data != null && data.override) {
@@ -66,9 +72,9 @@ public class GuiSecurityTab extends GuiTileEntityElement<TileEntity> {
         }
         int renderX = 26 + (18 * mode.ordinal());
         if (getOwner() != null && getOwner().equals(mc.player.getUniqueID()) && (data == null || !data.override)) {
-            guiObj.drawTexturedRect(guiWidth + 179, guiHeight + 36, renderX, inBounds(xAxis, yAxis) ? 0 : 18, 18, 18);
+            guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 36 + yLocation, renderX, inBounds(xAxis, yAxis) ? 0 : 18, 18, 18);
         } else {
-            guiObj.drawTexturedRect(guiWidth + 179, guiHeight + 36, renderX, 36, 18, 18);
+            guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 36 + yLocation, renderX, 36, 18, 18);
         }
         mc.renderEngine.bindTexture(defaultLocation);
     }
