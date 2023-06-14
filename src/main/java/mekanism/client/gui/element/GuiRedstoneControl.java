@@ -18,27 +18,32 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiRedstoneControl extends GuiTileEntityElement<TileEntity> {
 
-    public GuiRedstoneControl(IGuiWrapper gui, TileEntity tile, ResourceLocation def) {
+    private final int xLocation;
+    private final int yLocation;
+
+    public GuiRedstoneControl(IGuiWrapper gui, TileEntity tile, ResourceLocation def, int x, int y) {
         super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiRedstoneControl.png"), gui, def, tile);
+        xLocation = x;
+        yLocation = y;
     }
 
     @Override
     public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + 176, guiHeight + 138, 26, 26);
+        return new Rectangle4i(guiWidth + 176+ xLocation, guiHeight + 138 + yLocation, 26, 26);
     }
 
     @Override
     protected boolean inBounds(int xAxis, int yAxis) {
-        return xAxis >= 179 && xAxis <= 197 && yAxis >= 142 && yAxis <= 160;
+        return xAxis >= 179 + xLocation && xAxis <= 197 + xLocation && yAxis >= 142 +yLocation && yAxis <= 160 + yLocation;
     }
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         mc.renderEngine.bindTexture(RESOURCE);
-        guiObj.drawTexturedRect(guiWidth + 176, guiHeight + 138, 0, 0, 26, 26);
+        guiObj.drawTexturedRect(guiWidth + 176 + xLocation, guiHeight + 138 + yLocation, 0, 0, 26, 26);
         IRedstoneControl control = (IRedstoneControl) tileEntity;
         int renderX = 26 + (18 * control.getControlType().ordinal());
-        guiObj.drawTexturedRect(guiWidth + 179, guiHeight + 142, renderX, inBounds(xAxis, yAxis) ? 0 : 18, 18, 18);
+        guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 142 + yLocation, renderX, inBounds(xAxis, yAxis) ? 0 : 18, 18, 18);
         mc.renderEngine.bindTexture(defaultLocation);
     }
 
