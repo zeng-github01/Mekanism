@@ -33,7 +33,7 @@ public class ItemMekanismArmor extends ItemArmor implements IHasRepairType {
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
         int layer = slot == EntityEquipmentSlot.LEGS ? 2 : 1;
-        return "mekanism:armor/" + getArmorMaterial().name().toLowerCase(Locale.ROOT) + "_" + layer + ".png";
+        return "mekanismtools:armor/" + getArmorMaterial().name().toLowerCase(Locale.ROOT) + "_" + layer + ".png";
     }
 
     @Override
