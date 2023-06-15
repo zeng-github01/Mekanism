@@ -40,12 +40,12 @@ public class GuiElectricPump extends GuiMekanismTile<TileEntityElectricPump> {
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.DYNAMICTANK_INDUCTIONMATRIX_PUMP,this,resource,48,23));
-        addGuiElement(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
-            @Override
-            public double getProgress() {
-                return 0F;
-            }
-        }, GuiProgress.ProgressBar.DOWN_ARROW, this, resource, 30, 38));
+    }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
+        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        drawTexturedModalRect(guiLeft + 32, guiTop + 39, 20, 179, 8, 9);
     }
 
     @Override

@@ -18,6 +18,7 @@ import mezz.jei.api.gui.IGuiIngredientGroup;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
+import net.minecraft.client.Minecraft;
 
 public class AdvancedMachineRecipeCategory<RECIPE extends AdvancedMachineRecipe<RECIPE>, WRAPPER extends AdvancedMachineRecipeWrapper<RECIPE>> extends BaseRecipeCategory<WRAPPER> {
 
@@ -43,12 +44,11 @@ public class AdvancedMachineRecipeCategory<RECIPE extends AdvancedMachineRecipe<
                 return (double) timer.getValue() / 20F;
             }
         }, progressBar, this, guiLocation, 77, 37));
-        guiElements.add(new GuiProgress(new IProgressInfoHandler() {
-            @Override
-            public double getProgress() {
-                return 0F;
-            }
-        }, ProgressBar.ADVANCED, this, guiLocation, 59, 35));
+    }
+    @Override
+    public void drawExtras(Minecraft minecraft) {
+        super.drawExtras(minecraft);
+        drawTexturedRect(60 - xOffset,36 - yOffset,0,167,8,14);
     }
 
     @Override

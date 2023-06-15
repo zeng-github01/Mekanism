@@ -44,7 +44,7 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 154, 24));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 154, 55));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 154, 4).with(SlotOverlay.POWER));
-        addGuiElement(new GuiPowerBarHorizontal(this, tileEntity, resource, 115 , 74));
+        addGuiElement(new GuiPowerBarHorizontal(this, tileEntity, resource, 115, 74));
         addGuiElement(new GuiEnergyInfo(() -> {
             String usage = MekanismUtils.getEnergyDisplay(tileEntity.clientEnergyUsed);
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + usage + "/t",
@@ -100,13 +100,13 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         ResourceLocation resource = getGuiLocation();
         mc.renderEngine.bindTexture(resource);
-        drawTexturedModalRect(guiLeft + 4, guiTop + 4, tileEntity.mode==0 ? 176 : 194, inBounds(xAxis, yAxis) ? 0 : 18, 18, 18);
+        drawTexturedModalRect(guiLeft + 4, guiTop + 4, tileEntity.mode==0 ? 0 : 18, inBounds(xAxis, yAxis) ? 205 : 223, 18, 18);
     }
 
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiRotaryCondensentrator.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");
     }
 
     @Override

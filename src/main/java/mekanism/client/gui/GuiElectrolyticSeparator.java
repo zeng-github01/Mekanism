@@ -80,7 +80,7 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiElectrolyticSeparator.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");
     }
 
     @Override
@@ -93,12 +93,24 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
+    protected boolean inBounds(int xAxis, int yAxis) {
+        return xAxis >= 8 && xAxis <= 15 && yAxis >= 73 && yAxis <= 80;
+    }
+    protected boolean inBounds2(int xAxis, int yAxis) {
+        return xAxis >= 160 && xAxis <= 167 && yAxis >= 73 && yAxis <= 80;
+    }
+
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+
+        drawTexturedModalRect(guiLeft + 7, guiTop + 72,9,167,10,10);
+        drawTexturedModalRect(guiLeft + 159, guiTop + 72,9,167,10,10);
         //Left
-        drawTexturedModalRect(guiLeft + 8, guiTop + 73, 176, GasMode.chooseByMode(tileEntity.dumpLeft, 52, 60, 68), 8, 8);
+        int dumpLeft = tileEntity.dumpLeft.ordinal();
+        drawTexturedModalRect(guiLeft + 8, guiTop + 73, 59 + 8 * dumpLeft,inBounds(xAxis, yAxis) ? 167 : 175,8,8);
         //Right
-        drawTexturedModalRect(guiLeft + 160, guiTop + 73, 176, GasMode.chooseByMode(tileEntity.dumpRight, 52, 60, 68), 8, 8);
+        int dumpRight = tileEntity.dumpRight.ordinal();
+        drawTexturedModalRect(guiLeft + 160, guiTop + 73, 59 + 8 * dumpRight,inBounds2(xAxis, yAxis) ? 167 : 175,8,8);
     }
 }
