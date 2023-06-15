@@ -31,18 +31,6 @@ public class ThermalEvaporationRecipeCategory<WRAPPER extends ThermalEvaporation
         guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 27, 50));
         guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 131, 19));
         guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 131, 50));
-        guiElements.add(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
-            @Override
-            public double getProgress() {
-                return 0F;
-            }
-        }, GuiProgress.ProgressBar.DOWN_ARROW, this, guiLocation, 30, 38));
-        guiElements.add(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
-            @Override
-            public double getProgress() {
-                return 0F;
-            }
-        }, GuiProgress.ProgressBar.DOWN_ARROW, this, guiLocation, 134, 38));
         guiElements.add(new GuiBlackScreen(GuiBlackScreen.BlackScreen.BIO_EVAPORATION,this,guiLocation,48,19));
         guiElements.add(new GuiRateBarHorizontal(this, new GuiRateBarHorizontal.IRateInfoHandler() {
             @Override
@@ -50,6 +38,13 @@ public class ThermalEvaporationRecipeCategory<WRAPPER extends ThermalEvaporation
                 return 1F;
             }
         },guiLocation,48,62));
+    }
+
+    @Override
+    public void drawExtras(Minecraft minecraft) {
+        super.drawExtras(minecraft);
+        drawTexturedRect(32 - xOffset,39 - yOffset,20,179,8,9);
+        drawTexturedRect(136 - xOffset,39 - yOffset,20,179,8,9);
     }
 
 

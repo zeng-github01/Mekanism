@@ -11,7 +11,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
-import mekanism.MekanismAll.Tags;
+
+import mekanism.MekanismCEu.Tags;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.MekanismAPI;
@@ -188,7 +189,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = Mekanism.MODID, useMetadata = true, guiFactory = "mekanism.client.gui.ConfigGuiFactory", acceptedMinecraftVersions = "[1.12,1.13)", version = Mekanism.VERSION)
+@Mod(modid = Mekanism.MODID, useMetadata = true, guiFactory = "mekanism.client.gui.ConfigGuiFactory", acceptedMinecraftVersions = "[1.12,1.13)", version = Tags.VERSION)
 @Mod.EventBusSubscriber()
 public class Mekanism {
 
@@ -196,7 +197,6 @@ public class Mekanism {
     public static final String MOD_NAME = "Mekanism";
     public static final String LOG_TAG = '[' + MOD_NAME + ']';
     public static final PlayerState playerState = new PlayerState();
-    public static final String VERSION = Tags.VERSION;
     public static final Set<UUID> freeRunnerOn = new HashSet<>();
     /**
      * Mekanism Packet Pipeline

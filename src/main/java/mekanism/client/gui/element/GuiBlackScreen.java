@@ -63,7 +63,9 @@ public class GuiBlackScreen extends GuiElement {
         CRYSTALLIZER(121,42,81,0),
         DYNAMICTANK_INDUCTIONMATRIX_PUMP(80,41,0,41),
         SEISMICVIBRATOR(112,40,81,44),
-        THERMOELECTRICBOILER(96,32,0,84)
+        THERMOELECTRICBOILER(96,32,0,84),
+        GASTANK(118,27,97,84),
+        FUELWOOD(80,28,0,117)
         ;
 
 

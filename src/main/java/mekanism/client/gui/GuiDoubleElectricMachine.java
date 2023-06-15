@@ -51,12 +51,12 @@ public class GuiDoubleElectricMachine<RECIPE extends DoubleMachineRecipe<RECIPE>
                 return tileEntity.getScaledProgress();
             }
         }, getProgressType(), this, resource, 77, 37));
-        addGuiElement(new GuiProgress(new IProgressInfoHandler() {
-            @Override
-            public double getProgress() {
-                return 0F;
-            }
-        }, ProgressBar.UP_ARROW, this, resource, 58,37));
+    }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
+        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        drawTexturedModalRect(guiLeft + 60, guiTop + 38,20,167,8,10);
     }
 
     public ProgressBar getProgressType() {

@@ -1,7 +1,10 @@
 package mekanism.client.gui;
 
 import java.util.Collections;
+
+import mekanism.client.gui.element.GuiBlackScreen;
 import mekanism.client.gui.element.GuiHeatInfo;
+import mekanism.client.gui.element.GuiRateBar;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
@@ -31,13 +34,24 @@ public class GuiFuelwoodHeater extends GuiMekanismTile<TileEntityFuelwoodHeater>
             String environment = UnitDisplayUtils.getDisplayShort(tileEntity.lastEnvironmentLoss * unit.intervalSize, false, unit);
             return Collections.singletonList(LangUtils.localize("gui.dissipated") + ": " + environment + "/t");
         }, this, resource));
+        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.FUELWOOD,this,resource,48,23));
+        addGuiElement(new GuiRateBar(this, new GuiRateBar.IRateInfoHandler() {
+            @Override
+            public String getTooltip() {
+                return LangUtils.localize("gui.temp") + ": " + getTemp();
+            }
+            @Override
+            public double getLevel() {
+                return Math.min(1, tileEntity.temperature / MekanismConfig.current().general.evaporationMaxTemp.val());
+            }
+        }, resource, 161, 15));
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 6, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 94) + 2, 0x404040);
-        renderScaledText(LangUtils.localize("gui.temp") + ": " + MekanismUtils.getTemperatureDisplay(tileEntity.temperature, TemperatureUnit.AMBIENT), 50, 25, 0x00CD00, 76);
+        renderScaledText(LangUtils.localize("gui.temp") + ": " + getTemp(), 50, 25, 0x00CD00, 76);
         renderScaledText(LangUtils.localize("gui.fuel") + ": " + tileEntity.burnTime, 50, 41, 0x00CD00, 76);
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
@@ -45,14 +59,19 @@ public class GuiFuelwoodHeater extends GuiMekanismTile<TileEntityFuelwoodHeater>
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        drawTexturedModalRect(guiLeft + 143, guiTop + 30,99,167,14,14);
         if (tileEntity.burnTime > 0) {
             int displayInt = tileEntity.burnTime * 13 / tileEntity.maxBurnTime;
-            drawTexturedModalRect(guiLeft + 143, guiTop + 30 + 12 - displayInt, 176, 12 - displayInt, 14, displayInt + 1);
+            drawTexturedModalRect(guiLeft + 143, guiTop + 30 + 12 - displayInt, 84, 179 - displayInt, 14, displayInt + 1);
         }
     }
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiFuelwoodHeater.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");
+    }
+
+    private String getTemp() {
+        return MekanismUtils.getTemperatureDisplay(tileEntity.getTemp(), TemperatureUnit.AMBIENT);
     }
 }

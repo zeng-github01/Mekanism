@@ -1,7 +1,7 @@
 [
   {
     "modid": "mekanism",
-    "name": "Mekanism Community Edition",
+    "name": "Mekanism CE Unofficial",
     "description": "Tools and Machines",
     "version": "${version}",
     "mcversion": "${mc_version}",
@@ -34,7 +34,7 @@
   },
   {
     "modid": "mekanismgenerators",
-    "name": "Mekanism Community Edition: Generators",
+    "name": "Mekanism CE Unofficial: Generators",
     "description": "Generators module for Mekanism",
     "version": "${version}",
     "mcversion": "${mc_version}",
@@ -56,7 +56,7 @@
   },
   {
     "modid": "mekanismtools",
-    "name": "Mekanism Community Edition: Tools",
+    "name": "Mekanism CE Unofficial: Tools",
     "description": "Tools module for Mekanism",
     "version": "${version}",
     "mcversion": "${mc_version}",
