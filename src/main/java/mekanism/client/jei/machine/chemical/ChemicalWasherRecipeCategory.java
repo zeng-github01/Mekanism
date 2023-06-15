@@ -21,7 +21,7 @@ import mezz.jei.api.ingredients.VanillaTypes;
 public class ChemicalWasherRecipeCategory<WRAPPER extends ChemicalWasherRecipeWrapper<WasherRecipe>> extends BaseRecipeCategory<WRAPPER> {
 
     public ChemicalWasherRecipeCategory(IGuiHelper helper) {
-        super(helper, "mekanism:gui/GuiBlank.png", Recipe.CHEMICAL_WASHER.getJEICategory(),
+        super(helper, "mekanism:gui/GuiBlankIcon.png", Recipe.CHEMICAL_WASHER.getJEICategory(),
                 "tile.MachineBlock2.ChemicalWasher.name", GuiProgress.ProgressBar.LARGE_RIGHT, 3, 3, 170, 70);
     }
 

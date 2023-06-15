@@ -22,7 +22,7 @@ import mezz.jei.api.ingredients.IIngredients;
 public class AdvancedMachineRecipeCategory<RECIPE extends AdvancedMachineRecipe<RECIPE>, WRAPPER extends AdvancedMachineRecipeWrapper<RECIPE>> extends BaseRecipeCategory<WRAPPER> {
 
     public AdvancedMachineRecipeCategory(IGuiHelper helper, String name, String unlocalized, ProgressBar progress) {
-        super(helper, "mekanism:gui/GuiBlank.png", name, unlocalized, progress, 28, 16, 144, 54);
+        super(helper, "mekanism:gui/GuiBlankIcon.png", name, unlocalized, progress, 28, 16, 144, 54);
     }
 
     @Override

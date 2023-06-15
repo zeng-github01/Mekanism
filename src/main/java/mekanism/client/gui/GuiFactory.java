@@ -3,6 +3,7 @@ package mekanism.client.gui;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.GasStack;
 import mekanism.api.infuse.InfuseType;
+import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.tab.*;
 import mekanism.client.render.MekanismRenderer;
@@ -105,7 +106,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         if (tileEntity.tier == FactoryTier.BASIC || tileEntity.tier == FactoryTier.ADVANCED || tileEntity.tier == FactoryTier.ELITE){
             left += 148;
         }
-        this.buttonList.add(this.infuserDumpButton = new GuiButtonImage(1, guiLeft + left, this.guiTop + 77, 21, 10, 147, 72, 0, MekanismUtils.getResource(ResourceType.GUI, "GuiMetallurgicInfuser.png")){
+        this.buttonList.add(this.infuserDumpButton = new GuiButtonDisableableImage(1, guiLeft + left, this.guiTop + 77, 21, 10, 37, 177, -10, MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png")){
             @Override
             public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
                 if (GuiFactory.this.tileEntity.getRecipeType() == RecipeType.INFUSING || GuiFactory.this.tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED) {
@@ -133,7 +134,9 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 93) + 2, 0x404040);
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
-        if (xAxis >= 8 && xAxis <= 147 && yAxis >= 78 && yAxis <= 83) {
+        if (infuserDumpButton.isMouseOver()){
+            displayTooltip(LangUtils.localize("gui.remove"), xAxis, yAxis);
+        } else if (xAxis >= 8 && xAxis <= 147 && yAxis >= 78 && yAxis <= 83) {
             if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED) {
                 GasStack gasStack = tileEntity.gasTank.getGas();
                 displayTooltip(gasStack != null ? gasStack.getGas().getLocalizedName() + ": " + tileEntity.gasTank.getStored() : LangUtils.localize("gui.none"), xAxis, yAxis);

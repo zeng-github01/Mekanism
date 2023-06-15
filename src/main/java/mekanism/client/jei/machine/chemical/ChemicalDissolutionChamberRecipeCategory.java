@@ -21,7 +21,7 @@ import net.minecraft.client.Minecraft;
 public class ChemicalDissolutionChamberRecipeCategory<WRAPPER extends ChemicalDissolutionChamberRecipeWrapper<DissolutionRecipe>> extends BaseRecipeCategory<WRAPPER> {
 
     public ChemicalDissolutionChamberRecipeCategory(IGuiHelper helper) {
-        super(helper, "mekanism:gui/GuiBlank.png",
+        super(helper, "mekanism:gui/GuiBlankIcon.png",
               Recipe.CHEMICAL_DISSOLUTION_CHAMBER.getJEICategory(), "gui.chemicalDissolutionChamber.short", GuiProgress.ProgressBar.LARGE_RIGHT, 3, 3, 170, 79);
     }
 

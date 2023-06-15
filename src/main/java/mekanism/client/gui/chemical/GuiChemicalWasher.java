@@ -56,7 +56,7 @@ public class GuiChemicalWasher extends GuiMekanismTile<TileEntityChemicalWasher>
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlank.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");
     }
 
     @Override

@@ -29,6 +29,6 @@ public class GuiAmbientAccumulator extends GuiMekanismTile<TileEntityAmbientAccu
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlank.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");
     }
 }

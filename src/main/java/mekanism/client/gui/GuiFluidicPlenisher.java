@@ -61,6 +61,6 @@ public class GuiFluidicPlenisher extends GuiMekanismTile<TileEntityFluidicPlenis
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlank.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");
     }
 }
