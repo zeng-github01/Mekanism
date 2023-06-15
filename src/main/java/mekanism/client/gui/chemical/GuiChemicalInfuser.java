@@ -60,7 +60,7 @@ public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuse
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlank.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");
     }
 
     @Override

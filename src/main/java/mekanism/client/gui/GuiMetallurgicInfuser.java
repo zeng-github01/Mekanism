@@ -3,6 +3,7 @@ package mekanism.client.gui;
 import java.io.IOException;
 import java.util.Arrays;
 import mekanism.api.TileNetworkList;
+import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.element.GuiEnergyInfo;
 import mekanism.client.gui.element.GuiPowerBar;
 import mekanism.client.gui.element.GuiProgress;
@@ -24,6 +25,7 @@ import mekanism.common.tile.TileEntityMetallurgicInfuser;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
@@ -33,6 +35,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgicInfuser> {
+
+    private GuiButton toggleButton;
 
     public GuiMetallurgicInfuser(InventoryPlayer inventory, TileEntityMetallurgicInfuser tile) {
         super(tile, new ContainerMetallurgicInfuser(inventory, tile));
@@ -61,21 +65,42 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
     }
 
     @Override
+    public void initGui() {
+        super.initGui();
+        buttonList.clear();
+        buttonList.add(toggleButton = new GuiButtonDisableableImage(0, guiLeft + 147, guiTop + 72, 21, 10, 37, 177, -10, getGuiLocation()));
+    }
+
+    @Override
+    protected void actionPerformed(GuiButton guibutton) throws IOException {
+        super.actionPerformed(guibutton);
+        if (guibutton.id == toggleButton.id) {
+            Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, TileNetworkList.withContents(0)));
+            SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
+        }
+    }
+
+
+    @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(tileEntity.getName(), 45, 6, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
-        if (xAxis >= 7 && xAxis <= 11 && yAxis >= 17 && yAxis <= 69) {
+        if (toggleButton.isMouseOver()) {
+            displayTooltip(LangUtils.localize("gui.remove"), xAxis, yAxis);
+        } else if (xAxis >= 7 && xAxis <= 11 && yAxis >= 17 && yAxis <= 69) {
             displayTooltip(tileEntity.infuseStored.getType() != null ? tileEntity.infuseStored.getType().getLocalizedName() + ": " + tileEntity.infuseStored.getAmount()
                                                                      : LangUtils.localize("gui.empty"), xAxis, yAxis);
         }
+
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        drawTexturedModalRect(guiLeft + 6,guiTop + 16,177,0,6,54);
         if (tileEntity.infuseStored.getType() != null) {
             mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             int displayInt = tileEntity.getScaledInfuseLevel(52);
@@ -83,22 +108,10 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
         }
     }
 
-    @Override
-    protected void mouseClicked(int x, int y, int button) throws IOException {
-        super.mouseClicked(x, y, button);
-        if (button == 0) {
-            int xAxis = x - guiLeft;
-            int yAxis = y - guiTop;
-            if (xAxis > 148 && xAxis < 168 && yAxis > 73 && yAxis < 82) {
-                TileNetworkList data = TileNetworkList.withContents(0);
-                Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
-                SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
-            }
-        }
-    }
+
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiMetallurgicInfuser.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");
     }
 }

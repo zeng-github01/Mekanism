@@ -19,7 +19,7 @@ import mezz.jei.api.ingredients.IIngredients;
 public class SolarNeutronRecipeCategory<WRAPPER extends SolarNeutronRecipeWrapper<SolarNeutronRecipe>> extends BaseRecipeCategory<WRAPPER> {
 
     public SolarNeutronRecipeCategory(IGuiHelper helper) {
-        super(helper, "mekanism:gui/GuiBlank.png", Recipe.SOLAR_NEUTRON_ACTIVATOR.getJEICategory(),
+        super(helper, "mekanism:gui/GuiBlankIcon.png", Recipe.SOLAR_NEUTRON_ACTIVATOR.getJEICategory(),
                 "tile.MachineBlock3.SolarNeutronActivator.name", ProgressBar.LARGE_RIGHT, 3, 12, 170, 62);
     }
 

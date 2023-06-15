@@ -61,6 +61,6 @@ public class GuiElectricPump extends GuiMekanismTile<TileEntityElectricPump> {
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlank.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");
     }
 }
