@@ -12,6 +12,8 @@ import mekanism.client.gui.GuiSideConfiguration.GuiPos;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiSideDataButton;
+import mekanism.client.gui.element.GuiBlackScreen;
+import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.SideData;
@@ -35,6 +37,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
+import static mekanism.client.gui.element.GuiBlackScreen.BlackScreen.SIDECONFIG;
+import static mekanism.client.gui.element.GuiSlot.SlotType.NORMAL;
+
 @SideOnly(Side.CLIENT)
 public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlock> {
 
@@ -50,20 +55,38 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
         super((TileEntityContainerBlock) tile, new ContainerNull(player, (TileEntityContainerBlock) tile));
         ySize = 95;
         configurable = tile;
+        ResourceLocation resource = getGuiLocation();
         slotPosMap.put(0, new GuiPos(54, 64));
         slotPosMap.put(1, new GuiPos(54, 34));
         slotPosMap.put(2, new GuiPos(54, 49));
         slotPosMap.put(3, new GuiPos(39, 64));
         slotPosMap.put(4, new GuiPos(39, 49));
         slotPosMap.put(5, new GuiPos(69, 49));
+        addGuiElement(new GuiBlackScreen(SIDECONFIG,this,resource,51,15));
+        addGuiElement(new GuiSlot(NORMAL,this,resource,121,48));
+    }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
+        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        //Draw the button background
+        drawTexturedModalRect(guiLeft + 6, guiTop + 6,233,17,14,14);
+        drawTexturedModalRect(guiLeft + 156, guiTop + 6,233,17,14,14);
+        //Draw the configuration button background
+        drawTexturedModalRect(guiLeft + 38, guiTop + 48,232,0,16,16);
+        drawTexturedModalRect(guiLeft + 38, guiTop + 63,232,0,16,16);
+        drawTexturedModalRect(guiLeft + 53, guiTop + 33,232,0,16,16);
+        drawTexturedModalRect(guiLeft + 53, guiTop + 48,232,0,16,16);
+        drawTexturedModalRect(guiLeft + 53, guiTop + 63,232,0,16,16);
+        drawTexturedModalRect(guiLeft + 68, guiTop + 48,232,0,16,16);
     }
 
     @Override
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(backButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 6, guiTop + 6, 14, 14, 190, 14, -14, getGuiLocation()));
-        buttonList.add(strictInputButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 156, guiTop + 6, 14, 14, 204, 14, -14, getGuiLocation()));
+        buttonList.add(backButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 6, guiTop + 6, 14, 14, 204, 14, -14, getGuiLocation()));
+        buttonList.add(strictInputButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 156, guiTop + 6, 14, 14, 176, 42, -14, getGuiLocation()));
         buttonList.add(colorButton = new GuiColorButton(buttonID++, guiLeft + 122, guiTop + 49, 16, 16, () -> configurable.getEjector().getOutputColor()));
         for (int i = 0; i < slotPosMap.size(); i++) {
             GuiPos guiPos = slotPosMap.get(i);
@@ -153,6 +176,6 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiTransporterConfig.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIconSmall.png");
     }
 }

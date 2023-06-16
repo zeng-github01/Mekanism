@@ -7,6 +7,7 @@ import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
+import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.inventory.container.ContainerNull;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
@@ -18,6 +19,7 @@ import mekanism.generators.common.tile.reactor.TileEntityReactorLogicAdapter;
 import mekanism.generators.common.tile.reactor.TileEntityReactorLogicAdapter.ReactorLogic;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -27,7 +29,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiReactorLogicAdapter extends GuiMekanismTile<TileEntityReactorLogicAdapter> {
 
     private List<GuiReactorLogicButton> typeButtons = new ArrayList<>();
-    private GuiButton coolingButton;
     private int buttonID = 0;
 
     public GuiReactorLogicAdapter(InventoryPlayer inventory, final TileEntityReactorLogicAdapter tile) {
@@ -38,7 +39,6 @@ public class GuiReactorLogicAdapter extends GuiMekanismTile<TileEntityReactorLog
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(coolingButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 23, guiTop + 19, 11, 11, 176, 11, -11, getGuiLocation()));
         for (ReactorLogic type : ReactorLogic.values()) {
             int typeShift = 22 * type.ordinal();
             GuiReactorLogicButton button = new GuiReactorLogicButton(buttonID++, guiLeft + 24, guiTop + 32 + typeShift, type, tileEntity, getGuiLocation());
@@ -50,16 +50,16 @@ public class GuiReactorLogicAdapter extends GuiMekanismTile<TileEntityReactorLog
     @Override
     protected void actionPerformed(GuiButton guibutton) throws IOException {
         super.actionPerformed(guibutton);
-        if (guibutton.id == coolingButton.id) {
-            Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, TileNetworkList.withContents(0)));
-        } else {
-            for (GuiReactorLogicButton button : typeButtons) {
-                if (guibutton.id == button.id) {
-                    Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, TileNetworkList.withContents(1, button.getType().ordinal())));
-                    break;
-                }
+        for (GuiReactorLogicButton button : typeButtons) {
+            if (guibutton.id == button.id) {
+                Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, TileNetworkList.withContents(1, button.getType().ordinal())));
+                break;
             }
         }
+    }
+
+    protected boolean inBounds(int xAxis, int yAxis) {
+        return xAxis > 23 && xAxis < 33 && yAxis > 19 && yAxis < 29;
     }
 
     @Override
@@ -80,14 +80,39 @@ public class GuiReactorLogicAdapter extends GuiMekanismTile<TileEntityReactorLog
                 displayTooltips(MekanismUtils.splitTooltip(type.getDescription(), ItemStack.EMPTY), xAxis, yAxis);
             }
         }
-        if (coolingButton.isMouseOver()) {
+        if (inBounds(xAxis, yAxis)) {
             displayTooltip(LangUtils.localize("gui.toggleCooling"), xAxis, yAxis);
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
     @Override
+    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
+        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        ResourceLocation resource = getGuiLocation();
+        mc.renderEngine.bindTexture(resource);
+        int activecoolingButton = 176;
+        if (tileEntity.activeCooled) {
+            activecoolingButton += 11;
+        }
+        drawTexturedModalRect(guiLeft + 23, guiTop + 19, activecoolingButton, inBounds(xAxis, yAxis) ? 0 : 11, 11, 11);
+    }
+
+    @Override
     protected ResourceLocation getGuiLocation() {
         return MekanismUtils.getResource(ResourceType.GUI, "GuiReactorLogicAdapter.png");
     }
+
+    @Override
+    public void mouseClicked(int x, int y, int button) throws IOException {
+        super.mouseClicked(x, y, button);
+        int xAxis = x - guiLeft;
+        int yAxis = y - guiTop;
+        if (inBounds(xAxis, yAxis)) {
+            TileNetworkList data = TileNetworkList.withContents(0);
+            Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
+            SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
+        }
+    }
+
 }
