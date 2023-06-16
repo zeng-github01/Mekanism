@@ -9,6 +9,7 @@ import mekanism.api.Coord4D;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiSideDataButton;
+import mekanism.client.gui.element.GuiBlackScreen;
 import mekanism.client.gui.element.tab.GuiConfigTypeTab;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
@@ -33,6 +34,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
+import static mekanism.client.gui.element.GuiBlackScreen.BlackScreen.SIDECONFIG;
+
 @SideOnly(Side.CLIENT)
 public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlock> {
 
@@ -43,6 +46,7 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
     private List<GuiSideDataButton> sideDataButtons = new ArrayList<>();
     private GuiButton backButton;
     private GuiButton autoEjectButton;
+    private GuiButton clearButton;
     private int buttonID = 0;
 
     public GuiSideConfiguration(EntityPlayer player, ISideConfiguration tile) {
@@ -63,6 +67,23 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
         slotPosMap.put(3, new GuiPos(66, 64));
         slotPosMap.put(4, new GuiPos(66, 49));
         slotPosMap.put(5, new GuiPos(96, 49));
+        addGuiElement(new GuiBlackScreen(SIDECONFIG,this,resource,51,15));
+    }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
+        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        //Draw the button background
+        drawTexturedModalRect(guiLeft + 6, guiTop + 6,233,17,14,14);
+        drawTexturedModalRect(guiLeft + 156, guiTop + 6,233,17,14,14);
+        drawTexturedModalRect(guiLeft + 156, guiTop + 75,233,17,14,14);
+        //Draw the configuration button background
+        drawTexturedModalRect(guiLeft + 65, guiTop + 48,232,0,16,16);
+        drawTexturedModalRect(guiLeft + 65, guiTop + 63,232,0,16,16);
+        drawTexturedModalRect(guiLeft + 80, guiTop + 33,232,0,16,16);
+        drawTexturedModalRect(guiLeft + 80, guiTop + 48,232,0,16,16);
+        drawTexturedModalRect(guiLeft + 80, guiTop + 63,232,0,16,16);
+        drawTexturedModalRect(guiLeft + 95, guiTop + 48,232,0,16,16);
     }
 
     @Override
@@ -79,6 +100,7 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
             buttonList.add(button);
             sideDataButtons.add(button);
         }
+        buttonList.add(clearButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 156, guiTop + 75, 14, 14, 218, 14, -14, getGuiLocation()));
     }
 
     @Override
@@ -90,6 +112,10 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
             Mekanism.packetHandler.sendToServer(new SimpleGuiMessage(Coord4D.get(tile), 0, guiId));
         } else if (guibutton.id == autoEjectButton.id) {
             Mekanism.packetHandler.sendToServer(new ConfigurationUpdateMessage(ConfigurationPacket.EJECT, Coord4D.get(tile), 0, 0, currentType));
+        } else if (guibutton.id == clearButton.id) {
+            for (int i = 0; i < slotPosMap.size(); i++) {
+                Mekanism.packetHandler.sendToServer(new ConfigurationUpdateMessage(ConfigurationPacket.SIDE_DATA, Coord4D.get(tile), 2, i, currentType));
+            }
         } else {
             for (GuiSideDataButton button : sideDataButtons) {
                 if (guibutton.id == button.id) {
@@ -145,6 +171,9 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
         if (autoEjectButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.autoEject"), xAxis, yAxis);
         }
+        if (clearButton.isMouseOver()) {
+            displayTooltip(LangUtils.localize("gui.clear"), xAxis, yAxis);
+        }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
@@ -174,7 +203,7 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiConfiguration.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIconSmall.png");
     }
 
     public static class GuiPos {

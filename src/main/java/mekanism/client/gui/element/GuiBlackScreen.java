@@ -65,7 +65,8 @@ public class GuiBlackScreen extends GuiElement {
         SEISMICVIBRATOR(112,40,81,44),
         THERMOELECTRICBOILER(96,32,0,84),
         GASTANK(118,27,97,84),
-        FUELWOOD(80,28,0,117)
+        FUELWOOD(80,28,0,117),
+        SIDECONFIG(74,12,81,117)
         ;
 
 

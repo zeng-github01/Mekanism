@@ -100,7 +100,7 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         ResourceLocation resource = getGuiLocation();
         mc.renderEngine.bindTexture(resource);
-        drawTexturedModalRect(guiLeft + 4, guiTop + 4, tileEntity.mode==0 ? 0 : 18, inBounds(xAxis, yAxis) ? 205 : 223, 18, 18);
+        drawTexturedModalRect(guiLeft + 4, guiTop + 4, tileEntity.mode == 0 ? 0 : 18, inBounds(xAxis, yAxis) ? 205 : 223, 18, 18);
     }
 
 
