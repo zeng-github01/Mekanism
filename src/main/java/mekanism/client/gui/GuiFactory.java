@@ -70,23 +70,12 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         }
 
         //Input and Output
-        if (tile.tier == FactoryTier.BASIC){
+        int Slotlocation = tileEntity.tier == FactoryTier.BASIC ? 54 : tileEntity.tier == FactoryTier.ADVANCED ? 34 : 28;
+        int xDistance = tileEntity.tier == FactoryTier.BASIC ? 38 : tileEntity.tier == FactoryTier.ADVANCED ? 26 : 19;
             for (int i = 0; i < tileEntity.tier.processes; i++) {
-                addGuiElement(new GuiSlot(GuiSlot.SlotType.INPUT, this, resource, 54 + (i * 38), 12));
-                addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, resource, 54 + (i * 38), 56));
+                addGuiElement(new GuiSlot(GuiSlot.SlotType.INPUT, this, resource, Slotlocation + (i * xDistance), 12));
+                addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, resource, Slotlocation + (i * xDistance), 56));
             }
-        }else if (tile.tier == FactoryTier.ADVANCED){
-            for (int i = 0; i < tileEntity.tier.processes; i++) {
-                addGuiElement(new GuiSlot(GuiSlot.SlotType.INPUT, this, resource, 34 + (i * 26), 12));
-                addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, resource, 34 + (i * 26), 56));
-            }
-        }else if (tile.tier == FactoryTier.ELITE){
-            for (int i = 0; i < tileEntity.tier.processes; i++) {
-                addGuiElement(new GuiSlot(GuiSlot.SlotType.INPUT, this, resource, 28 + (i * 19), 12));
-                addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, resource, 28 + (i * 19), 56));
-            }
-        }
-
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         addGuiElement(new GuiSortingTab(this, tileEntity, resource));
@@ -143,6 +132,12 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
                 InfuseType type = tileEntity.infuseStored.getType();
                 displayTooltip(type != null ? type.getLocalizedName() + ": " + tileEntity.infuseStored.getAmount() : LangUtils.localize("gui.empty"), xAxis, yAxis);
             }
+        }else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+            for (int i = 0; i < tileEntity.tier.processes; i++) {
+                if (tileEntity.inventory.get(5 + tileEntity.tier.processes + i).getCount() == tileEntity.inventory.get(5 + tileEntity.tier.processes + i).getMaxStackSize()) {
+                    displayTooltip(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"), xAxis, yAxis);
+                }
+            }
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
@@ -153,11 +148,20 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         int xOffset = tileEntity.tier == FactoryTier.BASIC ? 59 : tileEntity.tier == FactoryTier.ADVANCED ? 39 : 33;
         int xDistance = tileEntity.tier == FactoryTier.BASIC ? 38 : tileEntity.tier == FactoryTier.ADVANCED ? 26 : 19;
+        int Slotlocation = tileEntity.tier == FactoryTier.BASIC ? 54 : tileEntity.tier == FactoryTier.ADVANCED ? 34 : 28;
         for (int i = 0; i < tileEntity.tier.processes; i++) {
             int xPos = xOffset + (i * xDistance);
             drawTexturedModalRect(guiLeft + xPos, guiTop + 33, 185, 52, 8, 20);
             int displayInt = tileEntity.getScaledProgress(20, i);
             drawTexturedModalRect(guiLeft + xPos, guiTop + 33, 176, 52, 8, displayInt);
+        }
+
+        for (int i = 0; i < tileEntity.tier.processes; i++){
+            boolean slot = tileEntity.inventory.get(5 + tileEntity.tier.processes + i).getCount() == tileEntity.inventory.get(5 + tileEntity.tier.processes + i).getMaxStackSize();
+            if (slot) {
+                drawTexturedModalRect(guiLeft + (Slotlocation + (i * xDistance)), guiTop + 56,211,238,18,18);
+                drawTexturedModalRect(guiLeft - 26, guiTop + 112,230,230,26,26);
+            }
         }
         if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING) {
             drawTexturedModalRect(guiLeft + 7, guiTop + 77, 0, 179, 140, 7);

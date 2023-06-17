@@ -69,6 +69,10 @@ public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<REC
         if (xAxis >= 61 && xAxis <= 67 && yAxis >= 37 && yAxis <= 49) {
             displayTooltip(tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + tileEntity.gasTank.getStored()
                                                                : LangUtils.localize("gui.none"), xAxis, yAxis);
+        }else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+            if (tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize()) {
+                displayTooltip(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"), xAxis, yAxis);
+            }
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
@@ -80,6 +84,10 @@ public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<REC
         if (tileEntity.getScaledGasLevel(12) > 0) {
             int displayInt = tileEntity.getScaledGasLevel(12);
             displayGauge(61, 37 + 12 - displayInt, 6, displayInt, tileEntity.gasTank.getGas());
+        }
+        if (tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize()) {
+            drawTexturedModalRect(guiLeft + 111, guiTop + 30,137,192,26,26);
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112,230,230,26,26);
         }
     }
 

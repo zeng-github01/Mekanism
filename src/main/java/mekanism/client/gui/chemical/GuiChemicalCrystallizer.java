@@ -84,7 +84,23 @@ public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalC
             }
         }
         renderItem(renderStack, 131, 14);
+        int xAxis = mouseX - guiLeft;
+        int yAxis = mouseY - guiTop;
+        if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+            if (tileEntity.inventory.get(1).getCount() == tileEntity.inventory.get(1).getMaxStackSize()) {
+                displayTooltip(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"), xAxis, yAxis);
+            }
+        }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
+        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        if (tileEntity.inventory.get(1).getCount() == tileEntity.inventory.get(1).getMaxStackSize()) {
+            drawTexturedModalRect(guiLeft + 130, guiTop + 56,119,192,18,18);
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112,230,230,26,26);
+        }
     }
 
     @Override

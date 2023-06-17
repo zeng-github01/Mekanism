@@ -60,12 +60,24 @@ public class GuiChanceMachine<RECIPE extends ChanceMachineRecipe<RECIPE>> extend
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         drawTexturedModalRect(guiLeft + 60, guiTop + 38,20,167,8,10);
+        if (tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize() ||
+                tileEntity.inventory.get(4).getCount() == tileEntity.inventory.get(4).getMaxStackSize()) {
+            drawTexturedModalRect(guiLeft + 111, guiTop + 30,163,192,42,26);
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112,230,230,26,26);
+        }
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(tileEntity.getName(), 45, 6, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
+        int xAxis = mouseX - guiLeft;
+        int yAxis = mouseY - guiTop;
+        if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+            if (tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize() || tileEntity.inventory.get(4).getCount() != tileEntity.inventory.get(4).getMaxStackSize()) {
+                displayTooltip(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"), xAxis, yAxis);
+            }
+        }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
