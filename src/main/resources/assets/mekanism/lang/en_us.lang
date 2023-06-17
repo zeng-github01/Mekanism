@@ -587,7 +587,7 @@ gui.stockControl=Stock Control
 gui.allowDefault=Allow Default
 gui.sizeMode=Size Mode
 mekanism.gui.sizeModeConflict=has no effect currently, because single item mode is turned on.
-
+gui.no_space= - Not enough room in output
 gui.reactor.injectionRate=Injection Rate
 
 gui.upgrades=Upgrades

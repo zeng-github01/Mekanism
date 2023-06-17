@@ -97,8 +97,10 @@ public abstract class GuiMekanism extends GuiContainer implements IGuiWrapper {
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
-        drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        //Bringing Elements forward to ContainerBackgroundLayer makes it easier to override Elements
         guiElements.forEach(element -> element.renderBackground(xAxis, yAxis, guiLeft, guiTop));
+        drawGuiContainerBackgroundLayer(xAxis, yAxis);
+
     }
 
     @Override

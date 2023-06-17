@@ -575,7 +575,7 @@ gui.entityDetection=实体检测
 gui.energyContents=能量含量
 gui.redstoneOutput=红石输出
 gui.maxWaterOutput=最大水输出
-
+gui.no_space= - 输出的空间不足
 gui.reactor.injectionRate=输入速率
 
 gui.upgrades=升级
