@@ -41,7 +41,7 @@ public class GuiThermalEvaporationController extends GuiMekanismTile<TileEntityT
             public double getLevel() {
                 return Math.min(1, tileEntity.getTemperature() / MekanismConfig.current().general.evaporationMaxTemp.val());
             }
-        },resource,48,62));
+        },resource,46,62));
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 27, 19));
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 27, 50));
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 131, 19));

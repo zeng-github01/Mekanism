@@ -9,18 +9,19 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiPowerBarHorizontal extends GuiElement {
+public class GuiPowerBarshort extends GuiElement {
 
     private final IStrictEnergyStorage tileEntity;
     private final IPowerInfoHandler handler;
     private final int xLocation;
     private final int yLocation;
+    private final int width = 6;
+    private final int height = 51;
 
-    private final PowerBarHorizontal type = PowerBarHorizontal.HORIZONTAL;
-
-    public GuiPowerBarHorizontal(IGuiWrapper gui, IStrictEnergyStorage tile, ResourceLocation def, int x, int y) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiPowerBarHorizontal.png"), gui, def);
+    public GuiPowerBarshort(IGuiWrapper gui, IStrictEnergyStorage tile, ResourceLocation def, int x, int y) {
+        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiPowerBarShort.png"), gui, def);
         tileEntity = tile;
+
         handler = new IPowerInfoHandler() {
             @Override
             public String getTooltip() {
@@ -42,8 +43,8 @@ public class GuiPowerBarHorizontal extends GuiElement {
         yLocation = y;
     }
 
-    public GuiPowerBarHorizontal(IGuiWrapper gui, IPowerInfoHandler h, ResourceLocation def, int x, int y) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiPowerBarHorizontal.png"), gui, def);
+    public GuiPowerBarshort(IGuiWrapper gui, IPowerInfoHandler h, ResourceLocation def, int x, int y) {
+        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiPowerBarShort.png"), gui, def);
         tileEntity = null;
         handler = h;
 
@@ -53,25 +54,24 @@ public class GuiPowerBarHorizontal extends GuiElement {
 
     @Override
     public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + xLocation, guiHeight + yLocation, type.width, type.height);
+        return new Rectangle4i(guiWidth + xLocation, guiHeight + yLocation, width, height);
     }
 
     @Override
     protected boolean inBounds(int xAxis, int yAxis) {
-        return xAxis >= xLocation + 2 && xAxis <= xLocation + 55 && yAxis >= yLocation + 2 && yAxis <= yLocation + 6;
+        return xAxis >= xLocation && xAxis <= xLocation + width && yAxis >= yLocation && yAxis <= yLocation + height;
     }
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         mc.renderEngine.bindTexture(RESOURCE);
-        guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, type.textureX, type.textureY, type.width, type.height);
+        guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, width, height);
         if (handler.powerbarWarning()) {
             mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "Warning_Background.png"));
-            guiObj.drawTexturedRect(guiWidth + xLocation + 3, guiHeight + yLocation + 2, 0, 0, 52, 4);
+            guiObj.drawTexturedRect(guiWidth + xLocation + 1, guiHeight + yLocation + 2, 0, 0, 4, 47);
         } else if (handler.getLevel() > 0) {
-            int innerOffsetX = 2;
-            int displayInt = (int) (handler.getLevel() * (type.width - 2 * innerOffsetX));
-            guiObj.drawTexturedRect(guiWidth + xLocation + innerOffsetX + 1, guiHeight + yLocation, type.textureX + type.width + innerOffsetX, type.textureY, displayInt, type.height);
+            int displayInt = (int) (handler.getLevel() * 47) + 2;
+            guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation + height - displayInt, 6, height - displayInt, width, displayInt);
         }
         mc.renderEngine.bindTexture(defaultLocation);
     }
@@ -105,22 +105,4 @@ public class GuiPowerBarHorizontal extends GuiElement {
             return false;
         }
     }
-
-    public enum PowerBarHorizontal{
-        HORIZONTAL(58,8,0,0);
-
-        public final int width;
-        public final int height;
-
-        public final int textureX;
-        public final int textureY;
-
-        PowerBarHorizontal(int w, int h, int u, int v) {
-            width = w;
-            height = h;
-            textureX = u;
-            textureY = v;
-        }
-    }
-
 }

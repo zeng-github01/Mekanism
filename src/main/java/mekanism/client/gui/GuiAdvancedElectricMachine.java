@@ -1,6 +1,9 @@
 package mekanism.client.gui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import mekanism.api.gas.GasStack;
 import mekanism.client.gui.element.GuiEnergyInfo;
 import mekanism.client.gui.element.GuiPowerBar;
@@ -23,6 +26,7 @@ import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -70,8 +74,19 @@ public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<REC
             displayTooltip(tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + tileEntity.gasTank.getStored()
                                                                : LangUtils.localize("gui.none"), xAxis, yAxis);
         }else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
-            if (tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize()) {
-                displayTooltip(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"), xAxis, yAxis);
+            List<String> info = new ArrayList<>();
+            boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+            boolean inputgas = (tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(0).getCount() != 0 );
+            boolean outslot = tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize();
+            if (inputgas) {
+                info.add(LangUtils.localize("gui.input")+ LangUtils.localize("tooltip.gasses") + LangUtils.localize("gui.insufficient"));
+            }if (energy){
+                info.add(LangUtils.localize("gui.no_energy"));
+            }if (outslot){
+                info.add(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"));
+            }
+            if (inputgas || energy || outslot){
+                displayTooltips(info, xAxis, yAxis);
             }
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
@@ -85,9 +100,19 @@ public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<REC
             int displayInt = tileEntity.getScaledGasLevel(12);
             displayGauge(61, 37 + 12 - displayInt, 6, displayInt, tileEntity.gasTank.getGas());
         }
-        if (tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize()) {
-            drawTexturedModalRect(guiLeft + 111, guiTop + 30,137,192,26,26);
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,230,230,26,26);
+        boolean inputgas = (tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(0).getCount() != 0);
+        boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+        boolean outslot = tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize();
+        if (outslot) {
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiSlot.png"));
+            drawTexturedModalRect(guiLeft + 111, guiTop + 30,176,0,26,26);
+        }if (inputgas){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning_Background.png"));
+            drawTexturedModalRect(guiLeft + 61, guiTop + 37,0,0,6,12);
+        }
+        if (outslot || inputgas || energy){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
         }
     }
 

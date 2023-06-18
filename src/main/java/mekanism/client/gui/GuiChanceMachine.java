@@ -1,6 +1,9 @@
 package mekanism.client.gui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import mekanism.client.gui.element.GuiEnergyInfo;
 import mekanism.client.gui.element.GuiPowerBar;
 import mekanism.client.gui.element.GuiProgress;
@@ -20,6 +23,7 @@ import mekanism.common.tile.TileEntityChanceMachine;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -60,10 +64,16 @@ public class GuiChanceMachine<RECIPE extends ChanceMachineRecipe<RECIPE>> extend
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         drawTexturedModalRect(guiLeft + 60, guiTop + 38,20,167,8,10);
-        if (tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize() ||
-                tileEntity.inventory.get(4).getCount() == tileEntity.inventory.get(4).getMaxStackSize()) {
-            drawTexturedModalRect(guiLeft + 111, guiTop + 30,163,192,42,26);
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,230,230,26,26);
+        boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+        boolean outslot = tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize() ||
+                tileEntity.inventory.get(4).getCount() == tileEntity.inventory.get(4).getMaxStackSize();
+        if (outslot) {
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiSlot.png"));
+            drawTexturedModalRect(guiLeft + 111, guiTop + 30, 202, 0, 42, 26);
+        }
+        if (outslot || energy){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
         }
     }
 
@@ -74,8 +84,17 @@ public class GuiChanceMachine<RECIPE extends ChanceMachineRecipe<RECIPE>> extend
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
         if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
-            if (tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize() || tileEntity.inventory.get(4).getCount() != tileEntity.inventory.get(4).getMaxStackSize()) {
-                displayTooltip(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"), xAxis, yAxis);
+            List<String> info = new ArrayList<>();
+            boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+            boolean outslot = tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize() ||
+                    tileEntity.inventory.get(4).getCount() == tileEntity.inventory.get(4).getMaxStackSize();
+            if (energy){
+                info.add(LangUtils.localize("gui.no_energy"));
+            }if (outslot){
+                info.add(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"));
+            }
+            if (energy || outslot){
+                displayTooltips(info, xAxis, yAxis);
             }
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);

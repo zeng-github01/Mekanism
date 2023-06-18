@@ -75,13 +75,7 @@ import mekanism.client.render.entity.RenderRobit;
 import mekanism.client.render.item.ItemLayerWrapper;
 import mekanism.client.render.item.RenderEnergyCubeItem;
 import mekanism.client.render.item.basicblock.RenderBasicBlockItem;
-import mekanism.client.render.item.gear.RenderArmoredJetpack;
-import mekanism.client.render.item.gear.RenderAtomicDisassembler;
-import mekanism.client.render.item.gear.RenderFlameThrower;
-import mekanism.client.render.item.gear.RenderFreeRunners;
-import mekanism.client.render.item.gear.RenderGasMask;
-import mekanism.client.render.item.gear.RenderJetpack;
-import mekanism.client.render.item.gear.RenderScubaTank;
+import mekanism.client.render.item.gear.*;
 import mekanism.client.render.item.machine.RenderMachineItem;
 import mekanism.client.render.obj.MekanismOBJLoader;
 import mekanism.client.render.tileentity.RenderBin;
@@ -386,6 +380,7 @@ public class ClientProxy extends CommonProxy {
         MekanismItems.Jetpack.setTileEntityItemStackRenderer(new RenderJetpack());
         MekanismItems.ArmoredJetpack.setTileEntityItemStackRenderer(new RenderArmoredJetpack());
         MekanismItems.GasMask.setTileEntityItemStackRenderer(new RenderGasMask());
+        MekanismItems.Robit.setTileEntityItemStackRenderer(new RenderItemRobit());
         MekanismItems.ScubaTank.setTileEntityItemStackRenderer(new RenderScubaTank());
         MekanismItems.FreeRunners.setTileEntityItemStackRenderer(new RenderFreeRunners());
         MekanismItems.AtomicDisassembler.setTileEntityItemStackRenderer(new RenderAtomicDisassembler());
@@ -969,6 +964,9 @@ public class ClientProxy extends CommonProxy {
 
         ModelResourceLocation GasMaskRL = getInventoryMRL("GasMask");
         modelRegistry.putObject(GasMaskRL, RenderGasMask.model = new ItemLayerWrapper(modelRegistry.getObject(GasMaskRL)));
+
+        ModelResourceLocation RobitRL = getInventoryMRL("Robit");
+        modelRegistry.putObject(RobitRL, RenderItemRobit.model = new ItemLayerWrapper(modelRegistry.getObject(RobitRL)));
 
         ModelResourceLocation ScubaTankRL = getInventoryMRL("ScubaTank");
         modelRegistry.putObject(ScubaTankRL, RenderScubaTank.model = new ItemLayerWrapper(modelRegistry.getObject(ScubaTankRL)));

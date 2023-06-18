@@ -2,19 +2,19 @@ package mekanism.client.gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
-import mekanism.client.gui.element.GuiEnergyInfo;
-import mekanism.client.gui.element.GuiPowerBar;
-import mekanism.client.gui.element.GuiRedstoneControl;
-import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
 import mekanism.client.gui.element.tab.GuiVisualsTab;
+import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.content.miner.ThreadMinerSearch.State;
 import mekanism.common.inventory.container.ContainerDigitalMiner;
@@ -26,7 +26,9 @@ import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
@@ -39,16 +41,10 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
     public static final int STOP_BUTTON_ID = 1;
     public static final int CONFIG_BUTTON_ID = 2;
     public static final int RESET_BUTTON_ID = 3;
-    public static final int SILK_TOUCH_BUTTON_ID = 4;
-    public static final int AUTOEJECT_BUTTON_ID = 5;
-    public static final int AUTO_PULL_BUTTON_ID = 6;
     private GuiButton startButton;
     private GuiButton stopButton;
     private GuiButton configButton;
     private GuiButton resetButton;
-    private GuiButton silkTouchButton;
-    private GuiButton autoEjectButton;
-    private GuiButton autoPullButton;
 
     public GuiDigitalMiner(InventoryPlayer inventory, TileEntityDigitalMiner tile) {
         super(tile, new ContainerDigitalMiner(inventory, tile));
@@ -56,7 +52,7 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiPowerBar(this, tileEntity, resource, 163, 23));
+        addGuiElement(new GuiPowerBarshort(this, tileEntity, resource, 157, 38));
         addGuiElement(new GuiVisualsTab(this, tileEntity, resource));
         addGuiElement(new GuiEnergyInfo(() -> {
             double perTick = tileEntity.getPerTick();
@@ -70,22 +66,19 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
             ret.add(LangUtils.localize("mekanism.gui.bufferfree") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
             return ret;
         }, this, resource));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 151, 5).with(SlotOverlay.POWER));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 143, 26));
-        ySize += 64;
+        addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 151, 19).with(SlotOverlay.POWER));
+        ySize += 76;
     }
 
     @Override
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(this.startButton = new GuiButton(START_BUTTON_ID, guiLeft + 69, guiTop + 17, 60, 20, LangUtils.localize("gui.start")));
-        buttonList.add(this.stopButton = new GuiButton(STOP_BUTTON_ID, guiLeft + 69, guiTop + 37, 60, 20, LangUtils.localize("gui.stop")));
-        buttonList.add(this.configButton = new GuiButton(CONFIG_BUTTON_ID, guiLeft + 69, guiTop + 57, 60, 20, LangUtils.localize("gui.config")));
-        buttonList.add(this.resetButton = new GuiButtonDisableableImage(RESET_BUTTON_ID, guiLeft + 131, guiTop + 47, 14, 14, 208, 14, -14, getGuiLocation()));
-        buttonList.add(this.silkTouchButton = new GuiButtonDisableableImage(SILK_TOUCH_BUTTON_ID, guiLeft + 131, guiTop + 63, 14, 14, 222, 14, -14, getGuiLocation()));
-        buttonList.add(this.autoEjectButton = new GuiButtonDisableableImage(AUTOEJECT_BUTTON_ID, guiLeft + 147, guiTop + 47, 14, 14, 180, 14, -14, getGuiLocation()));
-        buttonList.add(this.autoPullButton = new GuiButtonDisableableImage(AUTO_PULL_BUTTON_ID, guiLeft + 147, guiTop + 63, 14, 14, 194, 14, -14, getGuiLocation()));
+        int buttonStart = 19;
+        buttonList.add(this.startButton = new GuiButtonDisableableImage(START_BUTTON_ID, guiLeft + 87, guiTop + buttonStart, 61, 18, 180,48,-18,18,getGuiLocation()));
+        buttonList.add(this.stopButton = new GuiButtonDisableableImage(STOP_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 17, 61, 18, 180,48,-18,18,getGuiLocation()));
+        buttonList.add(this.configButton = new GuiButtonDisableableImage(CONFIG_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 34, 61, 18, 180,48,-18,18,getGuiLocation()));
+        buttonList.add(this.resetButton = new GuiButtonDisableableImage(RESET_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 51, 61, 18, 180,48,-18,18,getGuiLocation()));
         updateEnabledButtons();
     }
 
@@ -104,15 +97,6 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
                 break;
             case RESET_BUTTON_ID:
                 Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, TileNetworkList.withContents(5)));
-                break;
-            case SILK_TOUCH_BUTTON_ID:
-                Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, TileNetworkList.withContents(9)));
-                break;
-            case AUTOEJECT_BUTTON_ID:
-                Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, TileNetworkList.withContents(0)));
-                break;
-            case AUTO_PULL_BUTTON_ID:
-                Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, TileNetworkList.withContents(1)));
                 break;
         }
     }
@@ -141,40 +125,51 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
         } else {
             runningType = LangUtils.localize("gui.idle");
         }
-        fontRenderer.drawString(runningType, 9, 10, 0x00CD00);
-        fontRenderer.drawString(tileEntity.searcher.state.localize(), 9, 19, 0x00CD00);
-
-        fontRenderer.drawString(LangUtils.localize("gui.eject") + ": " + LangUtils.localize("gui." + (tileEntity.doEject ? "on" : "off")), 9, 30, 0x00CD00);
-        fontRenderer.drawString(LangUtils.localize("gui.digitalMiner.pull") + ": " + LangUtils.localize("gui." + (tileEntity.doPull ? "on" : "off")), 9, 39, 0x00CD00);
-        fontRenderer.drawString(LangUtils.localize("gui.digitalMiner.silk") + ": " + LangUtils.localize("gui." + (tileEntity.silkTouch ? "on" : "off")), 9, 48, 0x00CD00);
-        fontRenderer.drawString(LangUtils.localize("gui.digitalMiner.toMine") + ":", 9, 59, 0x00CD00);
-        fontRenderer.drawString("" + tileEntity.clientToMine, 9, 68, 0x00CD00);
-
+        fontRenderer.drawString(runningType, 9, 21, 0x00CD00);
+        fontRenderer.drawString(tileEntity.searcher.state.localize(), 9, 31, 0x00CD00);
+        fontRenderer.drawString(LangUtils.localize("gui.digitalMiner.toMine") + ":" + " " + tileEntity.clientToMine, 8, 41, 0x00CD00);
         if (!tileEntity.missingStack.isEmpty()) {
-            drawColorIcon(144, 27, EnumColor.DARK_RED, 0.8F);
-            renderItem(tileEntity.missingStack, 144, 27);
+            drawColorIcon(64, 21, EnumColor.DARK_RED, 0.8F);
+            renderItem(tileEntity.missingStack, 64, 21);
         } else {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSlot.png"));
-            drawTexturedModalRect(143, 26, SlotOverlay.CHECK.textureX, SlotOverlay.CHECK.textureY, 18, 18);
+            drawTexturedModalRect(64, 21, SlotOverlay.CHECK.textureX, SlotOverlay.CHECK.textureY, 18, 18);
         }
+        fontRenderer.drawString(LangUtils.localize("gui.start"),87 + 61 / 2 - (fontRenderer.getStringWidth(LangUtils.localize("gui.start")) / 2), 19 + (18 - 8) / 2, startButton.enabled ? 0xffffff : 0x9e9e9e);
+        fontRenderer.drawString(LangUtils.localize("gui.stop"),87 + 61 / 2  - (fontRenderer.getStringWidth(LangUtils.localize("gui.stop")) / 2), 19 +  17 + (18 - 8) / 2, stopButton.enabled ? 0xffffff : 0x9e9e9e);
+        fontRenderer.drawString(LangUtils.localize("gui.config"),87 + 61 / 2  - (fontRenderer.getStringWidth(LangUtils.localize("gui.config")) / 2), 19 +  34 + (18  - 8) / 2, configButton.enabled ? 0xffffff : 0x9e9e9e);
+        fontRenderer.drawString(LangUtils.localize("gui.digitalMiner.reset"),87  + 61 / 2  - (fontRenderer.getStringWidth(LangUtils.localize("gui.digitalMiner.reset")) / 2), 19 + 51 + (18 - 8) / 2, resetButton.enabled ? 0xffffff : 0x9e9e9e);
+
+        //TODO:Patch the font on the button
+        renderText(LangUtils.localize("gui.on"),19 + 15 / 2 ,  56,1F,false);
+        renderText(LangUtils.localize("gui.on"), 38 + 15 / 2,  56, 1F,false);
+        renderText(LangUtils.localize("gui.on"),  57 + 15 / 2, 56, 1F,false);
+        renderText(LangUtils.localize("gui.off"),+ 19 + 15 / 2, 65,1F,false);
+        renderText(LangUtils.localize("gui.off"), 38 + 15 / 2, 65 , 1F,false);
+        renderText(LangUtils.localize("gui.off"), 57 + 15 / 2,  65, 1F,false);
 
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
-        if (autoEjectButton.isMouseOver()) {
+        if (autoEjectButtoninBounds(xAxis,yAxis)) {
             displayTooltip(LangUtils.localize("gui.autoEject"), xAxis, yAxis);
-        } else if (autoPullButton.isMouseOver()) {
+        } else if (autoPullButtoninBounds(xAxis,yAxis)) {
             displayTooltip(LangUtils.localize("gui.digitalMiner.autoPull"), xAxis, yAxis);
-        } else if (resetButton.isMouseOver()) {
-            displayTooltip(LangUtils.localize("gui.digitalMiner.reset"), xAxis, yAxis);
-        } else if (silkTouchButton.isMouseOver()) {
+        } else if (silkTouchButtoninBounds(xAxis,yAxis)) {
             displayTooltip(LangUtils.localize("gui.digitalMiner.silkTouch"), xAxis, yAxis);
-        } else if (xAxis >= 164 && xAxis <= 168 && yAxis >= 25 && yAxis <= 77) {
-            displayTooltip(MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()), xAxis, yAxis);
-        } else if (xAxis >= 144 && xAxis <= 160 && yAxis >= 27 && yAxis <= 43) {
+        } else if (xAxis >= 64 && xAxis <= 80 && yAxis >= 21 && yAxis <= 37) {
             if (!tileEntity.missingStack.isEmpty()) {
                 displayTooltip(LangUtils.localize("gui.digitalMiner.missingBlock"), xAxis, yAxis);
             } else {
                 displayTooltip(LangUtils.localize("gui.well"), xAxis, yAxis);
+            }
+        }else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+            List<String> info = new ArrayList<>();
+            boolean energy = tileEntity.getEnergy() < tileEntity.energyUsage || tileEntity.getEnergy() == 0;
+            if (energy) {
+                info.add(LangUtils.localize("gui.no_energy"));
+            }
+            if (energy) {
+                displayTooltips(info, xAxis, yAxis);
             }
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
@@ -183,12 +178,62 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        int displayInt = tileEntity.getScaledEnergyLevel(52);
-        drawTexturedModalRect(guiLeft + 164, guiTop + 25 + 52 - displayInt, 176, 52 - displayInt, 4, displayInt);
+        ResourceLocation resource = getGuiLocation();
+        mc.renderEngine.bindTexture(resource);
+        drawTexturedModalRect(guiLeft + 19, guiTop + 56, tileEntity.doEject ? 180 : 196,  85 , 15, 17);
+        drawTexturedModalRect(guiLeft + 38, guiTop + 56, tileEntity.doPull ? 180 : 196, 85, 15, 17);
+        drawTexturedModalRect(guiLeft + 57, guiTop + 56, tileEntity.silkTouch ? 180 : 196, 85, 15, 17);
+        drawTexturedModalRect(guiLeft + 24, guiTop + 77, 180,  103, 5, 5);
+        drawTexturedModalRect(guiLeft + 43, guiTop + 77, 186,  103, 5, 5);
+        drawTexturedModalRect(guiLeft + 62, guiTop + 77, 192,  103, 5, 5);
+        boolean energy = tileEntity.getEnergy() < tileEntity.energyUsage || tileEntity.getEnergy() == 0;
+        if (energy){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
+        }
     }
 
     @Override
     protected ResourceLocation getGuiLocation() {
         return MekanismUtils.getResource(ResourceType.GUI, "GuiDigitalMiner.png");
     }
+
+    protected boolean silkTouchButtoninBounds(int xAxis, int yAxis) {
+        return xAxis > 57 && xAxis < 57 + 15 && yAxis > 52 && yAxis < 52 + 28;
+    }
+
+    protected boolean autoEjectButtoninBounds(int xAxis, int yAxis) {
+        return xAxis > 19 && xAxis < 19 + 15 && yAxis > 52 && yAxis < 52 + 28;
+    }
+
+    protected boolean autoPullButtoninBounds(int xAxis, int yAxis) {
+        return xAxis > 38 && xAxis < 38 + 15 && yAxis > 52 && yAxis < 52 + 28;
+    }
+    @Override
+    public void mouseClicked(int x, int y, int button)throws IOException {
+        super.mouseClicked(x, y, button);
+        int xAxis = x - guiLeft;
+        int yAxis = y - guiTop;
+        if (silkTouchButtoninBounds(xAxis, yAxis)) {
+            TileNetworkList data = TileNetworkList.withContents(9);
+            Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
+            SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
+        }else if (autoEjectButtoninBounds(xAxis, yAxis)) {
+            TileNetworkList data = TileNetworkList.withContents(0);
+            Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
+            SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
+        }else if (autoPullButtoninBounds(xAxis, yAxis)) {
+            TileNetworkList data = TileNetworkList.withContents(1);
+            Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
+            SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
+        }
+    }
+
+    private void renderText(String text, int x, int y, float size, boolean scale) {
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(size, size, size);
+        fontRenderer.drawString(text, scale ? (int) ((1F / size) * x) : x, scale ? (int) ((1F / size) * y) : y, 0x404040);
+        GlStateManager.popMatrix();
+    }
+
 }

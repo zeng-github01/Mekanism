@@ -587,7 +587,7 @@ gui.stockControl=Stock Control
 gui.allowDefault=Allow Default
 gui.sizeMode=Size Mode
 mekanism.gui.sizeModeConflict=has no effect currently, because single item mode is turned on.
-gui.no_space= - Not enough room in output
+
 gui.reactor.injectionRate=Injection Rate
 
 gui.upgrades=Upgrades
@@ -708,6 +708,8 @@ gui.digitalMiner.fuzzyMode=Fuzzy mode
 gui.digitalMiner.missingBlock=Missing block
 mekanism.gui.digitalMiner.capacity=Energy Capacity
 mekanism.gui.digitalMiner.lowPower=Low Power
+gui.teleporter.Searching=Searching
+gui.teleporter.Paused=Paused
 
 # Recipe names
 recipe.mekanismShaped=Shaped
@@ -991,6 +993,11 @@ reactor.depleted.desc=The reactor has insufficient fuel to sustain a reaction
 
 # Creative tab
 itemGroup.tabMekanism=Mekanism
+
+#
+gui.insufficient=Insufficient
+gui.no_space= - Not enough room in output
+gui.no_energy= - Not enough energy to operate
 
 ############
 # GENERATORS

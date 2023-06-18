@@ -1,6 +1,8 @@
 package mekanism.client.gui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
@@ -21,7 +23,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiElectricPump extends GuiMekanismTile<TileEntityElectricPump> {
-
 
     public GuiElectricPump(InventoryPlayer inventory, TileEntityElectricPump tile) {
         super(tile, new ContainerElectricPump(inventory, tile));
@@ -46,6 +47,17 @@ public class GuiElectricPump extends GuiMekanismTile<TileEntityElectricPump> {
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         drawTexturedModalRect(guiLeft + 32, guiTop + 39, 20, 179, 8, 9);
+        boolean input = tileEntity.fluidTank.getFluidAmount() == tileEntity.fluidTank.getCapacity();
+        boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+        if (input){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
+            drawTexturedModalRect(guiLeft + 6 + 9, guiTop + 13 + 1,9,1,8,29);
+            drawTexturedModalRect(guiLeft + 6 + 9, guiTop + 13  + 31,9,32,8,28);
+        }
+        if (input || energy){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
+        }
     }
 
     @Override
@@ -56,6 +68,23 @@ public class GuiElectricPump extends GuiMekanismTile<TileEntityElectricPump> {
         String text = tileEntity.fluidTank.getFluid() != null ? LangUtils.localizeFluidStack(tileEntity.fluidTank.getFluid()) + ": " + tileEntity.fluidTank.getFluid().amount
                                                               : LangUtils.localize("gui.noFluid");
         renderScaledText(text, 51, 35, 0x00CD00, 74);
+
+        int xAxis = mouseX - guiLeft;
+        int yAxis = mouseY - guiTop;
+        if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+            List<String> info = new ArrayList<>();
+            boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+            boolean input = tileEntity.fluidTank.getFluidAmount() == tileEntity.fluidTank.getCapacity();
+            if (input) {
+                info.add(LangUtils.localize("tooltip.fluids") + LangUtils.localize("gui.no_space"));
+            }if (energy){
+                info.add(LangUtils.localize("gui.no_energy"));
+            }
+            if (input || energy){
+                displayTooltips(info, xAxis, yAxis);
+            }
+        }
+
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 

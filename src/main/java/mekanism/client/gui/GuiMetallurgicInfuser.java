@@ -1,7 +1,10 @@
 package mekanism.client.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.element.GuiEnergyInfo;
@@ -92,6 +95,21 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
         } else if (xAxis >= 7 && xAxis <= 11 && yAxis >= 17 && yAxis <= 69) {
             displayTooltip(tileEntity.infuseStored.getType() != null ? tileEntity.infuseStored.getType().getLocalizedName() + ": " + tileEntity.infuseStored.getAmount()
                                                                      : LangUtils.localize("gui.empty"), xAxis, yAxis);
+        }else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+            List<String> info = new ArrayList<>();
+            boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+            boolean input = (tileEntity.infuseStored.getAmount() == 0) && (tileEntity.inventory.get(2).getCount() != 0);
+            boolean outslot = tileEntity.inventory.get(3).getCount() == tileEntity.inventory.get(3).getMaxStackSize();
+            if (input) {
+                info.add(LangUtils.localize("gui.input")+ LangUtils.localize("tooltip.items") + LangUtils.localize("gui.insufficient"));
+            }if (energy){
+                info.add(LangUtils.localize("gui.no_energy"));
+            }if (outslot){
+                info.add(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"));
+            }
+            if (input || energy || outslot){
+                displayTooltips(info, xAxis, yAxis);
+            }
         }
 
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
@@ -105,6 +123,21 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
             mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             int displayInt = tileEntity.getScaledInfuseLevel(52);
             drawTexturedRectFromIcon(guiLeft + 7, guiTop + 17 + 52 - displayInt, tileEntity.infuseStored.getType().sprite, 4, displayInt);
+        }
+
+        boolean input = (tileEntity.infuseStored.getAmount() == 0) && (tileEntity.inventory.get(2).getCount() != 0);
+        boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+        boolean outslot = tileEntity.inventory.get(3).getCount() == tileEntity.inventory.get(3).getMaxStackSize();
+        if (outslot) {
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiSlot.png"));
+            drawTexturedModalRect(guiLeft + 108, guiTop + 42,158,0,18,18);
+        }if (input){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning_Background.png"));
+            drawTexturedModalRect(guiLeft + 6 + 1, guiTop + 16 + 1,0,0,4,52);
+        }
+        if (outslot || input || energy){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
         }
     }
 

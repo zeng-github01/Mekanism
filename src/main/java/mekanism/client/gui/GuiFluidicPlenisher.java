@@ -1,6 +1,8 @@
 package mekanism.client.gui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
@@ -46,6 +48,11 @@ public class GuiFluidicPlenisher extends GuiMekanismTile<TileEntityFluidicPlenis
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         drawTexturedModalRect(guiLeft + 32, guiTop + 39, 20, 179, 8, 9);
+        boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+        if (energy){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
+        }
     }
 
     @Override
@@ -56,6 +63,18 @@ public class GuiFluidicPlenisher extends GuiMekanismTile<TileEntityFluidicPlenis
         fontRenderer.drawString(LangUtils.localize("gui.finished") + ": " + LangUtils.transYesNo(tileEntity.finishedCalc), 51, 35, 0x00CD00);
         FluidStack fluid = tileEntity.fluidTank.getFluid();
         fontRenderer.drawString(fluid != null ? LangUtils.localizeFluidStack(fluid) + ": " + fluid.amount : LangUtils.localize("gui.noFluid"), 51, 44, 0x00CD00);
+        int xAxis = mouseX - guiLeft;
+        int yAxis = mouseY - guiTop;
+        if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+            List<String> info = new ArrayList<>();
+            boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+            if (energy){
+                info.add(LangUtils.localize("gui.no_energy"));
+            }
+            if (energy){
+                displayTooltips(info, xAxis, yAxis);
+            }
+        }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
