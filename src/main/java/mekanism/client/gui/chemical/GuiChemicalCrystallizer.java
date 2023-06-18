@@ -1,8 +1,5 @@
 package mekanism.client.gui.chemical;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.OreGas;
 import mekanism.client.gui.GuiMekanismTile;
@@ -31,6 +28,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalCrystallizer> {
 
@@ -52,7 +53,7 @@ public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalC
         addGuiElement(new GuiEnergyInfo(() -> {
             String multiplier = MekanismUtils.getEnergyDisplay(tileEntity.energyPerTick);
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                  LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
         addGuiElement(new GuiGasGauge(() -> tileEntity.inputTank, GuiGauge.Type.STANDARD, this, resource, 5, 4));
         addGuiElement(new GuiSlot(SlotType.EXTRA, this, resource, 5, 64).with(SlotOverlay.PLUS));
@@ -64,7 +65,7 @@ public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalC
                 return tileEntity.getScaledProgress();
             }
         }, ProgressBar.LARGE_RIGHT, this, resource, 51, 60));
-        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.CRYSTALLIZER,this,resource,27,13));
+        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.CRYSTALLIZER, this, resource, 27, 13));
     }
 
     @Override
@@ -87,8 +88,16 @@ public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalC
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
         if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
-            if (tileEntity.inventory.get(1).getCount() == tileEntity.inventory.get(1).getMaxStackSize()) {
-                displayTooltip(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"), xAxis, yAxis);
+            List<String> info = new ArrayList<>();
+            boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+            boolean outslot = tileEntity.inventory.get(1).getCount() == tileEntity.inventory.get(1).getMaxStackSize();
+            if (outslot) {
+                info.add(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"));
+            }if (energy){
+                info.add(LangUtils.localize("gui.no_energy"));
+            }
+            if (outslot || energy){
+                displayTooltips(info, xAxis, yAxis);
             }
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
@@ -97,9 +106,15 @@ public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalC
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        if (tileEntity.inventory.get(1).getCount() == tileEntity.inventory.get(1).getMaxStackSize()) {
-            drawTexturedModalRect(guiLeft + 130, guiTop + 56,119,192,18,18);
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,230,230,26,26);
+        boolean outslot = tileEntity.inventory.get(1).getCount() == tileEntity.inventory.get(1).getMaxStackSize();
+        boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+        if (outslot) {
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSlot.png"));
+            drawTexturedModalRect(guiLeft + 130, guiTop + 56,158,0,18,18);
+        }
+        if (outslot || energy){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
         }
     }
 

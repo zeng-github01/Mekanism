@@ -1,6 +1,8 @@
 package mekanism.client.gui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
@@ -41,7 +43,30 @@ public class GuiSeismicVibrator extends GuiMekanismTile<TileEntitySeismicVibrato
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
         fontRenderer.drawString(tileEntity.isActive ? LangUtils.localize("gui.vibrating") : LangUtils.localize("gui.idle"), 19, 26, 0x00CD00);
         fontRenderer.drawString(LangUtils.localize("gui.chunk") + ": " + (tileEntity.getPos().getX() >> 4) + ", " + (tileEntity.getPos().getZ() >> 4), 19, 35, 0x00CD00);
+        int xAxis = mouseX - guiLeft;
+        int yAxis = mouseY - guiTop;
+        if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+            List<String> info = new ArrayList<>();
+            boolean energy = tileEntity.getEnergy() < MekanismConfig.current().usage.seismicVibrator.val() || tileEntity.getEnergy() == 0;
+            if (energy){
+                info.add(LangUtils.localize("gui.no_energy"));
+            }
+            if (energy){
+                displayTooltips(info, xAxis, yAxis);
+            }
+        }
+
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
+        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        boolean energy = tileEntity.getEnergy() < MekanismConfig.current().usage.seismicVibrator.val() || tileEntity.getEnergy() == 0;
+        if (energy){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
+        }
     }
 
     @Override

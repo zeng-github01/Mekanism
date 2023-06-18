@@ -1,16 +1,13 @@
 package mekanism.client.jei.machine.other;
 
 import mekanism.client.gui.element.GuiBlackScreen;
-import mekanism.client.gui.element.GuiProgress;
 import mekanism.client.gui.element.GuiRateBarHorizontal;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.jei.BaseRecipeCategory;
-import mekanism.common.config.MekanismConfig;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.machines.ThermalEvaporationRecipe;
-import mekanism.common.util.LangUtils;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IGuiFluidStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -37,7 +34,7 @@ public class ThermalEvaporationRecipeCategory<WRAPPER extends ThermalEvaporation
             public double getLevel() {
                 return 1F;
             }
-        },guiLocation,48,62));
+        },guiLocation,46,62));
     }
 
     @Override

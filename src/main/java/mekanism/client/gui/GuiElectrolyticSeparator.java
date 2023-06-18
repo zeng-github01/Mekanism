@@ -1,7 +1,10 @@
 package mekanism.client.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.element.GuiEnergyInfo;
 import mekanism.client.gui.element.GuiPowerBar;
@@ -90,6 +93,27 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
         renderScaledText(name, 21, 73, 0x404040, 66);
         name = LangUtils.localize(tileEntity.dumpRight.getLangKey());
         renderScaledText(name, 156 - (int) (fontRenderer.getStringWidth(name) * getNeededScale(name, 66)), 73, 0x404040, 66);
+
+        int xAxis = mouseX - guiLeft;
+        int yAxis = mouseY - guiTop;
+        if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+            List<String> info = new ArrayList<>();
+            boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+            boolean outLeft = tileEntity.leftTank.getStored() == tileEntity.leftTank.getMaxGas();
+            boolean outRight = tileEntity.rightTank.getStored() == tileEntity.rightTank.getMaxGas();
+            if (energy){
+                info.add(LangUtils.localize("gui.no_energy"));
+            }
+            if (outLeft) {
+                info.add(LangUtils.localize("tooltip.gasses") + LangUtils.localize("gui.no_space"));
+            }if (outRight){
+                info.add(LangUtils.localize("tooltip.gasses") + LangUtils.localize("gui.no_space"));
+            }
+            if (outLeft || energy || outRight){
+                displayTooltips(info, xAxis, yAxis);
+            }
+        }
+
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
@@ -112,5 +136,23 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
         //Right
         int dumpRight = tileEntity.dumpRight.ordinal();
         drawTexturedModalRect(guiLeft + 160, guiTop + 73, 59 + 8 * dumpRight,inBounds2(xAxis, yAxis) ? 167 : 175,8,8);
+
+        boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+        boolean outLeft = tileEntity.leftTank.getStored() == tileEntity.leftTank.getMaxGas();
+        boolean outRight = tileEntity.rightTank.getStored() == tileEntity.rightTank.getMaxGas();
+        if (outLeft){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
+            drawTexturedModalRect(guiLeft + 58 + 10, guiTop + 18 + 1,0,0,7,28);
+        }
+        if (outRight){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
+            drawTexturedModalRect(guiLeft + 100 + 10, guiTop + 18 + 1,0,0,7,28);
+        }
+        if (energy|| outLeft || outRight){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
+        }
+
+
     }
 }

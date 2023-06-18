@@ -1,6 +1,9 @@
 package mekanism.client.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.element.GuiRedstoneControl;
 import mekanism.client.gui.element.gauge.GuiGauge.Type;
@@ -68,6 +71,19 @@ public class GuiLaserAmplifier extends GuiMekanismTile<TileEntityLaserAmplifier>
                                                     : LangUtils.localize("gui.noDelay"), 26, 30, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.min") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.minThreshold), 26, 45, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.max") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.maxThreshold), 26, 60, 0x404040);
+        int xAxis = mouseX - guiLeft;
+        int yAxis = mouseY - guiTop;
+        if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+            List<String> info = new ArrayList<>();
+            boolean energy = tileEntity.getEnergy() == 0;
+            if (energy){
+                info.add(LangUtils.localize("gui.no_energy"));
+            }
+            if (energy){
+                displayTooltips(info, xAxis, yAxis);
+            }
+        }
+
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
@@ -78,6 +94,13 @@ public class GuiLaserAmplifier extends GuiMekanismTile<TileEntityLaserAmplifier>
         maxField.drawTextBox();
         timerField.drawTextBox();
         MekanismRenderer.resetColor();
+
+        boolean energy =  tileEntity.getEnergy() == 0;
+        if (energy){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
+        }
+
     }
 
     @Override

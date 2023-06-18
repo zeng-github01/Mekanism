@@ -1,15 +1,14 @@
 package mekanism.client.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
-import mekanism.client.gui.element.GuiEnergyInfo;
-import mekanism.client.gui.element.GuiHeatInfo;
-import mekanism.client.gui.element.GuiPowerBar;
-import mekanism.client.gui.element.GuiRedstoneControl;
-import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
@@ -55,6 +54,16 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
             String environment = UnitDisplayUtils.getDisplayShort(tileEntity.lastEnvironmentLoss * unit.intervalSize, false, unit);
             return Collections.singletonList(LangUtils.localize("gui.dissipated") + ": " + environment + "/t");
         }, this, resource));
+        addGuiElement(new GuiRateBar(this, new GuiRateBar.IRateInfoHandler() {
+            @Override
+            public String getTooltip() {
+                return LangUtils.localize("gui.temp") + ": " + getTemp();
+            }
+            @Override
+            public double getLevel() {
+                return Math.min(1, tileEntity.temperature / MekanismConfig.current().general.evaporationMaxTemp.val());
+            }
+        }, resource, 153, 13));
     }
 
     @Override
@@ -82,8 +91,20 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 6, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 94) + 2, 0x404040);
-        renderScaledText(LangUtils.localize("gui.temp") + ": " + MekanismUtils.getTemperatureDisplay(tileEntity.temperature, TemperatureUnit.AMBIENT), 50, 25, 0x00CD00, 76);
+        renderScaledText(LangUtils.localize("gui.temp") + ": " + getTemp(), 50, 25, 0x00CD00, 76);
         renderScaledText(LangUtils.localize("gui.usage") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.energyUsage) + "/t", 50, 41, 0x00CD00, 76);
+        int xAxis = mouseX - guiLeft;
+        int yAxis = mouseY - guiTop;
+        if (xAxis >= -21 && xAxis <= -3 && yAxis >= 90 && yAxis <= 108) {
+            List<String> info = new ArrayList<>();
+            boolean energy = tileEntity.getEnergy() == 0;
+            if (energy){
+                info.add(LangUtils.localize("gui.no_energy"));
+            }
+            if (energy){
+                displayTooltips(info, xAxis, yAxis);
+            }
+        }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
@@ -92,6 +113,11 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         energyUsageField.drawTextBox();
         MekanismRenderer.resetColor();
+        boolean energy = tileEntity.getEnergy() == 0;
+        if (energy){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 86,0,0,26,26);
+        }
     }
 
     private void setEnergyUsage() {
@@ -132,5 +158,9 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
         if (Character.isDigit(c) || isTextboxKey(c, i)) {
             energyUsageField.textboxKeyTyped(c, i);
         }
+    }
+
+    private String getTemp() {
+        return MekanismUtils.getTemperatureDisplay(tileEntity.getTemp(), TemperatureUnit.AMBIENT);
     }
 }

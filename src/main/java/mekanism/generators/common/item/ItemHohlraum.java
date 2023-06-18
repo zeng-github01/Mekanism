@@ -6,6 +6,7 @@ import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.api.gas.IGasItem;
+import mekanism.client.render.MekanismRenderer;
 import mekanism.common.MekanismFluids;
 import mekanism.common.item.ItemMekanism;
 import mekanism.common.util.ItemDataUtils;
@@ -101,7 +102,13 @@ public class ItemHohlraum extends ItemMekanism implements IGasItem {
 
     @Override
     public int getRGBDurabilityForDisplay(@Nonnull ItemStack stack) {
-        return MathHelper.hsvToRGB(Math.max(0.0F, (float) (1 - getDurabilityForDisplay(stack))) / 3.0F, 1.0F, 1.0F);
+        GasStack gas = getGas(stack);
+        if (gas != null) {
+            MekanismRenderer.color(gas);
+            return gas.getGas().getTint();
+        } else {
+            return MathHelper.hsvToRGB(Math.max(0.0F, (float) (1 - getDurabilityForDisplay(stack))) / 3.0F, 1.0F, 1.0F);
+        }
     }
 
     @Override

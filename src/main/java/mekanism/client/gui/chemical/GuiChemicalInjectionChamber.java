@@ -19,4 +19,6 @@ public class GuiChemicalInjectionChamber extends GuiAdvancedElectricMachine<Inje
     public ProgressBar getProgressType() {
         return ProgressBar.YELLOW;
     }
+
+
 }

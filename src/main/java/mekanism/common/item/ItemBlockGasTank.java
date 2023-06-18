@@ -11,6 +11,7 @@ import mekanism.api.gas.IGasItem;
 import mekanism.client.MekKeyHandler;
 import mekanism.client.MekanismClient;
 import mekanism.client.MekanismKeyHandler;
+import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
 import mekanism.common.base.ISideConfiguration;
 import mekanism.common.base.ISustainedInventory;
@@ -275,7 +276,13 @@ public class ItemBlockGasTank extends ItemBlock implements IGasItem, ISustainedI
 
     @Override
     public int getRGBDurabilityForDisplay(@Nonnull ItemStack stack) {
-        return MathHelper.hsvToRGB(Math.max(0.0F, (float) (1 - getDurabilityForDisplay(stack))) / 3.0F, 1.0F, 1.0F);
+        GasStack gas = getGas(stack);
+        if (gas != null) {
+            MekanismRenderer.color(gas);
+            return gas.getGas().getTint();
+        } else {
+            return MathHelper.hsvToRGB(Math.max(0.0F, (float) (1 - getDurabilityForDisplay(stack))) / 3.0F, 1.0F, 1.0F);
+        }
     }
 
     @Override

@@ -21,6 +21,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiSolarNeutronActivator extends GuiMekanismTile<TileEntitySolarNeutronActivator> {
 
@@ -46,9 +49,34 @@ public class GuiSolarNeutronActivator extends GuiMekanismTile<TileEntitySolarNeu
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(tileEntity.getName(), 26, 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 4, 0x404040);
+        int xAxis = mouseX - guiLeft;
+        int yAxis = mouseY - guiTop;
+        if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+            List<String> info = new ArrayList<>();
+            boolean outputgas = tileEntity.outputTank.getStored() == tileEntity.outputTank.getMaxGas();
+            if (outputgas){
+                info.add(LangUtils.localize("tooltip.gasses") + LangUtils.localize("gui.no_space"));
+            }
+            if (outputgas){
+                displayTooltips(info, xAxis, yAxis);
+            }
+        }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
-
+    @Override
+    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
+        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        boolean outputgas = tileEntity.outputTank.getStored() == tileEntity.outputTank.getMaxGas();
+        if (outputgas) {
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
+            drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 1,9,1,8,29);
+            drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 31,9,32,8,28);
+        }
+        if (outputgas){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
+        }
+    }
     @Override
     protected ResourceLocation getGuiLocation() {
         return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");

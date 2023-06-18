@@ -12,9 +12,9 @@ public class GuiRateBarHorizontal extends GuiElement {
 
     private final int xLocation;
     private final int yLocation;
-    private final int width = 80;
-    private final int height = 12;
     private final IRateInfoHandler handler;
+
+    private final RateBarHorizontal type = RateBarHorizontal.HORIZONTAL;
 
     public GuiRateBarHorizontal(IGuiWrapper gui, IRateInfoHandler h, ResourceLocation def, int x, int y) {
         super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiRateBarHorizontal.png"), gui, def);
@@ -25,21 +25,22 @@ public class GuiRateBarHorizontal extends GuiElement {
 
     @Override
     public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + xLocation, guiHeight + yLocation, width, height);
+        return new Rectangle4i(guiWidth + xLocation, guiHeight + yLocation, type.width, type.height);
     }
 
     @Override
     protected boolean inBounds(int xAxis, int yAxis) {
-        return xAxis >= xLocation && xAxis <= xLocation + width && yAxis >= yLocation && yAxis <= yLocation + height;
+        return xAxis >= xLocation + 2 && xAxis <= xLocation + 80 && yAxis >= yLocation + 2 && yAxis <= yLocation + 10;
     }
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         mc.renderEngine.bindTexture(RESOURCE);
-        guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, width, height);
+        guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, type.textureX, type.textureY, type.width, type.height);
         if (handler.getLevel() > 0) {
-            int displayInt = (int) (handler.getLevel() * 78) + 2;
-            guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation,  80 + width - displayInt, 0, displayInt, height);
+            int innerOffsetX = 2;
+            int displayInt = (int) (handler.getLevel() * (type.width - 2 * innerOffsetX));
+            guiObj.drawTexturedRect(guiWidth + xLocation + innerOffsetX + 1, guiHeight + yLocation, type.textureX + type.width + innerOffsetX, type.textureY, displayInt, type.height);
         }
         mc.renderEngine.bindTexture(defaultLocation);
     }
@@ -69,4 +70,22 @@ public class GuiRateBarHorizontal extends GuiElement {
 
         public abstract double getLevel();
     }
+
+    public enum RateBarHorizontal{
+        HORIZONTAL(84,12,0,0);
+
+        public final int width;
+        public final int height;
+
+        public final int textureX;
+        public final int textureY;
+
+        RateBarHorizontal(int w, int h, int u, int v) {
+            width = w;
+            height = h;
+            textureX = u;
+            textureY = v;
+        }
+    }
+
 }

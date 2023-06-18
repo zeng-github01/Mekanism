@@ -575,7 +575,6 @@ gui.entityDetection=实体检测
 gui.energyContents=能量含量
 gui.redstoneOutput=红石输出
 gui.maxWaterOutput=最大水输出
-gui.no_space= - 输出的空间不足
 gui.reactor.injectionRate=输入速率
 
 gui.upgrades=升级
@@ -691,6 +690,8 @@ gui.digitalMiner.fuzzyMode=模糊模式
 gui.digitalMiner.missingBlock=缺失方块
 mekanism.gui.digitalMiner.capacity=能量容量
 mekanism.gui.digitalMiner.lowPower=能量低
+gui.teleporter.Searching=搜索
+gui.teleporter.Paused=暂停
 
 # Recipe names
 recipe.mekanismShaped=有序
@@ -966,6 +967,11 @@ reactor.depleted.desc=反应没有足够的燃料维持
 
 # Creative tab
 itemGroup.tabMekanism=通用机械
+
+#
+gui.insufficient=不足
+gui.no_space= - 输出的空间不足
+gui.no_energy= - 能量不足以运行
 
 #############
 # GENERATORS

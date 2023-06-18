@@ -83,6 +83,10 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
             public double getLevel() {
                 return getEnergy() / getMaxEnergy();
             }
+            @Override
+            public boolean powerbarWarning(){
+                return tileEntity.getEnergy() == 0;
+            }
         }, resource, 158, 26));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 152, 6).with(SlotOverlay.POWER));
         addGuiElement(scrollList = new GuiScrollList(this, resource, 28, 37, 120, 4));
@@ -279,13 +283,13 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(getName(), (xSize / 2) - (fontRenderer.getStringWidth(getName()) / 2), 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.owner") + ": " + (getOwnerUsername() != null ? getOwnerUsername() : LangUtils.localize("gui.none")),
-              8, !itemStack.isEmpty() ? ySize - 12 : (ySize - 96) + 4, 0x404040);
+                8, !itemStack.isEmpty() ? ySize - 12 : (ySize - 96) + 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.freq") + ":", 32, 81, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.security") + ":", 32, 91, 0x404040);
         fontRenderer.drawString(" " + (getFrequency() != null ? getFrequency().name : EnumColor.DARK_RED + LangUtils.localize("gui.none")),
-              32 + fontRenderer.getStringWidth(LangUtils.localize("gui.freq") + ":"), 81, 0x797979);
+                32 + fontRenderer.getStringWidth(LangUtils.localize("gui.freq") + ":"), 81, 0x797979);
         fontRenderer.drawString(" " + (getFrequency() != null ? getSecurity(getFrequency()) : EnumColor.DARK_RED + LangUtils.localize("gui.none")),
-              32 + fontRenderer.getStringWidth(LangUtils.localize("gui.security") + ":"), 91, 0x797979);
+                32 + fontRenderer.getStringWidth(LangUtils.localize("gui.security") + ":"), 91, 0x797979);
         String str = LangUtils.localize("gui.set") + ":";
         renderScaledText(str, 27, 104, 0x404040, 20);
         int xAxis = mouseX - guiLeft;
@@ -295,6 +299,15 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
                 displayTooltip(EnumColor.DARK_RED + LangUtils.localize("gui.teleporter.noFreq"), xAxis, yAxis);
             } else {
                 displayTooltip(getStatusDisplay(), xAxis, yAxis);
+            }
+        } else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+            List<String> info = new ArrayList<>();
+            boolean energy = getEnergy() == 0;
+            if (energy){
+                info.add(LangUtils.localize("gui.no_energy"));
+            }
+            if (energy){
+                displayTooltips(info, xAxis, yAxis);
             }
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
@@ -307,6 +320,11 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         drawTexturedModalRect(guiLeft + 6, guiTop + 6, 176, y, 18, 18);
         frequencyField.drawTextBox();
         MekanismRenderer.resetColor();
+        boolean energy = getEnergy() == 0;
+        if (energy){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
+        }
     }
 
     public String getStatusDisplay() {

@@ -1,6 +1,8 @@
 package mekanism.client.gui.chemical;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.*;
@@ -31,7 +33,7 @@ public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuse
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiPowerBarHorizontal(this, tileEntity, resource, 115 , 74));
+        addGuiElement(new GuiPowerBarHorizontal(this, tileEntity, resource, 115 -2, 74));
         addGuiElement(new GuiEnergyInfo(() -> {
             String usage = MekanismUtils.getEnergyDisplay(tileEntity.clientEnergyUsed);
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + usage + "/t",
@@ -67,5 +69,37 @@ public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuse
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(LangUtils.localize("gui.chemicalInfuser.short"), 5, 5, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 4, 0x404040);
+        int xAxis = mouseX - guiLeft;
+        int yAxis = mouseY - guiTop;
+        if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+            List<String> info = new ArrayList<>();
+            boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+            boolean output = tileEntity.centerTank.getStored() == tileEntity.centerTank.getMaxGas();
+            if (output) {
+                info.add(LangUtils.localize("tooltip.gasses") + LangUtils.localize("gui.no_space"));
+            }if (energy){
+                info.add(LangUtils.localize("gui.no_energy"));
+            }
+            if (output || energy){
+                displayTooltips(info, xAxis, yAxis);
+            }
+        }
+        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
+        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        boolean output = tileEntity.centerTank.getStored() == tileEntity.centerTank.getMaxGas();
+        boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+        if (output) {
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "Warning.png"));
+            drawTexturedModalRect(guiLeft + 79 + 9, guiTop + 4 + 1,9,1,8,29);
+            drawTexturedModalRect(guiLeft + 79 + 9, guiTop + 4 + 31,9,32,8,28);
+        }
+        if (output || energy){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
+        }
     }
 }

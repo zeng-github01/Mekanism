@@ -13,7 +13,7 @@ plugins {
 
 version = project.mod_version +"." + project.homebaked
 group = project.maven_group
-archivesBaseName = project.archives_base_name
+archivesBaseName = project.archives_base_name +"-All"
 
 defaultTasks 'fullBuild'
 
@@ -237,7 +237,7 @@ idea {
 }
 
 task coreJar(type: Jar) {
-    archiveFileName = "Mekanism-${project.version}.jar"
+    archiveFileName = "Mekanism-CE-Unofficial-${project.version}.jar"
     dependsOn 'reobfJar'
     archiveClassifier = "core"
 
@@ -254,7 +254,7 @@ task coreJar(type: Jar) {
 }
 
 task toolsJar(type: Jar) {
-    archiveFileName = "MekanismTools-${project.version}.jar"
+    archiveFileName = "MekanismTools-CE-Unofficial-${project.version}.jar"
     dependsOn 'reobfJar'
     archiveClassifier =  "tools"
 
@@ -269,7 +269,7 @@ task toolsJar(type: Jar) {
 }
 
 task generatorsJar(type: Jar) {
-    archiveFileName = "MekanismGenerators-${project.version}.jar"
+    archiveFileName = "MekanismGenerators-CE-Unofficial-${project.version}.jar"
     dependsOn 'reobfJar'
     archiveClassifier =  "generators"
 
@@ -285,7 +285,7 @@ task generatorsJar(type: Jar) {
 
 task apiJar(type: Jar) {
     archiveClassifier = "api"
-    archiveBaseName = "Mekanism"
+    archiveBaseName = "Mekanism-CE-Unofficial"
     dependsOn "sourcesJar"
     include 'mekanism/api/**'
     from sourceSets.main.java.srcDirs

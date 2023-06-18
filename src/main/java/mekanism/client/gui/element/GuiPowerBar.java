@@ -18,10 +18,10 @@ public class GuiPowerBar extends GuiElement {
     private final int width = 6;
     private final int height = 56;
 
+
     public GuiPowerBar(IGuiWrapper gui, IStrictEnergyStorage tile, ResourceLocation def, int x, int y) {
         super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiPowerBar.png"), gui, def);
         tileEntity = tile;
-
         handler = new IPowerInfoHandler() {
             @Override
             public String getTooltip() {
@@ -32,8 +32,11 @@ public class GuiPowerBar extends GuiElement {
             public double getLevel() {
                 return tileEntity.getEnergy() / tileEntity.getMaxEnergy();
             }
+            @Override
+            public boolean powerbarWarning() {
+                return tileEntity.getEnergy() == 0;
+            }
         };
-
         xLocation = x;
         yLocation = y;
     }
@@ -61,7 +64,10 @@ public class GuiPowerBar extends GuiElement {
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         mc.renderEngine.bindTexture(RESOURCE);
         guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, width, height);
-        if (handler.getLevel() > 0) {
+        if (handler.powerbarWarning()) {
+            mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "Warning_Background.png"));
+            guiObj.drawTexturedRect(guiWidth + xLocation + 1, guiHeight + yLocation + 2, 0, 0, 4, 52);
+        } else if (handler.getLevel() > 0) {
             int displayInt = (int) (handler.getLevel() * 52) + 2;
             guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation + height - displayInt, 6, height - displayInt, width, displayInt);
         }
@@ -86,11 +92,14 @@ public class GuiPowerBar extends GuiElement {
     }
 
     public static abstract class IPowerInfoHandler {
-
         public String getTooltip() {
             return null;
         }
 
         public abstract double getLevel();
+
+        public boolean powerbarWarning() {
+            return false;
+        }
     }
 }
