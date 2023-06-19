@@ -2,10 +2,7 @@ package mekanism.client.gui;
 
 import java.util.Collections;
 
-import mekanism.client.gui.element.GuiBlackScreen;
-import mekanism.client.gui.element.GuiHeatInfo;
-import mekanism.client.gui.element.GuiRateBar;
-import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.common.config.MekanismConfig;
@@ -44,7 +41,18 @@ public class GuiFuelwoodHeater extends GuiMekanismTile<TileEntityFuelwoodHeater>
             public double getLevel() {
                 return Math.min(1, tileEntity.temperature / MekanismConfig.current().general.evaporationMaxTemp.val());
             }
-        }, resource, 161, 15));
+        }, resource, 161, 11));
+        addGuiElement(new GuiRateBarHorizontal(this, new GuiRateBarHorizontal.IRateInfoHandler() {
+            @Override
+            public String getTooltip() {
+                return LangUtils.localize("gui.fuel") + ": " + tileEntity.burnTime + " / " + tileEntity.maxBurnTime;
+            }
+            @Override
+            public double getLevel() {
+                return (double) tileEntity.burnTime / tileEntity.maxBurnTime;
+            }
+        },resource,46,60));
+
     }
 
     @Override
@@ -59,10 +67,10 @@ public class GuiFuelwoodHeater extends GuiMekanismTile<TileEntityFuelwoodHeater>
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 143, guiTop + 30,99,167,14,14);
+        drawTexturedModalRect(guiLeft + 137, guiTop + 29,99,167,14,14);
         if (tileEntity.burnTime > 0) {
             int displayInt = tileEntity.burnTime * 13 / tileEntity.maxBurnTime;
-            drawTexturedModalRect(guiLeft + 143, guiTop + 30 + 12 - displayInt, 84, 179 - displayInt, 14, displayInt + 1);
+            drawTexturedModalRect(guiLeft + 137, guiTop + 29 + 12 - displayInt, 84, 179 - displayInt, 14, displayInt + 1);
         }
     }
 

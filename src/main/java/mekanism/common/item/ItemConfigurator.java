@@ -14,6 +14,7 @@ import mcp.MethodsReturnNonnullByDefault;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigurable;
 import mekanism.api.IMekWrench;
+import mekanism.api.gas.GasStack;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.Mekanism;
 import mekanism.common.SideData;
@@ -21,6 +22,12 @@ import mekanism.common.base.IItemNetwork;
 import mekanism.common.base.ISideConfiguration;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.integration.MekanismHooks;
+import mekanism.common.tier.BinTier;
+import mekanism.common.tier.FluidTankTier;
+import mekanism.common.tier.GasTankTier;
+import mekanism.common.tile.TileEntityBin;
+import mekanism.common.tile.TileEntityFluidTank;
+import mekanism.common.tile.TileEntityGasTank;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.prefab.TileEntityBasicBlock;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
@@ -48,6 +55,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Optional.Interface;
 import net.minecraftforge.fml.common.Optional.InterfaceList;
@@ -145,8 +153,30 @@ public class ItemConfigurator extends ItemEnergized implements IMekWrench, ITool
                         SecurityUtils.displayNoAccess(player);
                         return EnumActionResult.FAIL;
                     }
+                } else if (tile instanceof TileEntityBin){
+                    if (SecurityUtils.canAccess(player,tile)){
+                        if (((TileEntityBin) tile).tier == BinTier.CREATIVE){
+                            IInventory inv = (IInventory) tile;
+                            for (int i = 0; i < inv.getSizeInventory(); i++) {
+                                ItemStack slotStack = inv.getStackInSlot(i);
+                                if (!slotStack.isEmpty()) {
+                                    if (getEnergy(stack) < ENERGY_PER_ITEM_DUMP) {
+                                        break;
+                                    }
+                                    Block.spawnAsEntity(world, pos, ((TileEntityBin) tile).bottomStack.copy());
+                                    inv.setInventorySlotContents(i, ItemStack.EMPTY);
+                                    ((TileEntityBin) tile).setItemCount(0);
+                                    setEnergy(stack, getEnergy(stack) - ENERGY_PER_ITEM_DUMP);
+                                }
+                            }
+                        }
+                        return EnumActionResult.SUCCESS;
+                    } else {
+                        SecurityUtils.displayNoAccess(player);
+                        return EnumActionResult.FAIL;
+                    }
                 }
-            } else if (getState(stack) == ConfiguratorMode.ROTATE) { //Rotate
+            }else if (getState(stack) == ConfiguratorMode.ROTATE) { //Rotate
                 EnumFacing[] rotations = block.getValidRotations(world, pos);
                 if (rotations != null && rotations.length > 0) {
                     List<EnumFacing> l = Arrays.asList(block.getValidRotations(world, pos));

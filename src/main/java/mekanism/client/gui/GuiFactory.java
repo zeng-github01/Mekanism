@@ -167,19 +167,6 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
             int displayInt = tileEntity.getScaledProgress(20, i);
             drawTexturedModalRect(guiLeft + xPos, guiTop + 33, 176, 52, 8, displayInt);
         }
-
-        for (int i = 0; i < tileEntity.tier.processes; i++){
-            boolean outslot = tileEntity.inventory.get(5 + tileEntity.tier.processes + i).getCount() == tileEntity.inventory.get(5 + tileEntity.tier.processes + i).getMaxStackSize();
-            boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
-            if (outslot) {
-                mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSlot.png"));
-                drawTexturedModalRect(guiLeft + (Slotlocation + (i * xDistance)), guiTop + 56,158,0,18,18);
-            }
-            if (outslot || energy){
-                mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-                drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
-            }
-        }
         if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING) {
             drawTexturedModalRect(guiLeft + 7, guiTop + 77, 0, 179, 140, 7);
         }
@@ -196,6 +183,18 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
             if (tileEntity.getScaledInfuseLevel(138) > 0) {
                 MekanismRenderer.resetColor();
                 displayGauge(8, 78, tileEntity.getScaledInfuseLevel(138), 5, tileEntity.infuseStored.getType().sprite);
+            }
+        }
+        for (int i = 0; i < tileEntity.tier.processes; i++){
+            boolean outslot = tileEntity.inventory.get(5 + tileEntity.tier.processes + i).getCount() == tileEntity.inventory.get(5 + tileEntity.tier.processes + i).getMaxStackSize();
+            boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+            if (outslot) {
+                mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSlot.png"));
+                drawTexturedModalRect(guiLeft + (Slotlocation + (i * xDistance)), guiTop + 56,158,0,18,18);
+            }
+            if (outslot || energy){
+                mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+                drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
             }
         }
     }
