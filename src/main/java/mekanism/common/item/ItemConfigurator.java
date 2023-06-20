@@ -21,6 +21,7 @@ import mekanism.common.SideData;
 import mekanism.common.base.IItemNetwork;
 import mekanism.common.base.ISideConfiguration;
 import mekanism.common.capabilities.Capabilities;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.integration.MekanismHooks;
 import mekanism.common.tier.BinTier;
 import mekanism.common.tier.FluidTankTier;
@@ -134,34 +135,30 @@ public class ItemConfigurator extends ItemEnergized implements IMekWrench, ITool
                 }
             } else if (getState(stack) == ConfiguratorMode.EMPTY) { //Empty
                 if (tile instanceof TileEntityFluidTank) {
-                    if (SecurityUtils.canAccess(player, tile)) {
-                        if (((TileEntityFluidTank) tile).tier == FluidTankTier.CREATIVE) {
-                            if (((TileEntityFluidTank) tile).fluidTank.getFluid() != null) {
-                                if (getEnergy(stack) >= ENERGY_PER_CONFIGURE) {
-                                    setEnergy(stack, getEnergy(stack) - ENERGY_PER_CONFIGURE);
-                                    ((TileEntityFluidTank) tile).fluidTank.setFluid(null);
-                                }
+                    if (MekanismConfig.current().mekce.EmptytoCreateFluidTank.val()) {
+                        if (SecurityUtils.canAccess(player, tile)) {
+                            if (((TileEntityFluidTank) tile).tier == FluidTankTier.CREATIVE && ((TileEntityFluidTank) tile).fluidTank.getFluid() != null && getEnergy(stack) >= ENERGY_PER_CONFIGURE) {
+                                setEnergy(stack, getEnergy(stack) - ENERGY_PER_CONFIGURE);
+                                ((TileEntityFluidTank) tile).fluidTank.setFluid(null);
                             }
+                            return EnumActionResult.SUCCESS;
+                        } else {
+                            SecurityUtils.displayNoAccess(player);
+                            return EnumActionResult.FAIL;
                         }
-                        return EnumActionResult.SUCCESS;
-                    } else {
-                        SecurityUtils.displayNoAccess(player);
-                        return EnumActionResult.FAIL;
                     }
                 } else if (tile instanceof TileEntityGasTank) {
-                    if (SecurityUtils.canAccess(player, tile)) {
-                        if (((TileEntityGasTank) tile).tier == GasTankTier.CREATIVE) {
-                            if (((TileEntityGasTank) tile).gasTank.getGas() != null){
-                                if (getEnergy(stack) >= ENERGY_PER_CONFIGURE) {
-                                    setEnergy(stack, getEnergy(stack) - ENERGY_PER_CONFIGURE);
-                                    ((TileEntityGasTank) tile).gasTank.setGas(null);
-                                }
+                    if (MekanismConfig.current().mekce.EmptyToCreateGasTank.val()) {
+                        if (SecurityUtils.canAccess(player, tile)) {
+                            if (((TileEntityGasTank) tile).tier == GasTankTier.CREATIVE && ((TileEntityGasTank) tile).gasTank.getGas() != null && getEnergy(stack) >= ENERGY_PER_CONFIGURE) {
+                                setEnergy(stack, getEnergy(stack) - ENERGY_PER_CONFIGURE);
+                                ((TileEntityGasTank) tile).gasTank.setGas(null);
                             }
+                            return EnumActionResult.SUCCESS;
+                        } else {
+                            SecurityUtils.displayNoAccess(player);
+                            return EnumActionResult.FAIL;
                         }
-                        return EnumActionResult.SUCCESS;
-                    } else {
-                        SecurityUtils.displayNoAccess(player);
-                        return EnumActionResult.FAIL;
                     }
                 }else if (tile instanceof TileEntityContainerBlock) {
                     if (SecurityUtils.canAccess(player, tile)) {
@@ -183,27 +180,29 @@ public class ItemConfigurator extends ItemEnergized implements IMekWrench, ITool
                         SecurityUtils.displayNoAccess(player);
                         return EnumActionResult.FAIL;
                     }
-                } else if (tile instanceof TileEntityBin){
-                    if (SecurityUtils.canAccess(player,tile)){
-                        if (((TileEntityBin) tile).tier == BinTier.CREATIVE){
-                            IInventory inv = (IInventory) tile;
-                            for (int i = 0; i < inv.getSizeInventory(); i++) {
-                                ItemStack slotStack = inv.getStackInSlot(i);
-                                if (!slotStack.isEmpty()) {
-                                    if (getEnergy(stack) < ENERGY_PER_ITEM_DUMP) {
-                                        break;
+                } else if (tile instanceof TileEntityBin) {
+                    if (MekanismConfig.current().mekce.EmptyToCreateBin.val()) {
+                        if (SecurityUtils.canAccess(player, tile)) {
+                            if (((TileEntityBin) tile).tier == BinTier.CREATIVE) {
+                                IInventory inv = (IInventory) tile;
+                                for (int i = 0; i < inv.getSizeInventory(); i++) {
+                                    ItemStack slotStack = inv.getStackInSlot(i);
+                                    if (!slotStack.isEmpty()) {
+                                        if (getEnergy(stack) < ENERGY_PER_ITEM_DUMP) {
+                                            break;
+                                        }
+                                        Block.spawnAsEntity(world, pos, ((TileEntityBin) tile).bottomStack.copy());
+                                        inv.setInventorySlotContents(i, ItemStack.EMPTY);
+                                        ((TileEntityBin) tile).setItemCount(0);
+                                        setEnergy(stack, getEnergy(stack) - ENERGY_PER_ITEM_DUMP);
                                     }
-                                    Block.spawnAsEntity(world, pos, ((TileEntityBin) tile).bottomStack.copy());
-                                    inv.setInventorySlotContents(i, ItemStack.EMPTY);
-                                    ((TileEntityBin) tile).setItemCount(0);
-                                    setEnergy(stack, getEnergy(stack) - ENERGY_PER_ITEM_DUMP);
                                 }
                             }
+                            return EnumActionResult.SUCCESS;
+                        } else {
+                            SecurityUtils.displayNoAccess(player);
+                            return EnumActionResult.FAIL;
                         }
-                        return EnumActionResult.SUCCESS;
-                    } else {
-                        SecurityUtils.displayNoAccess(player);
-                        return EnumActionResult.FAIL;
                     }
                 }
             }else if (getState(stack) == ConfiguratorMode.ROTATE) { //Rotate

@@ -21,6 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiFuelwoodHeater extends GuiMekanismTile<TileEntityFuelwoodHeater> {
 
+
     public GuiFuelwoodHeater(InventoryPlayer inventory, TileEntityFuelwoodHeater tile) {
         super(tile, new ContainerFuelwoodHeater(inventory, tile));
         ResourceLocation resource = getGuiLocation();
@@ -31,7 +32,9 @@ public class GuiFuelwoodHeater extends GuiMekanismTile<TileEntityFuelwoodHeater>
             String environment = UnitDisplayUtils.getDisplayShort(tileEntity.lastEnvironmentLoss * unit.intervalSize, false, unit);
             return Collections.singletonList(LangUtils.localize("gui.dissipated") + ": " + environment + "/t");
         }, this, resource));
-        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.FUELWOOD,this,resource,48,23));
+        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.FUELWOOD,this,resource,48,23));
+       addGuiElement(new GuiBlack(this,resource,49,24,78,26));
+
         addGuiElement(new GuiRateBar(this, new GuiRateBar.IRateInfoHandler() {
             @Override
             public String getTooltip() {

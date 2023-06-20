@@ -68,7 +68,6 @@ public class TileEntityWindGenerator extends TileEntityGenerator implements IBou
     @Override
     public void handlePacketData(ByteBuf dataStream) {
         super.handlePacketData(dataStream);
-
         if (world.isRemote) {
             currentMultiplier = dataStream.readFloat();
             isBlacklistDimension = dataStream.readBoolean();

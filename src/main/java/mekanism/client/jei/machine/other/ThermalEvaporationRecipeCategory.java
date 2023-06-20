@@ -1,6 +1,7 @@
 package mekanism.client.jei.machine.other;
 
-import mekanism.client.gui.element.GuiBlackScreen;
+import mekanism.client.gui.element.GuiBlack;
+import mekanism.client.gui.element.GuiBlackScreenframe;
 import mekanism.client.gui.element.GuiRateBarHorizontal;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
@@ -28,7 +29,8 @@ public class ThermalEvaporationRecipeCategory<WRAPPER extends ThermalEvaporation
         guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 27, 50));
         guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 131, 19));
         guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 131, 50));
-        guiElements.add(new GuiBlackScreen(GuiBlackScreen.BlackScreen.BIO_EVAPORATION,this,guiLocation,48,19));
+        guiElements.add(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.BIO_EVAPORATION,this,guiLocation,48,19));
+        guiElements.add(new GuiBlack(this, guiLocation,49,20,78,38));
         guiElements.add(new GuiRateBarHorizontal(this, new GuiRateBarHorizontal.IRateInfoHandler() {
             @Override
             public double getLevel() {

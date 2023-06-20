@@ -1,7 +1,8 @@
 package mekanism.client.jei.machine.chemical;
 
 import mekanism.api.gas.GasStack;
-import mekanism.client.gui.element.GuiBlackScreen;
+import mekanism.client.gui.element.GuiBlack;
+import mekanism.client.gui.element.GuiBlackScreenframe;
 import mekanism.client.gui.element.GuiProgress;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
@@ -34,7 +35,9 @@ public class ChemicalCrystallizerRecipeCategory<WRAPPER extends ChemicalCrystall
                 return (float) timer.getValue() / 20F;
             }
         }, progressBar, this, guiLocation, 51, 60));
-        guiElements.add(new GuiBlackScreen(GuiBlackScreen.BlackScreen.CRYSTALLIZER,this,guiLocation,27,13));
+        guiElements.add(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.CRYSTALLIZER, this, guiLocation, 27, 13));
+        guiElements.add(new GuiBlack(this, guiLocation, 28, 14, 102, 40));
+        guiElements.add(new GuiBlack(this, guiLocation, 28 + 102,13 + 18,17,23));
     }
 
     @Override
