@@ -12,7 +12,8 @@ import mekanism.client.gui.GuiSideConfiguration.GuiPos;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiSideDataButton;
-import mekanism.client.gui.element.GuiBlackScreen;
+import mekanism.client.gui.element.GuiBlack;
+import mekanism.client.gui.element.GuiBlackScreenframe;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
@@ -37,7 +38,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
-import static mekanism.client.gui.element.GuiBlackScreen.BlackScreen.SIDECONFIG;
+import static mekanism.client.gui.element.GuiBlackScreenframe.BlackScreen.SIDECONFIG;
 import static mekanism.client.gui.element.GuiSlot.SlotType.NORMAL;
 
 @SideOnly(Side.CLIENT)
@@ -62,7 +63,8 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
         slotPosMap.put(3, new GuiPos(39, 64));
         slotPosMap.put(4, new GuiPos(39, 49));
         slotPosMap.put(5, new GuiPos(69, 49));
-        addGuiElement(new GuiBlackScreen(SIDECONFIG,this,resource,51,15));
+        addGuiElement(new GuiBlackScreenframe(SIDECONFIG,this,resource,51,15));
+        addGuiElement(new GuiBlack( this,resource,52,16,72,10));
         addGuiElement(new GuiSlot(NORMAL,this,resource,121,48));
     }
 

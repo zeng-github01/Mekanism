@@ -32,7 +32,8 @@ public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 16, 34));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 142, 34).with(SlotOverlay.POWER));
-        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.BIO_EVAPORATION,this,resource,48,23));
+        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.BIO_EVAPORATION,this,resource,48,23));
+        addGuiElement(new GuiBlack(this,resource,49,24,78,38));
         addGuiElement(new GuiBioFuelBar(this, new GuiBioFuelBar.IPowerInfoHandler() {
             @Override
             public String getTooltip(){

@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.api.gas.IGasItem;
+import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
 import mekanism.common.util.ItemDataUtils;
 import mekanism.common.util.LangUtils;
@@ -18,6 +19,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.Fluid;
@@ -61,6 +63,19 @@ public class ItemGaugeDropper extends ItemMekanism implements IGasItem {
         double gasRatio = (getGas(stack) != null ? (double) getGas(stack).amount : 0D) / (double) CAPACITY;
         double fluidRatio = (FluidUtil.getFluidContained(stack) != null ? (double) FluidUtil.getFluidContained(stack).amount : 0D) / (double) CAPACITY;
         return 1D - Math.max(gasRatio, fluidRatio);
+    }
+
+    @Override
+    public int getRGBDurabilityForDisplay(@Nonnull ItemStack stack) {
+        GasStack gas = getGas(stack);
+        FluidStack fluidStack = FluidUtil.getFluidContained(stack);
+        if (gas != null){
+            MekanismRenderer.color(gas);
+            return gas.getGas().getTint();
+        }else if (fluidStack != null && fluidStack.getFluid().getColor() != 0xFFFFFFFF){ //Because it is possible that the liquid is not colored
+            return fluidStack.getFluid().getColor();
+        }else
+            return MathHelper.hsvToRGB(Math.max(0.0F, (float) (1 - getDurabilityForDisplay(stack))) / 3.0F, 1.0F, 1.0F);
     }
 
     @Nonnull

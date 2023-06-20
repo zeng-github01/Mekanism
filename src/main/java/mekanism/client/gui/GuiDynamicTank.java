@@ -1,6 +1,7 @@
 package mekanism.client.gui;
 
-import mekanism.client.gui.element.GuiBlackScreen;
+import mekanism.client.gui.element.GuiBlack;
+import mekanism.client.gui.element.GuiBlackScreenframe;
 import mekanism.client.gui.element.GuiBucketIcon;
 import mekanism.client.gui.element.GuiContainerEditMode;
 import mekanism.common.content.tank.TankUpdateProtocol;
@@ -22,7 +23,8 @@ public class GuiDynamicTank extends GuiEmbeddedGaugeTile<TileEntityDynamicTank> 
         super(tile, new ContainerDynamicTank(inventory, tile));
         ResourceLocation resource = getGuiLocation();
         addGuiElement(new GuiContainerEditMode(this, tileEntity, resource));
-        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.DYNAMICTANK_INDUCTIONMATRIX_PUMP,this,resource,50,23));
+        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.DYNAMICTANK_INDUCTIONMATRIX_PUMP,this,resource,50,23));
+        addGuiElement(new GuiBlack(this,resource,51,24,78,39));
         addGuiElement(new GuiBucketIcon(GuiBucketIcon.IconType.DYNAMICTANK,this,resource,141,15));
     }
 

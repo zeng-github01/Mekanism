@@ -2,11 +2,10 @@ package mekanism.client.gui;
 
 import java.util.Collections;
 
-import mekanism.client.gui.element.GuiBlackScreen;
+import mekanism.client.gui.element.GuiBlackScreenframe;
 import mekanism.client.gui.element.GuiHeatInfo;
 import mekanism.client.gui.element.GuiRateBar;
 import mekanism.client.gui.element.GuiRateBar.IRateInfoHandler;
-import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.tab.GuiBoilerTab;
 import mekanism.client.gui.element.tab.GuiBoilerTab.BoilerTab;
 import mekanism.common.config.MekanismConfig;
@@ -60,7 +59,7 @@ public class GuiThermoelectricBoiler extends GuiEmbeddedGaugeTile<TileEntityBoil
             return Collections.singletonList(LangUtils.localize("gui.dissipated") + ": " + environment + "/t");
         }, this, resource));
 
-        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.THERMOELECTRICBOILER,this,resource,40,27));
+        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.THERMOELECTRICBOILER,this,resource,40,27));
     }
 
     @Override

@@ -3,7 +3,8 @@ package mekanism.client.gui;
 import java.io.IOException;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.GasStack;
-import mekanism.client.gui.element.GuiBlackScreen;
+import mekanism.client.gui.element.GuiBlack;
+import mekanism.client.gui.element.GuiBlackScreenframe;
 import mekanism.client.gui.element.GuiRedstoneControl;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
@@ -17,7 +18,6 @@ import mekanism.common.Mekanism;
 import mekanism.common.inventory.container.ContainerGasTank;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.tile.TileEntityGasTank;
-import mekanism.common.tile.TileEntityGasTank.GasMode;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
@@ -41,7 +41,8 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 15, 16).with(SlotOverlay.PLUS));
         addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 15, 46).with(SlotOverlay.MINUS));
-        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.GASTANK,this,resource,42,37));
+        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.GASTANK,this,resource,42,37));
+        addGuiElement(new GuiBlack(this,resource,43,38,116,25));
 
     }
 

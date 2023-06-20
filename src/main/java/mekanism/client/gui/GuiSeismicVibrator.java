@@ -34,7 +34,8 @@ public class GuiSeismicVibrator extends GuiMekanismTile<TileEntitySeismicVibrato
                   LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 142, 34).with(SlotOverlay.POWER));
-        addGuiElement(new GuiBlackScreen(GuiBlackScreen.BlackScreen.SEISMICVIBRATOR,this,resource,16,23));
+        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.SEISMICVIBRATOR,this,resource,16,23));
+        addGuiElement(new GuiBlack(this,resource,17,24,110,38));
     }
 
     @Override

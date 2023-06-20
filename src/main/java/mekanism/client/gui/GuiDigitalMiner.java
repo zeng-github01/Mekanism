@@ -67,6 +67,7 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
             return ret;
         }, this, resource));
         addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 151, 19).with(SlotOverlay.POWER));
+        addGuiElement(new GuiBlack(this,resource,8,20,76,67));
         ySize += 76;
     }
 
@@ -75,10 +76,10 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
         super.initGui();
         buttonList.clear();
         int buttonStart = 19;
-        buttonList.add(this.startButton = new GuiButtonDisableableImage(START_BUTTON_ID, guiLeft + 87, guiTop + buttonStart, 61, 18, 180,48,-18,18,getGuiLocation()));
-        buttonList.add(this.stopButton = new GuiButtonDisableableImage(STOP_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 17, 61, 18, 180,48,-18,18,getGuiLocation()));
-        buttonList.add(this.configButton = new GuiButtonDisableableImage(CONFIG_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 34, 61, 18, 180,48,-18,18,getGuiLocation()));
-        buttonList.add(this.resetButton = new GuiButtonDisableableImage(RESET_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 51, 61, 18, 180,48,-18,18,getGuiLocation()));
+        buttonList.add(this.startButton = new GuiButtonDisableableImage(START_BUTTON_ID, guiLeft + 87, guiTop + buttonStart, 61, 18, 180,18,-18,18,getGuiLocation()));
+        buttonList.add(this.stopButton = new GuiButtonDisableableImage(STOP_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 17, 61, 18, 180,18,-18,18,getGuiLocation()));
+        buttonList.add(this.configButton = new GuiButtonDisableableImage(CONFIG_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 34, 61, 18, 180,18,-18,18,getGuiLocation()));
+        buttonList.add(this.resetButton = new GuiButtonDisableableImage(RESET_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 51, 61, 18, 180,18,-18,18,getGuiLocation()));
         updateEnabledButtons();
     }
 
@@ -180,12 +181,12 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         ResourceLocation resource = getGuiLocation();
         mc.renderEngine.bindTexture(resource);
-        drawTexturedModalRect(guiLeft + 19, guiTop + 56, tileEntity.doEject ? 180 : 196,  85 , 15, 17);
-        drawTexturedModalRect(guiLeft + 38, guiTop + 56, tileEntity.doPull ? 180 : 196, 85, 15, 17);
-        drawTexturedModalRect(guiLeft + 57, guiTop + 56, tileEntity.silkTouch ? 180 : 196, 85, 15, 17);
-        drawTexturedModalRect(guiLeft + 24, guiTop + 77, 180,  103, 5, 5);
-        drawTexturedModalRect(guiLeft + 43, guiTop + 77, 186,  103, 5, 5);
-        drawTexturedModalRect(guiLeft + 62, guiTop + 77, 192,  103, 5, 5);
+        drawTexturedModalRect(guiLeft + 19, guiTop + 56, tileEntity.doEject ? 180 : 196,  55 , 15, 17);
+        drawTexturedModalRect(guiLeft + 38, guiTop + 56, tileEntity.doPull ? 180 : 196, 55, 15, 17);
+        drawTexturedModalRect(guiLeft + 57, guiTop + 56, tileEntity.silkTouch ? 180 : 196, 55, 15, 17);
+        drawTexturedModalRect(guiLeft + 24, guiTop + 77, 180,  74, 5, 5);
+        drawTexturedModalRect(guiLeft + 43, guiTop + 77, 186,  74, 5, 5);
+        drawTexturedModalRect(guiLeft + 62, guiTop + 77, 192,  74, 5, 5);
         boolean energy = tileEntity.getEnergy() < tileEntity.energyUsage || tileEntity.getEnergy() == 0;
         if (energy){
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
