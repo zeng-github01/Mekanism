@@ -133,7 +133,37 @@ public class ItemConfigurator extends ItemEnergized implements IMekWrench, ITool
                     }
                 }
             } else if (getState(stack) == ConfiguratorMode.EMPTY) { //Empty
-                if (tile instanceof TileEntityContainerBlock) {
+                if (tile instanceof TileEntityFluidTank) {
+                    if (SecurityUtils.canAccess(player, tile)) {
+                        if (((TileEntityFluidTank) tile).tier == FluidTankTier.CREATIVE) {
+                            if (((TileEntityFluidTank) tile).fluidTank.getFluid() != null) {
+                                if (getEnergy(stack) >= ENERGY_PER_CONFIGURE) {
+                                    setEnergy(stack, getEnergy(stack) - ENERGY_PER_CONFIGURE);
+                                    ((TileEntityFluidTank) tile).fluidTank.setFluid(null);
+                                }
+                            }
+                        }
+                        return EnumActionResult.SUCCESS;
+                    } else {
+                        SecurityUtils.displayNoAccess(player);
+                        return EnumActionResult.FAIL;
+                    }
+                } else if (tile instanceof TileEntityGasTank) {
+                    if (SecurityUtils.canAccess(player, tile)) {
+                        if (((TileEntityGasTank) tile).tier == GasTankTier.CREATIVE) {
+                            if (((TileEntityGasTank) tile).gasTank.getGas() != null){
+                                if (getEnergy(stack) >= ENERGY_PER_CONFIGURE) {
+                                    setEnergy(stack, getEnergy(stack) - ENERGY_PER_CONFIGURE);
+                                    ((TileEntityGasTank) tile).gasTank.setGas(null);
+                                }
+                            }
+                        }
+                        return EnumActionResult.SUCCESS;
+                    } else {
+                        SecurityUtils.displayNoAccess(player);
+                        return EnumActionResult.FAIL;
+                    }
+                }else if (tile instanceof TileEntityContainerBlock) {
                     if (SecurityUtils.canAccess(player, tile)) {
                         //TODO: Switch this to items being handled by TECB, energy handled here (via lambdas?)
                         IInventory inv = (IInventory) tile;
