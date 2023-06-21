@@ -1,8 +1,8 @@
 package mekanism.generators.client.render;
 
 import mekanism.common.Mekanism;
-import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
+import mekanism.generators.common.util.MekanismGeneratorUtils.*;
+import mekanism.generators.common.util.MekanismGeneratorUtils;
 import mekanism.generators.client.model.ModelTurbine;
 import mekanism.generators.common.content.turbine.SynchronizedTurbineData;
 import mekanism.generators.common.tile.turbine.TileEntityTurbineRotor;
@@ -29,7 +29,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileEntityTurb
         }
 
         GlStateManager.pushMatrix();
-        bindTexture(MekanismUtils.getResource(ResourceType.RENDER, "Turbine.png"));
+        bindTexture(MekanismGeneratorUtils.getResource(ResourceType.RENDER, "Turbine.png"));
 
         int baseIndex = tileEntity.getPosition() * 2;
         float rotateSpeed = 0.0F;

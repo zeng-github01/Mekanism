@@ -1,0 +1,46 @@
+package mekanism.generators.common.util;
+
+import mekanism.common.Mekanism;
+import mekanism.common.util.MekanismUtils;
+import mekanism.generators.common.MekanismGenerators;
+import net.minecraft.util.ResourceLocation;
+
+public class MekanismGeneratorUtils {
+
+
+
+
+
+
+
+
+
+    public static ResourceLocation getResource(ResourceType type, String name) {
+        return new ResourceLocation(MekanismGenerators.MODID, type.getPrefix() + name);
+    }
+
+
+
+
+
+    public enum ResourceType {
+
+        GUI("gui"),
+        GUI_ELEMENT("gui/elements"),
+        SOUND("sound"),
+        RENDER("render"),
+        TEXTURE_BLOCKS("textures/blocks"),
+        TEXTURE_ITEMS("textures/items"),
+        MODEL("models");
+
+        private String prefix;
+
+        ResourceType(String s) {
+            prefix = s;
+        }
+
+        public String getPrefix() {
+            return prefix + "/";
+        }
+    }
+}

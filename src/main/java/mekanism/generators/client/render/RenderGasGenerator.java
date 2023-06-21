@@ -1,8 +1,8 @@
 package mekanism.generators.client.render;
 
 import mekanism.client.render.MekanismRenderer;
-import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
+import mekanism.generators.common.util.MekanismGeneratorUtils.*;
+import mekanism.generators.common.util.MekanismGeneratorUtils;
 import mekanism.generators.client.model.ModelGasGenerator;
 import mekanism.generators.common.tile.TileEntityGasGenerator;
 import net.minecraft.client.renderer.GlStateManager;
@@ -19,7 +19,7 @@ public class RenderGasGenerator extends TileEntitySpecialRenderer<TileEntityGasG
     public void render(TileEntityGasGenerator tileEntity, double x, double y, double z, float partialTick, int destroyStage, float alpha) {
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
-        bindTexture(MekanismUtils.getResource(ResourceType.RENDER, "GasGenerator.png"));
+        bindTexture(MekanismGeneratorUtils.getResource(ResourceType.RENDER, "GasGenerator.png"));
 
         MekanismRenderer.rotate(tileEntity.facing, 90, 270, 180, 0);
 

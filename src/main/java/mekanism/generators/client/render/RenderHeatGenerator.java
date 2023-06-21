@@ -1,8 +1,8 @@
 package mekanism.generators.client.render;
 
 import mekanism.client.render.MekanismRenderer;
-import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
+import mekanism.generators.common.util.MekanismGeneratorUtils.*;
+import mekanism.generators.common.util.MekanismGeneratorUtils;
 import mekanism.generators.client.model.ModelHeatGenerator;
 import mekanism.generators.common.tile.TileEntityHeatGenerator;
 import net.minecraft.client.renderer.GlStateManager;
@@ -19,7 +19,7 @@ public class RenderHeatGenerator extends TileEntitySpecialRenderer<TileEntityHea
     public void render(TileEntityHeatGenerator tileEntity, double x, double y, double z, float partialTick, int destroyStage, float alpha) {
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
-        bindTexture(MekanismUtils.getResource(ResourceType.RENDER, "HeatGenerator.png"));
+        bindTexture(MekanismGeneratorUtils.getResource(ResourceType.RENDER, "HeatGenerator.png"));
 
         MekanismRenderer.rotate(tileEntity.facing, 180, 0, 270, 90);
 

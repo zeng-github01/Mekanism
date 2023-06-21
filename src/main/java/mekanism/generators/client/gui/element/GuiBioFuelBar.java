@@ -2,9 +2,8 @@ package mekanism.generators.client.gui.element;
 
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.client.gui.element.GuiElement;
-import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
-import mekanism.generators.common.tile.TileEntityBioGenerator;
+import mekanism.generators.common.util.MekanismGeneratorUtils;
+import mekanism.generators.common.util.MekanismGeneratorUtils.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -21,7 +20,7 @@ public class GuiBioFuelBar extends GuiElement {
 
 
     public GuiBioFuelBar(IGuiWrapper gui, IPowerInfoHandler h, ResourceLocation def, int x, int y) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiBioFuelBar.png"), gui, def);
+        super(MekanismGeneratorUtils.getResource(ResourceType.GUI_ELEMENT, "GuiBioFuelBar.png"), gui, def);
         handler = h;
 
         xLocation = x;
