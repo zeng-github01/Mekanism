@@ -6,8 +6,8 @@ import mekanism.client.render.MekanismRenderer;
 import mekanism.client.render.MekanismRenderer.DisplayInteger;
 import mekanism.client.render.MekanismRenderer.GlowInfo;
 import mekanism.client.render.MekanismRenderer.Model3D;
-import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
+import mekanism.generators.common.util.MekanismGeneratorUtils.*;
+import mekanism.generators.common.util.MekanismGeneratorUtils;
 import mekanism.generators.client.model.ModelBioGenerator;
 import mekanism.generators.common.tile.TileEntityBioGenerator;
 import net.minecraft.client.renderer.GlStateManager;
@@ -48,7 +48,7 @@ public class RenderBioGenerator extends TileEntitySpecialRenderer<TileEntityBioG
 
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
-        bindTexture(MekanismUtils.getResource(ResourceType.RENDER, "BioGenerator.png"));
+        bindTexture(MekanismGeneratorUtils.getResource(ResourceType.RENDER, "BioGenerator.png"));
 
         MekanismRenderer.rotate(tileEntity.facing, 180, 0, 270, 90);
 

@@ -2,8 +2,8 @@ package mekanism.generators.client.model;
 
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.render.MekanismRenderer.GlowInfo;
-import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
+import mekanism.generators.common.util.MekanismGeneratorUtils.*;
+import mekanism.generators.common.util.MekanismGeneratorUtils;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -18,8 +18,8 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class ModelHeatGenerator extends ModelBase {
 
-    public static ResourceLocation OVERLAY_ON = MekanismUtils.getResource(ResourceType.RENDER, "HeatGenerator_OverlayOn.png");
-    public static ResourceLocation OVERLAY_OFF = MekanismUtils.getResource(ResourceType.RENDER, "HeatGenerator_OverlayOff.png");
+    public static ResourceLocation OVERLAY_ON = MekanismGeneratorUtils.getResource(ResourceType.RENDER, "HeatGenerator_OverlayOn.png");
+    public static ResourceLocation OVERLAY_OFF = MekanismGeneratorUtils.getResource(ResourceType.RENDER, "HeatGenerator_OverlayOff.png");
 
     ModelRenderer drum;
     ModelRenderer ring1;

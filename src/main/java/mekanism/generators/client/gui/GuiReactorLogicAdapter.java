@@ -13,10 +13,11 @@ import mekanism.common.inventory.container.ContainerNull;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
+import mekanism.generators.common.util.MekanismGeneratorUtils.ResourceType;
 import mekanism.generators.client.gui.button.GuiReactorLogicButton;
 import mekanism.generators.common.tile.reactor.TileEntityReactorLogicAdapter;
 import mekanism.generators.common.tile.reactor.TileEntityReactorLogicAdapter.ReactorLogic;
+import mekanism.generators.common.util.MekanismGeneratorUtils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
@@ -100,7 +101,7 @@ public class GuiReactorLogicAdapter extends GuiMekanismTile<TileEntityReactorLog
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiReactorLogicAdapter.png");
+        return MekanismGeneratorUtils.getResource(ResourceType.GUI, "GuiReactorLogicAdapter.png");
     }
 
     @Override

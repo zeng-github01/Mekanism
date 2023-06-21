@@ -2,9 +2,9 @@ package mekanism.generators.client.render.item;
 
 import javax.annotation.Nonnull;
 import mekanism.client.render.MekanismRenderer;
-import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
 import mekanism.generators.client.model.ModelAdvancedSolarGenerator;
+import mekanism.generators.common.util.MekanismGeneratorUtils.*;
+import mekanism.generators.common.util.MekanismGeneratorUtils;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.item.ItemStack;
@@ -20,7 +20,7 @@ public class RenderAdvancedSolarGeneratorItem {
         GlStateManager.rotate(180, 0, 0, 1);
         GlStateManager.rotate(90, 0, 1, 0);
         GlStateManager.translate(0, 0.2F, 0);
-        MekanismRenderer.bindTexture(MekanismUtils.getResource(ResourceType.RENDER, "AdvancedSolarGenerator.png"));
+        MekanismRenderer.bindTexture(MekanismGeneratorUtils.getResource(ResourceType.RENDER, "AdvancedSolarGenerator.png"));
         advancedSolarGenerator.render(0.022F);
     }
 }
