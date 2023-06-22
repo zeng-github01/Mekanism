@@ -1,7 +1,10 @@
 package mekanism.generators.client.gui;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import mekanism.api.EnumColor;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.GuiEnergyInfo;
@@ -11,6 +14,7 @@ import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
+import mekanism.common.base.IRedstoneControl;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
@@ -47,16 +51,21 @@ public class GuiWindGenerator extends GuiMekanismTile<TileEntityWindGenerator> {
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
         fontRenderer.drawString(MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()), 51, 26, 0x00CD00);
         fontRenderer.drawString(LangUtils.localize("gui.power") + ": " + powerFormat.format(MekanismUtils.convertToDisplay(
-              MekanismConfig.current().generators.windGenerationMin.val() * tileEntity.getCurrentMultiplier())), 51, 35, 0x00CD00);
+                MekanismConfig.current().generators.windGenerationMin.val() * tileEntity.getCurrentMultiplier())), 51, 35, 0x00CD00);
         fontRenderer.drawString(LangUtils.localize("gui.out") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t", 51, 44, 0x00CD00);
         int size = 44;
+        boolean isblacklist = tileEntity.isBlacklistDimension();
         if (!tileEntity.getActive()) {
+            String info = "gui.skyBlocked";
             size += 9;
-            String reason = "gui.skyBlocked";
-            if (tileEntity.isBlacklistDimension()) {
-                reason = "gui.noWind";
+            if (isblacklist) {
+                info = "gui.noWind";
+            } if (tileEntity.controlType == IRedstoneControl.RedstoneControl.HIGH && !tileEntity.redstone && !isblacklist) {
+                info = "control.high.desc";
+            } if (tileEntity.controlType == IRedstoneControl.RedstoneControl.LOW && tileEntity.redstone && !isblacklist) {
+                info = "control.low.desc";
             }
-            fontRenderer.drawString(EnumColor.DARK_RED + LangUtils.localize(reason), 51, size, 0x00CD00);
+            fontRenderer.drawString(EnumColor.DARK_RED + LangUtils.localize(info), 51, size, 0x00CD00);
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }

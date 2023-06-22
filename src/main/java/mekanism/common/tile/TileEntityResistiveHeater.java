@@ -181,6 +181,11 @@ public class TileEntityResistiveHeater extends TileEntityEffectsBlock implements
         return 5;
     }
 
+    @Override  //Try to fix the render lighting
+    public boolean wasActiveRecently() {
+        return getActive();
+    }
+
     @Override
     public double getInsulationCoefficient(EnumFacing side) {
         return 1000;

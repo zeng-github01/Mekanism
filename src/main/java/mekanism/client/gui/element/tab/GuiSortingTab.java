@@ -39,12 +39,15 @@ public class GuiSortingTab extends GuiTileEntityElement<TileEntityFactory> {
         guiObj.drawTexturedRect(guiWidth - 26, guiHeight + 62, 0, 0, 26, 35);
         guiObj.drawTexturedRect(guiWidth - 21, guiHeight + 66, 26, inBounds(xAxis, yAxis) ? 0 : 18, 18, 18);
         mc.renderEngine.bindTexture(defaultLocation);
+
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI, "GuiSecurityDesk.png"));
+        guiObj.drawTexturedRect(guiWidth - 22, guiHeight + 86, tileEntity.sorting ? 176 : 182, 22, 6, 6);
     }
 
     @Override
     public void renderForeground(int xAxis, int yAxis) {
         mc.renderEngine.bindTexture(RESOURCE);
-        getFontRenderer().drawString(LangUtils.transOnOff(tileEntity.sorting), -21, 86, 0x0404040);
+        //getFontRenderer().drawString(LangUtils.transOnOff(tileEntity.sorting), -12, 86, 0x0404040);
         if (inBounds(xAxis, yAxis)) {
             displayTooltip(LangUtils.localize("gui.factory.autoSort"), xAxis, yAxis);
         }

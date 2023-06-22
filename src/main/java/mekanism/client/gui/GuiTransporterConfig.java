@@ -75,12 +75,14 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
         drawTexturedModalRect(guiLeft + 6, guiTop + 6,233,17,14,14);
         drawTexturedModalRect(guiLeft + 156, guiTop + 6,233,17,14,14);
         //Draw the configuration button background
+        /*
         drawTexturedModalRect(guiLeft + 38, guiTop + 48,232,0,16,16);
         drawTexturedModalRect(guiLeft + 38, guiTop + 63,232,0,16,16);
         drawTexturedModalRect(guiLeft + 53, guiTop + 33,232,0,16,16);
         drawTexturedModalRect(guiLeft + 53, guiTop + 48,232,0,16,16);
         drawTexturedModalRect(guiLeft + 53, guiTop + 63,232,0,16,16);
         drawTexturedModalRect(guiLeft + 68, guiTop + 48,232,0,16,16);
+         */
     }
 
     @Override

@@ -67,10 +67,11 @@ public class GuiChemicalDissolutionChamber extends GuiMekanismTile<TileEntityChe
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
             boolean output = tileEntity.outputTank.getStored() == tileEntity.outputTank.getMaxGas();
-            if (output) {
-                info.add(LangUtils.localize("tooltip.gasses") + LangUtils.localize("gui.no_space"));
-            }if (energy){
+            if (energy){
                 info.add(LangUtils.localize("gui.no_energy"));
+            }
+            if (output) {
+                info.add(LangUtils.localize("gui.gas_no_space"));
             }
             if (output || energy){
                 displayTooltips(info, xAxis, yAxis);

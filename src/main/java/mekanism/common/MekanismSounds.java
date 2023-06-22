@@ -15,6 +15,7 @@ public final class MekanismSounds {
     public static SoundEvent POP;
     public static SoundEvent SUCCESS;
     public static SoundEvent CJ_EASTER_EGG;
+    public static SoundEvent BEEP2;
 
     public static void register(IForgeRegistry<SoundEvent> registry) {
         BEEP = registerSound(registry, "etc.Beep");
@@ -26,6 +27,7 @@ public final class MekanismSounds {
         POP = registerSound(registry, "etc.Pop");
         SUCCESS = registerSound(registry, "etc.Success");
         CJ_EASTER_EGG = registerSound(registry, "etc.cj");
+        BEEP2 = registerSound(registry, "etc.Beep2");
     }
 
     public static SoundEvent registerSound(IForgeRegistry<SoundEvent> registry, String soundName) {

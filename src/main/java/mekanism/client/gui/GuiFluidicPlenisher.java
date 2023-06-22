@@ -50,7 +50,14 @@ public class GuiFluidicPlenisher extends GuiMekanismTile<TileEntityFluidicPlenis
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         drawTexturedModalRect(guiLeft + 32, guiTop + 39, 20, 179, 8, 9);
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
-        if (energy){
+        boolean fluid = tileEntity.fluidTank.getFluidAmount() == 0;
+        if (fluid){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
+            drawTexturedModalRect(guiLeft + 6 + 9, guiTop + 13 + 1,9,1,8,29);
+            drawTexturedModalRect(guiLeft + 6 + 9, guiTop + 13 + 31,9,32,8,28);
+        }
+
+        if (energy || fluid){
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
         }
@@ -69,10 +76,14 @@ public class GuiFluidicPlenisher extends GuiMekanismTile<TileEntityFluidicPlenis
         if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+            boolean fluidamount = tileEntity.fluidTank.getFluidAmount() == 0;
             if (energy){
                 info.add(LangUtils.localize("gui.no_energy"));
             }
-            if (energy){
+            if (fluidamount){
+                info.add(LangUtils.localize("gui.no_fluid"));
+            }
+            if (energy || fluidamount){
                 displayTooltips(info, xAxis, yAxis);
             }
         }

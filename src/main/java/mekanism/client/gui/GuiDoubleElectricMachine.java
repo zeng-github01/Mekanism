@@ -89,7 +89,7 @@ public class GuiDoubleElectricMachine<RECIPE extends DoubleMachineRecipe<RECIPE>
             if (energy){
                 info.add(LangUtils.localize("gui.no_energy"));
             }if (outslot){
-                info.add(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"));
+                info.add(LangUtils.localize("gui.item_no_space"));
             }
             if (energy || outslot){
                 displayTooltips(info, xAxis, yAxis);

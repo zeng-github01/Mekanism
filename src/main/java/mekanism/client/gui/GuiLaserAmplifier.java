@@ -94,8 +94,7 @@ public class GuiLaserAmplifier extends GuiMekanismTile<TileEntityLaserAmplifier>
         maxField.drawTextBox();
         timerField.drawTextBox();
         MekanismRenderer.resetColor();
-
-        boolean energy =  tileEntity.getEnergy() == 0;
+        boolean energy = tileEntity.getEnergy() == 0;
         if (energy){
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);

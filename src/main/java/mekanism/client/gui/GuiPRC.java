@@ -72,22 +72,26 @@ public class GuiPRC extends GuiMekanismTile<TileEntityPRC> {
         if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
-            boolean inputgas = (tileEntity.inputGasTank.getStored() == 0) && (tileEntity.inventory.get(0).getCount() != 0 );
-            boolean inputfluid = (tileEntity.inputFluidTank.getFluidAmount() == 0) && (tileEntity.inventory.get(0).getCount() != 0 );
+            boolean inputgas = (tileEntity.inputGasTank.getStored() == 0) && (tileEntity.inventory.get(0).getCount() != 0);
+            boolean inputfluid = (tileEntity.inputFluidTank.getFluidAmount() == 0) && (tileEntity.inventory.get(0).getCount() != 0);
             boolean outputgas = tileEntity.outputGasTank.getStored() == tileEntity.outputGasTank.getMaxGas();
             boolean outslot = tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize();
-            if (energy){
+            if (energy) {
                 info.add(LangUtils.localize("gui.no_energy"));
-            }if (inputgas) {
-                info.add(LangUtils.localize("gui.input")+ LangUtils.localize("tooltip.gasses") + LangUtils.localize("gui.insufficient"));
-            }if (inputfluid) {
-                info.add(LangUtils.localize("gui.input")+ LangUtils.localize("tooltip.fluids") + LangUtils.localize("gui.insufficient"));
-            }if (outslot){
-                info.add(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"));
-            }if (outputgas){
-                info.add(LangUtils.localize("tooltip.gasses") + LangUtils.localize("gui.no_space"));
             }
-            if (inputgas || inputfluid ||  energy || outslot||outputgas){
+            if (inputgas) {
+                info.add(LangUtils.localize("gui.no_gas"));
+            }
+            if (inputfluid) {
+                info.add(LangUtils.localize("gui.no_fluid"));
+            }
+            if (outslot) {
+                info.add(LangUtils.localize("gui.item_no_space"));
+            }
+            if (outputgas) {
+                info.add(LangUtils.localize("gui.gas_no_space"));
+            }
+            if (inputgas || inputfluid || energy || outslot || outputgas) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }
@@ -103,31 +107,31 @@ public class GuiPRC extends GuiMekanismTile<TileEntityPRC> {
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
-        boolean inputgas = (tileEntity.inputGasTank.getStored() == 0) && (tileEntity.inventory.get(0).getCount() != 0 );
-        boolean inputfluid = (tileEntity.inputFluidTank.getFluidAmount() == 0) && (tileEntity.inventory.get(0).getCount() != 0 );
+        boolean inputgas = (tileEntity.inputGasTank.getStored() == 0) && (tileEntity.inventory.get(0).getCount() != 0);
+        boolean inputfluid = (tileEntity.inputFluidTank.getFluidAmount() == 0) && (tileEntity.inventory.get(0).getCount() != 0);
         boolean outputgas = tileEntity.outputGasTank.getStored() == tileEntity.outputGasTank.getMaxGas();
         boolean outslot = tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize();
         if (inputgas) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
-            drawTexturedModalRect(guiLeft + 28 + 9, guiTop + 10 + 1,9,1,8,29);
-            drawTexturedModalRect(guiLeft + 28 + 9, guiTop + 10 + 31,9,32,8,28);
+            drawTexturedModalRect(guiLeft + 28 + 9, guiTop + 10 + 1, 9, 1, 8, 29);
+            drawTexturedModalRect(guiLeft + 28 + 9, guiTop + 10 + 31, 9, 32, 8, 28);
         }
         if (inputfluid) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
-            drawTexturedModalRect(guiLeft + 5 + 9, guiTop + 10 + 1,9,1,8,29);
-            drawTexturedModalRect(guiLeft + 5 + 9, guiTop + 10 + 31,9,32,8,28);
+            drawTexturedModalRect(guiLeft + 5 + 9, guiTop + 10 + 1, 9, 1, 8, 29);
+            drawTexturedModalRect(guiLeft + 5 + 9, guiTop + 10 + 31, 9, 32, 8, 28);
         }
         if (outputgas) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
-            drawTexturedModalRect(guiLeft + 140 + 10 , guiTop + 40 + 1,0,0,7,28);
+            drawTexturedModalRect(guiLeft + 140 + 10, guiTop + 40 + 1, 0, 0, 7, 28);
         }
         if (outslot) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiSlot.png"));
-            drawTexturedModalRect(guiLeft + 115, guiTop + 34,158,0,18,18);
+            drawTexturedModalRect(guiLeft + 115, guiTop + 34, 158, 0, 18, 18);
         }
-        if (outslot || inputfluid || outputgas  || inputgas || energy){
+        if (outslot || inputfluid || outputgas || inputgas || energy) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
         }
     }
 

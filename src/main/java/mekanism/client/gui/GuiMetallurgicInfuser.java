@@ -100,12 +100,13 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
             boolean input = (tileEntity.infuseStored.getAmount() == 0) && (tileEntity.inventory.get(2).getCount() != 0);
             boolean outslot = tileEntity.inventory.get(3).getCount() == tileEntity.inventory.get(3).getMaxStackSize();
-            if (input) {
-                info.add(LangUtils.localize("gui.input")+ LangUtils.localize("tooltip.items") + LangUtils.localize("gui.insufficient"));
-            }if (energy){
+            if (energy){
                 info.add(LangUtils.localize("gui.no_energy"));
+            }
+            if (input) {
+                info.add(LangUtils.localize("gui.infuse_no_item"));
             }if (outslot){
-                info.add(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"));
+                info.add(LangUtils.localize("gui.item_no_space"));
             }
             if (input || energy || outslot){
                 displayTooltips(info, xAxis, yAxis);

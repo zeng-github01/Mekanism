@@ -16,6 +16,7 @@ import mekanism.client.gui.element.tab.GuiUpgradeTab;
 import mekanism.client.gui.element.tab.GuiVisualsTab;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
+import mekanism.common.MekanismSounds;
 import mekanism.common.content.miner.ThreadMinerSearch.State;
 import mekanism.common.inventory.container.ContainerDigitalMiner;
 import mekanism.common.network.PacketDigitalMinerGui.DigitalMinerGuiMessage;
@@ -28,7 +29,6 @@ import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
@@ -128,7 +128,7 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
         }
         fontRenderer.drawString(runningType, 9, 21, 0x00CD00);
         fontRenderer.drawString(tileEntity.searcher.state.localize(), 9, 31, 0x00CD00);
-        fontRenderer.drawString(LangUtils.localize("gui.digitalMiner.toMine") + ":" + " " + tileEntity.clientToMine, 8, 41, 0x00CD00);
+        fontRenderer.drawString(LangUtils.localize("gui.digitalMiner.toMine") + ":" + " " + tileEntity.clientToMine, 9, 41, 0x00CD00);
         if (!tileEntity.missingStack.isEmpty()) {
             drawColorIcon(64, 21, EnumColor.DARK_RED, 0.8F);
             renderItem(tileEntity.missingStack, 64, 21);
@@ -142,21 +142,23 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
         fontRenderer.drawString(LangUtils.localize("gui.digitalMiner.reset"),87  + 61 / 2  - (fontRenderer.getStringWidth(LangUtils.localize("gui.digitalMiner.reset")) / 2), 19 + 51 + (18 - 8) / 2, resetButton.enabled ? 0xffffff : 0x9e9e9e);
 
         //TODO:Patch the font on the button
+        /*
         renderText(LangUtils.localize("gui.on"),19 + 15 / 2 ,  56,1F,false);
         renderText(LangUtils.localize("gui.on"), 38 + 15 / 2,  56, 1F,false);
         renderText(LangUtils.localize("gui.on"),  57 + 15 / 2, 56, 1F,false);
         renderText(LangUtils.localize("gui.off"),+ 19 + 15 / 2, 65,1F,false);
         renderText(LangUtils.localize("gui.off"), 38 + 15 / 2, 65 , 1F,false);
         renderText(LangUtils.localize("gui.off"), 57 + 15 / 2,  65, 1F,false);
+         */
 
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
         if (autoEjectButtoninBounds(xAxis,yAxis)) {
-            displayTooltip(LangUtils.localize("gui.autoEject"), xAxis, yAxis);
+            displayTooltip(LangUtils.localize("gui.autoEject") + ":" + LangUtils.transOnOff(tileEntity.doEject), xAxis, yAxis);
         } else if (autoPullButtoninBounds(xAxis,yAxis)) {
-            displayTooltip(LangUtils.localize("gui.digitalMiner.autoPull"), xAxis, yAxis);
+            displayTooltip(LangUtils.localize("gui.digitalMiner.autoPull")+ ":" + LangUtils.transOnOff(tileEntity.doPull), xAxis, yAxis);
         } else if (silkTouchButtoninBounds(xAxis,yAxis)) {
-            displayTooltip(LangUtils.localize("gui.digitalMiner.silkTouch"), xAxis, yAxis);
+            displayTooltip(LangUtils.localize("gui.digitalMiner.silkTouch")+ ":" + LangUtils.transOnOff(tileEntity.silkTouch), xAxis, yAxis);
         } else if (xAxis >= 64 && xAxis <= 80 && yAxis >= 21 && yAxis <= 37) {
             if (!tileEntity.missingStack.isEmpty()) {
                 displayTooltip(LangUtils.localize("gui.digitalMiner.missingBlock"), xAxis, yAxis);
@@ -184,10 +186,18 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
         drawTexturedModalRect(guiLeft + 19, guiTop + 56, tileEntity.doEject ? 180 : 196,  55 , 15, 17);
         drawTexturedModalRect(guiLeft + 38, guiTop + 56, tileEntity.doPull ? 180 : 196, 55, 15, 17);
         drawTexturedModalRect(guiLeft + 57, guiTop + 56, tileEntity.silkTouch ? 180 : 196, 55, 15, 17);
-        drawTexturedModalRect(guiLeft + 24, guiTop + 77, 180,  74, 5, 5);
-        drawTexturedModalRect(guiLeft + 43, guiTop + 77, 186,  74, 5, 5);
-        drawTexturedModalRect(guiLeft + 62, guiTop + 77, 192,  74, 5, 5);
+        drawTexturedModalRect(guiLeft + 24, guiTop + 77, 180,  73, 5, 5);
+        drawTexturedModalRect(guiLeft + 43, guiTop + 77, 186,  73, 5, 5);
+        drawTexturedModalRect(guiLeft + 62, guiTop + 77, 192,  73, 5, 5);
         boolean energy = tileEntity.getEnergy() < tileEntity.energyUsage || tileEntity.getEnergy() == 0;
+        for (int slotY = 0; slotY < 3; slotY++) {
+            for (int slotX = 0; slotX < 9; slotX++) {
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSlot.png"));
+            if (tileEntity.inventory.get(slotX + slotY * 9).getCount() == tileEntity.inventory.get(slotX + slotY * 9).getMaxStackSize()){
+                    drawTexturedModalRect(guiLeft + 7 + slotX * 18,guiTop + 91 + slotY * 18,158,0,18,18);
+                }
+            }
+        }
         if (energy){
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
@@ -218,15 +228,15 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
         if (silkTouchButtoninBounds(xAxis, yAxis)) {
             TileNetworkList data = TileNetworkList.withContents(9);
             Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
-            SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
+            SoundHandler.playSound(MekanismSounds.BEEP2);
         }else if (autoEjectButtoninBounds(xAxis, yAxis)) {
             TileNetworkList data = TileNetworkList.withContents(0);
             Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
-            SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
+            SoundHandler.playSound(MekanismSounds.BEEP2);
         }else if (autoPullButtoninBounds(xAxis, yAxis)) {
             TileNetworkList data = TileNetworkList.withContents(1);
             Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
-            SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
+            SoundHandler.playSound(MekanismSounds.BEEP2);
         }
     }
 

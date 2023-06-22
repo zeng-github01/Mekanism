@@ -507,7 +507,8 @@ gui.index=列表
 gui.producing=产出
 gui.maxOutput=最大输出
 gui.storing=存量
-gui.skyBlocked=Sky blocked
+gui.skyBlocked=上方被遮挡
+gui.noWind=无风
 gui.using=消耗
 gui.needed=需要
 mekanism.gui.bufferfree=空闲能量缓冲
@@ -968,10 +969,19 @@ reactor.depleted.desc=反应没有足够的燃料维持
 # Creative tab
 itemGroup.tabMekanism=通用机械
 
-#
-gui.insufficient=不足
-gui.no_space= - 输出的空间不足
-gui.no_energy= - 能量不足以运行
+#Warning tab
+gui.no_energy=能量不足以运行
+gui.item_no_space=物品输出空间不足
+gui.gas_no_space=气体输出空间不足
+gui.fluid_no_space=流体输出空间不足
+gui.enough_no_space=能量输出空间不足
+gui.steam_no_space=蒸汽输出空间不足
+gui.infuse_no_item=缺少灌注物品
+gui.no_item=缺少物品
+gui.no_gas=缺少气体
+gui.no_fluid=缺少流体
+gui.no_heat=缺少热量
+
 
 #############
 # GENERATORS

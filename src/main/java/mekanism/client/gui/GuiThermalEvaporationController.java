@@ -1,6 +1,8 @@
 package mekanism.client.gui;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
@@ -54,6 +56,16 @@ public class GuiThermalEvaporationController extends GuiMekanismTile<TileEntityT
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         drawTexturedModalRect(guiLeft + 32, guiTop + 39,20,179,8,9);
         drawTexturedModalRect(guiLeft + 136, guiTop + 39,20,179,8,9);
+        boolean outputfluid = tileEntity.outputTank.getFluidAmount() == tileEntity.outputTank.getCapacity();
+        if (outputfluid){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
+            drawTexturedModalRect(guiLeft + 152 + 9, guiTop + 13 + 1,9,1,8,29);
+            drawTexturedModalRect(guiLeft + 152 + 9, guiTop + 13  + 31,9,32,8,28);
+        }
+        if (outputfluid){
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 86,0,0,26,26);
+        }
     }
 
     @Override
@@ -72,6 +84,15 @@ public class GuiThermalEvaporationController extends GuiMekanismTile<TileEntityT
         } else if (xAxis >= 153 && xAxis <= 169 && yAxis >= 14 && yAxis <= 72) {
             FluidStack fluid = tileEntity.outputTank.getFluid();
             displayTooltip(fluid != null ? LangUtils.localizeFluidStack(fluid) + ": " + tileEntity.outputTank.getFluidAmount() : LangUtils.localize("gui.empty"), xAxis, yAxis);
+        }else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 90 && yAxis <= 108) {
+            List<String> info = new ArrayList<>();
+            boolean outputfluid = tileEntity.outputTank.getFluidAmount() == tileEntity.outputTank.getCapacity();
+            if (outputfluid) {
+                info.add(LangUtils.localize("gui.fluid_no_space"));
+            }
+            if (outputfluid){
+                displayTooltips(info, xAxis, yAxis);
+            }
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
