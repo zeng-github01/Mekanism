@@ -134,19 +134,33 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         } else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
             List<String> info = new ArrayList<>();
             boolean outslot = false;
+            boolean inputgas = false;
+            boolean inputinfuse = false;
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
             for (int i = 0; i < tileEntity.tier.processes; i++) {
                 if (tileEntity.inventory.get(5 + tileEntity.tier.processes + i).getCount() == tileEntity.inventory.get(5 + tileEntity.tier.processes + i).getMaxStackSize()) {
                     outslot = true;
                 }
-            }
-            if (outslot){
-                info.add(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"));
+                 if((tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(5 + i).getCount() != 0) && tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED){
+                     inputgas = true;
+                 }
+                 if ((tileEntity.infuseStored.getAmount() == 0) && (tileEntity.inventory.get(5 + i).getCount() != 0) && tileEntity.getRecipeType() == RecipeType.INFUSING ){
+                     inputinfuse = true;
+                 }
             }
             if (energy){
                 info.add(LangUtils.localize("gui.no_energy"));
             }
-            if (outslot || energy){
+            if (inputinfuse){
+                info.add(LangUtils.localize("gui.infuse_no_item"));
+            }
+            if (inputgas){
+                info.add(LangUtils.localize("gui.no_gas"));
+            }
+            if (outslot){
+                info.add(LangUtils.localize("gui.item_no_space"));
+            }
+            if (outslot || energy || inputgas || inputinfuse){
                 displayTooltips(info, xAxis, yAxis);
             }
 
@@ -188,11 +202,17 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         for (int i = 0; i < tileEntity.tier.processes; i++){
             boolean outslot = tileEntity.inventory.get(5 + tileEntity.tier.processes + i).getCount() == tileEntity.inventory.get(5 + tileEntity.tier.processes + i).getMaxStackSize();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
+            boolean inputgas = (tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(5 + i).getCount() != 0)  && tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED;
+            boolean inputinfuse = (tileEntity.infuseStored.getAmount() == 0) && (tileEntity.inventory.get(5 + i).getCount() != 0)  && tileEntity.getRecipeType() == RecipeType.INFUSING;
             if (outslot) {
                 mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSlot.png"));
                 drawTexturedModalRect(guiLeft + (Slotlocation + (i * xDistance)), guiTop + 56,158,0,18,18);
             }
-            if (outslot || energy){
+            if (inputgas || inputinfuse){
+                mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning_Background.png"));
+                drawTexturedModalRect(guiLeft + 8, guiTop + 78, 0, 0, 138, 5);
+            }
+            if (outslot || energy || inputgas || inputinfuse){
                 mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
                 drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
             }

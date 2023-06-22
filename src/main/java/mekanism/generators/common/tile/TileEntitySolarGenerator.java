@@ -118,7 +118,7 @@ public class TileEntitySolarGenerator extends TileEntityGenerator {
             brightness *= ((ISolarLevel) world.provider).getSolarEnergyMultiplier();
         }
 
-        // Production is a function of the peak possible output in this biome and sun's current brightness
+            // Production is a function of the peak possible output in this biome and sun's current brightness
         float production = peakOutput * brightness;
 
         // If the generator is in a biome where it can rain and it's raining penalize production by 80%

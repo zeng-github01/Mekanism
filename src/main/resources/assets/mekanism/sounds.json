@@ -1,5 +1,6 @@
 {
 	"etc.Beep": {"category": "master", "sounds": [{"name": "mekanism:etc/Beep", "stream": false}]},
+	"etc.Beep2": {"category": "master", "sounds": [{"name": "mekanism:etc/Beep2", "stream": false}]},
 	"etc.Click": {"category": "master", "sounds": [{"name": "mekanism:etc/Click", "stream": false}]},
 	"etc.Ding": {"category": "master", "sounds": [{"name": "mekanism:etc/Ding", "stream": false}]},
 	"etc.Error": {"category": "master", "sounds": [{"name": "mekanism:etc/Error", "stream": false}]},

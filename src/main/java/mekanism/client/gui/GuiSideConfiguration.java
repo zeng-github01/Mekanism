@@ -81,12 +81,14 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
         drawTexturedModalRect(guiLeft + 156, guiTop + 6,233,17,14,14);
         drawTexturedModalRect(guiLeft + 156, guiTop + 75,233,17,14,14);
         //Draw the configuration button background
+        /*
         drawTexturedModalRect(guiLeft + 65, guiTop + 48,232,0,16,16);
         drawTexturedModalRect(guiLeft + 65, guiTop + 63,232,0,16,16);
         drawTexturedModalRect(guiLeft + 80, guiTop + 33,232,0,16,16);
         drawTexturedModalRect(guiLeft + 80, guiTop + 48,232,0,16,16);
         drawTexturedModalRect(guiLeft + 80, guiTop + 63,232,0,16,16);
         drawTexturedModalRect(guiLeft + 95, guiTop + 48,232,0,16,16);
+         */
     }
 
     @Override
@@ -94,7 +96,7 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
         super.initGui();
         buttonList.clear();
         buttonList.add(backButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 6, guiTop + 6, 14, 14, 204, 14, -14, getGuiLocation()));
-        buttonList.add(autoEjectButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 156, guiTop + 6, 14, 14, 190, 14, -14, getGuiLocation()));
+        buttonList.add(autoEjectButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 156, guiTop + 6, 14, 14, 190, 14, -14,14, getGuiLocation()));
         for (int i = 0; i < slotPosMap.size(); i++) {
             GuiPos guiPos = slotPosMap.get(i);
             EnumFacing facing = EnumFacing.byIndex(i);
@@ -187,6 +189,11 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
         if (tile == null || mc.world.getTileEntity(tile.getPos()) == null) {
             mc.displayGuiScreen(null);
         }
+        updateEnabledButtons();
+    }
+
+    private void updateEnabledButtons() {
+        autoEjectButton.enabled = configurable.getConfig().canEject(currentType);
     }
 
     @Override

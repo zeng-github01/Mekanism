@@ -78,12 +78,14 @@ public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<REC
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
             boolean inputgas = (tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(0).getCount() != 0 );
             boolean outslot = tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize();
-            if (inputgas) {
-                info.add(LangUtils.localize("gui.input")+ LangUtils.localize("tooltip.gasses") + LangUtils.localize("gui.insufficient"));
-            }if (energy){
+            if (energy){
                 info.add(LangUtils.localize("gui.no_energy"));
-            }if (outslot){
-                info.add(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"));
+            }
+            if (inputgas) {
+                info.add(LangUtils.localize("gui.no_gas"));
+            }
+            if (outslot){
+                info.add(LangUtils.localize("gui.item_no_space"));
             }
             if (inputgas || energy || outslot){
                 displayTooltips(info, xAxis, yAxis);

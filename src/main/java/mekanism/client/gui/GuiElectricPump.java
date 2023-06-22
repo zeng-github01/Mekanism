@@ -67,7 +67,7 @@ public class GuiElectricPump extends GuiMekanismTile<TileEntityElectricPump> {
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 94) + 2, 0x404040);
         fontRenderer.drawString(MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()), 51, 26, 0x00CD00);
         String text = tileEntity.fluidTank.getFluid() != null ? LangUtils.localizeFluidStack(tileEntity.fluidTank.getFluid()) + ": " + tileEntity.fluidTank.getFluid().amount
-                                                              : LangUtils.localize("gui.noFluid");
+                : LangUtils.localize("gui.noFluid");
         renderScaledText(text, 51, 35, 0x00CD00, 74);
 
         int xAxis = mouseX - guiLeft;
@@ -76,12 +76,13 @@ public class GuiElectricPump extends GuiMekanismTile<TileEntityElectricPump> {
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
             boolean input = tileEntity.fluidTank.getFluidAmount() == tileEntity.fluidTank.getCapacity();
-            if (input) {
-                info.add(LangUtils.localize("tooltip.fluids") + LangUtils.localize("gui.no_space"));
-            }if (energy){
+            if (energy) {
                 info.add(LangUtils.localize("gui.no_energy"));
             }
-            if (input || energy){
+            if (input) {
+                info.add(LangUtils.localize("gui.fluid_no_space"));
+            }
+            if (input || energy) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }

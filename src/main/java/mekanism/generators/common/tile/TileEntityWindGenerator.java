@@ -52,8 +52,8 @@ public class TileEntityWindGenerator extends TileEntityGenerator implements IBou
             if (isBlacklistDimension) {
                 return;
             }
+
             if (ticker % 20 == 0) {
-                // Recalculate the current multiplier once a second
                 currentMultiplier = getMultiplier();
                 setActive(MekanismUtils.canFunction(this) && currentMultiplier > 0);
             }
@@ -169,6 +169,7 @@ public class TileEntityWindGenerator extends TileEntityGenerator implements IBou
     public boolean isBlacklistDimension() {
         return isBlacklistDimension;
     }
+
 
     @Nonnull
     @Override

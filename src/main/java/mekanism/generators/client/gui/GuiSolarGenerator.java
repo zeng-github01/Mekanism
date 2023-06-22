@@ -9,6 +9,7 @@ import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
+import mekanism.common.base.IRedstoneControl;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.generators.common.inventory.container.ContainerSolarGenerator;
@@ -37,8 +38,30 @@ public class GuiSolarGenerator extends GuiMekanismTile<TileEntitySolarGenerator>
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(tileEntity.getName(), !tileEntity.fullName.contains("Advanced") ? 45 : 30, 6, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
-        renderCenteredText(48, 80, 28, 0x00CD00, LangUtils.localize("gui.producing"));
-        renderCenteredText(48, 80, 42, 0x00CD00, MekanismUtils.getEnergyDisplay(tileEntity.getProduction()) + "/t");
+
+         if (!tileEntity.getActive()) {
+             String info = "";
+             String info2 = "";
+             if (!tileEntity.canSeeSun()){
+                 info = "gui.none";
+                 info2 ="gui.solarGenerator.sun";
+             }
+            if (tileEntity.controlType == IRedstoneControl.RedstoneControl.HIGH && !tileEntity.redstone && tileEntity.canSeeSun()){
+                info = "control.high.desc";
+            }
+            if (tileEntity.controlType == IRedstoneControl.RedstoneControl.LOW && tileEntity.redstone && tileEntity.canSeeSun())
+                info = "control.low.desc";
+            if (tileEntity.getEnergy() == tileEntity.getMaxEnergy()) {
+                info = "gui.energy";
+                info2 = "gui.no_space";
+            }
+
+             renderCenteredText(48,80, 28, 0x00CD00,LangUtils.localize(info) + LangUtils.localize(info2));
+
+         } else {
+            renderCenteredText(48, 80, 28, 0x00CD00, LangUtils.localize("gui.producing"));
+            renderCenteredText(48, 80, 42, 0x00CD00, MekanismUtils.getEnergyDisplay(tileEntity.getProduction()) + "/t");
+        }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 

@@ -93,10 +93,11 @@ public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalC
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
             boolean outslot = tileEntity.inventory.get(1).getCount() == tileEntity.inventory.get(1).getMaxStackSize();
-            if (outslot) {
-                info.add(LangUtils.localize("tooltip.items") + LangUtils.localize("gui.no_space"));
-            }if (energy){
+            if (energy){
                 info.add(LangUtils.localize("gui.no_energy"));
+            }
+            if (outslot) {
+                info.add(LangUtils.localize("gui.item_no_space"));
             }
             if (outslot || energy){
                 displayTooltips(info, xAxis, yAxis);

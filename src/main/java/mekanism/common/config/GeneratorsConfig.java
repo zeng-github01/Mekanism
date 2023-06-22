@@ -58,7 +58,7 @@ public class GeneratorsConfig extends BaseConfig {
           "The maximum Y value that affects the Wind Generators Power generation.");
 
     public final IntSetOption windGenerationDimBlacklist = new IntSetOption(this, "generation", "WindGenerationDimBlacklist", new int[0],
-          "The list of dimension ids that the Wind Generator will not generate power in.");
+          "The list of dimension ids that the Wind Generator will not generate power in.").setRequiresWorldRestart(true);
 
     public TypeConfigManager<GeneratorType> generatorsManager = new TypeConfigManager<>(this, "generators", GeneratorType.class,
           GeneratorType::getGeneratorsForConfig, GeneratorType::getBlockName);
