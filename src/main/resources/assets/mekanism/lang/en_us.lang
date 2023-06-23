@@ -1001,6 +1001,7 @@ gui.gas_no_space=Gas not enough room in output
 gui.fluid_no_space=Fluid not enough room in output
 gui.enough_no_space=Enough not enough room in output
 gui.steam_no_space=Steam not enough room in output
+gui.no_freq=Lack of frequency for connection
 gui.infuse_no_item=Lack of infusion items
 gui.no_item=Lack of items
 gui.no_gas=Lack of gas

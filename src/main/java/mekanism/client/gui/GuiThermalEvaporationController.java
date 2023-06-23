@@ -65,6 +65,7 @@ public class GuiThermalEvaporationController extends GuiMekanismTile<TileEntityT
         if (outputfluid){
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 86,0,0,26,26);
+            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),true));
         }
     }
 

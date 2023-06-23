@@ -67,7 +67,7 @@ public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuse
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRenderer.drawString(LangUtils.localize("gui.chemicalInfuser.short"), 5, 5, 0x404040);
+        fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 4, 0x404040);
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
@@ -101,6 +101,7 @@ public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuse
         if (output || energy){
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
+            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
         }
     }
 }

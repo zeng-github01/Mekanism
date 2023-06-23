@@ -29,7 +29,7 @@ public class ElectrolyticSeparatorRecipeWrapper<RECIPE extends SeparatorRecipe> 
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         List<String> tooltip = new ArrayList<>();
         if (mouseX >= 162 && mouseX < 166 && mouseY >= 6 && mouseY < 6 + 52) {
-            tooltip.add(LangUtils.localize("gui.using") + ":" +  MekanismUtils.getEnergyDisplay(recipe.energyUsage) + "/t");
+            tooltip.add(LangUtils.localize("gui.using") + ":" +  MekanismUtils.getEnergyDisplay(MekanismConfig.current().general.FROM_H2.val() * 2) + "/t");
         }
         return tooltip;
     }

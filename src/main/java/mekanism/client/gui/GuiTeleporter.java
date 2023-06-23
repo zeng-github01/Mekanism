@@ -9,11 +9,8 @@ import mekanism.api.TileNetworkList;
 import mekanism.client.ClientTickHandler;
 import mekanism.client.MekanismClient;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
-import mekanism.client.gui.element.GuiPowerBar;
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiPowerBar.IPowerInfoHandler;
-import mekanism.client.gui.element.GuiRedstoneControl;
-import mekanism.client.gui.element.GuiScrollList;
-import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
@@ -324,6 +321,7 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         if (energy){
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
+            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
         }
     }
 

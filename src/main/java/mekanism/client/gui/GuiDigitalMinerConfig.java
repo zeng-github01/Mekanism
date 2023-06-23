@@ -183,7 +183,8 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRenderer.drawString(LangUtils.localize("gui.digitalMinerConfig"), 43, 6, 0x404040);
+        String config= LangUtils.localize("gui.digitalMinerConfig");
+        fontRenderer.drawString(config, (xSize / 2) - (fontRenderer.getStringWidth(config) / 2), 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.filters") + ":", 11, 19, 0x00CD00);
         fontRenderer.drawString("T: " + tileEntity.filters.size(), 11, 28, 0x00CD00);
         fontRenderer.drawString("I: " + (tileEntity.inverse ? LangUtils.localize("gui.on") : LangUtils.localize("gui.off")), 11, 131, 0x00CD00);

@@ -64,6 +64,7 @@ public final class MekanismHooks {
     public static final String CYCLIC_MOD_ID = "cyclicmagic";
     public static final String MYSTICALAGRICULTURE_MOD_ID = "mysticalagriculture";
     public static final String CRAFTTWEAKER_MOD_ID = "crafttweaker";
+    public static final String GROOVYSCRIPT_MOD_ID = "groovyscript";
 
     public boolean AE2Loaded = false;
     public boolean BuildCraftLoaded = false;
@@ -77,6 +78,7 @@ public final class MekanismHooks {
     public boolean OCLoaded = false;
     public boolean RFLoaded = false;
     public boolean TeslaLoaded = false;
+    public boolean GroovyScript = false;
 
     public void hookPreInit() {
         AE2Loaded = Loader.isModLoaded(APPLIED_ENERGISTICS_2_MOD_ID);
@@ -91,6 +93,7 @@ public final class MekanismHooks {
         OCLoaded = Loader.isModLoaded(OPENCOMPUTERS_MOD_ID);
         RFLoaded = Loader.isModLoaded(REDSTONEFLUX_MOD_ID);
         TeslaLoaded = Loader.isModLoaded(TESLA_MOD_ID);
+        GroovyScript = Loader.isModLoaded(GROOVYSCRIPT_MOD_ID);
     }
 
     public void hookInit() {

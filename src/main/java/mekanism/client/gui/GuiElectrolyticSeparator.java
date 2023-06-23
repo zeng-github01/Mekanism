@@ -6,13 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import mekanism.api.TileNetworkList;
-import mekanism.client.gui.element.GuiEnergyInfo;
-import mekanism.client.gui.element.GuiPowerBar;
-import mekanism.client.gui.element.GuiProgress;
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
-import mekanism.client.gui.element.GuiRedstoneControl;
-import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
@@ -88,7 +84,7 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRenderer.drawString(tileEntity.getName(), 45, 6, 0x404040);
+        fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
         String name = LangUtils.localize(tileEntity.dumpLeft.getLangKey());
         renderScaledText(name, 21, 73, 0x404040, 66);
         name = LangUtils.localize(tileEntity.dumpRight.getLangKey());
@@ -151,6 +147,7 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
         if (energy|| outLeft || outRight){
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
+            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
         }
 
 

@@ -127,7 +127,7 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String text = LangUtils.localize("gui.configuration.transporter");
-        fontRenderer.drawString(text, (xSize / 2) - (fontRenderer.getStringWidth(text) / 2), 5, 0x404040);
+        fontRenderer.drawString(text, (xSize / 2) - (fontRenderer.getStringWidth(text) / 2), 4, 0x404040);
         text = LangUtils.localize("gui.strictInput") + " (" + LangUtils.transOnOff(configurable.getEjector().hasStrictInput()) + ")";
         renderScaledText(text, 53, 17, 0x00CD00, 70);
         fontRenderer.drawString(LangUtils.localize("gui.input"), 48, 81, 0x787878);

@@ -977,6 +977,7 @@ gui.gas_no_space=气体输出空间不足
 gui.fluid_no_space=流体输出空间不足
 gui.enough_no_space=能量输出空间不足
 gui.steam_no_space=蒸汽输出空间不足
+gui.no_freq=缺少频率进行连接
 gui.infuse_no_item=缺少灌注物品
 gui.no_item=缺少物品
 gui.no_gas=缺少气体

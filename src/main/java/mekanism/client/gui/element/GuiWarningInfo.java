@@ -1,6 +1,7 @@
 package mekanism.client.gui.element;
 
 import mekanism.client.gui.IGuiWrapper;
+import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.util.ResourceLocation;
@@ -20,26 +21,21 @@ public class GuiWarningInfo extends GuiElement {
 
     @Override
     public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth - 26, guiHeight + 138, 26, 26);
+        int height = HeatInfoenabled ? 26 : 0;
+        return new Rectangle4i(guiWidth - 26, guiHeight + 112 - height, 26, 26);
     }
 
     @Override
     protected boolean inBounds(int xAxis, int yAxis) {
-        int height = 0;
-        if (HeatInfoenabled){
-             height =26 ;
-        }
-        return xAxis >= -21 && xAxis <= -3 && yAxis >= 116 + height && yAxis <= 134 + height;
+        int height = HeatInfoenabled ? 26 : 0;
+        return xAxis >= -21 && xAxis <= -3 && yAxis >= 116 - height && yAxis <= 134 - height;
     }
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         mc.renderEngine.bindTexture(RESOURCE);
-        int height = 0;
-        if (HeatInfoenabled){
-            height = 26 ;
-        }
-        guiObj.drawTexturedRect(guiWidth - 26, guiHeight + 112 - height, 0, 0, 26, 26);
+        int height = HeatInfoenabled ? 26 : 0;
+        guiObj.drawTexturedRect(guiWidth - 26, guiHeight + 112 - height, 0, 0, 0, 0);
         mc.renderEngine.bindTexture(defaultLocation);
     }
 

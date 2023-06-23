@@ -123,7 +123,7 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
         boolean gas = tileEntity.gasTank.getStored() == tileEntity.gasTank.getMaxGas() && tileEntity.mode == 1;
         boolean fluid = tileEntity.fluidTank.getFluidAmount() == tileEntity.fluidTank.getCapacity() && tileEntity.mode == 0;
-        if (tileEntity.mode == 1 && gas) {
+        if (gas) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
             drawTexturedModalRect(guiLeft + 25 + 9, guiTop + 13 + 1, 9, 1, 8, 29);
             drawTexturedModalRect(guiLeft + 25 + 9, guiTop + 13 + 31, 9, 32, 8, 28);
@@ -133,9 +133,10 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
             drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 1, 9, 1, 8, 29);
             drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 31, 9, 32, 8, 28);
         }
-        if (energy) {
+        if (energy || gas || fluid) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
         }
     }
 

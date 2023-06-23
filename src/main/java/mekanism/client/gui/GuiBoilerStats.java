@@ -43,7 +43,7 @@ public class GuiBoilerStats extends GuiMekanismTile<TileEntityBoilerCasing> {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String stats = LangUtils.localize("gui.boilerStats");
-        fontRenderer.drawString(stats, (xSize / 2) - (fontRenderer.getStringWidth(stats) / 2), 6, 0x404040);
+        fontRenderer.drawString(stats, (xSize / 2) - (fontRenderer.getStringWidth(stats) / 2), 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.maxWater") + ": " + tileEntity.clientWaterCapacity + " mB", 8, 26, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.maxSteam") + ": " + tileEntity.clientSteamCapacity + " mB", 8, 35, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.heatTransfer"), 8, 49, 0x797979);

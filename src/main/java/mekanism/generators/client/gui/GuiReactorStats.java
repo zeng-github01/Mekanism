@@ -35,7 +35,7 @@ public class GuiReactorStats extends GuiReactorInfo {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRenderer.drawString(tileEntity.getName(), 46, 6, 0x404040);
+        fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
         if (tileEntity.isFormed()) {
             fontRenderer.drawString(EnumColor.DARK_GREEN + LangUtils.localize("gui.passive"), 6, 26, 0x404040);
             fontRenderer.drawString(LangUtils.localize("gui.minInject") + ": " + tileEntity.getReactor().getMinInjectionRate(false), 16, 36, 0x404040);

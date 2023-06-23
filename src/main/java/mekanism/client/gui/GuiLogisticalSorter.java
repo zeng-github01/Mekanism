@@ -172,7 +172,7 @@ public class GuiLogisticalSorter extends GuiFilterHolder<TileEntityLogisticalSor
         int yAxis = mouseY - guiTop;
 
         // Write to info display
-        fontRenderer.drawString(tileEntity.getName(), 43, 6, 0x404040);
+        fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.filters") + ":", 11, 19, 0x00CD00);
         fontRenderer.drawString("T: " + tileEntity.filters.size(), 11, 28, 0x00CD00);
         fontRenderer.drawString(LangUtils.localize("mekanism.gui.logisticalSorter.singleItem") + ":", 12, 48, 0x00CD00);

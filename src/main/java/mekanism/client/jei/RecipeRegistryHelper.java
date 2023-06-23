@@ -7,19 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
-import mekanism.client.gui.GuiCombiner;
-import mekanism.client.gui.GuiCrusher;
-import mekanism.client.gui.GuiElectrolyticSeparator;
-import mekanism.client.gui.GuiEnergizedSmelter;
-import mekanism.client.gui.GuiEnrichmentChamber;
-import mekanism.client.gui.GuiMetallurgicInfuser;
-import mekanism.client.gui.GuiOsmiumCompressor;
-import mekanism.client.gui.GuiPRC;
-import mekanism.client.gui.GuiPrecisionSawmill;
-import mekanism.client.gui.GuiPurificationChamber;
-import mekanism.client.gui.GuiRotaryCondensentrator;
-import mekanism.client.gui.GuiSolarNeutronActivator;
-import mekanism.client.gui.GuiThermalEvaporationController;
+import mekanism.client.gui.*;
 import mekanism.client.gui.chemical.GuiChemicalCrystallizer;
 import mekanism.client.gui.chemical.GuiChemicalDissolutionChamber;
 import mekanism.client.gui.chemical.GuiChemicalInfuser;
@@ -42,10 +30,12 @@ import mekanism.client.jei.machine.other.RotaryCondensentratorRecipeWrapper;
 import mekanism.client.jei.machine.other.SolarNeutronRecipeWrapper;
 import mekanism.client.jei.machine.other.ThermalEvaporationRecipeWrapper;
 import mekanism.common.Mekanism;
+import mekanism.common.base.IFactory;
 import mekanism.common.base.IFactory.RecipeType;
 import mekanism.common.block.states.BlockStateBasic.BasicBlockType;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.integration.crafttweaker.handlers.EnergizedSmelter;
+import mekanism.common.integration.groovyscript.machinerecipe.Smelter;
 import mekanism.common.inventory.container.ContainerFormulaicAssemblicator;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.inputs.ItemStackInput;
@@ -238,16 +228,16 @@ public class RecipeRegistryHelper {
             return;
         }
         registry.handleRecipes(SmeltingRecipe.class, MachineRecipeWrapper::new, Recipe.ENERGIZED_SMELTER.getJEICategory());
-        if (Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasRemovedRecipe()) {// Removed / Removed + Added
+        if (Mekanism.hooks.GroovyScript && Smelter.hasRemovedRecipe() || Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasRemovedRecipe()) {
+            // Removed / Removed + Added
             // Add all recipes
             Collection<SmeltingRecipe> recipeList = Recipe.ENERGIZED_SMELTER.get().values();
             registry.addRecipes(recipeList.stream().map(MachineRecipeWrapper::new).collect(Collectors.toList()),
                   Recipe.ENERGIZED_SMELTER.getJEICategory());
-
-            registry
-                  .addRecipeClickArea(GuiEnergizedSmelter.class, 79, 40, 24, 7,
+            registry.addRecipeClickArea(GuiEnergizedSmelter.class, 79, 40, 24, 7,
                         Recipe.ENERGIZED_SMELTER.getJEICategory());
-        } else if (Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasAddedRecipe()) {// Added but not removed
+        } else if (Mekanism.hooks.GroovyScript && Smelter.hasAddedRecipe() ||  Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasAddedRecipe()) {
+            // Added but not removed
             // Only add added recipes
             Map<ItemStackInput, SmeltingRecipe> smeltingRecipes = Recipe.ENERGIZED_SMELTER.get();
             List<MachineRecipeWrapper> smeltingWrapper = smeltingRecipes.entrySet().stream().filter(entry ->

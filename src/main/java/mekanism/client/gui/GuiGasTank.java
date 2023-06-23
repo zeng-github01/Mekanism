@@ -50,7 +50,7 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String stored = "" + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored());
         String capacityInfo = stored + " / " + (tileEntity.tier.getStorage() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.tier.getStorage());
-        fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 6, 0x404040);
+        fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
         renderScaledText(LangUtils.localize("gui.gas") + ": " + (tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName()
                                                                                                      : LangUtils.localize("gui.none")), 45, 40, 0x33ff99, 112);
         fontRenderer.drawString(capacityInfo, 45, 49, 0x33ff99);

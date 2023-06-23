@@ -213,6 +213,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
             if (outslot || energy || inputgas || inputinfuse){
                 mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
                 drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
+                addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
             }
         }
     }

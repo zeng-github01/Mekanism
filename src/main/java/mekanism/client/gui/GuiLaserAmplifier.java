@@ -6,6 +6,7 @@ import java.util.List;
 
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.element.GuiRedstoneControl;
+import mekanism.client.gui.element.GuiWarningInfo;
 import mekanism.client.gui.element.gauge.GuiGauge.Type;
 import mekanism.client.gui.element.gauge.GuiNumberGauge;
 import mekanism.client.gui.element.gauge.GuiNumberGauge.INumberInfoHandler;
@@ -65,7 +66,7 @@ public class GuiLaserAmplifier extends GuiMekanismTile<TileEntityLaserAmplifier>
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRenderer.drawString(tileEntity.getName(), 55, 6, 0x404040);
+        fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
         fontRenderer.drawString(tileEntity.time > 0 ? LangUtils.localize("gui.delay") + ": " + tileEntity.time + "t"
                                                     : LangUtils.localize("gui.noDelay"), 26, 30, 0x404040);
@@ -98,6 +99,7 @@ public class GuiLaserAmplifier extends GuiMekanismTile<TileEntityLaserAmplifier>
         if (energy){
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
+            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
         }
 
     }
