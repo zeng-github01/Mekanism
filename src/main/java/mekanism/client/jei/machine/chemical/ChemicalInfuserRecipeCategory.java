@@ -19,7 +19,7 @@ public class ChemicalInfuserRecipeCategory<WRAPPER extends ChemicalInfuserRecipe
 
     public ChemicalInfuserRecipeCategory(IGuiHelper helper) {
         super(helper, "mekanism:gui/GuiBlankIcon.png", Recipe.CHEMICAL_INFUSER.getJEICategory(),
-              "tile.MachineBlock2.ChemicalInfuser.name", null, 3, 3, 170, 80);
+              "tile.MachineBlock2.ChemicalInfuser.name", null, 4, 4, 169, 79);
     }
 
     @Override

@@ -38,10 +38,9 @@ public class GuiSortingTab extends GuiTileEntityElement<TileEntityFactory> {
         mc.renderEngine.bindTexture(RESOURCE);
         guiObj.drawTexturedRect(guiWidth - 26, guiHeight + 62, 0, 0, 26, 35);
         guiObj.drawTexturedRect(guiWidth - 21, guiHeight + 66, 26, inBounds(xAxis, yAxis) ? 0 : 18, 18, 18);
-        mc.renderEngine.bindTexture(defaultLocation);
-
         mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI, "GuiSecurityDesk.png"));
         guiObj.drawTexturedRect(guiWidth - 22, guiHeight + 86, tileEntity.sorting ? 176 : 182, 22, 6, 6);
+        mc.renderEngine.bindTexture(defaultLocation);
     }
 
     @Override

@@ -144,6 +144,20 @@ public class ItemBlockTransmitter extends ItemBlockMultipartAble implements ITie
         return getTranslationKey() + "." + name;
     }
 
+    @Nonnull
+    @Override
+    public String getItemStackDisplayName(ItemStack stack) {
+        TransmitterType type = TransmitterType.get(stack.getItemDamage());
+        String name = type.getTranslationKey();
+        if (type.hasTiers()) {
+            BaseTier tier = getBaseTier(stack);
+            name = tier.getSimpleName() + name + ".name";
+            return getBaseTier(stack).getColor() + LangUtils.localize(getTranslationKey() + "." + name);
+        } else {
+            return LangUtils.localize(getTranslationKey() + "." + name+ ".name");
+        }
+    }
+
     @Override
     public BaseTier getBaseTier(ItemStack itemstack) {
         if (!itemstack.hasTagCompound()) {

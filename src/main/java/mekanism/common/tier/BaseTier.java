@@ -15,7 +15,7 @@ public enum BaseTier implements IStringSerializable {
     ADVANCED("Advanced", EnumColor.DARK_RED),
     ELITE("Elite", EnumColor.DARK_BLUE),
     ULTIMATE("Ultimate", EnumColor.PURPLE),
-    CREATIVE("Creative", EnumColor.BLACK);
+    CREATIVE("Creative", EnumColor.YELLOW);
 
     private String name;
     private EnumColor color;

@@ -75,5 +75,11 @@ public class MekanismTEFixer extends TEFixer {
         putEntry("ThermodynamicConductor", "thermodynamic_conductor");
         putEntry("UltimateSmeltingFactory", "ultimate_smelting_factory");
         putEntry("UniversalCable", "universal_cable");
+
+        //Add Start
+        putEntry("EliteSmeltingFactory", "elite_smelting_factory");
+        putEntry("CreativeSmeltingFactory", "creative_smelting_factory");
+        //End of addition
+
     }
 }

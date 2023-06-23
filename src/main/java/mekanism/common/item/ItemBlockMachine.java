@@ -43,6 +43,7 @@ import mekanism.common.security.ISecurityItem;
 import mekanism.common.security.ISecurityTile;
 import mekanism.common.security.ISecurityTile.SecurityMode;
 import mekanism.common.tier.BaseTier;
+import mekanism.common.tier.FactoryTier;
 import mekanism.common.tier.FluidTankTier;
 import mekanism.common.tile.TileEntityFactory;
 import mekanism.common.tile.TileEntityFluidTank;
@@ -169,7 +170,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
     @Override
     public String getItemStackDisplayName(@Nonnull ItemStack itemstack) {
         MachineType type = MachineType.get(itemstack);
-        if (type == MachineType.BASIC_FACTORY || type == MachineType.ADVANCED_FACTORY || type == MachineType.ELITE_FACTORY) {
+        if (type == MachineType.BASIC_FACTORY || type == MachineType.ADVANCED_FACTORY || type == MachineType.ELITE_FACTORY || type == MachineType.ULTIMATE_FACTORY  || type == MachineType.CREATIVE_FACTORY) {
             BaseTier tier = type.factoryTier.getBaseTier();
             RecipeType recipeType = getRecipeTypeOrNull(itemstack);
             if (recipeType != null) {
@@ -177,10 +178,10 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
                 if (LangUtils.canLocalize(langKey)) {
                     return LangUtils.localize(langKey);
                 }
-                return tier.getLocalizedName() + " " + recipeType.getLocalizedName() + " " + super.getItemStackDisplayName(itemstack);
+                return tier.getColor() + tier.getLocalizedName() + recipeType.getLocalizedName()  + LangUtils.localize("tile.MachineBlock.Factory.name");
             }
         } else if (type == MachineType.FLUID_TANK) {
-            return LangUtils.localize("tile.FluidTank" + getBaseTier(itemstack).getSimpleName() + ".name");
+            return  getBaseTier(itemstack).getColor() +  LangUtils.localize("tile.FluidTank" + getBaseTier(itemstack).getSimpleName() + ".name");
         }
         return super.getItemStackDisplayName(itemstack);
     }
@@ -225,7 +226,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
                     list.add(EnumColor.RED + "(" + LangUtils.localize("gui.overridden") + ")");
                 }
             }
-            if (type == MachineType.BASIC_FACTORY || type == MachineType.ADVANCED_FACTORY || type == MachineType.ELITE_FACTORY) {
+            if (type == MachineType.BASIC_FACTORY || type == MachineType.ADVANCED_FACTORY || type == MachineType.ELITE_FACTORY || type == MachineType.ULTIMATE_FACTORY  || type == MachineType.CREATIVE_FACTORY) {
                 RecipeType recipeType = getRecipeTypeOrNull(itemstack);
                 if (recipeType != null) {
                     list.add(EnumColor.INDIGO + LangUtils.localize("tooltip.recipeType") + ": " + EnumColor.GREY + recipeType.getLocalizedName());
@@ -574,7 +575,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
         if (machineType.isFactory()) {
             RecipeType recipeType = getRecipeTypeOrNull(itemStack);
             int tierProcess = machineType.factoryTier.processes;
-            double baseMaxEnergy = tierProcess * (recipeType == null ? 1 : Math.max(0.5D * recipeType.getEnergyStorage(), recipeType.getEnergyUsage()));
+            double baseMaxEnergy = machineType.factoryTier == FactoryTier.CREATIVE ? Double.MAX_VALUE : tierProcess * (recipeType == null ? 1 : Math.max(0.5D * recipeType.getEnergyStorage(), recipeType.getEnergyUsage()));
             return MekanismUtils.getMaxEnergy(itemStack, baseMaxEnergy);
         }
         return MekanismUtils.getMaxEnergy(itemStack, machineType.getStorage());

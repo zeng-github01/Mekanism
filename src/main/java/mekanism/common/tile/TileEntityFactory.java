@@ -95,7 +95,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     /**
      * How many ticks it takes, by default, to run an operation.
      */
-    public int BASE_TICKS_REQUIRED = 200;
+    public int BASE_TICKS_REQUIRED;
     /**
      * How many ticks it takes, with upgrades, to run an operation
      */
@@ -166,17 +166,30 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         cachedRecipe = new MachineRecipe[tier.processes];
         gasTank = new GasTank(TileEntityAdvancedElectricMachine.MAX_GAS * tier.processes);
         maxInfuse = BASE_MAX_INFUSE * tier.processes;
+        if (tier != FactoryTier.CREATIVE){
+            BASE_TICKS_REQUIRED = 200;
+        }else {
+            BASE_TICKS_REQUIRED =1 ;
+            maxEnergy = Double.MAX_VALUE;
+        }
         setRecipeType(recipeType);
     }
 
     @Override
     public boolean upgrade(BaseTier upgradeTier) {
-        if (upgradeTier.ordinal() != tier.ordinal() + 1 || tier == FactoryTier.ELITE) {
-            return false;
-        }
-
-        world.setBlockToAir(getPos());
-        world.setBlockState(getPos(), MekanismBlocks.MachineBlock.getStateFromMeta(5 + tier.ordinal() + 1), 3);
+        if (tier == FactoryTier.ELITE || tier == FactoryTier.ULTIMATE) {
+            if (upgradeTier.ordinal() != tier.ordinal() + 1) {
+                return false;
+            }
+            world.setBlockToAir(getPos());
+            world.setBlockState(getPos(), MekanismBlocks.MachineBlock3.getStateFromMeta(4 + tier.ordinal() + 1), 3);
+        } else if (tier == FactoryTier.BASIC || tier == FactoryTier.ADVANCED) {
+            if (upgradeTier.ordinal() != tier.ordinal() + 1) {
+                return false;
+            }
+            world.setBlockToAir(getPos());
+            world.setBlockState(getPos(), MekanismBlocks.MachineBlock.getStateFromMeta(5 + tier.ordinal() + 1), 3);
+        } else return false;
 
         TileEntityFactory factory = Objects.requireNonNull((TileEntityFactory) world.getTileEntity(getPos()));
 
@@ -280,20 +293,27 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             }
 
             double prev = getEnergy();
+            if (tier == FactoryTier.CREATIVE) {
+                energyPerTick = 0;
+                electricityStored = Double.MAX_VALUE;
+            }
             secondaryEnergyThisTick = recipeType.fuelEnergyUpgrades() ? StatUtils.inversePoisson(secondaryEnergyPerTick) : (int) Math.ceil(secondaryEnergyPerTick);
-
             for (int process = 0; process < tier.processes; process++) {
                 if (MekanismUtils.canFunction(this) && canOperate(getInputSlot(process), getOutputSlot(process))
                     && getEnergy() >= energyPerTick && gasTank.getStored() >= secondaryEnergyThisTick) {
                     if ((progress[process] + 1) < ticksRequired) {
                         progress[process]++;
                         gasTank.draw(secondaryEnergyThisTick, true);
-                        electricityStored -= energyPerTick;
+                        if (tier != FactoryTier.CREATIVE) {
+                            electricityStored -= energyPerTick;
+                        }
                     } else if ((progress[process] + 1) >= ticksRequired) {
                         operate(getInputSlot(process), getOutputSlot(process));
                         progress[process] = 0;
                         gasTank.draw(secondaryEnergyThisTick, true);
-                        electricityStored -= energyPerTick;
+                        if (tier != FactoryTier.CREATIVE) {
+                            electricityStored -= energyPerTick;
+                        }
                     }
                 }
 
@@ -330,8 +350,10 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     public void setRecipeType(@Nonnull RecipeType type) {
         recipeType = Objects.requireNonNull(type);
-        BASE_MAX_ENERGY = maxEnergy = tier.processes * Math.max(0.5D * recipeType.getEnergyStorage(), recipeType.getEnergyUsage());
-        BASE_ENERGY_PER_TICK = energyPerTick = recipeType.getEnergyUsage();
+
+        BASE_MAX_ENERGY = maxEnergy = tier == FactoryTier.CREATIVE ? Double.MAX_VALUE : tier.processes * Math.max(0.5D * recipeType.getEnergyStorage(), recipeType.getEnergyUsage());
+
+        BASE_ENERGY_PER_TICK = energyPerTick =  tier == FactoryTier.CREATIVE ? 0 :recipeType.getEnergyUsage();
         upgradeComponent.setSupported(Upgrade.GAS, recipeType.fuelEnergyUpgrades());
         secondaryEnergyPerTick = getSecondaryEnergyPerTick(recipeType);
 
@@ -429,7 +451,11 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
     public double getSecondaryEnergyPerTick(RecipeType type) {
-        return MekanismUtils.getSecondaryEnergyPerTickMean(this, type.getSecondaryEnergyPerTick());
+        if (tier == FactoryTier.CREATIVE) {
+            return 0;
+        } else {
+            return MekanismUtils.getSecondaryEnergyPerTickMean(this, type.getSecondaryEnergyPerTick());
+        }
     }
 
     @Nullable
@@ -453,7 +479,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                             gasTank.receive(item.removeGas(extra, gasStack.amount), true);
                         } else {
                             gasTank.receive(gasStack, true);
-                            extra.shrink(1);
+                            if (tier != FactoryTier.CREATIVE) {
+                                extra.shrink(1);
+                            }
                         }
                     }
                 }
@@ -463,7 +491,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                     if (infuseStored.getType() == null || infuseStored.getType() == pendingInfusionInput.type) {
                         if (infuseStored.getAmount() + pendingInfusionInput.stored <= maxInfuse) {
                             infuseStored.increase(pendingInfusionInput);
-                            extra.shrink(1);
+                            if (tier != FactoryTier.CREATIVE) {
+                                extra.shrink(1);
+                            }
                         }
                     }
                 }
@@ -479,16 +509,18 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     public boolean canExtractItem(int slotID, @Nonnull ItemStack itemstack, @Nonnull EnumFacing side) {
         if (slotID == 1) {
             return ChargeUtils.canBeOutputted(itemstack, false);
-        } else if (tier == FactoryTier.BASIC && slotID >= 8 && slotID <= 10) {
+        } else if (tier == FactoryTier.BASIC && isOutputSlot(slotID)) {
             return true;
-        } else if (tier == FactoryTier.ADVANCED && slotID >= 10 && slotID <= 14) {
+        } else if (tier == FactoryTier.ADVANCED && isOutputSlot(slotID)) {
             return true;
-        } else if (tier == FactoryTier.ELITE && slotID >= 12 && slotID <= 18) {
+        } else if (tier == FactoryTier.ELITE && isOutputSlot(slotID)) {
             return true;
-        } else if (recipeType.getFuelType() == MachineFuelType.CHANCE && slotID == 4) {
+        } else if (tier == FactoryTier.ULTIMATE && isOutputSlot(slotID)) {
             return true;
-        }
-        return false;
+        } else if (tier == FactoryTier.CREATIVE && isOutputSlot(slotID)) {
+            return true;
+        } else
+             return recipeType.getFuelType() == MachineFuelType.CHANCE && slotID == 4;
     }
 
     @Override
@@ -503,29 +535,20 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
     private boolean isInputSlot(int slotID) {
-        return slotID >= 5 && (tier == FactoryTier.BASIC ? slotID <= 7 : tier == FactoryTier.ADVANCED ? slotID <= 9 : tier == FactoryTier.ELITE && slotID <= 11);
+        return slotID >= 5 && (tier == FactoryTier.BASIC ? slotID <= 7 : tier == FactoryTier.ADVANCED ? slotID <= 9 : tier == FactoryTier.ELITE ? slotID <= 11 : tier == FactoryTier.ULTIMATE ? slotID <= 13 : tier == FactoryTier.CREATIVE && slotID <= 15);
+    }
+
+    private boolean isOutputSlot(int slotID){
+        int slotIDOutput = tier == FactoryTier.BASIC ? 8 :tier == FactoryTier.ADVANCED ? 10 : tier == FactoryTier.ELITE ? 12 : tier == FactoryTier.ULTIMATE ? 14: 16;
+        return slotID >= slotIDOutput && slotID <= slotIDOutput + tier.processes - 1;
     }
 
     @Override
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
-        if (tier == FactoryTier.BASIC) {
-            if (slotID >= 8 && slotID <= 10) {
-                return false;
-            } else if (slotID >= 5 && slotID <= 7) {
-                return recipeType.getAnyRecipe(itemstack, inventory.get(4), gasTank.getGasType(), infuseStored) != null;
-            }
-        } else if (tier == FactoryTier.ADVANCED) {
-            if (slotID >= 10 && slotID <= 14) {
-                return false;
-            } else if (slotID >= 5 && slotID <= 9) {
-                return recipeType.getAnyRecipe(itemstack, inventory.get(4), gasTank.getGasType(), infuseStored) != null;
-            }
-        } else if (tier == FactoryTier.ELITE) {
-            if (slotID >= 12 && slotID <= 18) {
-                return false;
-            } else if (slotID >= 5 && slotID <= 11) {
-                return recipeType.getAnyRecipe(itemstack, inventory.get(4), gasTank.getGasType(), infuseStored) != null;
-            }
+        if (isOutputSlot(slotID)){
+            return false;
+        }else if (isInputSlot(slotID)){
+            return recipeType.getAnyRecipe(itemstack, inventory.get(4), gasTank.getGasType(), infuseStored) != null;
         }
 
         if (slotID == 0) {
@@ -772,7 +795,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         if (LangUtils.canLocalize("tile." + tier.getBaseTier().getName() + recipeType.getTranslationKey() + "Factory")) {
             return LangUtils.localize("tile." + tier.getBaseTier().getName() + recipeType.getTranslationKey() + "Factory");
         }
-        return tier.getBaseTier().getLocalizedName() + " " + recipeType.getLocalizedName() + " " + super.getName();
+        //TODO:Rename this
+        return tier.getBaseTier().getLocalizedName() + recipeType.getLocalizedName()  + super.getName();
     }
 
     @Override
@@ -914,14 +938,24 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         super.recalculateUpgradables(upgrade);
         switch (upgrade) {
             case ENERGY:
-                energyPerTick = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK); // incorporate speed upgrades
+                if (tier != FactoryTier.CREATIVE) {
+                    energyPerTick = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK); // incorporate speed upgrades
+                }else {
+                    energyPerTick = BASE_ENERGY_PER_TICK;
+                    maxEnergy = BASE_MAX_ENERGY;
+                }
                 break;
             case GAS:
                 secondaryEnergyPerTick = getSecondaryEnergyPerTick(recipeType);
                 break;
             case SPEED:
-                ticksRequired = MekanismUtils.getTicks(this, BASE_TICKS_REQUIRED);
-                energyPerTick = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK);
+                //TODO：This needs to be modified
+                if (tier != FactoryTier.CREATIVE) {
+                    ticksRequired = MekanismUtils.getTicks(this, BASE_TICKS_REQUIRED);
+                    energyPerTick = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK);
+                } else {
+                    ticksRequired = BASE_TICKS_REQUIRED;
+                }
                 secondaryEnergyPerTick = getSecondaryEnergyPerTick(recipeType);
                 break;
             default:
@@ -942,7 +976,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public String getDataType() {
-        return tier.getBaseTier().getLocalizedName() + " " + recipeType.getLocalizedName() + " " + super.getName();
+        return tier.getBaseTier().getLocalizedName()  + recipeType.getLocalizedName() + super.getName();
     }
 
     @Override
@@ -1039,6 +1073,10 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 return new int[]{5, 6, 7, 8, 9};
             case ELITE:
                 return new int[]{5, 6, 7, 8, 9, 10, 11};
+            case ULTIMATE:
+                return new int[]{5, 6, 7, 8, 9, 10, 11, 12, 13};
+            case CREATIVE:
+                return new int[]{5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
             default:
                 return null;
         }
