@@ -275,7 +275,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
                     }
                 }
             }
-        } else if (type == MachineType.SOLAR_NEUTRON_ACTIVATOR || type == MachineType.SEISMIC_VIBRATOR) {
+        } else if (type == MachineType.SOLAR_NEUTRON_ACTIVATOR || type == MachineType.SEISMIC_VIBRATOR || type == MachineType.ISOTOPIC_CENTRIFUGE) {
             BlockPos abovePos = pos.up();
             if (!world.isValid(abovePos) || !world.getBlockState(abovePos).getBlock().isReplaceable(world, abovePos)) {
                 place = false;

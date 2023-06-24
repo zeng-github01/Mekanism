@@ -21,6 +21,7 @@ import mekanism.common.inventory.container.robit.ContainerRobitInventory;
 import mekanism.common.item.ItemBlockEnergyCube;
 import mekanism.common.item.ItemBlockGasTank;
 import mekanism.common.recipe.RecipeHandler.Recipe;
+import mezz.jei.api.*;
 import mezz.jei.api.ISubtypeRegistry.ISubtypeInterpreter;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
@@ -125,6 +126,14 @@ public class MekanismJEI implements IModPlugin {
         addRecipeCategory(registry, MachineType.ENERGIZED_SMELTER, new MachineRecipeCategory(guiHelper, Recipe.ENERGIZED_SMELTER.getJEICategory(),
                 "tile.MachineBlock.EnergizedSmelter.name", ProgressBar.BLUE));
 
+        /**
+        *  ADD START
+         */
+        addRecipeCategory(registry, MachineType.ISOTOPIC_CENTRIFUGE, new IsotopicRecipeCategory(guiHelper));
+        /**
+        * ADD END
+         */
+
         //There is no config option to disable the thermal evaporation plant
         registry.addRecipeCategories(new ThermalEvaporationRecipeCategory(guiHelper));
     }
@@ -166,5 +175,14 @@ public class MekanismJEI implements IModPlugin {
         RecipeRegistryHelper.registerSmelter(registry);
         RecipeRegistryHelper.registerFormulaicAssemblicator(registry);
         registry.getRecipeTransferRegistry().addRecipeTransferHandler(ContainerRobitInventory.class, VanillaRecipeCategoryUid.CRAFTING, 1, 9, 10, 36);
+
+        /**
+         *  ADD START
+         */
+        RecipeRegistryHelper.registerIsotopicCentrifuge(registry);
+        /**
+         * ADD END
+         */
+
     }
 }

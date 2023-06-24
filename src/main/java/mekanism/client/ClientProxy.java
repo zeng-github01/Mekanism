@@ -173,6 +173,12 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityThermalEvaporationController.class, new RenderThermalEvaporationController());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityThermodynamicConductor.class, new RenderThermodynamicConductor());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityUniversalCable.class, new RenderUniversalCable());
+
+        /**
+        * ADD Start
+         */
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityIsotopicCentrifuge.class, new RenderIsotopicCentrifuge());
+
     }
 
     @Override
@@ -294,6 +300,16 @@ public class ClientProxy extends CommonProxy {
         for (int i = 0; i < EnumColor.DYES.length; i++) {
             ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(MekanismBlocks.GlowPanel), i, getInventoryMRL("glowpanel"));
         }
+
+        /**
+         * ADD START
+         * */
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(MekanismBlocks.MachineBlock3), 9, getInventoryMRL("isotopic_centrifuge"));
+
+
+        /**
+         * ADD END
+         * */
 
         for (MachineType type : MachineType.values()) {
             if (!type.isValidMachine()) {
@@ -707,6 +723,9 @@ public class ClientProxy extends CommonProxy {
                 return new GuiFuelwoodHeater(player.inventory, (TileEntityFuelwoodHeater) tileEntity);
             case 59:
                 return new GuiLogisticalSorter(player, (TileEntityLogisticalSorter) tileEntity);
+            case 60:
+                return new GuiIsotopicCentrifuge(player.inventory, (TileEntityIsotopicCentrifuge) tileEntity);
+
         }
         return null;
     }
@@ -849,6 +868,15 @@ public class ClientProxy extends CommonProxy {
         machineModelBake(modelRegistry, "personal_chest", MachineType.PERSONAL_CHEST);
 
         machineModelBake(modelRegistry, "fluid_tank", MachineType.FLUID_TANK);
+
+        /**
+        * ADD START
+        */
+        machineModelBake(modelRegistry, "isotopic_centrifuge", MachineType.ISOTOPIC_CENTRIFUGE);
+
+        /**
+         * ADD END
+         */
 
         //basicBlockModelBake(modelRegistry, "bin", BasicBlockType.BIN);
         basicBlockModelBake(modelRegistry, "security_desk", BasicBlockType.SECURITY_DESK);

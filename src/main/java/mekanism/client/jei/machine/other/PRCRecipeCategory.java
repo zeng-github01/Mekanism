@@ -27,7 +27,7 @@ public class PRCRecipeCategory<WRAPPER extends PRCRecipeWrapper<PressurizedRecip
 
     public PRCRecipeCategory(IGuiHelper helper) {
         super(helper, "mekanism:gui/GuiBlankIcon.png", Recipe.PRESSURIZED_REACTION_CHAMBER.getJEICategory(),
-                "tile.MachineBlock2.PressurizedReactionChamber.short.name", ProgressBar.MEDIUM, 3, 11, 170, 60);
+                "tile.MachineBlock2.PressurizedReactionChamber.name", ProgressBar.MEDIUM, 3, 11, 170, 60);
     }
 
     @Override

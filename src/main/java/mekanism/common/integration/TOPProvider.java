@@ -1,5 +1,6 @@
 package mekanism.common.integration;
 
+import mcjty.theoneprobe.api.*;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasTankInfo;
 import mekanism.api.gas.IGasHandler;

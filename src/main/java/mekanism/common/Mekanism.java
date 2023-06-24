@@ -494,6 +494,19 @@ public class Mekanism {
 
         //Fuel Gases
         FuelHandler.addGas(MekanismFluids.Hydrogen, 1, MekanismConfig.current().general.FROM_H2.val());
+
+        /**
+         * ADD START
+         */
+        //Isotopic Centrifuge Recipes
+        if (MekanismConfig.current().general.machinesManager.isEnabled(MachineType.ISOTOPIC_CENTRIFUGE)) {
+            RecipeHandler.addIsotopicRecipe(new GasStack(MekanismFluids.UraniumHexafluoride, 1), new GasStack(MekanismFluids.FissileFule, 1));
+            RecipeHandler.addIsotopicRecipe(new GasStack(MekanismFluids.NuclearWaste, 10), new GasStack(MekanismFluids.Plutonium, 1));
+        }
+
+        /**
+         * ADD END
+         */
     }
 
     /**
@@ -668,7 +681,7 @@ public class Mekanism {
         //Because it was registered as a ultimate_smelting_factory by the original elite factory
         //So the ultimate factory here is registered as elite_smelting_factory
         registerTileEntity(TileEntityCreativeFactory.class, "creative_smelting_factory");
-
+        registerTileEntity(TileEntityIsotopicCentrifuge.class, "isotopic_centrifuge");
 
         /**
          * End of adding machine
@@ -942,6 +955,14 @@ public class Mekanism {
 
         event.blacklistMod("storagedrawers");//without packing tape, you're gonna have a bad time
         event.blacklistMod("colossalchests");
+
+        /**
+         * ADD START
+         */
+        event.blacklist(MekanismBlocks.MachineBlock3, 9); // Isotopic Centrifuge
+        /**
+         * ADD END
+         */
 
         BoxBlacklistParser.load();
     }

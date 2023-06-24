@@ -25,7 +25,9 @@ public class MekRecipesCommand extends CraftTweakerCommand {
     public MekRecipesCommand() {
         super("mekrecipes");
         subCommands = Stream.of("crystallizer", "dissolution", "chemicalInfuser", "injection", "oxidizer", "washer", "combiner", "crusher", "separator", "smelter",
-                "enrichment", "metallurgicInfuser", "compressor", "sawmill", "prc", "purification", "solarneutronactivator", "thermalevaporation").collect(Collectors.toList());
+                "enrichment", "metallurgicInfuser", "compressor", "sawmill", "prc", "purification", "solarneutronactivator", "thermalevaporation",
+                "isotopiccentrifuge"
+                ).collect(Collectors.toList());
     }
 
     @Override
@@ -223,6 +225,23 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                     ));
                 }
                 break;
+            /**
+             * ADD START
+             */
+            case "isotopiccentrifuge":
+                type = Recipe.ISOTOPIC_CENTRIFUGE;
+                for (IsotopicRecipe recipe : Recipe.ISOTOPIC_CENTRIFUGE.get().values()) {
+                    CraftTweakerAPI.logCommand(String.format("mods.mekanism.isotopiccentrifuge.addRecipe(%s, %s)",
+                            RecipeInfoHelper.getGasName(recipe.getInput().ingredient),
+                            RecipeInfoHelper.getGasName(recipe.getOutput().output)
+                    ));
+                }
+                break;
+
+            /**
+             * ADD END
+             */
+
             default:
                 sender.sendMessage(SpecialMessagesChat.getNormalMessage("Recipe Type required, pick one of the following: " + Arrays.toString(subCommands.toArray())));
                 return;

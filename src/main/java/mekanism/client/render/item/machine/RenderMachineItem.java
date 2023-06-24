@@ -47,6 +47,15 @@ public class RenderMachineItem extends SubTypeItemRenderer<MachineType> {
             } else if (machineType == MachineType.DIGITAL_MINER) {
                 RenderDigitalMinerItem.renderStack(stack, transformType);
             }
+            /**
+             * ADD START
+             */
+              else if (machineType == MachineType.ISOTOPIC_CENTRIFUGE) {
+                RenderIsotopicCentrifugeItem.renderStack(stack, transformType);
+            }
+            /**
+             * ADD END
+             */
         }
     }
 

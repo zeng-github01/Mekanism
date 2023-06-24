@@ -3,7 +3,7 @@ package mekanism.common.integration.groovyscript;
 import com.cleanroommc.groovyscript.compat.mods.ModSupport;
 import mekanism.common.Mekanism;
 import mekanism.common.integration.MekanismHooks;
-import mekanism.common.integration.groovyscript.machinerecipe.Smelter;
+import mekanism.common.integration.groovyscript.machinerecipe.*;
 import net.minecraftforge.fml.common.Loader;
 
 
@@ -34,9 +34,11 @@ public class GrSMekanismAdd {
     public static class Container extends com.cleanroommc.groovyscript.compat.mods.mekanism.Mekanism {
 
         public Smelter smelter = new Smelter();
+        public IsotopicCentrifuge isotopicCentrifuge = new IsotopicCentrifuge();
 
         public Container() {
             addRegistry(smelter);
+            addRegistry(isotopicCentrifuge);
         }
     }
 }

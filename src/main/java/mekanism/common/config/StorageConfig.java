@@ -78,4 +78,10 @@ public class StorageConfig extends BaseConfig {
 
     public final DoubleOption teleporter = new DoubleOption(this, "storage", "TeleporterStorage", 5000000D,
             "Base energy storage (Joules).");
+
+    /**
+     * Add Start
+     */
+    public final DoubleOption isotopicCentrifuge = new DoubleOption(this, "storage", "isotopicCentrifuge", 80000D,
+            "Base energy storage (Joules).");
 }

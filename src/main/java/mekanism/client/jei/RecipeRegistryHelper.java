@@ -276,4 +276,22 @@ public class RecipeRegistryHelper {
             FactoryTier.forEnabled(tier -> registry.addRecipeCatalyst(MekanismUtils.getFactory(tier, finalFactoryType), recipe.getJEICategory()));
         }
     }
+
+
+    /**
+     *  ADD START
+     */
+    public static void registerIsotopicCentrifuge(IModRegistry registry) {
+        if (!MachineType.ISOTOPIC_CENTRIFUGE.isEnabled()) {
+            return;
+        }
+        addRecipes(registry, Recipe.ISOTOPIC_CENTRIFUGE, IsotopicRecipeWrapper::new);
+        registry.addRecipeClickArea(GuiIsotopicCentrifuge.class, 61, 39, 55, 8, Recipe.ISOTOPIC_CENTRIFUGE.getJEICategory());
+        registerRecipeItem(registry, MachineType.ISOTOPIC_CENTRIFUGE, Recipe.ISOTOPIC_CENTRIFUGE);
+    }
+    /**
+     * ADD END
+     */
+
+
 }

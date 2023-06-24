@@ -161,4 +161,10 @@ public interface MekanismRecipeHelper {
     void addThermalEvaporationRecipe(FluidStack inputFluid, FluidStack outputFluid);
 
     void addSolarNeutronRecipe(GasStack inputGas, GasStack outputGas);
+
+    /**
+     * Add Start
+     */
+    void addIsotopicRecipe(GasStack inputGas, GasStack outputGas);
+
 }

@@ -242,6 +242,20 @@ public final class RecipeHandler {
         addRecipe(Recipe.AMBIENT_ACCUMULATOR, new AmbientGasRecipe(dimensionID, ambientGasName));
     }
 
+
+    /**
+     * Add Start
+     */
+
+    public static void addIsotopicRecipe(GasStack inputGas, GasStack outputGas) {
+        addRecipe(Recipe.ISOTOPIC_CENTRIFUGE, new IsotopicRecipe(inputGas, outputGas));
+    }
+
+    /**
+    * Add End
+     */
+
+
     /**
      * Gets the Metallurgic Infuser Recipe for the InfusionInput in the parameters.
      *
@@ -380,6 +394,19 @@ public final class RecipeHandler {
     }
 
     /**
+     * Add Start
+     */
+
+    @Nullable
+    public static IsotopicRecipe getIsotopicRecipe(@Nonnull GasInput input) {
+        return getRecipe(input, Recipe.ISOTOPIC_CENTRIFUGE);
+    }
+
+
+
+
+
+    /**
      * Gets the whether the input ItemStack is in a recipe
      *
      * @param itemstack - input ItemStack
@@ -472,6 +499,16 @@ public final class RecipeHandler {
         public static final Recipe<GasInput, GasOutput, SolarNeutronRecipe> SOLAR_NEUTRON_ACTIVATOR = new Recipe<>(
                 MachineType.SOLAR_NEUTRON_ACTIVATOR, GasInput.class, GasOutput.class, SolarNeutronRecipe.class);
 
+        /**
+         * Add Start
+         */
+
+        public static final Recipe<GasInput, GasOutput, IsotopicRecipe> ISOTOPIC_CENTRIFUGE = new Recipe<>(
+                MachineType.ISOTOPIC_CENTRIFUGE, GasInput.class, GasOutput.class, IsotopicRecipe.class);
+
+        /**
+         * ADD END
+         */
         static {
             values = ImmutableList.copyOf(values);
         }

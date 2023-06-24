@@ -131,4 +131,18 @@ public class APIHandler implements MekanismRecipeHelper {
         checkPhase();
         RecipeHandler.addSolarNeutronRecipe(inputGas, outputGas);
     }
+
+    /**
+     * ADD START
+     */
+
+    @Override
+    public void addIsotopicRecipe(GasStack inputGas, GasStack outputGas) {
+        checkPhase();
+        RecipeHandler.addIsotopicRecipe(inputGas, outputGas);
+    }
+
+    /**
+     * ADD END
+     */
 }

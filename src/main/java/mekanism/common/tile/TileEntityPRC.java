@@ -195,11 +195,7 @@ public class TileEntityPRC extends TileEntityBasicMachine<PressurizedInput, Pres
         return nbtTags;
     }
 
-    @Nonnull
-    @Override
-    public String getName() {
-        return LangUtils.localize(getBlockType().getTranslationKey() + "." + fullName + ".short.name");
-    }
+
 
     @Override
     public Map<PressurizedInput, PressurizedRecipe> getRecipes() {

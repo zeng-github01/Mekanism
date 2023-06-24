@@ -1,5 +1,6 @@
 package mekanism.common.integration.crafttweaker.gas;
 
+import crafttweaker.api.item.*;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.player.IPlayer;
 import mekanism.api.gas.GasStack;

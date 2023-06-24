@@ -113,7 +113,8 @@ public class BlockStateMachine extends ExtendedBlockState {
         FORMULAIC_ASSEMBLICATOR(MachineBlock.MACHINE_BLOCK_3, 5, "FormulaicAssemblicator", 56, TileEntityFormulaicAssemblicator::new, true, false, true, Plane.HORIZONTAL, true),
         FUELWOOD_HEATER(MachineBlock.MACHINE_BLOCK_3, 6, "FuelwoodHeater", 58, TileEntityFuelwoodHeater::new, false, false, false, Plane.HORIZONTAL, true),
         ULTIMATE_FACTORY(MachineBlock.MACHINE_BLOCK_3, 7, "Factory", 11, TileEntityUltimateFactory::new, true, false, true, Plane.HORIZONTAL, true, FactoryTier.ULTIMATE),
-        CREATIVE_FACTORY(MachineBlock.MACHINE_BLOCK_3, 8, "Factory", 11, TileEntityCreativeFactory::new, true, false, true, Plane.HORIZONTAL, true, FactoryTier.CREATIVE);
+        CREATIVE_FACTORY(MachineBlock.MACHINE_BLOCK_3, 8, "Factory", 11, TileEntityCreativeFactory::new, true, false, true, Plane.HORIZONTAL, true, FactoryTier.CREATIVE),
+        ISOTOPIC_CENTRIFUGE(MachineBlock.MACHINE_BLOCK_3, 9, "IsotopicCentrifuge", 60, TileEntityIsotopicCentrifuge::new, true, true, false, Plane.HORIZONTAL, false);
 
         public MachineBlock typeBlock;
         public int meta;
@@ -266,6 +267,11 @@ public class BlockStateMachine extends ExtendedBlockState {
                     return 100;
                 case FORMULAIC_ASSEMBLICATOR:
                     return MekanismConfig.current().usage.formulaicAssemblicator.val();
+                /**
+                 * Add Start
+                 */
+                case ISOTOPIC_CENTRIFUGE:
+                    return MekanismConfig.current().usage.isotopicCentrifuge.val();
                 default:
                     return 0;
             }
@@ -323,6 +329,11 @@ public class BlockStateMachine extends ExtendedBlockState {
                     return MekanismConfig.current().storage.laser.val();
                 case FORMULAIC_ASSEMBLICATOR:
                     return MekanismConfig.current().storage.formulaicAssemblicator.val();
+                /**
+                 * Add Start
+                 */
+                case ISOTOPIC_CENTRIFUGE:
+                    return MekanismConfig.current().storage.isotopicCentrifuge.val();
                 default:
                     return 400 * getUsage();
             }

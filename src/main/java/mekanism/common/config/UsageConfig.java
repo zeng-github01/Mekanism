@@ -85,4 +85,12 @@ public class UsageConfig extends BaseConfig {
 
     public final IntOption teleporterDimensionPenalty = new IntOption(this, "usage", "TeleporterDimensionPenalty", 10000,
             "Flat additional cost for interdimensional teleportation.");
+
+    /**
+    * Add Start
+     */
+    public final DoubleOption isotopicCentrifuge = new DoubleOption(this, "usage", "isotopicCentrifuge", 200D,
+            "Energy per operation tick (Joules).");
+
+
 }
