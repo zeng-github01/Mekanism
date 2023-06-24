@@ -10,6 +10,7 @@ import mekanism.client.MekanismClient;
 import mekanism.client.MekanismKeyHandler;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
+import mekanism.common.MekanismFluids;
 import mekanism.common.base.ISideConfiguration;
 import mekanism.common.base.ISustainedInventory;
 import mekanism.common.base.ITierItem;
@@ -216,7 +217,9 @@ public class ItemBlockGasTank extends ItemBlock implements IGasItem, ISustainedI
 
     @Override
     public int addGas(ItemStack itemstack, GasStack stack) {
-        if (getGas(itemstack) != null && getGas(itemstack).getGas() != stack.getGas()) {
+        if (getGas(itemstack) != null && getGas(itemstack).getGas() != stack.getGas() &&
+                (getBaseTier(itemstack) != BaseTier.CREATIVE &&
+                        (getGas(itemstack).getGas() == MekanismFluids.NuclearWaste || getGas(itemstack).getGas() == MekanismFluids.Plutonium || getGas(itemstack).getGas() == MekanismFluids.Polonium || getGas(itemstack).getGas() == MekanismFluids.SpentNuclearWaste))) {
             return 0;
         }
         if (getBaseTier(itemstack) == BaseTier.CREATIVE) {
@@ -247,12 +250,21 @@ public class ItemBlockGasTank extends ItemBlock implements IGasItem, ISustainedI
 
     @Override
     public boolean canReceiveGas(ItemStack itemstack, Gas type) {
-        return getGas(itemstack) == null || getGas(itemstack).getGas() == type;
+        if (getBaseTier(itemstack) != BaseTier.CREATIVE && (type == MekanismFluids.NuclearWaste || type == MekanismFluids.Plutonium || type == MekanismFluids.Polonium || type == MekanismFluids.SpentNuclearWaste)) {
+            return false;
+        } else {
+            return getGas(itemstack) == null || getGas(itemstack).getGas() == type;
+        }
     }
 
     @Override
     public boolean canProvideGas(ItemStack itemstack, Gas type) {
-        return getGas(itemstack) != null && (type == null || getGas(itemstack).getGas() == type);
+        if (getBaseTier(itemstack) != BaseTier.CREATIVE
+                && (getGas(itemstack).getGas() == MekanismFluids.NuclearWaste ||  getGas(itemstack).getGas() == MekanismFluids.Plutonium ||  getGas(itemstack).getGas() == MekanismFluids.Polonium ||  getGas(itemstack).getGas() == MekanismFluids.SpentNuclearWaste)) {
+            return false;
+        }else {
+            return getGas(itemstack) != null && (type == null || getGas(itemstack).getGas() == type);
+        }
     }
 
     @Override

@@ -6,6 +6,7 @@ import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.Mekanism;
+import mekanism.common.MekanismFluids;
 import mekanism.common.SideData;
 import mekanism.common.base.IComparatorSupport;
 import mekanism.common.base.IRedstoneControl;
@@ -139,7 +140,15 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
     @Override
     public boolean canExtractItem(int slotID, @Nonnull ItemStack itemstack, @Nonnull EnumFacing side) {
         if (slotID == 1) {
-            return itemstack.getItem() instanceof IGasItem && ((IGasItem) itemstack.getItem()).getGas(itemstack) == null;
+            if (tier != GasTankTier.CREATIVE && (
+                    ((IGasItem) itemstack.getItem()).getGas(itemstack).getGas() == MekanismFluids.NuclearWaste ||
+                            ((IGasItem) itemstack.getItem()).getGas(itemstack).getGas() == MekanismFluids.Plutonium ||
+                            ((IGasItem) itemstack.getItem()).getGas(itemstack).getGas() == MekanismFluids.Polonium ||
+                            ((IGasItem) itemstack.getItem()).getGas(itemstack).getGas() == MekanismFluids.SpentNuclearWaste)) {
+                return false;
+            } else {
+                return itemstack.getItem() instanceof IGasItem && ((IGasItem) itemstack.getItem()).getGas(itemstack) == null;
+            }
         } else if (slotID == 0) {
             return itemstack.getItem() instanceof IGasItem && ((IGasItem) itemstack.getItem()).getGas(itemstack) != null &&
                     ((IGasItem) itemstack.getItem()).getGas(itemstack).amount == ((IGasItem) itemstack.getItem()).getMaxGas(itemstack);
@@ -152,7 +161,15 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
         if (slotID == 0) {
             return itemstack.getItem() instanceof IGasItem && (gasTank.getGas() == null || ((IGasItem) itemstack.getItem()).canReceiveGas(itemstack, gasTank.getGas().getGas()));
         } else if (slotID == 1) {
-            return itemstack.getItem() instanceof IGasItem && (gasTank.getGas() == null || ((IGasItem) itemstack.getItem()).canProvideGas(itemstack, gasTank.getGas().getGas()));
+            if (tier != GasTankTier.CREATIVE &&
+                    (((IGasItem) itemstack.getItem()).getGas(itemstack).getGas() == MekanismFluids.NuclearWaste ||
+                            ((IGasItem) itemstack.getItem()).getGas(itemstack).getGas() == MekanismFluids.Plutonium ||
+                            ((IGasItem) itemstack.getItem()).getGas(itemstack).getGas() == MekanismFluids.Polonium ||
+                            ((IGasItem) itemstack.getItem()).getGas(itemstack).getGas() == MekanismFluids.SpentNuclearWaste)) {
+                return false;
+            } else {
+                return itemstack.getItem() instanceof IGasItem && (gasTank.getGas() == null || ((IGasItem) itemstack.getItem()).canProvideGas(itemstack, gasTank.getGas().getGas()));
+            }
         }
         return false;
     }
@@ -165,10 +182,15 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
 
     @Override
     public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
+
         if (tier == GasTankTier.CREATIVE) {
             return stack != null ? stack.amount : 0;
         }
-        return gasTank.receive(stack, doTransfer);
+        if (stack.getGas() == MekanismFluids.NuclearWaste || stack.getGas() == MekanismFluids.Plutonium || stack.getGas() == MekanismFluids.Polonium || stack.getGas() == MekanismFluids.SpentNuclearWaste){
+            return gasTank.receive(stack,false);
+        }else {
+            return gasTank.receive(stack, doTransfer);
+        }
     }
 
     @Override
@@ -189,7 +211,9 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        if (configComponent.hasSideForData(TransmissionType.GAS, facing, 1, side)) {
+        if (tier != GasTankTier.CREATIVE && (type == MekanismFluids.NuclearWaste || type == MekanismFluids.Plutonium || type == MekanismFluids.Polonium || type == MekanismFluids.SpentNuclearWaste)){
+            return false;
+        }else if (configComponent.hasSideForData(TransmissionType.GAS, facing, 1, side)) {
             return gasTank.canReceive(type);
         }
         return false;

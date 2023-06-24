@@ -91,7 +91,7 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
         super.initGui();
         buttonList.clear();
         buttonList.add(backButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 6, guiTop + 6, 14, 14, 204, 14, -14, getGuiLocation()));
-        buttonList.add(strictInputButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 156, guiTop + 6, 14, 14, 176, 42, -14, getGuiLocation()));
+        buttonList.add(strictInputButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 156, guiTop + 6, 14, 14, 176, 56, -14, getGuiLocation()));
         buttonList.add(colorButton = new GuiColorButton(buttonID++, guiLeft + 122, guiTop + 49, 16, 16, () -> configurable.getEjector().getOutputColor()));
         for (int i = 0; i < slotPosMap.size(); i++) {
             GuiPos guiPos = slotPosMap.get(i);

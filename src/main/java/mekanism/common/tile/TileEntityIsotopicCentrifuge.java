@@ -84,7 +84,6 @@ public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements I
             } else if (prevEnergy >= getEnergy()) {
                 setActive(false);
             }
-            //   TileUtils.emitGas(this, outputTank, gasOutput, facing);
             prevEnergy = getEnergy();
             int newRedstoneLevel = getRedstoneLevel();
             if (newRedstoneLevel != currentRedstoneLevel) {

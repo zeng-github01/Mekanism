@@ -500,7 +500,7 @@ public class Mekanism {
          */
         //Isotopic Centrifuge Recipes
         if (MekanismConfig.current().general.machinesManager.isEnabled(MachineType.ISOTOPIC_CENTRIFUGE)) {
-            RecipeHandler.addIsotopicRecipe(new GasStack(MekanismFluids.UraniumHexafluoride, 1), new GasStack(MekanismFluids.FissileFule, 1));
+            RecipeHandler.addIsotopicRecipe(new GasStack(MekanismFluids.UraniumHexafluoride, 1), new GasStack(MekanismFluids.FissileFuel, 1));
             RecipeHandler.addIsotopicRecipe(new GasStack(MekanismFluids.NuclearWaste, 10), new GasStack(MekanismFluids.Plutonium, 1));
         }
 

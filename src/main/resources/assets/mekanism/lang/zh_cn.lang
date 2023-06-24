@@ -162,7 +162,10 @@ tile.MachineBlock3.Oredictionificator.name=矿典转换器
 tile.MachineBlock3.ResistiveHeater.name=电阻加热装置
 tile.MachineBlock3.FormulaicAssemblicator.name=公式装配器
 tile.MachineBlock3.FuelwoodHeater.name=木料加热器
+
+# Add new machine block start
 tile.MachineBlock3.Factory.name=工厂
+tile.MachineBlock3.IsotopicCentrifuge.name=同位素离心机
 
 # Plastic
 tile.PlasticBlock.name=塑料方块
@@ -335,6 +338,18 @@ gas.cleanLead=纯净铅浆液
 # BC Fuel Gases
 gas.fuel=气化燃油
 gas.oil=气化石油
+
+# add new gases
+gas.hydrofluoricacid=氢氟酸
+gas.antimatter=反物质
+gas.fissilefuel=裂变燃料
+gas.superheatedsodium=过热的钠蒸汽
+gas.uraniumhexafluoride=六氟化铀
+gas.uraniumoxide=氧化铀
+gas.nuclearwaste=核废水
+gas.plutonium=钚
+gas.polonium=钋
+gas.spentnuclearwaste=用尽的核废料
 
 # Fluids
 fluid.liquidhydrogen=液态氢

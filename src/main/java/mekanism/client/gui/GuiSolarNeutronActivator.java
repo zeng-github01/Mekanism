@@ -56,7 +56,7 @@ public class GuiSolarNeutronActivator extends GuiMekanismTile<TileEntitySolarNeu
             List<String> info = new ArrayList<>();
             boolean outputgas = tileEntity.outputTank.getStored() == tileEntity.outputTank.getMaxGas();
             if (outputgas) {
-                info.add(LangUtils.localize("tooltip.gasses") + LangUtils.localize("gui.no_space"));
+                info.add(LangUtils.localize("gui.gas_no_space"));
             }
             if (outputgas) {
                 displayTooltips(info, xAxis, yAxis);

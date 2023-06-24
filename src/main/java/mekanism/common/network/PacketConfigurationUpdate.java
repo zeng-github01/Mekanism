@@ -43,7 +43,11 @@ public class PacketConfigurationUpdate implements IMessageHandler<ConfigurationU
                     } else if (message.clickType == 1) {
                         MekanismUtils.decrementOutput(config, message.transmission, message.configIndex);
                     } else if (message.clickType == 2) {
-                        config.getConfig().getConfig(message.transmission).set(message.configIndex, (byte) 0);
+                        if (config.getConfig().getConfig(message.transmission).get(message.configIndex) == -1) {
+                            return;
+                        } else {
+                            config.getConfig().getConfig(message.transmission).set(message.configIndex, (byte) 0);
+                        }
                     }
 
                     tile.markDirty();

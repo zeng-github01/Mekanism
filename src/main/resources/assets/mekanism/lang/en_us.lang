@@ -162,7 +162,11 @@ tile.MachineBlock3.Oredictionificator.name=Oredictionificator
 tile.MachineBlock3.ResistiveHeater.name=Resistive Heater
 tile.MachineBlock3.FormulaicAssemblicator.name=Formulaic Assemblicator
 tile.MachineBlock3.FuelwoodHeater.name=Fuelwood Heater
+
+# Add new machine block start
 tile.MachineBlock3.Factory.name= Factory
+tile.MachineBlock3.IsotopicCentrifuge.name=Isotopic Centrifuge
+
 # Plastic
 tile.PlasticBlock.name=Plastic Block
 tile.SlickPlasticBlock.name=Slick Plastic Block
@@ -334,6 +338,18 @@ gas.cleanLead=Clean Lead Slurry
 # BC Fuel Gases
 gas.fuel=Vaporized Fuel
 gas.oil=Vaporized Oil
+
+# add new gases
+gas.hydrofluoricacid=Hydrofluoric Acid
+gas.antimatter=Antimatter
+gas.fissilefuel=Fissile Fuel
+gas.superheatedsodium=Superheated Sodium
+gas.uraniumhexafluoride=Uranium Hexafluoride
+gas.uraniumoxide=Uranium Oxide
+gas.nuclearwaste=Nuclear Waste
+gas.plutonium=Plutonium
+gas.polonium=Polonium
+gas.spentnuclearwaste=Spent Nuclear Waste
 
 # Fluids
 fluid.liquidhydrogen=Liquid Hydrogen

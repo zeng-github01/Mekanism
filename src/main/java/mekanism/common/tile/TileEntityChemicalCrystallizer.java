@@ -68,7 +68,10 @@ public class TileEntityChemicalCrystallizer extends TileEntityOperationalMachine
         super.onUpdate();
         if (!world.isRemote) {
             ChargeUtils.discharge(2, this);
-            TileUtils.receiveGas(inventory.get(0), inputTank);
+            if (!inventory.get(0).isEmpty() && inventory.get(0).getItem() instanceof IGasItem && ((IGasItem) inventory.get(0).getItem()).getGas(inventory.get(0)) != null &&
+                    Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(((IGasItem) inventory.get(0).getItem()).getGas(inventory.get(0)).getGas())) {
+                TileUtils.receiveGas(inventory.get(0), inputTank);
+            }
             CrystallizerRecipe recipe = getRecipe();
             if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick) {
                 setActive(true);
@@ -154,17 +157,11 @@ public class TileEntityChemicalCrystallizer extends TileEntityOperationalMachine
     @Override
     public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
         if (canReceiveGas(side, stack.getGas())) {
-            if (stack == null) {
-                return 0;
-            }
-
             int recipeAmount = Recipe.CHEMICAL_CRYSTALLIZER.get().get(new GasInput(stack)).recipeInput.ingredient.amount;
             int receivable = inputTank.receive(stack, false);
             int stored = inputTank.stored != null ? inputTank.stored.amount : 0;
             int newStored = stored + receivable;
-
             int amount = newStored - stored - newStored % recipeAmount;
-
             return inputTank.receive(stack.copy().withAmount(amount), doTransfer);
         }
         return 0;

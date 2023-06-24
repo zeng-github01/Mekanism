@@ -38,10 +38,18 @@ public class MekanismFluids {
     /**
      * ADD START
      */
+    //V10 gases
+
+    public static final Gas HydrofluoricAcid =new Gas("hydrofluoricacid",0xFFC6C7BD);
+    public static final Gas Antimatter= new Gas("antimatter",0xA464B3);
+    public static final Gas FissileFuel = new Gas("fissilefuel", 0x2E332F);
+    public static final Gas SuperheatedSodium = new Gas("superheatedsodium", 0xFFD19469);
     public static final Gas UraniumHexafluoride = new Gas("uraniumhexafluoride", 0xFF809960);
-    public static final Gas FissileFule = new Gas("fissilefule", 0x2E332F);
+    public static final Gas Uraniumoxide = new Gas("uraniumoxide", 0xFFE1F573);
     public static final Gas NuclearWaste = new Gas("nuclearwaste", 0x4F412A);
     public static final Gas Plutonium = new Gas("plutonium", 0x1F919C);
+    public static final Gas Polonium = new Gas("polonium", 0x1B9E7B);
+    public static final Gas SpentNuclearWaste = new Gas("spentnuclearwaste", 0x262015);
     /**
      * ADD END
      */
@@ -69,10 +77,21 @@ public class MekanismFluids {
         /**
          * ADD START
          */
-        GasRegistry.register(FissileFule);
+        GasRegistry.register(HydrofluoricAcid);
+        GasRegistry.register(Antimatter);
+        GasRegistry.register(FissileFuel);
+        GasRegistry.register(SuperheatedSodium);
+        GasRegistry.register(UraniumHexafluoride);
+        GasRegistry.register(Uraniumoxide);
+
+        /**
+         *Radioactive material
+         * */
         GasRegistry.register(NuclearWaste);
         GasRegistry.register(Plutonium);
-        GasRegistry.register(UraniumHexafluoride);
+        GasRegistry.register(Polonium);
+        GasRegistry.register(SpentNuclearWaste);
+
         /**
          * ADD END
          */
