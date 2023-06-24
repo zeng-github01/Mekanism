@@ -15,7 +15,7 @@ public class APIHandler implements MekanismRecipeHelper {
 
     private static void checkPhase() {
         Preconditions.checkState(Loader.instance().getLoaderState().ordinal() < LoaderState.POSTINITIALIZATION.ordinal(),
-              "Recipes should be registered before PostInit. Try net.minecraftforge.event.RegistryEvent.Register<IRecipe>");
+                "Recipes should be registered before PostInit. Try net.minecraftforge.event.RegistryEvent.Register<IRecipe>");
     }
 
     @Override

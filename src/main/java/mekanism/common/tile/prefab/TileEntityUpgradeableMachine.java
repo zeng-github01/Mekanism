@@ -1,6 +1,5 @@
 package mekanism.common.tile.prefab;
 
-import java.util.Objects;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.MekanismBlocks;
 import mekanism.common.Upgrade;
@@ -14,8 +13,10 @@ import mekanism.common.tier.BaseTier;
 import mekanism.common.tile.TileEntityFactory;
 import net.minecraft.util.ResourceLocation;
 
+import java.util.Objects;
+
 public abstract class TileEntityUpgradeableMachine<INPUT extends MachineInput<INPUT>, OUTPUT extends MachineOutput<OUTPUT>, RECIPE extends MachineRecipe<INPUT, OUTPUT, RECIPE>> extends
-      TileEntityBasicMachine<INPUT, OUTPUT, RECIPE> implements ITierUpgradeable {
+        TileEntityBasicMachine<INPUT, OUTPUT, RECIPE> implements ITierUpgradeable {
 
     /**
      * The foundation of all machines - a simple tile entity with a facing, active state, initialized state, sound effect, and animated texture.
@@ -33,14 +34,14 @@ public abstract class TileEntityUpgradeableMachine<INPUT extends MachineInput<IN
         if (upgradeTier != BaseTier.BASIC) {
             return false;
         }
-        
+
         RecipeType type = RecipeType.getFromMachine(getBlockType(), getBlockMetadata());
-        
+
         world.setBlockToAir(getPos());
         world.setBlockState(getPos(), MekanismBlocks.MachineBlock.getStateFromMeta(5), 3);
 
         TileEntityFactory factory = Objects.requireNonNull((TileEntityFactory) world.getTileEntity(getPos()));
-        
+
         //Basic
         factory.facing = facing;
         factory.clientFacing = clientFacing;

@@ -1,6 +1,5 @@
 package mekanism.generators.client.gui;
 
-import java.util.Arrays;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
@@ -18,6 +17,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Arrays;
+
 @SideOnly(Side.CLIENT)
 public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
 
@@ -27,22 +28,24 @@ public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiEnergyInfo(() -> Arrays.asList(
-              LangUtils.localize("gui.producing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getActive() ? MekanismConfig.current().generators.bioGeneration.val() : 0) + "/t",
-              LangUtils.localize("gui.maxOutput") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t"), this, resource));
+                LangUtils.localize("gui.producing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getActive() ? MekanismConfig.current().generators.bioGeneration.val() : 0) + "/t",
+                LangUtils.localize("gui.maxOutput") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t"), this, resource));
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 16, 34));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 142, 34).with(SlotOverlay.POWER));
-        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.BIO_EVAPORATION,this,resource,48,23));
-        addGuiElement(new GuiBlack(this,resource,49,24,78,38));
+        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.BIO_EVAPORATION, this, resource, 48, 23));
+        addGuiElement(new GuiBlack(this, resource, 49, 24, 78, 38));
         addGuiElement(new GuiBioFuelBar(this, new GuiBioFuelBar.IPowerInfoHandler() {
             @Override
-            public String getTooltip(){
-                return tileEntity.bioFuelSlot.fluidStored > 0 ? LangUtils.localize("gui.bioGenerator.bioFuel") + ":" + tileEntity.bioFuelSlot.fluidStored : LangUtils.localize("gui.empty");}
+            public String getTooltip() {
+                return tileEntity.bioFuelSlot.fluidStored > 0 ? LangUtils.localize("gui.bioGenerator.bioFuel") + ":" + tileEntity.bioFuelSlot.fluidStored : LangUtils.localize("gui.empty");
+            }
+
             @Override
             public double getLevel() {
                 return (double) tileEntity.bioFuelSlot.fluidStored / tileEntity.bioFuelSlot.MAX_FLUID;
             }
-        },resource,6,15));
+        }, resource, 6, 15));
     }
 
     @Override

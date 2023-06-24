@@ -1,8 +1,5 @@
 package mekanism.client.jei;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.GasStack;
@@ -12,17 +9,8 @@ import mekanism.client.jei.machine.AdvancedMachineRecipeCategory;
 import mekanism.client.jei.machine.ChanceMachineRecipeCategory;
 import mekanism.client.jei.machine.DoubleMachineRecipeCategory;
 import mekanism.client.jei.machine.MachineRecipeCategory;
-import mekanism.client.jei.machine.chemical.ChemicalCrystallizerRecipeCategory;
-import mekanism.client.jei.machine.chemical.ChemicalDissolutionChamberRecipeCategory;
-import mekanism.client.jei.machine.chemical.ChemicalInfuserRecipeCategory;
-import mekanism.client.jei.machine.chemical.ChemicalOxidizerRecipeCategory;
-import mekanism.client.jei.machine.chemical.ChemicalWasherRecipeCategory;
-import mekanism.client.jei.machine.other.ElectrolyticSeparatorRecipeCategory;
-import mekanism.client.jei.machine.other.MetallurgicInfuserRecipeCategory;
-import mekanism.client.jei.machine.other.PRCRecipeCategory;
-import mekanism.client.jei.machine.other.RotaryCondensentratorRecipeCategory;
-import mekanism.client.jei.machine.other.SolarNeutronRecipeCategory;
-import mekanism.client.jei.machine.other.ThermalEvaporationRecipeCategory;
+import mekanism.client.jei.machine.chemical.*;
+import mekanism.client.jei.machine.other.*;
 import mekanism.common.MekanismBlocks;
 import mekanism.common.MekanismItems;
 import mekanism.common.base.IFactory;
@@ -33,12 +21,7 @@ import mekanism.common.inventory.container.robit.ContainerRobitInventory;
 import mekanism.common.item.ItemBlockEnergyCube;
 import mekanism.common.item.ItemBlockGasTank;
 import mekanism.common.recipe.RecipeHandler.Recipe;
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.IModPlugin;
-import mezz.jei.api.IModRegistry;
-import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.ISubtypeRegistry.ISubtypeInterpreter;
-import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IIngredientType;
@@ -47,6 +30,10 @@ import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 @JEIPlugin
 public class MekanismJEI implements IModPlugin {
@@ -119,24 +106,24 @@ public class MekanismJEI implements IModPlugin {
         addRecipeCategory(registry, MachineType.SOLAR_NEUTRON_ACTIVATOR, new SolarNeutronRecipeCategory(guiHelper));
 
         addRecipeCategory(registry, MachineType.COMBINER, new DoubleMachineRecipeCategory(guiHelper, Recipe.COMBINER.getJEICategory(),
-              "tile.MachineBlock.Combiner.name", ProgressBar.STONE));
+                "tile.MachineBlock.Combiner.name", ProgressBar.STONE));
 
         addRecipeCategory(registry, MachineType.PURIFICATION_CHAMBER, new AdvancedMachineRecipeCategory(guiHelper, Recipe.PURIFICATION_CHAMBER.getJEICategory(),
-              "tile.MachineBlock.PurificationChamber.name", ProgressBar.RED));
+                "tile.MachineBlock.PurificationChamber.name", ProgressBar.RED));
         addRecipeCategory(registry, MachineType.OSMIUM_COMPRESSOR, new AdvancedMachineRecipeCategory(guiHelper, Recipe.OSMIUM_COMPRESSOR.getJEICategory(),
-              "tile.MachineBlock.OsmiumCompressor.name", ProgressBar.RED));
+                "tile.MachineBlock.OsmiumCompressor.name", ProgressBar.RED));
         addRecipeCategory(registry, MachineType.CHEMICAL_INJECTION_CHAMBER, new AdvancedMachineRecipeCategory(guiHelper, Recipe.CHEMICAL_INJECTION_CHAMBER.getJEICategory(),
-              "tile.MachineBlock2.ChemicalInjectionChamber.name", ProgressBar.YELLOW));
+                "tile.MachineBlock2.ChemicalInjectionChamber.name", ProgressBar.YELLOW));
 
         addRecipeCategory(registry, MachineType.PRECISION_SAWMILL, new ChanceMachineRecipeCategory(guiHelper, Recipe.PRECISION_SAWMILL.getJEICategory(),
-              "tile.MachineBlock2.PrecisionSawmill.name", ProgressBar.PURPLE));
+                "tile.MachineBlock2.PrecisionSawmill.name", ProgressBar.PURPLE));
 
         addRecipeCategory(registry, MachineType.ENRICHMENT_CHAMBER, new MachineRecipeCategory(guiHelper, Recipe.ENRICHMENT_CHAMBER.getJEICategory(),
-              "tile.MachineBlock.EnrichmentChamber.name", ProgressBar.BLUE));
+                "tile.MachineBlock.EnrichmentChamber.name", ProgressBar.BLUE));
         addRecipeCategory(registry, MachineType.CRUSHER, new MachineRecipeCategory(guiHelper, Recipe.CRUSHER.getJEICategory(), "tile.MachineBlock.Crusher.name",
-              ProgressBar.CRUSH));
+                ProgressBar.CRUSH));
         addRecipeCategory(registry, MachineType.ENERGIZED_SMELTER, new MachineRecipeCategory(guiHelper, Recipe.ENERGIZED_SMELTER.getJEICategory(),
-              "tile.MachineBlock.EnergizedSmelter.name", ProgressBar.BLUE));
+                "tile.MachineBlock.EnergizedSmelter.name", ProgressBar.BLUE));
 
         //There is no config option to disable the thermal evaporation plant
         registry.addRecipeCategories(new ThermalEvaporationRecipeCategory(guiHelper));

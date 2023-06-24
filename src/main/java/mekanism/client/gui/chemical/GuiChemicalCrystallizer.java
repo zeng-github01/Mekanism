@@ -66,8 +66,8 @@ public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalC
             }
         }, ProgressBar.LARGE_RIGHT, this, resource, 51, 60));
         addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.CRYSTALLIZER, this, resource, 27, 13));
-        addGuiElement(new GuiBlack(this,resource,28, 14, 102, 40));
-        addGuiElement(new GuiBlack(this,resource,28 + 102,13 + 18,17,23));
+        addGuiElement(new GuiBlack(this, resource, 28, 14, 102, 40));
+        addGuiElement(new GuiBlack(this, resource, 28 + 102, 13 + 18, 17, 23));
     }
 
     @Override
@@ -93,13 +93,13 @@ public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalC
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
             boolean outslot = tileEntity.inventory.get(1).getCount() == tileEntity.inventory.get(1).getMaxStackSize();
-            if (energy){
+            if (energy) {
                 info.add(LangUtils.localize("gui.no_energy"));
             }
             if (outslot) {
                 info.add(LangUtils.localize("gui.item_no_space"));
             }
-            if (outslot || energy){
+            if (outslot || energy) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }
@@ -113,12 +113,12 @@ public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalC
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
         if (outslot) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSlot.png"));
-            drawTexturedModalRect(guiLeft + 130, guiTop + 56,158,0,18,18);
+            drawTexturedModalRect(guiLeft + 130, guiTop + 56, 158, 0, 18, 18);
         }
-        if (outslot || energy){
+        if (outslot || energy) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
     }
 

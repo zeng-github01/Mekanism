@@ -1,9 +1,5 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.client.ClientTickHandler;
@@ -40,6 +36,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @SideOnly(Side.CLIENT)
 public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
@@ -80,8 +81,9 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
             public double getLevel() {
                 return getEnergy() / getMaxEnergy();
             }
+
             @Override
-            public boolean powerbarWarning(){
+            public boolean powerbarWarning() {
                 return tileEntity.getEnergy() == 0;
             }
         }, resource, 158, 26));
@@ -300,10 +302,10 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         } else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
             List<String> info = new ArrayList<>();
             boolean energy = getEnergy() == 0;
-            if (energy){
+            if (energy) {
                 info.add(LangUtils.localize("gui.no_energy"));
             }
-            if (energy){
+            if (energy) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }
@@ -318,10 +320,10 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         frequencyField.drawTextBox();
         MekanismRenderer.resetColor();
         boolean energy = getEnergy() == 0;
-        if (energy){
+        if (energy) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
     }
 

@@ -1,9 +1,5 @@
 package mekanism.client.gui;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import mekanism.client.gui.element.GuiBlackScreenframe;
 import mekanism.client.gui.element.GuiHeatInfo;
 import mekanism.client.gui.element.GuiRateBar;
@@ -26,6 +22,10 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiThermoelectricBoiler extends GuiEmbeddedGaugeTile<TileEntityBoilerCasing> {
 
@@ -38,6 +38,7 @@ public class GuiThermoelectricBoiler extends GuiEmbeddedGaugeTile<TileEntityBoil
             public String getTooltip() {
                 return LangUtils.localize("gui.boilRate") + ": " + tileEntity.getLastBoilRate() + " mB/t";
             }
+
             @Override
             public double getLevel() {
                 return tileEntity.structure == null ? 0 : (double) tileEntity.getLastBoilRate() / (double) tileEntity.structure.lastMaxBoil;
@@ -48,10 +49,11 @@ public class GuiThermoelectricBoiler extends GuiEmbeddedGaugeTile<TileEntityBoil
             public String getTooltip() {
                 return LangUtils.localize("gui.maxBoil") + ": " + tileEntity.getLastMaxBoil() + " mB/t";
             }
+
             @Override
             public double getLevel() {
                 return tileEntity.structure == null ? 0 : tileEntity.getLastMaxBoil() * SynchronizedBoilerData.getHeatEnthalpy() /
-                                                          (tileEntity.structure.superheatingElements * MekanismConfig.current().general.superheatingHeatTransfer.val());
+                        (tileEntity.structure.superheatingElements * MekanismConfig.current().general.superheatingHeatTransfer.val());
             }
         }, resource, 144, 13));
         addGuiElement(new GuiHeatInfo(() -> {
@@ -59,7 +61,7 @@ public class GuiThermoelectricBoiler extends GuiEmbeddedGaugeTile<TileEntityBoil
             String environment = UnitDisplayUtils.getDisplayShort(tileEntity.getLastEnvironmentLoss() * unit.intervalSize, false, unit);
             return Collections.singletonList(LangUtils.localize("gui.dissipated") + ": " + environment + "/t");
         }, this, resource));
-        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.THERMOELECTRICBOILER,this,resource,40,27));
+        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.THERMOELECTRICBOILER, this, resource, 40, 27));
     }
 
     @Override
@@ -67,7 +69,7 @@ public class GuiThermoelectricBoiler extends GuiEmbeddedGaugeTile<TileEntityBoil
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 4, 0x404040);
         fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
         renderScaledText(LangUtils.localize("gui.temp") + ": " +
-                         MekanismUtils.getTemperatureDisplay(tileEntity.getTemperature(), TemperatureUnit.AMBIENT), 43, 30, 0x00CD00, 90);
+                MekanismUtils.getTemperatureDisplay(tileEntity.getTemperature(), TemperatureUnit.AMBIENT), 43, 30, 0x00CD00, 90);
         renderScaledText(LangUtils.localize("gui.boilRate") + ": " + tileEntity.getLastBoilRate() + " mB/t", 43, 39, 0x00CD00, 90);
         renderScaledText(LangUtils.localize("gui.maxBoil") + ": " + tileEntity.getLastMaxBoil() + " mB/t", 43, 48, 0x00CD00, 90);
         int xAxis = mouseX - guiLeft;
@@ -78,7 +80,7 @@ public class GuiThermoelectricBoiler extends GuiEmbeddedGaugeTile<TileEntityBoil
         } else if (xAxis >= 153 && xAxis <= 169 && yAxis >= 14 && yAxis <= 72) {
             FluidStack steamStored = tileEntity.structure != null ? tileEntity.structure.steamStored : null;
             displayTooltip(steamStored != null ? LangUtils.localizeFluidStack(steamStored) + ": " + steamStored.amount + "mB" : LangUtils.localize("gui.empty"), xAxis, yAxis);
-        }else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 90 && yAxis <= 108) {
+        } else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 90 && yAxis <= 108) {
             List<String> info = new ArrayList<>();
             boolean Steam = false;
             if (tileEntity.structure != null && tileEntity.structure.steamStored != null && tileEntity.structure.steamStored.amount == tileEntity.clientSteamCapacity) {
@@ -87,7 +89,7 @@ public class GuiThermoelectricBoiler extends GuiEmbeddedGaugeTile<TileEntityBoil
             if (Steam) {
                 info.add(LangUtils.localize("gui.steam_no_space"));
             }
-            if (Steam){
+            if (Steam) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }
@@ -119,7 +121,7 @@ public class GuiThermoelectricBoiler extends GuiEmbeddedGaugeTile<TileEntityBoil
         if (Steam) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 86, 0, 0, 26, 26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),true));
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), true));
         }
     }
 

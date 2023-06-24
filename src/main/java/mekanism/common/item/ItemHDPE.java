@@ -1,11 +1,12 @@
 package mekanism.common.item;
 
-import javax.annotation.Nonnull;
 import mekanism.common.Mekanism;
 import mekanism.common.base.IMetaItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+
+import javax.annotation.Nonnull;
 
 public class ItemHDPE extends ItemMekanism implements IMetaItem {
 

@@ -1,11 +1,11 @@
 package mekanism.generators.client.render;
 
 import mekanism.common.Mekanism;
-import mekanism.generators.common.util.MekanismGeneratorUtils.*;
-import mekanism.generators.common.util.MekanismGeneratorUtils;
 import mekanism.generators.client.model.ModelTurbine;
 import mekanism.generators.common.content.turbine.SynchronizedTurbineData;
 import mekanism.generators.common.tile.turbine.TileEntityTurbineRotor;
+import mekanism.generators.common.util.MekanismGeneratorUtils;
+import mekanism.generators.common.util.MekanismGeneratorUtils.ResourceType;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraftforge.fml.relauncher.Side;

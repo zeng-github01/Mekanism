@@ -1,10 +1,5 @@
 package mekanism.client.jei;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import javax.annotation.Nullable;
 import mekanism.api.gas.GasStack;
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.client.gui.element.GuiElement;
@@ -26,6 +21,12 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
+
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public abstract class BaseRecipeCategory<WRAPPER extends IRecipeWrapper> implements IRecipeCategory<WRAPPER>, IGuiWrapper {
 

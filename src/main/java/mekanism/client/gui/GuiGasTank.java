@@ -1,6 +1,5 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.GasStack;
 import mekanism.client.gui.element.GuiBlack;
@@ -29,6 +28,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.io.IOException;
+
 @SideOnly(Side.CLIENT)
 public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
 
@@ -41,8 +42,8 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 15, 16).with(SlotOverlay.PLUS));
         addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 15, 46).with(SlotOverlay.MINUS));
-        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.GASTANK,this,resource,42,37));
-        addGuiElement(new GuiBlack(this,resource,43,38,116,25));
+        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.GASTANK, this, resource, 42, 37));
+        addGuiElement(new GuiBlack(this, resource, 43, 38, 116, 25));
 
     }
 
@@ -52,7 +53,7 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
         String capacityInfo = stored + " / " + (tileEntity.tier.getStorage() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.tier.getStorage());
         fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
         renderScaledText(LangUtils.localize("gui.gas") + ": " + (tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName()
-                                                                                                     : LangUtils.localize("gui.none")), 45, 40, 0x33ff99, 112);
+                : LangUtils.localize("gui.none")), 45, 40, 0x33ff99, 112);
         fontRenderer.drawString(capacityInfo, 45, 49, 0x33ff99);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, ySize - 96 + 2, 0x404040);
         String name = LangUtils.localize(tileEntity.dumping.getLangKey());
@@ -67,10 +68,10 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 159, guiTop + 72,9,167,10,10);
-        drawTexturedModalRect(guiLeft + 42, guiTop + 16,0,192,118,12);
+        drawTexturedModalRect(guiLeft + 159, guiTop + 72, 9, 167, 10, 10);
+        drawTexturedModalRect(guiLeft + 42, guiTop + 16, 0, 192, 118, 12);
         int displayInt = tileEntity.dumping.ordinal();
-        drawTexturedModalRect(guiLeft + 160, guiTop + 73, 59 + 8 * displayInt, inBounds(xAxis, yAxis) ? 167 : 175,8,8);
+        drawTexturedModalRect(guiLeft + 160, guiTop + 73, 59 + 8 * displayInt, inBounds(xAxis, yAxis) ? 167 : 175, 8, 8);
         GasStack gas = tileEntity.gasTank.getGas();
         if (gas != null) {
             MekanismRenderer.color(gas);

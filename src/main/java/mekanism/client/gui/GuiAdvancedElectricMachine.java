@@ -1,9 +1,5 @@
 package mekanism.client.gui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import mekanism.api.gas.GasStack;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -22,10 +18,13 @@ import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<RECIPE>> extends GuiMekanismTile<TileEntityAdvancedElectricMachine<RECIPE>> {
@@ -42,7 +41,7 @@ public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<REC
         addGuiElement(new GuiEnergyInfo(() -> {
             String multiplier = MekanismUtils.getEnergyDisplay(tileEntity.energyPerTick);
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                  LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
         addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 55, 16));
         addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 30, 34).with(SlotOverlay.POWER));
@@ -68,22 +67,22 @@ public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<REC
         int yAxis = mouseY - guiTop;
         if (xAxis >= 61 && xAxis <= 67 && yAxis >= 37 && yAxis <= 49) {
             displayTooltip(tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + tileEntity.gasTank.getStored()
-                                                               : LangUtils.localize("gui.none"), xAxis, yAxis);
-        }else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+                    : LangUtils.localize("gui.none"), xAxis, yAxis);
+        } else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
-            boolean inputgas = (tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(0).getCount() != 0 );
+            boolean inputgas = (tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(0).getCount() != 0);
             boolean outslot = tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize();
-            if (energy){
+            if (energy) {
                 info.add(LangUtils.localize("gui.no_energy"));
             }
             if (inputgas) {
                 info.add(LangUtils.localize("gui.no_gas"));
             }
-            if (outslot){
+            if (outslot) {
                 info.add(LangUtils.localize("gui.item_no_space"));
             }
-            if (inputgas || energy || outslot){
+            if (inputgas || energy || outslot) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }
@@ -93,7 +92,7 @@ public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<REC
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 60,guiTop + 36,0,167,8,14);
+        drawTexturedModalRect(guiLeft + 60, guiTop + 36, 0, 167, 8, 14);
         if (tileEntity.getScaledGasLevel(12) > 0) {
             int displayInt = tileEntity.getScaledGasLevel(12);
             displayGauge(61, 37 + 12 - displayInt, 6, displayInt, tileEntity.gasTank.getGas());
@@ -103,15 +102,16 @@ public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<REC
         boolean outslot = tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize();
         if (outslot) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiSlot.png"));
-            drawTexturedModalRect(guiLeft + 111, guiTop + 30,176,0,26,26);
-        }if (inputgas){
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning_Background.png"));
-            drawTexturedModalRect(guiLeft + 61, guiTop + 37,0,0,6,12);
+            drawTexturedModalRect(guiLeft + 111, guiTop + 30, 176, 0, 26, 26);
         }
-        if (outslot || inputgas || energy){
+        if (inputgas) {
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning_Background.png"));
+            drawTexturedModalRect(guiLeft + 61, guiTop + 37, 0, 0, 6, 12);
+        }
+        if (outslot || inputgas || energy) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
     }
 

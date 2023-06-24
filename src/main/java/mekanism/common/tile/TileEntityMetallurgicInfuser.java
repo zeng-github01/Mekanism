@@ -1,20 +1,13 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.Objects;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigCardAccess;
 import mekanism.api.TileNetworkList;
 import mekanism.api.infuse.InfuseObject;
 import mekanism.api.infuse.InfuseRegistry;
 import mekanism.api.transmitters.TransmissionType;
-import mekanism.common.InfuseStorage;
-import mekanism.common.MekanismBlocks;
-import mekanism.common.MekanismItems;
-import mekanism.common.PacketHandler;
-import mekanism.common.SideData;
-import mekanism.common.Upgrade;
+import mekanism.common.*;
 import mekanism.common.base.IFactory.RecipeType;
 import mekanism.common.base.ISideConfiguration;
 import mekanism.common.base.ISustainedData;
@@ -43,11 +36,14 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Contract;
 
+import javax.annotation.Nonnull;
+import java.util.Objects;
+
 public class TileEntityMetallurgicInfuser extends TileEntityOperationalMachine implements IComputerIntegration, ISideConfiguration, IConfigCardAccess, ITierUpgradeable,
-      ISustainedData {
+        ISustainedData {
 
     private static final String[] methods = new String[]{"getEnergy", "getProgress", "facing", "canOperate", "getMaxEnergy", "getEnergyNeeded", "getInfuse",
-                                                         "getInfuseNeeded"};
+            "getInfuseNeeded"};
     /**
      * The maxiumum amount of infuse this machine can store.
      */

@@ -1,26 +1,14 @@
 package mekanism.generators.common.util;
 
-import mekanism.common.Mekanism;
-import mekanism.common.util.MekanismUtils;
 import mekanism.generators.common.MekanismGenerators;
 import net.minecraft.util.ResourceLocation;
 
 public class MekanismGeneratorUtils {
 
 
-
-
-
-
-
-
-
     public static ResourceLocation getResource(ResourceType type, String name) {
         return new ResourceLocation(MekanismGenerators.MODID, type.getPrefix() + name);
     }
-
-
-
 
 
     public enum ResourceType {

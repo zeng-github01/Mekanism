@@ -33,9 +33,9 @@ public class GuiRecipeType extends GuiTileEntityElement<TileEntityFactory> {
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         mc.renderEngine.bindTexture(RESOURCE);
-        guiObj.drawTexturedRect(guiWidth + 176 + xLocation, guiHeight + 70  + yLocation, 0, 0, 26, 63);
+        guiObj.drawTexturedRect(guiWidth + 176 + xLocation, guiHeight + 70 + yLocation, 0, 0, 26, 63);
         int displayInt = tileEntity.getScaledRecipeProgress(15);
-        guiObj.drawTexturedRect(guiWidth + 181 + xLocation, guiHeight + 94  + yLocation, 26, 0, 10, displayInt);
+        guiObj.drawTexturedRect(guiWidth + 181 + xLocation, guiHeight + 94 + yLocation, 26, 0, 10, displayInt);
         mc.renderEngine.bindTexture(defaultLocation);
     }
 

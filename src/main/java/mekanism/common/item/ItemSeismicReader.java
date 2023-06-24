@@ -1,7 +1,5 @@
 package mekanism.common.item;
 
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.Chunk3D;
 import mekanism.api.EnumColor;
 import mekanism.client.MekKeyHandler;
@@ -18,6 +16,9 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 public class ItemSeismicReader extends ItemEnergized {
 
@@ -36,10 +37,10 @@ public class ItemSeismicReader extends ItemEnergized {
     public void addInformation(ItemStack itemstack, World world, List<String> list, ITooltipFlag flag) {
         if (!MekKeyHandler.getIsKeyPressed(MekanismKeyHandler.sneakKey)) {
             list.add(LangUtils.localize("tooltip.hold") + " " + EnumColor.INDIGO + GameSettings.getKeyDisplayString(MekanismKeyHandler.sneakKey.getKeyCode()) +
-                     EnumColor.GREY + " " + LangUtils.localize("tooltip.forDetails") + ".");
+                    EnumColor.GREY + " " + LangUtils.localize("tooltip.forDetails") + ".");
             list.add(LangUtils.localize("tooltip.hold") + " " + EnumColor.AQUA + GameSettings.getKeyDisplayString(MekanismKeyHandler.sneakKey.getKeyCode()) +
-                     EnumColor.GREY + " " + LangUtils.localize("tooltip.and") + " " + EnumColor.AQUA +
-                     GameSettings.getKeyDisplayString(MekanismKeyHandler.modeSwitchKey.getKeyCode()) + EnumColor.GREY + " " + LangUtils.localize("tooltip.forDesc") + ".");
+                    EnumColor.GREY + " " + LangUtils.localize("tooltip.and") + " " + EnumColor.AQUA +
+                    GameSettings.getKeyDisplayString(MekanismKeyHandler.modeSwitchKey.getKeyCode()) + EnumColor.GREY + " " + LangUtils.localize("tooltip.forDesc") + ".");
         } else if (!MekKeyHandler.getIsKeyPressed(MekanismKeyHandler.modeSwitchKey)) {
             super.addInformation(itemstack, world, list, flag);
         } else {
@@ -56,14 +57,14 @@ public class ItemSeismicReader extends ItemEnergized {
         if (getEnergy(itemstack) < ENERGY_USAGE && !entityplayer.capabilities.isCreativeMode) {
             if (!world.isRemote) {
                 entityplayer.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + Mekanism.LOG_TAG + " " + EnumColor.RED +
-                                                                 LangUtils.localize("tooltip.seismicReader.needsEnergy")));
+                        LangUtils.localize("tooltip.seismicReader.needsEnergy")));
             }
 
             return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
         } else if (!MekanismUtils.isChunkVibrated(chunk)) {
             if (!world.isRemote) {
                 entityplayer.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + Mekanism.LOG_TAG + " " + EnumColor.RED +
-                                                                 LangUtils.localize("tooltip.seismicReader.noVibrations")));
+                        LangUtils.localize("tooltip.seismicReader.noVibrations")));
             }
             return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
         }

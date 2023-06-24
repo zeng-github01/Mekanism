@@ -1,9 +1,9 @@
 package mekanism.generators.client.render;
 
-import mekanism.generators.common.util.MekanismGeneratorUtils.*;
-import mekanism.generators.common.util.MekanismGeneratorUtils;
 import mekanism.generators.client.model.ModelSolarGenerator;
 import mekanism.generators.common.tile.TileEntitySolarGenerator;
+import mekanism.generators.common.util.MekanismGeneratorUtils;
+import mekanism.generators.common.util.MekanismGeneratorUtils.ResourceType;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 

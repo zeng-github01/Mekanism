@@ -1,8 +1,6 @@
 package mekanism.common.tile.prefab;
 
 import io.netty.buffer.ByteBuf;
-import java.util.Objects;
-import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Upgrade;
 import mekanism.common.base.IRedstoneControl;
@@ -15,6 +13,9 @@ import mekanism.common.util.MekanismUtils;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
+import java.util.Objects;
 
 public abstract class TileEntityMachine extends TileEntityEffectsBlock implements IUpgradeTile, IRedstoneControl, ISecurityTile {
 

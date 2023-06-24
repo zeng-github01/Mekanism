@@ -3,8 +3,7 @@ package mekanism.common.integration.groovyscript;
 import com.cleanroommc.groovyscript.compat.mods.ModSupport;
 import mekanism.common.Mekanism;
 import mekanism.common.integration.MekanismHooks;
-import mekanism.common.integration.groovyscript.machinerecipe.*;
-import mekanism.generators.common.MekanismGenerators;
+import mekanism.common.integration.groovyscript.machinerecipe.Smelter;
 import net.minecraftforge.fml.common.Loader;
 
 
@@ -20,7 +19,7 @@ public class GrSMekanismAdd {
     public static void init() {
         loaded = Loader.isModLoaded(MekanismHooks.GROOVYSCRIPT_MOD_ID);
         if (!loaded) return;
-        modSupportContainer = new ModSupport.Container<>(Mekanism.MODID, Mekanism.MOD_NAME, Container::new, "mek","mekceu","MekanismCEUnofficial");
+        modSupportContainer = new ModSupport.Container<>(Mekanism.MODID, Mekanism.MOD_NAME, Container::new, "mek", "mekceu", "MekanismCEUnofficial");
     }
 
     public static boolean isLoaded() {

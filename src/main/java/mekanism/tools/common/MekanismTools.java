@@ -1,8 +1,6 @@
 package mekanism.tools.common;
 
 import io.netty.buffer.ByteBuf;
-import java.util.List;
-import java.util.Random;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismItems;
 import mekanism.common.Version;
@@ -30,6 +28,9 @@ import net.minecraftforge.fml.common.event.FMLModIdMappingEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.util.List;
+import java.util.Random;
 
 @Mod(modid = MekanismTools.MODID, useMetadata = true, guiFactory = "mekanism.tools.client.gui.ToolsGuiFactory")
 @Mod.EventBusSubscriber()
@@ -138,19 +139,19 @@ public class MekanismTools implements IModule {
                 int armorType = random.nextInt(4);
                 if (armorType == 0) {
                     setEntityArmorWithChance(random, entity, ToolsItem.GLOWSTONE_SWORD, ToolsItem.GLOWSTONE_HELMET, ToolsItem.GLOWSTONE_CHESTPLATE,
-                          ToolsItem.GLOWSTONE_LEGGINGS, ToolsItem.GLOWSTONE_BOOTS);
+                            ToolsItem.GLOWSTONE_LEGGINGS, ToolsItem.GLOWSTONE_BOOTS);
                 } else if (armorType == 1) {
                     setEntityArmorWithChance(random, entity, ToolsItem.LAPIS_LAZULI_SWORD, ToolsItem.LAPIS_LAZULI_HELMET, ToolsItem.LAPIS_LAZULI_CHESTPLATE,
-                          ToolsItem.LAPIS_LAZULI_LEGGINGS, ToolsItem.LAPIS_LAZULI_BOOTS);
+                            ToolsItem.LAPIS_LAZULI_LEGGINGS, ToolsItem.LAPIS_LAZULI_BOOTS);
                 } else if (armorType == 2) {
                     setEntityArmorWithChance(random, entity, ToolsItem.OBSIDIAN_SWORD, ToolsItem.OBSIDIAN_HELMET, ToolsItem.OBSIDIAN_CHESTPLATE,
-                          ToolsItem.OBSIDIAN_LEGGINGS, ToolsItem.OBSIDIAN_BOOTS);
+                            ToolsItem.OBSIDIAN_LEGGINGS, ToolsItem.OBSIDIAN_BOOTS);
                 } else if (armorType == 3) {
                     setEntityArmorWithChance(random, entity, ToolsItem.STEEL_SWORD, ToolsItem.STEEL_HELMET, ToolsItem.STEEL_CHESTPLATE,
-                          ToolsItem.STEEL_LEGGINGS, ToolsItem.STEEL_BOOTS);
+                            ToolsItem.STEEL_LEGGINGS, ToolsItem.STEEL_BOOTS);
                 } else if (armorType == 4) {
                     setEntityArmorWithChance(random, entity, ToolsItem.BRONZE_SWORD, ToolsItem.BRONZE_HELMET, ToolsItem.BRONZE_CHESTPLATE,
-                          ToolsItem.BRONZE_LEGGINGS, ToolsItem.BRONZE_BOOTS);
+                            ToolsItem.BRONZE_LEGGINGS, ToolsItem.BRONZE_BOOTS);
                 }
             }
         }

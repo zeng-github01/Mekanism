@@ -1,23 +1,19 @@
 package mekanism.generators.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.GuiMekanismTile;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.inventory.container.ContainerNull;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
-import mekanism.generators.common.util.MekanismGeneratorUtils.ResourceType;
 import mekanism.generators.client.gui.button.GuiReactorLogicButton;
 import mekanism.generators.common.tile.reactor.TileEntityReactorLogicAdapter;
 import mekanism.generators.common.tile.reactor.TileEntityReactorLogicAdapter.ReactorLogic;
 import mekanism.generators.common.util.MekanismGeneratorUtils;
+import mekanism.generators.common.util.MekanismGeneratorUtils.ResourceType;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
@@ -25,6 +21,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiReactorLogicAdapter extends GuiMekanismTile<TileEntityReactorLogicAdapter> {

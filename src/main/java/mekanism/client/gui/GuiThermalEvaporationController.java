@@ -1,9 +1,5 @@
 package mekanism.client.gui;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
@@ -20,6 +16,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiThermalEvaporationController extends GuiMekanismTile<TileEntityThermalEvaporationController> {
@@ -39,33 +39,35 @@ public class GuiThermalEvaporationController extends GuiMekanismTile<TileEntityT
             public String getTooltip() {
                 return LangUtils.localize("gui.temp") + ": " + getTemp();
             }
+
             @Override
             public double getLevel() {
                 return Math.min(1, tileEntity.getTemperature() / MekanismConfig.current().general.evaporationMaxTemp.val());
             }
-        },resource,46,62));
+        }, resource, 46, 62));
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 27, 19));
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 27, 50));
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 131, 19));
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 131, 50));
-        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.BIO_EVAPORATION,this,resource,48,19));
-        addGuiElement(new GuiBlack(this,resource,49,20,78,38));
+        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.BIO_EVAPORATION, this, resource, 48, 19));
+        addGuiElement(new GuiBlack(this, resource, 49, 20, 78, 38));
     }
+
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 32, guiTop + 39,20,179,8,9);
-        drawTexturedModalRect(guiLeft + 136, guiTop + 39,20,179,8,9);
+        drawTexturedModalRect(guiLeft + 32, guiTop + 39, 20, 179, 8, 9);
+        drawTexturedModalRect(guiLeft + 136, guiTop + 39, 20, 179, 8, 9);
         boolean outputfluid = tileEntity.outputTank.getFluidAmount() == tileEntity.outputTank.getCapacity();
-        if (outputfluid){
+        if (outputfluid) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
-            drawTexturedModalRect(guiLeft + 152 + 9, guiTop + 13 + 1,9,1,8,29);
-            drawTexturedModalRect(guiLeft + 152 + 9, guiTop + 13  + 31,9,32,8,28);
+            drawTexturedModalRect(guiLeft + 152 + 9, guiTop + 13 + 1, 9, 1, 8, 29);
+            drawTexturedModalRect(guiLeft + 152 + 9, guiTop + 13 + 31, 9, 32, 8, 28);
         }
-        if (outputfluid){
+        if (outputfluid) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 86,0,0,26,26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),true));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 86, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), true));
         }
     }
 
@@ -85,13 +87,13 @@ public class GuiThermalEvaporationController extends GuiMekanismTile<TileEntityT
         } else if (xAxis >= 153 && xAxis <= 169 && yAxis >= 14 && yAxis <= 72) {
             FluidStack fluid = tileEntity.outputTank.getFluid();
             displayTooltip(fluid != null ? LangUtils.localizeFluidStack(fluid) + ": " + tileEntity.outputTank.getFluidAmount() : LangUtils.localize("gui.empty"), xAxis, yAxis);
-        }else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 90 && yAxis <= 108) {
+        } else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 90 && yAxis <= 108) {
             List<String> info = new ArrayList<>();
             boolean outputfluid = tileEntity.outputTank.getFluidAmount() == tileEntity.outputTank.getCapacity();
             if (outputfluid) {
                 info.add(LangUtils.localize("gui.fluid_no_space"));
             }
-            if (outputfluid){
+            if (outputfluid) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }

@@ -16,13 +16,12 @@ import mezz.jei.api.gui.IGuiIngredientGroup;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import net.minecraft.client.Minecraft;
 
 public class ChemicalDissolutionChamberRecipeCategory<WRAPPER extends ChemicalDissolutionChamberRecipeWrapper<DissolutionRecipe>> extends BaseRecipeCategory<WRAPPER> {
 
     public ChemicalDissolutionChamberRecipeCategory(IGuiHelper helper) {
         super(helper, "mekanism:gui/GuiBlankIcon.png",
-              Recipe.CHEMICAL_DISSOLUTION_CHAMBER.getJEICategory(), "gui.chemicalDissolutionChamber.short", GuiProgress.ProgressBar.LARGE_RIGHT, 4, 4, 169, 78);
+                Recipe.CHEMICAL_DISSOLUTION_CHAMBER.getJEICategory(), "gui.chemicalDissolutionChamber.short", GuiProgress.ProgressBar.LARGE_RIGHT, 4, 4, 169, 78);
     }
 
     @Override
@@ -49,8 +48,8 @@ public class ChemicalDissolutionChamberRecipeCategory<WRAPPER extends ChemicalDi
         itemStacks.set(0, tempRecipe.getInput().ingredient);
         IGuiIngredientGroup<GasStack> gasStacks = recipeLayout.getIngredientsGroup(MekanismJEI.TYPE_GAS);
         initGas(gasStacks, 0, true, 6 - xOffset, 5 - yOffset, 16, 58,
-              new GasStack(MekanismFluids.SulfuricAcid, TileEntityChemicalDissolutionChamber.BASE_INJECT_USAGE * TileEntityChemicalDissolutionChamber.BASE_TICKS_REQUIRED),
-              true);
+                new GasStack(MekanismFluids.SulfuricAcid, TileEntityChemicalDissolutionChamber.BASE_INJECT_USAGE * TileEntityChemicalDissolutionChamber.BASE_TICKS_REQUIRED),
+                true);
         initGas(gasStacks, 1, false, 134 - xOffset, 14 - yOffset, 16, 58, tempRecipe.getOutput().output, true);
     }
 }

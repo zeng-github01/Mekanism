@@ -13,13 +13,12 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IGuiIngredientGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import net.minecraft.client.Minecraft;
 
 public class ChemicalInfuserRecipeCategory<WRAPPER extends ChemicalInfuserRecipeWrapper<ChemicalInfuserRecipe>> extends BaseRecipeCategory<WRAPPER> {
 
     public ChemicalInfuserRecipeCategory(IGuiHelper helper) {
         super(helper, "mekanism:gui/GuiBlankIcon.png", Recipe.CHEMICAL_INFUSER.getJEICategory(),
-              "tile.MachineBlock2.ChemicalInfuser.name", null, 4, 4, 169, 79);
+                "tile.MachineBlock2.ChemicalInfuser.name", null, 4, 4, 169, 79);
     }
 
     @Override

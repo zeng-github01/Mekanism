@@ -1,9 +1,5 @@
 package mekanism.client.gui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
@@ -26,6 +22,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiPRC extends GuiMekanismTile<TileEntityPRC> {
 
@@ -41,7 +41,7 @@ public class GuiPRC extends GuiMekanismTile<TileEntityPRC> {
             double extra = tileEntity.getRecipe() != null ? tileEntity.getRecipe().extraEnergy : 0;
             String multiplier = MekanismUtils.getEnergyDisplay(MekanismUtils.getEnergyPerTick(tileEntity, tileEntity.BASE_ENERGY_PER_TICK + extra));
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                  LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
         addGuiElement(new GuiFluidGauge(() -> tileEntity.inputFluidTank, GuiGauge.Type.STANDARD_YELLOW, this, resource, 5, 10));
         addGuiElement(new GuiGasGauge(() -> tileEntity.inputGasTank, GuiGauge.Type.STANDARD_RED, this, resource, 28, 10));
@@ -128,7 +128,7 @@ public class GuiPRC extends GuiMekanismTile<TileEntityPRC> {
         if (outslot || inputfluid || outputgas || inputgas || energy) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
     }
 

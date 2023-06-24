@@ -1,6 +1,5 @@
 package mekanism.common.inventory.container;
 
-import javax.annotation.Nonnull;
 import mekanism.api.infuse.InfuseRegistry;
 import mekanism.common.base.IFactory;
 import mekanism.common.base.IFactory.RecipeType;
@@ -18,6 +17,8 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 
+import javax.annotation.Nonnull;
+
 public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
 
     public ContainerFactory(InventoryPlayer inventory, TileEntityFactory tile) {
@@ -27,7 +28,7 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
     @Override
     protected void addSlots() {
         addSlotToContainer(new SlotDischarge(tileEntity, 1, 7, 13));
-        int xTypeSlot = tileEntity.tier == FactoryTier.CREATIVE ? 252 : tileEntity.tier == FactoryTier.ULTIMATE ? 214: 180;
+        int xTypeSlot = tileEntity.tier == FactoryTier.CREATIVE ? 252 : tileEntity.tier == FactoryTier.ULTIMATE ? 214 : 180;
         addSlotToContainer(new Slot(tileEntity, 2, xTypeSlot, 75) {
             @Override
             public boolean isItemValid(ItemStack stack) {
@@ -47,12 +48,13 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
 
     @Override
     protected int getInventoryOffset() {
-        if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING){
+        if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING) {
             return 95;
-        }else {
+        } else {
             return 84;
         }
     }
+
     @Override
     protected void addInventorySlots(InventoryPlayer inventory) {
         int xoffset = tileEntity.tier == FactoryTier.CREATIVE ? 44 : tileEntity.tier == FactoryTier.ULTIMATE ? 27 : 8;
@@ -109,7 +111,7 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
                     return ItemStack.EMPTY;
                 }
             } else if (tileEntity.getRecipeType() == RecipeType.INFUSING && InfuseRegistry.getObject(slotStack) != null
-                       && (tileEntity.infuseStored.getType() == null || tileEntity.infuseStored.getType() == InfuseRegistry.getObject(slotStack).type)) {
+                    && (tileEntity.infuseStored.getType() == null || tileEntity.infuseStored.getType() == InfuseRegistry.getObject(slotStack).type)) {
                 if (transferExtraSlot(slotID, slotStack)) {
                     return ItemStack.EMPTY;
                 }

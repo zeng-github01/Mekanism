@@ -1,6 +1,5 @@
 package mekanism.common.tile.prefab;
 
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.MekanismItems;
@@ -21,6 +20,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.items.ItemHandlerHelper;
+
+import javax.annotation.Nonnull;
 
 public abstract class TileEntityDoubleElectricMachine<RECIPE extends DoubleMachineRecipe<RECIPE>> extends TileEntityUpgradeableMachine<DoubleMachineInput, ItemStackOutput, RECIPE> {
 

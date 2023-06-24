@@ -1,16 +1,7 @@
 package mekanism.tools.common;
 
-import java.util.Arrays;
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.common.Mekanism;
-import mekanism.tools.item.ItemMekanismArmor;
-import mekanism.tools.item.ItemMekanismAxe;
-import mekanism.tools.item.ItemMekanismHoe;
-import mekanism.tools.item.ItemMekanismPaxel;
-import mekanism.tools.item.ItemMekanismPickaxe;
-import mekanism.tools.item.ItemMekanismShovel;
-import mekanism.tools.item.ItemMekanismSword;
+import mekanism.tools.item.*;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
@@ -19,6 +10,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
+
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.List;
 
 public enum ToolsItem {
     WOOD_PAXEL("WoodPaxel", new ItemMekanismPaxel(ToolMaterial.WOOD)),
@@ -94,18 +89,18 @@ public enum ToolsItem {
     STEEL_BOOTS("SteelBoots", new ItemMekanismArmor(Materials.STEEL, 3, EntityEquipmentSlot.FEET));
 
     public static final List<ToolsItem> BRONZE_SET = Arrays.asList(BRONZE_PICKAXE, BRONZE_AXE, BRONZE_SHOVEL, BRONZE_HOE, BRONZE_SWORD, BRONZE_PAXEL, BRONZE_HELMET,
-          BRONZE_CHESTPLATE, BRONZE_LEGGINGS, BRONZE_BOOTS);
+            BRONZE_CHESTPLATE, BRONZE_LEGGINGS, BRONZE_BOOTS);
     public static final List<ToolsItem> OSMIUM_SET = Arrays.asList(OSMIUM_PICKAXE, OSMIUM_AXE, OSMIUM_SHOVEL, OSMIUM_HOE, OSMIUM_SWORD, OSMIUM_PAXEL, OSMIUM_HELMET,
-          OSMIUM_CHESTPLATE, OSMIUM_LEGGINGS, OSMIUM_BOOTS);
+            OSMIUM_CHESTPLATE, OSMIUM_LEGGINGS, OSMIUM_BOOTS);
     public static final List<ToolsItem> OBSIDIAN_SET = Arrays.asList(OBSIDIAN_PICKAXE, OBSIDIAN_AXE, OBSIDIAN_SHOVEL, OBSIDIAN_HOE, OBSIDIAN_SWORD, OBSIDIAN_PAXEL,
-          OBSIDIAN_HELMET, OBSIDIAN_CHESTPLATE, OBSIDIAN_LEGGINGS, OBSIDIAN_BOOTS);
+            OBSIDIAN_HELMET, OBSIDIAN_CHESTPLATE, OBSIDIAN_LEGGINGS, OBSIDIAN_BOOTS);
     public static final List<ToolsItem> GLOWSTONE_SET = Arrays.asList(GLOWSTONE_PICKAXE, GLOWSTONE_AXE, GLOWSTONE_SHOVEL, GLOWSTONE_HOE, GLOWSTONE_SWORD, GLOWSTONE_PAXEL,
-          GLOWSTONE_HELMET, GLOWSTONE_CHESTPLATE, GLOWSTONE_LEGGINGS, GLOWSTONE_BOOTS);
+            GLOWSTONE_HELMET, GLOWSTONE_CHESTPLATE, GLOWSTONE_LEGGINGS, GLOWSTONE_BOOTS);
     public static final List<ToolsItem> STEEL_SET = Arrays.asList(STEEL_PICKAXE, STEEL_AXE, STEEL_SHOVEL, STEEL_HOE, STEEL_SWORD, STEEL_PAXEL, STEEL_HELMET,
-          STEEL_CHESTPLATE, STEEL_LEGGINGS, STEEL_BOOTS);
+            STEEL_CHESTPLATE, STEEL_LEGGINGS, STEEL_BOOTS);
     //Unused but for consistency if something needs it
     public static final List<ToolsItem> LAPIS_LAZULI_SET = Arrays.asList(LAPIS_LAZULI_PICKAXE, LAPIS_LAZULI_AXE, LAPIS_LAZULI_SHOVEL, LAPIS_LAZULI_HOE, LAPIS_LAZULI_SWORD,
-          LAPIS_LAZULI_PAXEL, LAPIS_LAZULI_HELMET, LAPIS_LAZULI_CHESTPLATE, LAPIS_LAZULI_LEGGINGS, LAPIS_LAZULI_BOOTS);
+            LAPIS_LAZULI_PAXEL, LAPIS_LAZULI_HELMET, LAPIS_LAZULI_CHESTPLATE, LAPIS_LAZULI_LEGGINGS, LAPIS_LAZULI_BOOTS);
 
     @Nonnull
     private Item item;
@@ -160,7 +155,7 @@ public enum ToolsItem {
 
     public static void remapItems() {
         for (ToolsItem toolsItem : values()) {
-            if(!toolsItem.getItemStack().isEmpty()) {
+            if (!toolsItem.getItemStack().isEmpty()) {
                 ResourceLocation registryName = toolsItem.getItem().getRegistryName();
                 toolsItem.updateItem(ForgeRegistries.ITEMS.getValue(registryName));
             }

@@ -1,7 +1,5 @@
 package mekanism.client.gui;
 
-import java.util.ArrayList;
-import java.util.List;
 import mekanism.common.Mekanism;
 import mekanism.common.util.LangUtils;
 import net.minecraft.client.gui.GuiScreen;
@@ -14,6 +12,9 @@ import net.minecraftforge.fml.client.config.GuiConfigEntries.CategoryEntry;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiMekanismConfig extends GuiConfig {
@@ -43,7 +44,7 @@ public class GuiMekanismConfig extends GuiConfig {
         @Override
         protected GuiScreen buildChildScreen() {
             return new GuiConfig(owningScreen, new ConfigElement(Mekanism.configuration.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements(), owningScreen.modID,
-                  Configuration.CATEGORY_GENERAL, false, false, GuiConfig.getAbridgedConfigPath(Mekanism.configuration.toString()));
+                    Configuration.CATEGORY_GENERAL, false, false, GuiConfig.getAbridgedConfigPath(Mekanism.configuration.toString()));
         }
     }
 
@@ -69,7 +70,7 @@ public class GuiMekanismConfig extends GuiConfig {
         @Override
         protected GuiScreen buildChildScreen() {
             return new GuiConfig(owningScreen, new ConfigElement(Mekanism.configuration.getCategory("machines")).getChildElements(), owningScreen.modID,
-                  Configuration.CATEGORY_GENERAL, false, false, GuiConfig.getAbridgedConfigPath(Mekanism.configuration.toString()));
+                    Configuration.CATEGORY_GENERAL, false, false, GuiConfig.getAbridgedConfigPath(Mekanism.configuration.toString()));
         }
     }
 
@@ -82,7 +83,7 @@ public class GuiMekanismConfig extends GuiConfig {
         @Override
         protected GuiScreen buildChildScreen() {
             return new GuiConfig(owningScreen, new ConfigElement(Mekanism.configuration.getCategory("tier")).getChildElements(), owningScreen.modID,
-                  Configuration.CATEGORY_GENERAL, false, false, GuiConfig.getAbridgedConfigPath(Mekanism.configuration.toString()));
+                    Configuration.CATEGORY_GENERAL, false, false, GuiConfig.getAbridgedConfigPath(Mekanism.configuration.toString()));
         }
     }
 
@@ -95,7 +96,7 @@ public class GuiMekanismConfig extends GuiConfig {
         @Override
         protected GuiScreen buildChildScreen() {
             return new GuiConfig(owningScreen, new ConfigElement(Mekanism.configuration.getCategory("usage")).getChildElements(), owningScreen.modID,
-                  Configuration.CATEGORY_GENERAL, false, false, GuiConfig.getAbridgedConfigPath(Mekanism.configuration.toString()));
+                    Configuration.CATEGORY_GENERAL, false, false, GuiConfig.getAbridgedConfigPath(Mekanism.configuration.toString()));
         }
     }
 
@@ -108,7 +109,7 @@ public class GuiMekanismConfig extends GuiConfig {
         @Override
         protected GuiScreen buildChildScreen() {
             return new GuiConfig(owningScreen, new ConfigElement(Mekanism.configuration.getCategory("storage")).getChildElements(), owningScreen.modID,
-                  Configuration.CATEGORY_GENERAL, false, false, GuiConfig.getAbridgedConfigPath(Mekanism.configuration.toString()));
+                    Configuration.CATEGORY_GENERAL, false, false, GuiConfig.getAbridgedConfigPath(Mekanism.configuration.toString()));
         }
     }
 
@@ -121,7 +122,7 @@ public class GuiMekanismConfig extends GuiConfig {
         @Override
         protected GuiScreen buildChildScreen() {
             return new GuiConfig(owningScreen, new ConfigElement(Mekanism.configuration.getCategory("client")).getChildElements(), owningScreen.modID,
-                  Configuration.CATEGORY_CLIENT, false, false, GuiConfig.getAbridgedConfigPath(Mekanism.configuration.toString()));
+                    Configuration.CATEGORY_CLIENT, false, false, GuiConfig.getAbridgedConfigPath(Mekanism.configuration.toString()));
         }
     }
 }

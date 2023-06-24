@@ -1,16 +1,6 @@
 package mekanism.common;
 
 import com.mojang.authlib.GameProfile;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.UUID;
 import mekanism.MekanismCEu.Tags;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
@@ -41,11 +31,7 @@ import mekanism.common.content.matrix.SynchronizedMatrixData;
 import mekanism.common.content.tank.SynchronizedTankData;
 import mekanism.common.content.transporter.PathfinderCache;
 import mekanism.common.content.transporter.TransporterManager;
-import mekanism.common.entity.EntityBabySkeleton;
-import mekanism.common.entity.EntityBalloon;
-import mekanism.common.entity.EntityFlame;
-import mekanism.common.entity.EntityObsidianTNT;
-import mekanism.common.entity.EntityRobit;
+import mekanism.common.entity.*;
 import mekanism.common.fixers.MekanismDataFixers;
 import mekanism.common.frequency.Frequency;
 import mekanism.common.frequency.FrequencyManager;
@@ -68,13 +54,7 @@ import mekanism.common.recipe.outputs.ItemStackOutput;
 import mekanism.common.security.SecurityFrequency;
 import mekanism.common.tier.BaseTier;
 import mekanism.common.tile.*;
-import mekanism.common.tile.transmitter.TileEntityDiversionTransporter;
-import mekanism.common.tile.transmitter.TileEntityLogisticalTransporter;
-import mekanism.common.tile.transmitter.TileEntityMechanicalPipe;
-import mekanism.common.tile.transmitter.TileEntityPressurizedTube;
-import mekanism.common.tile.transmitter.TileEntityRestrictiveTransporter;
-import mekanism.common.tile.transmitter.TileEntityThermodynamicConductor;
-import mekanism.common.tile.transmitter.TileEntityUniversalCable;
+import mekanism.common.tile.transmitter.*;
 import mekanism.common.transmitters.grid.EnergyNetwork.EnergyTransferEvent;
 import mekanism.common.transmitters.grid.FluidNetwork.FluidTransferEvent;
 import mekanism.common.transmitters.grid.GasNetwork.GasTransferEvent;
@@ -124,6 +104,10 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+import java.util.*;
+import java.util.Map.Entry;
+
 @Mod(modid = Mekanism.MODID, useMetadata = true, guiFactory = "mekanism.client.gui.ConfigGuiFactory", acceptedMinecraftVersions = "[1.12,1.13)", version = Tags.VERSION)
 @Mod.EventBusSubscriber()
 public class Mekanism {
@@ -172,7 +156,7 @@ public class Mekanism {
     public static MultiblockManager<SynchronizedTankData> tankManager = new MultiblockManager<>("dynamicTank");
     public static MultiblockManager<SynchronizedMatrixData> matrixManager = new MultiblockManager<>("inductionMatrix");
     public static MultiblockManager<SynchronizedBoilerData> boilerManager = new MultiblockManager<>(
-          "thermoelectricBoiler");
+            "thermoelectricBoiler");
     /**
      * FrequencyManagers for various networks
      */
@@ -458,11 +442,11 @@ public class Mekanism {
         //Electrolytic Separator Recipes
         if (MekanismConfig.current().general.machinesManager.isEnabled(MachineType.ELECTROLYTIC_SEPARATOR)) {
             RecipeHandler.addElectrolyticSeparatorRecipe(FluidRegistry.getFluidStack("water", 2), 2 * MekanismConfig.current().general.FROM_H2.val(),
-                  new GasStack(MekanismFluids.Hydrogen, 2), new GasStack(MekanismFluids.Oxygen, 1));
+                    new GasStack(MekanismFluids.Hydrogen, 2), new GasStack(MekanismFluids.Oxygen, 1));
             RecipeHandler.addElectrolyticSeparatorRecipe(FluidRegistry.getFluidStack("brine", 10), 2 * MekanismConfig.current().general.FROM_H2.val(),
-                  new GasStack(MekanismFluids.Sodium, 1), new GasStack(MekanismFluids.Chlorine, 1));
+                    new GasStack(MekanismFluids.Sodium, 1), new GasStack(MekanismFluids.Chlorine, 1));
             RecipeHandler.addElectrolyticSeparatorRecipe(FluidRegistry.getFluidStack("heavywater", 2), MekanismConfig.current().usage.heavyWaterElectrolysis.val(),
-                  new GasStack(MekanismFluids.Deuterium, 2), new GasStack(MekanismFluids.Oxygen, 1));
+                    new GasStack(MekanismFluids.Deuterium, 2), new GasStack(MekanismFluids.Oxygen, 1));
         }
 
         //Thermal Evaporation Plant Recipes
@@ -494,13 +478,13 @@ public class Mekanism {
         //Pressurized Reaction Chamber Recipes
         if (MekanismConfig.current().general.machinesManager.isEnabled(MachineType.PRESSURIZED_REACTION_CHAMBER)) {
             RecipeHandler.addPRCRecipe(new ItemStack(MekanismItems.BioFuel, 2), new FluidStack(FluidRegistry.WATER, 10), new GasStack(MekanismFluids.Hydrogen, 100),
-                  new ItemStack(MekanismItems.Substrate), new GasStack(MekanismFluids.Ethene, 100), 0, 100);
+                    new ItemStack(MekanismItems.Substrate), new GasStack(MekanismFluids.Ethene, 100), 0, 100);
             RecipeHandler.addPRCRecipe(new ItemStack(MekanismItems.Substrate), new FluidStack(MekanismFluids.Ethene.getFluid(), 50),
-                  new GasStack(MekanismFluids.Oxygen, 10), new ItemStack(MekanismItems.Polyethene), new GasStack(MekanismFluids.Oxygen, 5), 1000, 60);
+                    new GasStack(MekanismFluids.Oxygen, 10), new ItemStack(MekanismItems.Polyethene), new GasStack(MekanismFluids.Oxygen, 5), 1000, 60);
             RecipeHandler.addPRCRecipe(new ItemStack(MekanismItems.Substrate), new FluidStack(FluidRegistry.WATER, 200), new GasStack(MekanismFluids.Ethene, 100),
-                  new ItemStack(MekanismItems.Substrate, 8), new GasStack(MekanismFluids.Oxygen, 10), 200, 400);
+                    new ItemStack(MekanismItems.Substrate, 8), new GasStack(MekanismFluids.Oxygen, 10), 200, 400);
             RecipeHandler.addPRCRecipe(new ItemStack(Items.COAL, 1, OreDictionary.WILDCARD_VALUE), new FluidStack(FluidRegistry.WATER, 100), new GasStack(MekanismFluids.Oxygen, 100),
-                  new ItemStack(MekanismItems.OtherDust, 1, 3), new GasStack(MekanismFluids.Hydrogen, 100), 0, 100);
+                    new ItemStack(MekanismItems.OtherDust, 1, 3), new GasStack(MekanismFluids.Hydrogen, 100), 0, 100);
         }
 
         //Solar Neutron Activator Recipes
@@ -863,7 +847,7 @@ public class Mekanism {
     public void onEnergyTransferred(EnergyTransferEvent event) {
         try {
             packetHandler.sendToReceivers(new TransmitterUpdateMessage(PacketType.ENERGY, event.energyNetwork.firstTransmitter().coord(), event.power),
-                  event.energyNetwork.getPacketRange());
+                    event.energyNetwork.getPacketRange());
         } catch (Exception ignored) {
         }
     }
@@ -872,7 +856,7 @@ public class Mekanism {
     public void onGasTransferred(GasTransferEvent event) {
         try {
             packetHandler.sendToReceivers(new TransmitterUpdateMessage(PacketType.GAS, event.gasNetwork.firstTransmitter().coord(), event.transferType, event.didTransfer),
-                  event.gasNetwork.getPacketRange());
+                    event.gasNetwork.getPacketRange());
         } catch (Exception ignored) {
         }
     }
@@ -881,7 +865,7 @@ public class Mekanism {
     public void onLiquidTransferred(FluidTransferEvent event) {
         try {
             packetHandler.sendToReceivers(new TransmitterUpdateMessage(PacketType.FLUID, event.fluidNetwork.firstTransmitter().coord(), event.fluidType, event.didTransfer),
-                  event.fluidNetwork.getPacketRange());
+                    event.fluidNetwork.getPacketRange());
         } catch (Exception ignored) {
         }
     }
@@ -890,7 +874,7 @@ public class Mekanism {
     public void onTransmittersAddedEvent(TransmittersAddedEvent event) {
         try {
             packetHandler.sendToReceivers(new TransmitterUpdateMessage(PacketType.UPDATE, event.network.firstTransmitter().coord(), event.newNetwork, event.newTransmitters),
-                  event.network.getPacketRange());
+                    event.network.getPacketRange());
         } catch (Exception ignored) {
         }
     }
@@ -978,7 +962,7 @@ public class Mekanism {
             if (MekanismConfig.current().general.enableWorldRegeneration.val()) {
                 NBTTagCompound loadData = event.getData();
                 if (loadData.getInteger("MekanismWorldGen") == baseWorldGenVersion &&
-                    loadData.getInteger("MekanismUserWorldGen") == MekanismConfig.current().general.userWorldGenVersion.val()) {
+                        loadData.getInteger("MekanismUserWorldGen") == MekanismConfig.current().general.userWorldGenVersion.val()) {
                     return;
                 }
                 ChunkPos coordPair = event.getChunk().getPos();

@@ -1,8 +1,5 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
@@ -29,6 +26,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumEntangloporter> {
@@ -183,15 +184,15 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.owner") + ": " + (tileEntity.getSecurity().getClientOwner() != null
-                                                                          ? tileEntity.getSecurity().getClientOwner()
-                                                                          : LangUtils.localize("gui.none")), 8, (ySize - 96) + 4, 0x404040);
+                ? tileEntity.getSecurity().getClientOwner()
+                : LangUtils.localize("gui.none")), 8, (ySize - 96) + 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.freq") + ":", 32, 81, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.security") + ":", 32, 91, 0x404040);
         Frequency frequency = tileEntity.getFrequency(null);
         fontRenderer.drawString(" " + (frequency != null ? frequency.name : EnumColor.DARK_RED + LangUtils.localize("gui.none")),
-              32 + fontRenderer.getStringWidth(LangUtils.localize("gui.freq") + ":"), 81, 0x797979);
+                32 + fontRenderer.getStringWidth(LangUtils.localize("gui.freq") + ":"), 81, 0x797979);
         fontRenderer.drawString(" " + (frequency != null ? getSecurity(frequency) : EnumColor.DARK_RED + LangUtils.localize("gui.none")),
-              32 + fontRenderer.getStringWidth(LangUtils.localize("gui.security") + ":"), 91, 0x797979);
+                32 + fontRenderer.getStringWidth(LangUtils.localize("gui.security") + ":"), 91, 0x797979);
         String str = LangUtils.localize("gui.set") + ":";
         renderScaledText(str, 27, 104, 0x404040, 20);
         int xAxis = mouseX - guiLeft;
@@ -202,7 +203,7 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
             if (!freq) {
                 info.add(LangUtils.localize("gui.no_freq"));
             }
-            if (!freq){
+            if (!freq) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }
@@ -215,11 +216,12 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
         frequencyField.drawTextBox();
         MekanismRenderer.resetColor();
         Frequency frequency = tileEntity.getFrequency(null);
-        boolean freq = frequency != null;;
-        if (!freq){
+        boolean freq = frequency != null;
+        ;
+        if (!freq) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
-			addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
     }
 }

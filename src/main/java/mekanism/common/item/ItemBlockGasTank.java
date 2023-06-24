@@ -1,8 +1,5 @@
 package mekanism.common.item;
 
-import java.util.List;
-import java.util.UUID;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
@@ -45,6 +42,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.UUID;
+
 public class ItemBlockGasTank extends ItemBlock implements IGasItem, ISustainedInventory, ITierItem, ISecurityItem {
 
     /**
@@ -78,7 +79,7 @@ public class ItemBlockGasTank extends ItemBlock implements IGasItem, ISustainedI
 
     @Override
     public boolean placeBlockAt(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, World world, @Nonnull BlockPos pos, EnumFacing side, float hitX, float hitY,
-          float hitZ, @Nonnull IBlockState state) {
+                                float hitZ, @Nonnull IBlockState state) {
         boolean place = super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, state);
         if (place) {
             TileEntityGasTank tileEntity = (TileEntityGasTank) world.getTileEntity(pos);
@@ -122,7 +123,7 @@ public class ItemBlockGasTank extends ItemBlock implements IGasItem, ISustainedI
 
         if (!MekKeyHandler.getIsKeyPressed(MekanismKeyHandler.sneakKey)) {
             list.add(LangUtils.localize("tooltip.hold") + " " + EnumColor.AQUA + GameSettings.getKeyDisplayString(MekanismKeyHandler.sneakKey.getKeyCode()) +
-                     EnumColor.GREY + " " + LangUtils.localize("tooltip.forDetails") + ".");
+                    EnumColor.GREY + " " + LangUtils.localize("tooltip.forDetails") + ".");
         } else {
             if (hasSecurity(itemstack)) {
                 list.add(SecurityUtils.getOwnerDisplay(Minecraft.getMinecraft().player, MekanismClient.clientUUIDMap.get(getOwnerUUID(itemstack))));
@@ -133,7 +134,7 @@ public class ItemBlockGasTank extends ItemBlock implements IGasItem, ISustainedI
             }
 
             list.add(EnumColor.AQUA + LangUtils.localize("tooltip.inventory") + ": " + EnumColor.GREY +
-                     LangUtils.transYesNo(getInventory(itemstack) != null && getInventory(itemstack).tagCount() != 0));
+                    LangUtils.transYesNo(getInventory(itemstack) != null && getInventory(itemstack).tagCount() != 0));
         }
     }
 
@@ -177,7 +178,7 @@ public class ItemBlockGasTank extends ItemBlock implements IGasItem, ISustainedI
                     setBaseTier(filled, BaseTier.CREATIVE);
                     setGas(filled, new GasStack(type, ((IGasItem) filled.getItem()).getMaxGas(filled)));
                     list.add(filled);
-                }else if (MekanismConfig.current().mekce.ShoHiddenGas.val()){
+                } else if (MekanismConfig.current().mekce.ShoHiddenGas.val()) {
                     ItemStack filled = new ItemStack(this);
                     setBaseTier(filled, BaseTier.CREATIVE);
                     setGas(filled, new GasStack(type, ((IGasItem) filled.getItem()).getMaxGas(filled)));

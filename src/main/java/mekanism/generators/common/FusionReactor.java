@@ -1,8 +1,5 @@
 package mekanism.generators.common;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import mekanism.api.Coord4D;
 import mekanism.api.IHeatTransfer;
 import mekanism.api.gas.GasStack;
@@ -28,6 +25,10 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class FusionReactor {
 
@@ -228,7 +229,7 @@ public class FusionReactor {
 
     public void kill() {
         AxisAlignedBB death_zone = new AxisAlignedBB(controller.getPos().getX() - 1, controller.getPos().getY() - 3,
-              controller.getPos().getZ() - 1, controller.getPos().getX() + 2, controller.getPos().getY(), controller.getPos().getZ() + 2);
+                controller.getPos().getZ() - 1, controller.getPos().getX() + 2, controller.getPos().getY(), controller.getPos().getZ() + 2);
         List<Entity> entitiesToDie = controller.getWorld().getEntitiesWithinAABB(Entity.class, death_zone);
 
         for (Entity entity : entitiesToDie) {
@@ -273,10 +274,10 @@ public class FusionReactor {
 
     public boolean createFrame(Coord4D centre) {
         int[][] positions = new int[][]{
-              {+2, +2, +0}, {+2, +1, +1}, {+2, +0, +2}, {+2, -1, +1}, {+2, -2, +0}, {+2, -1, -1}, {+2, +0, -2}, {+2, +1, -1}, {+1, +2, +1}, {+1, +1, +2}, {+1, -1, +2},
-              {+1, -2, +1}, {+1, -2, -1}, {+1, -1, -2}, {+1, +1, -2}, {+1, +2, -1}, {+0, +2, +2}, {+0, -2, +2}, {+0, -2, -2}, {+0, +2, -2}, {-1, +2, +1}, {-1, +1, +2},
-              {-1, -1, +2}, {-1, -2, +1}, {-1, -2, -1}, {-1, -1, -2}, {-1, +1, -2}, {-1, +2, -1}, {-2, +2, +0}, {-2, +1, +1}, {-2, +0, +2}, {-2, -1, +1}, {-2, -2, +0},
-              {-2, -1, -1}, {-2, +0, -2}, {-2, +1, -1},};
+                {+2, +2, +0}, {+2, +1, +1}, {+2, +0, +2}, {+2, -1, +1}, {+2, -2, +0}, {+2, -1, -1}, {+2, +0, -2}, {+2, +1, -1}, {+1, +2, +1}, {+1, +1, +2}, {+1, -1, +2},
+                {+1, -2, +1}, {+1, -2, -1}, {+1, -1, -2}, {+1, +1, -2}, {+1, +2, -1}, {+0, +2, +2}, {+0, -2, +2}, {+0, -2, -2}, {+0, +2, -2}, {-1, +2, +1}, {-1, +1, +2},
+                {-1, -1, +2}, {-1, -2, +1}, {-1, -2, -1}, {-1, -1, -2}, {-1, +1, -2}, {-1, +2, -1}, {-2, +2, +0}, {-2, +1, +1}, {-2, +0, +2}, {-2, -1, +1}, {-2, -2, +0},
+                {-2, -1, -1}, {-2, +0, -2}, {-2, +1, -1},};
 
         for (int[] coords : positions) {
             TileEntity tile = centre.clone().translate(coords[0], coords[1], coords[2]).getTileEntity(controller.getWorld());
@@ -293,12 +294,12 @@ public class FusionReactor {
 
     public boolean addSides(Coord4D centre) {
         int[][] positions = new int[][]{
-              {+2, +0, +0}, {+2, +1, +0}, {+2, +0, +1}, {+2, -1, +0}, {+2, +0, -1}, //EAST
-              {-2, +0, +0}, {-2, +1, +0}, {-2, +0, +1}, {-2, -1, +0}, {-2, +0, -1}, //WEST
-              {+0, +2, +0}, {+1, +2, +0}, {+0, +2, +1}, {-1, +2, +0}, {+0, +2, -1}, //TOP
-              {+0, -2, +0}, {+1, -2, +0}, {+0, -2, +1}, {-1, -2, +0}, {+0, -2, -1}, //BOTTOM
-              {+0, +0, +2}, {+1, +0, +2}, {+0, +1, +2}, {-1, +0, +2}, {+0, -1, +2}, //SOUTH
-              {+0, +0, -2}, {+1, +0, -2}, {+0, +1, -2}, {-1, +0, -2}, {+0, -1, -2}, //NORTH
+                {+2, +0, +0}, {+2, +1, +0}, {+2, +0, +1}, {+2, -1, +0}, {+2, +0, -1}, //EAST
+                {-2, +0, +0}, {-2, +1, +0}, {-2, +0, +1}, {-2, -1, +0}, {-2, +0, -1}, //WEST
+                {+0, +2, +0}, {+1, +2, +0}, {+0, +2, +1}, {-1, +2, +0}, {+0, +2, -1}, //TOP
+                {+0, -2, +0}, {+1, -2, +0}, {+0, -2, +1}, {-1, -2, +0}, {+0, -2, -1}, //BOTTOM
+                {+0, +0, +2}, {+1, +0, +2}, {+0, +1, +2}, {-1, +0, +2}, {+0, -1, +2}, //SOUTH
+                {+0, +0, -2}, {+1, +0, -2}, {+0, +1, -2}, {-1, +0, -2}, {+0, -1, -2}, //NORTH
         };
 
         for (int[] coords : positions) {
@@ -371,15 +372,15 @@ public class FusionReactor {
     public int getMinInjectionRate(boolean active) {
         double k = active ? caseWaterConductivity : 0;
         double aMin = burnTemperature * burnRatio * plasmaCaseConductivity * (k + caseAirConductivity) /
-                      (MekanismConfig.current().generators.energyPerFusionFuel.val() * burnRatio * (plasmaCaseConductivity + k + caseAirConductivity) -
-                       plasmaCaseConductivity * (k + caseAirConductivity));
+                (MekanismConfig.current().generators.energyPerFusionFuel.val() * burnRatio * (plasmaCaseConductivity + k + caseAirConductivity) -
+                        plasmaCaseConductivity * (k + caseAirConductivity));
         return (int) (2 * Math.ceil(aMin / 2D));
     }
 
     public double getMaxPlasmaTemperature(boolean active) {
         double k = active ? caseWaterConductivity : 0;
         return injectionRate * MekanismConfig.current().generators.energyPerFusionFuel.val() / plasmaCaseConductivity *
-               (plasmaCaseConductivity + k + caseAirConductivity) / (k + caseAirConductivity);
+                (plasmaCaseConductivity + k + caseAirConductivity) / (k + caseAirConductivity);
     }
 
     public double getMaxCasingTemperature(boolean active) {
@@ -390,8 +391,8 @@ public class FusionReactor {
     public double getIgnitionTemperature(boolean active) {
         double k = active ? caseWaterConductivity : 0;
         return burnTemperature * MekanismConfig.current().generators.energyPerFusionFuel.val() * burnRatio * (plasmaCaseConductivity + k + caseAirConductivity) /
-               (MekanismConfig.current().generators.energyPerFusionFuel.val() * burnRatio * (plasmaCaseConductivity + k + caseAirConductivity) -
-                plasmaCaseConductivity * (k + caseAirConductivity));
+                (MekanismConfig.current().generators.energyPerFusionFuel.val() * burnRatio * (plasmaCaseConductivity + k + caseAirConductivity) -
+                        plasmaCaseConductivity * (k + caseAirConductivity));
     }
 
     public double getPassiveGeneration(boolean active, boolean current) {

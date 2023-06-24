@@ -45,10 +45,11 @@ public class AdvancedMachineRecipeCategory<RECIPE extends AdvancedMachineRecipe<
             }
         }, progressBar, this, guiLocation, 77, 37));
     }
+
     @Override
     public void drawExtras(Minecraft minecraft) {
         super.drawExtras(minecraft);
-        drawTexturedRect(60 - xOffset,36 - yOffset,0,167,8,14);
+        drawTexturedRect(60 - xOffset, 36 - yOffset, 0, 167, 8, 14);
     }
 
     @Override
@@ -63,6 +64,6 @@ public class AdvancedMachineRecipeCategory<RECIPE extends AdvancedMachineRecipe<
         itemStacks.set(2, recipeWrapper.getFuelStacks(tempRecipe.recipeInput.gasType));
         IGuiIngredientGroup<GasStack> gasStacks = recipeLayout.getIngredientsGroup(MekanismJEI.TYPE_GAS);
         initGas(gasStacks, 0, true, 33, 21, 6, 12, new GasStack(tempRecipe.recipeInput.gasType, TileEntityAdvancedElectricMachine.BASE_TICKS_REQUIRED
-                                                                                                * TileEntityAdvancedElectricMachine.BASE_GAS_PER_TICK), false);
+                * TileEntityAdvancedElectricMachine.BASE_GAS_PER_TICK), false);
     }
 }

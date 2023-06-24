@@ -1,12 +1,13 @@
 package mekanism.common;
 
-import java.util.Locale;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.OreGas;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+
+import java.util.Locale;
 
 public class MekanismFluids {
 
@@ -20,9 +21,9 @@ public class MekanismFluids {
     public static final Gas HydrogenChloride = new Gas("hydrogenchloride", 0xA8F1E9);
 
     public static final Fluid HeavyWater = new Fluid("heavywater", new ResourceLocation(Mekanism.MODID, "blocks/liquid/LiquidHeavyWater"),
-          new ResourceLocation(Mekanism.MODID, "blocks/liquid/LiquidHeavyWater"));
+            new ResourceLocation(Mekanism.MODID, "blocks/liquid/LiquidHeavyWater"));
     public static final Fluid Steam = new Fluid("steam", new ResourceLocation(Mekanism.MODID, "blocks/liquid/LiquidSteam"),
-          new ResourceLocation(Mekanism.MODID, "blocks/liquid/LiquidSteam")).setGaseous(true);
+            new ResourceLocation(Mekanism.MODID, "blocks/liquid/LiquidSteam")).setGaseous(true);
 
     //Internal gases
     public static final Gas LiquidOsmium = new Gas("liquidosmium", 0x52bdca);

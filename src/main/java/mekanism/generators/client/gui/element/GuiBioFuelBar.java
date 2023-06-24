@@ -3,7 +3,7 @@ package mekanism.generators.client.gui.element;
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.client.gui.element.GuiElement;
 import mekanism.generators.common.util.MekanismGeneratorUtils;
-import mekanism.generators.common.util.MekanismGeneratorUtils.*;
+import mekanism.generators.common.util.MekanismGeneratorUtils.ResourceType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -16,7 +16,6 @@ public class GuiBioFuelBar extends GuiElement {
     private final int yLocation;
     private final int width = 6;
     private final int height = 56;
-
 
 
     public GuiBioFuelBar(IGuiWrapper gui, IPowerInfoHandler h, ResourceLocation def, int x, int y) {
@@ -42,7 +41,7 @@ public class GuiBioFuelBar extends GuiElement {
         mc.renderEngine.bindTexture(RESOURCE);
         guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, width, height);
         if (handler.getLevel() > 0) {
-            int displayInt =(int) (handler.getLevel() * 52) + 2;
+            int displayInt = (int) (handler.getLevel() * 52) + 2;
             guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation + height - displayInt, 6, height - displayInt, width, displayInt);
         }
         mc.renderEngine.bindTexture(defaultLocation);

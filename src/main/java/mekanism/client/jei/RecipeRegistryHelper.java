@@ -1,36 +1,16 @@
 package mekanism.client.jei;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.client.gui.*;
-import mekanism.client.gui.chemical.GuiChemicalCrystallizer;
-import mekanism.client.gui.chemical.GuiChemicalDissolutionChamber;
-import mekanism.client.gui.chemical.GuiChemicalInfuser;
-import mekanism.client.gui.chemical.GuiChemicalInjectionChamber;
-import mekanism.client.gui.chemical.GuiChemicalOxidizer;
-import mekanism.client.gui.chemical.GuiChemicalWasher;
+import mekanism.client.gui.chemical.*;
 import mekanism.client.jei.machine.AdvancedMachineRecipeWrapper;
 import mekanism.client.jei.machine.ChanceMachineRecipeWrapper;
 import mekanism.client.jei.machine.DoubleMachineRecipeWrapper;
 import mekanism.client.jei.machine.MachineRecipeWrapper;
-import mekanism.client.jei.machine.chemical.ChemicalCrystallizerRecipeWrapper;
-import mekanism.client.jei.machine.chemical.ChemicalDissolutionChamberRecipeWrapper;
-import mekanism.client.jei.machine.chemical.ChemicalInfuserRecipeWrapper;
-import mekanism.client.jei.machine.chemical.ChemicalOxidizerRecipeWrapper;
-import mekanism.client.jei.machine.chemical.ChemicalWasherRecipeWrapper;
-import mekanism.client.jei.machine.other.ElectrolyticSeparatorRecipeWrapper;
-import mekanism.client.jei.machine.other.MetallurgicInfuserRecipeWrapper;
-import mekanism.client.jei.machine.other.PRCRecipeWrapper;
-import mekanism.client.jei.machine.other.RotaryCondensentratorRecipeWrapper;
-import mekanism.client.jei.machine.other.SolarNeutronRecipeWrapper;
-import mekanism.client.jei.machine.other.ThermalEvaporationRecipeWrapper;
+import mekanism.client.jei.machine.chemical.*;
+import mekanism.client.jei.machine.other.*;
 import mekanism.common.Mekanism;
-import mekanism.common.base.IFactory;
 import mekanism.common.base.IFactory.RecipeType;
 import mekanism.common.block.states.BlockStateBasic.BasicBlockType;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
@@ -49,6 +29,12 @@ import mezz.jei.api.IModRegistry;
 import mezz.jei.api.recipe.IRecipeWrapperFactory;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.crafting.FurnaceRecipes;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class RecipeRegistryHelper {
 
@@ -233,16 +219,16 @@ public class RecipeRegistryHelper {
             // Add all recipes
             Collection<SmeltingRecipe> recipeList = Recipe.ENERGIZED_SMELTER.get().values();
             registry.addRecipes(recipeList.stream().map(MachineRecipeWrapper::new).collect(Collectors.toList()),
-                  Recipe.ENERGIZED_SMELTER.getJEICategory());
+                    Recipe.ENERGIZED_SMELTER.getJEICategory());
             registry.addRecipeClickArea(GuiEnergizedSmelter.class, 79, 40, 24, 7,
-                        Recipe.ENERGIZED_SMELTER.getJEICategory());
-        } else if (Mekanism.hooks.GroovyScript && Smelter.hasAddedRecipe() ||  Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasAddedRecipe()) {
+                    Recipe.ENERGIZED_SMELTER.getJEICategory());
+        } else if (Mekanism.hooks.GroovyScript && Smelter.hasAddedRecipe() || Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasAddedRecipe()) {
             // Added but not removed
             // Only add added recipes
             Map<ItemStackInput, SmeltingRecipe> smeltingRecipes = Recipe.ENERGIZED_SMELTER.get();
             List<MachineRecipeWrapper> smeltingWrapper = smeltingRecipes.entrySet().stream().filter(entry ->
-                  !FurnaceRecipes.instance().getSmeltingList().containsKey(entry.getKey().ingredient)).map(entry ->
-                  new MachineRecipeWrapper<>(entry.getValue())).collect(Collectors.toList());
+                    !FurnaceRecipes.instance().getSmeltingList().containsKey(entry.getKey().ingredient)).map(entry ->
+                    new MachineRecipeWrapper<>(entry.getValue())).collect(Collectors.toList());
             registry.addRecipes(smeltingWrapper, Recipe.ENERGIZED_SMELTER.getJEICategory());
 
             registry.addRecipeClickArea(GuiEnergizedSmelter.class, 79, 40, 24, 7, VanillaRecipeCategoryUid.SMELTING, Recipe.ENERGIZED_SMELTER.getJEICategory());

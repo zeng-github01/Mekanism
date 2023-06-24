@@ -1,12 +1,5 @@
 package mekanism.common.block.states;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import javax.annotation.Nonnull;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismBlocks;
 import mekanism.common.base.IBlockType;
@@ -32,6 +25,14 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class BlockStateMachine extends ExtendedBlockState {
 
@@ -127,12 +128,12 @@ public class BlockStateMachine extends ExtendedBlockState {
         public FactoryTier factoryTier;
 
         MachineType(MachineBlock block, int m, String name, int gui, Supplier<TileEntity> tileClass, boolean electric, boolean model, boolean upgrades,
-              Predicate<EnumFacing> predicate, boolean hasActiveTexture) {
+                    Predicate<EnumFacing> predicate, boolean hasActiveTexture) {
             this(block, m, name, gui, tileClass, electric, model, upgrades, predicate, hasActiveTexture, null);
         }
 
         MachineType(MachineBlock block, int m, String name, int gui, Supplier<TileEntity> tileClass, boolean electric, boolean model, boolean upgrades,
-              Predicate<EnumFacing> predicate, boolean hasActiveTexture, FactoryTier factoryTier) {
+                    Predicate<EnumFacing> predicate, boolean hasActiveTexture, FactoryTier factoryTier) {
             typeBlock = block;
             meta = m;
             blockName = name;

@@ -1,11 +1,6 @@
 package mekanism.client.render;
 
-import javax.annotation.Nonnull;
-import mekanism.client.model.ModelArmoredJetpack;
-import mekanism.client.model.ModelFreeRunners;
-import mekanism.client.model.ModelGasMask;
-import mekanism.client.model.ModelJetpack;
-import mekanism.client.model.ModelScubaTank;
+import mekanism.client.model.*;
 import mekanism.client.render.MekanismRenderer.GlowInfo;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
@@ -19,6 +14,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 public class ModelCustomArmor extends ModelBiped {

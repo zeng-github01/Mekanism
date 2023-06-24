@@ -1,9 +1,5 @@
 package mekanism.common.base;
 
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import javax.annotation.Nullable;
 import mekanism.api.gas.Gas;
 import mekanism.common.InfuseStorage;
 import mekanism.common.Mekanism;
@@ -14,13 +10,7 @@ import mekanism.common.recipe.inputs.AdvancedMachineInput;
 import mekanism.common.recipe.inputs.DoubleMachineInput;
 import mekanism.common.recipe.inputs.InfusionInput;
 import mekanism.common.recipe.inputs.ItemStackInput;
-import mekanism.common.recipe.machines.AdvancedMachineRecipe;
-import mekanism.common.recipe.machines.BasicMachineRecipe;
-import mekanism.common.recipe.machines.ChanceMachineRecipe;
-import mekanism.common.recipe.machines.DoubleMachineRecipe;
-import mekanism.common.recipe.machines.MachineRecipe;
-import mekanism.common.recipe.machines.MetallurgicInfuserRecipe;
-import mekanism.common.tier.FactoryTier;
+import mekanism.common.recipe.machines.*;
 import mekanism.common.tile.prefab.TileEntityAdvancedElectricMachine;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.StackUtils;
@@ -31,6 +21,11 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.items.ItemHandlerHelper;
+
+import javax.annotation.Nullable;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Internal interface for managing various Factory types.
@@ -43,7 +38,6 @@ public interface IFactory {
      * Gets the recipe type this Smelting Factory currently has.
      *
      * @param itemStack - stack to check
-     *
      * @return RecipeType ordinal
      */
     int getRecipeType(ItemStack itemStack);
@@ -52,7 +46,6 @@ public interface IFactory {
      * Gets the recipe type this Factory currently has.
      *
      * @param itemStack - stack to check
-     *
      * @return RecipeType or null if it has invalid NBT
      */
     @Nullable
@@ -102,14 +95,14 @@ public interface IFactory {
         }
 
         public static RecipeType getFromMachine(Block block, int meta) {
-        	//Mekanism.logger.debug("Param block: " + block + " || meta:" + meta);      	
+            //Mekanism.logger.debug("Param block: " + block + " || meta:" + meta);
             RecipeType type = null;
             for (RecipeType iterType : RecipeType.values()) {
                 ItemStack machineStack = iterType.getStack();
                 Block machineBlock = Block.getBlockFromItem(machineStack.getItem());
                 int machineMeta = machineStack.getItemDamage();
-               // Mekanism.logger.debug("Search block: " + machineBlock + " || meta:" + machineMeta);
-                if (machineBlock == block && machineMeta == meta) {          	
+                // Mekanism.logger.debug("Search block: " + machineBlock + " || meta:" + machineMeta);
+                if (machineBlock == block && machineMeta == meta) {
                     type = iterType;
                     break;
                 }

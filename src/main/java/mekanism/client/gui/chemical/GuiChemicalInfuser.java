@@ -1,9 +1,5 @@
 package mekanism.client.gui.chemical;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -24,6 +20,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuser> {
 
@@ -33,11 +33,11 @@ public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuse
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiPowerBarHorizontal(this, tileEntity, resource, 115 -2, 74));
+        addGuiElement(new GuiPowerBarHorizontal(this, tileEntity, resource, 115 - 2, 74));
         addGuiElement(new GuiEnergyInfo(() -> {
             String usage = MekanismUtils.getEnergyDisplay(tileEntity.clientEnergyUsed);
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + usage + "/t",
-                  LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
         addGuiElement(new GuiGasGauge(() -> tileEntity.leftTank, GuiGauge.Type.STANDARD, this, resource, 25, 13));
         addGuiElement(new GuiGasGauge(() -> tileEntity.centerTank, GuiGauge.Type.STANDARD, this, resource, 79, 4));
@@ -75,13 +75,13 @@ public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuse
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
             boolean output = tileEntity.centerTank.getStored() == tileEntity.centerTank.getMaxGas();
-            if (energy){
+            if (energy) {
                 info.add(LangUtils.localize("gui.no_energy"));
             }
             if (output) {
                 info.add(LangUtils.localize("gui.gas_no_space"));
             }
-            if (output || energy){
+            if (output || energy) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }
@@ -95,13 +95,13 @@ public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuse
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
         if (output) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "Warning.png"));
-            drawTexturedModalRect(guiLeft + 79 + 9, guiTop + 4 + 1,9,1,8,29);
-            drawTexturedModalRect(guiLeft + 79 + 9, guiTop + 4 + 31,9,32,8,28);
+            drawTexturedModalRect(guiLeft + 79 + 9, guiTop + 4 + 1, 9, 1, 8, 29);
+            drawTexturedModalRect(guiLeft + 79 + 9, guiTop + 4 + 31, 9, 32, 8, 28);
         }
-        if (output || energy){
+        if (output || energy) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
     }
 }

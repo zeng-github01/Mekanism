@@ -4,12 +4,6 @@ import cofh.redstoneflux.api.IEnergyContainerItem;
 import ic2.api.item.IElectricItemManager;
 import ic2.api.item.ISpecialElectricItem;
 import io.netty.buffer.ByteBuf;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.energy.IEnergizedItem;
@@ -18,18 +12,8 @@ import mekanism.client.MekanismClient;
 import mekanism.client.MekanismKeyHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
-import mekanism.common.base.FluidItemWrapper;
-import mekanism.common.base.IFactory;
-import mekanism.common.base.IFluidItemWrapper;
-import mekanism.common.base.IItemNetwork;
-import mekanism.common.base.IRedstoneControl;
+import mekanism.common.base.*;
 import mekanism.common.base.IRedstoneControl.RedstoneControl;
-import mekanism.common.base.ISideConfiguration;
-import mekanism.common.base.ISustainedData;
-import mekanism.common.base.ISustainedInventory;
-import mekanism.common.base.ISustainedTank;
-import mekanism.common.base.ITierItem;
-import mekanism.common.base.IUpgradeTile;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.capabilities.ItemCapabilityWrapper;
 import mekanism.common.config.MekanismConfig;
@@ -50,11 +34,7 @@ import mekanism.common.tile.TileEntityFluidTank;
 import mekanism.common.tile.TileEntityQuantumEntangloporter;
 import mekanism.common.tile.prefab.TileEntityBasicBlock;
 import mekanism.common.tile.prefab.TileEntityElectricBlock;
-import mekanism.common.util.ItemDataUtils;
-import mekanism.common.util.LangUtils;
-import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.PipeUtils;
-import mekanism.common.util.SecurityUtils;
+import mekanism.common.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -67,12 +47,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -88,6 +63,13 @@ import net.minecraftforge.fml.common.Optional.InterfaceList;
 import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
 
 /**
  * Item class for handling multiple machine block IDs.
@@ -107,7 +89,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * 0:13: Personal Chest
  * 0:14: Chargepad
  * 0:15: Logistical Sorter
- *
+ * <p>
  * 1:0: Rotary Condensentrator
  * 1:1: Chemical Oxidizer
  * 1:2: Chemical Infuser
@@ -124,7 +106,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * 1:13: Laser
  * 1:14: Laser Amplifier
  * 1:15: Laser Tractor Beam
- *
+ * <p>
  * 2:0: Entangled Block
  * 2:1: Solar Neutron Activator
  * 2:2: Ambient Accumulator
@@ -136,11 +118,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author AidanBrady
  */
 @InterfaceList({
-      @Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = MekanismHooks.REDSTONEFLUX_MOD_ID),
-      @Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = MekanismHooks.IC2_MOD_ID)
+        @Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = MekanismHooks.REDSTONEFLUX_MOD_ID),
+        @Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = MekanismHooks.IC2_MOD_ID)
 })
 public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpecialElectricItem, IFactory, ISustainedInventory, ISustainedTank, IEnergyContainerItem,
-      IFluidItemWrapper, ITierItem, ISecurityItem, IItemNetwork {
+        IFluidItemWrapper, ITierItem, ISecurityItem, IItemNetwork {
 
     public Block metaBlock;
 
@@ -170,7 +152,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
     @Override
     public String getItemStackDisplayName(@Nonnull ItemStack itemstack) {
         MachineType type = MachineType.get(itemstack);
-        if (type == MachineType.BASIC_FACTORY || type == MachineType.ADVANCED_FACTORY || type == MachineType.ELITE_FACTORY || type == MachineType.ULTIMATE_FACTORY  || type == MachineType.CREATIVE_FACTORY) {
+        if (type == MachineType.BASIC_FACTORY || type == MachineType.ADVANCED_FACTORY || type == MachineType.ELITE_FACTORY || type == MachineType.ULTIMATE_FACTORY || type == MachineType.CREATIVE_FACTORY) {
             BaseTier tier = type.factoryTier.getBaseTier();
             RecipeType recipeType = getRecipeTypeOrNull(itemstack);
             if (recipeType != null) {
@@ -178,10 +160,10 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
                 if (LangUtils.canLocalize(langKey)) {
                     return LangUtils.localize(langKey);
                 }
-                return tier.getColor() + tier.getLocalizedName() + recipeType.getLocalizedName()  + LangUtils.localize("tile.MachineBlock.Factory.name");
+                return tier.getColor() + tier.getLocalizedName() + recipeType.getLocalizedName() + LangUtils.localize("tile.MachineBlock.Factory.name");
             }
         } else if (type == MachineType.FLUID_TANK) {
-            return  getBaseTier(itemstack).getColor() +  LangUtils.localize("tile.FluidTank" + getBaseTier(itemstack).getSimpleName() + ".name");
+            return getBaseTier(itemstack).getColor() + LangUtils.localize("tile.FluidTank" + getBaseTier(itemstack).getSimpleName() + ".name");
         }
         return super.getItemStackDisplayName(itemstack);
     }
@@ -202,7 +184,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
                 }
                 int cap = FluidTankTier.values()[getBaseTier(itemstack).ordinal()].getStorage();
                 list.add(EnumColor.INDIGO + LangUtils.localize("tooltip.capacity") + ": " + EnumColor.GREY +
-                         (cap == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : cap + " mB"));
+                        (cap == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : cap + " mB"));
             }
 
             if (type == MachineType.QUANTUM_ENTANGLOPORTER) {
@@ -214,10 +196,10 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
             }
 
             list.add(LangUtils.localize("tooltip.hold") + " " + EnumColor.INDIGO + GameSettings.getKeyDisplayString(MekanismKeyHandler.sneakKey.getKeyCode()) +
-                     EnumColor.GREY + " " + LangUtils.localize("tooltip.forDetails") + ".");
+                    EnumColor.GREY + " " + LangUtils.localize("tooltip.forDetails") + ".");
             list.add(LangUtils.localize("tooltip.hold") + " " + EnumColor.AQUA + GameSettings.getKeyDisplayString(MekanismKeyHandler.sneakKey.getKeyCode()) +
-                     EnumColor.GREY + " " + LangUtils.localize("tooltip.and") + " " + EnumColor.AQUA +
-                     GameSettings.getKeyDisplayString(MekanismKeyHandler.modeSwitchKey.getKeyCode()) + EnumColor.GREY + " " + LangUtils.localize("tooltip.forDesc") + ".");
+                    EnumColor.GREY + " " + LangUtils.localize("tooltip.and") + " " + EnumColor.AQUA +
+                    GameSettings.getKeyDisplayString(MekanismKeyHandler.modeSwitchKey.getKeyCode()) + EnumColor.GREY + " " + LangUtils.localize("tooltip.forDesc") + ".");
         } else if (!MekKeyHandler.getIsKeyPressed(MekanismKeyHandler.modeSwitchKey)) {
             if (hasSecurity(itemstack)) {
                 list.add(SecurityUtils.getOwnerDisplay(Minecraft.getMinecraft().player, MekanismClient.clientUUIDMap.get(getOwnerUUID(itemstack))));
@@ -226,7 +208,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
                     list.add(EnumColor.RED + "(" + LangUtils.localize("gui.overridden") + ")");
                 }
             }
-            if (type == MachineType.BASIC_FACTORY || type == MachineType.ADVANCED_FACTORY || type == MachineType.ELITE_FACTORY || type == MachineType.ULTIMATE_FACTORY  || type == MachineType.CREATIVE_FACTORY) {
+            if (type == MachineType.BASIC_FACTORY || type == MachineType.ADVANCED_FACTORY || type == MachineType.ELITE_FACTORY || type == MachineType.ULTIMATE_FACTORY || type == MachineType.CREATIVE_FACTORY) {
                 RecipeType recipeType = getRecipeTypeOrNull(itemstack);
                 if (recipeType != null) {
                     list.add(EnumColor.INDIGO + LangUtils.localize("tooltip.recipeType") + ": " + EnumColor.GREY + recipeType.getLocalizedName());
@@ -238,7 +220,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
 
             if (type.isElectric) {
                 list.add(EnumColor.BRIGHT_GREEN + LangUtils.localize("tooltip.storedEnergy") + ": " + EnumColor.GREY
-                         + MekanismUtils.getEnergyDisplay(getEnergy(itemstack), getMaxEnergy(itemstack)));
+                        + MekanismUtils.getEnergyDisplay(getEnergy(itemstack), getMaxEnergy(itemstack)));
             }
 
             if (hasTank(itemstack) && type != MachineType.FLUID_TANK) {
@@ -251,7 +233,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
 
             if (type != MachineType.CHARGEPAD && type != MachineType.LOGISTICAL_SORTER) {
                 list.add(EnumColor.AQUA + LangUtils.localize("tooltip.inventory") + ": " + EnumColor.GREY +
-                         LangUtils.transYesNo(getInventory(itemstack) != null && getInventory(itemstack).tagCount() != 0));
+                        LangUtils.transYesNo(getInventory(itemstack) != null && getInventory(itemstack).tagCount() != 0));
             }
             if (type.supportsUpgrades && ItemDataUtils.hasData(itemstack, "upgrades")) {
                 Map<Upgrade, Integer> upgrades = Upgrade.buildMap(ItemDataUtils.getDataMap(itemstack));
@@ -277,7 +259,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
 
     @Override
     public boolean placeBlockAt(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, World world, @Nonnull BlockPos pos, EnumFacing side, float hitX, float hitY,
-          float hitZ, @Nonnull IBlockState state) {
+                                float hitZ, @Nonnull IBlockState state) {
         boolean place = true;
         MachineType type = MachineType.get(stack);
         if (type == MachineType.DIGITAL_MINER) {
@@ -387,10 +369,10 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
         }
         if (world.provider.doesWaterVaporize() && getFluidStack(itemstack).getFluid() == FluidRegistry.WATER) {
             world.playSound(null, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F,
-                  2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+                    2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
             for (int l = 0; l < 8; l++) {
                 world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, pos.getX() + Math.random(),
-                      pos.getY() + Math.random(), pos.getZ() + Math.random(), 0.0D, 0.0D, 0.0D);
+                        pos.getY() + Math.random(), pos.getZ() + Math.random(), 0.0D, 0.0D, 0.0D);
             }
         } else {
             if (!world.isRemote && flag && !material.isLiquid()) {
@@ -456,7 +438,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
                             return new ActionResult<>(EnumActionResult.FAIL, itemstack);
                         }
                         if (tryPlaceContainedLiquid(world, itemstack, trans.getPos())
-                            && !entityplayer.capabilities.isCreativeMode) {
+                                && !entityplayer.capabilities.isCreativeMode) {
                             FluidStack newStack = stored.copy();
                             newStack.amount -= Fluid.BUCKET_VOLUME;
                             setFluidStack(newStack.amount > 0 ? newStack : null, itemstack);

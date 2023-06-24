@@ -513,5 +513,4 @@ public class ModelDigitalMiner extends ModelBase {
     }
 
 
-
 }

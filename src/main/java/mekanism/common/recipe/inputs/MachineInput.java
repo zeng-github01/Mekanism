@@ -1,12 +1,13 @@
 package mekanism.common.recipe.inputs;
 
-import java.util.HashMap;
-import java.util.Map;
 import mekanism.common.OreDictCache;
 import mekanism.common.util.StackUtils;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class MachineInput<INPUT extends MachineInput<INPUT>> {
 
@@ -36,7 +37,6 @@ public abstract class MachineInput<INPUT extends MachineInput<INPUT>> {
      * Test equality to another input. This should return true if the input matches this one, IGNORING AMOUNTS. Allows usage of HashMap optimisation to get recipes.
      *
      * @param other The other input to check
-     *
      * @return True if input matches this one, IGNORING AMOUNTS!
      */
     public abstract boolean testEquality(INPUT other);
@@ -78,7 +78,6 @@ public abstract class MachineInput<INPUT extends MachineInput<INPUT>> {
          *
          * @param definition The ingredient stored in the ItemStackInput
          * @param test       The other input to check
-         *
          * @return True if input matches this one, IGNORING AMOUNTS!
          */
         boolean test(ItemStack definition, ItemStack test);

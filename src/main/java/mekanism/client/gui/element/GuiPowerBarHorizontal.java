@@ -106,8 +106,8 @@ public class GuiPowerBarHorizontal extends GuiElement {
         }
     }
 
-    public enum PowerBarHorizontal{
-        HORIZONTAL(58,8,0,0);
+    public enum PowerBarHorizontal {
+        HORIZONTAL(58, 8, 0, 0);
 
         public final int width;
         public final int height;

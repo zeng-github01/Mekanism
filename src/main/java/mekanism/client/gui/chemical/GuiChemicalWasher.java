@@ -1,9 +1,5 @@
 package mekanism.client.gui.chemical;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -26,6 +22,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiChemicalWasher extends GuiMekanismTile<TileEntityChemicalWasher> {
 
@@ -39,12 +39,12 @@ public class GuiChemicalWasher extends GuiMekanismTile<TileEntityChemicalWasher>
         addGuiElement(new GuiEnergyInfo(() -> {
             String usage = MekanismUtils.getEnergyDisplay(tileEntity.clientEnergyUsed);
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + usage + "/t",
-                  LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
         addGuiElement(new GuiFluidGauge(() -> tileEntity.fluidTank, Type.STANDARD, this, resource, 5, 4));
         addGuiElement(new GuiGasGauge(() -> tileEntity.inputTank, GuiGauge.Type.STANDARD, this, resource, 26, 13));
         addGuiElement(new GuiGasGauge(() -> tileEntity.outputTank, GuiGauge.Type.STANDARD, this, resource, 133, 13));
-        addGuiElement(new GuiBucketIcon(GuiBucketIcon.IconType.BUCKET,this, resource,8,66));
+        addGuiElement(new GuiBucketIcon(GuiBucketIcon.IconType.BUCKET, this, resource, 8, 66));
         addGuiElement(new GuiBucketIO(this, resource));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 154, 4).with(SlotOverlay.POWER));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 154, 55).with(SlotOverlay.MINUS));
@@ -70,13 +70,13 @@ public class GuiChemicalWasher extends GuiMekanismTile<TileEntityChemicalWasher>
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
             boolean output = tileEntity.outputTank.getStored() == tileEntity.outputTank.getMaxGas();
-            if (energy){
+            if (energy) {
                 info.add(LangUtils.localize("gui.no_energy"));
             }
             if (output) {
                 info.add(LangUtils.localize("gui.gas_no_space"));
             }
-            if (output || energy){
+            if (output || energy) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }
@@ -90,13 +90,13 @@ public class GuiChemicalWasher extends GuiMekanismTile<TileEntityChemicalWasher>
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
         if (output) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "Warning.png"));
-            drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 1,9,1,8,29);
-            drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 31,9,32,8,28);
+            drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 1, 9, 1, 8, 29);
+            drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 31, 9, 32, 8, 28);
         }
-        if (output || energy){
+        if (output || energy) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
     }
 }

@@ -1,31 +1,10 @@
 package mekanism.common.block.states;
 
-import java.util.Locale;
-import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismBlocks;
 import mekanism.common.block.BlockBasic;
 import mekanism.common.tier.BaseTier;
-import mekanism.common.tile.TileEntityBin;
-import mekanism.common.tile.TileEntityBoilerCasing;
-import mekanism.common.tile.TileEntityBoilerValve;
-import mekanism.common.tile.TileEntityDynamicTank;
-import mekanism.common.tile.TileEntityDynamicValve;
-import mekanism.common.tile.TileEntityInductionCasing;
-import mekanism.common.tile.TileEntityInductionCell;
-import mekanism.common.tile.TileEntityInductionPort;
-import mekanism.common.tile.TileEntityInductionProvider;
-import mekanism.common.tile.TileEntityPressureDisperser;
-import mekanism.common.tile.TileEntitySecurityDesk;
-import mekanism.common.tile.TileEntityStructuralGlass;
-import mekanism.common.tile.TileEntitySuperheatingElement;
-import mekanism.common.tile.TileEntityThermalEvaporationBlock;
-import mekanism.common.tile.TileEntityThermalEvaporationController;
-import mekanism.common.tile.TileEntityThermalEvaporationValve;
+import mekanism.common.tile.*;
 import mekanism.common.util.LangUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
@@ -42,6 +21,13 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class BlockStateBasic extends ExtendedBlockState {
 
@@ -120,22 +106,22 @@ public class BlockStateBasic extends ExtendedBlockState {
         public boolean isOpaqueCube;
 
         BasicBlockType(@Nonnull BasicBlock block, int metadata, String nameIn, Supplier<TileEntity> tileClass, boolean hasDesc, Predicate<EnumFacing> facingAllowed,
-              boolean activeState, boolean hasTiers, boolean beaconBase) {
+                       boolean activeState, boolean hasTiers, boolean beaconBase) {
             this(block, metadata, nameIn, tileClass, hasDesc, facingAllowed, activeState, hasTiers, beaconBase, false);
         }
 
         BasicBlockType(@Nonnull BasicBlock block, int metadata, String nameIn, Supplier<TileEntity> tileClass, boolean hasDesc, Predicate<EnumFacing> facingAllowed,
-              boolean activeState, boolean hasTiers, boolean beaconBase, boolean hasRedstoneOutput) {
+                       boolean activeState, boolean hasTiers, boolean beaconBase, boolean hasRedstoneOutput) {
             this(block, metadata, nameIn, tileClass, hasDesc, facingAllowed, activeState, hasTiers, beaconBase, hasRedstoneOutput, true);
         }
 
         BasicBlockType(@Nonnull BasicBlock block, int metadata, String nameIn, Supplier<TileEntity> tileClass, boolean hasDesc, Predicate<EnumFacing> facingAllowed,
-              boolean activeState, boolean hasTiers, boolean beaconBase, boolean hasRedstoneOutput, boolean fullBlock) {
+                       boolean activeState, boolean hasTiers, boolean beaconBase, boolean hasRedstoneOutput, boolean fullBlock) {
             this(block, metadata, nameIn, tileClass, hasDesc, facingAllowed, activeState, hasTiers, beaconBase, hasRedstoneOutput, fullBlock, true);
         }
 
         BasicBlockType(@Nonnull BasicBlock block, int metadata, String nameIn, Supplier<TileEntity> tileClass, boolean hasDesc, Predicate<EnumFacing> facingAllowed,
-              boolean activeState, boolean hasTiers, boolean beaconBase, boolean hasRedstoneOutput, boolean fullBlock, boolean opaque) {
+                       boolean activeState, boolean hasTiers, boolean beaconBase, boolean hasRedstoneOutput, boolean fullBlock, boolean opaque) {
             blockType = block;
             meta = metadata;
             name = nameIn;

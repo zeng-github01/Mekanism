@@ -1,26 +1,13 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
-import mekanism.api.gas.Gas;
-import mekanism.api.gas.GasStack;
-import mekanism.api.gas.GasTank;
-import mekanism.api.gas.GasTankInfo;
-import mekanism.api.gas.IGasHandler;
-import mekanism.api.gas.IGasItem;
+import mekanism.api.gas.*;
 import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
 import mekanism.common.Upgrade.IUpgradeInfoHandler;
-import mekanism.common.base.IActiveState;
-import mekanism.common.base.IBoundingBlock;
-import mekanism.common.base.IComparatorSupport;
-import mekanism.common.base.IRedstoneControl;
-import mekanism.common.base.ISustainedData;
-import mekanism.common.base.ITankManager;
-import mekanism.common.base.IUpgradeTile;
+import mekanism.common.base.*;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.GasInput;
@@ -42,8 +29,11 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+import java.util.List;
+
 public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock implements IRedstoneControl, IBoundingBlock, IGasHandler, IActiveState, ISustainedData,
-      ITankManager, ISecurityTile, IUpgradeTile, IUpgradeInfoHandler, IComparatorSupport {
+        ITankManager, ISecurityTile, IUpgradeTile, IUpgradeInfoHandler, IComparatorSupport {
 
     public static final int MAX_GAS = 10000;
     private static final int[] INPUT_SLOT = {0};

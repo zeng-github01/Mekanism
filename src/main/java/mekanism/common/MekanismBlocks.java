@@ -1,40 +1,18 @@
 package mekanism.common;
 
-import static mekanism.common.block.states.BlockStateBasic.BasicBlock.BASIC_BLOCK_1;
-import static mekanism.common.block.states.BlockStateBasic.BasicBlock.BASIC_BLOCK_2;
-import static mekanism.common.block.states.BlockStateMachine.MachineBlock.MACHINE_BLOCK_1;
-import static mekanism.common.block.states.BlockStateMachine.MachineBlock.MACHINE_BLOCK_2;
-import static mekanism.common.block.states.BlockStateMachine.MachineBlock.MACHINE_BLOCK_3;
-
-import mekanism.common.block.BlockBasic;
-import mekanism.common.block.BlockBounding;
-import mekanism.common.block.BlockCardboardBox;
-import mekanism.common.block.BlockEnergyCube;
-import mekanism.common.block.BlockGasTank;
-import mekanism.common.block.BlockGlowPanel;
-import mekanism.common.block.BlockMachine;
-import mekanism.common.block.BlockObsidianTNT;
-import mekanism.common.block.BlockOre;
-import mekanism.common.block.BlockPlastic;
-import mekanism.common.block.BlockPlasticFence;
-import mekanism.common.block.BlockSalt;
-import mekanism.common.block.BlockTransmitter;
+import mekanism.common.block.*;
 import mekanism.common.block.states.BlockStatePlastic.PlasticBlockType;
-import mekanism.common.item.ItemBlockBasic;
-import mekanism.common.item.ItemBlockCardboardBox;
-import mekanism.common.item.ItemBlockEnergyCube;
-import mekanism.common.item.ItemBlockGasTank;
-import mekanism.common.item.ItemBlockGlowPanel;
-import mekanism.common.item.ItemBlockMachine;
-import mekanism.common.item.ItemBlockOre;
-import mekanism.common.item.ItemBlockPlastic;
-import mekanism.common.item.ItemBlockTransmitter;
+import mekanism.common.item.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import net.minecraftforge.registries.IForgeRegistry;
+
+import static mekanism.common.block.states.BlockStateBasic.BasicBlock.BASIC_BLOCK_1;
+import static mekanism.common.block.states.BlockStateBasic.BasicBlock.BASIC_BLOCK_2;
+import static mekanism.common.block.states.BlockStateMachine.MachineBlock.*;
 
 @ObjectHolder(Mekanism.MODID)
 public class MekanismBlocks {

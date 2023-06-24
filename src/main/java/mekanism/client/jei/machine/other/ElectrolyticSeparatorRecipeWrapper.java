@@ -1,9 +1,5 @@
 package mekanism.client.jei.machine.other;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import mekanism.client.jei.MekanismJEI;
 import mekanism.client.jei.machine.MekanismRecipeWrapper;
 import mekanism.common.config.MekanismConfig;
@@ -12,6 +8,10 @@ import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ElectrolyticSeparatorRecipeWrapper<RECIPE extends SeparatorRecipe> extends MekanismRecipeWrapper<RECIPE> {
 
@@ -29,7 +29,7 @@ public class ElectrolyticSeparatorRecipeWrapper<RECIPE extends SeparatorRecipe> 
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         List<String> tooltip = new ArrayList<>();
         if (mouseX >= 162 && mouseX < 166 && mouseY >= 6 && mouseY < 6 + 52) {
-            tooltip.add(LangUtils.localize("gui.using") + ":" +  MekanismUtils.getEnergyDisplay(MekanismConfig.current().general.FROM_H2.val() * 2) + "/t");
+            tooltip.add(LangUtils.localize("gui.using") + ":" + MekanismUtils.getEnergyDisplay(MekanismConfig.current().general.FROM_H2.val() * 2) + "/t");
         }
         return tooltip;
     }

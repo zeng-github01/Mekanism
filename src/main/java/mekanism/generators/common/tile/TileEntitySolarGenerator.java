@@ -1,7 +1,6 @@
 package mekanism.generators.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.ChargeUtils;
@@ -12,6 +11,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
 
 public class TileEntitySolarGenerator extends TileEntityGenerator {
 
@@ -118,7 +119,7 @@ public class TileEntitySolarGenerator extends TileEntityGenerator {
             brightness *= ((ISolarLevel) world.provider).getSolarEnergyMultiplier();
         }
 
-            // Production is a function of the peak possible output in this biome and sun's current brightness
+        // Production is a function of the peak possible output in this biome and sun's current brightness
         float production = peakOutput * brightness;
 
         // If the generator is in a biome where it can rain and it's raining penalize production by 80%

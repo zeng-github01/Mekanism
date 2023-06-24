@@ -1,10 +1,5 @@
 package mekanism.client.render;
 
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.Map;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
@@ -23,11 +18,7 @@ import mekanism.common.base.ISideConfiguration;
 import mekanism.common.tier.BaseTier;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -50,6 +41,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class MekanismRenderer {
@@ -103,7 +100,6 @@ public class MekanismRenderer {
      *
      * @param fluid the fluid to get
      * @param type  Still or Flowing
-     *
      * @return the sprite, or missing sprite if not found
      */
     public static TextureAtlasSprite getBaseFluidTexture(Fluid fluid, FluidType type) {

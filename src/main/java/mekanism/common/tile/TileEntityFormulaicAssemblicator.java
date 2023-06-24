@@ -1,8 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigCardAccess;
 import mekanism.api.TileNetworkList;
@@ -36,6 +34,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 public class TileEntityFormulaicAssemblicator extends TileEntityElectricBlock implements ISideConfiguration, IUpgradeTile, IRedstoneControl, IConfigCardAccess, ISecurityTile {
 
@@ -92,7 +93,7 @@ public class TileEntityFormulaicAssemblicator extends TileEntityElectricBlock im
 
         configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.DARK_RED, new int[]{SLOT_INPUT_FIRST, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-                                                                                                             16, 17, 18, 19, SLOT_INPUT_LAST}));
+                16, 17, 18, 19, SLOT_INPUT_LAST}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.DARK_BLUE, new int[]{SLOT_OUTPUT_FIRST, 22, 23, 24, 25, SLOT_OUTPUT_LAST}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Energy", EnumColor.DARK_GREEN, new int[]{SLOT_ENERGY}));
 
@@ -242,7 +243,7 @@ public class TileEntityFormulaicAssemblicator extends TileEntityElectricBlock im
 
     private boolean doSingleCraft() {
         for (int i = 0; i < 9; i++) {
-            dummyInv.setInventorySlotContents(i,  StackUtils.size(inventory.get(SLOT_CRAFT_MATRIX_FIRST + i), 1));
+            dummyInv.setInventorySlotContents(i, StackUtils.size(inventory.get(SLOT_CRAFT_MATRIX_FIRST + i), 1));
         }
         recalculateRecipe();
 

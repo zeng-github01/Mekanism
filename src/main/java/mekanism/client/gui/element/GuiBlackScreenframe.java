@@ -59,15 +59,14 @@ public class GuiBlackScreenframe extends GuiElement {
 
     public enum BlackScreen {
 
-        BIO_EVAPORATION(80,40,0,0),
-        CRYSTALLIZER(121,42,81,0),
-        DYNAMICTANK_INDUCTIONMATRIX_PUMP(80,41,0,41),
-        SEISMICVIBRATOR(112,40,81,43),
-        THERMOELECTRICBOILER(96,32,0,84),
-        GASTANK(118,27,97,84),
-        FUELWOOD(80,28,0,117),
-        SIDECONFIG(74,12,81,117)
-        ;
+        BIO_EVAPORATION(80, 40, 0, 0),
+        CRYSTALLIZER(121, 42, 81, 0),
+        DYNAMICTANK_INDUCTIONMATRIX_PUMP(80, 41, 0, 41),
+        SEISMICVIBRATOR(112, 40, 81, 43),
+        THERMOELECTRICBOILER(96, 32, 0, 84),
+        GASTANK(118, 27, 97, 84),
+        FUELWOOD(80, 28, 0, 117),
+        SIDECONFIG(74, 12, 81, 117);
 
 
         public final int width;

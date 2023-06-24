@@ -1,19 +1,20 @@
 package mekanism.generators.client.gui;
 
-import java.io.IOException;
 import mekanism.api.Coord4D;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.common.Mekanism;
 import mekanism.common.network.PacketSimpleGui.SimpleGuiMessage;
-import mekanism.generators.common.util.MekanismGeneratorUtils.ResourceType;
 import mekanism.generators.common.tile.reactor.TileEntityReactorController;
 import mekanism.generators.common.util.MekanismGeneratorUtils;
+import mekanism.generators.common.util.MekanismGeneratorUtils.ResourceType;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.io.IOException;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiReactorInfo extends GuiMekanismTile<TileEntityReactorController> {

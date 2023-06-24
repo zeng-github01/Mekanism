@@ -71,8 +71,8 @@ public class GuiRateBarHorizontal extends GuiElement {
         public abstract double getLevel();
     }
 
-    public enum RateBarHorizontal{
-        HORIZONTAL(84,12,0,0);
+    public enum RateBarHorizontal {
+        HORIZONTAL(84, 12, 0, 0);
 
         public final int width;
         public final int height;

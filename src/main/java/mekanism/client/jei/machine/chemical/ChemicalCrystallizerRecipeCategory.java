@@ -21,7 +21,7 @@ public class ChemicalCrystallizerRecipeCategory<WRAPPER extends ChemicalCrystall
 
     public ChemicalCrystallizerRecipeCategory(IGuiHelper helper) {
         super(helper, "mekanism:gui/GuiBlankIcon.png", Recipe.CHEMICAL_CRYSTALLIZER.getJEICategory(),
-              "tile.MachineBlock2.ChemicalCrystallizer.name", GuiProgress.ProgressBar.LARGE_RIGHT, 5, 3, 147, 79);
+                "tile.MachineBlock2.ChemicalCrystallizer.name", GuiProgress.ProgressBar.LARGE_RIGHT, 5, 3, 147, 79);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ChemicalCrystallizerRecipeCategory<WRAPPER extends ChemicalCrystall
         }, progressBar, this, guiLocation, 51, 60));
         guiElements.add(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.CRYSTALLIZER, this, guiLocation, 27, 13));
         guiElements.add(new GuiBlack(this, guiLocation, 28, 14, 102, 40));
-        guiElements.add(new GuiBlack(this, guiLocation, 28 + 102,13 + 18,17,23));
+        guiElements.add(new GuiBlack(this, guiLocation, 28 + 102, 13 + 18, 17, 23));
     }
 
     @Override

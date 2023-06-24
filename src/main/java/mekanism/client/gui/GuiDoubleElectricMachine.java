@@ -1,9 +1,5 @@
 package mekanism.client.gui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
@@ -23,6 +19,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiDoubleElectricMachine<RECIPE extends DoubleMachineRecipe<RECIPE>> extends GuiMekanismTile<TileEntityDoubleElectricMachine<RECIPE>> {
 
@@ -38,7 +38,7 @@ public class GuiDoubleElectricMachine<RECIPE extends DoubleMachineRecipe<RECIPE>
         addGuiElement(new GuiEnergyInfo(() -> {
             String multiplier = MekanismUtils.getEnergyDisplay(tileEntity.energyPerTick);
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                  LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
         addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 55, 16));
         addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 30, 34).with(SlotOverlay.POWER));
@@ -55,17 +55,17 @@ public class GuiDoubleElectricMachine<RECIPE extends DoubleMachineRecipe<RECIPE>
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 60, guiTop + 38,20,167,8,10);
+        drawTexturedModalRect(guiLeft + 60, guiTop + 38, 20, 167, 8, 10);
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
         boolean outslot = tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize();
         if (outslot) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiSlot.png"));
-            drawTexturedModalRect(guiLeft + 111, guiTop + 30,176,0,26,26);
+            drawTexturedModalRect(guiLeft + 111, guiTop + 30, 176, 0, 26, 26);
         }
-        if (outslot  || energy){
+        if (outslot || energy) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
     }
 
@@ -83,12 +83,13 @@ public class GuiDoubleElectricMachine<RECIPE extends DoubleMachineRecipe<RECIPE>
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
             boolean outslot = tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize();
-            if (energy){
+            if (energy) {
                 info.add(LangUtils.localize("gui.no_energy"));
-            }if (outslot){
+            }
+            if (outslot) {
                 info.add(LangUtils.localize("gui.item_no_space"));
             }
-            if (energy || outslot){
+            if (energy || outslot) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }

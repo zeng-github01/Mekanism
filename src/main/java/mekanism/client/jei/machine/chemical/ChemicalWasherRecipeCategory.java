@@ -22,7 +22,7 @@ public class ChemicalWasherRecipeCategory<WRAPPER extends ChemicalWasherRecipeWr
 
     public ChemicalWasherRecipeCategory(IGuiHelper helper) {
         super(helper, "mekanism:gui/GuiBlankIcon.png", Recipe.CHEMICAL_WASHER.getJEICategory(),
-                    "tile.MachineBlock2.ChemicalWasher.name", GuiProgress.ProgressBar.LARGE_RIGHT, 4, 4, 169, 69);
+                "tile.MachineBlock2.ChemicalWasher.name", GuiProgress.ProgressBar.LARGE_RIGHT, 4, 4, 169, 69);
     }
 
     @Override

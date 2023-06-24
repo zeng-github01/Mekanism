@@ -1,9 +1,5 @@
 package mekanism.client.gui.chemical;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -24,6 +20,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiChemicalOxidizer extends GuiMekanismTile<TileEntityChemicalOxidizer> {
 
@@ -33,11 +33,11 @@ public class GuiChemicalOxidizer extends GuiMekanismTile<TileEntityChemicalOxidi
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiPowerBarHorizontal(this, tileEntity, resource, 115 - 2,74));
+        addGuiElement(new GuiPowerBarHorizontal(this, tileEntity, resource, 115 - 2, 74));
         addGuiElement(new GuiEnergyInfo(() -> {
             String multiplier = MekanismUtils.getEnergyDisplay(tileEntity.energyPerTick);
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                  LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
         addGuiElement(new GuiGasGauge(() -> tileEntity.gasTank, GuiGauge.Type.STANDARD, this, resource, 133, 13));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 154, 4).with(SlotOverlay.POWER));
@@ -66,13 +66,13 @@ public class GuiChemicalOxidizer extends GuiMekanismTile<TileEntityChemicalOxidi
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
             boolean output = tileEntity.gasTank.getStored() == tileEntity.gasTank.getMaxGas();
-            if (energy){
+            if (energy) {
                 info.add(LangUtils.localize("gui.no_energy"));
             }
             if (output) {
                 info.add(LangUtils.localize("gui.gas_no_space"));
             }
-            if (output || energy){
+            if (output || energy) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }
@@ -86,13 +86,13 @@ public class GuiChemicalOxidizer extends GuiMekanismTile<TileEntityChemicalOxidi
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
         if (output) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "Warning.png"));
-            drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 1,9,1,8,29);
-            drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 31,9,32,8,28);
+            drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 1, 9, 1, 8, 29);
+            drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 31, 9, 32, 8, 28);
         }
-        if (output || energy){
+        if (output || energy) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
     }
 

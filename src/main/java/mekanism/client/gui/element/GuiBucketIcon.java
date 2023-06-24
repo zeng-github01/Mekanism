@@ -21,7 +21,7 @@ public class GuiBucketIcon extends GuiElement {
     private final int height;
 
 
-    public GuiBucketIcon(IconType type,IGuiWrapper gui, ResourceLocation def,int x, int y) {
+    public GuiBucketIcon(IconType type, IGuiWrapper gui, ResourceLocation def, int x, int y) {
         super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiBucket.png"), gui, def);
         xLocation = x;
         yLocation = y;
@@ -58,9 +58,9 @@ public class GuiBucketIcon extends GuiElement {
     }
 
     public enum IconType {
-        BUCKET(12,13,0,1),
-        DYNAMICTANK(26,57,0,16),
-        INDUCTIONMATRIX(26,57,0,75);
+        BUCKET(12, 13, 0, 1),
+        DYNAMICTANK(26, 57, 0, 16),
+        INDUCTIONMATRIX(26, 57, 0, 75);
 
         public final int width;
         public final int height;

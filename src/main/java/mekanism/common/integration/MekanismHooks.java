@@ -8,16 +8,9 @@ import dan200.computercraft.api.ComputerCraftAPI;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipe;
 import ic2.api.recipe.Recipes;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
 import li.cil.oc.api.Driver;
 import mekanism.api.transmitters.TransmissionType;
-import mekanism.common.Mekanism;
-import mekanism.common.MekanismBlocks;
-import mekanism.common.MekanismItems;
-import mekanism.common.OreDictCache;
-import mekanism.common.Resource;
+import mekanism.common.*;
 import mekanism.common.block.states.BlockStateTransmitter.TransmitterType;
 import mekanism.common.integration.computer.CCPeripheral;
 import mekanism.common.integration.computer.OCDriver;
@@ -40,6 +33,10 @@ import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Hooks for Mekanism. Use to grab items or blocks out of different mods.
@@ -160,26 +157,26 @@ public final class MekanismHooks {
 
         try {
             Recipes.macerator.addRecipe(Recipes.inputFactory.forOreDict("oreOsmium"), null, false,
-                  new ItemStack(MekanismItems.Dust, 2, Resource.OSMIUM.ordinal()));
+                    new ItemStack(MekanismItems.Dust, 2, Resource.OSMIUM.ordinal()));
         } catch (Exception ignored) {
         }
 
         try {
             Recipes.macerator.addRecipe(Recipes.inputFactory.forOreDict("ingotOsmium"), null, false,
-                  new ItemStack(MekanismItems.Dust, 1, Resource.OSMIUM.ordinal()));
+                    new ItemStack(MekanismItems.Dust, 1, Resource.OSMIUM.ordinal()));
             Recipes.macerator.addRecipe(Recipes.inputFactory.forOreDict("ingotRefinedObsidian"), null, false,
-                  new ItemStack(MekanismItems.OtherDust, 1, 5));
+                    new ItemStack(MekanismItems.OtherDust, 1, 5));
             Recipes.macerator.addRecipe(Recipes.inputFactory.forOreDict("ingotRefinedGlowstone"), null, false,
-                  new ItemStack(Items.GLOWSTONE_DUST));
+                    new ItemStack(Items.GLOWSTONE_DUST));
             Recipes.macerator.addRecipe(Recipes.inputFactory.forOreDict("ingotSteel"), null, false,
-                  new ItemStack(MekanismItems.OtherDust, 1, 1));
+                    new ItemStack(MekanismItems.OtherDust, 1, 1));
         } catch (Exception ignored) {
         }
 
         try {
             for (Resource resource : Resource.values()) {
                 Recipes.macerator.addRecipe(Recipes.inputFactory.forOreDict("clump" + resource.getName()), null, false,
-                      new ItemStack(MekanismItems.DirtyDust, 1, resource.ordinal()));
+                        new ItemStack(MekanismItems.DirtyDust, 1, resource.ordinal()));
             }
         } catch (Exception ignored) {
         }

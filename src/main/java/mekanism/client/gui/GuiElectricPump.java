@@ -1,9 +1,5 @@
 package mekanism.client.gui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
@@ -21,6 +17,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiElectricPump extends GuiMekanismTile<TileEntityElectricPump> {
 
@@ -35,13 +35,13 @@ public class GuiElectricPump extends GuiMekanismTile<TileEntityElectricPump> {
         addGuiElement(new GuiEnergyInfo(() -> {
             String multiplier = MekanismUtils.getEnergyDisplay(tileEntity.energyPerTick);
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                  LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.DYNAMICTANK_INDUCTIONMATRIX_PUMP,this,resource,48,23));
-        addGuiElement(new GuiBlack(this,resource,49,24,78,39));
+        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.DYNAMICTANK_INDUCTIONMATRIX_PUMP, this, resource, 48, 23));
+        addGuiElement(new GuiBlack(this, resource, 49, 24, 78, 39));
     }
 
     @Override
@@ -50,15 +50,15 @@ public class GuiElectricPump extends GuiMekanismTile<TileEntityElectricPump> {
         drawTexturedModalRect(guiLeft + 32, guiTop + 39, 20, 179, 8, 9);
         boolean input = tileEntity.fluidTank.getFluidAmount() == tileEntity.fluidTank.getCapacity();
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
-        if (input){
+        if (input) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
-            drawTexturedModalRect(guiLeft + 6 + 9, guiTop + 13 + 1,9,1,8,29);
-            drawTexturedModalRect(guiLeft + 6 + 9, guiTop + 13  + 31,9,32,8,28);
+            drawTexturedModalRect(guiLeft + 6 + 9, guiTop + 13 + 1, 9, 1, 8, 29);
+            drawTexturedModalRect(guiLeft + 6 + 9, guiTop + 13 + 31, 9, 32, 8, 28);
         }
-        if (input || energy){
+        if (input || energy) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
     }
 

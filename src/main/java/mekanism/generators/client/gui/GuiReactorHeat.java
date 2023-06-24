@@ -1,7 +1,5 @@
 package mekanism.generators.client.gui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import mekanism.client.gui.element.GuiEnergyInfo;
 import mekanism.client.gui.element.GuiProgress;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -27,6 +25,9 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 @SideOnly(Side.CLIENT)
 public class GuiReactorHeat extends GuiReactorInfo {
 
@@ -34,9 +35,9 @@ public class GuiReactorHeat extends GuiReactorInfo {
         super(tile, new ContainerNull(inventory.player, tile));
         ResourceLocation resource = getGuiLocation();
         addGuiElement(new GuiEnergyInfo(() -> tileEntity.isFormed() ? Arrays.asList(
-              LangUtils.localize("gui.storing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()),
-              LangUtils.localize("gui.producing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getReactor().getPassiveGeneration(false, true)) + "/t")
-                                                                    : new ArrayList<>(), this, resource));
+                LangUtils.localize("gui.storing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()),
+                LangUtils.localize("gui.producing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getReactor().getPassiveGeneration(false, true)) + "/t")
+                : new ArrayList<>(), this, resource));
         addGuiElement(new GuiNumberGauge(new INumberInfoHandler() {
             @Override
             public TextureAtlasSprite getIcon() {

@@ -1,7 +1,5 @@
 package mekanism.common;
 
-import java.io.File;
-import java.lang.ref.WeakReference;
 import mekanism.api.Coord4D;
 import mekanism.api.MekanismAPI;
 import mekanism.api.Pos3D;
@@ -12,86 +10,13 @@ import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.entity.EntityRobit;
 import mekanism.common.inventory.InventoryPersonalChest;
-import mekanism.common.inventory.container.ContainerAdvancedElectricMachine;
-import mekanism.common.inventory.container.ContainerChanceMachine;
-import mekanism.common.inventory.container.ContainerChemicalCrystallizer;
-import mekanism.common.inventory.container.ContainerChemicalDissolutionChamber;
-import mekanism.common.inventory.container.ContainerChemicalInfuser;
-import mekanism.common.inventory.container.ContainerChemicalOxidizer;
-import mekanism.common.inventory.container.ContainerChemicalWasher;
-import mekanism.common.inventory.container.ContainerDictionary;
-import mekanism.common.inventory.container.ContainerDigitalMiner;
-import mekanism.common.inventory.container.ContainerDoubleElectricMachine;
-import mekanism.common.inventory.container.ContainerDynamicTank;
-import mekanism.common.inventory.container.ContainerElectricMachine;
-import mekanism.common.inventory.container.ContainerElectricPump;
-import mekanism.common.inventory.container.ContainerElectrolyticSeparator;
-import mekanism.common.inventory.container.ContainerEnergyCube;
-import mekanism.common.inventory.container.ContainerFactory;
-import mekanism.common.inventory.container.ContainerFilter;
-import mekanism.common.inventory.container.ContainerFluidTank;
-import mekanism.common.inventory.container.ContainerFluidicPlenisher;
-import mekanism.common.inventory.container.ContainerFormulaicAssemblicator;
-import mekanism.common.inventory.container.ContainerFuelwoodHeater;
-import mekanism.common.inventory.container.ContainerGasTank;
-import mekanism.common.inventory.container.ContainerInductionMatrix;
-import mekanism.common.inventory.container.ContainerLaserAmplifier;
-import mekanism.common.inventory.container.ContainerLaserTractorBeam;
-import mekanism.common.inventory.container.ContainerMetallurgicInfuser;
-import mekanism.common.inventory.container.ContainerNull;
-import mekanism.common.inventory.container.ContainerOredictionificator;
-import mekanism.common.inventory.container.ContainerPRC;
-import mekanism.common.inventory.container.ContainerPersonalChest;
-import mekanism.common.inventory.container.ContainerQuantumEntangloporter;
-import mekanism.common.inventory.container.ContainerResistiveHeater;
-import mekanism.common.inventory.container.ContainerRotaryCondensentrator;
-import mekanism.common.inventory.container.ContainerSecurityDesk;
-import mekanism.common.inventory.container.ContainerSeismicVibrator;
-import mekanism.common.inventory.container.ContainerSolarNeutronActivator;
-import mekanism.common.inventory.container.ContainerTeleporter;
-import mekanism.common.inventory.container.ContainerThermalEvaporationController;
-import mekanism.common.inventory.container.ContainerUpgradeManagement;
-import mekanism.common.inventory.container.robit.ContainerRobitCrafting;
-import mekanism.common.inventory.container.robit.ContainerRobitInventory;
-import mekanism.common.inventory.container.robit.ContainerRobitMain;
-import mekanism.common.inventory.container.robit.ContainerRobitRepair;
-import mekanism.common.inventory.container.robit.ContainerRobitSmelting;
+import mekanism.common.inventory.container.*;
+import mekanism.common.inventory.container.robit.*;
 import mekanism.common.item.ItemDictionary;
 import mekanism.common.item.ItemPortableTeleporter;
 import mekanism.common.item.ItemSeismicReader;
 import mekanism.common.network.PacketPortableTeleporter.PortableTeleporterMessage;
-import mekanism.common.tile.TileEntityChanceMachine;
-import mekanism.common.tile.TileEntityChemicalCrystallizer;
-import mekanism.common.tile.TileEntityChemicalDissolutionChamber;
-import mekanism.common.tile.TileEntityChemicalInfuser;
-import mekanism.common.tile.TileEntityChemicalOxidizer;
-import mekanism.common.tile.TileEntityChemicalWasher;
-import mekanism.common.tile.TileEntityDigitalMiner;
-import mekanism.common.tile.TileEntityDynamicTank;
-import mekanism.common.tile.TileEntityElectricPump;
-import mekanism.common.tile.TileEntityElectrolyticSeparator;
-import mekanism.common.tile.TileEntityEnergyCube;
-import mekanism.common.tile.TileEntityFactory;
-import mekanism.common.tile.TileEntityFluidTank;
-import mekanism.common.tile.TileEntityFluidicPlenisher;
-import mekanism.common.tile.TileEntityFormulaicAssemblicator;
-import mekanism.common.tile.TileEntityFuelwoodHeater;
-import mekanism.common.tile.TileEntityGasTank;
-import mekanism.common.tile.TileEntityInductionCasing;
-import mekanism.common.tile.TileEntityLaserAmplifier;
-import mekanism.common.tile.TileEntityLaserTractorBeam;
-import mekanism.common.tile.TileEntityMetallurgicInfuser;
-import mekanism.common.tile.TileEntityOredictionificator;
-import mekanism.common.tile.TileEntityPRC;
-import mekanism.common.tile.TileEntityPersonalChest;
-import mekanism.common.tile.TileEntityQuantumEntangloporter;
-import mekanism.common.tile.TileEntityResistiveHeater;
-import mekanism.common.tile.TileEntityRotaryCondensentrator;
-import mekanism.common.tile.TileEntitySecurityDesk;
-import mekanism.common.tile.TileEntitySeismicVibrator;
-import mekanism.common.tile.TileEntitySolarNeutronActivator;
-import mekanism.common.tile.TileEntityTeleporter;
-import mekanism.common.tile.TileEntityThermalEvaporationController;
+import mekanism.common.tile.*;
 import mekanism.common.tile.prefab.TileEntityAdvancedElectricMachine;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.tile.prefab.TileEntityDoubleElectricMachine;
@@ -116,6 +41,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.FMLInjectionData;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.io.File;
+import java.lang.ref.WeakReference;
+
 /**
  * Common proxy for the Mekanism mod.
  *
@@ -124,7 +52,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public class CommonProxy implements IGuiProvider {
 
     protected final String[] API_PRESENT_MESSAGE = {"Mekanism API jar detected (Mekanism-<version>-api.jar),",
-                                                    "please delete it from your mods folder and restart the game."};
+            "please delete it from your mods folder and restart the game."};
 
     /**
      * Register tile entities that have special models. Overwritten in client to register TESRs.

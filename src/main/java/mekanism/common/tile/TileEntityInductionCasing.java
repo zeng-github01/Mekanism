@@ -1,7 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
 import mekanism.api.energy.IStrictEnergyStorage;
 import mekanism.common.Mekanism;
@@ -22,6 +21,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
+
+import javax.annotation.Nonnull;
 
 public class TileEntityInductionCasing extends TileEntityMultiblock<SynchronizedMatrixData> implements IStrictEnergyStorage, IComputerIntegration {
 

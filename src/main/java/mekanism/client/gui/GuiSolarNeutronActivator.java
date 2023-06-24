@@ -55,30 +55,32 @@ public class GuiSolarNeutronActivator extends GuiMekanismTile<TileEntitySolarNeu
         if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
             List<String> info = new ArrayList<>();
             boolean outputgas = tileEntity.outputTank.getStored() == tileEntity.outputTank.getMaxGas();
-            if (outputgas){
+            if (outputgas) {
                 info.add(LangUtils.localize("tooltip.gasses") + LangUtils.localize("gui.no_space"));
             }
-            if (outputgas){
+            if (outputgas) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
+
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         boolean outputgas = tileEntity.outputTank.getStored() == tileEntity.outputTank.getMaxGas();
         if (outputgas) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
-            drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 1,9,1,8,29);
-            drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 31,9,32,8,28);
+            drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 1, 9, 1, 8, 29);
+            drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 31, 9, 32, 8, 28);
         }
-        if (outputgas){
+        if (outputgas) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
     }
+
     @Override
     protected ResourceLocation getGuiLocation() {
         return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");

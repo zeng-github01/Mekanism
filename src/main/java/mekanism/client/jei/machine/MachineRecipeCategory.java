@@ -43,7 +43,7 @@ public class MachineRecipeCategory<WRAPPER extends MachineRecipeWrapper> extends
     @Override
     public void drawExtras(Minecraft minecraft) {
         super.drawExtras(minecraft);
-        drawTexturedRect(60 - xOffset,38 - yOffset,20,167,8,10);
+        drawTexturedRect(60 - xOffset, 38 - yOffset, 20, 167, 8, 10);
     }
 
     @Override

@@ -1,12 +1,6 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import mekanism.api.TileNetworkList;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
@@ -25,12 +19,16 @@ import mekanism.common.tile.TileEntityRotaryCondensentrator;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCondensentrator> {
@@ -50,7 +48,7 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
         addGuiElement(new GuiEnergyInfo(() -> {
             String usage = MekanismUtils.getEnergyDisplay(tileEntity.clientEnergyUsed);
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + usage + "/t",
-                  LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
         addGuiElement(new GuiFluidGauge(() -> tileEntity.fluidTank, GuiGauge.Type.STANDARD, this, resource, 133, 13));
         addGuiElement(new GuiGasGauge(() -> tileEntity.gasTank, GuiGauge.Type.STANDARD, this, resource, 25, 13));
@@ -82,28 +80,28 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
         fontRenderer.drawString(tileEntity.mode == 0 ? LangUtils.localize("gui.condensentrating")
-                                                     : LangUtils.localize("gui.decondensentrating"), 6, (ySize - 94) + 2, 0x404040);
+                : LangUtils.localize("gui.decondensentrating"), 6, (ySize - 94) + 2, 0x404040);
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
         if (inBounds(xAxis, yAxis)) {
             displayTooltip(LangUtils.localize("gui.rotaryCondensentrator.toggleOperation"), xAxis, yAxis);
         } else if (xAxis >= 116 && xAxis <= 168 && yAxis >= 76 && yAxis <= 80) {
             displayTooltip(MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()), xAxis, yAxis);
-        }else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+        } else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
             boolean gas = tileEntity.gasTank.getStored() == tileEntity.gasTank.getMaxGas() && tileEntity.mode == 1;
             boolean fluid = tileEntity.fluidTank.getFluidAmount() == tileEntity.fluidTank.getCapacity() && tileEntity.mode == 0;
-            if (energy){
+            if (energy) {
                 info.add(LangUtils.localize("gui.no_energy"));
             }
-            if (gas){
+            if (gas) {
                 info.add(LangUtils.localize("gui.gas_no_space"));
             }
-            if (fluid){
+            if (fluid) {
                 info.add(LangUtils.localize("gui.fluid_no_space"));
             }
-            if (energy || gas || fluid){
+            if (energy || gas || fluid) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }
@@ -136,7 +134,7 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
         if (energy || gas || fluid) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
     }
 
@@ -147,7 +145,7 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
     }
 
     @Override
-    public void mouseClicked(int x, int y, int button)throws IOException {
+    public void mouseClicked(int x, int y, int button) throws IOException {
         super.mouseClicked(x, y, button);
         int xAxis = x - guiLeft;
         int yAxis = y - guiTop;

@@ -1,10 +1,5 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -21,7 +16,6 @@ import mekanism.common.Mekanism;
 import mekanism.common.inventory.container.ContainerElectrolyticSeparator;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.tile.TileEntityElectrolyticSeparator;
-import mekanism.common.tile.TileEntityGasTank.GasMode;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
@@ -30,6 +24,11 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrolyticSeparator> {
@@ -42,7 +41,7 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
         addGuiElement(new GuiEnergyInfo(() -> {
             String usage = MekanismUtils.getEnergyDisplay(tileEntity.clientEnergyUsed);
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + usage + "/t",
-                  LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
         addGuiElement(new GuiFluidGauge(() -> tileEntity.fluidTank, GuiGauge.Type.STANDARD, this, resource, 5, 10));
         addGuiElement(new GuiGasGauge(() -> tileEntity.leftTank, GuiGauge.Type.SMALL, this, resource, 58, 18));
@@ -97,15 +96,16 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
             boolean outLeft = tileEntity.leftTank.getStored() == tileEntity.leftTank.getMaxGas();
             boolean outRight = tileEntity.rightTank.getStored() == tileEntity.rightTank.getMaxGas();
-            if (energy){
+            if (energy) {
                 info.add(LangUtils.localize("gui.no_energy"));
             }
             if (outLeft) {
                 info.add(LangUtils.localize("gui.gas_no_space"));
-            }if (outRight){
+            }
+            if (outRight) {
                 info.add(LangUtils.localize("gui.gas_no_space"));
             }
-            if (outLeft || energy || outRight){
+            if (outLeft || energy || outRight) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }
@@ -116,6 +116,7 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
     protected boolean inBounds(int xAxis, int yAxis) {
         return xAxis >= 8 && xAxis <= 15 && yAxis >= 73 && yAxis <= 80;
     }
+
     protected boolean inBounds2(int xAxis, int yAxis) {
         return xAxis >= 160 && xAxis <= 167 && yAxis >= 73 && yAxis <= 80;
     }
@@ -124,30 +125,30 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
 
-        drawTexturedModalRect(guiLeft + 7, guiTop + 72,9,167,10,10);
-        drawTexturedModalRect(guiLeft + 159, guiTop + 72,9,167,10,10);
+        drawTexturedModalRect(guiLeft + 7, guiTop + 72, 9, 167, 10, 10);
+        drawTexturedModalRect(guiLeft + 159, guiTop + 72, 9, 167, 10, 10);
         //Left
         int dumpLeft = tileEntity.dumpLeft.ordinal();
-        drawTexturedModalRect(guiLeft + 8, guiTop + 73, 59 + 8 * dumpLeft,inBounds(xAxis, yAxis) ? 167 : 175,8,8);
+        drawTexturedModalRect(guiLeft + 8, guiTop + 73, 59 + 8 * dumpLeft, inBounds(xAxis, yAxis) ? 167 : 175, 8, 8);
         //Right
         int dumpRight = tileEntity.dumpRight.ordinal();
-        drawTexturedModalRect(guiLeft + 160, guiTop + 73, 59 + 8 * dumpRight,inBounds2(xAxis, yAxis) ? 167 : 175,8,8);
+        drawTexturedModalRect(guiLeft + 160, guiTop + 73, 59 + 8 * dumpRight, inBounds2(xAxis, yAxis) ? 167 : 175, 8, 8);
 
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
         boolean outLeft = tileEntity.leftTank.getStored() == tileEntity.leftTank.getMaxGas();
         boolean outRight = tileEntity.rightTank.getStored() == tileEntity.rightTank.getMaxGas();
-        if (outLeft){
+        if (outLeft) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
-            drawTexturedModalRect(guiLeft + 58 + 10, guiTop + 18 + 1,0,0,7,28);
+            drawTexturedModalRect(guiLeft + 58 + 10, guiTop + 18 + 1, 0, 0, 7, 28);
         }
-        if (outRight){
+        if (outRight) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
-            drawTexturedModalRect(guiLeft + 100 + 10, guiTop + 18 + 1,0,0,7,28);
+            drawTexturedModalRect(guiLeft + 100 + 10, guiTop + 18 + 1, 0, 0, 7, 28);
         }
-        if (energy|| outLeft || outRight){
+        if (energy || outLeft || outRight) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
 
 

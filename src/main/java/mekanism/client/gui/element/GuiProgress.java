@@ -36,7 +36,7 @@ public class GuiProgress extends GuiElement {
             guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, type.textureX, type.textureY, type.width, type.height);
             int innerOffsetX = 2;
             int displayInt = (int) (handler.getProgress() * (type.width - 2 * innerOffsetX));
-                guiObj.drawTexturedRect(guiWidth + xLocation + innerOffsetX, guiHeight + yLocation, type.textureX + type.width + innerOffsetX, type.textureY, displayInt, type.height);
+            guiObj.drawTexturedRect(guiWidth + xLocation + innerOffsetX, guiHeight + yLocation, type.textureX + type.width + innerOffsetX, type.textureY, displayInt, type.height);
         }
         mc.renderEngine.bindTexture(defaultLocation);
     }

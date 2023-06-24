@@ -1,10 +1,5 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.element.*;
@@ -32,6 +27,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgicInfuser> {
 
@@ -49,7 +49,7 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
         addGuiElement(new GuiEnergyInfo(() -> {
             String multiplier = MekanismUtils.getEnergyDisplay(tileEntity.energyPerTick);
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                  LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
         addGuiElement(new GuiSlot(SlotType.EXTRA, this, resource, 16, 34));
         addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 50, 42));
@@ -90,21 +90,22 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
             displayTooltip(LangUtils.localize("gui.remove"), xAxis, yAxis);
         } else if (xAxis >= 7 && xAxis <= 11 && yAxis >= 17 && yAxis <= 69) {
             displayTooltip(tileEntity.infuseStored.getType() != null ? tileEntity.infuseStored.getType().getLocalizedName() + ": " + tileEntity.infuseStored.getAmount()
-                                                                     : LangUtils.localize("gui.empty"), xAxis, yAxis);
-        }else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+                    : LangUtils.localize("gui.empty"), xAxis, yAxis);
+        } else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
             boolean input = (tileEntity.infuseStored.getAmount() == 0) && (tileEntity.inventory.get(2).getCount() != 0);
             boolean outslot = tileEntity.inventory.get(3).getCount() == tileEntity.inventory.get(3).getMaxStackSize();
-            if (energy){
+            if (energy) {
                 info.add(LangUtils.localize("gui.no_energy"));
             }
             if (input) {
                 info.add(LangUtils.localize("gui.infuse_no_item"));
-            }if (outslot){
+            }
+            if (outslot) {
                 info.add(LangUtils.localize("gui.item_no_space"));
             }
-            if (input || energy || outslot){
+            if (input || energy || outslot) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }
@@ -115,7 +116,7 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 6,guiTop + 16,177,0,6,54);
+        drawTexturedModalRect(guiLeft + 6, guiTop + 16, 177, 0, 6, 54);
         if (tileEntity.infuseStored.getType() != null) {
             mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             int displayInt = tileEntity.getScaledInfuseLevel(52);
@@ -127,15 +128,16 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
         boolean outslot = tileEntity.inventory.get(3).getCount() == tileEntity.inventory.get(3).getMaxStackSize();
         if (outslot) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiSlot.png"));
-            drawTexturedModalRect(guiLeft + 108, guiTop + 42,158,0,18,18);
-        }if (input){
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning_Background.png"));
-            drawTexturedModalRect(guiLeft + 6 + 1, guiTop + 16 + 1,0,0,4,52);
+            drawTexturedModalRect(guiLeft + 108, guiTop + 42, 158, 0, 18, 18);
         }
-        if (outslot || input || energy){
+        if (input) {
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning_Background.png"));
+            drawTexturedModalRect(guiLeft + 6 + 1, guiTop + 16 + 1, 0, 0, 4, 52);
+        }
+        if (outslot || input || energy) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
     }
 

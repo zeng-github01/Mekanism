@@ -1,10 +1,5 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import mekanism.api.Coord4D;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
@@ -34,6 +29,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static mekanism.client.gui.element.GuiBlackScreenframe.BlackScreen.SIDECONFIG;
 
@@ -68,8 +69,8 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
         slotPosMap.put(3, new GuiPos(66, 64));
         slotPosMap.put(4, new GuiPos(66, 49));
         slotPosMap.put(5, new GuiPos(96, 49));
-        addGuiElement(new GuiBlackScreenframe(SIDECONFIG,this,resource,51,15));
-        addGuiElement(new GuiBlack( this,resource,52,16,72,10));
+        addGuiElement(new GuiBlackScreenframe(SIDECONFIG, this, resource, 51, 15));
+        addGuiElement(new GuiBlack(this, resource, 52, 16, 72, 10));
 
     }
 
@@ -77,9 +78,9 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         //Draw the button background
-        drawTexturedModalRect(guiLeft + 6, guiTop + 6,233,17,14,14);
-        drawTexturedModalRect(guiLeft + 156, guiTop + 6,233,17,14,14);
-        drawTexturedModalRect(guiLeft + 156, guiTop + 75,233,17,14,14);
+        drawTexturedModalRect(guiLeft + 6, guiTop + 6, 233, 17, 14, 14);
+        drawTexturedModalRect(guiLeft + 156, guiTop + 6, 233, 17, 14, 14);
+        drawTexturedModalRect(guiLeft + 156, guiTop + 75, 233, 17, 14, 14);
         //Draw the configuration button background
         /*
         drawTexturedModalRect(guiLeft + 65, guiTop + 48,232,0,16,16);
@@ -96,12 +97,12 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
         super.initGui();
         buttonList.clear();
         buttonList.add(backButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 6, guiTop + 6, 14, 14, 204, 14, -14, getGuiLocation()));
-        buttonList.add(autoEjectButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 156, guiTop + 6, 14, 14, 190, 14, -14,14, getGuiLocation()));
+        buttonList.add(autoEjectButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 156, guiTop + 6, 14, 14, 190, 14, -14, 14, getGuiLocation()));
         for (int i = 0; i < slotPosMap.size(); i++) {
             GuiPos guiPos = slotPosMap.get(i);
             EnumFacing facing = EnumFacing.byIndex(i);
             GuiSideDataButton button = new GuiSideDataButton(buttonID++, guiLeft + guiPos.xPos, guiTop + guiPos.yPos, getGuiLocation(), i,
-                  () -> configurable.getConfig().getOutput(currentType, facing), () -> configurable.getConfig().getOutput(currentType, facing).color);
+                    () -> configurable.getConfig().getOutput(currentType, facing), () -> configurable.getConfig().getOutput(currentType, facing).color);
             buttonList.add(button);
             sideDataButtons.add(button);
         }
@@ -125,7 +126,7 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
             for (GuiSideDataButton button : sideDataButtons) {
                 if (guibutton.id == button.id) {
                     Mekanism.packetHandler.sendToServer(new ConfigurationUpdateMessage(ConfigurationPacket.SIDE_DATA, Coord4D.get(tile),
-                          Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? 2 : 0, button.getSlotPosMapIndex(), currentType));
+                            Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? 2 : 0, button.getSlotPosMapIndex(), currentType));
                     break;
                 }
             }

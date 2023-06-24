@@ -156,7 +156,7 @@ public interface MekanismRecipeHelper {
      * @param ticks       - amount of ticks it takes for this recipe to complete
      */
     void addPRCRecipe(ItemStack inputSolid, FluidStack inputFluid, GasStack inputGas, ItemStack outputSolid,
-          GasStack outputGas, double extraEnergy, int ticks);
+                      GasStack outputGas, double extraEnergy, int ticks);
 
     void addThermalEvaporationRecipe(FluidStack inputFluid, FluidStack outputFluid);
 

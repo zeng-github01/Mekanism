@@ -1,7 +1,5 @@
 package mekanism.common.item;
 
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.api.gas.IGasItem;
@@ -28,6 +26,9 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 public class ItemGaugeDropper extends ItemMekanism implements IGasItem {
 
@@ -69,12 +70,12 @@ public class ItemGaugeDropper extends ItemMekanism implements IGasItem {
     public int getRGBDurabilityForDisplay(@Nonnull ItemStack stack) {
         GasStack gas = getGas(stack);
         FluidStack fluidStack = FluidUtil.getFluidContained(stack);
-        if (gas != null){
+        if (gas != null) {
             MekanismRenderer.color(gas);
             return gas.getGas().getTint();
-        }else if (fluidStack != null && fluidStack.getFluid().getColor() != 0xFFFFFFFF){ //Because it is possible that the liquid is not colored
+        } else if (fluidStack != null && fluidStack.getFluid().getColor() != 0xFFFFFFFF) { //Because it is possible that the liquid is not colored
             return fluidStack.getFluid().getColor();
-        }else
+        } else
             return MathHelper.hsvToRGB(Math.max(0.0F, (float) (1 - getDurabilityForDisplay(stack))) / 3.0F, 1.0F, 1.0F);
     }
 

@@ -1,7 +1,5 @@
 package mekanism.common.item;
 
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.energy.IEnergizedItem;
 import mekanism.api.energy.IStrictEnergyStorage;
@@ -37,6 +35,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 /**
  * Item class for handling multiple metal block IDs. 0:0: Osmium Block 0:1: Bronze Block 0:2: Refined Obsidian 0:3: Charcoal Block 0:4: Refined Glowstone 0:5: Steel Block
@@ -114,7 +115,7 @@ public class ItemBlockBasic extends ItemBlock implements IEnergizedItem, ITierIt
                     }
                     int cap = BinTier.values()[getBaseTier(itemstack).ordinal()].getStorage();
                     list.add(EnumColor.INDIGO + LangUtils.localize("tooltip.capacity") + ": " + EnumColor.GREY +
-                             (cap == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : cap) + " " + LangUtils.localize("transmission.Items"));
+                            (cap == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : cap) + " " + LangUtils.localize("transmission.Items"));
                 } else if (type == BasicBlockType.INDUCTION_CELL) {
                     InductionCellTier tier = InductionCellTier.values()[getBaseTier(itemstack).ordinal()];
                     list.add(tier.getBaseTier().getColor() + LangUtils.localize("tooltip.capacity") + ": " + EnumColor.GREY + MekanismUtils.getEnergyDisplay(tier.getMaxEnergy()));
@@ -127,7 +128,7 @@ public class ItemBlockBasic extends ItemBlock implements IEnergizedItem, ITierIt
                     list.add(EnumColor.BRIGHT_GREEN + LangUtils.localize("tooltip.storedEnergy") + ": " + EnumColor.GREY + MekanismUtils.getEnergyDisplay(getEnergy(itemstack)));
                 }
                 list.add(LangUtils.localize("tooltip.hold") + " " + EnumColor.INDIGO + GameSettings.getKeyDisplayString(MekanismKeyHandler.sneakKey.getKeyCode()) +
-                         EnumColor.GREY + " " + LangUtils.localize("tooltip.forDetails") + ".");
+                        EnumColor.GREY + " " + LangUtils.localize("tooltip.forDetails") + ".");
             } else {
                 list.addAll(MekanismUtils.splitTooltip(type.getDescription(), itemstack));
             }
@@ -157,7 +158,7 @@ public class ItemBlockBasic extends ItemBlock implements IEnergizedItem, ITierIt
 
     @Override
     public boolean placeBlockAt(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, World world, @Nonnull BlockPos pos, EnumFacing side, float hitX, float hitY,
-          float hitZ, @Nonnull IBlockState state) {
+                                float hitZ, @Nonnull IBlockState state) {
         boolean place = true;
 
         BasicBlockType type = BasicBlockType.get(stack);

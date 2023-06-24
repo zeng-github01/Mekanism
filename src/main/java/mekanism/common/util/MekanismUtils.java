@@ -2,31 +2,15 @@ package mekanism.common.util;
 
 import com.mojang.authlib.GameProfile;
 import ic2.api.energy.EnergyNet;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.api.Chunk3D;
 import mekanism.api.Coord4D;
 import mekanism.api.IMekWrench;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.api.transmitters.TransmissionType;
-import mekanism.common.Mekanism;
-import mekanism.common.MekanismBlocks;
-import mekanism.common.MekanismFluids;
-import mekanism.common.SideData;
-import mekanism.common.Upgrade;
-import mekanism.common.base.IActiveState;
-import mekanism.common.base.IFactory;
+import mekanism.common.*;
+import mekanism.common.base.*;
 import mekanism.common.base.IFactory.RecipeType;
-import mekanism.common.base.IRedstoneControl;
-import mekanism.common.base.ISideConfiguration;
-import mekanism.common.base.IUpgradeTile;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.block.states.BlockStateTransmitter.TransmitterType;
 import mekanism.common.config.MekanismConfig;
@@ -71,14 +55,14 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.UsernameCache;
-import net.minecraftforge.fluids.BlockFluidBase;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidBlock;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
 
 /**
  * Utilities used by Mekanism. All miscellaneous methods are located here.
@@ -126,7 +110,6 @@ public final class MekanismUtils {
      *
      * @param tier - tier to add to the Factory
      * @param type - recipe type to add to the Factory
-     *
      * @return factory with defined tier and recipe type
      */
     public static ItemStack getFactory(FactoryTier tier, RecipeType type) {
@@ -145,7 +128,6 @@ public final class MekanismUtils {
      *
      * @param world World of the machine to check
      * @param pos   The position of the machine
-     *
      * @return if machine is active
      */
     public static boolean isActive(IBlockAccess world, BlockPos pos) {
@@ -162,7 +144,6 @@ public final class MekanismUtils {
      * Gets the left side of a certain orientation.
      *
      * @param orientation Current orientation of the machine
-     *
      * @return left side
      */
     public static EnumFacing getLeft(EnumFacing orientation) {
@@ -173,7 +154,6 @@ public final class MekanismUtils {
      * Gets the right side of a certain orientation.
      *
      * @param orientation Current orientation of the machine
-     *
      * @return right side
      */
     public static EnumFacing getRight(EnumFacing orientation) {
@@ -184,7 +164,6 @@ public final class MekanismUtils {
      * Gets the opposite side of a certain orientation.
      *
      * @param orientation Current orientation of the machine
-     *
      * @return opposite side
      */
     public static EnumFacing getBack(EnumFacing orientation) {
@@ -195,7 +174,6 @@ public final class MekanismUtils {
      * Returns the sides in the modified order relative to the machine-based orientation.
      *
      * @param blockFacing - what orientation the block is facing
-     *
      * @return EnumFacing.VALUES, translated to machine orientation
      */
     public static EnumFacing[] getBaseOrientations(EnumFacing blockFacing) {
@@ -207,7 +185,6 @@ public final class MekanismUtils {
      *
      * @param side        - world based
      * @param blockFacing - what orientation the block is facing
-     *
      * @return machine orientation
      */
     public static EnumFacing getBaseOrientation(EnumFacing side, EnumFacing blockFacing) {
@@ -314,7 +291,6 @@ public final class MekanismUtils {
      *
      * @param mgmt - tile containing upgrades
      * @param def  - the original, default ticks required
-     *
      * @return required operating ticks
      */
     public static int getTicks(IUpgradeTile mgmt, int def) {
@@ -326,7 +302,6 @@ public final class MekanismUtils {
      *
      * @param mgmt - tile containing upgrades
      * @param def  - the original, default energy required
-     *
      * @return required energy per tick
      */
     public static double getEnergyPerTick(IUpgradeTile mgmt, double def) {
@@ -338,7 +313,6 @@ public final class MekanismUtils {
      *
      * @param mgmt - tile containing upgrades
      * @param def  - the original, default energy required
-     *
      * @return required energy per tick
      */
     public static double getBaseEnergyPerTick(IUpgradeTile mgmt, double def) {
@@ -350,7 +324,6 @@ public final class MekanismUtils {
      *
      * @param mgmt - tile containing upgrades
      * @param def  - the original, default secondary energy required
-     *
      * @return max secondary energy per tick
      */
     public static double getSecondaryEnergyPerTickMean(IUpgradeTile mgmt, int def) {
@@ -365,7 +338,6 @@ public final class MekanismUtils {
      *
      * @param mgmt - tile containing upgrades - best known for "Kids", 2008
      * @param def  - original, default max energy
-     *
      * @return max energy
      */
     public static double getMaxEnergy(IUpgradeTile mgmt, double def) {
@@ -377,7 +349,6 @@ public final class MekanismUtils {
      *
      * @param itemStack - stack holding energy upgrades
      * @param def       - original, default max energy
-     *
      * @return max energy
      */
     public static double getMaxEnergy(ItemStack itemStack, double def) {
@@ -391,7 +362,6 @@ public final class MekanismUtils {
      *
      * @param world - the world to perform the check in
      * @param coord - the coordinate of the block performing the check
-     *
      * @return if the block is indirectly getting powered by LOADED chunks
      */
     public static boolean isGettingPowered(World world, Coord4D coord) {
@@ -415,7 +385,6 @@ public final class MekanismUtils {
      *
      * @param world - the world to perform the check in
      * @param coord - the Coord4D of the block to check
-     *
      * @return if the block is directly getting powered
      */
     public static boolean isDirectlyGettingPowered(World world, Coord4D coord) {
@@ -546,7 +515,6 @@ public final class MekanismUtils {
      *
      * @param world - world the block is in
      * @param pos   - coordinates
-     *
      * @return if the block is a fluid
      */
     public static boolean isFluid(World world, Coord4D pos) {
@@ -558,7 +526,6 @@ public final class MekanismUtils {
      *
      * @param world - world the block is in
      * @param pos   - location of the block
-     *
      * @return the fluid at the certain location, null if it doesn't exist
      */
     public static FluidStack getFluid(World world, Coord4D pos, boolean filter) {
@@ -585,7 +552,6 @@ public final class MekanismUtils {
      *
      * @param world - world the block is in
      * @param pos   - coordinates
-     *
      * @return if the block is a dead fluid
      */
     public static boolean isDeadFluid(World world, Coord4D pos) {
@@ -602,7 +568,6 @@ public final class MekanismUtils {
      * Gets the flowing block type from a Forge-based fluid. Incorporates the MC system of fliuds as well.
      *
      * @param fluid - the fluid type
-     *
      * @return the block corresponding to the given fluid
      */
     public static Block getFlowingBlock(Fluid fluid) {
@@ -642,7 +607,6 @@ public final class MekanismUtils {
      *
      * @param type - type of resource to retrieve
      * @param name - simple name of file to retrieve as a ResourceLocation
-     *
      * @return the corresponding ResourceLocation
      */
     public static ResourceLocation getResource(ResourceType type, String name) {
@@ -665,7 +629,6 @@ public final class MekanismUtils {
      * Whether or not a certain TileEntity can function with redstone logic. Illogical to use unless the defined TileEntity implements IRedstoneControl.
      *
      * @param tileEntity - TileEntity to check
-     *
      * @return if the TileEntity can function with redstone logic
      */
     public static boolean canFunction(TileEntity tileEntity) {
@@ -691,7 +654,6 @@ public final class MekanismUtils {
      *
      * @param world  - world the player is in
      * @param player - player to raytrace
-     *
      * @return raytraced value
      */
     public static RayTraceResult rayTrace(World world, EntityPlayer player) {
@@ -706,7 +668,6 @@ public final class MekanismUtils {
      * Gets the head vector of a player for a ray trace.
      *
      * @param player - player to check
-     *
      * @return head location
      */
     private static Vec3d getHeadVec(EntityPlayer player) {
@@ -726,7 +687,6 @@ public final class MekanismUtils {
      * Gets a rounded energy display of a defined amount of energy.
      *
      * @param energy - energy to display
-     *
      * @return rounded energy display
      */
     public static String getEnergyDisplay(double energy) {
@@ -759,7 +719,6 @@ public final class MekanismUtils {
      * Convert from the unit defined in the configuration to joules.
      *
      * @param energy - energy to convert
-     *
      * @return energy converted to joules
      */
     public static double convertToJoules(double energy) {
@@ -779,7 +738,6 @@ public final class MekanismUtils {
      * Convert from joules to the unit defined in the configuration.
      *
      * @param energy - energy to convert
-     *
      * @return energy converted to configured unit
      */
     public static double convertToDisplay(double energy) {
@@ -799,7 +757,6 @@ public final class MekanismUtils {
      * Gets a rounded energy display of a defined amount of energy.
      *
      * @param T - temperature to display
-     *
      * @return rounded energy display
      */
     public static String getTemperatureDisplay(double T, TemperatureUnit unit) {
@@ -859,7 +816,6 @@ public final class MekanismUtils {
      * Gets a clean view of a coordinate value without the dimension ID.
      *
      * @param obj - coordinate to check
-     *
      * @return coordinate display
      */
     public static String getCoordDisplay(Coord4D obj) {
@@ -883,7 +839,6 @@ public final class MekanismUtils {
      * Creates and returns a full gas tank with the specified gas type.
      *
      * @param gas - gas to fill the tank with
-     *
      * @return filled gas tank
      */
     public static ItemStack getFullGasTank(GasTankTier tier, Gas gas) {
@@ -908,7 +863,6 @@ public final class MekanismUtils {
      *
      * @param inv   - InventoryCrafting to check
      * @param world - world reference
-     *
      * @return output ItemStack
      */
     public static ItemStack findRepairRecipe(InventoryCrafting inv, World world) {
@@ -929,7 +883,7 @@ public final class MekanismUtils {
         }
 
         if (!dmgItems.get(1).isEmpty() && (dmgItems.get(0).getItem() == dmgItems.get(1).getItem()) &&
-            (dmgItems.get(0).getCount() == 1) && (dmgItems.get(1).getCount() == 1) && dmgItems.get(0).getItem().isRepairable()) {
+                (dmgItems.get(0).getCount() == 1) && (dmgItems.get(1).getCount() == 1) && dmgItems.get(0).getItem().isRepairable()) {
             Item theItem = dmgItems.get(0).getItem();
             int dmgDiff0 = theItem.getMaxDamage() - dmgItems.get(0).getItemDamage();
             int dmgDiff1 = theItem.getMaxDamage() - dmgItems.get(1).getItemDamage();
@@ -944,7 +898,6 @@ public final class MekanismUtils {
      * Whether or not the provided chunk is being vibrated by a Seismic Vibrator.
      *
      * @param chunk - chunk to check
-     *
      * @return if the chunk is being vibrated
      */
     public static boolean isChunkVibrated(Chunk3D chunk) {
@@ -960,7 +913,6 @@ public final class MekanismUtils {
      * Whether or not a given EntityPlayer is considered an Op.
      *
      * @param p - player to check
-     *
      * @return if the player has operator privileges
      */
     public static boolean isOp(EntityPlayer p) {
@@ -975,7 +927,6 @@ public final class MekanismUtils {
      * Gets the item ID from a given ItemStack
      *
      * @param itemStack - ItemStack to check
-     *
      * @return item ID of the ItemStack
      */
     public static int getID(ItemStack itemStack) {
@@ -1030,9 +981,7 @@ public final class MekanismUtils {
      *
      * @param player - the player using the wrench
      * @param pos    - the coordinate of the block being wrenched
-     *
      * @return if the player can use the wrench
-     *
      * @deprecated use {@link mekanism.common.integration.wrenches.Wrenches#getHandler(ItemStack)}
      */
     @Deprecated
@@ -1078,7 +1027,7 @@ public final class MekanismUtils {
 
     public static <T extends TileEntity> T getTileEntitySafe(IBlockAccess worldIn, BlockPos pos, Class<T> expectedClass) {
         TileEntity te = getTileEntitySafe(worldIn, pos);
-        if (expectedClass.isInstance(te)){
+        if (expectedClass.isInstance(te)) {
             return expectedClass.cast(te);
         }
         return null;
@@ -1089,7 +1038,6 @@ public final class MekanismUtils {
      *
      * @param world - world
      * @param pos   - position
-     *
      * @return tile entity if found, null if either not found or not loaded
      */
     @Nullable
@@ -1112,7 +1060,6 @@ public final class MekanismUtils {
     /**
      * @param amount   Amount currently stored
      * @param capacity Total amount that can be stored.
-     *
      * @return A redstone level based on the percentage of the amount stored.
      */
     public static int redstoneLevelFromContents(double amount, double capacity) {
@@ -1130,9 +1077,7 @@ public final class MekanismUtils {
      * </code>
      *
      * @param d double to clamp
-     *
      * @return an int clamped to Integer.MAX_VALUE
-     *
      * @see <a href="https://github.com/aidancbrady/Mekanism/pull/5203">Original PR</a>
      */
     public static int clampToInt(double d) {

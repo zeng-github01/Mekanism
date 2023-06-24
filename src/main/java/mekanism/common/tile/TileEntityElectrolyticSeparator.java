@@ -1,24 +1,12 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.EnumSet;
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
-import mekanism.api.gas.Gas;
-import mekanism.api.gas.GasStack;
-import mekanism.api.gas.GasTank;
-import mekanism.api.gas.GasTankInfo;
-import mekanism.api.gas.IGasHandler;
-import mekanism.api.gas.IGasItem;
+import mekanism.api.gas.*;
 import mekanism.common.MekanismFluids;
 import mekanism.common.Upgrade;
 import mekanism.common.Upgrade.IUpgradeInfoHandler;
-import mekanism.common.base.FluidHandlerWrapper;
-import mekanism.common.base.IComparatorSupport;
-import mekanism.common.base.IFluidHandlerWrapper;
-import mekanism.common.base.ISustainedData;
-import mekanism.common.base.ITankManager;
+import mekanism.common.base.*;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.integration.computer.IComputerIntegration;
@@ -30,13 +18,7 @@ import mekanism.common.recipe.outputs.ChemicalPairOutput;
 import mekanism.common.tile.TileEntityGasTank.GasMode;
 import mekanism.common.tile.component.TileComponentSecurity;
 import mekanism.common.tile.prefab.TileEntityMachine;
-import mekanism.common.util.ChargeUtils;
-import mekanism.common.util.FluidContainerUtils;
-import mekanism.common.util.GasUtils;
-import mekanism.common.util.InventoryUtils;
-import mekanism.common.util.ItemDataUtils;
-import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.TileUtils;
+import mekanism.common.util.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -50,11 +32,15 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 
+import javax.annotation.Nonnull;
+import java.util.EnumSet;
+import java.util.List;
+
 public class TileEntityElectrolyticSeparator extends TileEntityMachine implements IFluidHandlerWrapper, IComputerIntegration, ISustainedData, IGasHandler,
-      IUpgradeInfoHandler, ITankManager, IComparatorSupport {
+        IUpgradeInfoHandler, ITankManager, IComparatorSupport {
 
     private static final String[] methods = new String[]{"getEnergy", "getOutput", "getMaxEnergy", "getEnergyNeeded", "getWater", "getWaterNeeded", "getHydrogen",
-                                                         "getHydrogenNeeded", "getOxygen", "getOxygenNeeded"};
+            "getHydrogenNeeded", "getOxygen", "getOxygenNeeded"};
     /**
      * This separator's water slot.
      */
@@ -200,7 +186,7 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
 
     public boolean canFill(ChemicalPairOutput gases) {
         return leftTank.canReceive(gases.leftGas.getGas()) && leftTank.getNeeded() >= gases.leftGas.amount
-               && rightTank.canReceive(gases.rightGas.getGas()) && rightTank.getNeeded() >= gases.rightGas.amount;
+                && rightTank.canReceive(gases.rightGas.getGas()) && rightTank.getNeeded() >= gases.rightGas.amount;
     }
 
     @Override
@@ -211,7 +197,7 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
             return FluidUtil.getFluidContained(itemstack) == null;
         } else if (slotID == 1 || slotID == 2) {
             return itemstack.getItem() instanceof IGasItem && ((IGasItem) itemstack.getItem()).getGas(itemstack) != null
-                   && ((IGasItem) itemstack.getItem()).getGas(itemstack).amount == ((IGasItem) itemstack.getItem()).getMaxGas(itemstack);
+                    && ((IGasItem) itemstack.getItem()).getGas(itemstack).amount == ((IGasItem) itemstack.getItem()).getMaxGas(itemstack);
         }
         return false;
     }
@@ -222,10 +208,10 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
             return Recipe.ELECTROLYTIC_SEPARATOR.containsRecipe(itemstack);
         } else if (slotID == 1) {
             return itemstack.getItem() instanceof IGasItem &&
-                   (((IGasItem) itemstack.getItem()).getGas(itemstack) == null || ((IGasItem) itemstack.getItem()).getGas(itemstack).getGas() == MekanismFluids.Hydrogen);
+                    (((IGasItem) itemstack.getItem()).getGas(itemstack) == null || ((IGasItem) itemstack.getItem()).getGas(itemstack).getGas() == MekanismFluids.Hydrogen);
         } else if (slotID == 2) {
             return itemstack.getItem() instanceof IGasItem &&
-                   (((IGasItem) itemstack.getItem()).getGas(itemstack) == null || ((IGasItem) itemstack.getItem()).getGas(itemstack).getGas() == MekanismFluids.Oxygen);
+                    (((IGasItem) itemstack.getItem()).getGas(itemstack) == null || ((IGasItem) itemstack.getItem()).getGas(itemstack).getGas() == MekanismFluids.Oxygen);
         } else if (slotID == 3) {
             return ChargeUtils.canBeDischarged(itemstack);
         }

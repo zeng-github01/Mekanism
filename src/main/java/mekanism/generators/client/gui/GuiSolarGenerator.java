@@ -1,6 +1,5 @@
 package mekanism.generators.client.gui;
 
-import java.util.Collections;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.GuiEnergyInfo;
 import mekanism.client.gui.element.GuiPowerBar;
@@ -21,6 +20,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Collections;
+
 @SideOnly(Side.CLIENT)
 public class GuiSolarGenerator extends GuiMekanismTile<TileEntitySolarGenerator> {
 
@@ -39,25 +40,25 @@ public class GuiSolarGenerator extends GuiMekanismTile<TileEntitySolarGenerator>
         fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
 
-         if (!tileEntity.getActive()) {
-             String info = "";
-             String info2 = "";
-             String info3 = "";
-             if (!tileEntity.canSeeSun()) {
-                 info = "gui.none";
-                 info3 = " ";
-                 info2 = "gui.solarGenerator.sun";
-             }
-             if (tileEntity.controlType == IRedstoneControl.RedstoneControl.HIGH && !tileEntity.redstone && tileEntity.canSeeSun()) {
-                 info = "control.high.desc";
-             }
-             if (tileEntity.controlType == IRedstoneControl.RedstoneControl.LOW && tileEntity.redstone && tileEntity.canSeeSun())
-                 info = "control.low.desc";
-             if (tileEntity.getEnergy() == tileEntity.getMaxEnergy()) {
-                 info = "gui.enough_no_space";
-             }
-             renderScaledText(LangUtils.localize(info) + info3 + LangUtils.localize(info2), 49, 42, 0x00CD00, 78);
-         } else {
+        if (!tileEntity.getActive()) {
+            String info = "";
+            String info2 = "";
+            String info3 = "";
+            if (!tileEntity.canSeeSun()) {
+                info = "gui.none";
+                info3 = " ";
+                info2 = "gui.solarGenerator.sun";
+            }
+            if (tileEntity.controlType == IRedstoneControl.RedstoneControl.HIGH && !tileEntity.redstone && tileEntity.canSeeSun()) {
+                info = "control.high.desc";
+            }
+            if (tileEntity.controlType == IRedstoneControl.RedstoneControl.LOW && tileEntity.redstone && tileEntity.canSeeSun())
+                info = "control.low.desc";
+            if (tileEntity.getEnergy() == tileEntity.getMaxEnergy()) {
+                info = "gui.enough_no_space";
+            }
+            renderScaledText(LangUtils.localize(info) + info3 + LangUtils.localize(info2), 49, 42, 0x00CD00, 78);
+        } else {
             renderCenteredText(48, 80, 28, 0x00CD00, LangUtils.localize("gui.producing"));
             renderCenteredText(48, 80, 42, 0x00CD00, MekanismUtils.getEnergyDisplay(tileEntity.getProduction()) + "/t");
         }

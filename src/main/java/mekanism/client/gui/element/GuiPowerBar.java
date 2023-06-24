@@ -32,6 +32,7 @@ public class GuiPowerBar extends GuiElement {
             public double getLevel() {
                 return tileEntity.getEnergy() / tileEntity.getMaxEnergy();
             }
+
             @Override
             public boolean powerbarWarning() {
                 return tileEntity.getEnergy() == 0;

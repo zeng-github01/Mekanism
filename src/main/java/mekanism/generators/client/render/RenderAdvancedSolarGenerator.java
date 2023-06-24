@@ -1,10 +1,10 @@
 package mekanism.generators.client.render;
 
 import mekanism.client.render.MekanismRenderer;
-import mekanism.generators.common.util.MekanismGeneratorUtils.*;
-import mekanism.generators.common.util.MekanismGeneratorUtils;
 import mekanism.generators.client.model.ModelAdvancedSolarGenerator;
 import mekanism.generators.common.tile.TileEntityAdvancedSolarGenerator;
+import mekanism.generators.common.util.MekanismGeneratorUtils;
+import mekanism.generators.common.util.MekanismGeneratorUtils.ResourceType;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraftforge.fml.relauncher.Side;

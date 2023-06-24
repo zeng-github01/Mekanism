@@ -1,15 +1,8 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
-import mekanism.api.gas.Gas;
-import mekanism.api.gas.GasStack;
-import mekanism.api.gas.GasTank;
-import mekanism.api.gas.GasTankInfo;
-import mekanism.api.gas.IGasHandler;
-import mekanism.api.gas.IGasItem;
+import mekanism.api.gas.*;
 import mekanism.common.Upgrade;
 import mekanism.common.Upgrade.IUpgradeInfoHandler;
 import mekanism.common.base.IRedstoneControl;
@@ -23,11 +16,7 @@ import mekanism.common.recipe.inputs.ChemicalPairInput;
 import mekanism.common.recipe.machines.ChemicalInfuserRecipe;
 import mekanism.common.security.ISecurityTile;
 import mekanism.common.tile.prefab.TileEntityMachine;
-import mekanism.common.util.ChargeUtils;
-import mekanism.common.util.InventoryUtils;
-import mekanism.common.util.ItemDataUtils;
-import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.TileUtils;
+import mekanism.common.util.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -36,8 +25,11 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
+import javax.annotation.Nonnull;
+import java.util.List;
+
 public class TileEntityChemicalInfuser extends TileEntityMachine implements IGasHandler, IRedstoneControl, ISustainedData, IUpgradeTile, IUpgradeInfoHandler,
-      ITankManager, ISecurityTile {
+        ITankManager, ISecurityTile {
 
     public static final int MAX_GAS = 10000;
     public GasTank leftTank = new GasTank(MAX_GAS);

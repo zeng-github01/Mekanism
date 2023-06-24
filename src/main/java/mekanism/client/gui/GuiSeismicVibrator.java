@@ -1,9 +1,5 @@
 package mekanism.client.gui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
@@ -19,6 +15,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiSeismicVibrator extends GuiMekanismTile<TileEntitySeismicVibrator> {
 
@@ -31,11 +31,11 @@ public class GuiSeismicVibrator extends GuiMekanismTile<TileEntitySeismicVibrato
         addGuiElement(new GuiEnergyInfo(() -> {
             String multiplier = MekanismUtils.getEnergyDisplay(MekanismConfig.current().usage.seismicVibrator.val());
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                  LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 142, 34).with(SlotOverlay.POWER));
-        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.SEISMICVIBRATOR,this,resource,16,23));
-        addGuiElement(new GuiBlack(this,resource,17,24,110,38));
+        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.SEISMICVIBRATOR, this, resource, 16, 23));
+        addGuiElement(new GuiBlack(this, resource, 17, 24, 110, 38));
     }
 
     @Override
@@ -49,10 +49,10 @@ public class GuiSeismicVibrator extends GuiMekanismTile<TileEntitySeismicVibrato
         if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() < MekanismConfig.current().usage.seismicVibrator.val() || tileEntity.getEnergy() == 0;
-            if (energy){
+            if (energy) {
                 info.add(LangUtils.localize("gui.no_energy"));
             }
-            if (energy){
+            if (energy) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }
@@ -64,10 +64,10 @@ public class GuiSeismicVibrator extends GuiMekanismTile<TileEntitySeismicVibrato
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         boolean energy = tileEntity.getEnergy() < MekanismConfig.current().usage.seismicVibrator.val() || tileEntity.getEnergy() == 0;
-        if (energy){
+        if (energy) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
     }
 

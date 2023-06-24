@@ -23,9 +23,9 @@ public class GuiDynamicTank extends GuiEmbeddedGaugeTile<TileEntityDynamicTank> 
         super(tile, new ContainerDynamicTank(inventory, tile));
         ResourceLocation resource = getGuiLocation();
         addGuiElement(new GuiContainerEditMode(this, tileEntity, resource));
-        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.DYNAMICTANK_INDUCTIONMATRIX_PUMP,this,resource,50,23));
-        addGuiElement(new GuiBlack(this,resource,51,24,78,39));
-        addGuiElement(new GuiBucketIcon(GuiBucketIcon.IconType.DYNAMICTANK,this,resource,141,15));
+        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.DYNAMICTANK_INDUCTIONMATRIX_PUMP, this, resource, 50, 23));
+        addGuiElement(new GuiBlack(this, resource, 51, 24, 78, 39));
+        addGuiElement(new GuiBucketIcon(GuiBucketIcon.IconType.DYNAMICTANK, this, resource, 141, 15));
     }
 
     @Override

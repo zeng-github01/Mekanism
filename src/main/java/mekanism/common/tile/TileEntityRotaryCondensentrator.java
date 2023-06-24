@@ -1,35 +1,17 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.List;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.api.TileNetworkList;
-import mekanism.api.gas.Gas;
-import mekanism.api.gas.GasRegistry;
-import mekanism.api.gas.GasStack;
-import mekanism.api.gas.GasTank;
-import mekanism.api.gas.GasTankInfo;
-import mekanism.api.gas.IGasHandler;
-import mekanism.api.gas.IGasItem;
+import mekanism.api.gas.*;
 import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
 import mekanism.common.Upgrade.IUpgradeInfoHandler;
-import mekanism.common.base.FluidHandlerWrapper;
-import mekanism.common.base.IComparatorSupport;
-import mekanism.common.base.IFluidHandlerWrapper;
-import mekanism.common.base.ISustainedData;
-import mekanism.common.base.ITankManager;
+import mekanism.common.base.*;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.tile.prefab.TileEntityMachine;
-import mekanism.common.util.ChargeUtils;
-import mekanism.common.util.FluidContainerUtils;
-import mekanism.common.util.ItemDataUtils;
-import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.PipeUtils;
-import mekanism.common.util.TileUtils;
+import mekanism.common.util.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -44,8 +26,12 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class TileEntityRotaryCondensentrator extends TileEntityMachine implements ISustainedData, IFluidHandlerWrapper, IGasHandler, IUpgradeInfoHandler, ITankManager,
-      IComparatorSupport {
+        IComparatorSupport {
 
     private static final int[] GAS_SLOTS = {0, 1};
     private static final int[] LIQUID_SLOTS = {2, 3};
@@ -83,7 +69,7 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
                 }
 
                 if (getEnergy() >= energyPerTick && MekanismUtils.canFunction(this) && isValidGas(gasTank.getGas()) &&
-                    (fluidTank.getFluid() == null || (fluidTank.getFluid().amount < MAX_FLUID && gasEquals(gasTank.getGas(), fluidTank.getFluid())))) {
+                        (fluidTank.getFluid() == null || (fluidTank.getFluid().amount < MAX_FLUID && gasEquals(gasTank.getGas(), fluidTank.getFluid())))) {
                     int operations = getUpgradedUsage();
                     double prev = getEnergy();
 
@@ -104,7 +90,7 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
                 }
 
                 if (getEnergy() >= energyPerTick && MekanismUtils.canFunction(this) && isValidFluid(fluidTank.getFluid()) &&
-                    (gasTank.getGas() == null || (gasTank.getStored() < MAX_FLUID && gasEquals(gasTank.getGas(), fluidTank.getFluid())))) {
+                        (gasTank.getGas() == null || (gasTank.getStored() < MAX_FLUID && gasEquals(gasTank.getGas(), fluidTank.getFluid())))) {
                     int operations = getUpgradedUsage();
                     double prev = getEnergy();
 

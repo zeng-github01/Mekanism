@@ -1,7 +1,5 @@
 package mekanism.client.gui;
 
-import java.util.Collections;
-
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
@@ -18,6 +16,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Collections;
+
 @SideOnly(Side.CLIENT)
 public class GuiFuelwoodHeater extends GuiMekanismTile<TileEntityFuelwoodHeater> {
 
@@ -32,14 +32,15 @@ public class GuiFuelwoodHeater extends GuiMekanismTile<TileEntityFuelwoodHeater>
             String environment = UnitDisplayUtils.getDisplayShort(tileEntity.lastEnvironmentLoss * unit.intervalSize, false, unit);
             return Collections.singletonList(LangUtils.localize("gui.dissipated") + ": " + environment + "/t");
         }, this, resource));
-        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.FUELWOOD,this,resource,48,23));
-       addGuiElement(new GuiBlack(this,resource,49,24,78,26));
+        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.FUELWOOD, this, resource, 48, 23));
+        addGuiElement(new GuiBlack(this, resource, 49, 24, 78, 26));
 
         addGuiElement(new GuiRateBar(this, new GuiRateBar.IRateInfoHandler() {
             @Override
             public String getTooltip() {
                 return LangUtils.localize("gui.temp") + ": " + getTemp();
             }
+
             @Override
             public double getLevel() {
                 return Math.min(1, tileEntity.temperature / MekanismConfig.current().general.evaporationMaxTemp.val());
@@ -50,11 +51,12 @@ public class GuiFuelwoodHeater extends GuiMekanismTile<TileEntityFuelwoodHeater>
             public String getTooltip() {
                 return LangUtils.localize("gui.fuel") + ": " + tileEntity.burnTime + " / " + tileEntity.maxBurnTime;
             }
+
             @Override
             public double getLevel() {
                 return (double) tileEntity.burnTime / tileEntity.maxBurnTime;
             }
-        },resource,46,60));
+        }, resource, 46, 60));
 
     }
 
@@ -70,7 +72,7 @@ public class GuiFuelwoodHeater extends GuiMekanismTile<TileEntityFuelwoodHeater>
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 137, guiTop + 29,99,167,14,14);
+        drawTexturedModalRect(guiLeft + 137, guiTop + 29, 99, 167, 14, 14);
         if (tileEntity.burnTime > 0) {
             int displayInt = tileEntity.burnTime * 13 / tileEntity.maxBurnTime;
             drawTexturedModalRect(guiLeft + 137, guiTop + 29 + 12 - displayInt, 84, 179 - displayInt, 14, displayInt + 1);

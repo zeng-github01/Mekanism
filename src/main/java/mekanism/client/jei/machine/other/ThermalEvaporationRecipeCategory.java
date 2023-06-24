@@ -19,8 +19,9 @@ public class ThermalEvaporationRecipeCategory<WRAPPER extends ThermalEvaporation
 
     public ThermalEvaporationRecipeCategory(IGuiHelper helper) {
         super(helper, "mekanism:gui/GuiBlankIcon.png",
-              Recipe.THERMAL_EVAPORATION_PLANT.getJEICategory(), "gui.thermalEvaporationController.short", null, 3, 12, 170, 62);
+                Recipe.THERMAL_EVAPORATION_PLANT.getJEICategory(), "gui.thermalEvaporationController.short", null, 3, 12, 170, 62);
     }
+
     @Override
     protected void addGuiElements() {
         guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 6, 13));
@@ -29,21 +30,21 @@ public class ThermalEvaporationRecipeCategory<WRAPPER extends ThermalEvaporation
         guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 27, 50));
         guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 131, 19));
         guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 131, 50));
-        guiElements.add(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.BIO_EVAPORATION,this,guiLocation,48,19));
-        guiElements.add(new GuiBlack(this, guiLocation,49,20,78,38));
+        guiElements.add(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.BIO_EVAPORATION, this, guiLocation, 48, 19));
+        guiElements.add(new GuiBlack(this, guiLocation, 49, 20, 78, 38));
         guiElements.add(new GuiRateBarHorizontal(this, new GuiRateBarHorizontal.IRateInfoHandler() {
             @Override
             public double getLevel() {
                 return 1F;
             }
-        },guiLocation,46,62));
+        }, guiLocation, 46, 62));
     }
 
     @Override
     public void drawExtras(Minecraft minecraft) {
         super.drawExtras(minecraft);
-        drawTexturedRect(32 - xOffset,39 - yOffset,20,179,8,9);
-        drawTexturedRect(136 - xOffset,39 - yOffset,20,179,8,9);
+        drawTexturedRect(32 - xOffset, 39 - yOffset, 20, 179, 8, 9);
+        drawTexturedRect(136 - xOffset, 39 - yOffset, 20, 179, 8, 9);
     }
 
 
@@ -52,9 +53,9 @@ public class ThermalEvaporationRecipeCategory<WRAPPER extends ThermalEvaporation
         ThermalEvaporationRecipe tempRecipe = recipeWrapper.getRecipe();
         IGuiFluidStackGroup fluidStacks = recipeLayout.getFluidStacks();
         fluidStacks.init(0, true, 7 - xOffset, 14 - yOffset, 16, 58, tempRecipe.getInput().ingredient.amount, false,
-              fluidOverlayLarge);
+                fluidOverlayLarge);
         fluidStacks.init(1, false, 153 - xOffset, 14 - yOffset, 16, 58, tempRecipe.getOutput().output.amount, false,
-              fluidOverlayLarge);
+                fluidOverlayLarge);
         fluidStacks.set(0, tempRecipe.recipeInput.ingredient);
         fluidStacks.set(1, tempRecipe.recipeOutput.output);
     }

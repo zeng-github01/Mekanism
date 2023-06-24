@@ -3,18 +3,10 @@ package mekanism.common.item;
 import buildcraft.api.tools.IToolWrench;
 import cofh.api.item.IToolHammer;
 import io.netty.buffer.ByteBuf;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import mcp.MethodsReturnNonnullByDefault;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigurable;
 import mekanism.api.IMekWrench;
-import mekanism.api.gas.GasStack;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.Mekanism;
 import mekanism.common.SideData;
@@ -32,13 +24,7 @@ import mekanism.common.tile.TileEntityGasTank;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.prefab.TileEntityBasicBlock;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
-import mekanism.common.util.CapabilityUtils;
-import mekanism.common.util.FieldsAreNonnullByDefault;
-import mekanism.common.util.ItemDataUtils;
-import mekanism.common.util.LangUtils;
-import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.SecurityUtils;
-import mekanism.common.util.TextComponentGroup;
+import mekanism.common.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -56,7 +42,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Optional.Interface;
 import net.minecraftforge.fml.common.Optional.InterfaceList;
@@ -64,9 +49,17 @@ import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+
 @InterfaceList({
-      @Interface(iface = "buildcraft.api.tools.IToolWrench", modid = MekanismHooks.BUILDCRAFT_MOD_ID),
-      @Interface(iface = "cofh.api.item.IToolHammer", modid = MekanismHooks.COFH_API_MOD_ID)
+        @Interface(iface = "buildcraft.api.tools.IToolWrench", modid = MekanismHooks.BUILDCRAFT_MOD_ID),
+        @Interface(iface = "cofh.api.item.IToolHammer", modid = MekanismHooks.COFH_API_MOD_ID)
 })
 public class ItemConfigurator extends ItemEnergized implements IMekWrench, IToolWrench, IItemNetwork, IToolHammer {
 
@@ -100,7 +93,7 @@ public class ItemConfigurator extends ItemEnergized implements IMekWrench, ITool
                     if (initial != TileComponentConfig.EMPTY) {
                         if (!player.isSneaking()) {
                             player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + Mekanism.LOG_TAG + EnumColor.GREY + " " + getViewModeText(
-                                  transmissionType) + ": " + initial.color + initial.localize() + " (" + initial.color.getColoredName() + ")"));
+                                    transmissionType) + ": " + initial.color + initial.localize() + " (" + initial.color.getColoredName() + ")"));
                         } else {
                             if (getEnergy(stack) >= ENERGY_PER_CONFIGURE) {
                                 if (SecurityUtils.canAccess(player, tile)) {
@@ -108,8 +101,8 @@ public class ItemConfigurator extends ItemEnergized implements IMekWrench, ITool
                                     MekanismUtils.incrementOutput(config, transmissionType, MekanismUtils.getBaseOrientation(side, config.getOrientation()));
                                     SideData data = config.getConfig().getOutput(transmissionType, side, config.getOrientation());
                                     player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + Mekanism.LOG_TAG + EnumColor.GREY + " "
-                                                                               + getToggleModeText(transmissionType) + ": " + data.color + data.localize() + " (" +
-                                                                               data.color.getColoredName() + ")"));
+                                            + getToggleModeText(transmissionType) + ": " + data.color + data.localize() + " (" +
+                                            data.color.getColoredName() + ")"));
                                     if (config instanceof TileEntityBasicBlock) {
                                         Mekanism.packetHandler.sendUpdatePacket((TileEntityBasicBlock) config);
                                     }
@@ -160,7 +153,7 @@ public class ItemConfigurator extends ItemEnergized implements IMekWrench, ITool
                             return EnumActionResult.FAIL;
                         }
                     }
-                }else if (tile instanceof TileEntityContainerBlock) {
+                } else if (tile instanceof TileEntityContainerBlock) {
                     if (SecurityUtils.canAccess(player, tile)) {
                         //TODO: Switch this to items being handled by TECB, energy handled here (via lambdas?)
                         IInventory inv = (IInventory) tile;
@@ -205,7 +198,7 @@ public class ItemConfigurator extends ItemEnergized implements IMekWrench, ITool
                         }
                     }
                 }
-            }else if (getState(stack) == ConfiguratorMode.ROTATE) { //Rotate
+            } else if (getState(stack) == ConfiguratorMode.ROTATE) { //Rotate
                 EnumFacing[] rotations = block.getValidRotations(world, pos);
                 if (rotations != null && rotations.length > 0) {
                     List<EnumFacing> l = Arrays.asList(block.getValidRotations(world, pos));

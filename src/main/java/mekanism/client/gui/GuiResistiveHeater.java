@@ -1,11 +1,5 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.element.*;
@@ -31,6 +25,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeater> {
 
@@ -47,7 +47,7 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
         addGuiElement(new GuiEnergyInfo(() -> {
             String multiplier = MekanismUtils.getEnergyDisplay(tileEntity.energyUsage);
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                  LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
         addGuiElement(new GuiHeatInfo(() -> {
             TemperatureUnit unit = TemperatureUnit.values()[MekanismConfig.current().general.tempUnit.val().ordinal()];
@@ -59,6 +59,7 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
             public String getTooltip() {
                 return LangUtils.localize("gui.temp") + ": " + getTemp();
             }
+
             @Override
             public double getLevel() {
                 return Math.min(1, tileEntity.temperature / MekanismConfig.current().general.evaporationMaxTemp.val());
@@ -98,10 +99,10 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
         if (xAxis >= -21 && xAxis <= -3 && yAxis >= 90 && yAxis <= 108) {
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() == 0;
-            if (energy){
+            if (energy) {
                 info.add(LangUtils.localize("gui.no_energy"));
             }
-            if (energy){
+            if (energy) {
                 displayTooltips(info, xAxis, yAxis);
             }
         }
@@ -114,10 +115,10 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
         energyUsageField.drawTextBox();
         MekanismRenderer.resetColor();
         boolean energy = tileEntity.getEnergy() == 0;
-        if (energy){
+        if (energy) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 86,0,0,26,26);
-            addGuiElement(new GuiWarningInfo(this,getGuiLocation(),true));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 86, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), true));
         }
     }
 

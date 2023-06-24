@@ -1,10 +1,5 @@
 package mekanism.generators.client.gui;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import mekanism.api.EnumColor;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.GuiEnergyInfo;
@@ -18,14 +13,17 @@ import mekanism.common.base.IRedstoneControl;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
-import mekanism.generators.common.util.MekanismGeneratorUtils;
-import mekanism.generators.common.util.MekanismGeneratorUtils.ResourceType;
 import mekanism.generators.common.inventory.container.ContainerWindGenerator;
 import mekanism.generators.common.tile.TileEntityWindGenerator;
+import mekanism.generators.common.util.MekanismGeneratorUtils;
+import mekanism.generators.common.util.MekanismGeneratorUtils.ResourceType;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.text.DecimalFormat;
+import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class GuiWindGenerator extends GuiMekanismTile<TileEntityWindGenerator> {
@@ -38,9 +36,9 @@ public class GuiWindGenerator extends GuiMekanismTile<TileEntityWindGenerator> {
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiEnergyInfo(() -> Arrays.asList(
-              LangUtils.localize("gui.producing") + ": " +
-              MekanismUtils.getEnergyDisplay(tileEntity.getActive() ? MekanismConfig.current().generators.windGenerationMin.val() * tileEntity.getCurrentMultiplier() : 0) + "/t",
-              LangUtils.localize("gui.maxOutput") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t"), this, resource));
+                LangUtils.localize("gui.producing") + ": " +
+                        MekanismUtils.getEnergyDisplay(tileEntity.getActive() ? MekanismConfig.current().generators.windGenerationMin.val() * tileEntity.getCurrentMultiplier() : 0) + "/t",
+                LangUtils.localize("gui.maxOutput") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t"), this, resource));
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 142, 34).with(SlotOverlay.POWER));
     }
@@ -60,9 +58,11 @@ public class GuiWindGenerator extends GuiMekanismTile<TileEntityWindGenerator> {
             size += 9;
             if (isblacklist) {
                 info = "gui.noWind";
-            } if (tileEntity.controlType == IRedstoneControl.RedstoneControl.HIGH && !tileEntity.redstone && !isblacklist) {
+            }
+            if (tileEntity.controlType == IRedstoneControl.RedstoneControl.HIGH && !tileEntity.redstone && !isblacklist) {
                 info = "control.high.desc";
-            } if (tileEntity.controlType == IRedstoneControl.RedstoneControl.LOW && tileEntity.redstone && !isblacklist) {
+            }
+            if (tileEntity.controlType == IRedstoneControl.RedstoneControl.LOW && tileEntity.redstone && !isblacklist) {
                 info = "control.low.desc";
             }
             fontRenderer.drawString(EnumColor.DARK_RED + LangUtils.localize(info), 51, size, 0x00CD00);

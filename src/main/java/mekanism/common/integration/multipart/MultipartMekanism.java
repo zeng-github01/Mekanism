@@ -1,23 +1,11 @@
 package mekanism.common.integration.multipart;
 
-import static mekanism.common.block.states.BlockStateMachine.MachineBlock.MACHINE_BLOCK_1;
-import static mekanism.common.block.states.BlockStateMachine.MachineBlock.MACHINE_BLOCK_2;
-
-import java.util.Collection;
-import java.util.Collections;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mcmultipart.api.addon.IMCMPAddon;
 import mcmultipart.api.addon.MCMPAddon;
 import mcmultipart.api.container.IMultipartContainer;
 import mcmultipart.api.container.IPartInfo;
 import mcmultipart.api.event.DrawMultipartHighlightEvent;
 import mcmultipart.api.item.ItemBlockMultipart;
-import mcmultipart.api.multipart.IMultipart;
-import mcmultipart.api.multipart.IMultipartRegistry;
-import mcmultipart.api.multipart.IMultipartTile;
-import mcmultipart.api.multipart.MultipartCapabilityHelper;
-import mcmultipart.api.multipart.MultipartOcclusionHelper;
 import mcmultipart.api.ref.MCMPCapabilities;
 import mcmultipart.api.slot.EnumCenterSlot;
 import mcmultipart.api.world.IMultipartBlockAccess;
@@ -54,6 +42,14 @@ import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.Collections;
+
+import static mekanism.common.block.states.BlockStateMachine.MachineBlock.MACHINE_BLOCK_1;
+import static mekanism.common.block.states.BlockStateMachine.MachineBlock.MACHINE_BLOCK_2;
 
 @MCMPAddon
 public class MultipartMekanism implements IMCMPAddon {
@@ -121,10 +117,10 @@ public class MultipartMekanism implements IMCMPAddon {
     }
 
     public static boolean placeMultipartBlock(Block block, ItemStack is, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY,
-          float hitZ, IBlockState state) {
+                                              float hitZ, IBlockState state) {
         return ItemBlockMultipart.placeAt(is, player, player.getActiveHand(), world, pos, side, hitX, hitY, hitZ,
-              block::getStateForPlacement, is.getMetadata(), MultipartRegistry.INSTANCE.getPart(block),
-              ((ItemBlock) is.getItem())::placeBlockAt, ItemBlockMultipart::placePartAt);
+                block::getStateForPlacement, is.getMetadata(), MultipartRegistry.INSTANCE.getPart(block),
+                ((ItemBlock) is.getItem())::placeBlockAt, ItemBlockMultipart::placePartAt);
     }
 
     @SubscribeEvent

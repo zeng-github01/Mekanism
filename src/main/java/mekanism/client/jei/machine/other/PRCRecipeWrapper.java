@@ -2,7 +2,6 @@ package mekanism.client.jei.machine.other;
 
 import mekanism.client.jei.MekanismJEI;
 import mekanism.client.jei.machine.MekanismRecipeWrapper;
-import mekanism.common.Mekanism;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.recipe.machines.PressurizedRecipe;
 import mekanism.common.util.LangUtils;
@@ -32,7 +31,7 @@ public class PRCRecipeWrapper<RECIPE extends PressurizedRecipe> extends Mekanism
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         List<String> tooltip = new ArrayList<>();
         if (mouseX >= 162 && mouseX < 166 && mouseY >= 6 && mouseY < 6 + 52) {
-            tooltip.add(LangUtils.localize("gui.using") + ":" +  MekanismUtils.getEnergyDisplay(recipe.extraEnergy + MekanismConfig.current().usage.pressurizedReactionBase.val()) + "/t");
+            tooltip.add(LangUtils.localize("gui.using") + ":" + MekanismUtils.getEnergyDisplay(recipe.extraEnergy + MekanismConfig.current().usage.pressurizedReactionBase.val()) + "/t");
         }
         return tooltip;
     }

@@ -1,8 +1,5 @@
 package mekanism.common.util;
 
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import mekanism.api.energy.IEnergizedItem;
 import mekanism.api.gas.GasStack;
 import mekanism.api.gas.IGasItem;
@@ -22,6 +19,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class RecipeUtils {
 

@@ -1,9 +1,8 @@
 package mekanism.common.tier;
 
-import java.util.function.Consumer;
-import mekanism.common.Mekanism;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
-import net.minecraft.util.ResourceLocation;
+
+import java.util.function.Consumer;
 
 public enum FactoryTier implements ITier {
     BASIC(3),
@@ -35,10 +34,10 @@ public enum FactoryTier implements ITier {
         if (MachineType.ELITE_FACTORY.isEnabled()) {
             consumer.accept(FactoryTier.ELITE);
         }
-        if (MachineType.ULTIMATE_FACTORY.isEnabled()){
+        if (MachineType.ULTIMATE_FACTORY.isEnabled()) {
             consumer.accept(FactoryTier.ULTIMATE);
         }
-        if (MachineType.CREATIVE_FACTORY.isEnabled()){
+        if (MachineType.CREATIVE_FACTORY.isEnabled()) {
             consumer.accept(FactoryTier.CREATIVE);
         }
     }

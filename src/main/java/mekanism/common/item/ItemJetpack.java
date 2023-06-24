@@ -1,7 +1,5 @@
 package mekanism.common.item;
 
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
@@ -35,13 +33,16 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+import java.util.List;
+
 public class ItemJetpack extends ItemArmor implements IGasItem, ISpecialArmor {
 
     public int TRANSFER_RATE = 16;
 
     public ItemJetpack() {
         super(EnumHelper.addArmorMaterial("JETPACK", "jetpack", 0, new int[]{0, 0, 0, 0}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
-              0), 0, EntityEquipmentSlot.CHEST);
+                0), 0, EntityEquipmentSlot.CHEST);
         setCreativeTab(Mekanism.tabMekanism);
     }
 
@@ -200,12 +201,12 @@ public class ItemJetpack extends ItemArmor implements IGasItem, ISpecialArmor {
 
     @Override
     public ArmorProperties getProperties(EntityLivingBase player, @Nonnull ItemStack armor, DamageSource source,
-          double damage, int slot) {
+                                         double damage, int slot) {
         if (this == MekanismItems.Jetpack) {
             return new ArmorProperties(0, 0, 0);
         } else if (this == MekanismItems.ArmoredJetpack) {
             return new ArmorProperties(1, MekanismConfig.current().general.armoredJetpackDamageRatio.val(),
-                  MekanismConfig.current().general.armoredJetpackDamageMax.val());
+                    MekanismConfig.current().general.armoredJetpackDamageMax.val());
         }
         return new ArmorProperties(0, 0, 0);
     }

@@ -40,6 +40,7 @@ import java.util.List;
 public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
 
     private GuiButton infuserDumpButton = null;
+
     public GuiFactory(InventoryPlayer inventory, TileEntityFactory tile) {
         super(tile, new ContainerFactory(inventory, tile));
         ResourceLocation resource = getGuiLocation();
@@ -50,7 +51,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         int xmove = tile.tier == FactoryTier.CREATIVE ? 72 : tile.tier == FactoryTier.ULTIMATE ? 34 : 0;
         xSize += xmove;
 
-        addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164 + xmove , 15));
+        addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164 + xmove, 15));
         addGuiElement(new GuiRecipeType(this, tileEntity, resource, xmove, 0));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, xmove, 0));
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource, xmove, 0));
@@ -67,7 +68,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
             addGuiElement(new GuiSlot(GuiSlot.SlotType.EXTRA, this, resource, 6, 56));
         }
         //Input and Output
-        int Slotlocation = tileEntity.tier == FactoryTier.BASIC ? 54 : tileEntity.tier == FactoryTier.ADVANCED ? 34 :  tileEntity.tier == FactoryTier.ELITE ? 28 : 26;
+        int Slotlocation = tileEntity.tier == FactoryTier.BASIC ? 54 : tileEntity.tier == FactoryTier.ADVANCED ? 34 : tileEntity.tier == FactoryTier.ELITE ? 28 : 26;
         int xDistance = tileEntity.tier == FactoryTier.BASIC ? 38 : tileEntity.tier == FactoryTier.ADVANCED ? 26 : 19;
         for (int i = 0; i < tileEntity.tier.processes; i++) {
             addGuiElement(new GuiSlot(GuiSlot.SlotType.INPUT, this, resource, Slotlocation + (i * xDistance), 12));
@@ -88,15 +89,16 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
     public void initGui() {
         super.initGui();
         int left = tileEntity.tier == FactoryTier.CREATIVE ? 220 : tileEntity.tier == FactoryTier.ULTIMATE ? 182 : 148;
-        this.buttonList.add(this.infuserDumpButton = new GuiButtonDisableableImage(1, guiLeft + left, this.guiTop + 77, 21, 10, 37, 177, -10, MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png")){
+        this.buttonList.add(this.infuserDumpButton = new GuiButtonDisableableImage(1, guiLeft + left, this.guiTop + 77, 21, 10, 37, 177, -10, MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png")) {
             @Override
             public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
                 if (GuiFactory.this.tileEntity.getRecipeType() == RecipeType.INFUSING || GuiFactory.this.tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED) {
                     super.drawButton(mc, mouseX, mouseY, partialTicks);
                 }
             }
+
             @Override
-            public boolean mousePressed(Minecraft mc, int mouseX, int mouseY ) {
+            public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
                 return (GuiFactory.this.tileEntity.getRecipeType() == RecipeType.INFUSING || GuiFactory.this.tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED) && super.mousePressed(mc, mouseX, mouseY);
             }
         });
@@ -117,7 +119,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
         int xgas = tileEntity.tier == FactoryTier.CREATIVE ? 219 : tileEntity.tier == FactoryTier.ULTIMATE ? 181 : 147;
-        if (infuserDumpButton.isMouseOver()){
+        if (infuserDumpButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.remove"), xAxis, yAxis);
         } else if (xAxis >= 8 && xAxis <= xgas && yAxis >= 78 && yAxis <= 83) {
             if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED) {
@@ -137,26 +139,26 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
                 if (tileEntity.inventory.get(5 + tileEntity.tier.processes + i).getCount() == tileEntity.inventory.get(5 + tileEntity.tier.processes + i).getMaxStackSize()) {
                     outslot = true;
                 }
-                 if((tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(5 + i).getCount() != 0) && tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED){
-                     inputgas = true;
-                 }
-                 if ((tileEntity.infuseStored.getAmount() == 0) && (tileEntity.inventory.get(5 + i).getCount() != 0) && tileEntity.getRecipeType() == RecipeType.INFUSING){
-                     inputinfuse = true;
-                 }
+                if ((tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(5 + i).getCount() != 0) && tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED) {
+                    inputgas = true;
+                }
+                if ((tileEntity.infuseStored.getAmount() == 0) && (tileEntity.inventory.get(5 + i).getCount() != 0) && tileEntity.getRecipeType() == RecipeType.INFUSING) {
+                    inputinfuse = true;
+                }
             }
-            if (energy){
+            if (energy) {
                 info.add(LangUtils.localize("gui.no_energy"));
             }
-            if (inputinfuse){
+            if (inputinfuse) {
                 info.add(LangUtils.localize("gui.infuse_no_item"));
             }
-            if (inputgas){
+            if (inputgas) {
                 info.add(LangUtils.localize("gui.no_gas"));
             }
-            if (outslot){
+            if (outslot) {
                 info.add(LangUtils.localize("gui.item_no_space"));
             }
-            if (outslot || energy || inputgas || inputinfuse){
+            if (outslot || energy || inputgas || inputinfuse) {
                 displayTooltips(info, xAxis, yAxis);
             }
 
@@ -166,11 +168,11 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
 
 
     @Override
-        protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
+    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        int xOffset = tileEntity.tier == FactoryTier.BASIC ? 59 : tileEntity.tier == FactoryTier.ADVANCED ? 39  : tileEntity.tier == FactoryTier.ELITE ? 33 :31;
+        int xOffset = tileEntity.tier == FactoryTier.BASIC ? 59 : tileEntity.tier == FactoryTier.ADVANCED ? 39 : tileEntity.tier == FactoryTier.ELITE ? 33 : 31;
         int xDistance = tileEntity.tier == FactoryTier.BASIC ? 38 : tileEntity.tier == FactoryTier.ADVANCED ? 26 : 19;
-        int Slotlocation = tileEntity.tier == FactoryTier.BASIC ? 54 : tileEntity.tier == FactoryTier.ADVANCED ? 34 : tileEntity.tier == FactoryTier.ELITE ?  28 : 26;
+        int Slotlocation = tileEntity.tier == FactoryTier.BASIC ? 54 : tileEntity.tier == FactoryTier.ADVANCED ? 34 : tileEntity.tier == FactoryTier.ELITE ? 28 : 26;
         int Xprocesses = tileEntity.tier == FactoryTier.CREATIVE ? 248 : tileEntity.tier == FactoryTier.ULTIMATE ? 210 : 176;
         for (int i = 0; i < tileEntity.tier.processes; i++) {
             int xPos = xOffset + (i * xDistance);
@@ -183,37 +185,37 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
             drawTexturedModalRect(guiLeft + 7, guiTop + 77, 0, 179, xgas, 7);
         }
         if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED) {
-            if (tileEntity.getScaledGasLevel(xgas- 2) > 0) {
+            if (tileEntity.getScaledGasLevel(xgas - 2) > 0) {
                 GasStack gas = tileEntity.gasTank.getGas();
                 if (gas != null) {
                     MekanismRenderer.color(gas);
-                    displayGauge(8, 78, tileEntity.getScaledGasLevel(xgas- 2), 5, gas.getGas().getSprite());
+                    displayGauge(8, 78, tileEntity.getScaledGasLevel(xgas - 2), 5, gas.getGas().getSprite());
                     MekanismRenderer.resetColor();
                 }
             }
         } else if (tileEntity.getRecipeType() == RecipeType.INFUSING) {
-            if (tileEntity.getScaledInfuseLevel(xgas- 2) > 0) {
+            if (tileEntity.getScaledInfuseLevel(xgas - 2) > 0) {
                 MekanismRenderer.resetColor();
-                displayGauge(8, 78, tileEntity.getScaledInfuseLevel(xgas- 2), 5, tileEntity.infuseStored.getType().sprite);
+                displayGauge(8, 78, tileEntity.getScaledInfuseLevel(xgas - 2), 5, tileEntity.infuseStored.getType().sprite);
             }
         }
-        for (int i = 0; i < tileEntity.tier.processes; i++){
+        for (int i = 0; i < tileEntity.tier.processes; i++) {
             boolean outslot = tileEntity.inventory.get(5 + tileEntity.tier.processes + i).getCount() == tileEntity.inventory.get(5 + tileEntity.tier.processes + i).getMaxStackSize();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
-            boolean inputgas = (tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(5 + i).getCount() != 0)  && tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED;
-            boolean inputinfuse = (tileEntity.infuseStored.getAmount() == 0) && (tileEntity.inventory.get(5 + i).getCount() != 0)  && tileEntity.getRecipeType() == RecipeType.INFUSING;
+            boolean inputgas = (tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(5 + i).getCount() != 0) && tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED;
+            boolean inputinfuse = (tileEntity.infuseStored.getAmount() == 0) && (tileEntity.inventory.get(5 + i).getCount() != 0) && tileEntity.getRecipeType() == RecipeType.INFUSING;
             if (outslot) {
                 mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSlot.png"));
-                drawTexturedModalRect(guiLeft + (Slotlocation + (i * xDistance)), guiTop + 56,158,0,18,18);
+                drawTexturedModalRect(guiLeft + (Slotlocation + (i * xDistance)), guiTop + 56, 158, 0, 18, 18);
             }
-            if (inputgas || inputinfuse){
+            if (inputgas || inputinfuse) {
                 mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning_Background.png"));
                 drawTexturedModalRect(guiLeft + 8, guiTop + 78, 0, 0, 138, 5);
             }
-            if (outslot || energy || inputgas || inputinfuse){
+            if (outslot || energy || inputgas || inputinfuse) {
                 mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-                drawTexturedModalRect(guiLeft - 26, guiTop + 112,0,0,26,26);
-                addGuiElement(new GuiWarningInfo(this,getGuiLocation(),false));
+                drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
+                addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
             }
         }
     }
@@ -225,7 +227,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         if (button == 0 || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
             int xAxis = x - guiLeft;
             int yAxis = y - guiTop;
-            int xOffset = tileEntity.tier == FactoryTier.CREATIVE ? 218 :tileEntity.tier == FactoryTier.ULTIMATE ? 180 : 146;
+            int xOffset = tileEntity.tier == FactoryTier.CREATIVE ? 218 : tileEntity.tier == FactoryTier.ULTIMATE ? 180 : 146;
             if (xAxis > 8 && xAxis < xOffset && yAxis > 78 && yAxis < 83) {
                 ItemStack stack = mc.player.inventory.getItemStack();
                 if (!stack.isEmpty() && stack.getItem() instanceof ItemGaugeDropper) {

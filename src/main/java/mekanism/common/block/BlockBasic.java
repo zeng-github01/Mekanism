@@ -1,9 +1,6 @@
 package mekanism.common.block;
 
 import com.google.common.cache.LoadingCache;
-import java.util.Objects;
-import java.util.UUID;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.IMekWrench;
 import mekanism.api.energy.IEnergizedItem;
@@ -25,15 +22,7 @@ import mekanism.common.item.ItemBlockBasic;
 import mekanism.common.multiblock.IMultiblock;
 import mekanism.common.multiblock.IStructuralMultiblock;
 import mekanism.common.tier.BaseTier;
-import mekanism.common.tile.TileEntityBin;
-import mekanism.common.tile.TileEntityDynamicTank;
-import mekanism.common.tile.TileEntityInductionCell;
-import mekanism.common.tile.TileEntityInductionPort;
-import mekanism.common.tile.TileEntityInductionProvider;
-import mekanism.common.tile.TileEntityMultiblock;
-import mekanism.common.tile.TileEntitySecurityDesk;
-import mekanism.common.tile.TileEntitySuperheatingElement;
-import mekanism.common.tile.TileEntityThermalEvaporationController;
+import mekanism.common.tile.*;
 import mekanism.common.tile.prefab.TileEntityBasicBlock;
 import mekanism.common.util.FluidContainerUtils;
 import mekanism.common.util.MekanismUtils;
@@ -61,15 +50,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.*;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumFacing.AxisDirection;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -88,6 +71,10 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Block class for handling multiple metal block IDs. 0:0: Osmium Block 0:1: Bronze Block 0:2: Refined Obsidian 0:3: Charcoal Block 0:4: Refined Glowstone 0:5: Steel
@@ -405,7 +392,7 @@ public abstract class BlockBasic extends BlockTileDrops {
                         world.spawnEntity(item);
                     } else {
                         world.playSound(null, pos.getX() + .5f, pos.getY() + .5f, pos.getZ() + .5f, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS,
-                              0.2F, ((world.rand.nextFloat() - world.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+                                0.2F, ((world.rand.nextFloat() - world.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
                     }
                 }
             }
@@ -849,7 +836,7 @@ public abstract class BlockBasic extends BlockTileDrops {
 
             for (AxisDirection direction : AxisDirection.values()) {
                 PatternHelper patternHelper = new PatternHelper(enumfacing.getAxisDirection() == direction ? blockpos : blockpos.offset(size.rightDir, size.getWidth() - 1),
-                      EnumFacing.getFacingFromAxis(direction, axis), EnumFacing.UP, loadingCache, size.getWidth(), size.getHeight(), 1);
+                        EnumFacing.getFacingFromAxis(direction, axis), EnumFacing.UP, loadingCache, size.getWidth(), size.getHeight(), 1);
 
                 for (int i = 0; i < size.getWidth(); ++i) {
                     for (int j = 0; j < size.getHeight(); ++j) {
@@ -867,7 +854,7 @@ public abstract class BlockBasic extends BlockTileDrops {
                 }
             }
             return new PatternHelper(enumfacing.getAxisDirection() == axisDirection ? blockpos : blockpos.offset(size.rightDir, size.getWidth() - 1),
-                  EnumFacing.getFacingFromAxis(axisDirection, axis), EnumFacing.UP, loadingCache, size.getWidth(), size.getHeight(), 1);
+                    EnumFacing.getFacingFromAxis(axisDirection, axis), EnumFacing.UP, loadingCache, size.getWidth(), size.getHeight(), 1);
         }
 
         @Override

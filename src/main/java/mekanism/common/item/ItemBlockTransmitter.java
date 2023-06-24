@@ -1,7 +1,5 @@
 package mekanism.common.item;
 
-import java.util.List;
-import javax.annotation.Nonnull;
 import mcmultipart.api.multipart.IMultipart;
 import mekanism.api.EnumColor;
 import mekanism.api.transmitters.TransmissionType;
@@ -12,12 +10,7 @@ import mekanism.common.base.ITierItem;
 import mekanism.common.block.states.BlockStateTransmitter.TransmitterType;
 import mekanism.common.integration.MekanismHooks;
 import mekanism.common.integration.multipart.MultipartMekanism;
-import mekanism.common.tier.BaseTier;
-import mekanism.common.tier.CableTier;
-import mekanism.common.tier.ConductorTier;
-import mekanism.common.tier.PipeTier;
-import mekanism.common.tier.TransporterTier;
-import mekanism.common.tier.TubeTier;
+import mekanism.common.tier.*;
 import mekanism.common.tile.transmitter.TileEntitySidedPipe;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
@@ -34,6 +27,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 public class ItemBlockTransmitter extends ItemBlockMultipartAble implements ITierItem {
 
@@ -53,7 +49,7 @@ public class ItemBlockTransmitter extends ItemBlockMultipartAble implements ITie
 
     @Override
     public boolean placeBlockAt(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, World world, @Nonnull BlockPos pos, EnumFacing side, float hitX, float hitY,
-          float hitZ, @Nonnull IBlockState state) {
+                                float hitZ, @Nonnull IBlockState state) {
         boolean place = super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, state);
         if (place) {
             TileEntitySidedPipe tileEntity = (TileEntitySidedPipe) world.getTileEntity(pos);
@@ -73,7 +69,7 @@ public class ItemBlockTransmitter extends ItemBlockMultipartAble implements ITie
             BaseTier tier = getBaseTier(itemstack);
             if (transmission == TransmissionType.ENERGY) {
                 list.add(EnumColor.INDIGO + LangUtils.localize("tooltip.capacity") + ": " + EnumColor.GREY +
-                         MekanismUtils.getEnergyDisplay(CableTier.get(tier).getCableCapacity()) + "/t");
+                        MekanismUtils.getEnergyDisplay(CableTier.get(tier).getCableCapacity()) + "/t");
             } else if (transmission == TransmissionType.FLUID) {
                 list.add(EnumColor.INDIGO + LangUtils.localize("tooltip.capacity") + ": " + EnumColor.GREY + PipeTier.get(tier).getPipeCapacity() + "mB/t");
                 list.add(EnumColor.INDIGO + LangUtils.localize("tooltip.pumpRate") + ": " + EnumColor.GREY + PipeTier.get(tier).getPipePullAmount() + "mB/t");
@@ -89,7 +85,7 @@ public class ItemBlockTransmitter extends ItemBlockMultipartAble implements ITie
                 list.add(EnumColor.INDIGO + LangUtils.localize("tooltip.heatCapacity") + ": " + EnumColor.GREY + ConductorTier.get(tier).getInverseHeatCapacity());
             }
             list.add(LangUtils.localize("tooltip.hold") + " " + EnumColor.AQUA + GameSettings.getKeyDisplayString(MekanismKeyHandler.sneakKey.getKeyCode()) +
-                     EnumColor.GREY + " " + LangUtils.localize("tooltip.forDetails"));
+                    EnumColor.GREY + " " + LangUtils.localize("tooltip.forDetails"));
         } else {
             TransmitterType type = TransmitterType.values()[itemstack.getItemDamage()];
             switch (type) {
@@ -154,7 +150,7 @@ public class ItemBlockTransmitter extends ItemBlockMultipartAble implements ITie
             name = tier.getSimpleName() + name + ".name";
             return getBaseTier(stack).getColor() + LangUtils.localize(getTranslationKey() + "." + name);
         } else {
-            return LangUtils.localize(getTranslationKey() + "." + name+ ".name");
+            return LangUtils.localize(getTranslationKey() + "." + name + ".name");
         }
     }
 

@@ -1,9 +1,10 @@
 package mekanism.common.config;
 
-import javax.annotation.Nullable;
 import mekanism.generators.common.MekanismGenerators;
 import mekanism.tools.common.MekanismTools;
 import net.minecraftforge.fml.common.Loader;
+
+import javax.annotation.Nullable;
 
 public class MekanismConfig {
 

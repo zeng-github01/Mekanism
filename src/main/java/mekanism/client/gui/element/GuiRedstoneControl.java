@@ -28,17 +28,17 @@ public class GuiRedstoneControl extends GuiTileEntityElement<TileEntity> {
         super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiRedstoneControl.png"), gui, def, tile);
         xLocation = x;
         yLocation = y;
-        time = new Timeticks(20,20,false);
+        time = new Timeticks(20, 20, false);
     }
 
     @Override
     public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + 176+ xLocation, guiHeight + 138 + yLocation, 26, 26);
+        return new Rectangle4i(guiWidth + 176 + xLocation, guiHeight + 138 + yLocation, 26, 26);
     }
 
     @Override
     protected boolean inBounds(int xAxis, int yAxis) {
-        return xAxis >= 179 + xLocation && xAxis <= 197 + xLocation && yAxis >= 142 +yLocation && yAxis <= 160 + yLocation;
+        return xAxis >= 179 + xLocation && xAxis <= 197 + xLocation && yAxis >= 142 + yLocation && yAxis <= 160 + yLocation;
     }
 
     @Override
@@ -47,21 +47,21 @@ public class GuiRedstoneControl extends GuiTileEntityElement<TileEntity> {
         guiObj.drawTexturedRect(guiWidth + 176 + xLocation, guiHeight + 138 + yLocation, 0, 0, 26, 26);
         IRedstoneControl control = (IRedstoneControl) tileEntity;
         int renderX = 26 + (18 * control.getControlType().ordinal());
-        if (control.getControlType() != RedstoneControl.PULSE){
-            guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 142 + yLocation, renderX,  0 , 18, 18);
+        if (control.getControlType() != RedstoneControl.PULSE) {
+            guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 142 + yLocation, renderX, 0, 18, 18);
         } else {
             int DynamicGUI = 0;
-            double tick = (double)time.getValue() /20F;
-            if (tick >= 0.1F && tick < 0.2F || tick >= 0.8F && tick < 0.9F){
+            double tick = (double) time.getValue() / 20F;
+            if (tick >= 0.1F && tick < 0.2F || tick >= 0.8F && tick < 0.9F) {
                 DynamicGUI += 18;
-            }else if (tick >= 0.2F && tick < 0.3F || tick >= 0.7F && tick < 0.8F){
+            } else if (tick >= 0.2F && tick < 0.3F || tick >= 0.7F && tick < 0.8F) {
                 DynamicGUI += 36;
-            }else if (tick >= 0.3F && tick < 0.4F || tick >= 0.6F && tick < 0.7F){
+            } else if (tick >= 0.3F && tick < 0.4F || tick >= 0.6F && tick < 0.7F) {
                 DynamicGUI += 54;
-            }else if (tick >= 0.4F && tick < 0.6F){
+            } else if (tick >= 0.4F && tick < 0.6F) {
                 DynamicGUI += 72;
             }
-            guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 142 + yLocation, renderX, DynamicGUI , 18, 18);
+            guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 142 + yLocation, renderX, DynamicGUI, 18, 18);
         }
         mc.renderEngine.bindTexture(defaultLocation);
     }
