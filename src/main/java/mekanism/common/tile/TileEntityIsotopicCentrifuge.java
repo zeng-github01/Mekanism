@@ -35,7 +35,6 @@ public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements I
     private static final int[] OUTPUT_SLOT = {1};
     public GasTank inputTank = new GasTank(MAX_GAS);
     public GasTank outputTank = new GasTank(MAX_GAS);
-    public int gasOutput = 256;
     public IsotopicRecipe cachedRecipe;
     public double clientEnergyUsed;
     public TileComponentEjector ejectorComponent;
@@ -72,7 +71,9 @@ public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements I
         super.onUpdate();
         if (!world.isRemote) {
             ChargeUtils.discharge(2, this);
-            TileUtils.receiveGas(inventory.get(0), inputTank);
+            if (!inventory.get(0).isEmpty() && inventory.get(0).getItem() instanceof IGasItem && ((IGasItem) inventory.get(0).getItem()).getGas(inventory.get(0)) != null && RecipeHandler.Recipe.ISOTOPIC_CENTRIFUGE.containsRecipe(((IGasItem) inventory.get(0).getItem()).getGas(inventory.get(0)).getGas())) {
+                TileUtils.receiveGas(inventory.get(0), inputTank);
+            }
             TileUtils.drawGas(inventory.get(1), outputTank);
             IsotopicRecipe recipe = getRecipe();
             if (canOperate(recipe) && getEnergy() >= energyPerTick && MekanismUtils.canFunction(this)) {
@@ -110,16 +111,16 @@ public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements I
     }
 
     public int operate(IsotopicRecipe recipe) {
-        int operations = getUpgradedUsage();
+        int operations = getUpgradedUsage(recipe);
         recipe.operate(inputTank, outputTank, operations);
         return operations;
     }
 
-    public int getUpgradedUsage() {
+    public int getUpgradedUsage(IsotopicRecipe recipe) {
         int possibleProcess = (int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED));
         possibleProcess = Math.min(Math.min(inputTank.getStored(), outputTank.getNeeded()), possibleProcess);
         possibleProcess = Math.min((int) (getEnergy() / energyPerTick), possibleProcess);
-        return possibleProcess;
+        return Math.min(inputTank.getStored() / recipe.recipeInput.ingredient.amount, possibleProcess);
     }
 
     @Override
@@ -144,16 +145,16 @@ public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements I
     @Override
     public void readFromNBT(NBTTagCompound nbtTags) {
         super.readFromNBT(nbtTags);
-        inputTank.read(nbtTags.getCompoundTag("rightTank"));
-        outputTank.read(nbtTags.getCompoundTag("centerTank"));
+        inputTank.read(nbtTags.getCompoundTag("inputTank"));
+        outputTank.read(nbtTags.getCompoundTag("outputTank"));
     }
 
     @Nonnull
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
         super.writeToNBT(nbtTags);
-        nbtTags.setTag("rightTank", inputTank.write(new NBTTagCompound()));
-        nbtTags.setTag("centerTank", outputTank.write(new NBTTagCompound()));
+        nbtTags.setTag("inputTank", inputTank.write(new NBTTagCompound()));
+        nbtTags.setTag("outputTank", outputTank.write(new NBTTagCompound()));
         return nbtTags;
     }
 
@@ -163,13 +164,18 @@ public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements I
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(0) && inputTank.canReceive(type);
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(0) && inputTank.canReceive(type) && RecipeHandler.Recipe.ISOTOPIC_CENTRIFUGE.containsRecipe(type);
     }
 
     @Override
     public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
         if (canReceiveGas(side, stack.getGas())) {
-            return inputTank.receive(stack, doTransfer);
+            int recipeAmount = RecipeHandler.Recipe.ISOTOPIC_CENTRIFUGE.get().get(new GasInput(stack)).recipeInput.ingredient.amount;
+            int receivable = inputTank.receive(stack, false);
+            int stored = inputTank.stored != null ? inputTank.stored.amount : 0;
+            int newStored = stored + receivable;
+            int amount = newStored - stored - newStored % recipeAmount;
+            return inputTank.receive(stack.copy().withAmount(amount), doTransfer);
         }
         return 0;
     }

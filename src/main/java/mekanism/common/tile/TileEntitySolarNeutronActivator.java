@@ -106,10 +106,10 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
         }
     }
 
-    public int getUpgradedUsage() {
+    public int getUpgradedUsage(SolarNeutronRecipe recipe) {
         int possibleProcess = (int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED));
         possibleProcess = Math.min(Math.min(inputTank.getStored(), outputTank.getNeeded()), possibleProcess);
-        return possibleProcess;
+        return Math.min(inputTank.getStored() / recipe.recipeInput.ingredient.amount, possibleProcess);
     }
 
     public SolarNeutronRecipe getRecipe() {
@@ -129,7 +129,7 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
     }
 
     public void operate(SolarNeutronRecipe recipe) {
-        recipe.operate(inputTank, outputTank, getUpgradedUsage());
+        recipe.operate(inputTank, outputTank, getUpgradedUsage(recipe));
     }
 
     @Override

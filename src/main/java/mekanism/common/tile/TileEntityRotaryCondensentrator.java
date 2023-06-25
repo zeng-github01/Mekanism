@@ -58,23 +58,26 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
     @Override
     public void onUpdate() {
         super.onUpdate();
-
         if (!world.isRemote) {
             ChargeUtils.discharge(4, this);
-
             if (mode == 0) {
+
                 TileUtils.receiveGas(inventory.get(1), gasTank);
                 if (FluidContainerUtils.isFluidContainer(inventory.get(2))) {
                     FluidContainerUtils.handleContainerItemFill(this, fluidTank, 2, 3);
+                    //I don't know why, mode 0 [gas-> liquid] causes the fluid to be transplanted into the tank using a slot, which retains the liquid but no quantity, and here it is repaired by setting the fluid to null when it is judged that there is fluid but the quantity is 0
+                    if (fluidTank.getFluid() != null && fluidTank.getFluidAmount() == 0){
+                        fluidTank.setFluid(null);
+                    }
                 }
 
                 if (getEnergy() >= energyPerTick && MekanismUtils.canFunction(this) && isValidGas(gasTank.getGas()) &&
-                        (fluidTank.getFluid() == null || (fluidTank.getFluid().amount < MAX_FLUID && gasEquals(gasTank.getGas(), fluidTank.getFluid())))) {
+                        (fluidTank.getFluid() == null || (fluidTank.getFluidAmount() < MAX_FLUID && gasEquals(gasTank.getGas(), fluidTank.getFluid())))) {
                     int operations = getUpgradedUsage();
                     double prev = getEnergy();
 
                     setActive(true);
-                    fluidTank.fill(new FluidStack(gasTank.getGas().getGas().getFluid(), operations), true);
+                    fluidTank.fill(new FluidStack(gasTank.stored.getGas().getFluid(), operations), true);
                     gasTank.draw(operations, true);
                     setEnergy(getEnergy() - energyPerTick * operations);
                     clientEnergyUsed = prev - getEnergy();
@@ -120,7 +123,12 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
             possibleProcess = Math.min(Math.min(fluidTank.getFluidAmount(), gasTank.getNeeded()), possibleProcess);
         }
         possibleProcess = Math.min((int) (getEnergy() / energyPerTick), possibleProcess);
-        return possibleProcess;
+        if (mode == 0) {
+            return Math.min(gasTank.getStored(),possibleProcess);
+        }else {
+            return Math.min(fluidTank.getFluidAmount(),possibleProcess);
+        }
+
     }
 
     public boolean isValidGas(GasStack g) {

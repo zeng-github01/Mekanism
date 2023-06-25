@@ -149,7 +149,7 @@ tile.MachineBlock2.ChemicalWasher.name=化学清洗机
 tile.MachineBlock2.ChemicalCrystallizer.name=化学结晶器
 tile.MachineBlock2.SeismicVibrator.name=地震振动器
 tile.MachineBlock2.PressurizedReactionChamber.name=加压反应室
-tile.MachineBlock2.PressurizedReactionChamber.short.name=PRC
+tile.MachineBlock2.PressurizedReactionChamber.short.name=加压反应室
 tile.MachineBlock2.FluidicPlenisher.name=流体装填机
 tile.MachineBlock2.Laser.name=激光
 tile.MachineBlock2.LaserAmplifier.name=激光增幅器
@@ -350,6 +350,26 @@ gas.nuclearwaste=核废水
 gas.plutonium=钚
 gas.polonium=钋
 gas.spentnuclearwaste=用尽的核废料
+#Color gas
+gas.color.black=黑色颜料
+gas.color.darkBlue=深蓝色颜料
+gas.color.darkGreen=深绿色颜料
+gas.color.darkAqua=墨蓝色颜料
+gas.color.darkRed=深红色颜料
+gas.color.purple=紫色颜料
+gas.color.orange=橙色颜料
+gas.color.grey=灰色颜料
+gas.color.darkGrey=深灰色颜料
+gas.color.indigo=靛蓝色颜料
+gas.color.brightGreen=亮绿色颜料
+gas.color.aqua=水蓝色颜料
+gas.color.red=红色颜料
+gas.color.pink=粉色颜料
+gas.color.yellow=黄色颜料
+gas.color.white=白色颜料
+gas.color.brown=棕色颜料
+gas.color.brightPink=亮粉红色颜料
+
 
 # Fluids
 fluid.liquidhydrogen=液态氢

@@ -1,5 +1,6 @@
 package mekanism.common;
 
+import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.OreGas;
@@ -91,6 +92,13 @@ public class MekanismFluids {
         GasRegistry.register(Plutonium);
         GasRegistry.register(Polonium);
         GasRegistry.register(SpentNuclearWaste);
+
+        //color gas
+        for (EnumColor Color : EnumColor.values()){
+            String name =Color.getLocalizedName();
+            Gas colorgas = new Gas(name, (int) (Color.getColor(0) * 255) << 16 | (int) (Color.getColor(1) * 255) << 8 | (int) (Color.getColor(2) * 255));
+            GasRegistry.register(colorgas);
+        }
 
         /**
          * ADD END

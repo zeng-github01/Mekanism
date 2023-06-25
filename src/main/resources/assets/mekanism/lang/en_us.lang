@@ -351,6 +351,26 @@ gas.plutonium=Plutonium
 gas.polonium=Polonium
 gas.spentnuclearwaste=Spent Nuclear Waste
 
+# Colors gas
+gas.color.black=Black Pigment
+gas.color.darkBlue=Dark Blue Pigment
+gas.color.darkGreen=Dark Green Pigment
+gas.color.darkAqua=Dark Aqua Pigment
+gas.color.darkRed=Dark Red Pigment
+gas.color.purple=Purple Pigment
+gas.color.orange=Orange Pigment
+gas.color.grey=Grey Pigment
+gas.color.darkGrey=Dark Grey Pigment
+gas.color.indigo=Indigo Pigment
+gas.color.brightGreen=Bright Green Pigment
+gas.color.aqua=Aqua Pigment
+gas.color.red=Red Pigment
+gas.color.pink=Pink Pigment
+gas.color.yellow=Yellow Pigment
+gas.color.white=White Pigment
+gas.color.brown=Brown Pigment
+gas.color.brightPink=Bright Pink Pigment
+
 # Fluids
 fluid.liquidhydrogen=Liquid Hydrogen
 fluid.liquidoxygen=Liquid Oxygen

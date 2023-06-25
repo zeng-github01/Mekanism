@@ -260,9 +260,12 @@ public class ItemBlockGasTank extends ItemBlock implements IGasItem, ISustainedI
     @Override
     public boolean canProvideGas(ItemStack itemstack, Gas type) {
         if (getBaseTier(itemstack) != BaseTier.CREATIVE
-                && (getGas(itemstack).getGas() == MekanismFluids.NuclearWaste ||  getGas(itemstack).getGas() == MekanismFluids.Plutonium ||  getGas(itemstack).getGas() == MekanismFluids.Polonium ||  getGas(itemstack).getGas() == MekanismFluids.SpentNuclearWaste)) {
+                &&(getGas(itemstack) != null && (type == null || getGas(itemstack).getGas() == MekanismFluids.NuclearWaste
+                || getGas(itemstack).getGas() == MekanismFluids.Plutonium
+                ||  getGas(itemstack).getGas() == MekanismFluids.Polonium
+                ||  getGas(itemstack).getGas() == MekanismFluids.SpentNuclearWaste))) {
             return false;
-        }else {
+        } else {
             return getGas(itemstack) != null && (type == null || getGas(itemstack).getGas() == type);
         }
     }
