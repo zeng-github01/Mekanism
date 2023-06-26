@@ -1,6 +1,8 @@
 package mekanism.client.gui.robit;
 
 import io.netty.buffer.Unpooled;
+import mekanism.client.gui.element.GuiPlayerSlot;
+import mekanism.client.gui.element.GuiSlot;
 import mekanism.common.entity.EntityRobit;
 import mekanism.common.inventory.container.robit.ContainerRobitRepair;
 import mekanism.common.util.LangUtils;
@@ -35,6 +37,10 @@ public class GuiRobitRepair extends GuiRobit implements IContainerListener {
         super(entity, new ContainerRobitRepair(inventory, entity));
         playerInventory = inventory;
         repairContainer = (ContainerRobitRepair) inventorySlots;
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation(), 7, 83));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),26,46));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),75,46));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),133,46));
     }
 
     @Override
@@ -127,15 +133,18 @@ public class GuiRobitRepair extends GuiRobit implements IContainerListener {
 
     @Override
     protected String getBackgroundImage() {
-        return "GuiRobitRepair.png";
+        return "GuiRoBitIcon.png";
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        drawTexturedModalRect(guiLeft + 53, guiTop + 49, 201, 32, 13, 13);
+        drawTexturedModalRect(guiLeft + 102, guiTop + 48, 201, 0, 22, 15);
+        drawTexturedModalRect(guiLeft + 17, guiTop + 7, 201, 46, 30, 30);
         drawTexturedModalRect(guiLeft + 59, guiTop + 20, 0, ySize + (repairContainer.getSlot(0).getHasStack() ? 0 : 16), 110, 16);
         if ((repairContainer.getSlot(0).getHasStack() || repairContainer.getSlot(1).getHasStack()) && !repairContainer.getSlot(2).getHasStack()) {
-            drawTexturedModalRect(guiLeft + 99, guiTop + 45, xSize + 18, 36, 28, 21);
+            drawTexturedModalRect(guiLeft + 102, guiTop + 48, 201, 16, 22, 15);
         }
     }
 

@@ -1,5 +1,7 @@
 package mekanism.client.gui.robit;
 
+import mekanism.client.gui.element.GuiPlayerSlot;
+import mekanism.client.gui.element.GuiSlot;
 import mekanism.common.entity.EntityRobit;
 import mekanism.common.inventory.container.robit.ContainerRobitInventory;
 import mekanism.common.util.LangUtils;
@@ -12,6 +14,12 @@ public class GuiRobitInventory extends GuiRobit {
 
     public GuiRobitInventory(InventoryPlayer inventory, EntityRobit entity) {
         super(entity, new ContainerRobitInventory(inventory, entity));
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation(), 7, 83));
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 9; x++) {
+                addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 7 + x * 18, 17 + y * 18));
+            }
+        }
     }
 
     @Override
@@ -23,7 +31,7 @@ public class GuiRobitInventory extends GuiRobit {
 
     @Override
     protected String getBackgroundImage() {
-        return "GuiRobitInventory.png";
+        return "GuiRoBitIcon.png";
     }
 
     @Override

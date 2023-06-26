@@ -1092,6 +1092,7 @@ gui.maxPlasma=Max. Plasma Temp
 gui.maxCasing=Max. Casing Temp
 gui.passiveGeneration=Passive Generation
 gui.steamProduction=Steam Production
+gui.editrate=Edit Rate
 
 # Config Gui
 mekanism.configgui.ctgy.generators.general=General Settings

@@ -2,6 +2,7 @@ package mekanism.client.gui.robit;
 
 import mekanism.client.gui.GuiMekanism;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
+import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
 import mekanism.common.entity.EntityRobit;
@@ -43,6 +44,7 @@ public class GuiRobitMain extends GuiMekanism {
         super(new ContainerRobitMain(inventory, entity));
         xSize += 25;
         robit = entity;
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER,this,getGuiLocation(),152,16).with(GuiSlot.SlotOverlay.POWER));
     }
 
     private void toggleNameChange() {
@@ -96,15 +98,15 @@ public class GuiRobitMain extends GuiMekanism {
         nameChangeField.setMaxStringLength(12);
         nameChangeField.setFocused(true);
 
-        buttonList.add(teleportHomeButton = new GuiButtonDisableableImage(2, guiLeft + 6, guiTop + 16, 18, 18, 219, 54, -18, getGuiLocation()));
-        buttonList.add(pickupButton = new GuiButtonDisableableImage(3, guiLeft + 6, guiTop + 35, 18, 18, 219, 90, -18, getGuiLocation()));
-        buttonList.add(renameButton = new GuiButtonDisableableImage(4, guiLeft + 6, guiTop + 54, 18, 18, 201, 234, -18, getGuiLocation()));
-        buttonList.add(followButton = new GuiButtonDisableableImage(5, guiLeft + 152, guiTop + 54, 18, 18, 201, 198, -18, getGuiLocation()));
-        buttonList.add(mainButton = new GuiButtonDisableableImage(6, guiLeft + 179, guiTop + 10, 18, 18, 201, 18, -18, getGuiLocation()));
-        buttonList.add(craftingButton = new GuiButtonDisableableImage(7, guiLeft + 179, guiTop + 30, 18, 18, 201, 54, -18, getGuiLocation()));
-        buttonList.add(inventoryButton = new GuiButtonDisableableImage(8, guiLeft + 179, guiTop + 50, 18, 18, 201, 90, -18, getGuiLocation()));
-        buttonList.add(smeltingButton = new GuiButtonDisableableImage(9, guiLeft + 179, guiTop + 70, 18, 18, 201, 126, -18, getGuiLocation()));
-        buttonList.add(repairButton = new GuiButtonDisableableImage(10, guiLeft + 179, guiTop + 90, 18, 18, 201, 162, -18, getGuiLocation()));
+        buttonList.add(teleportHomeButton = new GuiButtonDisableableImage(2, guiLeft + 6, guiTop + 16, 18, 18, 0, 54, -18, getGuiRoBitTab()));
+        buttonList.add(pickupButton = new GuiButtonDisableableImage(3, guiLeft + 6, guiTop + 35, 18, 18, 0, 90, -18, getGuiRoBitTab()));
+        buttonList.add(renameButton = new GuiButtonDisableableImage(4, guiLeft + 6, guiTop + 54, 18, 18, 0, 234, -18, getGuiRoBitTab()));
+        buttonList.add(followButton = new GuiButtonDisableableImage(5, guiLeft + 152, guiTop + 54, 18, 18, 0, 198, -18, getGuiRoBitTab()));
+        buttonList.add(mainButton = new GuiButtonDisableableImage(6, guiLeft + 179, guiTop + 10, 18, 18, 0, 18, -18, getGuiRoBitTab()));
+        buttonList.add(craftingButton = new GuiButtonDisableableImage(7, guiLeft + 179, guiTop + 30, 18, 18, 0, 54, -18, getGuiRoBitTab()));
+        buttonList.add(inventoryButton = new GuiButtonDisableableImage(8, guiLeft + 179, guiTop + 50, 18, 18, 0, 90, -18, getGuiRoBitTab()));
+        buttonList.add(smeltingButton = new GuiButtonDisableableImage(9, guiLeft + 179, guiTop + 70, 18, 18, 0, 126, -18, getGuiRoBitTab()));
+        buttonList.add(repairButton = new GuiButtonDisableableImage(10, guiLeft + 179, guiTop + 90, 18, 18, 0, 162, -18, getGuiRoBitTab()));
     }
 
     @Override
@@ -181,5 +183,9 @@ public class GuiRobitMain extends GuiMekanism {
     @Override
     protected ResourceLocation getGuiLocation() {
         return MekanismUtils.getResource(ResourceType.GUI, "GuiRobitMain.png");
+    }
+
+    protected ResourceLocation getGuiRoBitTab() {
+        return MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiRoBitTab.png");
     }
 }

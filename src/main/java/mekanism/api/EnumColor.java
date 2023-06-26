@@ -14,25 +14,25 @@ import java.util.Locale;
  * @author AidanBrady
  */
 public enum EnumColor implements IStringSerializable {
-    BLACK("\u00a70", "black", "Black", new int[]{64, 64, 64}, 0, TextFormatting.BLACK),
-    DARK_BLUE("\u00a71", "darkBlue", "Blue", new int[]{54, 107, 208}, 4, TextFormatting.BLUE),
-    DARK_GREEN("\u00a72", "darkGreen", "Green", new int[]{89, 193, 95}, 2, TextFormatting.GREEN),
-    DARK_AQUA("\u00a73", "darkAqua", "Cyan", new int[]{0, 243, 208}, 6, TextFormatting.AQUA),
-    DARK_RED("\u00a74", "darkRed", null, new int[]{201, 7, 31}, -1, TextFormatting.RED),
-    PURPLE("\u00a75", "purple", "Purple", new int[]{164, 96, 217}, 5, TextFormatting.LIGHT_PURPLE),
-    ORANGE("\u00a76", "orange", "Orange", new int[]{255, 161, 96}, 14, TextFormatting.GOLD),
-    GREY("\u00a77", "grey", "LightGray", new int[]{207, 207, 207}, 7, TextFormatting.GRAY),
-    DARK_GREY("\u00a78", "darkGrey", "Gray", new int[]{122, 122, 122}, 8, TextFormatting.DARK_GRAY),
-    INDIGO("\u00a79", "indigo", "LightBlue", new int[]{85, 158, 255}, 12, TextFormatting.BLUE),
-    BRIGHT_GREEN("\u00a7a", "brightGreen", "Lime", new int[]{117, 255, 137}, 10, TextFormatting.DARK_BLUE),
-    AQUA("\u00a7b", "aqua", null, new int[]{48, 255, 249}, -1, TextFormatting.AQUA),
-    RED("\u00a7c", "red", "Red", new int[]{255, 56, 60}, 1, TextFormatting.RED),
-    PINK("\u00a7d", "pink", "Magenta", new int[]{213, 94, 203}, 13, TextFormatting.LIGHT_PURPLE),
-    YELLOW("\u00a7e", "yellow", "Yellow", new int[]{255, 221, 79}, 11, TextFormatting.YELLOW),
+    BLACK("\u00a70", "black", "Black", new int[]{0, 0, 0}, 0, TextFormatting.BLACK),
+    DARK_BLUE("\u00a71", "darkBlue", "Blue", new int[]{0, 0, 170}, 4, TextFormatting.DARK_BLUE),
+    DARK_GREEN("\u00a72", "darkGreen", "Green", new int[]{0, 170, 0}, 2, TextFormatting.DARK_GREEN),
+    DARK_AQUA("\u00a73", "darkAqua", "Cyan", new int[]{0, 255, 255}, 6, TextFormatting.DARK_AQUA),
+    DARK_RED("\u00a74", "darkRed", null, new int[]{170, 0, 0}, -1, TextFormatting.DARK_RED),
+    PURPLE("\u00a75", "purple", "Purple", new int[]{170, 0, 170}, 5, TextFormatting.DARK_PURPLE),
+    ORANGE("\u00a76", "orange", "Orange", new int[]{255, 170, 0}, 14, TextFormatting.GOLD),
+    GREY("\u00a77", "grey", "LightGray", new int[]{170, 170, 170}, 7, TextFormatting.GRAY),
+    DARK_GREY("\u00a78", "darkGrey", "Gray", new int[]{85, 85, 85}, 8, TextFormatting.DARK_GRAY),
+    INDIGO("\u00a79", "indigo", "LightBlue", new int[]{85, 85, 255}, 12, TextFormatting.BLUE),
+    BRIGHT_GREEN("\u00a7a", "brightGreen", "Lime", new int[]{85, 255, 85}, 10, TextFormatting.GREEN),
+    AQUA("\u00a7b", "aqua", null, new int[]{85, 255, 255}, -1, TextFormatting.AQUA),
+    RED("\u00a7c", "red", "Red", new int[]{255, 0, 0}, 1, TextFormatting.RED),
+    PINK("\u00a7d", "pink", "Magenta", new int[]{255, 85, 255}, 13, TextFormatting.LIGHT_PURPLE),
+    YELLOW("\u00a7e", "yellow", "Yellow", new int[]{255, 255, 85}, 11, TextFormatting.YELLOW),
     WHITE("\u00a7f", "white", "White", new int[]{255, 255, 255}, 15, TextFormatting.WHITE),
     //Extras for dye-completeness
-    BROWN("\u00a76", "brown", "Brown", new int[]{161, 118, 73}, 3, TextFormatting.GOLD),
-    BRIGHT_PINK("\u00a7d", "brightPink", "Pink", new int[]{255, 188, 196}, 9, TextFormatting.LIGHT_PURPLE);
+    BROWN("\u00a76", "brown", "Brown", new int[]{150, 75, 0}, 3, TextFormatting.GOLD),
+    BRIGHT_PINK("\u00a7d", "brightPink", "Pink", new int[]{255, 192, 203}, 9, TextFormatting.LIGHT_PURPLE);
 
     public static EnumColor[] DYES = new EnumColor[]{BLACK, RED, DARK_GREEN, BROWN, DARK_BLUE, PURPLE, DARK_AQUA, GREY, DARK_GREY, BRIGHT_PINK, BRIGHT_GREEN, YELLOW,
             INDIGO, PINK, ORANGE, WHITE};

@@ -75,6 +75,7 @@ public class GuiSlot extends GuiElement {
         EXTRA(18, 18, 54, 0),
         OUTPUT(18, 18, 72, 0),
         OUTPUT_LARGE(26, 26, 90, 0),
+        NORMAL_LARGE(26, 26, 90, 26),
         OUTPUT_WIDE(42, 26, 116, 0);
 
         public final int width;

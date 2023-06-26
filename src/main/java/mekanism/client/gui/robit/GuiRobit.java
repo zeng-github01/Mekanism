@@ -35,11 +35,11 @@ public abstract class GuiRobit extends GuiMekanism {
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(mainButton = new GuiButtonDisableableImage(0, guiLeft + 179, guiTop + 10, 18, 18, 201, 18, -18, getGuiLocation()));
-        buttonList.add(craftingButton = new GuiButtonDisableableImage(1, guiLeft + 179, guiTop + 30, 18, 18, 201, 54, -18, getGuiLocation()));
-        buttonList.add(inventoryButton = new GuiButtonDisableableImage(2, guiLeft + 179, guiTop + 50, 18, 18, 201, 90, -18, getGuiLocation()));
-        buttonList.add(smeltingButton = new GuiButtonDisableableImage(3, guiLeft + 179, guiTop + 70, 18, 18, 201, 126, -18, getGuiLocation()));
-        buttonList.add(repairButton = new GuiButtonDisableableImage(4, guiLeft + 179, guiTop + 90, 18, 18, 201, 162, -18, getGuiLocation()));
+        buttonList.add(mainButton = new GuiButtonDisableableImage(0, guiLeft + 179, guiTop + 10, 18, 18, 0, 18, -18, getGuiRoBitTab()));
+        buttonList.add(craftingButton = new GuiButtonDisableableImage(1, guiLeft + 179, guiTop + 30, 18, 18, 0, 54, -18, getGuiRoBitTab()));
+        buttonList.add(inventoryButton = new GuiButtonDisableableImage(2, guiLeft + 179, guiTop + 50, 18, 18, 0, 90, -18, getGuiRoBitTab()));
+        buttonList.add(smeltingButton = new GuiButtonDisableableImage(3, guiLeft + 179, guiTop + 70, 18, 18, 0, 126, -18, getGuiRoBitTab()));
+        buttonList.add(repairButton = new GuiButtonDisableableImage(4, guiLeft + 179, guiTop + 90, 18, 18, 0, 162, -18, getGuiRoBitTab()));
     }
 
     @Override
@@ -66,6 +66,11 @@ public abstract class GuiRobit extends GuiMekanism {
     protected ResourceLocation getGuiLocation() {
         return MekanismUtils.getResource(ResourceType.GUI, getBackgroundImage());
     }
+
+    protected ResourceLocation getGuiRoBitTab() {
+        return MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiRoBitTab.png");
+    }
+
 
     protected abstract String getBackgroundImage();
 
