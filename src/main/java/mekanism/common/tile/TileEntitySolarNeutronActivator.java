@@ -71,7 +71,9 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
     @Override
     public void onUpdate() {
         if (!world.isRemote) {
-            TileUtils.receiveGas(inventory.get(0), inputTank);
+            if (!inventory.get(0).isEmpty() && inventory.get(0).getItem() instanceof IGasItem && ((IGasItem) inventory.get(0).getItem()).getGas(inventory.get(0)) != null && RecipeHandler.Recipe.SOLAR_NEUTRON_ACTIVATOR.containsRecipe(((IGasItem) inventory.get(0).getItem()).getGas(inventory.get(0)).getGas())) {
+                TileUtils.receiveGas(inventory.get(0), inputTank);
+            }
             TileUtils.drawGas(inventory.get(1), outputTank);
             SolarNeutronRecipe recipe = getRecipe();
 
@@ -191,8 +193,13 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
 
     @Override
     public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
-        if (canReceiveGas(side, stack != null ? stack.getGas() : null)) {
-            return inputTank.receive(stack, doTransfer);
+        if (canReceiveGas(side, stack.getGas())) {
+            int recipeAmount = RecipeHandler.Recipe.SOLAR_NEUTRON_ACTIVATOR.get().get(new GasInput(stack)).recipeInput.ingredient.amount;
+            int receivable = inputTank.receive(stack, false);
+            int stored = inputTank.stored != null ? inputTank.stored.amount : 0;
+            int newStored = stored + receivable;
+            int amount = newStored - stored - newStored % recipeAmount;
+            return inputTank.receive(stack.copy().withAmount(amount), doTransfer);
         }
         return 0;
     }
@@ -207,7 +214,7 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        return side == EnumFacing.DOWN && inputTank.canReceive(type);
+        return side == EnumFacing.DOWN && inputTank.canReceive(type) && RecipeHandler.Recipe.SOLAR_NEUTRON_ACTIVATOR.containsRecipe(type);
     }
 
     @Override
