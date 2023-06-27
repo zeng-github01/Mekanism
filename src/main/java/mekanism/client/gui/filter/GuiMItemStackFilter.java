@@ -3,6 +3,9 @@ package mekanism.client.gui.filter;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
+import mekanism.client.gui.element.GuiBlack;
+import mekanism.client.gui.element.GuiPlayerSlot;
+import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.content.miner.MItemStackFilter;
@@ -37,12 +40,20 @@ public class GuiMItemStackFilter extends GuiItemStackFilter<MItemStackFilter, Ti
         super(player, tile);
         origFilter = (MItemStackFilter) tileEntity.filters.get(index);
         filter = ((MItemStackFilter) tileEntity.filters.get(index)).clone();
+        addGuiElement(new GuiBlack(this,getGuiLocation(),34,19,109,41));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),11,18));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),148,18));
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
     }
 
     public GuiMItemStackFilter(EntityPlayer player, TileEntityDigitalMiner tile) {
         super(player, tile);
         isNew = true;
         filter = new MItemStackFilter();
+        addGuiElement(new GuiBlack(this,getGuiLocation(),34,19,109,41));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),11,18));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),148,18));
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
     }
 
     @Override
@@ -124,6 +135,6 @@ public class GuiMItemStackFilter extends GuiItemStackFilter<MItemStackFilter, Ti
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiMItemStackFilter.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiDigitalMinerFilter.png");
     }
 }

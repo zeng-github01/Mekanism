@@ -53,6 +53,7 @@ public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<REC
                 return tileEntity.getScaledProgress();
             }
         }, getProgressType(), this, resource, 77, 37));
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
     public ProgressBar getProgressType() {

@@ -51,6 +51,7 @@ public class GuiThermalEvaporationController extends GuiMekanismTile<TileEntityT
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 131, 50));
         addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.BIO_EVAPORATION, this, resource, 48, 19));
         addGuiElement(new GuiBlack(this, resource, 49, 20, 78, 38));
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
     @Override

@@ -74,6 +74,7 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
                 return tileEntity.mode == 1;
             }
         }, ProgressBar.LARGE_LEFT, this, resource, 62, 38));
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
     @Override

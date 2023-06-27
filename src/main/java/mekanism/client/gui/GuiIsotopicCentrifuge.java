@@ -53,6 +53,7 @@ public class GuiIsotopicCentrifuge extends GuiMekanismTile<TileEntityIsotopicCen
                 return tileEntity.getActive() ? 1 : 0;
             }
         }, ProgressBar.LARGE_RIGHT, this, resource, 62, 39));
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
 

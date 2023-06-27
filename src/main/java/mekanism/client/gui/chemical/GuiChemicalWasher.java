@@ -54,6 +54,7 @@ public class GuiChemicalWasher extends GuiMekanismTile<TileEntityChemicalWasher>
                 return tileEntity.getActive() ? 1 : 0;
             }
         }, ProgressBar.LARGE_RIGHT, this, resource, 62, 38));
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
     @Override

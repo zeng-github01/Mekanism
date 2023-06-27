@@ -59,6 +59,7 @@ public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuse
                 return tileEntity.getActive() ? 1 : 0;
             }
         }, ProgressBar.SMALL_LEFT, this, resource, 99, 38  + 11));
+        addGuiElement(new GuiPlayerSlot(this,resource,7,94));
     }
 
     @Override

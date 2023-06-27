@@ -1,6 +1,7 @@
 package mekanism.client.gui;
 
 import mekanism.client.gui.element.GuiEnergyInfo;
+import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiRedstoneControl;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
@@ -36,6 +37,7 @@ public class GuiEnergyCube extends GuiMekanismTile<TileEntityEnergyCube> {
                 LangUtils.localize("gui.maxOutput") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t"), this, resource));
         addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 16, 34).with(SlotOverlay.MINUS));
         addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 142, 34).with(SlotOverlay.PLUS));
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
     @Override

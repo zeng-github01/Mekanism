@@ -37,7 +37,7 @@ public class GuiRobitRepair extends GuiRobit implements IContainerListener {
         super(entity, new ContainerRobitRepair(inventory, entity));
         playerInventory = inventory;
         repairContainer = (ContainerRobitRepair) inventorySlots;
-        addGuiElement(new GuiPlayerSlot(this, getGuiLocation(), 7, 83));
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),26,46));
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),75,46));
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),133,46));

@@ -14,7 +14,7 @@ public class GuiRobitInventory extends GuiRobit {
 
     public GuiRobitInventory(InventoryPlayer inventory, EntityRobit entity) {
         super(entity, new ContainerRobitInventory(inventory, entity));
-        addGuiElement(new GuiPlayerSlot(this, getGuiLocation(), 7, 83));
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 9; x++) {
                 addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 7 + x * 18, 17 + y * 18));

@@ -56,6 +56,7 @@ public class GuiPRC extends GuiMekanismTile<TileEntityPRC> {
                 return tileEntity.getScaledProgress();
             }
         }, getProgressType(), this, resource, 75, 37));
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
     @Override

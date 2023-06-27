@@ -2,10 +2,7 @@ package mekanism.client.gui;
 
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.GasStack;
-import mekanism.client.gui.element.GuiBlack;
-import mekanism.client.gui.element.GuiBlackScreenframe;
-import mekanism.client.gui.element.GuiRedstoneControl;
-import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
@@ -44,7 +41,7 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
         addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 15, 46).with(SlotOverlay.MINUS));
         addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.GASTANK, this, resource, 42, 37));
         addGuiElement(new GuiBlack(this, resource, 43, 38, 116, 25));
-
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
     @Override

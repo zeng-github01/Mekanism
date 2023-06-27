@@ -2,6 +2,9 @@ package mekanism.client.gui.filter;
 
 import mekanism.api.Coord4D;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
+import mekanism.client.gui.element.GuiBlack;
+import mekanism.client.gui.element.GuiPlayerSlot;
+import mekanism.client.gui.element.GuiSlot;
 import mekanism.common.Mekanism;
 import mekanism.common.OreDictCache;
 import mekanism.common.content.miner.MModIDFilter;
@@ -25,17 +28,33 @@ public class GuiMModIDFilter extends GuiModIDFilter<MModIDFilter, TileEntityDigi
         origFilter = (MModIDFilter) tileEntity.filters.get(index);
         filter = ((MModIDFilter) tileEntity.filters.get(index)).clone();
         updateStackList(filter.getModID());
+        addGuiElement(new GuiBlack(this,getGuiLocation(),34,19,109,41));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),11,18));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),148,18));
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
     }
 
     public GuiMModIDFilter(EntityPlayer player, TileEntityDigitalMiner tile) {
         super(player, tile);
         isNew = true;
         filter = new MModIDFilter();
+        addGuiElement(new GuiBlack(this,getGuiLocation(),34,19,109,41));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),11,18));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),148,18));
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
     }
+
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiMModIDFilter.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "GuiDigitalMinerFilter.png");
+    }
+
+    //TODO
+    @Override
+    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
+        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        drawTexturedModalRect(guiLeft + 131, guiTop + 46, 228, 15,12, 14);
     }
 
     @Override

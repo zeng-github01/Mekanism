@@ -51,6 +51,7 @@ public class GuiChemicalDissolutionChamber extends GuiMekanismTile<TileEntityChe
                 return tileEntity.getScaledProgress();
             }
         }, ProgressBar.LARGE_RIGHT, this, resource, 62, 39));
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
     @Override

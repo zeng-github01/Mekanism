@@ -68,6 +68,7 @@ public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalC
         addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.CRYSTALLIZER, this, resource, 27, 13));
         addGuiElement(new GuiBlack(this, resource, 28, 14, 102, 40));
         addGuiElement(new GuiBlack(this, resource, 28 + 102, 13 + 18, 17, 23));
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
     @Override

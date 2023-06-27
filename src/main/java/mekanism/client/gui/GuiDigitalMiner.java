@@ -68,6 +68,12 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
         }, this, resource));
         addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 151, 19).with(SlotOverlay.POWER));
         addGuiElement(new GuiBlack(this, resource, 8, 20, 76, 67));
+        addGuiElement(new GuiPlayerSlot(this,resource,7,159));
+        for (int y =0; y< 3;y++) {
+            for (int x = 0; x < 9; x++) {
+                addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 7 + x * 18, 91 +  y * 18));
+            }
+        }
         ySize += 76;
     }
 

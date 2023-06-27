@@ -2,6 +2,8 @@ package mekanism.client.gui.robit;
 
 import mekanism.client.gui.GuiMekanism;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
+import mekanism.client.gui.element.GuiBlack;
+import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
@@ -45,6 +47,8 @@ public class GuiRobitMain extends GuiMekanism {
         xSize += 25;
         robit = entity;
         addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER,this,getGuiLocation(),152,16).with(GuiSlot.SlotOverlay.POWER));
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
+        addGuiElement(new GuiBlack(this,getGuiLocation(),28,17,120,54));
     }
 
     private void toggleNameChange() {

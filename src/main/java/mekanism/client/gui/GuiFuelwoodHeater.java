@@ -57,7 +57,7 @@ public class GuiFuelwoodHeater extends GuiMekanismTile<TileEntityFuelwoodHeater>
                 return (double) tileEntity.burnTime / tileEntity.maxBurnTime;
             }
         }, resource, 46, 60));
-
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
     @Override

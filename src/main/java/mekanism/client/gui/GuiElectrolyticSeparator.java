@@ -58,6 +58,7 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
                 return tileEntity.getActive() ? 1 : 0;
             }
         }, ProgressBar.BI, this, resource, 78, 29));
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
     @Override

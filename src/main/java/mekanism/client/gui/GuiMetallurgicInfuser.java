@@ -61,6 +61,7 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
                 return tileEntity.getScaledProgress();
             }
         }, ProgressBar.MEDIUM, this, resource, 70, 46));
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
     @Override

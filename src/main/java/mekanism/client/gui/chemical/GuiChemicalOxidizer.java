@@ -49,6 +49,7 @@ public class GuiChemicalOxidizer extends GuiMekanismTile<TileEntityChemicalOxidi
                 return tileEntity.getScaledProgress();
             }
         }, ProgressBar.LARGE_RIGHT, this, resource, 62, 39));
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
     @Override

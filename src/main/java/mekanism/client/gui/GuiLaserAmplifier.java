@@ -1,6 +1,7 @@
 package mekanism.client.gui;
 
 import mekanism.api.TileNetworkList;
+import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiRedstoneControl;
 import mekanism.client.gui.element.GuiWarningInfo;
 import mekanism.client.gui.element.gauge.GuiGauge.Type;
@@ -62,6 +63,7 @@ public class GuiLaserAmplifier extends GuiMekanismTile<TileEntityLaserAmplifier>
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiAmplifierTab(this, tileEntity, resource));
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
     @Override
