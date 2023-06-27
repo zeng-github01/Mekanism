@@ -43,6 +43,7 @@ public class GuiHeatGenerator extends GuiMekanismTile<TileEntityHeatGenerator> {
             String environment = UnitDisplayUtils.getDisplayShort(tileEntity.lastEnvironmentLoss, false, unit);
             return Arrays.asList(LangUtils.localize("gui.transferred") + ": " + transfer + "/t", LangUtils.localize("gui.dissipated") + ": " + environment + "/t");
         }, this, resource));
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
     }
 
     @Override

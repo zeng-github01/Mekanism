@@ -46,6 +46,7 @@ public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
                 return (double) tileEntity.bioFuelSlot.fluidStored / tileEntity.bioFuelSlot.MAX_FLUID;
             }
         }, resource, 6, 15));
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
     }
 
     @Override

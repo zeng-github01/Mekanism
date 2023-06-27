@@ -14,7 +14,6 @@ public class GuiRobitCrafting extends GuiRobit {
 
     public GuiRobitCrafting(InventoryPlayer inventory, EntityRobit entity) {
         super(entity, new ContainerRobitCrafting(inventory, entity));
-        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
         for(int x=0;x<3;x++){
             for (int y =0; y<3;y++){
                 addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),29 + x * 18, 16 + y * 18));

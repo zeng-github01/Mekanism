@@ -96,6 +96,7 @@ public class GuiIndustrialTurbine extends GuiEmbeddedGaugeTile<TileEntityTurbine
         if (tileEntity.structure != null) {
             int dump = tileEntity.structure.dumpMode.ordinal();
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png"));
+            drawTexturedModalRect(guiLeft + 159, guiTop + 72, 9, 167, 10, 10);
             drawTexturedModalRect(guiLeft + 160, guiTop + 73, 59 + 8 * dump, inBounds(xAxis, yAxis) ? 167 : 175, 8, 8);
             mc.getTextureManager().bindTexture(getGuiLocation());
             int scaledFluidLevel = tileEntity.getScaledFluidLevel(58);

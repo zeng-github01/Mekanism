@@ -89,7 +89,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
     public void initGui() {
         super.initGui();
         int left = tileEntity.tier == FactoryTier.CREATIVE ? 220 : tileEntity.tier == FactoryTier.ULTIMATE ? 182 : 148;
-        this.buttonList.add(this.infuserDumpButton = new GuiButtonDisableableImage(1, guiLeft + left, this.guiTop + 77, 21, 10, 37, 177, -10, MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png")) {
+        this.buttonList.add(this.infuserDumpButton = new GuiButtonDisableableImage(1, guiLeft + left, guiTop + 77, 21, 10, 37, 177, -10, MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png")) {
             @Override
             public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
                 if (GuiFactory.this.tileEntity.getRecipeType() == RecipeType.INFUSING || GuiFactory.this.tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED) {

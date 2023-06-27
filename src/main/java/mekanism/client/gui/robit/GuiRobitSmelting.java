@@ -14,7 +14,6 @@ public class GuiRobitSmelting extends GuiRobit {
 
     public GuiRobitSmelting(InventoryPlayer inventory, EntityRobit entity) {
         super(entity, new ContainerRobitSmelting(inventory, entity));
-        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),55,16));
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),55,52));
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL_LARGE,this,getGuiLocation(),111,30));

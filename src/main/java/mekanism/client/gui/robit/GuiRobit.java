@@ -2,6 +2,7 @@ package mekanism.client.gui.robit;
 
 import mekanism.client.gui.GuiMekanism;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
+import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.common.Mekanism;
 import mekanism.common.entity.EntityRobit;
 import mekanism.common.network.PacketRobit.RobitMessage;
@@ -29,6 +30,7 @@ public abstract class GuiRobit extends GuiMekanism {
         super(container);
         this.robit = robit;
         xSize += 25;
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
     }
 
     @Override
