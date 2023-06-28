@@ -1,7 +1,6 @@
 package mekanism.generators.common.block;
 
 import buildcraft.api.tools.IToolWrench;
-import mekanism.common.Mekanism;
 import mekanism.common.base.IActiveState;
 import mekanism.common.tile.prefab.TileEntityBasicBlock;
 import mekanism.common.tile.prefab.TileEntityElectricBlock;
@@ -41,7 +40,7 @@ public abstract class BlockReactor extends Block implements ITileEntityProvider 
         super(Material.IRON);
         setHardness(3.5F);
         setResistance(8F);
-        setCreativeTab(Mekanism.tabMekanism);
+        setCreativeTab(MekanismGenerators.tabMekanismGenerators);
     }
 
     public static BlockReactor getReactorBlock(ReactorBlock block) {

@@ -225,10 +225,11 @@ tile.EnergyCubeUltimate.name=终极能量立方
 tile.EnergyCubeCreative.name=创造能量立方
 
 # Factory Installers
-item.basicTierInstaller.name=基础工厂安装器
-item.advancedTierInstaller.name=高级工厂安装器
-item.eliteTierInstaller.name=精英工厂安装器
-item.ultimateTierInstaller.name=终极工厂安装器
+item.basicTierInstaller.name=基础升级安装器
+item.advancedTierInstaller.name=高级升级安装器
+item.eliteTierInstaller.name=精英升级安装器
+item.ultimateTierInstaller.name=终极升级安装器
+item.creativeTierInstaller.name=创造升级安装器
 
 # Dust
 item.ironDust.name=铁粉
@@ -350,25 +351,24 @@ gas.nuclearwaste=核废水
 gas.plutonium=钚
 gas.polonium=钋
 gas.spentnuclearwaste=用尽的核废料
+
 #Color gas
-gas.color.black=黑色颜料
-gas.color.darkBlue=深蓝色颜料
-gas.color.darkGreen=深绿色颜料
-gas.color.darkAqua=墨蓝色颜料
-gas.color.darkRed=深红色颜料
-gas.color.purple=紫色颜料
-gas.color.orange=橙色颜料
-gas.color.grey=灰色颜料
-gas.color.darkGrey=深灰色颜料
-gas.color.indigo=靛蓝色颜料
-gas.color.brightGreen=亮绿色颜料
-gas.color.aqua=水蓝色颜料
-gas.color.red=红色颜料
-gas.color.pink=粉色颜料
-gas.color.yellow=黄色颜料
-gas.color.white=白色颜料
-gas.color.brown=棕色颜料
-gas.color.brightPink=亮粉红色颜料
+gas.black.name=黑色颜料
+gas.red.name=红色颜料
+gas.green.name=绿色颜料
+gas.brown.name=棕色颜料
+gas.blue.name=蓝色颜料
+gas.purple.name=紫色颜料
+gas.cyan.name=青色颜料
+gas.silver.name=浅灰色颜料
+gas.gray.name=灰色颜料
+gas.pink.name=粉红色颜料
+gas.lime.name=黄绿色颜料
+gas.yellow.name=黄色颜料
+gas.lightBlue.name=浅蓝色颜料
+gas.magenta.name=品红颜料
+gas.orange.name=橙颜料
+gas.white.name=白色颜料
 
 
 # Fluids
@@ -1004,6 +1004,9 @@ reactor.depleted.desc=反应没有足够的燃料维持
 
 # Creative tab
 itemGroup.tabMekanism=通用机械
+itemGroup.tabMekanismTools=通用机械工具
+itemGroup.tabMekanismGenerators=通用机械发电机
+itemGroup.tabMekanismAddition=通用机械附加
 
 #Warning tab
 gui.no_energy=能量不足以运行

@@ -6,6 +6,7 @@ import mekanism.api.gas.GasTankInfo;
 import mekanism.api.gas.IGasHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.capabilities.Capabilities;
+import mekanism.common.config.MekanismConfig;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -29,8 +30,10 @@ public class TOPProvider implements Function<ITheOneProbe, Void>, IProbeInfoProv
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        if (mode != ProbeMode.EXTENDED) {
-            return;
+        if (!MekanismConfig.current().mekce.GasTOP.val()) {
+            if (mode != ProbeMode.EXTENDED) {
+                return;
+            }
         }
 
         final TileEntity tile = world.getTileEntity(data.getPos());
@@ -54,7 +57,7 @@ public class TOPProvider implements Function<ITheOneProbe, Void>, IProbeInfoProv
                             if (tint != 0xFFFFFFFF) {
                                 //TOP bugs out with full white background so just use default instead
                                 // The default is a slightly off white color so is better for readability
-                                style = style.filledColor(tint).alternateFilledColor(tint);
+                                style = style.filledColor(tint).alternateFilledColor(tint).borderColor(MekanismConfig.current().mekce.GasTopBarBorder.val()).numberFormat(NumberFormat.COMPACT);
                             }
                         }
                         probeInfo.progress(tank.getStored(), tank.getMaxGas(), style);

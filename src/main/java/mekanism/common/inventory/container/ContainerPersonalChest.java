@@ -1,7 +1,6 @@
 package mekanism.common.inventory.container;
 
 import invtweaks.api.container.ChestContainer;
-import mekanism.common.block.states.BlockStateMachine;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.inventory.InventoryPersonalChest;
 import mekanism.common.inventory.slot.SlotPersonalChest;
@@ -98,7 +97,7 @@ public class ContainerPersonalChest extends ContainerMekanism<TileEntityPersonal
         final ItemStack currentItem = entityplayer.getHeldItemMainhand();
         if (itemInventory instanceof InventoryPersonalChest) {
             final ItemStack stack = ((InventoryPersonalChest) itemInventory).getStack();
-            return super.canInteractWith(entityplayer) && !stack.isEmpty() && currentItem == stack && BlockStateMachine.MachineType.get(stack) == BlockStateMachine.MachineType.PERSONAL_CHEST;
+            return super.canInteractWith(entityplayer) && !stack.isEmpty() && currentItem == stack && MachineType.get(stack) == MachineType.PERSONAL_CHEST;
         }
         return false;
     }

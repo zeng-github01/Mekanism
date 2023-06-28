@@ -229,6 +229,7 @@ item.basicTierInstaller.name=Basic Tier Installer
 item.advancedTierInstaller.name=Advanced Tier Installer
 item.eliteTierInstaller.name=Elite Tier Installer
 item.ultimateTierInstaller.name=Ultimate Tier Installer
+item.creativeTierInstaller.name=Creative Tier Installer
 
 # Dust
 item.ironDust.name=Iron Dust
@@ -352,24 +353,22 @@ gas.polonium=Polonium
 gas.spentnuclearwaste=Spent Nuclear Waste
 
 # Colors gas
-gas.color.black=Black Pigment
-gas.color.darkBlue=Dark Blue Pigment
-gas.color.darkGreen=Dark Green Pigment
-gas.color.darkAqua=Dark Aqua Pigment
-gas.color.darkRed=Dark Red Pigment
-gas.color.purple=Purple Pigment
-gas.color.orange=Orange Pigment
-gas.color.grey=Grey Pigment
-gas.color.darkGrey=Dark Grey Pigment
-gas.color.indigo=Indigo Pigment
-gas.color.brightGreen=Bright Green Pigment
-gas.color.aqua=Aqua Pigment
-gas.color.red=Red Pigment
-gas.color.pink=Pink Pigment
-gas.color.yellow=Yellow Pigment
-gas.color.white=White Pigment
-gas.color.brown=Brown Pigment
-gas.color.brightPink=Bright Pink Pigment
+gas.black.name=Black Pigment
+gas.red.name=Red Pigment
+gas.green.name=Green Pigment
+gas.brown.name=Brown Pigment
+gas.blue.name=Blue Pigment
+gas.purple.name=Purple Pigment
+gas.cyan.name=Cyan Pigment
+gas.silver.name=Light Gray Pigment
+gas.gray.name=Gray Pigment
+gas.pink.name=Pink Pigment
+gas.lime.name=Lime Pigment
+gas.yellow.name=Yellow Pigment
+gas.lightBlue.name=Light Blue Pigment
+gas.magenta.name=Magenta Pigment
+gas.orange.name=Orange Pigment
+gas.white.name=White Pigment
 
 # Fluids
 fluid.liquidhydrogen=Liquid Hydrogen
@@ -1029,6 +1028,9 @@ reactor.depleted.desc=The reactor has insufficient fuel to sustain a reaction
 
 # Creative tab
 itemGroup.tabMekanism=Mekanism
+itemGroup.tabMekanismTools=Mekanism Tools
+itemGroup.tabMekanismGenerators=Mekanism Generators
+itemGroup.tabMekanismAddition=Mekanism Addition
 
 #Warning tab
 gui.no_energy=Not enough energy to operate

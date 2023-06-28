@@ -1,6 +1,7 @@
 package mekanism.common.config;
 
 import mekanism.common.config.options.BooleanOption;
+import mekanism.common.config.options.IntOption;
 
 
 public class MEKCEConfig extends BaseConfig {
@@ -31,4 +32,7 @@ public class MEKCEConfig extends BaseConfig {
 
     public final BooleanOption EmptytoCreateFluidTank = new BooleanOption(this, "mekce", "EmptytoCreateFluidTank", false, "Let Configurator clear Create Fluid Tank");
 
+    public final BooleanOption GasTOP = new BooleanOption(this,"mekce","GasTop",false,"If true, the shutdown requires The One Probe item to sneak up to display the amount inside the gas tank");
+
+    public final IntOption GasTopBarBorder = new IntOption(this,"mekce","GasTopBarBorder",0xfffee140,"Color for the Gas bar border");
 }

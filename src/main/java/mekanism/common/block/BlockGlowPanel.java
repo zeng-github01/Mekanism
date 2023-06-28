@@ -46,7 +46,7 @@ public class BlockGlowPanel extends BlockTileDrops implements ITileEntityProvide
 
     public BlockGlowPanel() {
         super(Material.PISTON);
-        setCreativeTab(Mekanism.tabMekanism);
+        setCreativeTab(Mekanism.tabMekanismAddition);
         setHardness(1F);
         setResistance(10F);
     }

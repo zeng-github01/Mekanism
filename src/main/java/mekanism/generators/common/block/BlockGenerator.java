@@ -2,7 +2,6 @@ package mekanism.generators.common.block;
 
 import mekanism.api.IMekWrench;
 import mekanism.api.energy.IEnergizedItem;
-import mekanism.common.Mekanism;
 import mekanism.common.base.*;
 import mekanism.common.block.BlockMekanismContainer;
 import mekanism.common.block.states.BlockStateFacing;
@@ -64,7 +63,7 @@ public abstract class BlockGenerator extends BlockMekanismContainer {
         super(Material.IRON);
         setHardness(3.5F);
         setResistance(8F);
-        setCreativeTab(Mekanism.tabMekanism);
+        setCreativeTab(MekanismGenerators.tabMekanismGenerators);
     }
 
     public static BlockGenerator getGeneratorBlock(GeneratorBlock block) {

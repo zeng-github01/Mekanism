@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ItemWalkieTalkie extends ItemMekanism implements IItemNetwork {
+public class ItemWalkieTalkie extends ItemMekanismAddition implements IItemNetwork {
 
     public static ModelResourceLocation OFF_MODEL = new ModelResourceLocation(new ResourceLocation(Mekanism.MODID, "WalkieTalkie"), "inventory");
 

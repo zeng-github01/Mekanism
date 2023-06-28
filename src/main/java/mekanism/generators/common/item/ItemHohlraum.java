@@ -6,7 +6,6 @@ import mekanism.api.gas.GasStack;
 import mekanism.api.gas.IGasItem;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.MekanismFluids;
-import mekanism.common.item.ItemMekanism;
 import mekanism.common.util.ItemDataUtils;
 import mekanism.common.util.LangUtils;
 import net.minecraft.client.util.ITooltipFlag;
@@ -22,7 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class ItemHohlraum extends ItemMekanism implements IGasItem {
+public class ItemHohlraum extends ItemMekanismGenerators implements IGasItem {
 
     public static final int MAX_GAS = 10;
     public static final int TRANSFER_RATE = 1;

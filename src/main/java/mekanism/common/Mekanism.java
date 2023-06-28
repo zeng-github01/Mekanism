@@ -169,6 +169,7 @@ public class Mekanism {
      * Mekanism creative tab
      */
     public static CreativeTabMekanism tabMekanism = new CreativeTabMekanism();
+    public static CreativeTabMekanismAddition tabMekanismAddition = new CreativeTabMekanismAddition();
     /**
      * List of Mekanism modules loaded
      */

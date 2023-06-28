@@ -23,7 +23,7 @@ public class MekanismBlocks {
     public static Block MachineBlock2 = BlockMachine.getBlockMachine(MACHINE_BLOCK_2);
     public static Block MachineBlock3 = BlockMachine.getBlockMachine(MACHINE_BLOCK_3);
     public static Block OreBlock = new BlockOre();
-    public static Block ObsidianTNT = new BlockObsidianTNT().setCreativeTab(Mekanism.tabMekanism);
+    public static Block ObsidianTNT = new BlockObsidianTNT().setCreativeTab(Mekanism.tabMekanismAddition);
     public static Block EnergyCube = new BlockEnergyCube();
     public static Block Transmitter = new BlockTransmitter();
     public static Block BoundingBlock = new BlockBounding();

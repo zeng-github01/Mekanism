@@ -23,7 +23,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class ItemBalloon extends ItemMekanism implements IMetaItem {
+public class ItemBalloon extends ItemMekanismAddition implements IMetaItem {
 
     public ItemBalloon() {
         super();

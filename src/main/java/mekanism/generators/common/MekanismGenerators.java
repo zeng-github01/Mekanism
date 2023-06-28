@@ -63,7 +63,7 @@ public class MekanismGenerators implements IModule {
      */
     public static Version versionNumber = new Version(999, 999, 999);
     public static final int DATA_VERSION = 1;
-
+    public static CreativeTabMekanismGenerators tabMekanismGenerators = new CreativeTabMekanismGenerators();
     public static MultiblockManager<SynchronizedTurbineData> turbineManager = new MultiblockManager<>("industrialTurbine");
 
     @SubscribeEvent

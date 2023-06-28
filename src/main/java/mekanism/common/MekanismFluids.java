@@ -4,6 +4,7 @@ import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.OreGas;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -94,9 +95,9 @@ public class MekanismFluids {
         GasRegistry.register(SpentNuclearWaste);
 
         //color gas
-        for (EnumColor Color : EnumColor.values()){
-            String name =Color.getLocalizedName();
-            Gas colorgas = new Gas(name, (int) (Color.getColor(0) * 255) << 16 | (int) (Color.getColor(1) * 255) << 8 | (int) (Color.getColor(2) * 255));
+        for (EnumDyeColor Color : EnumDyeColor.values()){
+            String name =Color.getTranslationKey() + ".name";
+            Gas colorgas = new Gas(name, Color.getColorValue());
             GasRegistry.register(colorgas);
         }
 
