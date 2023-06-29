@@ -58,7 +58,7 @@ public class TileEntityReactorController extends TileEntityReactorBlock implemen
     private int playSoundCooldown = 0;
 
     public TileEntityReactorController() {
-        super("ReactorController", 1000000000);
+        super("ReactorController", MekanismConfig.current().generators.reactorGeneratorStorage.val());
         inventory = NonNullList.withSize(1, ItemStack.EMPTY);
     }
 

@@ -1,6 +1,7 @@
 package mekanism.generators.common.content.turbine;
 
 import mekanism.api.Coord4D;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.multiblock.SynchronizedData;
 import mekanism.common.tile.TileEntityGasTank.GasMode;
 import net.minecraftforge.fluids.FluidStack;
@@ -51,7 +52,7 @@ public class SynchronizedTurbineData extends SynchronizedData<SynchronizedTurbin
     }
 
     public double getEnergyCapacity() {
-        return volume * 16000000D; //16 MJ energy capacity per volume
+        return volume * MekanismConfig.current().generators.turbineGeneratorStorage.val(); //16 MJ energy capacity per volume
     }
 
     public boolean needsRenderUpdate() {

@@ -60,6 +60,14 @@ public class GeneratorsConfig extends BaseConfig {
     public final IntSetOption windGenerationDimBlacklist = new IntSetOption(this, "generation", "WindGenerationDimBlacklist", new int[0],
             "The list of dimension ids that the Wind Generator will not generate power in.").setRequiresWorldRestart(true);
 
+    public final DoubleOption advancedSolarGeneratorStorage = new DoubleOption(this,"generation","AdvancedSolarGeneratorStorage",200000D,"Energy capable of being stored");
+    public final DoubleOption bioGeneratorStorage = new DoubleOption(this,"generation","BioGeneratorStorage",160000D,"Energy capable of being stored");
+    public final DoubleOption heatGeneratorStorage = new DoubleOption(this,"generation","HeatGeneratorStorage",160000D,"Energy capable of being stored");
+    public final DoubleOption solarGeneratorStorage = new DoubleOption(this,"generation","SolarGeneratorStorage",96000D,"Energy capable of being stored");
+    public final DoubleOption windGeneratorStorage = new DoubleOption(this,"generation","WindGeneratorStorage",96000D,"Energy capable of being stored");
+    public final DoubleOption turbineGeneratorStorage = new DoubleOption(this,"generation","TurbineGeneratorStorage",16000000D,"How much energy per volume, default 16MJ");
+    public final DoubleOption reactorGeneratorStorage = new DoubleOption(this,"generation","ReactorGeneratorStorage",1000000000D,"Energy capable of being stored");
+
     public TypeConfigManager<GeneratorType> generatorsManager = new TypeConfigManager<>(this, "generators", GeneratorType.class,
             GeneratorType::getGeneratorsForConfig, GeneratorType::getBlockName);
 

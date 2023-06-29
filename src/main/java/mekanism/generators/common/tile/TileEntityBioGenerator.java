@@ -41,7 +41,7 @@ public class TileEntityBioGenerator extends TileEntityGenerator implements IFlui
     private int currentRedstoneLevel;
 
     public TileEntityBioGenerator() {
-        super("bio", "BioGenerator", 160000, MekanismConfig.current().generators.bioGeneration.val() * 2);
+        super("bio", "BioGenerator", MekanismConfig.current().generators.bioGeneratorStorage.val(), MekanismConfig.current().generators.bioGeneration.val() * 2);
         inventory = NonNullList.withSize(2, ItemStack.EMPTY);
     }
 

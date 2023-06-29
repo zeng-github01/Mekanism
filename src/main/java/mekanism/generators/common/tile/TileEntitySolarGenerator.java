@@ -23,7 +23,7 @@ public class TileEntitySolarGenerator extends TileEntityGenerator {
     private float peakOutput;
 
     public TileEntitySolarGenerator() {
-        this("SolarGenerator", 96000, MekanismConfig.current().generators.solarGeneration.val() * 2);
+        this("SolarGenerator", MekanismConfig.current().generators.solarGeneratorStorage.val(), MekanismConfig.current().generators.solarGeneration.val() * 2);
     }
 
     public TileEntitySolarGenerator(String name, double maxEnergy, double output) {

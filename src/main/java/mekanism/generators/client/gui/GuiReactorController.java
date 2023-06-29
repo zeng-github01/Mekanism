@@ -25,6 +25,7 @@ public class GuiReactorController extends GuiMekanismTile<TileEntityReactorContr
 
     public GuiReactorController(InventoryPlayer inventory, final TileEntityReactorController tile) {
         super(tile, new ContainerReactorController(inventory, tile));
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
         if (tileEntity.isFormed()) {
             ResourceLocation resource = getGuiLocation();
             addGuiElement(new GuiEnergyInfo(() -> tileEntity.isFormed() ? Arrays.asList(
@@ -35,7 +36,6 @@ public class GuiReactorController extends GuiMekanismTile<TileEntityReactorContr
             addGuiElement(new GuiReactorTab(this, tileEntity, ReactorTab.HEAT, resource));
             addGuiElement(new GuiReactorTab(this, tileEntity, ReactorTab.FUEL, resource));
             addGuiElement(new GuiReactorTab(this, tileEntity, ReactorTab.STAT, resource));
-            addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
         }
     }
 

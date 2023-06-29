@@ -26,7 +26,7 @@ public class TileEntityWindGenerator extends TileEntityGenerator implements IBou
     private boolean isBlacklistDimension = false;
 
     public TileEntityWindGenerator() {
-        super("wind", "WindGenerator", 200000, MekanismConfig.current().generators.windGenerationMax.val() * 2);
+        super("wind", "WindGenerator", MekanismConfig.current().generators.windGeneratorStorage.val(), MekanismConfig.current().generators.windGenerationMax.val() * 2);
         inventory = NonNullList.withSize(SLOTS.length, ItemStack.EMPTY);
     }
 

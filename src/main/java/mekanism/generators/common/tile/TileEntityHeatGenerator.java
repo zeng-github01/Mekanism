@@ -44,7 +44,7 @@ public class TileEntityHeatGenerator extends TileEntityGenerator implements IFlu
     private int currentRedstoneLevel;
 
     public TileEntityHeatGenerator() {
-        super("heat", "HeatGenerator", 160000, MekanismConfig.current().generators.heatGeneration.val() * 2);
+        super("heat", "HeatGenerator", MekanismConfig.current().generators.heatGeneratorStorage.val(), MekanismConfig.current().generators.heatGeneration.val() * 2);
         inventory = NonNullList.withSize(2, ItemStack.EMPTY);
     }
 

@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 public class TileEntityAdvancedSolarGenerator extends TileEntitySolarGenerator implements IBoundingBlock, IEvaporationSolar {
 
     public TileEntityAdvancedSolarGenerator() {
-        super("AdvancedSolarGenerator", 200000, MekanismConfig.current().generators.advancedSolarGeneration.val() * 2);
+        super("AdvancedSolarGenerator", MekanismConfig.current().generators.advancedSolarGeneratorStorage.val(), MekanismConfig.current().generators.advancedSolarGeneration.val() * 2);
     }
 
     @Override
