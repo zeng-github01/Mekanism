@@ -31,8 +31,6 @@ import java.util.List;
 
 public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements ISustainedData, IBoundingBlock, IGasHandler, IUpgradeInfoHandler, ITankManager, IComparatorSupport, ISideConfiguration {
     public static final int MAX_GAS = 10000;
-    private static final int[] INPUT_SLOT = {0};
-    private static final int[] OUTPUT_SLOT = {1};
     public GasTank inputTank = new GasTank(MAX_GAS);
     public GasTank outputTank = new GasTank(MAX_GAS);
     public IsotopicRecipe cachedRecipe;
@@ -56,7 +54,7 @@ public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements I
         configComponent.addOutput(TransmissionType.GAS, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.GAS, new SideData("Gas", EnumColor.YELLOW, new int[]{0}));
         configComponent.addOutput(TransmissionType.GAS, new SideData("Output", EnumColor.INDIGO, new int[]{1}));
-        configComponent.setConfig(TransmissionType.GAS, new byte[]{1, 0, 2, 0, 0, 0});
+        configComponent.setConfig(TransmissionType.GAS, new byte[]{1, -1, 2, 0, 0, 0});
 
         configComponent.setInputConfig(TransmissionType.ENERGY);
 

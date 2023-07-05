@@ -11,6 +11,8 @@ import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.gui.element.gauge.GuiGauge.Type;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
+import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
+import mekanism.client.gui.element.tab.GuiTransporterConfigTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
 import mekanism.common.inventory.container.ContainerChemicalWasher;
 import mekanism.common.tile.TileEntityChemicalWasher;
@@ -35,6 +37,8 @@ public class GuiChemicalWasher extends GuiMekanismTile<TileEntityChemicalWasher>
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
+        addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         addGuiElement(new GuiPowerBarHorizontal(this, tileEntity, resource, 115 - 2, 74));
         addGuiElement(new GuiEnergyInfo(() -> {
             String usage = MekanismUtils.getEnergyDisplay(tileEntity.clientEnergyUsed);

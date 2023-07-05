@@ -8,6 +8,8 @@ import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
+import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
+import mekanism.client.gui.element.tab.GuiTransporterConfigTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
 import mekanism.common.inventory.container.ContainerSolarNeutronActivator;
 import mekanism.common.tile.TileEntitySolarNeutronActivator;
@@ -31,6 +33,8 @@ public class GuiSolarNeutronActivator extends GuiMekanismTile<TileEntitySolarNeu
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
+        addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 4, 55).with(SlotOverlay.MINUS));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 154, 55).with(SlotOverlay.PLUS));
         addGuiElement(new GuiGasGauge(() -> tileEntity.inputTank, GuiGauge.Type.STANDARD, this, resource, 25, 13));

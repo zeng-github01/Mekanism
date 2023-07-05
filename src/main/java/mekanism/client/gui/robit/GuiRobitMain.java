@@ -102,8 +102,8 @@ public class GuiRobitMain extends GuiMekanism {
         nameChangeField.setMaxStringLength(12);
         nameChangeField.setFocused(true);
 
-        buttonList.add(teleportHomeButton = new GuiButtonDisableableImage(2, guiLeft + 6, guiTop + 16, 18, 18, 0, 54, -18, getGuiRoBitTab()));
-        buttonList.add(pickupButton = new GuiButtonDisableableImage(3, guiLeft + 6, guiTop + 35, 18, 18, 0, 90, -18, getGuiRoBitTab()));
+        buttonList.add(teleportHomeButton = new GuiButtonDisableableImage(2, guiLeft + 6, guiTop + 16, 18, 18, 18, 54, -18, getGuiRoBitTab()));
+        buttonList.add(pickupButton = new GuiButtonDisableableImage(3, guiLeft + 6, guiTop + 35, 18, 18, 18, 90, -18, getGuiRoBitTab()));
         buttonList.add(renameButton = new GuiButtonDisableableImage(4, guiLeft + 6, guiTop + 54, 18, 18, 0, 234, -18, getGuiRoBitTab()));
         buttonList.add(followButton = new GuiButtonDisableableImage(5, guiLeft + 152, guiTop + 54, 18, 18, 0, 198, -18, getGuiRoBitTab()));
         buttonList.add(mainButton = new GuiButtonDisableableImage(6, guiLeft + 179, guiTop + 10, 18, 18, 0, 18, -18, getGuiRoBitTab()));

@@ -50,8 +50,9 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + usage + "/t",
                     LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
-        addGuiElement(new GuiFluidGauge(() -> tileEntity.fluidTank, GuiGauge.Type.STANDARD, this, resource, 133, 13));
-        addGuiElement(new GuiGasGauge(() -> tileEntity.gasTank, GuiGauge.Type.STANDARD, this, resource, 25, 13));
+
+        addGuiElement(new GuiFluidGauge(() -> tileEntity.fluidTank, tileEntity.mode == 0 ?GuiGauge.Type.STANDARD_BLUE : GuiGauge.Type.STANDARD_RED , this, resource, 133, 13));
+        addGuiElement(new GuiGasGauge(() -> tileEntity.gasTank, tileEntity.mode == 0 ? GuiGauge.Type.STANDARD_RED : GuiGauge.Type.STANDARD_BLUE , this, resource, 25, 13));
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
