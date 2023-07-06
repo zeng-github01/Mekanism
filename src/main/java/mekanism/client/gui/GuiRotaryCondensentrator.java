@@ -1,6 +1,8 @@
 package mekanism.client.gui;
 
+import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
+import mekanism.api.transmitters.TransmissionType;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
@@ -10,10 +12,13 @@ import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
+import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
+import mekanism.client.gui.element.tab.GuiTransporterConfigTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.inventory.container.ContainerRotaryCondensentrator;
+import mekanism.common.network.PacketConfigurationUpdate;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.tile.TileEntityRotaryCondensentrator;
 import mekanism.common.util.LangUtils;
@@ -39,6 +44,8 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
+        addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 4, 24).with(SlotOverlay.PLUS));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 4, 55).with(SlotOverlay.MINUS));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 154, 24));
@@ -51,8 +58,8 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
                     LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
 
-        addGuiElement(new GuiFluidGauge(() -> tileEntity.fluidTank, tileEntity.mode == 0 ?GuiGauge.Type.STANDARD_BLUE : GuiGauge.Type.STANDARD_RED , this, resource, 133, 13));
-        addGuiElement(new GuiGasGauge(() -> tileEntity.gasTank, tileEntity.mode == 0 ? GuiGauge.Type.STANDARD_RED : GuiGauge.Type.STANDARD_BLUE , this, resource, 25, 13));
+        addGuiElement(new GuiFluidGauge(() -> tileEntity.fluidTank, GuiGauge.Type.STANDARD_RED, this, resource, 133, 13));
+        addGuiElement(new GuiGasGauge(() -> tileEntity.gasTank, GuiGauge.Type.STANDARD_RED, this, resource, 25, 13));
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
@@ -75,7 +82,7 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
                 return tileEntity.mode == 1;
             }
         }, ProgressBar.LARGE_LEFT, this, resource, 62, 38));
-        addGuiElement(new GuiPlayerSlot(this,resource));
+        addGuiElement(new GuiPlayerSlot(this, resource));
     }
 
     @Override
