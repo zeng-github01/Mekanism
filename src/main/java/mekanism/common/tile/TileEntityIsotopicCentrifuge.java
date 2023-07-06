@@ -40,14 +40,14 @@ public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements I
     private int currentRedstoneLevel;
 
     public TileEntityIsotopicCentrifuge() {
-        super("machine.washer", BlockStateMachine.MachineType.ISOTOPIC_CENTRIFUGE, 4);
+        super("machine.washer", BlockStateMachine.MachineType.ISOTOPIC_CENTRIFUGE, 3);
         configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.ENERGY, TransmissionType.GAS);
 
         configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.BRIGHT_GREEN, new int[]{0}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.INDIGO, new int[]{1}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Energy", EnumColor.BRIGHT_GREEN, new int[]{2}));
-        configComponent.setConfig(TransmissionType.ITEM, new byte[]{1, 3, 2, 0, 0, 0});
+        configComponent.setConfig(TransmissionType.ITEM, new byte[]{1, -1, 2, 0, 0, 0});
         configComponent.setCanEject(TransmissionType.ITEM, false);
 
 
@@ -61,7 +61,7 @@ public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements I
         ejectorComponent = new TileComponentEjector(this);
         ejectorComponent.setOutputData(TransmissionType.GAS, configComponent.getOutputs(TransmissionType.GAS).get(2));
 
-        inventory = NonNullList.withSize(5, ItemStack.EMPTY);
+        inventory = NonNullList.withSize(4, ItemStack.EMPTY);
     }
 
     @Override

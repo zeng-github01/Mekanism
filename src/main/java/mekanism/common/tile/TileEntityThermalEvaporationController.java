@@ -198,7 +198,7 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
         }
 
         if (structured) {
-            if (FluidContainerUtils.isFluidContainer(inventory.get(0))) {
+            if (FluidContainerUtils.isFluidContainer(inventory.get(0)) && inputTank.getFluidAmount() != inputTank.getCapacity()) {
                 FluidContainerUtils.handleContainerItemEmpty(this, inputTank, 0, 1, new FluidChecker() {
                     @Override
                     public boolean isValid(Fluid f) {

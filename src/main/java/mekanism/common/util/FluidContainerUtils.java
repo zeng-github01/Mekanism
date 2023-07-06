@@ -167,9 +167,11 @@ public final class FluidContainerUtils {
     public static FluidStack handleContainerItem(TileEntity tileEntity, NonNullList<ItemStack> inventory, ContainerEditMode editMode, FluidStack stack, int needed,
                                                  int inSlot, int outSlot, final FluidChecker checker) {
         FluidStack fluidStack = FluidUtil.getFluidContained(inventory.get(inSlot));
-        if (editMode == ContainerEditMode.FILL || (editMode == ContainerEditMode.BOTH && fluidStack == null)) {
+        if ((editMode == ContainerEditMode.FILL || (editMode == ContainerEditMode.BOTH && fluidStack == null)) &&
+                (inventory.get(outSlot).isEmpty() || inventory.get(outSlot).getCount() != inventory.get(outSlot).getMaxStackSize())) {
             return handleContainerItemFill(tileEntity, inventory, stack, inSlot, outSlot);
-        } else if (editMode == ContainerEditMode.EMPTY || editMode == ContainerEditMode.BOTH) {
+        } else if ((editMode == ContainerEditMode.EMPTY || editMode == ContainerEditMode.BOTH) &&
+                (inventory.get(outSlot).isEmpty() || inventory.get(outSlot).getCount() != inventory.get(outSlot).getMaxStackSize())) {
             return handleContainerItemEmpty(tileEntity, inventory, stack, needed, inSlot, outSlot, checker);
         }
         return stack;

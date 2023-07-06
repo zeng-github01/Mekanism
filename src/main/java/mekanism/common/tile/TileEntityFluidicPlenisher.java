@@ -76,7 +76,7 @@ public class TileEntityFluidicPlenisher extends TileEntityElectricBlock implemen
     public void onUpdate() {
         if (!world.isRemote) {
             ChargeUtils.discharge(2, this);
-            if (FluidContainerUtils.isFluidContainer(inventory.get(0))) {
+            if (FluidContainerUtils.isFluidContainer(inventory.get(0)) && fluidTank.getFluidAmount() != fluidTank.getCapacity()) {
                 FluidContainerUtils.handleContainerItemEmpty(this, fluidTank, 0, 1, new FluidChecker() {
                     @Override
                     public boolean isValid(Fluid f) {
