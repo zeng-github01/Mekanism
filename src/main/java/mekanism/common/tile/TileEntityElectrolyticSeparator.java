@@ -1,9 +1,12 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
+import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.MekanismFluids;
+import mekanism.common.SideData;
 import mekanism.common.Upgrade;
 import mekanism.common.Upgrade.IUpgradeInfoHandler;
 import mekanism.common.base.*;
@@ -16,6 +19,8 @@ import mekanism.common.recipe.inputs.FluidInput;
 import mekanism.common.recipe.machines.SeparatorRecipe;
 import mekanism.common.recipe.outputs.ChemicalPairOutput;
 import mekanism.common.tile.TileEntityGasTank.GasMode;
+import mekanism.common.tile.component.TileComponentConfig;
+import mekanism.common.tile.component.TileComponentEjector;
 import mekanism.common.tile.component.TileComponentSecurity;
 import mekanism.common.tile.prefab.TileEntityMachine;
 import mekanism.common.util.*;
@@ -30,14 +35,14 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 public class TileEntityElectrolyticSeparator extends TileEntityMachine implements IFluidHandlerWrapper, IComputerIntegration, ISustainedData, IGasHandler,
-        IUpgradeInfoHandler, ITankManager, IComparatorSupport {
+        IUpgradeInfoHandler, ITankManager, IComparatorSupport, ISideConfiguration {
 
     private static final String[] methods = new String[]{"getEnergy", "getOutput", "getMaxEnergy", "getEnergyNeeded", "getWater", "getWaterNeeded", "getHydrogen",
             "getHydrogenNeeded", "getOxygen", "getOxygenNeeded"};
@@ -77,10 +82,34 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
      */
     public RedstoneControl controlType = RedstoneControl.DISABLED;
 
+    public TileComponentEjector ejectorComponent;
+    public TileComponentConfig configComponent;
+
     private int currentRedstoneLevel;
 
     public TileEntityElectrolyticSeparator() {
         super("machine.electrolyticseparator", MachineType.ELECTROLYTIC_SEPARATOR, 4);
+        configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.ENERGY, TransmissionType.GAS, TransmissionType.FLUID);
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Fluid", EnumColor.RED, new int[]{0}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.ORANGE, new int[]{1}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.AQUA, new int[]{2}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Energy", EnumColor.BRIGHT_GREEN, new int[]{3}));
+        configComponent.setConfig(TransmissionType.ITEM, new byte[]{0, 4, 1, 0, 2, 3});
+        configComponent.setCanEject(TransmissionType.ITEM, false);
+
+        configComponent.addOutput(TransmissionType.FLUID, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
+        configComponent.addOutput(TransmissionType.FLUID, new SideData("Fluid", EnumColor.RED, new int[]{0}));
+        configComponent.setConfig(TransmissionType.FLUID, new byte[]{0, 0, 1, 0, 0, 0});
+        configComponent.setCanEject(TransmissionType.FLUID, false);
+
+        configComponent.addOutput(TransmissionType.GAS, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
+        configComponent.addOutput(TransmissionType.GAS, new SideData("Gas", EnumColor.AQUA, new int[]{1}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData("Gas", EnumColor.YELLOW, new int[]{2}));
+        configComponent.setConfig(TransmissionType.GAS, new byte[]{0, 0, 0, 0, 1, 1});
+
+        configComponent.setInputConfig(TransmissionType.ENERGY);
+        ejectorComponent = new TileComponentEjector(this);
         inventory = NonNullList.withSize(5, ItemStack.EMPTY);
     }
 
@@ -122,8 +151,8 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
                 setActive(false);
             }
             int dumpAmount = 8 * (int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED));
-            handleTank(leftTank, dumpLeft, MekanismUtils.getLeft(facing), dumpAmount);
-            handleTank(rightTank, dumpRight, MekanismUtils.getRight(facing), dumpAmount);
+            handleTank(leftTank, dumpLeft, configComponent.getSidesForData(TransmissionType.GAS, facing, 1), dumpAmount);
+            handleTank(rightTank, dumpRight, configComponent.getSidesForData(TransmissionType.GAS, facing, 2), dumpAmount);
             prevEnergy = getEnergy();
 
             int newRedstoneLevel = getRedstoneLevel();
@@ -134,11 +163,13 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
         }
     }
 
-    private void handleTank(GasTank tank, GasMode mode, EnumFacing side, int dumpAmount) {
+    private void handleTank(GasTank tank, GasMode mode, Set<EnumFacing> side, int dumpAmount) {
         if (tank.getGas() != null) {
             if (mode != GasMode.DUMPING) {
-                GasStack toSend = new GasStack(tank.getGas().getGas(), Math.min(tank.getStored(), output));
-                tank.draw(GasUtils.emit(toSend, this, EnumSet.of(side)), true);
+                if (configComponent.isEjecting(TransmissionType.GAS)) {
+                    GasStack toSend = new GasStack(tank.getGas().getGas(), Math.min(tank.getStored(), output));
+                    tank.draw(GasUtils.emit(toSend, this, side), true);
+                }
             } else {
                 tank.draw(dumpAmount, true);
             }
@@ -221,12 +252,7 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
     @Nonnull
     @Override
     public int[] getSlotsForFace(@Nonnull EnumFacing side) {
-        if (side == MekanismUtils.getRight(facing)) {
-            return new int[]{3};
-        } else if (side == facing || side == facing.getOpposite()) {
-            return new int[]{1, 2};
-        }
-        return InventoryUtils.EMPTY;
+        return configComponent.getOutput(TransmissionType.ITEM, side, facing).availableSlots;
     }
 
     @Override
@@ -268,6 +294,15 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
     @Override
     public boolean canSetFacing(@Nonnull EnumFacing facing) {
         return facing != EnumFacing.DOWN && facing != EnumFacing.UP;
+    }
+
+    public GasTank getTank(EnumFacing side) {
+        if (configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1)) {
+            return leftTank;
+        } else if (configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(2)) {
+            return rightTank;
+        }
+        return null;
     }
 
     @Override
@@ -351,7 +386,11 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
 
     @Override
     public boolean canFill(EnumFacing from, @Nonnull FluidStack fluid) {
-        return Recipe.ELECTROLYTIC_SEPARATOR.containsRecipe(fluid.getFluid());
+        SideData data = configComponent.getOutput(TransmissionType.FLUID, from, facing);
+        if (data.hasSlot(0)) {
+            return FluidContainerUtils.canFill(fluidTank.getFluid(), fluid) &&  Recipe.ELECTROLYTIC_SEPARATOR.containsRecipe(fluid.getFluid());
+        }
+        return false;
     }
 
     @Override
@@ -376,10 +415,8 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
 
     @Override
     public GasStack drawGas(EnumFacing side, int amount, boolean doTransfer) {
-        if (side == MekanismUtils.getLeft(facing)) {
-            return leftTank.draw(amount, doTransfer);
-        } else if (side == MekanismUtils.getRight(facing)) {
-            return rightTank.draw(amount, doTransfer);
+        if (canDrawGas(side, null)) {
+            return getTank(side).draw(amount,doTransfer);
         }
         return null;
     }
@@ -391,12 +428,7 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
 
     @Override
     public boolean canDrawGas(EnumFacing side, Gas type) {
-        if (side == MekanismUtils.getLeft(facing)) {
-            return leftTank.getGas() != null && leftTank.getGas().getGas() == type;
-        } else if (side == MekanismUtils.getRight(facing)) {
-            return rightTank.getGas() != null && rightTank.getGas().getGas() == type;
-        }
-        return false;
+        return getTank(side) !=null && getTank(side).getGas() != null && getTank(side).stored.getGas() == type;
     }
 
     @Nonnull
@@ -427,12 +459,7 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
 
     @Override
     public boolean isCapabilityDisabled(@Nonnull Capability<?> capability, EnumFacing side) {
-        if (capability == Capabilities.GAS_HANDLER_CAPABILITY) {
-            return side != null && side != MekanismUtils.getLeft(facing) && side != MekanismUtils.getRight(facing);
-        } else if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return side != null && side != facing && side != facing.getOpposite() && side != MekanismUtils.getRight(facing);
-        }
-        return super.isCapabilityDisabled(capability, side);
+        return configComponent.isCapabilityDisabled(capability, side, facing) || super.isCapabilityDisabled(capability, side);
     }
 
     @Override
@@ -458,5 +485,20 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
     @Override
     public int getRedstoneLevel() {
         return MekanismUtils.redstoneLevelFromContents(fluidTank.getFluidAmount(), fluidTank.getCapacity());
+    }
+
+    @Override
+    public TileComponentConfig getConfig() {
+        return configComponent;
+    }
+
+    @Override
+    public EnumFacing getOrientation() {
+        return facing;
+    }
+
+    @Override
+    public TileComponentEjector getEjector() {
+        return ejectorComponent;
     }
 }
