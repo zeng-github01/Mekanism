@@ -56,7 +56,7 @@ public class GuiReactorHeat extends GuiReactorInfo {
 
             @Override
             public String getText(double level) {
-                return "Plasma: " + MekanismUtils.getTemperatureDisplay(level, TemperatureUnit.KELVIN);
+                return LangUtils.localize("gui.Plasma") +" : " + MekanismUtils.getTemperatureDisplay(level, TemperatureUnit.KELVIN);
             }
         }, Type.STANDARD, this, resource, 7, 50));
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
@@ -83,7 +83,7 @@ public class GuiReactorHeat extends GuiReactorInfo {
 
             @Override
             public String getText(double level) {
-                return "Case: " + MekanismUtils.getTemperatureDisplay(level, TemperatureUnit.KELVIN);
+                return LangUtils.localize("gui.Case")  + " : " + MekanismUtils.getTemperatureDisplay(level, TemperatureUnit.KELVIN);
             }
         }, Type.STANDARD, this, resource, 61, 50));
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {

@@ -72,7 +72,7 @@ public class ItemRobit extends ItemEnergized implements ISustainedInventory {
 
     public String getName(ItemStack itemstack) {
         String name = ItemDataUtils.getString(itemstack, "name");
-        return name.isEmpty() ? "Robit" : name;
+        return name.isEmpty() ? LangUtils.localize("item.Robit.name") : name;
     }
 
     @Override

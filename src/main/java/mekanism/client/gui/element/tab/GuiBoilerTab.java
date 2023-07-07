@@ -23,7 +23,7 @@ public class GuiBoilerTab extends GuiTabElementType<TileEntityBoilerCasing, Boil
 
     public enum BoilerTab implements TabType {
         MAIN("GuiMainTab.png", 54, "gui.main"),
-        STAT("GuiStatsTab.png", 55, "gui.stats");
+        STAT("GuiStatsTab.png", 55, "gui.boilerStats");
 
         private final String description;
         private final String path;

@@ -6,6 +6,7 @@ import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.common.Mekanism;
 import mekanism.common.entity.EntityRobit;
 import mekanism.common.network.PacketRobit.RobitMessage;
+import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.gui.GuiButton;
@@ -62,6 +63,24 @@ public abstract class GuiRobit extends GuiMekanism {
         } else if (guibutton.id == repairButton.id) {
             Mekanism.packetHandler.sendToServer(new RobitMessage(robit.getEntityId(), 25));
         }
+    }
+
+    @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        int xAxis = mouseX - guiLeft;
+        int yAxis = mouseY - guiTop;
+        if (mainButton.isMouseOver()){
+            displayTooltip(LangUtils.localize("gui.robit"), xAxis, yAxis);
+        }else if (craftingButton.isMouseOver()){
+            displayTooltip(LangUtils.localize("gui.robit.crafting"), xAxis, yAxis);
+        }else if (inventoryButton.isMouseOver()){
+            displayTooltip(LangUtils.localize("gui.robit.inventory"), xAxis, yAxis);
+        }else if (smeltingButton.isMouseOver()){
+            displayTooltip(LangUtils.localize("gui.robit.smelting"), xAxis, yAxis);
+        }else if (repairButton.isMouseOver()){
+            displayTooltip(LangUtils.localize("gui.robit.repair"), xAxis, yAxis);
+        }
+        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
     @Override

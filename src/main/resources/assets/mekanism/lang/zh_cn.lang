@@ -118,7 +118,7 @@ tile.BasicBlock2.SuperheatingElement.name=热导元件
 tile.BasicBlock2.PressureDisperser.name=分压元件
 tile.BasicBlock2.BoilerCasing.name=锅炉外壳
 tile.BasicBlock2.BoilerValve.name=锅炉阀门
-tile.BasicBlock2.SecurityDesk.name=机密桌
+tile.BasicBlock2.SecurityDesk.name=安全设置台
 
 # Machine Block
 tile.MachineBlock.EnrichmentChamber.name=富集仓
@@ -515,26 +515,26 @@ gui.heat=热量
 gui.formed=已成型
 gui.incomplete=未完成
 gui.inductionMatrix=输导矩阵
-gui.matrixStats=矩阵统计
+gui.matrixStats=矩阵数据
 gui.turbineStats=涡轮数据
 gui.boilerStats=锅炉数据
-gui.main=Main
+gui.main=主要
 gui.outputting=输出
 gui.receiving=输入
 gui.dimensions=世界
 gui.constituents=成分
-gui.cells=元件
-gui.providers=供应器
+gui.cells=单元
+gui.providers=充能器
 gui.structure=结构
 gui.dynamicTank=动态储罐
 gui.industrialTurbine=工业涡轮
 gui.thermoelectricBoiler=热力锅炉
-gui.visuals=外观
+gui.visuals=视觉显示
 gui.noEject=无法输出
 gui.undefined=未定义
-gui.owner=所有者
+gui.owner=拥有者
 gui.public=公共
-gui.private=私有
+gui.private=私人
 gui.add=添加
 gui.set=设定
 gui.freq=频率
@@ -554,7 +554,7 @@ gui.conflict=冲突
 gui.height=高度
 gui.mult=多方块
 gui.chunk=区块
-gui.vibrating=振动
+gui.vibrating=振动中
 gui.abundancy=丰度
 gui.nextItem=下一物品
 gui.lastItem=上一物品
@@ -595,7 +595,7 @@ gui.craftSingle=制作单个物品
 gui.craftAvailable=连续制作物品
 gui.fillEmpty=填充/清空格子
 gui.noOwner=无所有者
-gui.securityOverride=安全设置覆写
+gui.securityOverride=覆写安全设置
 gui.remove=移除
 gui.trustedPlayers=白名单
 gui.publicMode=公用模式
@@ -634,7 +634,7 @@ gui.configuration.strictInput=精确输入
 gui.rotaryCondensentrator.toggleOperation=切换操作
 
 gui.factory.secondaryEnergy=二次能源
-gui.factory.autoSort=自动排序
+gui.factory.autoSort=自动分类
 
 # Recipe types
 gui.factory.Smelting=熔炼
@@ -676,17 +676,18 @@ gui.materialFilter.details=正在使用材料
 gui.portableTeleporter=携带式传送器
 
 gui.robit=机器人
-gui.robit.smelting=机器人熔炼中
+gui.robit.smelting=机器人熔炼
 gui.robit.inventory=机器人物品栏
-gui.robit.crafting=机器人制造中
+gui.robit.crafting=机器人合成
+gui.robit.repair=机器人修理
 gui.robit.greeting=你好,我是
-gui.robit.toggleFollow=切换'跟随'模式
+gui.robit.toggleFollow=切换 跟随 模式
 gui.robit.rename=重命名这个机器人
 gui.robit.teleport=传送回家
-gui.robit.togglePickup=切换 '拾取掉落物'模式
+gui.robit.togglePickup=切换 捡起/丢下 模式
 gui.robit.following=正在跟随
 gui.robit.dropPickup=拾取掉落物
-gui.robit.owner=主人
+gui.robit.owner=拥有者
 
 gui.password.setPassword=设置密码
 gui.password.enterPassword=输入密码
@@ -736,8 +737,8 @@ recipe.mekanismShapeless=无序
 
 # Security types
 security.public=公用
-security.private=私有
-security.trusted=专用
+security.private=私人
+security.trusted=信任
 
 # Item and block tooltip text
 tooltip.configurator.configurate=配置
@@ -929,7 +930,7 @@ sideData.Input=输入
 sideData.Output=输出
 sideData.Energy=能量
 sideData.Gas=气体
-sideData.Extra=提取
+sideData.Extra=额外
 sideData.Infuse=注入
 sideData.Fluid=流体
 sideData.Fill=充满
@@ -950,7 +951,7 @@ control.pulse.desc=只在首次收到信号时激活
 # Container edit modes
 fluidedit.both=两者
 fluidedit.fill=填充
-fluidedit.empty=空白
+fluidedit.empty=倒空
 
 # Colors
 color.black=黑色
@@ -1072,6 +1073,8 @@ gui.maxCasing=壳体最高温度
 gui.passiveGeneration=被动产能
 gui.steamProduction=蒸汽产量
 gui.editrate=编辑速率
+gui.Plasma=等离子体
+gui.Case=外壳
 
 #########
 # TOOLS

@@ -65,7 +65,7 @@ public class GuiRobitRepair extends GuiRobit implements IContainerListener {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         GlStateManager.disableLighting();
-        fontRenderer.drawString(LangUtils.localize("container.repair"), 60, 6, 0x404040);
+            fontRenderer.drawString(LangUtils.localize("gui.robit.repair"), 60, 6, 0x404040);
 
         if (repairContainer.maximumCost > 0) {
             int k = 8453920;

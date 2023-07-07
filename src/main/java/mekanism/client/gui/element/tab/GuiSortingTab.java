@@ -46,9 +46,8 @@ public class GuiSortingTab extends GuiTileEntityElement<TileEntityFactory> {
     @Override
     public void renderForeground(int xAxis, int yAxis) {
         mc.renderEngine.bindTexture(RESOURCE);
-        //getFontRenderer().drawString(LangUtils.transOnOff(tileEntity.sorting), -12, 86, 0x0404040);
         if (inBounds(xAxis, yAxis)) {
-            displayTooltip(LangUtils.localize("gui.factory.autoSort"), xAxis, yAxis);
+            displayTooltip(LangUtils.localize("gui.factory.autoSort") + ":" + LangUtils.transOnOff(tileEntity.sorting), xAxis, yAxis);
         }
         mc.renderEngine.bindTexture(defaultLocation);
         MekanismRenderer.resetColor();

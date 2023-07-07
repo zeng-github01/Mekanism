@@ -11,7 +11,7 @@ public interface ISecurityTile {
     enum SecurityMode {
         PUBLIC("security.public", EnumColor.BRIGHT_GREEN),
         PRIVATE("security.private", EnumColor.RED),
-        TRUSTED("security.trusted", EnumColor.ORANGE);
+        TRUSTED("security.trusted", EnumColor.AQUA);
 
         private String display;
         private EnumColor color;

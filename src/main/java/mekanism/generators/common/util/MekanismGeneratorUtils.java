@@ -14,7 +14,6 @@ public class MekanismGeneratorUtils {
     public enum ResourceType {
 
         GUI("gui"),
-        GUI_ELEMENT("gui/elements"),
         SOUND("sound"),
         RENDER("render"),
         TEXTURE_BLOCKS("textures/blocks"),

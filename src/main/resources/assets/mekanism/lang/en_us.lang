@@ -691,6 +691,7 @@ gui.robit=Robit
 gui.robit.smelting=Robit Smelting
 gui.robit.inventory=Robit Inventory
 gui.robit.crafting=Robit Crafting
+gui.robit.repair=Robit repair
 gui.robit.greeting=Hi, I'm
 gui.robit.toggleFollow=Toggle 'follow' mode
 gui.robit.rename=Rename this Robit
@@ -1095,6 +1096,8 @@ gui.maxCasing=Max. Casing Temp
 gui.passiveGeneration=Passive Generation
 gui.steamProduction=Steam Production
 gui.editrate=Edit Rate
+gui.Plasma=Plasma
+gui.Case=Case
 
 # Config Gui
 mekanism.configgui.ctgy.generators.general=General Settings

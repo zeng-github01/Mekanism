@@ -34,7 +34,7 @@ public class GuiMatrixStats extends GuiMekanismTile<TileEntityInductionCasing> {
 
             @Override
             public double getLevel() {
-                return tileEntity.structure == null ? 0 : tileEntity.getLastInput() / tileEntity.structure.getTransferCap();
+                return tileEntity.getProviderCount() == 0 ? 1F : tileEntity.getLastInput() / tileEntity.getTransferCap();
             }
         }, resource, 30, 13));
         addGuiElement(new GuiRateBar(this, new IRateInfoHandler() {
@@ -45,7 +45,7 @@ public class GuiMatrixStats extends GuiMekanismTile<TileEntityInductionCasing> {
 
             @Override
             public double getLevel() {
-                return tileEntity.structure == null ? 0 : tileEntity.getLastOutput() / tileEntity.structure.getTransferCap();
+                return tileEntity.getProviderCount() == 0 ? 1F : tileEntity.getLastOutput() / tileEntity.getTransferCap();
             }
         }, resource, 38, 13));
         addGuiElement(new GuiEnergyInfo(() -> Arrays.asList(
@@ -59,11 +59,10 @@ public class GuiMatrixStats extends GuiMekanismTile<TileEntityInductionCasing> {
         String stats = LangUtils.localize("gui.matrixStats");
         fontRenderer.drawString(stats, (xSize / 2) - (fontRenderer.getStringWidth(stats) / 2), 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.input") + ":", 53, 26, 0x797979);
-        fontRenderer.drawString(MekanismUtils.getEnergyDisplay(tileEntity.getLastInput()) + "/" +
-                MekanismUtils.getEnergyDisplay(tileEntity.getTransferCap()), 59, 35, 0x404040);
+        String TransferCap = (tileEntity.getProviderCount() == 0 ? "" : "/" + MekanismUtils.getEnergyDisplay(tileEntity.getTransferCap()));
+        fontRenderer.drawString(MekanismUtils.getEnergyDisplay(tileEntity.getLastInput()) + TransferCap, 59, 35, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.output") + ":", 53, 46, 0x797979);
-        fontRenderer.drawString(MekanismUtils.getEnergyDisplay(tileEntity.getLastOutput()) + "/" +
-                MekanismUtils.getEnergyDisplay(tileEntity.getTransferCap()), 59, 55, 0x404040);
+        fontRenderer.drawString(MekanismUtils.getEnergyDisplay(tileEntity.getLastOutput()) + TransferCap, 59, 55, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.dimensions") + ":", 8, 82, 0x797979);
         if (tileEntity.structure != null) {
             fontRenderer.drawString(tileEntity.structure.volWidth + " x " + tileEntity.structure.volHeight + " x " + tileEntity.structure.volLength, 14, 91, 0x404040);

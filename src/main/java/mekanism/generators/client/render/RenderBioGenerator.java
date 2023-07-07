@@ -4,6 +4,7 @@ import mekanism.client.render.MekanismRenderer;
 import mekanism.client.render.MekanismRenderer.DisplayInteger;
 import mekanism.client.render.MekanismRenderer.GlowInfo;
 import mekanism.client.render.MekanismRenderer.Model3D;
+import mekanism.common.MekanismFluids;
 import mekanism.generators.client.model.ModelBioGenerator;
 import mekanism.generators.common.tile.TileEntityBioGenerator;
 import mekanism.generators.common.util.MekanismGeneratorUtils;
@@ -15,8 +16,10 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -33,16 +36,21 @@ public class RenderBioGenerator extends TileEntitySpecialRenderer<TileEntityBioG
         if (tileEntity.bioFuelSlot.fluidStored > 0) {
             GlStateManager.pushMatrix();
             GlStateManager.enableCull();
-            GlStateManager.enableBlend();
             GlStateManager.disableLighting();
+            GlStateManager.shadeModel(GL11.GL_SMOOTH);
+            GlStateManager.disableAlpha();
+            GlStateManager.enableBlend();
             GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
-            GlowInfo glowInfo = MekanismRenderer.enableGlow();
-            GlStateManager.translate((float) x, (float) y, (float) z);
             bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+            GlStateManager.translate((float) x, (float) y, (float) z);
+            GlowInfo glowInfo = MekanismRenderer.enableGlow();
+            MekanismRenderer.color(MekanismFluids.Biofuel);
             getDisplayList(tileEntity.facing)[tileEntity.getScaledFuelLevel(stages - 1)].render();
+            MekanismRenderer.resetColor();
             MekanismRenderer.disableGlow(glowInfo);
-            GlStateManager.enableLighting();
             GlStateManager.disableBlend();
+            GlStateManager.enableAlpha();
+            GlStateManager.enableLighting();
             GlStateManager.disableCull();
             GlStateManager.popMatrix();
         }
@@ -68,7 +76,8 @@ public class RenderBioGenerator extends TileEntitySpecialRenderer<TileEntityBioG
 
         Model3D model3D = new Model3D();
         model3D.baseBlock = Blocks.WATER;
-        model3D.setTexture(MekanismRenderer.energyIcon);
+
+        model3D.setTexture(MekanismFluids.Biofuel.getSprite());
 
         for (int i = 0; i < stages; i++) {
             displays[i] = DisplayInteger.createAndStart();

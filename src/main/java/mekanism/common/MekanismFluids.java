@@ -27,6 +27,7 @@ public class MekanismFluids {
     public static final Fluid Steam = new Fluid("steam", new ResourceLocation(Mekanism.MODID, "blocks/liquid/LiquidSteam"),
             new ResourceLocation(Mekanism.MODID, "blocks/liquid/LiquidSteam")).setGaseous(true);
 
+
     //Internal gases
     public static final Gas LiquidOsmium = new Gas("liquidosmium", 0x52bdca);
     public static final Gas Ethene = new Gas("ethene", 0xEACCF9);
@@ -52,6 +53,8 @@ public class MekanismFluids {
     public static final Gas Plutonium = new Gas("plutonium", 0x1F919C);
     public static final Gas Polonium = new Gas("polonium", 0x1B9E7B);
     public static final Gas SpentNuclearWaste = new Gas("spentnuclearwaste", 0x262015);
+
+    public static final Gas Biofuel = new Gas("Biofuel",0x9dd221);
     /**
      * ADD END
      */
@@ -101,6 +104,7 @@ public class MekanismFluids {
             GasRegistry.register(colorgas);
         }
 
+        GasRegistry.register(Biofuel).registerFluid().setVisible(false);
         /**
          * ADD END
          */

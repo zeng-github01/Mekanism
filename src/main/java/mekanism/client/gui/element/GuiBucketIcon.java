@@ -59,8 +59,8 @@ public class GuiBucketIcon extends GuiElement {
 
     public enum IconType {
         BUCKET(12, 13, 0, 1),
-        DYNAMICTANK(26, 57, 0, 16),
-        INDUCTIONMATRIX(26, 57, 0, 75);
+        INDUCTIONMATRIX(26, 57, 0, 16),
+        DYNAMICTANK(26, 57, 0, 75);
 
         public final int width;
         public final int height;
