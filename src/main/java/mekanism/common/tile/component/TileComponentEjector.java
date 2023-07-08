@@ -148,7 +148,7 @@ public class TileComponentEjector implements ITileComponent {
                 ejectMap = null;
             }
         }
-        tickDelay = 10;
+        tickDelay = 5;
     }
 
     private TransitRequest getEjectItemMap(SideData data) {

@@ -133,8 +133,8 @@ public class RecipeRegistryHelper {
             return;
         }
         addRecipes(registry, Recipe.CHEMICAL_INFUSER, ChemicalInfuserRecipeWrapper::new);
-        registry.addRecipeClickArea(GuiChemicalInfuser.class, 47, 39, 28, 8, Recipe.CHEMICAL_INFUSER.getJEICategory());
-        registry.addRecipeClickArea(GuiChemicalInfuser.class, 101, 39, 28, 8, Recipe.CHEMICAL_INFUSER.getJEICategory());
+        registry.addRecipeClickArea(GuiChemicalInfuser.class, 47, 39 + 11, 28, 8, Recipe.CHEMICAL_INFUSER.getJEICategory());
+        registry.addRecipeClickArea(GuiChemicalInfuser.class, 101, 39 + 11, 28, 8, Recipe.CHEMICAL_INFUSER.getJEICategory());
         registerRecipeItem(registry, MachineType.CHEMICAL_INFUSER, Recipe.CHEMICAL_INFUSER);
     }
 
@@ -279,7 +279,7 @@ public class RecipeRegistryHelper {
 
 
     /**
-     *  ADD START
+     * ADD START
      */
     public static void registerIsotopicCentrifuge(IModRegistry registry) {
         if (!MachineType.ISOTOPIC_CENTRIFUGE.isEnabled()) {

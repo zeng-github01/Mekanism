@@ -961,6 +961,12 @@ sideData.Fill=Fill
 sideData.Empty=Empty
 sideData.Charge=Charge
 sideData.Discharge=Discharge
+sideData.back=Back
+sideData.bottom=Bottom
+sideData.front=Front
+sideData.left=Left
+sideData.right=Right
+sideData.top=Top
 
 # Redstone control
 control.disabled=Disabled

@@ -937,6 +937,12 @@ sideData.Fill=充满
 sideData.Empty=排空
 sideData.Charge=充能
 sideData.Discharge=反充能
+sideData.back=后面
+sideData.bottom=底部
+sideData.front=前面
+sideData.left=左面
+sideData.right=右面
+sideData.top=顶部
 
 # Redstone control
 control.disabled=禁止

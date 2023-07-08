@@ -140,7 +140,12 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
                 SideData data = button.getSideData();
                 if (data != TileComponentConfig.EMPTY) {
                     EnumColor color = button.getColor();
-                    displayTooltip(color != null ? color.getColoredName() : LangUtils.localize("gui.none"), xAxis, yAxis);
+                    String FacingName = button.getSlotPosMapIndex() == 0 ? LangUtils.localize("sideData.bottom") :
+                            button.getSlotPosMapIndex() == 1 ? LangUtils.localize("sideData.top") :
+                                    button.getSlotPosMapIndex() == 2 ? LangUtils.localize("sideData.front") :
+                                            button.getSlotPosMapIndex() == 3 ? LangUtils.localize("sideData.back") :
+                                                    button.getSlotPosMapIndex() == 4 ? LangUtils.localize("sideData.left") : LangUtils.localize("sideData.right");
+                    displayTooltip(color != null ? color.getColoredName() + " (" + FacingName + ")" : LangUtils.localize("gui.none"), xAxis, yAxis);
                 }
                 break;
             }
