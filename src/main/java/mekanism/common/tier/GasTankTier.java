@@ -6,10 +6,10 @@ import net.minecraft.util.IStringSerializable;
 import java.util.Locale;
 
 public enum GasTankTier implements ITier, IStringSerializable {
-    BASIC(64000, 256),
-    ADVANCED(128000, 512),
-    ELITE(256000, 1028),
-    ULTIMATE(512000, 2056),
+    BASIC(64000, 1000),
+    ADVANCED(256000, 16000),
+    ELITE(1024000, 128000),
+    ULTIMATE(8192000, 512000),
     CREATIVE(Integer.MAX_VALUE, Integer.MAX_VALUE / 2);
 
     private final int baseStorage;

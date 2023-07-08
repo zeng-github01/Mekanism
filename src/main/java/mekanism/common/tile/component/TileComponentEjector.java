@@ -12,6 +12,7 @@ import mekanism.common.base.ISideConfiguration;
 import mekanism.common.base.ITankManager;
 import mekanism.common.base.ITileComponent;
 import mekanism.common.capabilities.Capabilities;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.content.transporter.TransitRequest;
 import mekanism.common.content.transporter.TransitRequest.TransitResponse;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
@@ -27,8 +28,8 @@ import java.util.*;
 
 public class TileComponentEjector implements ITileComponent {
 
-    private static final int GAS_OUTPUT = 256;
-    private static final int FLUID_OUTPUT = 256;
+    private static final int GAS_OUTPUT = MekanismConfig.current().mekce.GasEjectionSpeed.val();
+    private static final int FLUID_OUTPUT = MekanismConfig.current().mekce.FluidEjectionSpeed.val();
     private TileEntityContainerBlock tileEntity;
     private boolean strictInput;
     private EnumColor outputColor;
@@ -57,7 +58,7 @@ public class TileComponentEjector implements ITileComponent {
     @Override
     public void tick() {
         if (!tileEntity.getWorld().isRemote) {
-            if (tickDelay == 0) {
+            if (tickDelay == 0 || MekanismConfig.current().mekce.ItemsEjectWithoutDelay.val()) {
                 outputItems();
             } else {
                 tickDelay--;
@@ -84,7 +85,7 @@ public class TileComponentEjector implements ITileComponent {
 
     private void ejectGas(Set<EnumFacing> outputSides, GasTank tank) {
         if (tank.getGas() != null && tank.getStored() > 0) {
-            GasStack toEmit = tank.getGas().copy().withAmount(Math.min(GAS_OUTPUT, tank.getStored()));
+            GasStack toEmit = tank.getGas().copy().withAmount(Math.min(MekanismConfig.current().mekce.GasEjectionSettings.val() ? tank.getMaxGas() : GAS_OUTPUT, tank.getStored()));
             int emit = GasUtils.emit(toEmit, tileEntity, outputSides);
             tank.draw(emit, true);
         }
@@ -92,7 +93,7 @@ public class TileComponentEjector implements ITileComponent {
 
     private void ejectFluid(Set<EnumFacing> outputSides, FluidTank tank) {
         if (tank.getFluid() != null && tank.getFluidAmount() > 0) {
-            FluidStack toEmit = PipeUtils.copy(tank.getFluid(), Math.min(FLUID_OUTPUT, tank.getFluidAmount()));
+            FluidStack toEmit = PipeUtils.copy(tank.getFluid(), Math.min(MekanismConfig.current().mekce.FluidEjectionSettings.val() ? tank.getCapacity() : FLUID_OUTPUT, tank.getFluidAmount()));
             int emit = PipeUtils.emit(outputSides, toEmit, tileEntity);
             tank.drain(emit, true);
         }
@@ -148,7 +149,9 @@ public class TileComponentEjector implements ITileComponent {
                 ejectMap = null;
             }
         }
-        tickDelay = 5;
+        if (!MekanismConfig.current().mekce.ItemsEjectWithoutDelay.val()) {
+            tickDelay = MekanismConfig.current().mekce.ItemEjectionDelay.val();
+        }
     }
 
     private TransitRequest getEjectItemMap(SideData data) {

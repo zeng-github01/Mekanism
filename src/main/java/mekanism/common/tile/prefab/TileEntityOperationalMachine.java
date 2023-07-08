@@ -26,7 +26,11 @@ public abstract class TileEntityOperationalMachine extends TileEntityMachine imp
     }
 
     public double getScaledProgress() {
-        return (double) operatingTicks / (double) ticksRequired;
+        if (operatingTicks / ticksRequired > 1){ //Used to handle insertion speed upgrade after GUI display incorrectly
+            return 1F;
+        }else {
+            return (double) operatingTicks / (double) ticksRequired;
+        }
     }
 
     @Override

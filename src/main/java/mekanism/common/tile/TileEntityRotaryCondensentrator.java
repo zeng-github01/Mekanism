@@ -65,10 +65,10 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Energy", EnumColor.BRIGHT_GREEN, new int[]{4}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Fluid", EnumColor.DARK_AQUA, new int[]{2, 3}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Gas", EnumColor.YELLOW, new int[]{0, 1}));
-        configComponent.setConfig(TransmissionType.ITEM, new byte[]{0, 1, 0, 0, 3, 2});
+        configComponent.setConfig(TransmissionType.ITEM, new byte[]{2, 1, 2, 2, 3, 2});
 
         configComponent.addOutput(TransmissionType.FLUID, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.FLUID, new SideData("Fluid", EnumColor.RED, new int[]{1}));
+        configComponent.addOutput(TransmissionType.FLUID, new SideData("Fluid", EnumColor.DARK_AQUA, new int[]{1}));
         configComponent.setConfig(TransmissionType.FLUID, new byte[]{0, 0, 0, 0, 0, 1});
 
         configComponent.addOutput(TransmissionType.GAS, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
@@ -80,6 +80,7 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
         inventory = NonNullList.withSize(6, ItemStack.EMPTY);
 
         ejectorComponent = new TileComponentEjector(this);
+
         ejectorComponent.setOutputData(TransmissionType.GAS, configComponent.getOutputs(TransmissionType.GAS).get(1));
         ejectorComponent.setOutputData(TransmissionType.FLUID, configComponent.getOutputs(TransmissionType.FLUID).get(1));
     }

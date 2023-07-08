@@ -1,10 +1,7 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import mekanism.api.Chunk3D;
-import mekanism.api.Coord4D;
-import mekanism.api.IHeatTransfer;
-import mekanism.api.TileNetworkList;
+import mekanism.api.*;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.api.gas.GasTankInfo;
@@ -12,6 +9,7 @@ import mekanism.api.gas.IGasHandler;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.Mekanism;
 import mekanism.common.PacketHandler;
+import mekanism.common.SideData;
 import mekanism.common.SideData.IOState;
 import mekanism.common.Upgrade;
 import mekanism.common.base.*;
@@ -73,7 +71,10 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
             if (type != TransmissionType.HEAT) {
                 configComponent.setIOConfig(type);
             } else {
-                configComponent.setInputConfig(type);
+                configComponent.addOutput(TransmissionType.HEAT, new SideData("None", EnumColor.GREY, IOState.OFF));
+                configComponent.addOutput(TransmissionType.HEAT, new SideData("Input_Output", EnumColor.PURPLE, IOState.INPUT));
+                configComponent.fillConfig(TransmissionType.HEAT,1);
+                configComponent.setCanEject(TransmissionType.HEAT,false);
             }
         }
 

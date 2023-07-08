@@ -65,11 +65,11 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
         configComponent = new TileComponentConfig(this, TransmissionType.GAS, TransmissionType.ITEM);
 
         configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Fill", EnumColor.DARK_BLUE, new int[]{0}));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Empty", EnumColor.DARK_RED, new int[]{1}));
-
-        configComponent.setConfig(TransmissionType.ITEM, new byte[]{2, 1, 0, 0, 0, 0});
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.RED, new int[]{0}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.INDIGO, new int[]{1}));
+        configComponent.setConfig(TransmissionType.ITEM, new byte[]{1, 1, 2, 1, 1, 1});
         configComponent.setCanEject(TransmissionType.ITEM, false);
+
         configComponent.setIOConfig(TransmissionType.GAS);
         configComponent.setEjecting(TransmissionType.GAS, true);
 

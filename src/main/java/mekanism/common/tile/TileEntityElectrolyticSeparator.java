@@ -91,21 +91,21 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
         super("machine.electrolyticseparator", MachineType.ELECTROLYTIC_SEPARATOR, 4);
         configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.ENERGY, TransmissionType.GAS, TransmissionType.FLUID);
         configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Fluid", EnumColor.RED, new int[]{0}));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.ORANGE, new int[]{1}));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.AQUA, new int[]{2}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.RED, new int[]{0}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Output1", EnumColor.INDIGO, new int[]{1}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Output2", EnumColor.AQUA, new int[]{2}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Energy", EnumColor.BRIGHT_GREEN, new int[]{3}));
-        configComponent.setConfig(TransmissionType.ITEM, new byte[]{0, 4, 1, 0, 2, 3});
+        configComponent.setConfig(TransmissionType.ITEM, new byte[]{0, 0, 1, 4, 2, 3});
         configComponent.setCanEject(TransmissionType.ITEM, false);
 
         configComponent.addOutput(TransmissionType.FLUID, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.FLUID, new SideData("Fluid", EnumColor.RED, new int[]{0}));
+        configComponent.addOutput(TransmissionType.FLUID, new SideData("Input", EnumColor.RED, new int[]{0}));
         configComponent.setConfig(TransmissionType.FLUID, new byte[]{0, 0, 1, 0, 0, 0});
         configComponent.setCanEject(TransmissionType.FLUID, false);
 
         configComponent.addOutput(TransmissionType.GAS, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.GAS, new SideData("Gas", EnumColor.AQUA, new int[]{1}));
-        configComponent.addOutput(TransmissionType.GAS, new SideData("Gas", EnumColor.YELLOW, new int[]{2}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData("Output1", EnumColor.INDIGO, new int[]{1}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData("Output2", EnumColor.AQUA, new int[]{2}));
         configComponent.setConfig(TransmissionType.GAS, new byte[]{0, 0, 0, 0, 1, 1});
 
         configComponent.setInputConfig(TransmissionType.ENERGY);

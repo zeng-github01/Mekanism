@@ -927,7 +927,12 @@ tooltip.TinOre=一种轻盈，但牢固的导电材料，比铜要略微稀有�
 # Side data
 sideData.None=无
 sideData.Input=输入
+sideData.Input1=输入（1）
+sideData.Input2=输入（2）
 sideData.Output=输出
+sideData.Output1=输出（1）
+sideData.Output2=输出（2）
+sideData.Input_Output=输入/输出
 sideData.Energy=能量
 sideData.Gas=气体
 sideData.Extra=额外

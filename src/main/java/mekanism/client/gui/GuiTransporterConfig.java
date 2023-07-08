@@ -145,7 +145,7 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
                                     button.getSlotPosMapIndex() == 2 ? LangUtils.localize("sideData.front") :
                                             button.getSlotPosMapIndex() == 3 ? LangUtils.localize("sideData.back") :
                                                     button.getSlotPosMapIndex() == 4 ? LangUtils.localize("sideData.left") : LangUtils.localize("sideData.right");
-                    displayTooltip(color != null ? color.getColoredName() + " (" + FacingName + ")" : LangUtils.localize("gui.none"), xAxis, yAxis);
+                    displayTooltip(color != null ? color.getColoredName() + EnumColor.WHITE +" (" + FacingName + ")" : LangUtils.localize("gui.none"), xAxis, yAxis);
                 }
                 break;
             }

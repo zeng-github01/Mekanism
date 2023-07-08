@@ -951,7 +951,12 @@ tooltip.TinOre=A lightweight, yet sturdy, conductive material that is found slig
 # Side data
 sideData.None=None
 sideData.Input=Input
+sideData.Input1=Input(1)
+sideData.Input2=Input(2)
 sideData.Output=Output
+sideData.Output1=Output(1)
+sideData.Output2=Output(2)
+sideData.Input_Output=Input/Output
 sideData.Energy=Energy
 sideData.Gas=Gas
 sideData.Extra=Extra

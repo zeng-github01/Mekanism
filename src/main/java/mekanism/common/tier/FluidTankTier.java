@@ -3,10 +3,10 @@ package mekanism.common.tier;
 import mekanism.common.config.MekanismConfig;
 
 public enum FluidTankTier implements ITier {
-    BASIC(14000, 400),
-    ADVANCED(28000, 800),
-    ELITE(56000, 1600),
-    ULTIMATE(112000, 3200),
+    BASIC(32000, 1000),
+    ADVANCED(64000, 4000),
+    ELITE(128000, 16000),
+    ULTIMATE(256000, 64000),
     CREATIVE(Integer.MAX_VALUE, Integer.MAX_VALUE / 2);
 
     private final int baseStorage;

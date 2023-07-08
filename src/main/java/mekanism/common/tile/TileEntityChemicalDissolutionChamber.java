@@ -56,11 +56,11 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityMachine impl
         configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.GAS, TransmissionType.ENERGY);
 
         configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Gas", EnumColor.YELLOW, new int[]{0}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Extra", EnumColor.YELLOW, new int[]{0}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.RED, new int[]{1}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.AQUA, new int[]{2}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Energy", EnumColor.BRIGHT_GREEN, new int[]{3}));
-        configComponent.setConfig(TransmissionType.ITEM, new byte[]{2, 2, 1, 2, 4, 3});
+        configComponent.setConfig(TransmissionType.ITEM, new byte[]{1, 2, 2, 4, 2, 3});
 
         configComponent.addOutput(TransmissionType.GAS, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.GAS, new SideData("Input", EnumColor.YELLOW, new int[]{0}));

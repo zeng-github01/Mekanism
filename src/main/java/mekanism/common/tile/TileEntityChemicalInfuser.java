@@ -49,16 +49,16 @@ public class TileEntityChemicalInfuser extends TileEntityMachine implements IGas
         super("machine.cheminfuser", MachineType.CHEMICAL_INFUSER, 4);
         configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.GAS, TransmissionType.ENERGY);
         configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.RED, new int[]{0}));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.YELLOW, new int[]{1}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Input1", EnumColor.RED, new int[]{0}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Input2", EnumColor.ORANGE, new int[]{1}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.INDIGO, new int[]{2}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Energy", EnumColor.BRIGHT_GREEN, new int[]{3}));
-        configComponent.setConfig(TransmissionType.ITEM, new byte[]{0, 4, 3, 0, 1, 2});
+        configComponent.setConfig(TransmissionType.ITEM, new byte[]{0, 0, 3, 4, 1, 2});
         configComponent.setCanEject(TransmissionType.ITEM, false);
 
         configComponent.addOutput(TransmissionType.GAS, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.GAS, new SideData("Input", EnumColor.RED, new int[]{0}));
-        configComponent.addOutput(TransmissionType.GAS, new SideData("Input", EnumColor.YELLOW, new int[]{1}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData("Input1", EnumColor.RED, new int[]{0}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData("Input2", EnumColor.ORANGE, new int[]{1}));
         configComponent.addOutput(TransmissionType.GAS, new SideData("Output", EnumColor.INDIGO, new int[]{2}));
         configComponent.setConfig(TransmissionType.GAS, new byte[]{0, 0, 3, 0, 1, 2});
 

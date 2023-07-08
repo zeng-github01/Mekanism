@@ -37,4 +37,16 @@ public class MEKCEConfig extends BaseConfig {
     public final IntOption GasTopBarBorder = new IntOption(this, "mekce", "GasTopBarBorder", 0xfffee140, "Color for the Gas bar border");
 
     public final BooleanOption RotaryCondensentratorAuto = new BooleanOption(this, "mekce", "RotaryCondensentratorAuto", false, "Turn off automatic change gas and fluid ejection mode in Rotary Condensentrator?");
+
+    public final IntOption ItemEjectionDelay = new IntOption(this, "mekce", "ItemEjectionDelay", 10, "Every how many ticks pop up an item, the default is 10 ticks", 1, Integer.MAX_VALUE);
+
+    public final BooleanOption ItemsEjectWithoutDelay = new BooleanOption(this, "mekce", "ItemsEjectWithoutDelay", false, "If true, the Item Ejection Delay is ignored");
+
+    public final IntOption GasEjectionSpeed = new IntOption(this, "mekce", "GasEjectionSpeed", 256, "The speed at which the machine ejects gas", 1, Integer.MAX_VALUE);
+
+    public final IntOption FluidEjectionSpeed = new IntOption(this, "mekce", "FluidEjectionSpeed", 256, "The speed at which the machine ejects fluid", 1, Integer.MAX_VALUE);
+
+    public final BooleanOption GasEjectionSettings = new BooleanOption(this, "mekce", "GasEjectionSettings", false, "If true, the gas ejection is based on the number of tanks in the tank");
+
+    public final BooleanOption FluidEjectionSettings = new BooleanOption(this, "mekce", "FluidEjectionSettings", false, "If true, the fluid ejection is based on the number of tanks in the tank");
 }
