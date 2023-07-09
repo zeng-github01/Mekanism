@@ -9,6 +9,8 @@ import mekanism.client.gui.element.GuiRedstoneControl;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
+import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
+import mekanism.client.gui.element.tab.GuiTransporterConfigTab;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
@@ -55,6 +57,8 @@ public class GuiOredictionificator extends GuiMekanismTile<TileEntityOredictioni
         }, ProgressBar.LARGE_RIGHT, this, resource, 62, 118));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 25, 114));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 133, 114));
+        addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
+        addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         ySize += 64;
     }
 

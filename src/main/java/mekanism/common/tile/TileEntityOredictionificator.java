@@ -1,19 +1,21 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import mekanism.api.EnumColor;
 import mekanism.api.IConfigCardAccess.ISpecialConfigData;
 import mekanism.api.TileNetworkList;
-import mekanism.common.HashList;
-import mekanism.common.Mekanism;
-import mekanism.common.OreDictCache;
-import mekanism.common.PacketHandler;
+import mekanism.api.transmitters.TransmissionType;
+import mekanism.common.*;
 import mekanism.common.base.IRedstoneControl;
+import mekanism.common.base.ISideConfiguration;
 import mekanism.common.base.ISustainedData;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.content.filter.IFilter;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.security.ISecurityTile;
+import mekanism.common.tile.component.TileComponentConfig;
+import mekanism.common.tile.component.TileComponentEjector;
 import mekanism.common.tile.component.TileComponentSecurity;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.util.InventoryUtils;
@@ -38,7 +40,7 @@ import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 
-public class TileEntityOredictionificator extends TileEntityContainerBlock implements IRedstoneControl, ISpecialConfigData, ISustainedData, ISecurityTile {
+public class TileEntityOredictionificator extends TileEntityContainerBlock implements IRedstoneControl, ISpecialConfigData, ISustainedData, ISecurityTile, ISideConfiguration {
 
     public static final int MAX_LENGTH = 24;
     private static final int[] SLOTS = {0, 1};
@@ -46,13 +48,24 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
     public HashList<OredictionificatorFilter> filters = new HashList<>();
     public RedstoneControl controlType = RedstoneControl.DISABLED;
 
+    public TileComponentEjector ejectorComponent;
+    public TileComponentConfig configComponent;
+
     public boolean didProcess;
 
     public TileComponentSecurity securityComponent = new TileComponentSecurity(this);
 
     public TileEntityOredictionificator() {
         super(MachineType.OREDICTIONIFICATOR.getBlockName());
+        configComponent = new TileComponentConfig(this, TransmissionType.ITEM);
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.RED, new int[]{0}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.INDIGO, new int[]{1}));
+        configComponent.setConfig(TransmissionType.ITEM, new byte[]{1, 1, 1, 1, 1, 2});
         inventory = NonNullList.withSize(2, ItemStack.EMPTY);
+
+        ejectorComponent = new TileComponentEjector(this);
+        ejectorComponent.setOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(2));
         doAutoSync = false;
     }
 
@@ -124,10 +137,7 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
     @Nonnull
     @Override
     public int[] getSlotsForFace(@Nonnull EnumFacing side) {
-        if (side != facing) {
-            return SLOTS;
-        }
-        return InventoryUtils.EMPTY;
+        return configComponent.getOutput(TransmissionType.ITEM, side, facing).availableSlots;
     }
 
     @Override
@@ -402,5 +412,20 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
         public boolean equals(Object obj) {
             return obj instanceof OredictionificatorFilter && ((OredictionificatorFilter) obj).filter.equals(filter);
         }
+    }
+
+    @Override
+    public TileComponentConfig getConfig() {
+        return configComponent;
+    }
+
+    @Override
+    public EnumFacing getOrientation() {
+        return facing;
+    }
+
+    @Override
+    public TileComponentEjector getEjector() {
+        return ejectorComponent;
     }
 }

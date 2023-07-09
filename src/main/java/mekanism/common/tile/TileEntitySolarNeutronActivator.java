@@ -39,7 +39,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock implements IRedstoneControl, IBoundingBlock, IGasHandler, IActiveState, ISustainedData,
-        ITankManager, ISecurityTile, IUpgradeTile, IUpgradeInfoHandler, IComparatorSupport,ISideConfiguration {
+        ITankManager, ISecurityTile, IUpgradeTile, IUpgradeInfoHandler, IComparatorSupport, ISideConfiguration {
 
     public static final int MAX_GAS = 10000;
     private static final int[] INPUT_SLOT = {0};
@@ -49,26 +49,21 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
     public GasTank outputTank = new GasTank(MAX_GAS);
 
     public int gasOutput = 256;
-
+    public RedstoneControl controlType = RedstoneControl.DISABLED;
+    public TileComponentEjector ejectorComponent;
+    public TileComponentConfig configComponent;
+    public TileComponentUpgrade upgradeComponent = new TileComponentUpgrade(this, 2);
+    public TileComponentSecurity securityComponent = new TileComponentSecurity(this);
     private SolarNeutronRecipe cachedRecipe;
-
     private int currentRedstoneLevel;
     private boolean isActive;
     private boolean needsRainCheck;
-
-    public RedstoneControl controlType = RedstoneControl.DISABLED;
-
-    public TileComponentEjector ejectorComponent;
-    public TileComponentConfig configComponent;
-
-    public TileComponentUpgrade upgradeComponent = new TileComponentUpgrade(this, 2);
-    public TileComponentSecurity securityComponent = new TileComponentSecurity(this);
 
     public TileEntitySolarNeutronActivator() {
         super("SolarNeutronActivator");
         upgradeComponent.setSupported(Upgrade.ENERGY, false);
 
-        configComponent = new TileComponentConfig(this, TransmissionType.ITEM,  TransmissionType.GAS);
+        configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.GAS);
         configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.RED, new int[]{0}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.INDIGO, new int[]{1}));
@@ -238,7 +233,7 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(0)  && inputTank.canReceive(type) && RecipeHandler.Recipe.SOLAR_NEUTRON_ACTIVATOR.containsRecipe(type);
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(0) && inputTank.canReceive(type) && RecipeHandler.Recipe.SOLAR_NEUTRON_ACTIVATOR.containsRecipe(type);
     }
 
     @Override
