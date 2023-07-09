@@ -1,5 +1,7 @@
 package mekanism.common.inventory.slot;
 
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.Slot;
@@ -8,6 +10,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.jetbrains.annotations.NotNull;
 
 public class SlotArmor extends Slot {
 
@@ -16,6 +19,12 @@ public class SlotArmor extends Slot {
     public SlotArmor(InventoryPlayer inventory, EntityEquipmentSlot armorType, int x, int y) {
         super(inventory, 35 + armorType.getSlotIndex(), x, y);
         this.armorType = armorType;
+    }
+
+    @Override
+    public boolean canTakeStack(@NotNull EntityPlayer playerIn) {
+        ItemStack itemstack = this.getStack();
+        return (itemstack.isEmpty() || playerIn.isCreative() || !EnchantmentHelper.hasBindingCurse(itemstack)) && super.canTakeStack(playerIn);
     }
 
     @Override
