@@ -1,9 +1,11 @@
 package mekanism.common.inventory.container;
 
+import mekanism.common.inventory.slot.SlotArmor;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.util.FluidContainerUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -13,6 +15,7 @@ public abstract class ContainerFluidStorage<TILE extends TileEntityContainerBloc
 
     protected ContainerFluidStorage(TILE tank, InventoryPlayer inventory) {
         super(tank, inventory);
+
     }
 
     @Nonnull
@@ -42,7 +45,7 @@ public abstract class ContainerFluidStorage<TILE extends TileEntityContainerBloc
                     if (!mergeItemStack(slotStack, 2, 28, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else {
+                }  else {
                     if (!mergeItemStack(slotStack, 2, inventorySlots.size(), true)) {
                         return ItemStack.EMPTY;
                     }
@@ -59,5 +62,14 @@ public abstract class ContainerFluidStorage<TILE extends TileEntityContainerBloc
             currentSlot.onTake(player, slotStack);
         }
         return stack;
+    }
+
+    @Override
+    protected void addPlayerArmmorSlot(InventoryPlayer inventory) {
+        addSlotToContainer(new SlotArmor(inventory, EntityEquipmentSlot.HEAD,-20,62 + 5));
+        addSlotToContainer(new SlotArmor(inventory, EntityEquipmentSlot.CHEST,-20,62 + 23));
+        addSlotToContainer(new SlotArmor(inventory, EntityEquipmentSlot.LEGS,-20,62 + 41));
+        addSlotToContainer(new SlotArmor(inventory, EntityEquipmentSlot.FEET,-20,62 + 59));
+        addSlotToContainer(new SlotArmor(inventory, EntityEquipmentSlot.OFFHAND,-20,62 + 77));
     }
 }

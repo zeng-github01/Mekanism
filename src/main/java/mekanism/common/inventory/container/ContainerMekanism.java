@@ -18,6 +18,7 @@ public abstract class ContainerMekanism<TILE extends TileEntityContainerBlock> e
             addSlots();
             if (inventory != null) {
                 addInventorySlots(inventory);
+                addPlayerArmmorSlot(inventory);
                 openInventory(inventory);
             }
         }
@@ -38,6 +39,9 @@ public abstract class ContainerMekanism<TILE extends TileEntityContainerBlock> e
         for (int slotY = 0; slotY < 9; slotY++) {
             addSlotToContainer(new Slot(inventory, slotY, 8 + slotY * 18, offset));
         }
+    }
+
+    protected void addPlayerArmmorSlot(InventoryPlayer inventory) {
     }
 
     protected boolean shouldAddSlots() {

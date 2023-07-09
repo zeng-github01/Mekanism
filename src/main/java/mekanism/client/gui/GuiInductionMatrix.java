@@ -1,9 +1,6 @@
 package mekanism.client.gui;
 
-import mekanism.client.gui.element.GuiBlack;
-import mekanism.client.gui.element.GuiBlackScreenframe;
-import mekanism.client.gui.element.GuiBucketIcon;
-import mekanism.client.gui.element.GuiEnergyInfo;
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.tab.GuiMatrixTab;
 import mekanism.client.gui.element.tab.GuiMatrixTab.MatrixTab;
 import mekanism.client.render.MekanismRenderer;
@@ -33,6 +30,7 @@ public class GuiInductionMatrix extends GuiMekanismTile<TileEntityInductionCasin
         addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.DYNAMICTANK_INDUCTIONMATRIX_PUMP, this, resource, 50, 23));
         addGuiElement(new GuiBlack(this, resource, 51, 24, 78, 39));
         addGuiElement(new GuiBucketIcon(GuiBucketIcon.IconType.INDUCTIONMATRIX, this, resource, 141, 15));
+        addGuiElement(new GuiPlayerArmmorSlot(this, resource, -26, 37, false));
     }
 
     @Override
@@ -42,7 +40,7 @@ public class GuiInductionMatrix extends GuiMekanismTile<TileEntityInductionCasin
         fontRenderer.drawString(LangUtils.localize("gui.energy") + ":" + MekanismUtils.getEnergyDisplay(tileEntity.getEnergy()), 53, 26, 0x00CD00);
         fontRenderer.drawString(LangUtils.localize("gui.capacity") + ":" + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy()), 53, 35, 0x00CD00);
         fontRenderer.drawString(LangUtils.localize("gui.input") + ":" + MekanismUtils.getEnergyDisplay(tileEntity.getLastInput()) + "/t", 53, 44, 0x00CD00);
-        fontRenderer.drawString(LangUtils.localize("gui.output") + ":" +MekanismUtils.getEnergyDisplay(tileEntity.getLastOutput()) + "/t", 53, 53, 0x00CD00);
+        fontRenderer.drawString(LangUtils.localize("gui.output") + ":" + MekanismUtils.getEnergyDisplay(tileEntity.getLastOutput()) + "/t", 53, 53, 0x00CD00);
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
         if (xAxis >= 7 && xAxis <= 39 && yAxis >= 14 && yAxis <= 72) {
