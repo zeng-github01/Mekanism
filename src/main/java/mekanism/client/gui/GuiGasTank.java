@@ -33,8 +33,8 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
     public GuiGasTank(InventoryPlayer inventory, TileEntityGasTank tile) {
         super(tile, new ContainerGasTank(inventory, tile));
         ResourceLocation resource = getGuiLocation();
-        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
+        addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 15, 16).with(SlotOverlay.PLUS));
@@ -42,6 +42,7 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
         addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.GASTANK, this, resource, 42, 37));
         addGuiElement(new GuiBlack(this, resource, 43, 38, 116, 25));
         addGuiElement(new GuiPlayerSlot(this,resource));
+        addGuiElement(new GuiPlayerArmmorSlot(this,resource,-26,62,false));
     }
 
     @Override

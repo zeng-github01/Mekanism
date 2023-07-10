@@ -44,12 +44,26 @@ public class GuiSecurityTab extends GuiTileEntityElement<TileEntity> {
         yLocation = y;
     }
 
-    public GuiSecurityTab(IGuiWrapper gui, ResourceLocation def, EnumHand hand, int x, int y) {
+    public GuiSecurityTab(IGuiWrapper gui, TileEntity tile, ResourceLocation def) {
+        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSecurityTab.png"), gui, def, tile);
+        this.currentHand = EnumHand.MAIN_HAND;
+        xLocation = 0;
+        yLocation = 0;
+    }
+
+    public GuiSecurityTab(IGuiWrapper gui, TileEntity tile, ResourceLocation def,int y) {
+        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSecurityTab.png"), gui, def, tile);
+        this.currentHand = EnumHand.MAIN_HAND;
+        xLocation = 0;
+        yLocation = y;
+    }
+
+    public GuiSecurityTab(IGuiWrapper gui, ResourceLocation def, EnumHand hand) {
         super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSecurityTab.png"), gui, def, null);
         isItem = true;
         currentHand = hand;
-        xLocation = x;
-        yLocation = y;
+        xLocation = 0;
+        yLocation = 0;
     }
 
     @Override

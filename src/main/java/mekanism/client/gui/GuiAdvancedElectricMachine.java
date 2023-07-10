@@ -32,9 +32,9 @@ public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<REC
     public GuiAdvancedElectricMachine(InventoryPlayer inventory, TileEntityAdvancedElectricMachine<RECIPE> tile) {
         super(tile, new ContainerAdvancedElectricMachine<>(inventory, tile));
         ResourceLocation resource = getGuiLocation();
-        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
+        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
+        addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));

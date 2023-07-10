@@ -37,9 +37,9 @@ public class GuiElectricPump extends GuiMekanismTile<TileEntityElectricPump> {
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
                     LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
-        addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
+        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
+        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
         addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.DYNAMICTANK_INDUCTIONMATRIX_PUMP, this, resource, 48, 23));
         addGuiElement(new GuiBlack(this, resource, 49, 24, 78, 39));
         addGuiElement(new GuiPlayerSlot(this,resource));

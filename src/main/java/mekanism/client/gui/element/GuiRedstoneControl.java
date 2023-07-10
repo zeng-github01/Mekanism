@@ -31,6 +31,12 @@ public class GuiRedstoneControl extends GuiTileEntityElement<TileEntity> {
         time = new Timeticks(20, 20, false);
     }
 
+    public GuiRedstoneControl(IGuiWrapper gui, TileEntity tile, ResourceLocation def) {
+        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiRedstoneControl.png"), gui, def, tile);
+        xLocation = 0;
+        yLocation = 0;
+    }
+
     @Override
     public Rectangle4i getBounds(int guiWidth, int guiHeight) {
         return new Rectangle4i(guiWidth + 176 + xLocation, guiHeight + 138 + yLocation, 26, 26);

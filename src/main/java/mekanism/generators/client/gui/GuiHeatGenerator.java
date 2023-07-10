@@ -28,8 +28,8 @@ public class GuiHeatGenerator extends GuiMekanismTile<TileEntityHeatGenerator> {
     public GuiHeatGenerator(InventoryPlayer inventory, TileEntityHeatGenerator tile) {
         super(tile, new ContainerHeatGenerator(inventory, tile));
         ResourceLocation resource = getGuiLocation();
-        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
+        addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
         addGuiElement(new GuiEnergyInfo(() -> Arrays.asList(
                 LangUtils.localize("gui.producing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.producingEnergy) + "/t",
                 LangUtils.localize("gui.maxOutput") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t"), this, resource));

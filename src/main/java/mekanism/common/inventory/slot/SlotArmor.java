@@ -30,15 +30,16 @@ public class SlotArmor extends Slot {
     @Override
     public boolean isItemValid(ItemStack stack) {
         Item item = stack.getItem();
-        if (armorType != EntityEquipmentSlot.OFFHAND) {
+        if (armorType.getSlotType() == EntityEquipmentSlot.Type.ARMOR) {
             return item.isValidArmor(stack, armorType, ((InventoryPlayer) inventory).player);
+        }else {
+            return armorType == EntityEquipmentSlot.OFFHAND;
         }
-        return true;
     }
 
 
     @SideOnly(Side.CLIENT)
     public String getSlotTexture() {
-        return armorType != EntityEquipmentSlot.OFFHAND ? ItemArmor.EMPTY_SLOT_NAMES[armorType.getIndex()] : "minecraft:items/empty_armor_slot_shield";
+        return armorType.getSlotType() == EntityEquipmentSlot.Type.ARMOR ? ItemArmor.EMPTY_SLOT_NAMES[armorType.getIndex()] : "minecraft:items/empty_armor_slot_shield";
     }
 }

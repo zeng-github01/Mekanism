@@ -26,7 +26,7 @@ public class GuiFuelwoodHeater extends GuiMekanismTile<TileEntityFuelwoodHeater>
         super(tile, new ContainerFuelwoodHeater(inventory, tile));
         ResourceLocation resource = getGuiLocation();
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 14, 28));
-        addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
         addGuiElement(new GuiHeatInfo(() -> {
             TemperatureUnit unit = TemperatureUnit.values()[MekanismConfig.current().general.tempUnit.val().ordinal()];
             String environment = UnitDisplayUtils.getDisplayShort(tileEntity.lastEnvironmentLoss * unit.intervalSize, false, unit);

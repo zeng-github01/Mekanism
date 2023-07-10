@@ -25,8 +25,8 @@ public class GuiGasGenerator extends GuiMekanismTile<TileEntityGasGenerator> {
     public GuiGasGenerator(InventoryPlayer inventory, TileEntityGasGenerator tile) {
         super(tile, new ContainerGasGenerator(inventory, tile));
         ResourceLocation resource = getGuiLocation();
-        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
+        addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
         addGuiElement(new GuiEnergyInfo(() -> Arrays.asList(
                 LangUtils.localize("gui.producing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.generationRate * tileEntity.clientUsed) + "/t",
                 LangUtils.localize("gui.maxOutput") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t"), this, resource));

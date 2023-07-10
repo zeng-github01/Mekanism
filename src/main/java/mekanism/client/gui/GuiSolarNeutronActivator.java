@@ -30,9 +30,9 @@ public class GuiSolarNeutronActivator extends GuiMekanismTile<TileEntitySolarNeu
     public GuiSolarNeutronActivator(InventoryPlayer inventory, TileEntitySolarNeutronActivator tile) {
         super(tile, new ContainerSolarNeutronActivator(inventory, tile));
         ResourceLocation resource = getGuiLocation();
-        addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
+        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
+        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 4, 55).with(SlotOverlay.MINUS));

@@ -1,10 +1,12 @@
 package mekanism.common.inventory.container;
 
 import mekanism.api.gas.IGasItem;
+import mekanism.common.inventory.slot.SlotArmor;
 import mekanism.common.inventory.slot.SlotStorageTank;
 import mekanism.common.tile.TileEntityGasTank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -62,5 +64,14 @@ public class ContainerGasTank extends ContainerMekanism<TileEntityGasTank> {
     protected void addSlots() {
         addSlotToContainer(new SlotStorageTank(tileEntity, 0, 16, 17));
         addSlotToContainer(new SlotStorageTank(tileEntity, 1, 16, 47));
+    }
+
+    @Override
+    protected void addPlayerArmmorSlot(InventoryPlayer inventory) {
+        addSlotToContainer(new SlotArmor(inventory, EntityEquipmentSlot.HEAD,-20,62 + 5));
+        addSlotToContainer(new SlotArmor(inventory, EntityEquipmentSlot.CHEST,-20,62 + 23));
+        addSlotToContainer(new SlotArmor(inventory, EntityEquipmentSlot.LEGS,-20,62 + 41));
+        addSlotToContainer(new SlotArmor(inventory, EntityEquipmentSlot.FEET,-20,62 + 59));
+        addSlotToContainer(new SlotArmor(inventory, EntityEquipmentSlot.OFFHAND,-20,62 + 77));
     }
 }

@@ -33,9 +33,9 @@ public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuse
         super(tile, new ContainerChemicalInfuser(inventory, tile));
         ResourceLocation resource = getGuiLocation();
         ySize += 11;
-        addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
+        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
+        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         addGuiElement(new GuiPowerBarHorizontal(this, tileEntity, resource, 115 - 2, 74 + 11));

@@ -60,8 +60,8 @@ public class GuiLaserAmplifier extends GuiMekanismTile<TileEntityLaserAmplifier>
                 return LangUtils.localize("gui.storing") + ": " + MekanismUtils.getEnergyDisplay(level, tileEntity.getMaxEnergy());
             }
         }, Type.STANDARD, this, resource, 6, 10));
-        addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
+        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
         addGuiElement(new GuiAmplifierTab(this, tileEntity, resource));
         addGuiElement(new GuiPlayerSlot(this,resource));
     }

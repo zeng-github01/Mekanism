@@ -19,14 +19,14 @@ public class GuiPersonalChest extends GuiMekanismTile<TileEntityPersonalChest> {
         super(tile, new ContainerPersonalChest(inventory, tile));
         //xSize += 26;
         ySize += 64;
-        addGuiElement(new GuiSecurityTab(this, tileEntity, getGuiLocation(), 0, 0));
+        addGuiElement(new GuiSecurityTab(this, tileEntity, getGuiLocation()));
     }
 
     public GuiPersonalChest(InventoryPlayer inventory, InventoryPersonalChest inv) {
         super(null, new ContainerPersonalChest(inventory, inv));
         //xSize += 26;
         ySize += 64;
-        addGuiElement(new GuiSecurityTab(this, getGuiLocation(), inv.currentHand, 0, 0));
+        addGuiElement(new GuiSecurityTab(this, getGuiLocation(), inv.currentHand));
     }
 
     @Override

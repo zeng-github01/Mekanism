@@ -42,8 +42,8 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
         ResourceLocation resource = getGuiLocation();
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
         addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 14, 34).with(SlotOverlay.POWER));
-        addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 0, 0));
-        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 0, 0));
+        addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
+        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
         addGuiElement(new GuiEnergyInfo(() -> {
             String multiplier = MekanismUtils.getEnergyDisplay(tileEntity.energyUsage);
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
