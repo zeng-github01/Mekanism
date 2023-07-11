@@ -1,0 +1,26 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.portable_teleporter.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.portable_teleporter.title"
+    },
+    "icon": {
+      "item": "portableteleporter"
+    }
+  },
+  "criteria": {
+    "mekanism_portable_teleporter": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "portableteleporter"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:teleporter"
+}

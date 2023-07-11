@@ -1,0 +1,26 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.reinforced_alloy.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.reinforced_alloy.title"
+    },
+    "icon": {
+      "item": "mekanism:reinforcedalloy"
+    }
+  },
+  "criteria": {
+    "mekanism_reinforced_alloy": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:reinforcedalloy"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:infused_alloy"
+}

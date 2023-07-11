@@ -1,0 +1,27 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.breathing_assistance.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.breathing_assistance.title"
+    },
+    "icon": {
+      "item": "mekanism:gasmask"
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "mekanism_breathing_assistance": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:gasmask"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:chemical_tank"
+}

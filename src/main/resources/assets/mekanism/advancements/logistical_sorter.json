@@ -1,0 +1,29 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.logistical_sorter.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.logistical_sorter.title"
+    },
+    "icon": {
+      "item": "mekanism:machineblock",
+      "data": 15
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "mekanism_logistical_sorter": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:machineblock",
+            "data": 15
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:item_transport"
+}

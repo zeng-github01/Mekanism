@@ -1,0 +1,65 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanismtools.loved_by_piglins.description"
+    },
+    "title": {
+      "translate": "advancements.mekanismtools.loved_by_piglins.title"
+    },
+    "icon": {
+      "item": "mekanismtools:glowstonechestplate"
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "mekanism_loved_by_piglins_Helmet_Glowstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:glowstonehelmet"
+          }
+        ]
+      }
+    },
+    "mekanism_loved_by_piglins_Chestplate_Glowstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:glowstonechestplate"
+          }
+        ]
+      }
+    },
+    "mekanism_loved_by_piglins_Leggings_Glowstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:glowstoneleggings"
+          }
+        ]
+      }
+    },
+    "mekanism_loved_by_piglins_Boots_Glowstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:glowstoneboots"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "mekanism_loved_by_piglins_Helmet_Glowstone",
+      "mekanism_loved_by_piglins_Chestplate_Glowstone",
+      "mekanism_loved_by_piglins_Leggings_Glowstone",
+      "mekanism_loved_by_piglins_Boots_Glowstone"
+    ]
+  ],
+  "parent": "mekanismtools:alternate_armor"
+}

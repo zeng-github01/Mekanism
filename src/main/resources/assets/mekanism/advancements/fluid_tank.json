@@ -1,0 +1,28 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.fluid_tank.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.fluid_tank.title"
+    },
+    "icon": {
+      "item": "mekanism:machineblock2",
+      "data": 11
+    }
+  },
+  "criteria": {
+    "mekanism_fluid_tank": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:machineblock2",
+            "data": 11
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:infused_alloy"
+}

@@ -1,0 +1,352 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanismtools.alternate_tools.description"
+    },
+    "title": {
+      "translate": "advancements.mekanismtools.alternate_tools.title"
+    },
+    "icon": {
+      "item": "mekanismtools:osmiumpickaxe"
+    }
+  },
+  "criteria": {
+    "mekanism_Pickaxe_Obsidian": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:obsidianpickaxe"
+          }
+        ]
+      }
+    },
+    "mekanism_Pickaxe_Lapis_Lazuli": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:lapislazulipickaxe"
+          }
+        ]
+      }
+    },
+    "mekanism_Pickaxe_Osmium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:osmiumpickaxe"
+          }
+        ]
+      }
+    },
+    "mekanism_Pickaxe_Bronze": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:bronzepickaxe"
+          }
+        ]
+      }
+    },
+    "mekanism_Pickaxe_Steel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:steelpickaxe"
+          }
+        ]
+      }
+    },
+    "mekanism_Pickaxe_Glowstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:glowstonepickaxe"
+          }
+        ]
+      }
+    },
+    "mekanism_Axe_Obsidian": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:obsidianAxe"
+          }
+        ]
+      }
+    },
+    "mekanism_Axe_Lapis_Lazuli": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:lapislazuliAxe"
+          }
+        ]
+      }
+    },
+    "mekanism_Axe_Osmium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:osmiumAxe"
+          }
+        ]
+      }
+    },
+    "mekanism_Axe_Bronze": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:bronzeAxe"
+          }
+        ]
+      }
+    },
+    "mekanism_Axe_Steel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:steelAxe"
+          }
+        ]
+      }
+    },
+    "mekanism_Axe_Glowstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:glowstoneAxe"
+          }
+        ]
+      }
+    },
+    "mekanism_Shovel_Obsidian": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:obsidianshovel"
+          }
+        ]
+      }
+    },
+    "mekanism_Shovel_Lapis_Lazuli": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:lapislazulishovel"
+          }
+        ]
+      }
+    },
+    "mekanism_Shovel_Osmium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:osmiumshovel"
+          }
+        ]
+      }
+    },
+    "mekanism_Shovel_Bronze": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:bronzeshovel"
+          }
+        ]
+      }
+    },
+    "mekanism_Shovel_Steel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:steelshovel"
+          }
+        ]
+      }
+    },
+    "mekanism_Shovel_Glowstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:glowstoneshovel"
+          }
+        ]
+      }
+    },
+    "mekanism_Hoe_Obsidian": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:obsidianhoe"
+          }
+        ]
+      }
+    },
+    "mekanism_Hoe_Lapis_Lazuli": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:lapislazulihoe"
+          }
+        ]
+      }
+    },
+    "mekanism_Hoe_Osmium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:osmiumhoe"
+          }
+        ]
+      }
+    },
+    "mekanism_Hoe_Bronze": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:bronzehoe"
+          }
+        ]
+      }
+    },
+    "mekanism_Hoe_Steel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:steelhoe"
+          }
+        ]
+      }
+    },
+    "mekanism_Hoe_Glowstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:glowstonehoe"
+          }
+        ]
+      }
+    },
+
+
+    "mekanism_Sword_Obsidian": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:obsidiansword"
+          }
+        ]
+      }
+    },
+    "mekanism_Sword_Lapis_Lazuli": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:lapislazulisword"
+          }
+        ]
+      }
+    },
+    "mekanism_Sword_Osmium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:osmiumsword"
+          }
+        ]
+      }
+    },
+    "mekanism_Sword_Bronze": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:bronzesword"
+          }
+        ]
+      }
+    },
+    "mekanism_Sword_Steel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:steelsword"
+          }
+        ]
+      }
+    },
+    "mekanism_Sword_Glowstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:glowstonesword"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "mekanism_Pickaxe_Obsidian",
+      "mekanism_Pickaxe_Lapis_Lazuli",
+      "mekanism_Pickaxe_Osmium",
+      "mekanism_Pickaxe_Bronze",
+      "mekanism_Pickaxe_Steel",
+      "mekanism_Pickaxe_Glowstone",
+      "mekanism_Axe_Obsidian",
+      "mekanism_Axe_Lapis_Lazuli",
+      "mekanism_Axe_Osmium",
+      "mekanism_Axe_Bronze",
+      "mekanism_Axe_Steel",
+      "mekanism_Axe_Glowstone",
+      "mekanism_Shovel_Obsidian",
+      "mekanism_Shovel_Lapis_Lazuli",
+      "mekanism_Shovel_Osmium",
+      "mekanism_Shovel_Bronze",
+      "mekanism_Shovel_Steel",
+      "mekanism_Shovel_Glowstone",
+      "mekanism_Hoe_Obsidian",
+      "mekanism_Hoe_Lapis_Lazuli",
+      "mekanism_Hoe_Osmium",
+      "mekanism_Hoe_Bronze",
+      "mekanism_Hoe_Steel",
+      "mekanism_Hoe_Glowstone",
+      "mekanism_Sword_Obsidian",
+      "mekanism_Sword_Lapis_Lazuli",
+      "mekanism_Sword_Osmium",
+      "mekanism_Sword_Bronze",
+      "mekanism_Sword_Steel",
+      "mekanism_Sword_Glowstone"
+    ]
+  ],
+  "parent": "mekanism:materials"
+}

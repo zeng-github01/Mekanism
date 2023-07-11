@@ -1,0 +1,64 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.infusing_efficiency.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.infusing_efficiency.title"
+    },
+    "icon": {
+      "item": "mekanism:compressedredstone"
+    }
+  },
+  "criteria": {
+    "mekanism_infusing_efficiency_Carbon": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:compressedcarbon"
+          }
+        ]
+      }
+    },
+    "mekanism_infusing_efficiency_Redstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:compressedredstone"
+          }
+        ]
+      }
+    },
+    "mekanism_infusing_efficiency_Diamond": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:compresseddiamond"
+          }
+        ]
+      }
+    },
+    "mekanism_infusing_efficiency_Obsidian": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:compressedobsidian"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "mekanism_infusing_efficiency_Carbon",
+      "mekanism_infusing_efficiency_Redstone",
+      "mekanism_infusing_efficiency_Diamond",
+      "mekanism_infusing_efficiency_Obsidian"
+    ]
+  ],
+  "parent": "mekanism:enricher"
+}

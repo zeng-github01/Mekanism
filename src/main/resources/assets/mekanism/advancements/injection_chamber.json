@@ -1,0 +1,29 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.injection_chamber.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.injection_chamber.title"
+    },
+    "icon": {
+      "item": "mekanism:machineblock2",
+      "data": 3
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "mekanism_injection_chamber": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:machineblock2",
+            "data": 3
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:purification_chamber"
+}

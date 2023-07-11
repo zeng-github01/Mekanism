@@ -1,0 +1,82 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.installer.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.installer.title"
+    },
+    "icon": {
+      "item": "mekanism:tierinstaller",
+      "data": 0
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "mekanism_installer_Basic": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:tierinstaller",
+            "data": 0
+          }
+        ]
+      }
+    },
+    "mekanism_installer_Advanced": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:tierinstaller",
+            "data": 1
+          }
+        ]
+      }
+    },
+    "mekanism_installer_Elite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:tierinstaller",
+            "data": 2
+          }
+        ]
+      }
+    },
+    "mekanism_installer_Ultimate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:tierinstaller",
+            "data": 3
+          }
+        ]
+      }
+    },
+    "mekanism_installer_Creative": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:tierinstaller",
+            "data": 4
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "mekanism_installer_Basic",
+      "mekanism_installer_Advanced",
+      "mekanism_installer_Elite",
+      "mekanism_installer_Ultimate",
+      "mekanism_installer_Creative"
+    ]
+  ],
+  "parent": "mekanism:basic_control_circuit"
+}

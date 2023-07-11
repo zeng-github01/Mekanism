@@ -1,0 +1,28 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.steel_casing.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.steel_casing.title"
+    },
+    "icon": {
+      "item": "mekanism:basicblock",
+      "data": 8
+    }
+  },
+  "criteria": {
+    "mekanism_steel_casing": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:basicblock",
+            "data": 8
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:steel_ingot"
+}

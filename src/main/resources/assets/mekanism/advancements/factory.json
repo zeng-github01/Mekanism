@@ -1,0 +1,82 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.factory.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.factory.title"
+    },
+    "icon": {
+      "item": "mekanism:machineblock",
+      "data": 5
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "mekanism_factory_Basic": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:machineblock",
+            "data": 5
+          }
+        ]
+      }
+    },
+    "mekanism_factory_Advanced": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:machineblock",
+            "data": 6
+          }
+        ]
+      }
+    },
+    "mekanism_factory_Elite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:machineblock",
+            "data": 7
+          }
+        ]
+      }
+    },
+    "mekanism_factory_Ultimate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:machineblock3",
+            "data": 7
+          }
+        ]
+      }
+    },
+    "mekanism_factory_Creative": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:machineblock3",
+            "data": 8
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "mekanism_factory_Basic",
+      "mekanism_factory_Advanced",
+      "mekanism_factory_Elite",
+      "mekanism_factory_Ultimate",
+      "mekanism_factory_Creative"
+    ]
+  ],
+  "parent": "mekanism:basic_control_circuit"
+}

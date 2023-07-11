@@ -1,0 +1,28 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.sawmill.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.sawmill.title"
+    },
+    "icon": {
+      "item": "mekanism:machineblock2",
+      "data": 5
+    }
+  },
+  "criteria": {
+    "mekanism_sawmill": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:machineblock2",
+            "data": 5
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:steel_casing"
+}

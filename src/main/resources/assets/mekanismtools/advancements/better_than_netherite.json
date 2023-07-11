@@ -1,0 +1,65 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanismtools.better_than_netherite.description"
+    },
+    "title": {
+      "translate": "advancements.mekanismtools.better_than_netherite.title"
+    },
+    "icon": {
+      "item": "mekanismtools:obsidianchestplate"
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "mekanism_better_than_netherite_Helmet_Obsidian": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:obsidianhelmet"
+          }
+        ]
+      }
+    },
+    "mekanism_better_than_netherite_Chestplate_Obsidian": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:obsidianchestplate"
+          }
+        ]
+      }
+    },
+    "mekanism_better_than_netherite_Leggings_Obsidian": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:obsidianleggings"
+          }
+        ]
+      }
+    },
+    "mekanism_better_than_netherite_Boots_Obsidian": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismtools:obsidianboots"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "mekanism_better_than_netherite_Helmet_Obsidian",
+      "mekanism_better_than_netherite_Chestplate_Obsidian",
+      "mekanism_better_than_netherite_Leggings_Obsidian",
+      "mekanism_better_than_netherite_Boots_Obsidian"
+    ]
+  ],
+  "parent": "mekanismtools:alternate_armor"
+}

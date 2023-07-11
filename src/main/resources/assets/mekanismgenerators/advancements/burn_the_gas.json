@@ -1,0 +1,29 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanismgenerators.burn_the_gas.description"
+    },
+    "title": {
+      "translate": "advancements.mekanismgenerators.burn_the_gas.title"
+    },
+    "icon": {
+      "item": "mekanismgenerators:generator",
+      "data": 3
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "mekanism_burn_the_gas": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanismgenerators:generator",
+            "data": 3
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanismgenerators:wind_generator"
+}

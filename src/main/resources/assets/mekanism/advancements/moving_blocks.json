@@ -1,0 +1,26 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.moving_blocks.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.moving_blocks.title"
+    },
+    "icon": {
+      "item": "mekanism:cardboardbox"
+    }
+  },
+  "criteria": {
+    "mekanism_moving_blocks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:cardboardbox"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:sawmill"
+}

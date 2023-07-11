@@ -1,0 +1,26 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.energy_cube.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.energy_cube.title"
+    },
+    "icon": {
+      "item": "mekanism:energycube"
+    }
+  },
+  "criteria": {
+    "mekanism_energy_cube": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:energycube"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:steel_casing"
+}

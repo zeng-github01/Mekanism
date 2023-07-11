@@ -1,0 +1,27 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.cleaning_gauges.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.cleaning_gauges.title"
+    },
+    "icon": {
+      "item": "mekanism:gaugedropper"
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "mekanism_cleaning_gauges": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:gaugedropper"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:materials"
+}

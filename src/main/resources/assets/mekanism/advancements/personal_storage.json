@@ -1,0 +1,28 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.personal_storage.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.personal_storage.title"
+    },
+    "icon": {
+      "item": "mekanism:machineblock",
+      "data": 13
+    }
+  },
+  "criteria": {
+    "mekanism_personal_storage": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:machineblock",
+            "data": 13
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:basic_control_circuit"
+}

@@ -1,0 +1,28 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.laser.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.laser.title"
+    },
+    "icon": {
+      "item": "mekanism:machineblock2",
+      "data": 13
+    }
+  },
+  "criteria": {
+    "mekanism_laser": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:machineblock2",
+            "data": 13
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:reinforced_alloy"
+}

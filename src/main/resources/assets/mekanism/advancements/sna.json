@@ -1,0 +1,28 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.sna.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.sna.title"
+    },
+    "icon": {
+      "item": "mekanism:machineblock3",
+      "data": 1
+    }
+  },
+  "criteria": {
+    "mekanism_sna": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:machineblock3",
+            "data": 1
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:elite_control_circuit"
+}

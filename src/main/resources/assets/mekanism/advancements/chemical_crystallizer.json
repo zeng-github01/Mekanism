@@ -1,0 +1,51 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.chemical_crystallizer.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.chemical_crystallizer.title"
+    },
+    "icon": {
+      "item": "mekanism:machineblock2",
+      "data": 8
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "mekanism_chemical_Dissolution_Chamber": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:machineblock2",
+            "data": 6
+          }
+        ]
+      }
+    },
+    "mekanism_chemical_Washer": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:machineblock2",
+            "data": 7
+          }
+        ]
+      }
+    },
+    "mekanism_chemical_crystallizer": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:machineblock2",
+            "data": 8
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:injection_chamber"
+}

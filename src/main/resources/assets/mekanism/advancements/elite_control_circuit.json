@@ -1,0 +1,28 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.elite_control_circuit.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.elite_control_circuit.title"
+    },
+    "icon": {
+      "item": "mekanism:controlcircuit",
+      "data": 2
+    }
+  },
+  "criteria": {
+    "mekanism_elite_control_circuit": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:controlcircuit",
+            "data": 2
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:reinforced_alloy"
+}

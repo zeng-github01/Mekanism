@@ -1,0 +1,28 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.plenisher.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.plenisher.title"
+    },
+    "icon": {
+      "item": "mekanism:machineblock2",
+      "data": 12
+    }
+  },
+  "criteria": {
+    "mekanism_plenisher": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:machineblock2",
+            "data": 12
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:pump"
+}

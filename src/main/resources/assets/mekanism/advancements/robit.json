@@ -1,0 +1,27 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.robit.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.robit.title"
+    },
+    "icon": {
+      "item": "mekanism:robit"
+    },
+    "frame": "goal"
+  },
+  "criteria": {
+    "mekanism_robit": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:robit"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:atomic_alloy"
+}

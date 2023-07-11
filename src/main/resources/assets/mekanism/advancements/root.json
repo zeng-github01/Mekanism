@@ -1,26 +1,22 @@
 {
   "display": {
-    "icon": {
-      "item": "mekanism:cosmicalloy"
+    "description": {
+      "translate": "advancements.mekanism.root.description"
     },
     "title": {
-      "translate": "itemGroup.tabMekanism"
+      "translate": "advancements.mekanism.root.title"
     },
-    "description": {
-      "translate": "advancements.mekanism:mekanism.description"
+    "icon": {
+      "item": "mekanism:atomicdisassembler"
     },
-    "background": "mekanism:textures/blocks/steelblock.png"
+    "frame": "goal",
+    "announce_to_chat": false,
+    "background": "mekanism:textures/blocks/osmiumblock.png"
   },
   "criteria": {
-    "mekanism_in_inventory": {
-      "trigger": "minecraft:inventory_changed",
+    "location": {
+      "trigger": "minecraft:location",
       "conditions": {
-        "items": [
-          {
-            "item": "mekanism:ingot",
-            "data": 1
-          }
-        ]
       }
     }
   }

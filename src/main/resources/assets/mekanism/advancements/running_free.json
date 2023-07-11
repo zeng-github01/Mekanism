@@ -1,0 +1,26 @@
+{
+  "display": {
+    "description": {
+      "translate": "advancements.mekanism.running_free.description"
+    },
+    "title": {
+      "translate": "advancements.mekanism.running_free.title"
+    },
+    "icon": {
+      "item": "mekanism:freerunners"
+    }
+  },
+  "criteria": {
+    "mekanism_running_free": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "mekanism:freerunners"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "mekanism:basic_control_circuit"
+}
