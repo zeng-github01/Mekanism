@@ -548,7 +548,15 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
     public int getScaledProgress(int i, int process) {
-        return progress[process] * i / ticksRequired;
+        if (tier != FactoryTier.CREATIVE) {
+            return progress[process] * i / ticksRequired;
+        }else {
+            if (isActive){
+                return progress[process];
+            }else {
+                return 0;
+            }
+        }
     }
 
     public int getScaledInfuseLevel(int i) {
@@ -929,14 +937,10 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 secondaryEnergyPerTick = getSecondaryEnergyPerTick(recipeType);
                 break;
             case SPEED:
-                //TODO：This needs to be modified
                 if (tier != FactoryTier.CREATIVE) {
-                    ticksRequired = MekanismUtils.getTicks(this, BASE_TICKS_REQUIRED);
                     energyPerTick = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK);
-                } else {
-                    ticksRequired = BASE_TICKS_REQUIRED;
-
                 }
+                ticksRequired = MekanismUtils.getTicks(this, BASE_TICKS_REQUIRED);
                 secondaryEnergyPerTick = getSecondaryEnergyPerTick(recipeType);
                 break;
             default:
