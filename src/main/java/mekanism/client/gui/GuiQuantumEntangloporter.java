@@ -3,6 +3,8 @@ package mekanism.client.gui;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
+import mekanism.client.gui.element.GuiEnergyInfo;
+import mekanism.client.gui.element.GuiHeatInfo;
 import mekanism.client.gui.element.GuiScrollList;
 import mekanism.client.gui.element.GuiWarningInfo;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
@@ -11,6 +13,7 @@ import mekanism.client.gui.element.tab.GuiTransporterConfigTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.frequency.Frequency;
 import mekanism.common.frequency.FrequencyManager;
 import mekanism.common.inventory.container.ContainerQuantumEntangloporter;
@@ -19,6 +22,7 @@ import mekanism.common.tile.TileEntityQuantumEntangloporter;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
+import mekanism.common.util.UnitDisplayUtils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -29,6 +33,7 @@ import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
@@ -51,6 +56,14 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
+        addGuiElement(new GuiEnergyInfo(() -> Arrays.asList(LangUtils.localize("gui.storing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()),
+                LangUtils.localize("gui.maxOutput") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t"), this, resource));
+        addGuiElement(new GuiHeatInfo(() -> {
+            UnitDisplayUtils.TemperatureUnit unit = UnitDisplayUtils.TemperatureUnit.values()[MekanismConfig.current().general.tempUnit.val().ordinal()];
+            String transfer = UnitDisplayUtils.getDisplayShort(tileEntity.lastTransferLoss, false, unit);
+            String environment = UnitDisplayUtils.getDisplayShort(tileEntity.lastEnvironmentLoss, false, unit);
+            return Arrays.asList(LangUtils.localize("gui.transferred") + ": " + transfer + "/t", LangUtils.localize("gui.dissipated") + ": " + environment + "/t");
+        }, this, resource));
         if (tileEntity.frequency != null) {
             privateMode = !tileEntity.frequency.publicFreq;
         }
@@ -197,7 +210,7 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
         renderScaledText(str, 27, 104, 0x404040, 20);
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
-        if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+        if (xAxis >= -21 && xAxis <= -3 && yAxis >= 90 && yAxis <= 108) {
             List<String> info = new ArrayList<>();
             boolean freq = frequency != null;
             if (!freq) {
@@ -220,8 +233,8 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
         ;
         if (!freq) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
-            drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
-            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 86, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), true));
         }
     }
 }
