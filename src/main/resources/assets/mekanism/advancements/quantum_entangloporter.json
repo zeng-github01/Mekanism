@@ -7,7 +7,8 @@
       "translate": "advancements.mekanism.quantum_entangloporter.title"
     },
     "icon": {
-      "item": "mekanism:machineblock3"
+      "item": "mekanism:machineblock3",
+      "data" : 0
     }
   },
   "criteria": {
@@ -16,7 +17,8 @@
       "conditions": {
         "items": [
           {
-            "item": "mekanism:machineblock3"
+            "item": "mekanism:machineblock3",
+            "data" : 0
           }
         ]
       }

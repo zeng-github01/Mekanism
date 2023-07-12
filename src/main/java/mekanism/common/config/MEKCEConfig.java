@@ -49,4 +49,22 @@ public class MEKCEConfig extends BaseConfig {
     public final BooleanOption GasEjectionSettings = new BooleanOption(this, "mekce", "GasEjectionSettings", false, "If true, the gas ejection is based on the number of tanks in the tank");
 
     public final BooleanOption FluidEjectionSettings = new BooleanOption(this, "mekce", "FluidEjectionSettings", false, "If true, the fluid ejection is based on the number of tanks in the tank");
+
+    public final IntOption MAXSpeedUpgrade = new IntOption(this, "mekce", "MAXSpeedUpgrade", 8, "The maximum number of speed upgrades that can be installed", 1, Integer.MAX_VALUE).setRequiresGameRestart(true);
+
+    public final IntOption MAXEnergyUpgrade = new IntOption(this, "mekce", "MAXEnergyUpgrade", 8, "The maximum number of energy upgrades that can be installed", 1, Integer.MAX_VALUE).setRequiresGameRestart(true);
+
+    public final IntOption MAXGasUpgrade = new IntOption(this, "mekce", "MAXGasUpgrade", 8, "The maximum number of gas upgrades that can be installed", 1, Integer.MAX_VALUE).setRequiresGameRestart(true);
+
+    public final IntOption MAXMufflingUpgrade = new IntOption(this, "mekce", "MAXMufflingUpgrade", 4, "The maximum number of muffling upgrades that can be installed", 1, Integer.MAX_VALUE).setRequiresGameRestart(true);
+
+    public final IntOption MAXSpeedUpgradeSize = new IntOption(this, "mekce", "MAXSpeedUpgradeSize", 8, "The maximum number of stacks that can be stacked for speed upgrades", 1, 64).setRequiresGameRestart(true);
+
+    public final IntOption MAXEnergyUpgradeSize = new IntOption(this, "mekce", "MAXEnergyUpgradeSize", 8, "The maximum number of stacks that can be stacked for energy upgrades", 1, 64).setRequiresGameRestart(true);
+
+    public final IntOption MAXGasUpgradeSize = new IntOption(this, "mekce", "MAXGasUpgradeSize", 8, "The maximum number of stacks that can be stacked for gas upgrades", 1, 64).setRequiresGameRestart(true);
+
+    public final IntOption MAXMufflingUpgradeSize = new IntOption(this, "mekce", "MAXMufflingUpgradeSize", 4, "The maximum number of stacks that can be stacked for muffling upgrades", 1, 64).setRequiresGameRestart(true);
+
+    public final BooleanOption FactoryOldSorting = new BooleanOption(this, "mekce", "FactoryOldSorting", false, "If ture, the factory uses the original sort function");
 }

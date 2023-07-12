@@ -18,20 +18,22 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public enum Upgrade {
-    SPEED("speed", 8, EnumColor.RED),
-    ENERGY("energy", 8, EnumColor.BRIGHT_GREEN),
-    FILTER("filter", 1, EnumColor.DARK_AQUA),
-    GAS("gas", 8, EnumColor.YELLOW),
-    MUFFLING("muffling", 4, EnumColor.DARK_GREY),
-    ANCHOR("anchor", 1, EnumColor.DARK_GREEN);
+    SPEED("speed", MekanismConfig.current().mekce.MAXSpeedUpgrade.val(), MekanismConfig.current().mekce.MAXSpeedUpgradeSize.val(), EnumColor.RED),
+    ENERGY("energy", MekanismConfig.current().mekce.MAXEnergyUpgrade.val(), MekanismConfig.current().mekce.MAXEnergyUpgradeSize.val(), EnumColor.BRIGHT_GREEN),
+    FILTER("filter", 1, 1, EnumColor.DARK_AQUA),
+    GAS("gas", MekanismConfig.current().mekce.MAXGasUpgrade.val(), MekanismConfig.current().mekce.MAXGasUpgradeSize.val(), EnumColor.YELLOW),
+    MUFFLING("muffling", MekanismConfig.current().mekce.MAXMufflingUpgrade.val(), MekanismConfig.current().mekce.MAXMufflingUpgradeSize.val(), EnumColor.DARK_GREY),
+    ANCHOR("anchor", 1, 1, EnumColor.DARK_GREEN);
 
     private String name;
     private int maxStack;
+    private int maxItemStack;
     private EnumColor color;
 
-    Upgrade(String s, int max, EnumColor c) {
+    Upgrade(String s, int max, int maxItem, EnumColor c) {
         name = s;
         maxStack = max;
+        maxItemStack = maxItem;
         color = c;
     }
 
@@ -71,6 +73,10 @@ public enum Upgrade {
 
     public String getDescription() {
         return LangUtils.localize("upgrade." + name + ".desc");
+    }
+
+    public int getItemMax() {
+        return maxItemStack;
     }
 
     public int getMax() {
