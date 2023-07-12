@@ -57,7 +57,7 @@ public class ContainerPersonalChest extends ContainerMekanism<TileEntityPersonal
     }
 
     @Override
-    protected int getInventoryOffset() {
+    protected int getInventorYOffset() {
         return 148;
     }
 

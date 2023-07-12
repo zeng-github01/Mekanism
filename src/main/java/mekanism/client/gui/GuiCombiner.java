@@ -14,8 +14,4 @@ public class GuiCombiner extends GuiDoubleElectricMachine<CombinerRecipe> {
         super(inventory, tile);
     }
 
-    @Override
-    public ProgressBar getProgressType() {
-        return ProgressBar.STONE;
-    }
 }

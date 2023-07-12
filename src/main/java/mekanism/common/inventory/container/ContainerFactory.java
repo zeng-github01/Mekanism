@@ -47,27 +47,13 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
     }
 
     @Override
-    protected int getInventoryOffset() {
-        if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING) {
-            return 95;
-        } else {
-            return 84;
-        }
+    protected int getInventorYOffset() {
+        return tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING ? 95 : 84;
     }
 
     @Override
-    protected void addInventorySlots(InventoryPlayer inventory) {
-        int xoffset = tileEntity.tier == FactoryTier.CREATIVE ? 44 : tileEntity.tier == FactoryTier.ULTIMATE ? 27 : 8;
-        int offset = getInventoryOffset();
-        for (int slotY = 0; slotY < 3; slotY++) {
-            for (int slotX = 0; slotX < 9; slotX++) {
-                addSlotToContainer(new Slot(inventory, slotX + slotY * 9 + 9, xoffset + slotX * 18, offset + slotY * 18));
-            }
-        }
-        offset += 58;
-        for (int slotY = 0; slotY < 9; slotY++) {
-            addSlotToContainer(new Slot(inventory, slotY, xoffset + slotY * 18, offset));
-        }
+    protected int getInventorXOffset(){
+        return tileEntity.tier == FactoryTier.CREATIVE ? 44 : tileEntity.tier == FactoryTier.ULTIMATE ? 27 : 8;
     }
 
     @Nonnull

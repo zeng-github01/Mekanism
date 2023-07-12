@@ -1,6 +1,5 @@
 package mekanism.client.gui;
 
-import mekanism.client.gui.element.GuiProgress.ProgressBar;
 import mekanism.common.recipe.machines.OsmiumCompressorRecipe;
 import mekanism.common.tile.prefab.TileEntityAdvancedElectricMachine;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -14,8 +13,4 @@ public class GuiOsmiumCompressor extends GuiAdvancedElectricMachine<OsmiumCompre
         super(inventory, tile);
     }
 
-    @Override
-    public ProgressBar getProgressType() {
-        return ProgressBar.RED;
-    }
 }

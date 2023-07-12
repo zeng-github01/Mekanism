@@ -63,7 +63,7 @@ public class ContainerDigitalMiner extends ContainerMekanism<TileEntityDigitalMi
     }
 
     @Override
-    protected int getInventoryOffset() {
+    protected int getInventorYOffset() {
         return 160;
     }
 }

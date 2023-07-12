@@ -62,7 +62,7 @@ public class ContainerTeleporter extends ContainerMekanism<TileEntityTeleporter>
     }
 
     @Override
-    protected int getInventoryOffset() {
+    protected int getInventorYOffset() {
         return 148;
     }
 }

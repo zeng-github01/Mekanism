@@ -1,6 +1,5 @@
 package mekanism.client.gui;
 
-import mekanism.client.gui.element.GuiProgress.ProgressBar;
 import mekanism.common.recipe.machines.SmeltingRecipe;
 import mekanism.common.tile.prefab.TileEntityElectricMachine;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -14,8 +13,4 @@ public class GuiEnergizedSmelter extends GuiElectricMachine<SmeltingRecipe> {
         super(inventory, tile);
     }
 
-    @Override
-    public ProgressBar getProgressType() {
-        return ProgressBar.GREEN;
-    }
 }

@@ -3,6 +3,7 @@ package mekanism.client.gui;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.api.transmitters.TransmissionType;
+import mekanism.api.util.time.Timeticks;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
@@ -38,8 +39,10 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCondensentrator> {
 
+    protected Timeticks time;
     public GuiRotaryCondensentrator(InventoryPlayer inventory, TileEntityRotaryCondensentrator tile) {
         super(tile, new ContainerRotaryCondensentrator(inventory, tile));
+        time = new Timeticks(20, 20, false);
         ResourceLocation resource = getGuiLocation();
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
@@ -63,7 +66,7 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
-                return tileEntity.getActive() ? 1 : 0;
+                return (double) time.getValue() / 20F;
             }
 
             @Override
@@ -74,7 +77,7 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
-                return tileEntity.getActive() ? 1 : 0;
+                return (double) time.getValue() / 20F;
             }
 
             @Override

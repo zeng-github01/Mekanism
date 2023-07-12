@@ -1,5 +1,6 @@
 package mekanism.client.gui.chemical;
 
+import mekanism.api.util.time.Timeticks;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -29,8 +30,10 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuser> {
 
+    protected Timeticks time;
     public GuiChemicalInfuser(InventoryPlayer inventory, TileEntityChemicalInfuser tile) {
         super(tile, new ContainerChemicalInfuser(inventory, tile));
+        time = new Timeticks(20, 20, false);
         ResourceLocation resource = getGuiLocation();
         ySize += 11;
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
@@ -54,13 +57,13 @@ public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuse
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
-                return tileEntity.getActive() ? 1 : 0;
+                return (double) time.getValue() / 20F;
             }
         }, ProgressBar.SMALL_RIGHT, this, resource, 45, 38  + 11));
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
-                return tileEntity.getActive() ? 1 : 0;
+                return (double) time.getValue() / 20F;
             }
         }, ProgressBar.SMALL_LEFT, this, resource, 99, 38  + 11));
         addGuiElement(new GuiPlayerSlot(this,resource,7,94));

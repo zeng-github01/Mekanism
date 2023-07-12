@@ -5,6 +5,8 @@ import mekanism.api.gas.GasStack;
 import mekanism.api.infuse.InfuseType;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.element.*;
+import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
+import mekanism.client.gui.element.GuiProgress.ProgressBar;
 import mekanism.client.gui.element.tab.*;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
@@ -82,8 +84,18 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
                     LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
+        int xOffset = tileEntity.tier == FactoryTier.BASIC ? 57 : tileEntity.tier == FactoryTier.ADVANCED ? 37 : tileEntity.tier == FactoryTier.ELITE ? 31 : 29;
+        for (int i = 0; i < tileEntity.tier.processes; i++) {
+            int cacheIndex = i;
+            int xPos = xOffset + (i * xDistance);
+            addGuiElement(new GuiProgress(new IProgressInfoHandler() {
+                @Override
+                public double getProgress() {
+                    return tileEntity.getScaledProgress(1, cacheIndex);
+                }
+            }, ProgressBar.DOWN, this, resource, xPos, 33));
+        }
     }
-
 
     @Override
     public void initGui() {
@@ -170,33 +182,25 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        int xOffset = tileEntity.tier == FactoryTier.BASIC ? 59 : tileEntity.tier == FactoryTier.ADVANCED ? 39 : tileEntity.tier == FactoryTier.ELITE ? 33 : 31;
         int xDistance = tileEntity.tier == FactoryTier.BASIC ? 38 : tileEntity.tier == FactoryTier.ADVANCED ? 26 : 19;
         int Slotlocation = tileEntity.tier == FactoryTier.BASIC ? 54 : tileEntity.tier == FactoryTier.ADVANCED ? 34 : tileEntity.tier == FactoryTier.ELITE ? 28 : 26;
-        int Xprocesses = tileEntity.tier == FactoryTier.CREATIVE ? 248 : tileEntity.tier == FactoryTier.ULTIMATE ? 210 : 176;
-        for (int i = 0; i < tileEntity.tier.processes; i++) {
-            int xPos = xOffset + (i * xDistance);
-            drawTexturedModalRect(guiLeft + xPos, guiTop + 33, Xprocesses, 73, 8, 20);
-            int displayInt = tileEntity.getScaledProgress(20, i);
-            drawTexturedModalRect(guiLeft + xPos, guiTop + 33, Xprocesses, 52, 8, displayInt);
-        }
         int xgas = tileEntity.tier == FactoryTier.CREATIVE ? 212 : tileEntity.tier == FactoryTier.ULTIMATE ? 174 : 140;
         if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING) {
             drawTexturedModalRect(guiLeft + 7, guiTop + 77, 0, 179, xgas, 7);
         }
         if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED) {
-            if (tileEntity.getScaledGasLevel(xgas - 2) > 0) {
+            if ((int)tileEntity.getScaledGasLevel(xgas - 2) > 0) {
                 GasStack gas = tileEntity.gasTank.getGas();
                 if (gas != null) {
                     MekanismRenderer.color(gas);
-                    displayGauge(8, 78, tileEntity.getScaledGasLevel(xgas - 2), 5, gas.getGas().getSprite());
+                    displayGauge(8, 78, (int) tileEntity.getScaledGasLevel(xgas - 2), 5, gas.getGas().getSprite());
                     MekanismRenderer.resetColor();
                 }
             }
         } else if (tileEntity.getRecipeType() == RecipeType.INFUSING) {
-            if (tileEntity.getScaledInfuseLevel(xgas - 2) > 0) {
+            if ((int)tileEntity.getScaledInfuseLevel(xgas - 2) > 0) {
                 MekanismRenderer.resetColor();
-                displayGauge(8, 78, tileEntity.getScaledInfuseLevel(xgas - 2), 5, tileEntity.infuseStored.getType().sprite);
+                displayGauge(8, 78, (int)tileEntity.getScaledInfuseLevel(xgas - 2), 5, tileEntity.infuseStored.getType().sprite);
             }
         }
         for (int i = 0; i < tileEntity.tier.processes; i++) {
@@ -210,7 +214,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
             }
             if (inputgas || inputinfuse) {
                 mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning_Background.png"));
-                drawTexturedModalRect(guiLeft + 8, guiTop + 78, 0, 0, 138, 5);
+                drawTexturedModalRect(guiLeft + 8, guiTop + 78, 0, 0, xgas - 2, 5);
             }
             if (outslot || energy || inputgas || inputinfuse) {
                 mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));

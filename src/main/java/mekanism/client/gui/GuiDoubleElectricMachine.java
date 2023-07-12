@@ -50,7 +50,7 @@ public class GuiDoubleElectricMachine<RECIPE extends DoubleMachineRecipe<RECIPE>
                 return tileEntity.getScaledProgress();
             }
         }, getProgressType(), this, resource, 77, 37));
-        addGuiElement(new GuiPlayerSlot(this,resource));
+        addGuiElement(new GuiPlayerSlot(this, resource));
     }
 
     @Override
@@ -71,7 +71,7 @@ public class GuiDoubleElectricMachine<RECIPE extends DoubleMachineRecipe<RECIPE>
     }
 
     public ProgressBar getProgressType() {
-        return ProgressBar.BLUE;
+        return ProgressBar.BAR;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package mekanism.client.gui;
 
-import mekanism.client.gui.element.GuiProgress.ProgressBar;
 import mekanism.common.recipe.machines.PurificationRecipe;
 import mekanism.common.tile.prefab.TileEntityAdvancedElectricMachine;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -14,8 +13,4 @@ public class GuiPurificationChamber extends GuiAdvancedElectricMachine<Purificat
         super(inventory, tile);
     }
 
-    @Override
-    public ProgressBar getProgressType() {
-        return ProgressBar.RED;
-    }
 }

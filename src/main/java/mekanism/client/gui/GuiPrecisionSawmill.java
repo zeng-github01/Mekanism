@@ -1,6 +1,5 @@
 package mekanism.client.gui;
 
-import mekanism.client.gui.element.GuiProgress.ProgressBar;
 import mekanism.common.recipe.machines.SawmillRecipe;
 import mekanism.common.tile.TileEntityChanceMachine;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -14,8 +13,4 @@ public class GuiPrecisionSawmill extends GuiChanceMachine<SawmillRecipe> {
         super(inventory, tile);
     }
 
-    @Override
-    public ProgressBar getProgressType() {
-        return ProgressBar.PURPLE;
-    }
 }

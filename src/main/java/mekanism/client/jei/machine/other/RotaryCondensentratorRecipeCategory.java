@@ -43,7 +43,7 @@ public class RotaryCondensentratorRecipeCategory extends BaseRecipeCategory<Rota
         guiElements.add(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
                     @Override
                     public double getProgress() {
-                        return 1F;
+                        return (float) timer.getValue() / 20F;
                     }
                 }, condensentrating ? GuiProgress.ProgressBar.LARGE_RIGHT : GuiProgress.ProgressBar.LARGE_LEFT, this, guiLocation, 62, 38)
         );

@@ -71,7 +71,7 @@ public class ContainerChemicalInfuser extends ContainerMekanism<TileEntityChemic
     }
 
     @Override
-    protected int getInventoryOffset() {
+    protected int getInventorYOffset() {
         return 84 + 11;
     }
 

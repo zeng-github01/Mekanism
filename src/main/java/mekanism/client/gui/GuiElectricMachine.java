@@ -49,12 +49,12 @@ public class GuiElectricMachine<RECIPE extends BasicMachineRecipe<RECIPE>> exten
                 return tileEntity.getScaledProgress();
             }
         }, getProgressType(), this, resource, 77, 37));
-        addGuiElement(new GuiPlayerSlot(this,resource));
+        addGuiElement(new GuiPlayerSlot(this, resource));
     }
 
 
     public ProgressBar getProgressType() {
-        return ProgressBar.BLUE;
+        return ProgressBar.BAR;
     }
 
     @Override

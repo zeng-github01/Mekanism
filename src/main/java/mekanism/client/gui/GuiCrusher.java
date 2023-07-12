@@ -1,6 +1,5 @@
 package mekanism.client.gui;
 
-import mekanism.client.gui.element.GuiProgress.ProgressBar;
 import mekanism.common.recipe.machines.CrusherRecipe;
 import mekanism.common.tile.prefab.TileEntityElectricMachine;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -14,8 +13,4 @@ public class GuiCrusher extends GuiElectricMachine<CrusherRecipe> {
         super(inventory, tile);
     }
 
-    @Override
-    public ProgressBar getProgressType() {
-        return ProgressBar.CRUSH;
-    }
 }

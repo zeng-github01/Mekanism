@@ -1,6 +1,7 @@
 package mekanism.generators.client.gui;
 
 import mekanism.api.TileNetworkList;
+import mekanism.api.util.time.Timeticks;
 import mekanism.client.gui.element.GuiEnergyInfo;
 import mekanism.client.gui.element.GuiProgress;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -31,9 +32,10 @@ import java.util.Arrays;
 public class GuiReactorFuel extends GuiReactorInfo {
 
     private GuiTextField injectionRateField;
-
+    protected Timeticks time;
     public GuiReactorFuel(InventoryPlayer inventory, final TileEntityReactorController tile) {
         super(tile, new ContainerNull(inventory.player, tile));
+        time = new Timeticks(20, 20, false);
         ResourceLocation resource = getGuiLocation();
         addGuiElement(new GuiEnergyInfo(() -> tileEntity.isFormed() ? Arrays.asList(
                 LangUtils.localize("gui.storing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()),
@@ -45,13 +47,13 @@ public class GuiReactorFuel extends GuiReactorInfo {
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
-                return tileEntity.getActive() ? 1 : 0;
+                return (double) time.getValue() / 20F;
             }
         }, ProgressBar.SMALL_RIGHT, this, resource, 45, 75));
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
-                return tileEntity.getActive() ? 1 : 0;
+                return (double) time.getValue() / 20F;
             }
         }, ProgressBar.SMALL_LEFT, this, resource, 99, 75));
         addGuiElement(new GuiReactorTab(this, tileEntity, ReactorTab.HEAT, resource));

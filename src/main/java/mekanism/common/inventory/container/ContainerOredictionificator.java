@@ -66,7 +66,7 @@ public class ContainerOredictionificator extends ContainerMekanism<TileEntityOre
     }
 
     @Override
-    protected int getInventoryOffset() {
+    protected int getInventorYOffset() {
         return 148;
     }
 }

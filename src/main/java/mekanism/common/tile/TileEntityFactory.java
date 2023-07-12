@@ -57,6 +57,15 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         ISustainedData, IComparatorSupport {
 
     private static final String[] methods = new String[]{"getEnergy", "getProgress", "facing", "canOperate", "getMaxEnergy", "getEnergyNeeded"};
+    /**
+     * How long it takes this factory to switch recipe types.
+     */
+    private static int RECIPE_TICKS_REQUIRED = 40;
+    /**
+     * The amount of infuse this machine has stored.
+     */
+    public final InfuseStorage infuseStored = new InfuseStorage();
+    public final GasTank gasTank;
     private final MachineRecipe[] cachedRecipe;
     private final FactoryInvSorter inventorySorter = new FactoryInvSorter(this);
     /**
@@ -77,34 +86,20 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
      * How many ticks it takes, with upgrades, to run an operation
      */
     public int ticksRequired = 200;
+    public boolean sorting;
+    public boolean upgraded;
+    public double lastUsage;
+    public TileComponentEjector ejectorComponent;
+    public TileComponentConfig configComponent;
     /**
      * How much secondary energy each operation consumes per tick
      */
     private double secondaryEnergyPerTick = 0;
     private int secondaryEnergyThisTick;
     /**
-     * How long it takes this factory to switch recipe types.
-     */
-    private static int RECIPE_TICKS_REQUIRED = 40;
-    /**
      * How many recipe ticks have progressed.
      */
     private int recipeTicks;
-    /**
-     * The amount of infuse this machine has stored.
-     */
-    public final InfuseStorage infuseStored = new InfuseStorage();
-
-    public final GasTank gasTank;
-
-    public boolean sorting;
-
-    public boolean upgraded;
-
-    public double lastUsage;
-
-    public TileComponentEjector ejectorComponent;
-    public TileComponentConfig configComponent;
     /**
      * This machine's recipe type.
      */
@@ -141,15 +136,59 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         progress = new int[type.processes];
         isActive = false;
         cachedRecipe = new MachineRecipe[tier.processes];
-        gasTank = new GasTank(TileEntityAdvancedElectricMachine.MAX_GAS * tier.processes);
-        maxInfuse = BASE_MAX_INFUSE * tier.processes;
-        if (tier != FactoryTier.CREATIVE) {
-            BASE_TICKS_REQUIRED = 200;
-        } else {
-            BASE_TICKS_REQUIRED = 1;
+        gasTank = new GasTank(tier != FactoryTier.CREATIVE ? TileEntityAdvancedElectricMachine.MAX_GAS * tier.processes : Integer.MAX_VALUE);
+        maxInfuse = tier != FactoryTier.CREATIVE ? BASE_MAX_INFUSE * tier.processes : Integer.MAX_VALUE;
+        BASE_TICKS_REQUIRED = tier != FactoryTier.CREATIVE ? 200 : 1;
+        if (tier == FactoryTier.CREATIVE) {
             maxEnergy = Double.MAX_VALUE;
         }
         setRecipeType(recipeType);
+    }
+
+    public static ItemStack getRecipeInput(MachineRecipe<?, ?, ?> recipe) {
+        if (recipe.recipeInput instanceof ItemStackInput) {
+            return ((ItemStackInput) recipe.recipeInput).ingredient;
+        } else if (recipe.recipeInput instanceof AdvancedMachineInput) {
+            AdvancedMachineInput advancedInput = (AdvancedMachineInput) recipe.recipeInput;
+            return advancedInput.itemStack;
+        } else if (recipe.recipeInput instanceof DoubleMachineInput) {
+            DoubleMachineInput doubleMachineInput = (DoubleMachineInput) recipe.recipeInput;
+            return doubleMachineInput.itemStack;
+        } else if (recipe.recipeInput instanceof InfusionInput) {
+            InfusionInput infusionInput = (InfusionInput) recipe.recipeInput;
+            return infusionInput.inputStack;
+        } else {
+            return ItemStack.EMPTY;
+        }
+    }
+
+    private static int[] getSlotsWithTier(FactoryTier tier) {
+        switch (tier) {
+            case BASIC:
+                return new int[]{5, 6, 7};
+            case ADVANCED:
+                return new int[]{5, 6, 7, 8, 9};
+            case ELITE:
+                return new int[]{5, 6, 7, 8, 9, 10, 11};
+            case ULTIMATE:
+                return new int[]{5, 6, 7, 8, 9, 10, 11, 12, 13};
+            case CREATIVE:
+                return new int[]{5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+            default:
+                return null;
+        }
+    }
+
+    public static ItemStack copyStackWithSize(ItemStack stack, int amount) {
+        if (stack.isEmpty() || amount <= 0) return ItemStack.EMPTY;
+        ItemStack s = stack.copy();
+        s.setCount(amount);
+        return s;
+    }
+
+    public static boolean matchStacks(@Nonnull ItemStack stack, @Nonnull ItemStack other) {
+        if (!ItemStack.areItemsEqual(stack, other)) return false;
+        return ItemStack.areItemStackTagsEqual(stack, other);
     }
 
     @Override
@@ -231,9 +270,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             ChargeUtils.discharge(1, this);
 
             handleSecondaryFuel();
-            if (MekanismConfig.current().mekce.FactoryOldSorting.val()){
+            if (MekanismConfig.current().mekce.FactoryOldSorting.val()) {
                 sortInventory(); //Keeping the old sort prevents some problems
-            }else {
+            } else {
                 inventorySorter.sort();
             }
             ItemStack machineSwapItem = inventory.get(2);
@@ -284,14 +323,14 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                         && getEnergy() >= energyPerTick && gasTank.getStored() >= secondaryEnergyThisTick) {
                     if ((progress[process] + 1) < ticksRequired) {
                         progress[process]++;
-                        gasTank.draw(secondaryEnergyThisTick, true);
+                        gasTank.draw(secondaryEnergyThisTick, tier != FactoryTier.CREATIVE);
                         if (tier != FactoryTier.CREATIVE) {
                             electricityStored -= energyPerTick;
                         }
                     } else if ((progress[process] + 1) >= ticksRequired) {
                         operate(getInputSlot(process), getOutputSlot(process));
                         progress[process] = 0;
-                        gasTank.draw(secondaryEnergyThisTick, true);
+                        gasTank.draw(secondaryEnergyThisTick, tier != FactoryTier.CREATIVE);
                         if (tier != FactoryTier.CREATIVE) {
                             electricityStored -= energyPerTick;
                         }
@@ -456,11 +495,20 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                     if (gasTank.canReceive(gas) && gasTank.getNeeded() >= gasStack.amount) {
                         if (extra.getItem() instanceof IGasItem) {
                             IGasItem item = (IGasItem) extra.getItem();
-                            gasTank.receive(item.removeGas(extra, gasStack.amount), true);
-                        } else {
-                            gasTank.receive(gasStack, true);
                             if (tier != FactoryTier.CREATIVE) {
+                                gasTank.receive(item.removeGas(extra, gasStack.amount), true);
+                            } else {
+                                gasTank.receive(item.removeGas(extra, gasTank.getMaxGas()), true);
+                            }
+                        } else {
+                            if (tier != FactoryTier.CREATIVE) {
+                                gasTank.receive(gasStack, true);
                                 extra.shrink(1);
+                            } else {
+                                gasTank.setGas(gasStack);
+                                gasTank.setMaxGas(Integer.MAX_VALUE);
+                                gasTank.stored.amount = gasTank.getMaxGas();
+
                             }
                         }
                     }
@@ -470,9 +518,12 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 if (pendingInfusionInput != null) {
                     if (infuseStored.getType() == null || infuseStored.getType() == pendingInfusionInput.type) {
                         if (infuseStored.getAmount() + pendingInfusionInput.stored <= maxInfuse) {
-                            infuseStored.increase(pendingInfusionInput);
                             if (tier != FactoryTier.CREATIVE) {
+                                infuseStored.increase(pendingInfusionInput);
                                 extra.shrink(1);
+                            } else {
+                                infuseStored.setType(pendingInfusionInput.type);
+                                infuseStored.setAmount(maxInfuse);
                             }
                         }
                     }
@@ -514,7 +565,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         return super.canInsertItem(slotID, itemstack, side);
     }
 
-    private boolean   isInputSlot(int slotID) {
+    private boolean isInputSlot(int slotID) {
         return slotID >= 5 && (tier == FactoryTier.BASIC ? slotID <= 7 : tier == FactoryTier.ADVANCED ? slotID <= 9 : tier == FactoryTier.ELITE ? slotID <= 11 : tier == FactoryTier.ULTIMATE ? slotID <= 13 : tier == FactoryTier.CREATIVE && slotID <= 15);
     }
 
@@ -547,24 +598,16 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         return false;
     }
 
-    public int getScaledProgress(int i, int process) {
-        if (tier != FactoryTier.CREATIVE) {
-            return progress[process] * i / ticksRequired;
-        }else {
-            if (isActive){
-                return progress[process];
-            }else {
-                return 0;
-            }
-        }
+    public double getScaledProgress(int i, int process) {
+        return (double) progress[process] * i / ticksRequired;
     }
 
-    public int getScaledInfuseLevel(int i) {
-        return infuseStored.getAmount() * i / maxInfuse;
+    public double getScaledInfuseLevel(int i) {
+        return (double) infuseStored.getAmount() * i / maxInfuse;
     }
 
-    public int getScaledGasLevel(int i) {
-        return gasTank.getStored() * i / gasTank.getMaxGas();
+    public double getScaledGasLevel(int i) {
+        return (double) gasTank.getStored() * i / gasTank.getMaxGas();
     }
 
     public int getScaledRecipeProgress(int i) {
@@ -926,12 +969,10 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         super.recalculateUpgradables(upgrade);
         switch (upgrade) {
             case ENERGY:
-                if (tier != FactoryTier.CREATIVE) {
-                    energyPerTick = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK); // incorporate speed upgrades
-                } else {
-                    energyPerTick = BASE_ENERGY_PER_TICK;
+                if (tier == FactoryTier.CREATIVE) {
                     maxEnergy = BASE_MAX_ENERGY;
                 }
+                energyPerTick = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK); // incorporate speed upgrades
                 break;
             case GAS:
                 secondaryEnergyPerTick = getSecondaryEnergyPerTick(recipeType);
@@ -1034,41 +1075,6 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         return cached;
     }
 
-    public static ItemStack getRecipeInput(MachineRecipe<?, ?, ?> recipe) {
-        if (recipe.recipeInput instanceof ItemStackInput) {
-            return ((ItemStackInput) recipe.recipeInput).ingredient;
-        } else if (recipe.recipeInput instanceof AdvancedMachineInput) {
-            AdvancedMachineInput advancedInput = (AdvancedMachineInput) recipe.recipeInput;
-            return advancedInput.itemStack;
-        } else if (recipe.recipeInput instanceof DoubleMachineInput) {
-            DoubleMachineInput doubleMachineInput = (DoubleMachineInput) recipe.recipeInput;
-            return doubleMachineInput.itemStack;
-        } else if (recipe.recipeInput instanceof InfusionInput) {
-            InfusionInput infusionInput = (InfusionInput) recipe.recipeInput;
-            return infusionInput.inputStack;
-        } else {
-            return ItemStack.EMPTY;
-        }
-    }
-
-    private static int[] getSlotsWithTier(FactoryTier tier) {
-        switch (tier) {
-            case BASIC:
-                return new int[]{5, 6, 7};
-            case ADVANCED:
-                return new int[]{5, 6, 7, 8, 9};
-            case ELITE:
-                return new int[]{5, 6, 7, 8, 9, 10, 11};
-            case ULTIMATE:
-                return new int[]{5, 6, 7, 8, 9, 10, 11, 12, 13};
-            case CREATIVE:
-                return new int[]{5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-            default:
-                return null;
-        }
-    }
-
-
     public void sortInventory() {
         if (sorting) {
             int[] inputSlots;
@@ -1116,18 +1122,6 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 }
             }
         }
-    }
-
-    public static ItemStack copyStackWithSize(ItemStack stack, int amount) {
-        if (stack.isEmpty() || amount <= 0) return ItemStack.EMPTY;
-        ItemStack s = stack.copy();
-        s.setCount(amount);
-        return s;
-    }
-
-    public static boolean matchStacks(@Nonnull ItemStack stack, @Nonnull ItemStack other) {
-        if (!ItemStack.areItemsEqual(stack, other)) return false;
-        return ItemStack.areItemStackTagsEqual(stack, other);
     }
 
     /**
