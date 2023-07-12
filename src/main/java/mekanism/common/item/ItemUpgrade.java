@@ -59,8 +59,10 @@ public class ItemUpgrade extends ItemMekanism implements IUpgradeItem {
                 TileComponentUpgrade component = ((IUpgradeTile) tile).getComponent();
                 if (component.supports(type)) {
                     if (!world.isRemote && component.getUpgrades(type) < type.getMax()) {
-                        component.addUpgrade(type);
-                        stack.shrink(1);
+                        int added = component.addUpgrades(type, stack.getCount());
+                        if (added > 0) {
+                            stack.shrink(added);
+                        }
                     }
                 }
                 return EnumActionResult.SUCCESS;

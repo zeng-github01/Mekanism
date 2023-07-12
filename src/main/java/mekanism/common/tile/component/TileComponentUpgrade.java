@@ -63,8 +63,10 @@ public class TileComponentUpgrade implements ITileComponent {
                         upgradeTicks++;
                     } else if (upgradeTicks == UPGRADE_TICKS_REQUIRED) {
                         upgradeTicks = 0;
-                        addUpgrade(type);
-                        tileEntity.inventory.get(upgradeSlot).shrink(1);
+                        int added = addUpgrades(type, tileEntity.inventory.get(upgradeSlot).getCount());
+                        if (added > 0) {
+                            tileEntity.inventory.get(upgradeSlot).shrink(added);
+                        }
                         Mekanism.packetHandler.sendUpdatePacket(tileEntity);
                         tileEntity.markDirty();
                     }
@@ -90,15 +92,25 @@ public class TileComponentUpgrade implements ITileComponent {
     }
 
     public int getUpgrades(Upgrade upgrade) {
-        if (upgrades.get(upgrade) == null) {
-            return 0;
-        }
-        return upgrades.get(upgrade);
+        return upgrades.getOrDefault(upgrade, 0);
     }
 
-    public void addUpgrade(Upgrade upgrade) {
-        upgrades.put(upgrade, Math.min(upgrade.getMax(), getUpgrades(upgrade) + 1));
-        tileEntity.recalculateUpgradables(upgrade);
+    public int addUpgrades(Upgrade upgrade, int maxAvailable) {
+        int installed = getUpgrades(upgrade);
+        if (installed < upgrade.getMax()) {
+            int toAdd = Math.min(upgrade.getMax() - installed, maxAvailable);
+            if (toAdd > 0) {
+                this.upgrades.put(upgrade, installed + toAdd);
+                tileEntity.recalculateUpgradables(upgrade);
+                if (upgrade == Upgrade.MUFFLING) {
+                    //Send an update packet to the client to update the number of muffling upgrades installed
+                    tileEntity.update();
+                }
+                tileEntity.markDirty();
+                return toAdd;
+            }
+        }
+        return 0;
     }
 
     public void removeUpgrade(Upgrade upgrade) {
