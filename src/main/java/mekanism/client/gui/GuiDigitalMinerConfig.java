@@ -34,7 +34,7 @@ import java.io.IOException;
 @SideOnly(Side.CLIENT)
 public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMiner, MinerFilter> {
 
-    private GuiTextField radiusField;
+    private GuiTextColorField radiusField;
     private GuiTextField minField;
     private GuiTextField maxField;
     private GuiButton newFilterButton;
@@ -143,20 +143,24 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
         buttonList.add(setMaxButton = new GuiButtonDisableableImage(4, guiLeft + 39, guiTop + 117, 11, 11, 187, 11, -11, getGuiLocation()));
         buttonList.add(inverseButton = new GuiButtonDisableableImage(5, guiLeft + 11, guiTop + 141, 14, 14, 198, 14, -14, getGuiLocation()));
 
+
         String prevRad = radiusField != null ? radiusField.getText() : "";
         String prevMin = minField != null ? minField.getText() : "";
         String prevMax = maxField != null ? maxField.getText() : "";
 
-        radiusField = new GuiTextField(1, fontRenderer, guiLeft + 12, guiTop + 67, 26, 11);
+        radiusField = new GuiTextColorField(1, fontRenderer, guiLeft + 12, guiTop + 67, 26, 11);
         radiusField.setMaxStringLength(Integer.toString(MekanismConfig.current().general.digitalMinerMaxRadius.val()).length());
+        radiusField.setTextColor(0xFF3CFE9A);
         radiusField.setText(prevRad);
 
         minField = new GuiTextField(2, fontRenderer, guiLeft + 12, guiTop + 92, 26, 11);
         minField.setMaxStringLength(3);
+        minField.setTextColor(0xFF3CFE9A);
         minField.setText(prevMin);
 
         maxField = new GuiTextField(3, fontRenderer, guiLeft + 12, guiTop + 117, 26, 11);
         maxField.setMaxStringLength(3);
+        maxField.setTextColor(0xFF3CFE9A);
         maxField.setText(prevMax);
     }
 

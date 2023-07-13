@@ -3,6 +3,7 @@ package mekanism.client.gui;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
+import mekanism.client.gui.button.GuiButtonCenteredDisableableImage;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
@@ -82,7 +83,7 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
         super.initGui();
         buttonList.clear();
         int buttonStart = 19;
-        buttonList.add(this.startButton = new GuiButtonDisableableImage(START_BUTTON_ID, guiLeft + 87, guiTop + buttonStart, 61, 18, 180, 18, -18, 18, getGuiLocation()));
+        buttonList.add(this.startButton = new GuiButtonCenteredDisableableImage(START_BUTTON_ID, guiLeft + 87, guiTop + buttonStart, 61, 18, 180, 18, -18, 18, getGuiLocation(),LangUtils.localize("gui.start")));
         buttonList.add(this.stopButton = new GuiButtonDisableableImage(STOP_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 17, 61, 18, 180, 18, -18, 18, getGuiLocation()));
         buttonList.add(this.configButton = new GuiButtonDisableableImage(CONFIG_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 34, 61, 18, 180, 18, -18, 18, getGuiLocation()));
         buttonList.add(this.resetButton = new GuiButtonDisableableImage(RESET_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 51, 61, 18, 180, 18, -18, 18, getGuiLocation()));
@@ -142,7 +143,7 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSlot.png"));
             drawTexturedModalRect(64, 21, SlotOverlay.CHECK.textureX, SlotOverlay.CHECK.textureY, 18, 18);
         }
-        fontRenderer.drawString(LangUtils.localize("gui.start"), 87 + 61 / 2 - (fontRenderer.getStringWidth(LangUtils.localize("gui.start")) / 2), 19 + (18 - 8) / 2, startButton.enabled ? 0xffffff : 0x9e9e9e);
+        //fontRenderer.drawString(LangUtils.localize("gui.start"), 87 + 61 / 2 - (fontRenderer.getStringWidth(LangUtils.localize("gui.start")) / 2), 19 + (18 - 8) / 2, startButton.enabled ? 0xffffff : 0x9e9e9e);
         fontRenderer.drawString(LangUtils.localize("gui.stop"), 87 + 61 / 2 - (fontRenderer.getStringWidth(LangUtils.localize("gui.stop")) / 2), 19 + 17 + (18 - 8) / 2, stopButton.enabled ? 0xffffff : 0x9e9e9e);
         fontRenderer.drawString(LangUtils.localize("gui.config"), 87 + 61 / 2 - (fontRenderer.getStringWidth(LangUtils.localize("gui.config")) / 2), 19 + 34 + (18 - 8) / 2, configButton.enabled ? 0xffffff : 0x9e9e9e);
         fontRenderer.drawString(LangUtils.localize("gui.digitalMiner.reset"), 87 + 61 / 2 - (fontRenderer.getStringWidth(LangUtils.localize("gui.digitalMiner.reset")) / 2), 19 + 51 + (18 - 8) / 2, resetButton.enabled ? 0xffffff : 0x9e9e9e);
