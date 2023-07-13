@@ -2,6 +2,7 @@ package mekanism.client.gui;
 
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
+import mekanism.client.gui.button.GuiButtonTextDisableableImage;
 import mekanism.client.gui.element.GuiProgress;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
@@ -78,7 +79,7 @@ public class GuiOredictionificator extends GuiMekanismTile<TileEntityOredictioni
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(new GuiButton(0, guiLeft + 10, guiTop + 86, 142, 20, LangUtils.localize("gui.newFilter")));
+        buttonList.add(new GuiButtonTextDisableableImage(0, guiLeft + 10, guiTop + 86, 142, 20, LangUtils.localize("gui.newFilter")));
     }
 
     @Override

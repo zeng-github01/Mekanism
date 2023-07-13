@@ -3,6 +3,7 @@ package mekanism.client.gui;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
+import mekanism.client.gui.button.GuiButtonTextDisableableImage;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.HashList;
@@ -19,7 +20,6 @@ import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
@@ -35,14 +35,14 @@ import java.io.IOException;
 public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMiner, MinerFilter> {
 
     private GuiTextColorField radiusField;
-    private GuiTextField minField;
-    private GuiTextField maxField;
-    private GuiButton newFilterButton;
-    private GuiButton backButton;
-    private GuiButton setRadiButton;
-    private GuiButton setMinButton;
-    private GuiButton setMaxButton;
-    private GuiButton inverseButton;
+    private GuiTextColorField minField;
+    private GuiTextColorField maxField;
+    private GuiButtonTextDisableableImage newFilterButton;
+    private GuiButtonDisableableImage backButton;
+    private GuiButtonDisableableImage setRadiButton;
+    private GuiButtonDisableableImage setMinButton;
+    private GuiButtonDisableableImage setMaxButton;
+    private GuiButtonDisableableImage inverseButton;
 
     public GuiDigitalMinerConfig(EntityPlayer player, TileEntityDigitalMiner tile) {
         super(tile, new ContainerNull(player, tile));
@@ -59,6 +59,13 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
         radiusField.updateCursorCounter();
         minField.updateCursorCounter();
         maxField.updateCursorCounter();
+        updateEnabledButtons();
+    }
+
+    private void updateEnabledButtons() {
+        setRadiButton.enabled = !radiusField.getText().isEmpty();
+        setMinButton.enabled = !minField.getText().isEmpty();
+        setMaxButton.enabled = !maxField.getText().isEmpty();
     }
 
     @Override
@@ -136,11 +143,11 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(newFilterButton = new GuiButton(BUTTON_NEW, guiLeft + filterX, guiTop + 136, filterW, 20, LangUtils.localize("gui.newFilter")));
+        buttonList.add(newFilterButton = new GuiButtonTextDisableableImage(BUTTON_NEW, guiLeft + filterX, guiTop + 136, filterW, 20, LangUtils.localize("gui.newFilter")));
         buttonList.add(backButton = new GuiButtonDisableableImage(1, guiLeft + 5, guiTop + 5, 11, 11, 176, 11, -11, getGuiLocation()));
-        buttonList.add(setRadiButton = new GuiButtonDisableableImage(2, guiLeft + 39, guiTop + 67, 11, 11, 187, 11, -11, getGuiLocation()));
-        buttonList.add(setMinButton = new GuiButtonDisableableImage(3, guiLeft + 39, guiTop + 92, 11, 11, 187, 11, -11, getGuiLocation()));
-        buttonList.add(setMaxButton = new GuiButtonDisableableImage(4, guiLeft + 39, guiTop + 117, 11, 11, 187, 11, -11, getGuiLocation()));
+        buttonList.add(setRadiButton = new GuiButtonDisableableImage(2, guiLeft + 39, guiTop + 67, 11, 11, 187, 11, -11, 11, getGuiLocation()));
+        buttonList.add(setMinButton = new GuiButtonDisableableImage(3, guiLeft + 39, guiTop + 92, 11, 11, 187, 11, -11, 11, getGuiLocation()));
+        buttonList.add(setMaxButton = new GuiButtonDisableableImage(4, guiLeft + 39, guiTop + 117, 11, 11, 187, 11, -11, 11, getGuiLocation()));
         buttonList.add(inverseButton = new GuiButtonDisableableImage(5, guiLeft + 11, guiTop + 141, 14, 14, 198, 14, -14, getGuiLocation()));
 
 
@@ -148,18 +155,24 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
         String prevMin = minField != null ? minField.getText() : "";
         String prevMax = maxField != null ? maxField.getText() : "";
 
-        radiusField = new GuiTextColorField(1, fontRenderer, guiLeft + 12, guiTop + 67, 26, 11);
+        radiusField = new GuiTextColorField(1, fontRenderer, guiLeft + 12, guiTop + 67, 38, 11);
         radiusField.setMaxStringLength(Integer.toString(MekanismConfig.current().general.digitalMinerMaxRadius.val()).length());
+        radiusField.setFocusedboxbordercolor(0xFF24985C);
+        radiusField.setBoxbordercolor(0xFF3CFE9A);
         radiusField.setTextColor(0xFF3CFE9A);
         radiusField.setText(prevRad);
 
-        minField = new GuiTextField(2, fontRenderer, guiLeft + 12, guiTop + 92, 26, 11);
+        minField = new GuiTextColorField(2, fontRenderer, guiLeft + 12, guiTop + 92, 38, 11);
         minField.setMaxStringLength(3);
+        minField.setFocusedboxbordercolor(0xFF24985C);
+        minField.setBoxbordercolor(0xFF3CFE9A);
         minField.setTextColor(0xFF3CFE9A);
         minField.setText(prevMin);
 
-        maxField = new GuiTextField(3, fontRenderer, guiLeft + 12, guiTop + 117, 26, 11);
+        maxField = new GuiTextColorField(3, fontRenderer, guiLeft + 12, guiTop + 117, 38, 11);
         maxField.setMaxStringLength(3);
+        maxField.setFocusedboxbordercolor(0xFF24985C);
+        maxField.setBoxbordercolor(0xFF3CFE9A);
         maxField.setTextColor(0xFF3CFE9A);
         maxField.setText(prevMax);
     }
@@ -188,7 +201,7 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
         fontRenderer.drawString(config, (xSize / 2) - (fontRenderer.getStringWidth(config) / 2), 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.filters") + ":", 11, 19, 0x00CD00);
         fontRenderer.drawString("T: " + tileEntity.filters.size(), 11, 28, 0x00CD00);
-        fontRenderer.drawString("I: " + (tileEntity.inverse ? LangUtils.localize("gui.on") : LangUtils.localize("gui.off")), 11, 131, 0x00CD00);
+        fontRenderer.drawString("I: " + LangUtils.transOnOff(tileEntity.inverse), 11, 131, 0x00CD00);
         fontRenderer.drawString("Radi: " + tileEntity.getRadius(), 11, 58, 0x00CD00);
         fontRenderer.drawString("Min: " + tileEntity.minY, 11, 83, 0x00CD00);
         fontRenderer.drawString("Max: " + tileEntity.maxY, 11, 108, 0x00CD00);

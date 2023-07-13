@@ -17,7 +17,6 @@ import mekanism.common.tile.TileEntityLaserAmplifier;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -32,9 +31,9 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiLaserAmplifier extends GuiMekanismTile<TileEntityLaserAmplifier> {
 
-    private GuiTextField minField;
-    private GuiTextField maxField;
-    private GuiTextField timerField;
+    private GuiTextColorField minField;
+    private GuiTextColorField maxField;
+    private GuiTextColorField timerField;
 
     public GuiLaserAmplifier(InventoryPlayer inventory, TileEntityLaserAmplifier tile) {
         super(tile, new ContainerLaserAmplifier(inventory, tile));
@@ -197,17 +196,17 @@ public class GuiLaserAmplifier extends GuiMekanismTile<TileEntityLaserAmplifier>
     public void initGui() {
         super.initGui();
         String prevTime = timerField != null ? timerField.getText() : "";
-        timerField = new GuiTextField(0, fontRenderer, guiLeft + 96, guiTop + 28, 36, 11);
+        timerField = new GuiTextColorField(0, fontRenderer, guiLeft + 96, guiTop + 28, 36, 11);
         timerField.setMaxStringLength(4);
         timerField.setText(prevTime);
 
         String prevMin = minField != null ? minField.getText() : "";
-        minField = new GuiTextField(1, fontRenderer, guiLeft + 96, guiTop + 43, 72, 11);
+        minField = new GuiTextColorField(1, fontRenderer, guiLeft + 96, guiTop + 43, 72, 11);
         minField.setMaxStringLength(10);
         minField.setText(prevMin);
 
         String prevMax = maxField != null ? maxField.getText() : "";
-        maxField = new GuiTextField(2, fontRenderer, guiLeft + 96, guiTop + 58, 72, 11);
+        maxField = new GuiTextColorField(2, fontRenderer, guiLeft + 96, guiTop + 58, 72, 11);
         maxField.setMaxStringLength(10);
         maxField.setText(prevMax);
     }

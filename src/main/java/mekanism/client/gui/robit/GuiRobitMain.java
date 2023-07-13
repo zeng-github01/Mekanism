@@ -1,7 +1,9 @@
 package mekanism.client.gui.robit;
 
 import mekanism.client.gui.GuiMekanism;
+import mekanism.client.gui.GuiTextColorField;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
+import mekanism.client.gui.button.GuiButtonTextDisableableImage;
 import mekanism.client.gui.element.GuiBlack;
 import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiSlot;
@@ -15,7 +17,6 @@ import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -30,17 +31,17 @@ public class GuiRobitMain extends GuiMekanism {
     private final EntityRobit robit;
 
     private boolean displayNameChange;
-    private GuiTextField nameChangeField;
-    private GuiButton confirmName;
-    private GuiButton teleportHomeButton;
-    private GuiButton pickupButton;
-    private GuiButton renameButton;
-    private GuiButton followButton;
-    private GuiButton mainButton;
-    private GuiButton craftingButton;
-    private GuiButton inventoryButton;
-    private GuiButton smeltingButton;
-    private GuiButton repairButton;
+    private GuiTextColorField nameChangeField;
+    private GuiButtonTextDisableableImage confirmName;
+    private GuiButtonDisableableImage teleportHomeButton;
+    private GuiButtonDisableableImage pickupButton;
+    private GuiButtonDisableableImage renameButton;
+    private GuiButtonDisableableImage followButton;
+    private GuiButtonDisableableImage mainButton;
+    private GuiButtonDisableableImage craftingButton;
+    private GuiButtonDisableableImage inventoryButton;
+    private GuiButtonDisableableImage smeltingButton;
+    private GuiButtonDisableableImage repairButton;
 
     public GuiRobitMain(InventoryPlayer inventory, EntityRobit entity) {
         super(new ContainerRobitMain(inventory, entity));
@@ -95,10 +96,10 @@ public class GuiRobitMain extends GuiMekanism {
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(confirmName = new GuiButton(0, guiLeft + 58, guiTop + 47, 60, 20, LangUtils.localize("gui.confirm")));
+        buttonList.add(confirmName = new GuiButtonTextDisableableImage(0, guiLeft + 58, guiTop + 47, 60, 20, LangUtils.localize("gui.confirm")));
         confirmName.visible = displayNameChange;
 
-        nameChangeField = new GuiTextField(1, fontRenderer, guiLeft + 48, guiTop + 21, 80, 12);
+        nameChangeField = new GuiTextColorField(1, fontRenderer, guiLeft + 48, guiTop + 21, 80, 12);
         nameChangeField.setMaxStringLength(12);
         nameChangeField.setFocused(true);
 

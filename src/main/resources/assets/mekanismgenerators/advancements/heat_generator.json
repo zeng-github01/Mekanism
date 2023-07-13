@@ -7,7 +7,8 @@
       "translate": "advancements.mekanismgenerators.heat_generator.title"
     },
     "icon": {
-      "item": "mekanismgenerators:generator"
+      "item": "mekanismgenerators:generator",
+      "data" : 0
     }
   },
   "criteria": {
@@ -16,7 +17,8 @@
       "conditions": {
         "items": [
           {
-            "item": "mekanismgenerators:generator"
+            "item": "mekanismgenerators:generator",
+            "data" : 0
           }
         ]
       }

@@ -353,12 +353,7 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
         return INFINITE_EXTENT_AABB;
     }
 
-    public double getProgress() {
-        if (isActive) {
-            return .16 * (1 + (world.getTotalWorldTime() % 6));
-        }
-        return 0;
-    }
+
 
     @Nonnull
     @Override

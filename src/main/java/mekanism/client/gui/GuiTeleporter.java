@@ -5,6 +5,7 @@ import mekanism.api.TileNetworkList;
 import mekanism.client.ClientTickHandler;
 import mekanism.client.MekanismClient;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
+import mekanism.client.gui.button.GuiButtonTextDisableableImage;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiPowerBar.IPowerInfoHandler;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
@@ -27,7 +28,6 @@ import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -48,14 +48,14 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
     private EnumHand currentHand;
     private ItemStack itemStack = ItemStack.EMPTY;
     private EntityPlayer entityPlayer;
-    private GuiButton publicButton;
-    private GuiButton privateButton;
-    private GuiButton setButton;
-    private GuiButton deleteButton;
-    private GuiButton teleportButton;
-    private GuiButton checkboxButton;
+    private GuiButtonTextDisableableImage publicButton;
+    private GuiButtonTextDisableableImage privateButton;
+    private GuiButtonTextDisableableImage setButton;
+    private GuiButtonTextDisableableImage deleteButton;
+    private GuiButtonTextDisableableImage teleportButton;
+    private GuiButtonDisableableImage checkboxButton;
     private GuiScrollList scrollList;
-    private GuiTextField frequencyField;
+    private GuiTextColorField frequencyField;
     private boolean privateMode;
     private Frequency clientFreq;
     private byte clientStatus;
@@ -128,14 +128,14 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(publicButton = new GuiButton(0, guiLeft + 27, guiTop + 14, 60, 20, LangUtils.localize("gui.public")));
-        buttonList.add(privateButton = new GuiButton(1, guiLeft + 89, guiTop + 14, 60, 20, LangUtils.localize("gui.private")));
-        buttonList.add(setButton = new GuiButton(2, guiLeft + 27, guiTop + 116, 60, 20, LangUtils.localize("gui.set")));
-        buttonList.add(deleteButton = new GuiButton(3, guiLeft + 89, guiTop + 116, 60, 20, LangUtils.localize("gui.delete")));
+        buttonList.add(publicButton = new GuiButtonTextDisableableImage(0, guiLeft + 27, guiTop + 14, 60, 20, LangUtils.localize("gui.public")));
+        buttonList.add(privateButton = new GuiButtonTextDisableableImage(1, guiLeft + 89, guiTop + 14, 60, 20, LangUtils.localize("gui.private")));
+        buttonList.add(setButton = new GuiButtonTextDisableableImage(2, guiLeft + 27, guiTop + 116, 60, 20, LangUtils.localize("gui.set")));
+        buttonList.add(deleteButton = new GuiButtonTextDisableableImage(3, guiLeft + 89, guiTop + 116, 60, 20, LangUtils.localize("gui.delete")));
         if (!itemStack.isEmpty()) {
-            buttonList.add(teleportButton = new GuiButton(4, guiLeft + 42, guiTop + 140, 92, 20, LangUtils.localize("gui.teleport")));
+            buttonList.add(teleportButton = new GuiButtonTextDisableableImage(4, guiLeft + 42, guiTop + 140, 92, 20, LangUtils.localize("gui.teleport")));
         }
-        frequencyField = new GuiTextField(5, fontRenderer, guiLeft + 50, guiTop + 104, 86, 11);
+        frequencyField = new GuiTextColorField(5, fontRenderer, guiLeft + 50, guiTop + 104, 86, 11);
         frequencyField.setMaxStringLength(FrequencyManager.MAX_FREQ_LENGTH);
         frequencyField.setEnableBackgroundDrawing(false);
         buttonList.add(checkboxButton = new GuiButtonDisableableImage(6, guiLeft + 137, guiTop + 103, 11, 11, xSize, 11, -11, getGuiLocation()));

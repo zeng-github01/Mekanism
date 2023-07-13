@@ -3,6 +3,7 @@ package mekanism.client.gui;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
+import mekanism.client.gui.button.GuiButtonTextDisableableImage;
 import mekanism.client.gui.element.GuiScrollList;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
@@ -14,7 +15,6 @@ import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -31,14 +31,14 @@ public class GuiSecurityDesk extends GuiMekanismTile<TileEntitySecurityDesk> {
 
     private static final List<Character> SPECIAL_CHARS = Arrays.asList('-', '|', '_');
     private static final int MAX_LENGTH = 24;
-    private GuiButton removeButton;
-    private GuiButton publicButton;
-    private GuiButton privateButton;
-    private GuiButton trustedButton;
-    private GuiButton checkboxButton;
-    private GuiButton overrideButton;
+    private GuiButtonTextDisableableImage removeButton;
+    private GuiButtonDisableableImage publicButton;
+    private GuiButtonDisableableImage privateButton;
+    private GuiButtonDisableableImage trustedButton;
+    private GuiButtonDisableableImage checkboxButton;
+    private GuiButtonDisableableImage overrideButton;
     private GuiScrollList scrollList;
-    private GuiTextField trustedField;
+    private GuiTextColorField trustedField;
 
     public GuiSecurityDesk(InventoryPlayer inventory, TileEntitySecurityDesk tile) {
         super(tile, new ContainerSecurityDesk(inventory, tile));
@@ -50,8 +50,8 @@ public class GuiSecurityDesk extends GuiMekanismTile<TileEntitySecurityDesk> {
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(removeButton = new GuiButton(0, guiLeft + 13, guiTop + 81, 122, 20, LangUtils.localize("gui.remove")));
-        trustedField = new GuiTextField(1, fontRenderer, guiLeft + 35, guiTop + 69, 86, 11);
+        buttonList.add(removeButton = new GuiButtonTextDisableableImage(0, guiLeft + 13, guiTop + 81, 122, 20, LangUtils.localize("gui.remove")));
+        trustedField = new GuiTextColorField(1, fontRenderer, guiLeft + 35, guiTop + 69, 86, 11);
         trustedField.setMaxStringLength(MAX_LENGTH);
         trustedField.setEnableBackgroundDrawing(false);
         buttonList.add(publicButton = new GuiButtonDisableableImage(2, guiLeft + 13, guiTop + 113, 40, 16, xSize, 64, -16, 16, getGuiLocation()));

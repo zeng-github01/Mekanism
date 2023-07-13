@@ -1,6 +1,7 @@
 package mekanism.client.gui.filter;
 
 import mekanism.client.gui.button.GuiButtonDisableableImage;
+import mekanism.client.gui.button.GuiButtonTextDisableableImage;
 import mekanism.common.inventory.container.ContainerNull;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.util.LangUtils;
@@ -14,11 +15,11 @@ import java.io.IOException;
 @SideOnly(Side.CLIENT)
 public abstract class GuiFilterSelect<TILE extends TileEntityContainerBlock> extends GuiFilter<TILE> {
 
-    protected GuiButton itemStackButton;
-    protected GuiButton oredictButton;
-    protected GuiButton materialButton;
-    protected GuiButton modIDButton;
-    protected GuiButton backButton;
+    protected GuiButtonTextDisableableImage itemStackButton;
+    protected GuiButtonTextDisableableImage oredictButton;
+    protected GuiButtonTextDisableableImage materialButton;
+    protected GuiButtonTextDisableableImage modIDButton;
+    protected GuiButtonDisableableImage backButton;
 
     protected GuiFilterSelect(EntityPlayer player, TILE tile) {
         super(tile, new ContainerNull(player, tile));
@@ -26,10 +27,10 @@ public abstract class GuiFilterSelect<TILE extends TileEntityContainerBlock> ext
 
     @Override
     protected void addButtons() {
-        buttonList.add(itemStackButton = new GuiButton(0, guiLeft + 24, guiTop + 32, 128, 20, LangUtils.localize("gui.itemstack")));
-        buttonList.add(oredictButton = new GuiButton(1, guiLeft + 24, guiTop + 52, 128, 20, LangUtils.localize("gui.oredict")));
-        buttonList.add(materialButton = new GuiButton(2, guiLeft + 24, guiTop + 72, 128, 20, LangUtils.localize("gui.material")));
-        buttonList.add(modIDButton = new GuiButton(3, guiLeft + 24, guiTop + 92, 128, 20, LangUtils.localize("gui.modID")));
+        buttonList.add(itemStackButton = new GuiButtonTextDisableableImage(0, guiLeft + 24, guiTop + 32, 128, 20, LangUtils.localize("gui.itemstack")));
+        buttonList.add(oredictButton = new GuiButtonTextDisableableImage(1, guiLeft + 24, guiTop + 52, 128, 20, LangUtils.localize("gui.oredict")));
+        buttonList.add(materialButton = new GuiButtonTextDisableableImage(2, guiLeft + 24, guiTop + 72, 128, 20, LangUtils.localize("gui.material")));
+        buttonList.add(modIDButton = new GuiButtonTextDisableableImage(3, guiLeft + 24, guiTop + 92, 128, 20, LangUtils.localize("gui.modID")));
         buttonList.add(backButton = new GuiButtonDisableableImage(4, guiLeft + 5, guiTop + 5, 11, 11, 176, 11, -11, getGuiLocation()));
     }
 

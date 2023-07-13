@@ -1,5 +1,6 @@
 package mekanism.client.gui;
 
+import mekanism.api.util.time.Timeticks;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
@@ -27,8 +28,10 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiSolarNeutronActivator extends GuiMekanismTile<TileEntitySolarNeutronActivator> {
 
+    protected Timeticks time;
     public GuiSolarNeutronActivator(InventoryPlayer inventory, TileEntitySolarNeutronActivator tile) {
         super(tile, new ContainerSolarNeutronActivator(inventory, tile));
+        time = new Timeticks(20, 20, false);
         ResourceLocation resource = getGuiLocation();
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
@@ -42,7 +45,7 @@ public class GuiSolarNeutronActivator extends GuiMekanismTile<TileEntitySolarNeu
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
-                return tileEntity.getProgress();
+                return tileEntity.getActive() ? (double) time.getValue() / 20F : 0;
             }
         }, ProgressBar.LARGE_RIGHT, this, resource, 62, 38));
         addGuiElement(new GuiPlayerSlot(this,resource));

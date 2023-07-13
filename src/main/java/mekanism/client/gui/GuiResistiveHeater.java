@@ -18,7 +18,6 @@ import mekanism.common.util.MekanismUtils.ResourceType;
 import mekanism.common.util.UnitDisplayUtils;
 import mekanism.common.util.UnitDisplayUtils.TemperatureUnit;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -34,7 +33,7 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeater> {
 
-    private GuiTextField energyUsageField;
+    private GuiTextColorField energyUsageField;
     private GuiButton checkboxButton;
 
     public GuiResistiveHeater(InventoryPlayer inventory, TileEntityResistiveHeater tile) {
@@ -72,7 +71,7 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
         super.initGui();
         buttonList.clear();
         String prevEnergyUsage = energyUsageField != null ? energyUsageField.getText() : "";
-        energyUsageField = new GuiTextField(0, fontRenderer, guiLeft + 49, guiTop + 52, 66, 11);
+        energyUsageField = new GuiTextColorField(0, fontRenderer, guiLeft + 49, guiTop + 52, 66, 11);
         energyUsageField.setMaxStringLength(7);
         energyUsageField.setEnableBackgroundDrawing(false);
         energyUsageField.setText(prevEnergyUsage);

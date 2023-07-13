@@ -57,13 +57,13 @@ public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuse
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
-                return (double) time.getValue() / 20F;
+                return tileEntity.getActive() ? (double) time.getValue() / 20F : 0;
             }
         }, ProgressBar.SMALL_RIGHT, this, resource, 45, 38  + 11));
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
-                return (double) time.getValue() / 20F;
+                return tileEntity.getActive() ? (double) time.getValue() / 20F : 0;
             }
         }, ProgressBar.SMALL_LEFT, this, resource, 99, 38  + 11));
         addGuiElement(new GuiPlayerSlot(this,resource,7,94));

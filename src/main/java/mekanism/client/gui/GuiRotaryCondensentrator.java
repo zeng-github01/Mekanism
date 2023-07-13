@@ -1,8 +1,6 @@
 package mekanism.client.gui;
 
-import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
-import mekanism.api.transmitters.TransmissionType;
 import mekanism.api.util.time.Timeticks;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -19,7 +17,6 @@ import mekanism.client.gui.element.tab.GuiUpgradeTab;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.inventory.container.ContainerRotaryCondensentrator;
-import mekanism.common.network.PacketConfigurationUpdate;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.tile.TileEntityRotaryCondensentrator;
 import mekanism.common.util.LangUtils;
@@ -40,6 +37,7 @@ import java.util.List;
 public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCondensentrator> {
 
     protected Timeticks time;
+
     public GuiRotaryCondensentrator(InventoryPlayer inventory, TileEntityRotaryCondensentrator tile) {
         super(tile, new ContainerRotaryCondensentrator(inventory, tile));
         time = new Timeticks(20, 20, false);
@@ -66,7 +64,7 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
-                return (double) time.getValue() / 20F;
+                return tileEntity.getActive() ? (double) time.getValue() / 20F : 0;
             }
 
             @Override
@@ -77,7 +75,7 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
-                return (double) time.getValue() / 20F;
+                return tileEntity.getActive() ? (double) time.getValue() / 20F : 0;
             }
 
             @Override
