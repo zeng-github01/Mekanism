@@ -69,10 +69,12 @@ public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuse
         addGuiElement(new GuiPlayerSlot(this,resource,7,94));
     }
 
+
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankLong.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
+
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {

@@ -4,6 +4,7 @@ import mekanism.api.EnumColor;
 import mekanism.client.gui.element.GuiElement;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
+import mekanism.common.util.MekanismUtils;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -28,6 +29,8 @@ import java.util.Set;
 public abstract class GuiMekanism extends GuiContainer implements IGuiWrapper {
 
     private Set<GuiElement> guiElements = new HashSet<>();
+
+    private final ResourceLocation Base = MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Base.png");
 
     public GuiMekanism(Container container) {
         super(container);
@@ -96,12 +99,26 @@ public abstract class GuiMekanism extends GuiContainer implements IGuiWrapper {
         MekanismRenderer.resetColor();
         mc.renderEngine.bindTexture(getGuiLocation());
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+        drawGuiBG(xSize,ySize);
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
         //Bringing Elements forward to ContainerBackgroundLayer makes it easier to override Elements
         guiElements.forEach(element -> element.renderBackground(xAxis, yAxis, guiLeft, guiTop));
         drawGuiContainerBackgroundLayer(xAxis, yAxis);
 
+    }
+
+    protected void drawGuiBG(int GuiWidth, int GuiHeight) {
+        mc.renderEngine.bindTexture(Base);
+        int halfWidthLeft = GuiWidth / 2;
+        int halfWidthRight = GuiWidth % 2 == 0 ? halfWidthLeft : halfWidthLeft + 1;
+        int halfHeightTop = GuiHeight / 2;
+        int halfHeight = GuiHeight % 2 == 0 ? halfHeightTop : halfHeightTop + 1;
+        MekanismRenderer.resetColor();
+        drawTexturedModalRect(guiLeft, guiTop, 0, 0, halfWidthLeft, halfHeightTop);
+        drawTexturedModalRect(guiLeft, guiTop + halfHeightTop, 0,  256 - halfHeight, halfWidthLeft, halfHeight);
+        drawTexturedModalRect(guiLeft + halfWidthLeft, guiTop, 256 - halfWidthRight, 0, halfWidthRight, halfHeightTop);
+        drawTexturedModalRect(guiLeft + halfWidthLeft, guiTop + halfHeightTop, 256 - halfWidthRight,  256 - halfHeight, halfWidthRight, halfHeight);
     }
 
     @Override
