@@ -32,8 +32,7 @@ public class GuiFuelwoodHeater extends GuiMekanismTile<TileEntityFuelwoodHeater>
             String environment = UnitDisplayUtils.getDisplayShort(tileEntity.lastEnvironmentLoss * unit.intervalSize, false, unit);
             return Collections.singletonList(LangUtils.localize("gui.dissipated") + ": " + environment + "/t");
         }, this, resource));
-        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.FUELWOOD, this, resource, 48, 23));
-        addGuiElement(new GuiBlack(this, resource, 49, 24, 78, 26));
+        addGuiElement(new GuiBlack(this, resource, 48, 23, 80, 28));
 
         addGuiElement(new GuiRateBar(this, new GuiRateBar.IRateInfoHandler() {
             @Override

@@ -27,8 +27,7 @@ public class GuiInductionMatrix extends GuiMekanismTile<TileEntityInductionCasin
         addGuiElement(new GuiEnergyInfo(() -> Arrays.asList(LangUtils.localize("gui.storing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()),
                 LangUtils.localize("gui.input") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getLastInput()) + "/t",
                 LangUtils.localize("gui.output") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getLastOutput()) + "/t"), this, resource));
-        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.DYNAMICTANK_INDUCTIONMATRIX_PUMP, this, resource, 50, 23));
-        addGuiElement(new GuiBlack(this, resource, 51, 24, 78, 39));
+        addGuiElement(new GuiBlack(this, resource, 50, 23, 80, 41));
         addGuiElement(new GuiBucketIcon(GuiBucketIcon.IconType.INDUCTIONMATRIX, this, resource, 141, 15));
         addGuiElement(new GuiPlayerArmmorSlot(this, resource, -26, 37, false));
     }

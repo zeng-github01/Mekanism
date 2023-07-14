@@ -40,8 +40,7 @@ public class GuiElectricPump extends GuiMekanismTile<TileEntityElectricPump> {
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
-        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.DYNAMICTANK_INDUCTIONMATRIX_PUMP, this, resource, 48, 23));
-        addGuiElement(new GuiBlack(this, resource, 49, 24, 78, 39));
+        addGuiElement(new GuiBlack(this, resource, 48, 23, 80, 41));
         addGuiElement(new GuiPlayerSlot(this,resource));
     }
 

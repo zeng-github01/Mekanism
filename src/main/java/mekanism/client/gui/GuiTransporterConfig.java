@@ -8,7 +8,6 @@ import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiSideDataButton;
 import mekanism.client.gui.element.GuiBlack;
-import mekanism.client.gui.element.GuiBlackScreenframe;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
@@ -39,7 +38,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static mekanism.client.gui.element.GuiBlackScreenframe.BlackScreen.SIDECONFIG;
 import static mekanism.client.gui.element.GuiSlot.SlotType.NORMAL;
 
 @SideOnly(Side.CLIENT)
@@ -64,8 +62,7 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
         slotPosMap.put(3, new GuiPos(39, 64));
         slotPosMap.put(4, new GuiPos(39, 49));
         slotPosMap.put(5, new GuiPos(69, 49));
-        addGuiElement(new GuiBlackScreenframe(SIDECONFIG, this, resource, 51, 15));
-        addGuiElement(new GuiBlack(this, resource, 52, 16, 72, 10));
+        addGuiElement(new GuiBlack(this, resource, 51, 15, 74, 12));
         addGuiElement(new GuiSlot(NORMAL, this, resource, 121, 48));
     }
 
@@ -145,7 +142,7 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
                                     button.getSlotPosMapIndex() == 2 ? LangUtils.localize("sideData.front") :
                                             button.getSlotPosMapIndex() == 3 ? LangUtils.localize("sideData.back") :
                                                     button.getSlotPosMapIndex() == 4 ? LangUtils.localize("sideData.left") : LangUtils.localize("sideData.right");
-                    displayTooltip(color != null ? color.getColoredName() + EnumColor.WHITE +" (" + FacingName + ")" : LangUtils.localize("gui.none"), xAxis, yAxis);
+                    displayTooltip(color != null ? color.getColoredName() + EnumColor.WHITE + " (" + FacingName + ")" : LangUtils.localize("gui.none"), xAxis, yAxis);
                 }
                 break;
             }

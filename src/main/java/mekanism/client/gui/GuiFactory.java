@@ -60,7 +60,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
 
         int xPlayerOffset = tile.tier == FactoryTier.CREATIVE ? 36 : tile.tier == FactoryTier.ULTIMATE ? 19 : 0;
 
-        addGuiElement(new GuiPlayerSlot(this,resource,7 + xPlayerOffset,83 + ymobe));
+        addGuiElement(new GuiPlayerSlot(this, resource, 7 + xPlayerOffset, 83 + ymobe));
         //slot
         //Energy
         addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER, this, resource, 6, 12).with(GuiSlot.SlotOverlay.POWER));
@@ -180,19 +180,31 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
+    protected void drawGuiGasBG(int X, int Y, int GuiWidth, int GuiHeight) {
+        int halfWidthLeft = GuiWidth / 2;
+        int halfWidthRight = GuiWidth % 2 == 0 ? halfWidthLeft : halfWidthLeft + 1;
+        int halfHeightTop = GuiHeight / 2;
+        int halfHeight = GuiHeight % 2 == 0 ? halfHeightTop : halfHeightTop + 1;
+        MekanismRenderer.resetColor();
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_BAR, "Icon.png"));
+        drawTexturedModalRect(guiLeft + X, guiTop + Y, 0, 0, halfWidthLeft, halfHeightTop);
+        drawTexturedModalRect(guiLeft + X, guiTop + Y + halfHeightTop, 0, 256 - halfHeight, halfWidthLeft, halfHeight);
+        drawTexturedModalRect(guiLeft + X + halfWidthLeft, guiTop + Y, 256 - halfWidthRight, 0, halfWidthRight, halfHeightTop);
+        drawTexturedModalRect(guiLeft + X + halfWidthLeft, guiTop + Y + halfHeightTop, 256 - halfWidthRight, 256 - halfHeight, halfWidthRight, halfHeight);
+    }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+
         int xDistance = tileEntity.tier == FactoryTier.BASIC ? 38 : tileEntity.tier == FactoryTier.ADVANCED ? 26 : 19;
         int Slotlocation = tileEntity.tier == FactoryTier.BASIC ? 54 : tileEntity.tier == FactoryTier.ADVANCED ? 34 : tileEntity.tier == FactoryTier.ELITE ? 28 : 26;
         int xgas = tileEntity.tier == FactoryTier.CREATIVE ? 212 : tileEntity.tier == FactoryTier.ULTIMATE ? 174 : 140;
-
         if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING) {
-            drawTexturedModalRect(guiLeft + 7, guiTop + 77, 0, 179, xgas, 7);
+            drawGuiGasBG(7, 77, xgas, 7);
         }
         if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED) {
-            if ((int)tileEntity.getScaledGasLevel(xgas - 2) > 0) {
+            if ((int) tileEntity.getScaledGasLevel(xgas - 2) > 0) {
                 GasStack gas = tileEntity.gasTank.getGas();
                 if (gas != null) {
                     MekanismRenderer.color(gas);
@@ -201,9 +213,9 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
                 }
             }
         } else if (tileEntity.getRecipeType() == RecipeType.INFUSING) {
-            if ((int)tileEntity.getScaledInfuseLevel(xgas - 2) > 0) {
+            if ((int) tileEntity.getScaledInfuseLevel(xgas - 2) > 0) {
                 MekanismRenderer.resetColor();
-                displayGauge(8, 78, (int)tileEntity.getScaledInfuseLevel(xgas - 2), 5, tileEntity.infuseStored.getType().sprite);
+                displayGauge(8, 78, (int) tileEntity.getScaledInfuseLevel(xgas - 2), 5, tileEntity.infuseStored.getType().sprite);
             }
         }
         for (int i = 0; i < tileEntity.tier.processes; i++) {
@@ -248,14 +260,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
 
     @Override
     protected ResourceLocation getGuiLocation() {
-     /*
-        String other = tileEntity.tier == FactoryTier.CREATIVE ? "_Creative" : tileEntity.tier == FactoryTier.ULTIMATE ? "_Ultimate" : "";
-        if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING) {
-            return MekanismUtils.getResource(ResourceType.GUI_FACTORY, "Infused" + other + ".png");
-        } else
-            return MekanismUtils.getResource(ResourceType.GUI_FACTORY, "Default" + other + ".png");
-      */
-        return MekanismUtils.getResource(ResourceType.GUI,"Null.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
     @Override

@@ -28,9 +28,8 @@ import java.util.Set;
 @SideOnly(Side.CLIENT)
 public abstract class GuiMekanism extends GuiContainer implements IGuiWrapper {
 
+    private final ResourceLocation Base = MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Base.png");
     private Set<GuiElement> guiElements = new HashSet<>();
-
-    private final ResourceLocation Base = MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Base.png");
 
     public GuiMekanism(Container container) {
         super(container);
@@ -99,7 +98,7 @@ public abstract class GuiMekanism extends GuiContainer implements IGuiWrapper {
         MekanismRenderer.resetColor();
         mc.renderEngine.bindTexture(getGuiLocation());
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-        drawGuiBG(xSize,ySize);
+        drawGuiBG(xSize, ySize);
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
         //Bringing Elements forward to ContainerBackgroundLayer makes it easier to override Elements
@@ -116,9 +115,9 @@ public abstract class GuiMekanism extends GuiContainer implements IGuiWrapper {
         int halfHeight = GuiHeight % 2 == 0 ? halfHeightTop : halfHeightTop + 1;
         MekanismRenderer.resetColor();
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, halfWidthLeft, halfHeightTop);
-        drawTexturedModalRect(guiLeft, guiTop + halfHeightTop, 0,  256 - halfHeight, halfWidthLeft, halfHeight);
+        drawTexturedModalRect(guiLeft, guiTop + halfHeightTop, 0, 256 - halfHeight, halfWidthLeft, halfHeight);
         drawTexturedModalRect(guiLeft + halfWidthLeft, guiTop, 256 - halfWidthRight, 0, halfWidthRight, halfHeightTop);
-        drawTexturedModalRect(guiLeft + halfWidthLeft, guiTop + halfHeightTop, 256 - halfWidthRight,  256 - halfHeight, halfWidthRight, halfHeight);
+        drawTexturedModalRect(guiLeft + halfWidthLeft, guiTop + halfHeightTop, 256 - halfWidthRight, 256 - halfHeight, halfWidthRight, halfHeight);
     }
 
     @Override

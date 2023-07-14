@@ -39,8 +39,7 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 15, 16).with(SlotOverlay.PLUS));
         addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 15, 46).with(SlotOverlay.MINUS));
-        addGuiElement(new GuiBlackScreenframe(GuiBlackScreenframe.BlackScreen.GASTANK, this, resource, 42, 37));
-        addGuiElement(new GuiBlack(this, resource, 43, 38, 116, 25));
+        addGuiElement(new GuiBlack(this, resource, 42, 37, 118, 27));
         addGuiElement(new GuiPlayerSlot(this,resource));
         addGuiElement(new GuiPlayerArmmorSlot(this,resource,-26,62,false));
     }
