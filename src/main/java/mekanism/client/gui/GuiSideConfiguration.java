@@ -2,9 +2,9 @@ package mekanism.client.gui;
 
 import mekanism.api.Coord4D;
 import mekanism.api.transmitters.TransmissionType;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
+import mekanism.client.gui.button.GuiDisableableImageButton;
 import mekanism.client.gui.button.GuiSideDataButton;
-import mekanism.client.gui.element.GuiBlack;
+import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.tab.GuiConfigTypeTab;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
@@ -43,9 +43,9 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
     private TransmissionType currentType;
     private List<GuiConfigTypeTab> configTabs = new ArrayList<>();
     private List<GuiSideDataButton> sideDataButtons = new ArrayList<>();
-    private GuiButton backButton;
-    private GuiButton autoEjectButton;
-    private GuiButton clearButton;
+    private GuiDisableableImageButton backButton;
+    private GuiDisableableImageButton autoEjectButton;
+    private GuiDisableableImageButton clearButton;
     private int buttonID = 0;
 
     public GuiSideConfiguration(EntityPlayer player, ISideConfiguration tile) {
@@ -66,43 +66,25 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
         slotPosMap.put(3, new GuiPos(66, 64));
         slotPosMap.put(4, new GuiPos(66, 49));
         slotPosMap.put(5, new GuiPos(96, 49));
-        addGuiElement(new GuiBlack(this, resource, 51, 15, 74, 12));
+        addGuiElement(new GuiInnerScreen(this, resource, 51, 15, 74, 12));
 
-    }
-
-    @Override
-    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
-        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        //Draw the button background
-        drawTexturedModalRect(guiLeft + 6, guiTop + 6, 233, 17, 14, 14);
-        drawTexturedModalRect(guiLeft + 156, guiTop + 6, 233, 17, 14, 14);
-        drawTexturedModalRect(guiLeft + 156, guiTop + 75, 233, 17, 14, 14);
-        //Draw the configuration button background
-        /*
-        drawTexturedModalRect(guiLeft + 65, guiTop + 48,232,0,16,16);
-        drawTexturedModalRect(guiLeft + 65, guiTop + 63,232,0,16,16);
-        drawTexturedModalRect(guiLeft + 80, guiTop + 33,232,0,16,16);
-        drawTexturedModalRect(guiLeft + 80, guiTop + 48,232,0,16,16);
-        drawTexturedModalRect(guiLeft + 80, guiTop + 63,232,0,16,16);
-        drawTexturedModalRect(guiLeft + 95, guiTop + 48,232,0,16,16);
-         */
     }
 
     @Override
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(backButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 6, guiTop + 6, 14, 14, 204, 14, -14, getGuiLocation()));
-        buttonList.add(autoEjectButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 156, guiTop + 6, 14, 14, 190, 14, -14, 14, getGuiLocation()));
+        buttonList.add(backButton = new GuiDisableableImageButton(buttonID++, guiLeft + 6, guiTop + 6, 14, 14).with(GuiDisableableImageButton.ImageOverlay.BACK));
+        buttonList.add(autoEjectButton = new GuiDisableableImageButton(buttonID++, guiLeft + 156, guiTop + 6, 14, 14).with(GuiDisableableImageButton.ImageOverlay.AUTO_EJECT));
         for (int i = 0; i < slotPosMap.size(); i++) {
             GuiPos guiPos = slotPosMap.get(i);
             EnumFacing facing = EnumFacing.byIndex(i);
-            GuiSideDataButton button = new GuiSideDataButton(buttonID++, guiLeft + guiPos.xPos, guiTop + guiPos.yPos, getGuiLocation(), i,
+            GuiSideDataButton button = new GuiSideDataButton(buttonID++, guiLeft + guiPos.xPos, guiTop + guiPos.yPos, i,
                     () -> configurable.getConfig().getOutput(currentType, facing), () -> configurable.getConfig().getOutput(currentType, facing).color);
             buttonList.add(button);
             sideDataButtons.add(button);
         }
-        buttonList.add(clearButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 156, guiTop + 75, 14, 14, 218, 14, -14, getGuiLocation()));
+        buttonList.add(clearButton = new GuiDisableableImageButton(buttonID++, guiLeft + 156, guiTop + 75, 14, 14).with(GuiDisableableImageButton.ImageOverlay.CLEAR_SIDES));
     }
 
     @Override

@@ -41,7 +41,7 @@ public class GuiFluidicPlenisher extends GuiMekanismTile<TileEntityFluidicPlenis
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
-        addGuiElement(new GuiBlack(this, resource, 48, 23, 80, 41));
+        addGuiElement(new GuiInnerScreen(this, resource, 48, 23, 80, 41));
         addGuiElement(new GuiPlayerSlot(this,resource));
     }
 

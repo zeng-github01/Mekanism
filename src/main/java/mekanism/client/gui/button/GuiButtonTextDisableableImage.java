@@ -58,7 +58,6 @@ public class GuiButtonTextDisableableImage extends GuiButton {
             drawTexturedModalRect(x + halfWidthLeft, y + halfHeightTop, 200 - halfWidthRight, position + 20 - halfHeightBottom, halfWidthRight, halfHeightBottom);
             drawCenteredString(fontrenderer, displayString, x + width / 2, y + height / 2 - 4, enabled ? 0xFFFFFFFF : 0xFFA0A0A0);
             GlStateManager.enableDepth();
-
         }
     }
 }

@@ -180,19 +180,6 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
-    protected void drawGuiGasBG(int X, int Y, int GuiWidth, int GuiHeight) {
-        int halfWidthLeft = GuiWidth / 2;
-        int halfWidthRight = GuiWidth % 2 == 0 ? halfWidthLeft : halfWidthLeft + 1;
-        int halfHeightTop = GuiHeight / 2;
-        int halfHeight = GuiHeight % 2 == 0 ? halfHeightTop : halfHeightTop + 1;
-        MekanismRenderer.resetColor();
-        mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_BAR, "Icon.png"));
-        drawTexturedModalRect(guiLeft + X, guiTop + Y, 0, 0, halfWidthLeft, halfHeightTop);
-        drawTexturedModalRect(guiLeft + X, guiTop + Y + halfHeightTop, 0, 256 - halfHeight, halfWidthLeft, halfHeight);
-        drawTexturedModalRect(guiLeft + X + halfWidthLeft, guiTop + Y, 256 - halfWidthRight, 0, halfWidthRight, halfHeightTop);
-        drawTexturedModalRect(guiLeft + X + halfWidthLeft, guiTop + Y + halfHeightTop, 256 - halfWidthRight, 256 - halfHeight, halfWidthRight, halfHeight);
-    }
-
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
@@ -239,6 +226,19 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         }
     }
 
+
+    protected void drawGuiGasBG(int X, int Y, int GuiWidth, int GuiHeight) {
+        int halfWidthLeft = GuiWidth / 2;
+        int halfWidthRight = GuiWidth % 2 == 0 ? halfWidthLeft : halfWidthLeft + 1;
+        int halfHeightTop = GuiHeight / 2;
+        int halfHeight = GuiHeight % 2 == 0 ? halfHeightTop : halfHeightTop + 1;
+        MekanismRenderer.resetColor();
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_BAR, "Base.png"));
+        drawTexturedModalRect(guiLeft + X, guiTop + Y, 0, 0, halfWidthLeft, halfHeightTop);
+        drawTexturedModalRect(guiLeft + X, guiTop + Y + halfHeightTop, 0, 256 - halfHeight, halfWidthLeft, halfHeight);
+        drawTexturedModalRect(guiLeft + X + halfWidthLeft, guiTop + Y, 256 - halfWidthRight, 0, halfWidthRight, halfHeightTop);
+        drawTexturedModalRect(guiLeft + X + halfWidthLeft, guiTop + Y + halfHeightTop, 256 - halfWidthRight, 256 - halfHeight, halfWidthRight, halfHeight);
+    }
 
     @Override
     protected void mouseClicked(int x, int y, int button) throws IOException {

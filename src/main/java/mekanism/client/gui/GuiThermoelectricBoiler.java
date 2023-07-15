@@ -58,7 +58,7 @@ public class GuiThermoelectricBoiler extends GuiEmbeddedGaugeTile<TileEntityBoil
             String environment = UnitDisplayUtils.getDisplayShort(tileEntity.getLastEnvironmentLoss() * unit.intervalSize, false, unit);
             return Collections.singletonList(LangUtils.localize("gui.dissipated") + ": " + environment + "/t");
         }, this, resource));
-        addGuiElement(new GuiBlack(this,resource,40,27,96, 32));
+        addGuiElement(new GuiInnerScreen(this,resource,40,27,96, 32));
     }
 
     @Override

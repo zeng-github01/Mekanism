@@ -38,7 +38,7 @@ public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 16, 34));
         addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 142, 34).with(SlotOverlay.POWER));
-        addGuiElement(new GuiBlack(this, resource, 48, 23, 80, 40));
+        addGuiElement(new GuiInnerScreen(this, resource, 48, 23, 80, 40));
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
     }
 

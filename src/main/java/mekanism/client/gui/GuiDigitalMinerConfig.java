@@ -2,8 +2,10 @@ package mekanism.client.gui;
 
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiButtonTextDisableableImage;
+import mekanism.client.gui.button.GuiDisableableImageButton;
+import mekanism.client.gui.element.GuiElementScreen;
+import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.HashList;
@@ -38,14 +40,18 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
     private GuiTextColorField minField;
     private GuiTextColorField maxField;
     private GuiButtonTextDisableableImage newFilterButton;
-    private GuiButtonDisableableImage backButton;
-    private GuiButtonDisableableImage setRadiButton;
-    private GuiButtonDisableableImage setMinButton;
-    private GuiButtonDisableableImage setMaxButton;
-    private GuiButtonDisableableImage inverseButton;
+    private GuiDisableableImageButton backButton;
+    private GuiDisableableImageButton setRadiButton;
+    private GuiDisableableImageButton setMinButton;
+    private GuiDisableableImageButton setMaxButton;
+    private GuiDisableableImageButton inverseButton;
 
     public GuiDigitalMinerConfig(EntityPlayer player, TileEntityDigitalMiner tile) {
         super(tile, new ContainerNull(player, tile));
+        addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 10, 17, 45, 140));
+        addGuiElement(new GuiElementScreen(this, getGuiLocation(), 55, 17, 98, 118));
+        addGuiElement(new GuiElementScreen(this, getGuiLocation(), 55, 135, 98, 22));
+        addGuiElement(new GuiElementScreen(this, getGuiLocation(), 153, 17, 14, 140));
     }
 
     @Override
@@ -99,7 +105,7 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
                         //Check for sorting button
                         int arrowX = filterX + filterW - 12;
                         if (index > 0) {
-                            if (xAxis >= arrowX && xAxis <= arrowX + 10 && yAxis >= yStart + 14 && yAxis <= yStart + 20) {
+                            if (xAxis >= arrowX && xAxis <= arrowX + 10 && yAxis >= yStart + 1 && yAxis <= yStart + 7) {
                                 //Process up button click
                                 sendDataFromClick(TileNetworkList.withContents(11, index));
                                 return;
@@ -144,11 +150,11 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
         super.initGui();
         buttonList.clear();
         buttonList.add(newFilterButton = new GuiButtonTextDisableableImage(BUTTON_NEW, guiLeft + filterX, guiTop + 136, filterW, 20, LangUtils.localize("gui.newFilter")));
-        buttonList.add(backButton = new GuiButtonDisableableImage(1, guiLeft + 5, guiTop + 5, 11, 11, 176, 11, -11, getGuiLocation()));
-        buttonList.add(setRadiButton = new GuiButtonDisableableImage(2, guiLeft + 39, guiTop + 67, 11, 11, 187, 11, -11, 11, getGuiLocation()));
-        buttonList.add(setMinButton = new GuiButtonDisableableImage(3, guiLeft + 39, guiTop + 92, 11, 11, 187, 11, -11, 11, getGuiLocation()));
-        buttonList.add(setMaxButton = new GuiButtonDisableableImage(4, guiLeft + 39, guiTop + 117, 11, 11, 187, 11, -11, 11, getGuiLocation()));
-        buttonList.add(inverseButton = new GuiButtonDisableableImage(5, guiLeft + 11, guiTop + 141, 14, 14, 198, 14, -14, getGuiLocation()));
+        buttonList.add(backButton = new GuiDisableableImageButton(1, guiLeft + 5, guiTop + 5, 11, 11).with(GuiDisableableImageButton.ImageOverlay.SMALL_BACK));
+        buttonList.add(setRadiButton = new GuiDisableableImageButton(2, guiLeft + 39, guiTop + 67, 11, 11).with(GuiDisableableImageButton.ImageOverlay.CHECKMARK_DIGITAL));
+        buttonList.add(setMinButton = new GuiDisableableImageButton(3, guiLeft + 39, guiTop + 92, 11, 11).with(GuiDisableableImageButton.ImageOverlay.CHECKMARK_DIGITAL));
+        buttonList.add(setMaxButton = new GuiDisableableImageButton(4, guiLeft + 39, guiTop + 117, 11, 11).with(GuiDisableableImageButton.ImageOverlay.CHECKMARK_DIGITAL));
+        buttonList.add(inverseButton = new GuiDisableableImageButton(5, guiLeft + 11, guiTop + 141, 14, 14).with(GuiDisableableImageButton.ImageOverlay.INVERSE));
 
 
         String prevRad = radiusField != null ? radiusField.getText() : "";

@@ -53,7 +53,7 @@ public class GuiLogisticalSorter extends GuiFilterHolder<TileEntityLogisticalSor
     }
 
     private boolean overUpArrow(int xAxis, int yAxis, int arrowX, int yStart) {
-        return xAxis >= arrowX && xAxis <= arrowX + 10 && yAxis >= yStart + 14 && yAxis <= yStart + 20;
+        return xAxis >= arrowX && xAxis <= arrowX + 10 && yAxis >= yStart + 1 && yAxis <= yStart + 7;
     }
 
     private boolean overDownArrow(int xAxis, int yAxis, int arrowX, int yStart) {

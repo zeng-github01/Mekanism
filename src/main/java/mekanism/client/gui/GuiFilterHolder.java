@@ -150,8 +150,8 @@ public abstract class GuiFilterHolder<TILE extends TileEntityContainerBlock, FIL
                 // Draw sort buttons
                 int arrowX = filterX + filterW - 12;
                 if (getFilterIndex() + i > 0) {
-                    mouseOver = xAxis >= arrowX && xAxis <= arrowX + 10 && yAxis >= yStart + 14 && yAxis <= yStart + 20;
-                    drawTexturedModalRect(guiLeft + arrowX, guiTop + yStart + 14, 190, mouseOver ? 143 : 115, 11, 7);
+                    mouseOver = xAxis >= arrowX && xAxis <= arrowX + 10 && yAxis >= yStart + 1 && yAxis <= yStart + 7;
+                    drawTexturedModalRect(guiLeft + arrowX, guiTop + yStart + 1, 190, mouseOver ? 143 : 115, 11, 7);
                 }
                 if (getFilterIndex() + i < filters.size() - 1) {
                     mouseOver = xAxis >= arrowX && xAxis <= arrowX + 10 && yAxis >= yStart + 21 && yAxis <= yStart + 27;
