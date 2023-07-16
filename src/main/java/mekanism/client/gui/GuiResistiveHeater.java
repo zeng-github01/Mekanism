@@ -64,6 +64,7 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
                 return Math.min(1, tileEntity.temperature / MekanismConfig.current().general.evaporationMaxTemp.val());
             }
         }, resource, 153, 13));
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
     @Override

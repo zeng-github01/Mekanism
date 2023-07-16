@@ -114,6 +114,7 @@ public class TileComponentUpgrade implements ITileComponent {
     }
 
     public void removeUpgrade(Upgrade upgrade) {
+
         upgrades.put(upgrade, Math.max(0, getUpgrades(upgrade) - 1));
         if (upgrades.get(upgrade) == 0) {
             upgrades.remove(upgrade);

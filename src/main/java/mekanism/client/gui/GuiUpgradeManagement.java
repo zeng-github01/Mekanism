@@ -1,7 +1,9 @@
 package mekanism.client.gui;
 
 import mekanism.api.Coord4D;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
+import mekanism.client.gui.button.GuiDisableableButton;
+import mekanism.client.gui.element.GuiPlayerSlot;
+import mekanism.client.gui.element.GuiScrollList;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
@@ -42,14 +44,15 @@ public class GuiUpgradeManagement extends GuiMekanism {
     public GuiUpgradeManagement(InventoryPlayer inventory, IUpgradeTile tile) {
         super(new ContainerUpgradeManagement(inventory, tile));
         tileEntity = tile;
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
     }
 
     @Override
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(backButton = new GuiButtonDisableableImage(0, guiLeft + 6, guiTop + 6, 14, 14, 176, 14, -14, getGuiLocation()));
-        buttonList.add(removeButton = new GuiButtonDisableableImage(1, guiLeft + 136, guiTop + 57, 12, 12, 190, 12, -12, 12, getGuiLocation()));
+        buttonList.add(backButton = new GuiDisableableButton(0, guiLeft + 6, guiTop + 6, 14, 14).with(GuiDisableableButton.ImageOverlay.BACK));
+        buttonList.add(removeButton = new GuiDisableableButton(1, guiLeft + 92, guiTop + 42, 55, 12,LangUtils.localize("gui.upgrades.unistall")).handoff(true).enabledTextColor(0xFF30C97A).disabledTextColor(0XFF24965B).hoveredtextColor(0xFF3CFE9A));
         updateEnabledButtons();
     }
 

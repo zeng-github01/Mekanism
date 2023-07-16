@@ -4,6 +4,7 @@ import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
+import mekanism.client.gui.element.bar.GuiBar;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.MekanismFluids;
@@ -20,9 +21,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
@@ -40,6 +39,7 @@ public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
         addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 142, 34).with(SlotOverlay.POWER));
         addGuiElement(new GuiInnerScreen(this, resource, 48, 23, 80, 40));
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
+        addGuiElement(new GuiBar(() -> Arrays.asList(tileEntity.bioFuelSlot.fluidStored > 0 ? LangUtils.localize("gui.bioGenerator.bioFuel") + ":" + tileEntity.bioFuelSlot.fluidStored : LangUtils.localize("gui.empty")), this, getGuiLocation(), 6, 16, 6, 54));
     }
 
     @Override
@@ -49,13 +49,6 @@ public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
         fontRenderer.drawString(MekanismUtils.getEnergyDisplay(tileEntity.getEnergy()), 51, 26, 0x00CD00);
         fontRenderer.drawString(LangUtils.localize("gui.bioGenerator.bioFuel") + ": " + tileEntity.bioFuelSlot.fluidStored, 51, 35, 0x00CD00);
         fontRenderer.drawString(LangUtils.localize("gui.out") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t", 51, 44, 0x00CD00);
-        int xAxis = mouseX - guiLeft;
-        int yAxis = mouseY - guiTop;
-        if (xAxis >= 7 && xAxis <= 10 && yAxis >= 17 && yAxis <= 68) {
-            List<String> info = new ArrayList<>();
-            info.add(tileEntity.bioFuelSlot.fluidStored > 0 ? LangUtils.localize("gui.bioGenerator.bioFuel") + ":" + tileEntity.bioFuelSlot.fluidStored : LangUtils.localize("gui.empty"));
-            displayTooltips(info, xAxis, yAxis);
-        }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
     }
@@ -63,8 +56,6 @@ public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiPowerBar.png"));
-        drawTexturedModalRect(guiLeft + 6, guiTop + 16, 0, 1, 6, 54);
         if (tileEntity.getScaledFuelLevel(52) > 0) {
             MekanismRenderer.color(MekanismFluids.Biofuel);
             int displayInt = tileEntity.getScaledFuelLevel(52);
@@ -82,6 +73,6 @@ public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 }

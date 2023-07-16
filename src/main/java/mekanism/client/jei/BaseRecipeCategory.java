@@ -58,9 +58,9 @@ public abstract class BaseRecipeCategory<WRAPPER extends IRecipeWrapper> impleme
 
         timer = helper.createTickTimer(20, 20, false);
 
-        ResourceLocation resource = MekanismUtils.getResource(ResourceType.GUI_ELEMENT, Type.STANDARD.textureLocation);
-        fluidOverlayLarge = guiHelper.createDrawable(resource, 19, 1, 16, 59);
-        fluidOverlaySmall = guiHelper.createDrawable(resource, 19, 1, 16, 29);
+        ResourceLocation resource = MekanismUtils.getResource(MekanismUtils.ResourceType.GAUGE, "Gauge_Icon.png");
+        fluidOverlayLarge = guiHelper.createDrawable(resource, 35, 1, 16, 59);
+        fluidOverlaySmall = guiHelper.createDrawable(resource, 35, 1, 16, 29);
 
         addGuiElements();
 

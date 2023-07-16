@@ -55,6 +55,6 @@ public class GuiHeatGenerator extends GuiMekanismTile<TileEntityHeatGenerator> {
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 }

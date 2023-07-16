@@ -43,9 +43,9 @@ public class GuiPRC extends GuiMekanismTile<TileEntityPRC> {
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
                     LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
-        addGuiElement(new GuiFluidGauge(() -> tileEntity.inputFluidTank, GuiGauge.Type.STANDARD_YELLOW, this, resource, 5, 10));
-        addGuiElement(new GuiGasGauge(() -> tileEntity.inputGasTank, GuiGauge.Type.STANDARD_RED, this, resource, 28, 10));
-        addGuiElement(new GuiGasGauge(() -> tileEntity.outputGasTank, GuiGauge.Type.SMALL_BLUE, this, resource, 140, 40));
+        addGuiElement(new GuiFluidGauge(() -> tileEntity.inputFluidTank, GuiGauge.Type.STANDARD, this, resource, 5, 10).withColor(GuiGauge.TypeColor.YELLOW));
+        addGuiElement(new GuiGasGauge(() -> tileEntity.inputGasTank, GuiGauge.Type.STANDARD, this, resource, 28, 10).withColor(GuiGauge.TypeColor.RED));
+        addGuiElement(new GuiGasGauge(() -> tileEntity.outputGasTank, GuiGauge.Type.SMALL, this, resource, 140, 40).withColor(GuiGauge.TypeColor.BLUE));
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
         addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 53, 34));
         addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 140, 18).with(SlotOverlay.POWER));

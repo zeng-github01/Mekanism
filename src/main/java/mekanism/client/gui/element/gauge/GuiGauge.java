@@ -10,7 +10,6 @@ import mekanism.common.SideData;
 import mekanism.common.base.ISideConfiguration;
 import mekanism.common.item.ItemConfigurator;
 import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
@@ -22,7 +21,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public abstract class GuiGauge<T> extends GuiElement {
 
-    protected EnumColor color;
     protected final int xLocation;
     protected final int yLocation;
     protected final int texX;
@@ -30,23 +28,21 @@ public abstract class GuiGauge<T> extends GuiElement {
     protected final int width;
     protected final int height;
     protected final int number;
+    protected EnumColor color;
     protected boolean dummy;
 
     protected T dummyType;
+    private TypeColor typecolor = TypeColor.NORMAL;
 
     public GuiGauge(Type type, IGuiWrapper gui, ResourceLocation def, int x, int y) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, type.textureLocation), gui, def);
+        super(MekanismUtils.getResource(MekanismUtils.ResourceType.GAUGE, "Gauge_Icon.png"), gui, def);
         xLocation = x;
         yLocation = y;
-
         width = type.width;
         height = type.height;
-
         texX = type.texX;
         texY = type.texY;
-
-        color = type.color;
-        number = type.number;
+        number = type.FluidWidth;
     }
 
     public abstract int getScaledLevel();
@@ -58,19 +54,34 @@ public abstract class GuiGauge<T> extends GuiElement {
     protected void applyRenderColor() {
     }
 
+
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
+        drawBlack(guiWidth, guiHeight);
         mc.renderEngine.bindTexture(RESOURCE);
-        guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, texX, texY, width, height);
         if (!dummy) {
             renderScale(guiWidth, guiHeight);
         }
         mc.renderEngine.bindTexture(defaultLocation);
     }
 
+    public void drawBlack(int guiWidth, int guiHeight) {
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GAUGE, typecolor.textureLocation));
+        int halfWidthLeft = width / 2;
+        int halfWidthRight = width % 2 == 0 ? halfWidthLeft : halfWidthLeft + 1;
+        int halfHeightTop = height / 2;
+        int halfHeight = height % 2 == 0 ? halfHeightTop : halfHeightTop + 1;
+        MekanismRenderer.resetColor();
+        guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, halfWidthLeft, halfHeightTop);
+        guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation + halfHeightTop, 0, 256 - halfHeight, halfWidthLeft, halfHeight);
+        guiObj.drawTexturedRect(guiWidth + xLocation + halfWidthLeft, guiHeight + yLocation, 256 - halfWidthRight, 0, halfWidthRight, halfHeightTop);
+        guiObj.drawTexturedRect(guiWidth + xLocation + halfWidthLeft, guiHeight + yLocation + halfHeightTop, 256 - halfWidthRight, 256 - halfHeight, halfWidthRight, halfHeight);
+    }
+
+
     public void renderScale(int guiWidth, int guiHeight) {
         if (getScaledLevel() == 0 || getIcon() == null) {
-            guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, width, 0, width, height);
+            guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, texX, texY, width, height);
             return;
         }
 
@@ -99,7 +110,7 @@ public abstract class GuiGauge<T> extends GuiElement {
         }
         MekanismRenderer.resetColor();
         mc.renderEngine.bindTexture(RESOURCE);
-        guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, width, 0, width, height);
+        guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, texX, texY, width, height);
     }
 
     @Override
@@ -127,6 +138,11 @@ public abstract class GuiGauge<T> extends GuiElement {
         }
     }
 
+    public GuiGauge withColor(TypeColor color) {
+        this.typecolor = color;
+        return this;
+    }
+
     @Override
     public void preMouseClicked(int xAxis, int yAxis, int button) {
     }
@@ -146,39 +162,41 @@ public abstract class GuiGauge<T> extends GuiElement {
         return new Rectangle4i(guiWidth + xLocation, guiHeight + yLocation, width, height);
     }
 
-    public enum Type {
-        STANDARD(null, 18, 60, 0, 0, 1, "GuiGaugeStandard.png"),
-        STANDARD_YELLOW(EnumColor.YELLOW, 18, 60, 0, 60, 1, "GuiGaugeStandard.png"),
-        STANDARD_RED(EnumColor.DARK_RED, 18, 60, 0, 120, 1, "GuiGaugeStandard.png"),
-        STANDARD_ORANGE(EnumColor.ORANGE, 18, 60, 0, 180, 1, "GuiGaugeStandard.png"),
-        STANDARD_BLUE(EnumColor.DARK_BLUE, 18, 60, 18, 60, 1, "GuiGaugeStandard.png"),
-        WIDE(null, 66, 50, 0, 0, 4, "GuiGaugeWide.png"),
-        WIDE_YELLOW(EnumColor.YELLOW, 66, 50, 0, 50, 4, "GuiGaugeWide.png"),
-        WIDE_RED(EnumColor.DARK_RED, 66, 50, 0, 100, 4, "GuiGaugeWide.png"),
-        WIDE_ORANGE(EnumColor.ORANGE, 66, 50, 0, 150, 4, "GuiGaugeWide.png"),
-        WIDE_BLUE(EnumColor.DARK_BLUE, 66, 50, 0, 200, 4, "GuiGaugeWide.png"),
-        SMALL(null, 18, 30, 0, 0, 1, "GuiGaugeSmall.png"),
-        SMALL_YELLOW(EnumColor.YELLOW, 18, 30, 0, 30, 1, "GuiGaugeSmall.png"),
-        SMALL_RED(EnumColor.DARK_RED, 18, 30, 0, 60, 1, "GuiGaugeSmall.png"),
-        SMALL_ORANGE(EnumColor.ORANGE, 18, 30, 0, 90, 1, "GuiGaugeSmall.png"),
-        SMALL_BLUE(EnumColor.DARK_BLUE, 18, 30, 0, 120, 1, "GuiGaugeSmall.png");
+    public enum TypeColor {
+        AQUA("Aqua.png"),
+        BLUE("Blue.png"),
+        NORMAL("Normal.png"),
+        ORANGE("Orange.png"),
+        RED("Red.png"),
+        YELLOW("Yellow.png");
+        public final String textureLocation;
 
-        public final EnumColor color;
+        TypeColor(String color) {
+            textureLocation = color;
+        }
+    }
+
+    public enum Type {
+        MEDIUM(34, 60, 0, 0),
+        SMALL(18, 30, 72, 0),
+        SMALL_MED(18, 48, 53, 0),
+        STANDARD(18, 60, 34, 0),
+        WIDE(66, 50, 91, 0);
+
+
         public final int width;
         public final int height;
         public final int texX;
         public final int texY;
-        public final int number;
-        public final String textureLocation;
+        public final int FluidWidth;
 
-        Type(EnumColor c, int w, int h, int tx, int ty, int n, String t) {
-            color = c;
+        Type(int w, int h, int tx, int ty) {
             width = w;
             height = h;
             texX = tx;
             texY = ty;
-            number = n;
-            textureLocation = t;
+            FluidWidth = (w - 2) / 16;
         }
+
     }
 }

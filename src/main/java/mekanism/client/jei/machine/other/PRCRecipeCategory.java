@@ -35,9 +35,9 @@ public class PRCRecipeCategory<WRAPPER extends PRCRecipeWrapper<PressurizedRecip
         guiElements.add(new GuiSlot(SlotType.INPUT, this, guiLocation, 53, 34));
         guiElements.add(new GuiSlot(SlotType.POWER, this, guiLocation, 140, 18).with(SlotOverlay.POWER));
         guiElements.add(new GuiSlot(SlotType.OUTPUT, this, guiLocation, 115, 34));
-        guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD_YELLOW, this, guiLocation, 5, 10));
-        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD_RED, this, guiLocation, 28, 10));
-        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.SMALL_BLUE, this, guiLocation, 140, 40));
+        guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 5, 10).withColor(GuiGauge.TypeColor.YELLOW));
+        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 28, 10).withColor(GuiGauge.TypeColor.RED));
+        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.SMALL, this, guiLocation, 140, 40).withColor(GuiGauge.TypeColor.BLUE));
         guiElements.add(new GuiPowerBar(this, new IPowerInfoHandler() {
             @Override
             public double getLevel() {

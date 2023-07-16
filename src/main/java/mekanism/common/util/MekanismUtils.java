@@ -1096,6 +1096,7 @@ public final class MekanismUtils {
         GAUGE("gui/gauge"),
         SLOT("gui/slot"),
         TAB("gui/tab"),
+        SWITCH("gui/switch"),
         SOUND("sound"),
         RENDER("render"),
         TEXTURE_BLOCKS("textures/blocks"),

@@ -2,7 +2,8 @@ package mekanism.client.gui;
 
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
-import mekanism.client.gui.button.GuiButtonTextDisableableImage;
+import mekanism.client.gui.button.GuiDisableableButton;
+import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiProgress;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
@@ -61,6 +62,7 @@ public class GuiOredictionificator extends GuiMekanismTile<TileEntityOredictioni
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         ySize += 64;
+        addGuiElement(new GuiPlayerSlot(this,resource,7,147));
     }
 
     private boolean overFilter(int xAxis, int yAxis, int yStart) {
@@ -79,7 +81,7 @@ public class GuiOredictionificator extends GuiMekanismTile<TileEntityOredictioni
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(new GuiButtonTextDisableableImage(0, guiLeft + 10, guiTop + 86, 142, 20, LangUtils.localize("gui.newFilter")));
+        buttonList.add(new GuiDisableableButton(0, guiLeft + 10, guiTop + 86, 142, 20, LangUtils.localize("gui.newFilter")));
     }
 
     @Override

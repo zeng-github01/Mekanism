@@ -2,8 +2,8 @@ package mekanism.client.gui.filter;
 
 import mekanism.api.EnumColor;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
-import mekanism.client.gui.button.GuiButtonTextDisableableImage;
 import mekanism.client.gui.button.GuiColorButton;
+import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.content.filter.IFilter;
 import mekanism.common.content.miner.MinerFilter;
@@ -34,8 +34,8 @@ public abstract class GuiFilterBase<FILTER extends IFilter, TILE extends TileEnt
     protected boolean isNew;
     protected int ticker;
 
-    protected GuiButtonTextDisableableImage saveButton;
-    protected GuiButtonTextDisableableImage deleteButton;
+    protected GuiDisableableButton saveButton;
+    protected GuiDisableableButton deleteButton;
     protected GuiButtonDisableableImage backButton;
     protected GuiButtonDisableableImage replaceButton;
     protected GuiButtonDisableableImage defaultButton;

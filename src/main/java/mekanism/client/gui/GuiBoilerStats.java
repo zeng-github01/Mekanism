@@ -35,8 +35,8 @@ public class GuiBoilerStats extends GuiMekanismTile<TileEntityBoilerCasing> {
             String environment = UnitDisplayUtils.getDisplayShort(tileEntity.getLastEnvironmentLoss() * unit.intervalSize, false, unit);
             return Collections.singletonList(LangUtils.localize("gui.dissipated") + ": " + environment + "/t");
         }, this, resource));
-        addGuiElement(boilGraph = new GuiGraph(this, resource, 8, 83, 160, 36, data -> LangUtils.localize("gui.boilRate") + ": " + data + " mB/t"));
-        addGuiElement(maxGraph = new GuiGraph(this, resource, 8, 122, 160, 36, data -> LangUtils.localize("gui.maxBoil") + ": " + data + " mB/t"));
+        addGuiElement(boilGraph = new GuiGraph(this, resource, 7, 82, 162, 36, data -> LangUtils.localize("gui.boilRate") + ": " + data + " mB/t"));
+        addGuiElement(maxGraph = new GuiGraph(this, resource, 7, 121, 162, 36, data -> LangUtils.localize("gui.maxBoil") + ": " + data + " mB/t"));
         maxGraph.enableFixedScale((int) ((tileEntity.getSuperheatingElements() * MekanismConfig.current().general.superheatingHeatTransfer.val()) /
                 SynchronizedBoilerData.getHeatEnthalpy()));
     }
@@ -63,6 +63,6 @@ public class GuiBoilerStats extends GuiMekanismTile<TileEntityBoilerCasing> {
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBoilerStats.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 }

@@ -1,14 +1,18 @@
 package mekanism.client.gui;
 
 import mekanism.client.gui.element.*;
+import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.gauge.GuiNumberGauge;
 import mekanism.client.gui.element.tab.GuiMatrixTab;
 import mekanism.client.gui.element.tab.GuiMatrixTab.MatrixTab;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.inventory.container.ContainerInductionMatrix;
 import mekanism.common.tile.TileEntityInductionCasing;
+import mekanism.common.tile.TileEntityLaserAmplifier;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -30,6 +34,28 @@ public class GuiInductionMatrix extends GuiMekanismTile<TileEntityInductionCasin
         addGuiElement(new GuiInnerScreen(this, resource, 50, 23, 80, 41));
         addGuiElement(new GuiBucketIcon(GuiBucketIcon.IconType.INDUCTIONMATRIX, this, resource, 141, 15));
         addGuiElement(new GuiPlayerArmmorSlot(this, resource, -26, 37, false));
+        addGuiElement(new GuiNumberGauge(new GuiNumberGauge.INumberInfoHandler() {
+            @Override
+            public TextureAtlasSprite getIcon() {
+                return MekanismRenderer.energyIcon;
+            }
+
+            @Override
+            public double getLevel() {
+                return tileEntity.getEnergy();
+            }
+
+            @Override
+            public double getMaxLevel() {
+                return tileEntity.getMaxEnergy();
+            }
+
+            @Override
+            public String getText(double level) {
+                return LangUtils.localize("gui.storing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy());
+            }
+        }, GuiGauge.Type.MEDIUM, this, resource, 6, 13));
+        addGuiElement(new GuiPlayerSlot(this, resource));
     }
 
     @Override
@@ -48,39 +74,9 @@ public class GuiInductionMatrix extends GuiMekanismTile<TileEntityInductionCasin
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
-    @Override
-    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
-        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        if (tileEntity.getScaledEnergyLevel(58) > 0) {
-            displayGauge(7, 14, tileEntity.getScaledEnergyLevel(58), 0);
-            displayGauge(23, 14, tileEntity.getScaledEnergyLevel(58), 1);
-        }
-    }
 
     @Override
     protected ResourceLocation getGuiLocation() {
         return MekanismUtils.getResource(ResourceType.GUI, "GuiDynamicTankInductionMatrix.png");
-    }
-
-    public void displayGauge(int xPos, int yPos, int scale, int side /*0-left, 1-right*/) {
-        int start = 0;
-        while (true) {
-            int renderRemaining;
-            if (scale > 16) {
-                renderRemaining = 16;
-                scale -= 16;
-            } else {
-                renderRemaining = scale;
-                scale = 0;
-            }
-            mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-            drawTexturedModalRect(guiLeft + xPos, guiTop + yPos + 58 - renderRemaining - start, MekanismRenderer.energyIcon, 16, renderRemaining);
-            start += 16;
-            if (renderRemaining == 0 || scale == 0) {
-                break;
-            }
-        }
-        mc.renderEngine.bindTexture(getGuiLocation());
-        drawTexturedModalRect(guiLeft + xPos, guiTop + yPos, 176, side == 0 ? 0 : 54, 16, 54);
     }
 }

@@ -2,8 +2,7 @@ package mekanism.client.gui;
 
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
-import mekanism.client.gui.button.GuiButtonTextDisableableImage;
-import mekanism.client.gui.button.GuiDisableableImageButton;
+import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiElementScreen;
 import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.render.MekanismRenderer;
@@ -39,12 +38,12 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
     private GuiTextColorField radiusField;
     private GuiTextColorField minField;
     private GuiTextColorField maxField;
-    private GuiButtonTextDisableableImage newFilterButton;
-    private GuiDisableableImageButton backButton;
-    private GuiDisableableImageButton setRadiButton;
-    private GuiDisableableImageButton setMinButton;
-    private GuiDisableableImageButton setMaxButton;
-    private GuiDisableableImageButton inverseButton;
+    private GuiDisableableButton newFilterButton;
+    private GuiDisableableButton backButton;
+    private GuiDisableableButton setRadiButton;
+    private GuiDisableableButton setMinButton;
+    private GuiDisableableButton setMaxButton;
+    private GuiDisableableButton inverseButton;
 
     public GuiDigitalMinerConfig(EntityPlayer player, TileEntityDigitalMiner tile) {
         super(tile, new ContainerNull(player, tile));
@@ -149,12 +148,12 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(newFilterButton = new GuiButtonTextDisableableImage(BUTTON_NEW, guiLeft + filterX, guiTop + 136, filterW, 20, LangUtils.localize("gui.newFilter")));
-        buttonList.add(backButton = new GuiDisableableImageButton(1, guiLeft + 5, guiTop + 5, 11, 11).with(GuiDisableableImageButton.ImageOverlay.SMALL_BACK));
-        buttonList.add(setRadiButton = new GuiDisableableImageButton(2, guiLeft + 39, guiTop + 67, 11, 11).with(GuiDisableableImageButton.ImageOverlay.CHECKMARK_DIGITAL));
-        buttonList.add(setMinButton = new GuiDisableableImageButton(3, guiLeft + 39, guiTop + 92, 11, 11).with(GuiDisableableImageButton.ImageOverlay.CHECKMARK_DIGITAL));
-        buttonList.add(setMaxButton = new GuiDisableableImageButton(4, guiLeft + 39, guiTop + 117, 11, 11).with(GuiDisableableImageButton.ImageOverlay.CHECKMARK_DIGITAL));
-        buttonList.add(inverseButton = new GuiDisableableImageButton(5, guiLeft + 11, guiTop + 141, 14, 14).with(GuiDisableableImageButton.ImageOverlay.INVERSE));
+        buttonList.add(newFilterButton = new GuiDisableableButton(BUTTON_NEW, guiLeft + filterX, guiTop + 136, filterW, 20, LangUtils.localize("gui.newFilter")));
+        buttonList.add(backButton = new GuiDisableableButton(1, guiLeft + 5, guiTop + 5, 11, 11).with(GuiDisableableButton.ImageOverlay.SMALL_BACK));
+        buttonList.add(setRadiButton = new GuiDisableableButton(2, guiLeft + 39, guiTop + 67, 11, 11).with(GuiDisableableButton.ImageOverlay.CHECKMARK_DIGITAL));
+        buttonList.add(setMinButton = new GuiDisableableButton(3, guiLeft + 39, guiTop + 92, 11, 11).with(GuiDisableableButton.ImageOverlay.CHECKMARK_DIGITAL));
+        buttonList.add(setMaxButton = new GuiDisableableButton(4, guiLeft + 39, guiTop + 117, 11, 11).with(GuiDisableableButton.ImageOverlay.CHECKMARK_DIGITAL));
+        buttonList.add(inverseButton = new GuiDisableableButton(5, guiLeft + 11, guiTop + 141, 14, 14).with(GuiDisableableButton.ImageOverlay.INVERSE));
 
 
         String prevRad = radiusField != null ? radiusField.getText() : "";

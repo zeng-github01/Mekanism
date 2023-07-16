@@ -57,6 +57,7 @@ public class GuiFormulaicAssemblicator extends GuiMekanismTile<TileEntityFormula
         }, this, resource));
         addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 151, 75).with(SlotOverlay.POWER));
         ySize += 64;
+        addGuiElement(new GuiPlayerSlot(this,resource,7,147));
     }
 
     @Override

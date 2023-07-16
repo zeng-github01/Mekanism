@@ -30,6 +30,7 @@ public class GuiSolarGenerator extends GuiMekanismTile<TileEntitySolarGenerator>
         addGuiElement(new GuiEnergyInfo(Collections::emptyList, this, resource));
         addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 142, 34).with(SlotOverlay.POWER));
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
+        addGuiElement(new GuiPlayerSlot(this,resource));
     }
 
     @Override

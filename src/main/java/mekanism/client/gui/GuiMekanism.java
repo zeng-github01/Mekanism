@@ -202,12 +202,6 @@ public abstract class GuiMekanism extends GuiContainer implements IGuiWrapper {
         fontRenderer.drawString(text, centerX, y, color);
     }
 
-    protected void drawScaledCenteredText(int x, int y, int color, String text,float scale){
-        int textWidth = fontRenderer.getStringWidth(text);
-        float centerX = x - (textWidth / 2F) * scale;
-        fontRenderer.drawString(text, (int) centerX,y, color);
-    }
-
     protected void drawColorIcon(int x, int y, EnumColor color, float alpha) {
         if (color != null) {
             drawRect(x, y, x + 16, y + 16, MekanismRenderer.getColorARGB(color, alpha));

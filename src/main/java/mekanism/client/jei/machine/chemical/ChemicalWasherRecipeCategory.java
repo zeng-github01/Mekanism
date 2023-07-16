@@ -44,8 +44,7 @@ public class ChemicalWasherRecipeCategory<WRAPPER extends ChemicalWasherRecipeWr
     public void setRecipe(IRecipeLayout recipeLayout, WRAPPER recipeWrapper, IIngredients ingredients) {
         WasherRecipe tempRecipe = recipeWrapper.getRecipe();
         IGuiFluidStackGroup fluidStacks = recipeLayout.getFluidStacks();
-        fluidStacks.init(0, true, 6 - xOffset, 5 - yOffset, 16, 58, TileEntityChemicalWasher.WATER_USAGE, false,
-                fluidOverlayLarge);
+        fluidStacks.init(0, true, 6 - xOffset, 5 - yOffset, 16, 58, TileEntityChemicalWasher.WATER_USAGE, false, fluidOverlayLarge);
         fluidStacks.set(0, ingredients.getInputs(VanillaTypes.FLUID).get(0));
         IGuiIngredientGroup<GasStack> gasStacks = recipeLayout.getIngredientsGroup(MekanismJEI.TYPE_GAS);
         initGas(gasStacks, 0, true, 27 - xOffset, 14 - yOffset, 16, 58, tempRecipe.getInput().ingredient, true);

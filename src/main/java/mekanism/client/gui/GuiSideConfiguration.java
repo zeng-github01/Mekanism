@@ -2,7 +2,7 @@ package mekanism.client.gui;
 
 import mekanism.api.Coord4D;
 import mekanism.api.transmitters.TransmissionType;
-import mekanism.client.gui.button.GuiDisableableImageButton;
+import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.button.GuiSideDataButton;
 import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.tab.GuiConfigTypeTab;
@@ -43,9 +43,9 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
     private TransmissionType currentType;
     private List<GuiConfigTypeTab> configTabs = new ArrayList<>();
     private List<GuiSideDataButton> sideDataButtons = new ArrayList<>();
-    private GuiDisableableImageButton backButton;
-    private GuiDisableableImageButton autoEjectButton;
-    private GuiDisableableImageButton clearButton;
+    private GuiDisableableButton backButton;
+    private GuiDisableableButton autoEjectButton;
+    private GuiDisableableButton clearButton;
     private int buttonID = 0;
 
     public GuiSideConfiguration(EntityPlayer player, ISideConfiguration tile) {
@@ -74,8 +74,8 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(backButton = new GuiDisableableImageButton(buttonID++, guiLeft + 6, guiTop + 6, 14, 14).with(GuiDisableableImageButton.ImageOverlay.BACK));
-        buttonList.add(autoEjectButton = new GuiDisableableImageButton(buttonID++, guiLeft + 156, guiTop + 6, 14, 14).with(GuiDisableableImageButton.ImageOverlay.AUTO_EJECT));
+        buttonList.add(backButton = new GuiDisableableButton(buttonID++, guiLeft + 6, guiTop + 6, 14, 14).with(GuiDisableableButton.ImageOverlay.BACK));
+        buttonList.add(autoEjectButton = new GuiDisableableButton(buttonID++, guiLeft + 156, guiTop + 6, 14, 14).with(GuiDisableableButton.ImageOverlay.AUTO_EJECT));
         for (int i = 0; i < slotPosMap.size(); i++) {
             GuiPos guiPos = slotPosMap.get(i);
             EnumFacing facing = EnumFacing.byIndex(i);
@@ -84,7 +84,7 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
             buttonList.add(button);
             sideDataButtons.add(button);
         }
-        buttonList.add(clearButton = new GuiDisableableImageButton(buttonID++, guiLeft + 156, guiTop + 75, 14, 14).with(GuiDisableableImageButton.ImageOverlay.CLEAR_SIDES));
+        buttonList.add(clearButton = new GuiDisableableButton(buttonID++, guiLeft + 156, guiTop + 75, 14, 14).with(GuiDisableableButton.ImageOverlay.CLEAR_SIDES));
     }
 
     @Override
@@ -197,7 +197,7 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIconSmall.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
     public static class GuiPos {

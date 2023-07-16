@@ -1,5 +1,7 @@
 package mekanism.client.gui;
 
+import mekanism.client.gui.element.GuiPlayerSlot;
+import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.common.inventory.InventoryPersonalChest;
 import mekanism.common.inventory.container.ContainerPersonalChest;
@@ -20,6 +22,12 @@ public class GuiPersonalChest extends GuiMekanismTile<TileEntityPersonalChest> {
         //xSize += 26;
         ySize += 64;
         addGuiElement(new GuiSecurityTab(this, tileEntity, getGuiLocation()));
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation(), 7, 147));
+        for (int y = 0; y < 6; y++) {
+            for (int x = 0; x < 9; x++) {
+                addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 7 + x * 18, 25 + y * 18));
+            }
+        }
     }
 
     public GuiPersonalChest(InventoryPlayer inventory, InventoryPersonalChest inv) {

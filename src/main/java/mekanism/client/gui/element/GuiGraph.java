@@ -69,7 +69,6 @@ public class GuiGraph extends GuiElement {
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        mc.renderEngine.bindTexture(RESOURCE);
         drawBlack(guiWidth, guiHeight);
         drawGraph(guiWidth, guiHeight);
         mc.renderEngine.bindTexture(defaultLocation);
@@ -93,19 +92,20 @@ public class GuiGraph extends GuiElement {
     }
 
     public void drawBlack(int guiWidth, int guiHeight) {
-        int xDisplays = xSize / 10 + (xSize % 10 > 0 ? 1 : 0);
-        int yDisplays = ySize / 10 + (ySize % 10 > 0 ? 1 : 0);
-
-        for (int yIter = 0; yIter < yDisplays; yIter++) {
-            for (int xIter = 0; xIter < xDisplays; xIter++) {
-                int width = xSize % 10 > 0 && xIter == xDisplays - 1 ? xSize % 10 : 10;
-                int height = ySize % 10 > 0 && yIter == yDisplays - 1 ? ySize % 10 : 10;
-                guiObj.drawTexturedRect(guiWidth + xPosition + (xIter * 10), guiHeight + yPosition + (yIter * 10), 0, 0, width, height);
-            }
-        }
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "Inner_Screen.png"));
+        int halfWidthLeft = xSize / 2;
+        int halfWidthRight = xSize % 2 == 0 ? halfWidthLeft : halfWidthLeft + 1;
+        int halfHeightTop = (ySize + 1) / 2;
+        int halfHeight = (ySize + 1) % 2 == 0 ? halfHeightTop : halfHeightTop + 1;
+        MekanismRenderer.resetColor();
+        guiObj.drawTexturedRect(guiWidth + xPosition, guiHeight + yPosition, 0, 0, halfWidthLeft, halfHeightTop);
+        guiObj.drawTexturedRect(guiWidth + xPosition, guiHeight + yPosition + halfHeightTop, 0, 256 - halfHeight, halfWidthLeft, halfHeight);
+        guiObj.drawTexturedRect(guiWidth + xPosition + halfWidthLeft, guiHeight + yPosition, 256 - halfWidthRight, 0, halfWidthRight, halfHeightTop);
+        guiObj.drawTexturedRect(guiWidth + xPosition + halfWidthLeft, guiHeight + yPosition + halfHeightTop, 256 - halfWidthRight, 256 - halfHeight, halfWidthRight, halfHeight);
     }
 
     public void drawGraph(int guiWidth, int guiHeight) {
+        mc.renderEngine.bindTexture(RESOURCE);
         for (int i = 0; i < graphData.size(); i++) {
             int data = Math.min(currentScale, graphData.get(i));
             int relativeHeight = (int) (((double) data / (double) currentScale) * ySize);

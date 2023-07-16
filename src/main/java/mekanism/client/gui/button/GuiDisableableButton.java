@@ -3,6 +3,7 @@ package mekanism.client.gui.button;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -10,25 +11,67 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
+import java.util.function.Supplier;
+
 
 @SideOnly(Side.CLIENT)
-public class GuiDisableableImageButton extends GuiButton {
+public class GuiDisableableButton extends GuiButton {
 
     private final ResourceLocation Button = MekanismUtils.getResource(MekanismUtils.ResourceType.BUTTON, "Button.png");
-
     private final ResourceLocation Button_Digital = MekanismUtils.getResource(MekanismUtils.ResourceType.BUTTON, "Button_Digital.png");
-
     private final ResourceLocation ButtonIcon = MekanismUtils.getResource(MekanismUtils.ResourceType.BUTTON, "Button_Icon.png");
-
     private ImageOverlay overlay = null;
+    private boolean Toggleborders = false;
+    private boolean scale;
+    private float textscale;
+    private int enabledColor = 0xFFFFFFFF;
+    private int disabledColor = 0xFFA0A0A0;
+    private int hoveredOrFocusedColor = 0xFFFFFFFF;
+
+    private Supplier<Integer> mod;
 
 
-    public GuiDisableableImageButton(int id, int x, int y, int width, int height) {
-        super(id, x, y, width, height, "");
+    public GuiDisableableButton(int id, int x, int y, int width, int height) {
+        this(id, x, y, width, height, "");
     }
 
-    public GuiDisableableImageButton with(ImageOverlay overlay) {
+    public GuiDisableableButton(int id, int x, int y, int width, int height, Supplier<Integer> mod) {
+        this(id, x, y, width, height, "");
+        this.mod = mod;
+    }
+
+    public GuiDisableableButton(int id, int x, int y, int width, int height, String text) {
+        super(id, x, y, width, height, text);
+    }
+
+    public GuiDisableableButton with(ImageOverlay overlay) {
         this.overlay = overlay;
+        return this;
+    }
+
+    public GuiDisableableButton handoff(boolean Toggleborders) {
+        this.Toggleborders = Toggleborders;
+        return this;
+    }
+
+    public GuiDisableableButton textscale(boolean scale, float textscale) {
+        this.textscale = textscale;
+        this.scale = scale;
+        return this;
+    }
+
+    public GuiDisableableButton enabledTextColor(int color) {
+        this.enabledColor = color;
+        return this;
+    }
+
+    public GuiDisableableButton disabledTextColor(int color) {
+        this.disabledColor = color;
+        return this;
+    }
+
+    public GuiDisableableButton hoveredtextColor(int color) {
+        this.hoveredOrFocusedColor = color;
         return this;
     }
 
@@ -42,10 +85,27 @@ public class GuiDisableableImageButton extends GuiButton {
         return 1;
     }
 
+    protected int GetMod() {
+        if (mod != null) {
+            return mod.get() * 18;
+        } else {
+            return 0;
+        }
+    }
+
+    protected int getTextColor(boolean hoveredOrFocused) {
+        if (!enabled) {
+            return disabledColor;
+        } else if (hoveredOrFocused) {
+            return hoveredOrFocusedColor;
+        }
+        return enabledColor;
+    }
 
     @Override
     public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
         if (visible) {
+            FontRenderer fontrenderer = mc.fontRenderer;
             //Ensure the color gets reset. The default GuiButtonImage doesn't so other GuiButton's can have the color leak out of them
             MekanismRenderer.resetColor();
             hovered = mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height;
@@ -55,22 +115,29 @@ public class GuiDisableableImageButton extends GuiButton {
             int halfWidthRight = width % 2 == 0 ? halfWidthLeft : halfWidthLeft + 1;
             int halfHeightTop = height / 2;
             int halfHeightBottom = height % 2 == 0 ? halfHeightTop : halfHeightTop + 1;
-
-            mc.getTextureManager().bindTexture(overlay == ImageOverlay.CHECKMARK_DIGITAL ? Button_Digital : Button);
+            mc.getTextureManager().bindTexture(overlay == ImageOverlay.CHECKMARK_DIGITAL || Toggleborders ? Button_Digital : Button);
             GlStateManager.disableDepth();
             drawTexturedModalRect(x, y, 0, position, halfWidthLeft, halfHeightTop);
             drawTexturedModalRect(x, y + halfHeightTop, 0, position + 20 - halfHeightBottom, halfWidthLeft, halfHeightBottom);
             drawTexturedModalRect(x + halfWidthLeft, y, 200 - halfWidthRight, position, halfWidthRight, halfHeightTop);
             drawTexturedModalRect(x + halfWidthLeft, y + halfHeightTop, 200 - halfWidthRight, position + 20 - halfHeightBottom, halfWidthRight, halfHeightBottom);
-            if (overlay != null) {
+            if (overlay != null && displayString.isEmpty()) {
                 mc.getTextureManager().bindTexture(ButtonIcon);
                 int w = overlay.width;
                 int h = overlay.height;
                 int xLocationOverlay = x + (width - w) / 2;
                 int yLocationOverlay = y + (height - h) / 2;
-                drawTexturedModalRect(xLocationOverlay, yLocationOverlay, overlay.textureX, overlay.textureY, w, h);
+                drawTexturedModalRect(xLocationOverlay, yLocationOverlay, overlay.textureX + GetMod(), overlay.textureY, w, h);
             }
-
+            if (!displayString.isEmpty()) {
+                if (!scale) {
+                    drawCenteredString(fontrenderer, displayString, x + width / 2, y + height / 2 - 4, getTextColor(hovered));
+                } else {
+                    int textWidth = fontrenderer.getStringWidth(displayString);
+                    float centerX = x - (textWidth / 2F) * textscale;
+                    fontrenderer.drawString(displayString, (int) centerX, y, getTextColor(hovered));
+                }
+            }
             GlStateManager.enableDepth();
         }
     }
@@ -114,12 +181,13 @@ public class GuiDisableableImageButton extends GuiButton {
         SKIN(18, 18, 108, 36),
         SMELTING(18, 18, 126, 36),
         STOCK_CONTROL(18, 18, 144, 36),
-        TOGGLE(18, 18, 162, 36),
-        TOGGLE_FLIPPED(18, 18, 180, 36),
         TRUSTED(18, 18, 198, 36),
         UP(18, 18, 216, 36),
         INVERSE(18, 18, 234, 36),
         SMALL_BACK(18, 18, 0, 54),
+
+        TOGGLE(18, 18, 0, 72),
+        GAS_MOD(18, 18, 0, 90),
         ;
 
         public final int width;

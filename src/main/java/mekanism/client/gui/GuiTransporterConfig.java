@@ -4,8 +4,8 @@ import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.client.gui.GuiSideConfiguration.GuiPos;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiColorButton;
+import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.button.GuiSideDataButton;
 import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.GuiSlot;
@@ -67,28 +67,11 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
-        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        //Draw the button background
-        drawTexturedModalRect(guiLeft + 6, guiTop + 6, 233, 17, 14, 14);
-        drawTexturedModalRect(guiLeft + 156, guiTop + 6, 233, 17, 14, 14);
-        //Draw the configuration button background
-        /*
-        drawTexturedModalRect(guiLeft + 38, guiTop + 48,232,0,16,16);
-        drawTexturedModalRect(guiLeft + 38, guiTop + 63,232,0,16,16);
-        drawTexturedModalRect(guiLeft + 53, guiTop + 33,232,0,16,16);
-        drawTexturedModalRect(guiLeft + 53, guiTop + 48,232,0,16,16);
-        drawTexturedModalRect(guiLeft + 53, guiTop + 63,232,0,16,16);
-        drawTexturedModalRect(guiLeft + 68, guiTop + 48,232,0,16,16);
-         */
-    }
-
-    @Override
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(backButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 6, guiTop + 6, 14, 14, 204, 14, -14, getGuiLocation()));
-        buttonList.add(strictInputButton = new GuiButtonDisableableImage(buttonID++, guiLeft + 156, guiTop + 6, 14, 14, 176, 56, -14, getGuiLocation()));
+        buttonList.add(backButton = new GuiDisableableButton(buttonID++, guiLeft + 6, guiTop + 6, 14, 14).with(GuiDisableableButton.ImageOverlay.BACK));
+        buttonList.add(strictInputButton = new GuiDisableableButton(buttonID++, guiLeft + 156, guiTop + 6, 14, 14).with(GuiDisableableButton.ImageOverlay.EXCLAMATION));
         buttonList.add(colorButton = new GuiColorButton(buttonID++, guiLeft + 122, guiTop + 49, 16, 16, () -> configurable.getEjector().getOutputColor()));
         for (int i = 0; i < slotPosMap.size(); i++) {
             GuiPos guiPos = slotPosMap.get(i);
@@ -183,6 +166,6 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIconSmall.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 }

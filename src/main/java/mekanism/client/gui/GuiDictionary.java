@@ -1,6 +1,8 @@
 package mekanism.client.gui;
 
+import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiScrollList;
+import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.OreDictCache;
@@ -22,13 +24,14 @@ import java.io.IOException;
 @SideOnly(Side.CLIENT)
 public class GuiDictionary extends GuiMekanism {
 
-    public ItemStack itemType = ItemStack.EMPTY;
-
     private final GuiScrollList scrollList;
+    public ItemStack itemType = ItemStack.EMPTY;
 
     public GuiDictionary(InventoryPlayer inventory) {
         super(new ContainerDictionary(inventory));
         addGuiElement(scrollList = new GuiScrollList(this, getGuiLocation(), 8, 30, 160, 4));
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 5, 5));
     }
 
     @Override
@@ -101,6 +104,6 @@ public class GuiDictionary extends GuiMekanism {
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiDictionary.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 }

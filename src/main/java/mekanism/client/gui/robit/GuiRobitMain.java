@@ -3,7 +3,7 @@ package mekanism.client.gui.robit;
 import mekanism.client.gui.GuiMekanism;
 import mekanism.client.gui.GuiTextColorField;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
-import mekanism.client.gui.button.GuiButtonTextDisableableImage;
+import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiSlot;
@@ -32,7 +32,7 @@ public class GuiRobitMain extends GuiMekanism {
 
     private boolean displayNameChange;
     private GuiTextColorField nameChangeField;
-    private GuiButtonTextDisableableImage confirmName;
+    private GuiDisableableButton confirmName;
     private GuiButtonDisableableImage teleportHomeButton;
     private GuiButtonDisableableImage pickupButton;
     private GuiButtonDisableableImage renameButton;
@@ -96,7 +96,7 @@ public class GuiRobitMain extends GuiMekanism {
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(confirmName = new GuiButtonTextDisableableImage(0, guiLeft + 58, guiTop + 47, 60, 20, LangUtils.localize("gui.confirm")));
+        buttonList.add(confirmName = new GuiDisableableButton(0, guiLeft + 58, guiTop + 47, 60, 20, LangUtils.localize("gui.confirm")));
         confirmName.visible = displayNameChange;
 
         nameChangeField = new GuiTextColorField(1, fontRenderer, guiLeft + 48, guiTop + 21, 80, 12);

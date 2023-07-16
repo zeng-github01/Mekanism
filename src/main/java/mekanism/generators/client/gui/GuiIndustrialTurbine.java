@@ -1,17 +1,18 @@
 package mekanism.generators.client.gui;
 
 import mekanism.api.TileNetworkList;
-import mekanism.client.gui.GuiEmbeddedGaugeTile;
-import mekanism.client.gui.element.GuiEnergyInfo;
-import mekanism.client.gui.element.GuiPowerBar;
-import mekanism.client.gui.element.GuiRateBar;
+import mekanism.client.gui.GuiMekanismTile;
+import mekanism.client.gui.button.GuiDisableableButton;
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiRateBar.IRateInfoHandler;
+import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.gauge.GuiNumberGauge;
+import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.inventory.container.ContainerFilter;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
-import mekanism.common.tile.TileEntityGasTank.GasMode;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
@@ -19,6 +20,8 @@ import mekanism.generators.client.gui.element.GuiTurbineTab;
 import mekanism.generators.client.gui.element.GuiTurbineTab.TurbineTab;
 import mekanism.generators.common.content.turbine.TurbineUpdateProtocol;
 import mekanism.generators.common.tile.turbine.TileEntityTurbineCasing;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
@@ -29,7 +32,9 @@ import java.io.IOException;
 import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
-public class GuiIndustrialTurbine extends GuiEmbeddedGaugeTile<TileEntityTurbineCasing> {
+public class GuiIndustrialTurbine extends GuiMekanismTile<TileEntityTurbineCasing> {
+
+    public GuiDisableableButton mode;
 
     public GuiIndustrialTurbine(InventoryPlayer inventory, TileEntityTurbineCasing tile) {
         super(tile, new ContainerFilter(inventory, tile));
@@ -61,6 +66,38 @@ public class GuiIndustrialTurbine extends GuiEmbeddedGaugeTile<TileEntityTurbine
             return Arrays.asList(LangUtils.localize("gui.storing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()),
                     LangUtils.localize("gui.producing") + ": " + MekanismUtils.getEnergyDisplay(producing) + "/t");
         }, this, resource));
+        addGuiElement(new GuiInnerScreen(this, resource, 50, 23, 112, 41));
+        addGuiElement(new GuiPlayerSlot(this, resource));
+        addGuiElement(new GuiNumberGauge(new GuiNumberGauge.INumberInfoHandler() {
+
+            @Override
+            public TextureAtlasSprite getIcon() {
+                return MekanismRenderer.getFluidTexture(tileEntity.structure != null ? tileEntity.structure.fluidStored : null, MekanismRenderer.FluidType.STILL);
+            }
+
+            @Override
+            public double getLevel() {
+                if (tileEntity.structure != null && tileEntity.structure.fluidStored != null) {
+                    return tileEntity.structure.fluidStored.amount;
+                } else {
+                    return 0;
+                }
+            }
+
+            @Override
+            public double getMaxLevel() {
+                if (tileEntity.structure != null && tileEntity.structure.fluidStored != null) {
+                    return tileEntity.structure.getFluidCapacity();
+                } else {
+                    return 0;
+                }
+            }
+
+            @Override
+            public String getText(double level) {
+                return tileEntity.structure != null ? (tileEntity.structure.fluidStored != null ? LangUtils.localizeFluidStack(tileEntity.structure.fluidStored) + ": " + tileEntity.structure.fluidStored.amount + "mB" : LangUtils.localize("gui.empty")) : "";
+            }
+        }, GuiGauge.Type.MEDIUM, this, resource, 6, 13));
     }
 
     @Override
@@ -79,51 +116,23 @@ public class GuiIndustrialTurbine extends GuiEmbeddedGaugeTile<TileEntityTurbine
             renderScaledText(LangUtils.localize("gui.maxFlow") + ": " + rate + " mB/t", 53, 53, 0x00CD00, 106);
             String name = LangUtils.localize(tileEntity.structure.dumpMode.getLangKey());
             renderScaledText(name, 156 - (int) (fontRenderer.getStringWidth(name) * getNeededScale(name, 66)), 73, 0x404040, 66);
-            int xAxis = mouseX - guiLeft;
-            int yAxis = mouseY - guiTop;
-            if (xAxis >= 7 && xAxis <= 39 && yAxis >= 14 && yAxis <= 72) {
-                displayTooltip(tileEntity.structure.fluidStored != null
-                        ? LangUtils.localizeFluidStack(tileEntity.structure.fluidStored) + ": " + tileEntity.structure.fluidStored.amount + "mB"
-                        : LangUtils.localize("gui.empty"), xAxis, yAxis);
-            }
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
-        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        if (tileEntity.structure != null) {
-            int dump = tileEntity.structure.dumpMode.ordinal();
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png"));
-            drawTexturedModalRect(guiLeft + 159, guiTop + 72, 9, 167, 10, 10);
-            drawTexturedModalRect(guiLeft + 160, guiTop + 73, 59 + 8 * dump, inBounds(xAxis, yAxis) ? 167 : 175, 8, 8);
-            mc.getTextureManager().bindTexture(getGuiLocation());
-            int scaledFluidLevel = tileEntity.getScaledFluidLevel(58);
-            if (scaledFluidLevel > 0) {
-                displayGauge(7, 14, scaledFluidLevel, tileEntity.structure.fluidStored, 0);
-                displayGauge(23, 14, scaledFluidLevel, tileEntity.structure.fluidStored, 1);
-            }
-        }
+    public void initGui() {
+        super.initGui();
+        buttonList.clear();
+        buttonList.add(mode = new GuiDisableableButton(0, guiLeft + 159, guiTop + 72, 10, 10, () -> tileEntity.structure != null ? tileEntity.structure.dumpMode.ordinal() : 0).with(GuiDisableableButton.ImageOverlay.GAS_MOD));
     }
 
-    protected boolean inBounds(int xAxis, int yAxis) {
-        return xAxis >= 160 && xAxis <= 167 && yAxis >= 73 && yAxis <= 80;
-    }
 
     @Override
-    protected ResourceLocation getGaugeResource() {
-        return getGuiLocation();
-    }
-
-    @Override
-    protected void mouseClicked(int x, int y, int button) throws IOException {
-        super.mouseClicked(x, y, button);
-        int xAxis = x - guiLeft;
-        int yAxis = y - guiTop;
-        if (xAxis > 160 && xAxis < 169 && yAxis > 73 && yAxis < 82) {
-            TileNetworkList data = TileNetworkList.withContents((byte) 0);
-            Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
+    protected void actionPerformed(GuiButton guibutton) throws IOException {
+        super.actionPerformed(guibutton);
+        if (guibutton.id == mode.id) {
+            Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, TileNetworkList.withContents(0)));
             SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
         }
     }

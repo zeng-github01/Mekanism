@@ -3,7 +3,9 @@ package mekanism.client.gui;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
-import mekanism.client.gui.button.GuiButtonTextDisableableImage;
+import mekanism.client.gui.button.GuiDisableableButton;
+import mekanism.client.gui.element.GuiElementScreen;
+import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiScrollList;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
@@ -31,7 +33,7 @@ public class GuiSecurityDesk extends GuiMekanismTile<TileEntitySecurityDesk> {
 
     private static final List<Character> SPECIAL_CHARS = Arrays.asList('-', '|', '_');
     private static final int MAX_LENGTH = 24;
-    private GuiButtonTextDisableableImage removeButton;
+    private GuiDisableableButton removeButton;
     private GuiButtonDisableableImage publicButton;
     private GuiButtonDisableableImage privateButton;
     private GuiButtonDisableableImage trustedButton;
@@ -42,15 +44,17 @@ public class GuiSecurityDesk extends GuiMekanismTile<TileEntitySecurityDesk> {
 
     public GuiSecurityDesk(InventoryPlayer inventory, TileEntitySecurityDesk tile) {
         super(tile, new ContainerSecurityDesk(inventory, tile));
+        addGuiElement(new GuiElementScreen(this, getGuiLocation(), 13, 13, 122, 42));
         addGuiElement(scrollList = new GuiScrollList(this, getGuiLocation(), 14, 14, 120, 4));
         ySize += 64;
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation(),7,147));
     }
 
     @Override
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(removeButton = new GuiButtonTextDisableableImage(0, guiLeft + 13, guiTop + 81, 122, 20, LangUtils.localize("gui.remove")));
+        buttonList.add(removeButton = new GuiDisableableButton(0, guiLeft + 13, guiTop + 81, 122, 20, LangUtils.localize("gui.remove")));
         trustedField = new GuiTextColorField(1, fontRenderer, guiLeft + 35, guiTop + 69, 86, 11);
         trustedField.setMaxStringLength(MAX_LENGTH);
         trustedField.setEnableBackgroundDrawing(false);

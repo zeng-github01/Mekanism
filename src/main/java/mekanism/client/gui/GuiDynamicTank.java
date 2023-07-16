@@ -1,12 +1,16 @@
 package mekanism.client.gui;
 
 import mekanism.client.gui.element.*;
+import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.gauge.GuiNumberGauge;
+import mekanism.client.render.MekanismRenderer;
 import mekanism.common.content.tank.TankUpdateProtocol;
 import mekanism.common.inventory.container.ContainerDynamicTank;
 import mekanism.common.tile.TileEntityDynamicTank;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
@@ -14,7 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiDynamicTank extends GuiEmbeddedGaugeTile<TileEntityDynamicTank> {
+public class GuiDynamicTank extends GuiMekanismTile<TileEntityDynamicTank> {
 
     public GuiDynamicTank(InventoryPlayer inventory, TileEntityDynamicTank tile) {
         super(tile, new ContainerDynamicTank(inventory, tile));
@@ -22,7 +26,37 @@ public class GuiDynamicTank extends GuiEmbeddedGaugeTile<TileEntityDynamicTank> 
         addGuiElement(new GuiContainerEditMode(this, tileEntity, resource));
         addGuiElement(new GuiInnerScreen(this, resource, 50, 23, 80, 41));
         addGuiElement(new GuiBucketIcon(GuiBucketIcon.IconType.DYNAMICTANK, this, resource, 141, 15));
-        addGuiElement(new GuiPlayerArmmorSlot(this,resource,-26,62,false));
+        addGuiElement(new GuiPlayerArmmorSlot(this, resource, -26, 62, false));
+        addGuiElement(new GuiPlayerSlot(this, resource));
+        addGuiElement(new GuiNumberGauge(new GuiNumberGauge.INumberInfoHandler() {
+            @Override
+            public TextureAtlasSprite getIcon() {
+                return MekanismRenderer.getFluidTexture(tileEntity.structure != null ? tileEntity.structure.fluidStored : null, MekanismRenderer.FluidType.STILL);
+            }
+
+            @Override
+            public double getLevel() {
+                if (tileEntity.structure != null && tileEntity.structure.fluidStored != null) {
+                    return tileEntity.structure.fluidStored.amount;
+                } else {
+                    return 0;
+                }
+            }
+
+            @Override
+            public double getMaxLevel() {
+                if (tileEntity.structure != null && tileEntity.structure.fluidStored != null) {
+                    return tileEntity.clientCapacity;
+                } else {
+                    return 0;
+                }
+            }
+
+            @Override
+            public String getText(double level) {
+                return tileEntity.structure != null ? (tileEntity.structure.fluidStored != null ? LangUtils.localizeFluidStack(tileEntity.structure.fluidStored) + ": " + tileEntity.structure.fluidStored.amount + "mB" : LangUtils.localize("gui.empty")) : "";
+            }
+        }, GuiGauge.Type.MEDIUM, this, resource, 6, 13));
     }
 
     @Override
@@ -35,22 +69,7 @@ public class GuiDynamicTank extends GuiEmbeddedGaugeTile<TileEntityDynamicTank> 
         if (fluidStored != null) {
             fontRenderer.drawString(fluidStored.amount + "mB", 53, 53, 0x00CD00);
         }
-        int xAxis = mouseX - guiLeft;
-        int yAxis = mouseY - guiTop;
-        if (xAxis >= 7 && xAxis <= 39 && yAxis >= 14 && yAxis <= 72) {
-            displayTooltip(fluidStored != null ? LangUtils.localizeFluidStack(fluidStored) + ": " + fluidStored.amount + "mB" : LangUtils.localize("gui.empty"), xAxis, yAxis);
-        }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-    }
-
-    @Override
-    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
-        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        int scaledFluidLevel = tileEntity.getScaledFluidLevel(58);
-        if (scaledFluidLevel > 0) {
-            displayGauge(7, 14, scaledFluidLevel, tileEntity.structure.fluidStored, 0);
-            displayGauge(23, 14, scaledFluidLevel, tileEntity.structure.fluidStored, 1);
-        }
     }
 
     @Override
@@ -58,8 +77,4 @@ public class GuiDynamicTank extends GuiEmbeddedGaugeTile<TileEntityDynamicTank> 
         return MekanismUtils.getResource(ResourceType.GUI, "GuiDynamicTankInductionMatrix.png");
     }
 
-    @Override
-    protected ResourceLocation getGaugeResource() {
-        return getGuiLocation();
-    }
 }

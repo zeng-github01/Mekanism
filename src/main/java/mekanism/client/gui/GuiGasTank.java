@@ -2,9 +2,12 @@ package mekanism.client.gui;
 
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.GasStack;
+import mekanism.client.gui.button.GuiDisableableButton;
+import mekanism.client.gui.button.GuiDisableableButton.ImageOverlay;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
+import mekanism.client.gui.element.bar.GuiBar;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
 import mekanism.client.gui.element.tab.GuiTransporterConfigTab;
@@ -17,6 +20,7 @@ import mekanism.common.tile.TileEntityGasTank;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -26,9 +30,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
+
+    public GuiDisableableButton mode;
 
     public GuiGasTank(InventoryPlayer inventory, TileEntityGasTank tile) {
         super(tile, new ContainerGasTank(inventory, tile));
@@ -40,8 +47,10 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
         addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 15, 16).with(SlotOverlay.PLUS));
         addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 15, 46).with(SlotOverlay.MINUS));
         addGuiElement(new GuiInnerScreen(this, resource, 42, 37, 118, 27));
-        addGuiElement(new GuiPlayerSlot(this,resource));
-        addGuiElement(new GuiPlayerArmmorSlot(this,resource,-26,62,false));
+        addGuiElement(new GuiPlayerSlot(this, resource));
+        addGuiElement(new GuiPlayerArmmorSlot(this, resource, -26, 62, false));
+        addGuiElement(new GuiBar(() -> Arrays.asList((tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored()) : LangUtils.localize("gui.none"))),
+                this, getGuiLocation(), 42, 16, 118, 12));
     }
 
     @Override
@@ -49,6 +58,7 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
         String stored = "" + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored());
         String capacityInfo = stored + " / " + (tileEntity.tier.getStorage() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.tier.getStorage());
         fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
+
         renderScaledText(LangUtils.localize("gui.gas") + ": " + (tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName()
                 : LangUtils.localize("gui.none")), 45, 40, 0x33ff99, 112);
         fontRenderer.drawString(capacityInfo, 45, 49, 0x33ff99);
@@ -58,17 +68,17 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
-    protected boolean inBounds(int xAxis, int yAxis) {
-        return xAxis >= 160 && xAxis <= 167 && yAxis >= 73 && yAxis <= 80;
+
+    @Override
+    public void initGui() {
+        super.initGui();
+        buttonList.clear();
+        buttonList.add(mode = new GuiDisableableButton(0, guiLeft + 159, guiTop + 72, 10, 10, () -> tileEntity.dumping.ordinal()).with(ImageOverlay.GAS_MOD));
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 159, guiTop + 72, 9, 167, 10, 10);
-        drawTexturedModalRect(guiLeft + 42, guiTop + 16, 0, 192, 118, 12);
-        int displayInt = tileEntity.dumping.ordinal();
-        drawTexturedModalRect(guiLeft + 160, guiTop + 73, 59 + 8 * displayInt, inBounds(xAxis, yAxis) ? 167 : 175, 8, 8);
         GasStack gas = tileEntity.gasTank.getGas();
         if (gas != null) {
             MekanismRenderer.color(gas);
@@ -85,17 +95,16 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
         }
     }
 
+
     @Override
-    protected void mouseClicked(int x, int y, int button) throws IOException {
-        super.mouseClicked(x, y, button);
-        int xAxis = x - guiLeft;
-        int yAxis = y - guiTop;
-        if (xAxis > 160 && xAxis < 169 && yAxis > 73 && yAxis < 82) {
-            TileNetworkList data = TileNetworkList.withContents(0);
-            Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
+    protected void actionPerformed(GuiButton guibutton) throws IOException {
+        super.actionPerformed(guibutton);
+        if (guibutton.id == mode.id) {
+            Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, TileNetworkList.withContents(0)));
             SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
         }
     }
+
 
     @Override
     protected ResourceLocation getGuiLocation() {

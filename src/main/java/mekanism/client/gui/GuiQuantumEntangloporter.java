@@ -3,11 +3,8 @@ package mekanism.client.gui;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
-import mekanism.client.gui.button.GuiButtonTextDisableableImage;
-import mekanism.client.gui.element.GuiEnergyInfo;
-import mekanism.client.gui.element.GuiHeatInfo;
-import mekanism.client.gui.element.GuiScrollList;
-import mekanism.client.gui.element.GuiWarningInfo;
+import mekanism.client.gui.button.GuiDisableableButton;
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
 import mekanism.client.gui.element.tab.GuiTransporterConfigTab;
@@ -39,10 +36,10 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumEntangloporter> {
 
-    private GuiButtonTextDisableableImage publicButton;
-    private GuiButtonTextDisableableImage privateButton;
-    private GuiButtonTextDisableableImage setButton;
-    private GuiButtonTextDisableableImage deleteButton;
+    private GuiDisableableButton publicButton;
+    private GuiDisableableButton privateButton;
+    private GuiDisableableButton setButton;
+    private GuiDisableableButton deleteButton;
     private GuiButtonDisableableImage checkboxButton;
     private GuiScrollList scrollList;
     private GuiTextColorField frequencyField;
@@ -67,6 +64,7 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
         if (tileEntity.frequency != null) {
             privateMode = !tileEntity.frequency.publicFreq;
         }
+        addGuiElement(new GuiPlayerSlot(this,resource,7, 147));
         ySize += 64;
     }
 
@@ -74,10 +72,10 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(publicButton = new GuiButtonTextDisableableImage(0, guiLeft + 27, guiTop + 14, 60, 20, LangUtils.localize("gui.public")));
-        buttonList.add(privateButton = new GuiButtonTextDisableableImage(1, guiLeft + 89, guiTop + 14, 60, 20, LangUtils.localize("gui.private")));
-        buttonList.add(setButton = new GuiButtonTextDisableableImage(2, guiLeft + 27, guiTop + 116, 60, 20, LangUtils.localize("gui.set")));
-        buttonList.add(deleteButton = new GuiButtonTextDisableableImage(3, guiLeft + 89, guiTop + 116, 60, 20, LangUtils.localize("gui.delete")));
+        buttonList.add(publicButton = new GuiDisableableButton(0, guiLeft + 27, guiTop + 14, 60, 20, LangUtils.localize("gui.public")));
+        buttonList.add(privateButton = new GuiDisableableButton(1, guiLeft + 89, guiTop + 14, 60, 20, LangUtils.localize("gui.private")));
+        buttonList.add(setButton = new GuiDisableableButton(2, guiLeft + 27, guiTop + 116, 60, 20, LangUtils.localize("gui.set")));
+        buttonList.add(deleteButton = new GuiDisableableButton(3, guiLeft + 89, guiTop + 116, 60, 20, LangUtils.localize("gui.delete")));
         frequencyField = new GuiTextColorField(4, fontRenderer, guiLeft + 50, guiTop + 104, 86, 11);
         frequencyField.setMaxStringLength(FrequencyManager.MAX_FREQ_LENGTH);
         frequencyField.setEnableBackgroundDrawing(false);

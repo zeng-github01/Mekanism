@@ -1,5 +1,7 @@
 package mekanism.client.gui;
 
+import mekanism.client.gui.element.GuiPlayerSlot;
+import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.common.inventory.container.ContainerLaserTractorBeam;
 import mekanism.common.tile.TileEntityLaserTractorBeam;
@@ -17,6 +19,12 @@ public class GuiLaserTractorBeam extends GuiMekanismTile<TileEntityLaserTractorB
     public GuiLaserTractorBeam(InventoryPlayer inventory, TileEntityLaserTractorBeam tile) {
         super(tile, new ContainerLaserTractorBeam(inventory, tile));
         addGuiElement(new GuiSecurityTab(this, tileEntity, getGuiLocation()));
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 9; x++) {
+                addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 7 + x * 18, 15 + y * 18));
+            }
+        }
     }
 
     @Override

@@ -3,13 +3,14 @@ package mekanism.client.gui;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
-import mekanism.client.gui.button.GuiButtonTextDisableableImage;
+import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
 import mekanism.client.gui.element.tab.GuiVisualsTab;
+import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismSounds;
@@ -41,10 +42,10 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
     public static final int STOP_BUTTON_ID = 1;
     public static final int CONFIG_BUTTON_ID = 2;
     public static final int RESET_BUTTON_ID = 3;
-    private GuiButtonTextDisableableImage startButton;
-    private GuiButtonTextDisableableImage stopButton;
-    private GuiButtonTextDisableableImage configButton;
-    private GuiButtonTextDisableableImage resetButton;
+    private GuiDisableableButton startButton;
+    private GuiDisableableButton stopButton;
+    private GuiDisableableButton configButton;
+    private GuiDisableableButton resetButton;
 
     public GuiDigitalMiner(InventoryPlayer inventory, TileEntityDigitalMiner tile) {
         super(tile, new ContainerDigitalMiner(inventory, tile));
@@ -67,11 +68,11 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
             return ret;
         }, this, resource));
         addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 151, 19).with(SlotOverlay.POWER));
-        addGuiElement(new GuiInnerScreen(this, resource, 8, 20, 76, 67));
-        addGuiElement(new GuiPlayerSlot(this,resource,7,159));
-        for (int y =0; y< 3;y++) {
+        addGuiElement(new GuiInnerScreen(this, resource, 7, 19, 78, 69));
+        addGuiElement(new GuiPlayerSlot(this, resource, 7, 159));
+        for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 9; x++) {
-                addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 7 + x * 18, 91 +  y * 18));
+                addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 7 + x * 18, 91 + y * 18));
             }
         }
         ySize += 76;
@@ -82,10 +83,10 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
         super.initGui();
         buttonList.clear();
         int buttonStart = 19;
-        buttonList.add(startButton = new GuiButtonTextDisableableImage(START_BUTTON_ID, guiLeft + 87, guiTop + buttonStart, 61, 18,  LangUtils.localize("gui.start")));
-        buttonList.add(stopButton = new GuiButtonTextDisableableImage(STOP_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 17, 61, 18,  LangUtils.localize("gui.stop")));
-        buttonList.add(configButton = new GuiButtonTextDisableableImage(CONFIG_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 34, 61, 18, LangUtils.localize("gui.config")));
-        buttonList.add(resetButton = new GuiButtonTextDisableableImage(RESET_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 51, 61, 18,LangUtils.localize("gui.digitalMiner.reset")));
+        buttonList.add(startButton = new GuiDisableableButton(START_BUTTON_ID, guiLeft + 87, guiTop + buttonStart, 61, 18, LangUtils.localize("gui.start")));
+        buttonList.add(stopButton = new GuiDisableableButton(STOP_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 17, 61, 18, LangUtils.localize("gui.stop")));
+        buttonList.add(configButton = new GuiDisableableButton(CONFIG_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 34, 61, 18, LangUtils.localize("gui.config")));
+        buttonList.add(resetButton = new GuiDisableableButton(RESET_BUTTON_ID, guiLeft + 87, guiTop + buttonStart + 51, 61, 18, LangUtils.localize("gui.digitalMiner.reset")));
         updateEnabledButtons();
     }
 
@@ -143,15 +144,12 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
             drawTexturedModalRect(64, 21, SlotOverlay.CHECK.textureX, SlotOverlay.CHECK.textureY, 18, 18);
         }
 
-        //TODO:Patch the font on the button
-        /*
-        renderText(LangUtils.localize("gui.on"),19 + 15 / 2 ,  56,1F,false);
-        renderText(LangUtils.localize("gui.on"), 38 + 15 / 2,  56, 1F,false);
-        renderText(LangUtils.localize("gui.on"),  57 + 15 / 2, 56, 1F,false);
-        renderText(LangUtils.localize("gui.off"),+ 19 + 15 / 2, 65,1F,false);
-        renderText(LangUtils.localize("gui.off"), 38 + 15 / 2, 65 , 1F,false);
-        renderText(LangUtils.localize("gui.off"), 57 + 15 / 2,  65, 1F,false);
-         */
+        renderText(LangUtils.localize("gui.on"), 17, 37.5F);
+        renderText(LangUtils.localize("gui.on"), 29.75F, 37.5F);
+        renderText(LangUtils.localize("gui.on"), 42.5F, 37.5F);
+        renderText(LangUtils.localize("gui.off"), 17, 43.5F);
+        renderText(LangUtils.localize("gui.off"), 29.75F, 43.5F);
+        renderText(LangUtils.localize("gui.off"), 42.5F, 43.5F);
 
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
@@ -183,14 +181,16 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        ResourceLocation resource = getGuiLocation();
-        mc.renderEngine.bindTexture(resource);
-        drawTexturedModalRect(guiLeft + 19, guiTop + 56, tileEntity.doEject ? 180 : 196, 55, 15, 17);
-        drawTexturedModalRect(guiLeft + 38, guiTop + 56, tileEntity.doPull ? 180 : 196, 55, 15, 17);
-        drawTexturedModalRect(guiLeft + 57, guiTop + 56, tileEntity.silkTouch ? 180 : 196, 55, 15, 17);
-        drawTexturedModalRect(guiLeft + 24, guiTop + 77, 180, 73, 5, 5);
-        drawTexturedModalRect(guiLeft + 43, guiTop + 77, 186, 73, 5, 5);
-        drawTexturedModalRect(guiLeft + 62, guiTop + 77, 192, 73, 5, 5);
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.SWITCH, "switch_icon.png"));
+        drawTexturedModalRect(guiLeft + 19, guiTop + 56, 0, tileEntity.doEject ? 0 : 8, 15, 8);
+        drawTexturedModalRect(guiLeft + 19, guiTop + 56 + 8 + 1, 0, !tileEntity.doEject ? 0 : 8, 15, 8);
+        drawTexturedModalRect(guiLeft + 38, guiTop + 56, 0, tileEntity.doPull ? 0 : 8, 15, 8);
+        drawTexturedModalRect(guiLeft + 38, guiTop + 56 + 8 + 1, 0, !tileEntity.doPull ? 0 : 8, 15, 8);
+        drawTexturedModalRect(guiLeft + 57, guiTop + 56, 0, tileEntity.silkTouch ? 0 : 8, 15, 8);
+        drawTexturedModalRect(guiLeft + 57, guiTop + 56 + 8 + 1, 0, !tileEntity.silkTouch ? 0 : 8, 15, 8);
+        drawTexturedModalRect(guiLeft + 24, guiTop + 77, 17, 0, 5, 5);
+        drawTexturedModalRect(guiLeft + 43, guiTop + 77, 24, 0, 5, 5);
+        drawTexturedModalRect(guiLeft + 62, guiTop + 77, 31, 0, 5, 5);
         boolean energy = tileEntity.getEnergy() < tileEntity.energyUsage || tileEntity.getEnergy() == 0;
         for (int slotY = 0; slotY < 3; slotY++) {
             for (int slotX = 0; slotX < 9; slotX++) {
@@ -209,7 +209,7 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiDigitalMiner.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
     protected boolean silkTouchButtoninBounds(int xAxis, int yAxis) {
@@ -244,11 +244,16 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
         }
     }
 
-    private void renderText(String text, int x, int y, float size, boolean scale) {
+    private void renderText(String text, float x, float y) {
+        int textWidth = fontRenderer.getStringWidth(text);
+        float centerX = (x - (textWidth / 2F) * 0.5F);
+        float yAdd = 4 - (0.5F * 8) / 2F;
         GlStateManager.pushMatrix();
-        GlStateManager.scale(size, size, size);
-        fontRenderer.drawString(text, scale ? (int) ((1F / size) * x) : x, scale ? (int) ((1F / size) * y) : y, 0x404040);
+        GlStateManager.translate(x, y + yAdd, 0);
+        GlStateManager.scale(0.5F, 0.5F, 0.5F);
+        fontRenderer.drawString(text, centerX, y, 0x101010, false);
         GlStateManager.popMatrix();
+        MekanismRenderer.resetColor();
     }
 
 }

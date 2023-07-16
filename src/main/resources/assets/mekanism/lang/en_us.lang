@@ -631,6 +631,7 @@ gui.upgrades.noSelection=No selection
 gui.upgrades.amount=Amount
 gui.upgrades.max=Max
 gui.upgrades.effect=Effect
+gui.upgrades.unistall=Unistall
 
 gui.chemicalInfuser.short=C. Infuser
 gui.chemicalDissolutionChamber.short=C. Dissolution Chamber

@@ -3,8 +3,8 @@ package mekanism.client.gui;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
-import mekanism.client.gui.button.GuiButtonTextDisableableImage;
 import mekanism.client.gui.button.GuiColorButton;
+import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiRedstoneControl;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
@@ -140,7 +140,7 @@ public class GuiLogisticalSorter extends GuiFilterHolder<TileEntityLogisticalSor
         super.initGui();
         // Add buttons to gui
         buttonList.clear();
-        buttonList.add(new GuiButtonTextDisableableImage(BUTTON_NEW, guiLeft + filterX, guiTop + 136, filterW, 20, LangUtils.localize("gui.newFilter")));
+        buttonList.add(new GuiDisableableButton(BUTTON_NEW, guiLeft + filterX, guiTop + 136, filterW, 20, LangUtils.localize("gui.newFilter")));
         buttonList.add(singleItemButton = new GuiButtonDisableableImage(1, guiLeft + 12, guiTop + 58, 14, 14, 204, 14, -14, getGuiLocation()));
         buttonList.add(roundRobinButton = new GuiButtonDisableableImage(2, guiLeft + 12, guiTop + 84, 14, 14, 190, 14, -14, getGuiLocation()));
         buttonList.add(autoEjectButton = new GuiButtonDisableableImage(3, guiLeft + 12, guiTop + 110, 14, 14, 176, 14, -14, getGuiLocation()));

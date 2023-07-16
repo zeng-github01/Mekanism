@@ -5,7 +5,7 @@ import mekanism.api.TileNetworkList;
 import mekanism.client.ClientTickHandler;
 import mekanism.client.MekanismClient;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
-import mekanism.client.gui.button.GuiButtonTextDisableableImage;
+import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiPowerBar.IPowerInfoHandler;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
@@ -45,14 +45,15 @@ import java.util.UUID;
 @SideOnly(Side.CLIENT)
 public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
 
+    private final boolean isPortable;
     private EnumHand currentHand;
     private ItemStack itemStack = ItemStack.EMPTY;
     private EntityPlayer entityPlayer;
-    private GuiButtonTextDisableableImage publicButton;
-    private GuiButtonTextDisableableImage privateButton;
-    private GuiButtonTextDisableableImage setButton;
-    private GuiButtonTextDisableableImage deleteButton;
-    private GuiButtonTextDisableableImage teleportButton;
+    private GuiDisableableButton publicButton;
+    private GuiDisableableButton privateButton;
+    private GuiDisableableButton setButton;
+    private GuiDisableableButton deleteButton;
+    private GuiDisableableButton teleportButton;
     private GuiButtonDisableableImage checkboxButton;
     private GuiScrollList scrollList;
     private GuiTextColorField frequencyField;
@@ -62,7 +63,6 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
     private List<Frequency> clientPublicCache = new ArrayList<>();
     private List<Frequency> clientPrivateCache = new ArrayList<>();
     private boolean isInit = true;
-    private final boolean isPortable;
 
     public GuiTeleporter(InventoryPlayer inventory, TileEntityTeleporter tile) {
         super(tile, new ContainerTeleporter(inventory, tile));
@@ -87,12 +87,14 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
                 return tileEntity.getEnergy() == 0;
             }
         }, resource, 158, 26));
+
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 152, 6).with(SlotOverlay.POWER));
         addGuiElement(scrollList = new GuiScrollList(this, resource, 28, 37, 120, 4));
         if (tileEntity.frequency != null) {
             privateMode = !tileEntity.frequency.publicFreq;
         }
         ySize += 64;
+        addGuiElement(new GuiPlayerSlot(this, resource, 7, 147));
     }
 
     public GuiTeleporter(EntityPlayer player, EnumHand hand, ItemStack stack) {
@@ -128,12 +130,12 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(publicButton = new GuiButtonTextDisableableImage(0, guiLeft + 27, guiTop + 14, 60, 20, LangUtils.localize("gui.public")));
-        buttonList.add(privateButton = new GuiButtonTextDisableableImage(1, guiLeft + 89, guiTop + 14, 60, 20, LangUtils.localize("gui.private")));
-        buttonList.add(setButton = new GuiButtonTextDisableableImage(2, guiLeft + 27, guiTop + 116, 60, 20, LangUtils.localize("gui.set")));
-        buttonList.add(deleteButton = new GuiButtonTextDisableableImage(3, guiLeft + 89, guiTop + 116, 60, 20, LangUtils.localize("gui.delete")));
+        buttonList.add(publicButton = new GuiDisableableButton(0, guiLeft + 27, guiTop + 14, 60, 20, LangUtils.localize("gui.public")));
+        buttonList.add(privateButton = new GuiDisableableButton(1, guiLeft + 89, guiTop + 14, 60, 20, LangUtils.localize("gui.private")));
+        buttonList.add(setButton = new GuiDisableableButton(2, guiLeft + 27, guiTop + 116, 60, 20, LangUtils.localize("gui.set")));
+        buttonList.add(deleteButton = new GuiDisableableButton(3, guiLeft + 89, guiTop + 116, 60, 20, LangUtils.localize("gui.delete")));
         if (!itemStack.isEmpty()) {
-            buttonList.add(teleportButton = new GuiButtonTextDisableableImage(4, guiLeft + 42, guiTop + 140, 92, 20, LangUtils.localize("gui.teleport")));
+            buttonList.add(teleportButton = new GuiDisableableButton(4, guiLeft + 42, guiTop + 140, 92, 20, LangUtils.localize("gui.teleport")));
         }
         frequencyField = new GuiTextColorField(5, fontRenderer, guiLeft + 50, guiTop + 104, 86, 11);
         frequencyField.setMaxStringLength(FrequencyManager.MAX_FREQ_LENGTH);
@@ -147,22 +149,6 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
                 isInit = false;
             }
         }
-    }
-
-    public void setFrequency(Frequency newFrequency) {
-        clientFreq = newFrequency;
-    }
-
-    public void setPublicCache(List<Frequency> cache) {
-        clientPublicCache = cache;
-    }
-
-    public void setPrivateCache(List<Frequency> cache) {
-        clientPrivateCache = cache;
-    }
-
-    public void setStatus(byte status) {
-        clientStatus = status;
     }
 
     public String getSecurity(Frequency freq) {
@@ -359,16 +345,32 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         return tileEntity != null ? tileEntity.status : clientStatus;
     }
 
+    public void setStatus(byte status) {
+        clientStatus = status;
+    }
+
     private List<Frequency> getPublicCache() {
         return tileEntity != null ? tileEntity.publicCache : clientPublicCache;
+    }
+
+    public void setPublicCache(List<Frequency> cache) {
+        clientPublicCache = cache;
     }
 
     private List<Frequency> getPrivateCache() {
         return tileEntity != null ? tileEntity.privateCache : clientPrivateCache;
     }
 
+    public void setPrivateCache(List<Frequency> cache) {
+        clientPrivateCache = cache;
+    }
+
     private Frequency getFrequency() {
         return tileEntity != null ? tileEntity.frequency : clientFreq;
+    }
+
+    public void setFrequency(Frequency newFrequency) {
+        clientFreq = newFrequency;
     }
 
     public void setFrequency(String freq) {
