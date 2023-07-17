@@ -2,6 +2,7 @@ package mekanism.client.gui;
 
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
+import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
@@ -35,7 +36,7 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgicInfuser> {
 
-    private GuiButton toggleButton;
+    private GuiDisableableButton toggleButton;
 
     public GuiMetallurgicInfuser(InventoryPlayer inventory, TileEntityMetallurgicInfuser tile) {
         super(tile, new ContainerMetallurgicInfuser(inventory, tile));
@@ -68,7 +69,7 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(toggleButton = new GuiButtonDisableableImage(0, guiLeft + 147, guiTop + 72, 21, 10, 37, 177, -10, getGuiLocation()));
+        buttonList.add(toggleButton = new GuiDisableableButton(0, guiLeft + 147, guiTop + 72, 21, 10).with(GuiDisableableButton.ImageOverlay.DUMP));
     }
 
     @Override

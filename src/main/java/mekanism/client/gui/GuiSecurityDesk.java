@@ -2,9 +2,9 @@ package mekanism.client.gui;
 
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiElementScreen;
+import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiScrollList;
 import mekanism.client.render.MekanismRenderer;
@@ -34,20 +34,22 @@ public class GuiSecurityDesk extends GuiMekanismTile<TileEntitySecurityDesk> {
     private static final List<Character> SPECIAL_CHARS = Arrays.asList('-', '|', '_');
     private static final int MAX_LENGTH = 24;
     private GuiDisableableButton removeButton;
-    private GuiButtonDisableableImage publicButton;
-    private GuiButtonDisableableImage privateButton;
-    private GuiButtonDisableableImage trustedButton;
-    private GuiButtonDisableableImage checkboxButton;
-    private GuiButtonDisableableImage overrideButton;
+    private GuiDisableableButton publicButton;
+    private GuiDisableableButton privateButton;
+    private GuiDisableableButton trustedButton;
+    private GuiDisableableButton checkboxButton;
+    private GuiDisableableButton overrideButton;
     private GuiScrollList scrollList;
     private GuiTextColorField trustedField;
 
     public GuiSecurityDesk(InventoryPlayer inventory, TileEntitySecurityDesk tile) {
         super(tile, new ContainerSecurityDesk(inventory, tile));
-        addGuiElement(new GuiElementScreen(this, getGuiLocation(), 13, 13, 122, 42));
+        addGuiElement(new GuiElementScreen(this, getGuiLocation(), 13, 13, 122, 42).isFrame(true));
         addGuiElement(scrollList = new GuiScrollList(this, getGuiLocation(), 14, 14, 120, 4));
         ySize += 64;
-        addGuiElement(new GuiPlayerSlot(this, getGuiLocation(),7,147));
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation(), 7, 147));
+        addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 34, 67, 101, 13));
+        addGuiElement(new GuiElementScreen(this, getGuiLocation(), 141, 54, 26, 34));
     }
 
     @Override
@@ -55,14 +57,14 @@ public class GuiSecurityDesk extends GuiMekanismTile<TileEntitySecurityDesk> {
         super.initGui();
         buttonList.clear();
         buttonList.add(removeButton = new GuiDisableableButton(0, guiLeft + 13, guiTop + 81, 122, 20, LangUtils.localize("gui.remove")));
-        trustedField = new GuiTextColorField(1, fontRenderer, guiLeft + 35, guiTop + 69, 86, 11);
+        trustedField = new GuiTextColorField(1, fontRenderer, guiLeft + 35, guiTop + 69, 101, 13);
         trustedField.setMaxStringLength(MAX_LENGTH);
         trustedField.setEnableBackgroundDrawing(false);
-        buttonList.add(publicButton = new GuiButtonDisableableImage(2, guiLeft + 13, guiTop + 113, 40, 16, xSize, 64, -16, 16, getGuiLocation()));
-        buttonList.add(privateButton = new GuiButtonDisableableImage(3, guiLeft + 54, guiTop + 113, 40, 16, xSize + 40, 64, -16, 16, getGuiLocation()));
-        buttonList.add(trustedButton = new GuiButtonDisableableImage(4, guiLeft + 95, guiTop + 113, 40, 16, xSize, 112, -16, 16, getGuiLocation()));
-        buttonList.add(checkboxButton = new GuiButtonDisableableImage(5, guiLeft + 123, guiTop + 68, 11, 11, xSize, 11, -11, getGuiLocation()));
-        buttonList.add(overrideButton = new GuiButtonDisableableImage(6, guiLeft + 146, guiTop + 59, 16, 16, xSize + 12, 16, -16, 16, getGuiLocation()));
+        buttonList.add(publicButton = new GuiDisableableButton(2, guiLeft + 13, guiTop + 113, 40, 16).with(GuiDisableableButton.ImageOverlay.PUBLIC));
+        buttonList.add(privateButton = new GuiDisableableButton(3, guiLeft + 54, guiTop + 113, 40, 16).with(GuiDisableableButton.ImageOverlay.PRIVATE));
+        buttonList.add(trustedButton = new GuiDisableableButton(4, guiLeft + 95, guiTop + 113, 40, 16).with(GuiDisableableButton.ImageOverlay.TRUSTED));
+        buttonList.add(checkboxButton = new GuiDisableableButton(5, guiLeft + 123, guiTop + 68, 11, 11).with(GuiDisableableButton.ImageOverlay.CHECKMARK));
+        buttonList.add(overrideButton = new GuiDisableableButton(6, guiLeft + 146, guiTop + 59, 16, 16).with(GuiDisableableButton.ImageOverlay.EXCLAMATION));
         updateButtons();
     }
 
@@ -90,7 +92,7 @@ public class GuiSecurityDesk extends GuiMekanismTile<TileEntitySecurityDesk> {
             publicButton.enabled = tileEntity.frequency.securityMode != SecurityMode.PUBLIC;
             privateButton.enabled = tileEntity.frequency.securityMode != SecurityMode.PRIVATE;
             trustedButton.enabled = tileEntity.frequency.securityMode != SecurityMode.TRUSTED;
-            checkboxButton.enabled = true;
+            checkboxButton.enabled = !trustedField.getText().isEmpty();
             overrideButton.enabled = true;
         } else {
             publicButton.enabled = false;
@@ -193,6 +195,7 @@ public class GuiSecurityDesk extends GuiMekanismTile<TileEntitySecurityDesk> {
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 144, 77, 8, 8));
         if (tileEntity.frequency != null && tileEntity.ownerUUID != null && tileEntity.ownerUUID.equals(mc.player.getUniqueID())) {
             drawTexturedModalRect(guiLeft + 145, guiTop + 78, xSize + (tileEntity.frequency.override ? 0 : 6), 22, 6, 6);
         } else {

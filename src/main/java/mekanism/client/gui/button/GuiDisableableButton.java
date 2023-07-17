@@ -18,6 +18,8 @@ import java.util.function.Supplier;
 public class GuiDisableableButton extends GuiButton {
 
     private final ResourceLocation Button = MekanismUtils.getResource(MekanismUtils.ResourceType.BUTTON, "Button.png");
+
+    private final ResourceLocation Button_BLACK = MekanismUtils.getResource(MekanismUtils.ResourceType.BUTTON, "Button_Black.png");
     private final ResourceLocation Button_Digital = MekanismUtils.getResource(MekanismUtils.ResourceType.BUTTON, "Button_Digital.png");
     private final ResourceLocation ButtonIcon = MekanismUtils.getResource(MekanismUtils.ResourceType.BUTTON, "Button_Icon.png");
     private ImageOverlay overlay = null;
@@ -115,7 +117,8 @@ public class GuiDisableableButton extends GuiButton {
             int halfWidthRight = width % 2 == 0 ? halfWidthLeft : halfWidthLeft + 1;
             int halfHeightTop = height / 2;
             int halfHeightBottom = height % 2 == 0 ? halfHeightTop : halfHeightTop + 1;
-            mc.getTextureManager().bindTexture(overlay == ImageOverlay.CHECKMARK_DIGITAL || Toggleborders ? Button_Digital : Button);
+            ResourceLocation Texture = (overlay == ImageOverlay.CHECKMARK_DIGITAL || Toggleborders) ? Button_Digital : overlay == ImageOverlay.DUMP ? Button_BLACK : Button;
+            mc.getTextureManager().bindTexture(Texture);
             GlStateManager.disableDepth();
             drawTexturedModalRect(x, y, 0, position, halfWidthLeft, halfHeightTop);
             drawTexturedModalRect(x, y + halfHeightTop, 0, position + 20 - halfHeightBottom, halfWidthLeft, halfHeightBottom);
@@ -181,6 +184,7 @@ public class GuiDisableableButton extends GuiButton {
         SKIN(18, 18, 108, 36),
         SMELTING(18, 18, 126, 36),
         STOCK_CONTROL(18, 18, 144, 36),
+        DUMP(36, 18, 162, 36),
         TRUSTED(18, 18, 198, 36),
         UP(18, 18, 216, 36),
         INVERSE(18, 18, 234, 36),

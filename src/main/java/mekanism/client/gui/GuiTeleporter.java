@@ -3,8 +3,6 @@ package mekanism.client.gui;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.client.ClientTickHandler;
-import mekanism.client.MekanismClient;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiPowerBar.IPowerInfoHandler;
@@ -54,7 +52,7 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
     private GuiDisableableButton setButton;
     private GuiDisableableButton deleteButton;
     private GuiDisableableButton teleportButton;
-    private GuiButtonDisableableImage checkboxButton;
+    private GuiDisableableButton checkboxButton;
     private GuiScrollList scrollList;
     private GuiTextColorField frequencyField;
     private boolean privateMode;
@@ -95,6 +93,8 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         }
         ySize += 64;
         addGuiElement(new GuiPlayerSlot(this, resource, 7, 147));
+        addGuiElement(new GuiElementScreen(this, getGuiLocation(), 27, 36, 122, 42).isFrame(true));
+        addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 48, 102, 101, 13));
     }
 
     public GuiTeleporter(EntityPlayer player, EnumHand hand, ItemStack stack) {
@@ -124,6 +124,8 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
             Mekanism.packetHandler.sendToServer(new PortableTeleporterMessage(PortableTeleporterPacketType.DATA_REQUEST, currentHand, clientFreq));
         }
         ySize = 175;
+        addGuiElement(new GuiElementScreen(this, getGuiLocation(), 27, 36, 122, 42).isFrame(true));
+        addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 48, 102, 101, 13));
     }
 
     @Override
@@ -140,7 +142,7 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         frequencyField = new GuiTextColorField(5, fontRenderer, guiLeft + 50, guiTop + 104, 86, 11);
         frequencyField.setMaxStringLength(FrequencyManager.MAX_FREQ_LENGTH);
         frequencyField.setEnableBackgroundDrawing(false);
-        buttonList.add(checkboxButton = new GuiButtonDisableableImage(6, guiLeft + 137, guiTop + 103, 11, 11, xSize, 11, -11, getGuiLocation()));
+        buttonList.add(checkboxButton = new GuiDisableableButton(6, guiLeft + 137, guiTop + 103, 11, 11).with(GuiDisableableButton.ImageOverlay.CHECKMARK));
         updateButtons();
         if (!itemStack.isEmpty()) {
             if (!isInit) {
@@ -188,6 +190,7 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         if (!itemStack.isEmpty()) {
             teleportButton.enabled = clientFreq != null && clientStatus == 1;
         }
+        checkboxButton.enabled = !frequencyField.getText().isEmpty();
     }
 
     @Override
@@ -267,8 +270,16 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(getName(), (xSize / 2) - (fontRenderer.getStringWidth(getName()) / 2), 4, 0x404040);
-        fontRenderer.drawString(LangUtils.localize("gui.owner") + ": " + (getOwnerUsername() != null ? getOwnerUsername() : LangUtils.localize("gui.none")),
+
+        //TODO
+        fontRenderer.drawString(LangUtils.localize("gui.owner") + ": " + (getFrequency() != null ? getFrequency().clientOwner : EnumColor.DARK_RED + LangUtils.localize("gui.none")),
                 8, !itemStack.isEmpty() ? ySize - 12 : (ySize - 96) + 4, 0x404040);
+        /*
+        if (itemStack.isEmpty()) {
+            fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 4, 0x404040);
+        }
+        */
+
         fontRenderer.drawString(LangUtils.localize("gui.freq") + ":", 32, 81, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.security") + ":", 32, 91, 0x404040);
         fontRenderer.drawString(" " + (getFrequency() != null ? getFrequency().name : EnumColor.DARK_RED + LangUtils.localize("gui.none")),
@@ -334,12 +345,6 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         return ((IOwnerItem) itemStack.getItem()).getOwnerUUID(itemStack);
     }
 
-    private String getOwnerUsername() {
-        if (tileEntity != null) {
-            return tileEntity.getSecurity().getClientOwner();
-        }
-        return MekanismClient.clientUUIDMap.get(((IOwnerItem) itemStack.getItem()).getOwnerUUID(itemStack));
-    }
 
     private byte getStatus() {
         return tileEntity != null ? tileEntity.status : clientStatus;

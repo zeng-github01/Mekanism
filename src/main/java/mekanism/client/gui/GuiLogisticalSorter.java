@@ -5,6 +5,8 @@ import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiDisableableButton;
+import mekanism.client.gui.element.GuiElementScreen;
+import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.GuiRedstoneControl;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
@@ -37,9 +39,9 @@ import java.io.IOException;
 @SideOnly(Side.CLIENT)
 public class GuiLogisticalSorter extends GuiFilterHolder<TileEntityLogisticalSorter, TransporterFilter> {
 
-    private GuiButtonDisableableImage singleItemButton;
-    private GuiButtonDisableableImage roundRobinButton;
-    private GuiButtonDisableableImage autoEjectButton;
+    private GuiDisableableButton singleItemButton;
+    private GuiDisableableButton roundRobinButton;
+    private GuiDisableableButton autoEjectButton;
     private GuiColorButton colorButton;
 
     public GuiLogisticalSorter(EntityPlayer player, TileEntityLogisticalSorter tile) {
@@ -50,6 +52,10 @@ public class GuiLogisticalSorter extends GuiFilterHolder<TileEntityLogisticalSor
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
+        addGuiElement(new GuiInnerScreen(this,resource,9,17,46,140));
+        addGuiElement(new GuiElementScreen(this,resource,55,17,98,118));
+        addGuiElement(new GuiElementScreen(this,resource,55,135,98,22));
+        addGuiElement(new GuiElementScreen(this,resource,153,17,14,140));
     }
 
     private boolean overUpArrow(int xAxis, int yAxis, int arrowX, int yStart) {
@@ -141,10 +147,10 @@ public class GuiLogisticalSorter extends GuiFilterHolder<TileEntityLogisticalSor
         // Add buttons to gui
         buttonList.clear();
         buttonList.add(new GuiDisableableButton(BUTTON_NEW, guiLeft + filterX, guiTop + 136, filterW, 20, LangUtils.localize("gui.newFilter")));
-        buttonList.add(singleItemButton = new GuiButtonDisableableImage(1, guiLeft + 12, guiTop + 58, 14, 14, 204, 14, -14, getGuiLocation()));
-        buttonList.add(roundRobinButton = new GuiButtonDisableableImage(2, guiLeft + 12, guiTop + 84, 14, 14, 190, 14, -14, getGuiLocation()));
-        buttonList.add(autoEjectButton = new GuiButtonDisableableImage(3, guiLeft + 12, guiTop + 110, 14, 14, 176, 14, -14, getGuiLocation()));
-        buttonList.add(colorButton = new GuiColorButton(4, guiLeft + 13, guiTop + 137, 16, 16, () -> tileEntity.color));
+        buttonList.add(singleItemButton = new GuiDisableableButton(1, guiLeft + 12, guiTop + 58, 14, 14).with(GuiDisableableButton.ImageOverlay.SINGLE));
+        buttonList.add(roundRobinButton = new GuiDisableableButton(2, guiLeft + 12, guiTop + 84, 14, 14).with(GuiDisableableButton.ImageOverlay.ROUND_ROBIN));
+        buttonList.add(autoEjectButton = new GuiDisableableButton(3, guiLeft + 12, guiTop + 110, 14, 14).with(GuiDisableableButton.ImageOverlay.AUTO_EJECT));
+        buttonList.add(colorButton = new GuiColorButton(4, guiLeft + 13, guiTop + 137,  () -> tileEntity.color));
     }
 
     @Override
@@ -242,4 +248,5 @@ public class GuiLogisticalSorter extends GuiFilterHolder<TileEntityLogisticalSor
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
+
 }

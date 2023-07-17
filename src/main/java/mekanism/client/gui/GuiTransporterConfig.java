@@ -8,7 +8,6 @@ import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.button.GuiSideDataButton;
 import mekanism.client.gui.element.GuiInnerScreen;
-import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.SideData;
@@ -38,7 +37,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static mekanism.client.gui.element.GuiSlot.SlotType.NORMAL;
 
 @SideOnly(Side.CLIENT)
 public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlock> {
@@ -63,7 +61,6 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
         slotPosMap.put(4, new GuiPos(39, 49));
         slotPosMap.put(5, new GuiPos(69, 49));
         addGuiElement(new GuiInnerScreen(this, resource, 51, 15, 74, 12));
-        addGuiElement(new GuiSlot(NORMAL, this, resource, 121, 48));
     }
 
     @Override
@@ -72,7 +69,7 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
         buttonList.clear();
         buttonList.add(backButton = new GuiDisableableButton(buttonID++, guiLeft + 6, guiTop + 6, 14, 14).with(GuiDisableableButton.ImageOverlay.BACK));
         buttonList.add(strictInputButton = new GuiDisableableButton(buttonID++, guiLeft + 156, guiTop + 6, 14, 14).with(GuiDisableableButton.ImageOverlay.EXCLAMATION));
-        buttonList.add(colorButton = new GuiColorButton(buttonID++, guiLeft + 122, guiTop + 49, 16, 16, () -> configurable.getEjector().getOutputColor()));
+        buttonList.add(colorButton = new GuiColorButton(buttonID++, guiLeft + 122, guiTop + 49,  () -> configurable.getEjector().getOutputColor()));
         for (int i = 0; i < slotPosMap.size(); i++) {
             GuiPos guiPos = slotPosMap.get(i);
             EnumFacing facing = EnumFacing.byIndex(i);

@@ -15,9 +15,10 @@ public class GuiElementScreen extends GuiElement {
     private final int yPosition;
     private final int xSize;
     private final int ySize;
+    private boolean isFrame = false;
 
     public GuiElementScreen(IGuiWrapper gui, ResourceLocation def, int x, int y, int sizeX, int sizeY) {
-        super(MekanismUtils.getResource(ResourceType.GUI, "Element_Holder.png"), gui, def);
+        super(MekanismUtils.getResource(ResourceType.GUI, "Null.png"), gui, def);
         xPosition = x;
         yPosition = y;
         xSize = sizeX;
@@ -34,9 +35,14 @@ public class GuiElementScreen extends GuiElement {
         return xAxis >= xPosition && xAxis <= xPosition + xSize && yAxis >= yPosition && yAxis <= yPosition + ySize;
     }
 
+    public GuiElementScreen isFrame(boolean isFrame) {
+        this.isFrame = isFrame;
+        return this;
+    }
+
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        mc.renderEngine.bindTexture(RESOURCE);
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.GUI, isFrame ? "Element_Holder_Frame.png" : "Element_Holder.png"));
         drawBlack(guiWidth, guiHeight);
         mc.renderEngine.bindTexture(defaultLocation);
     }
