@@ -3,6 +3,7 @@ package mekanism.common.tile;
 import io.netty.buffer.ByteBuf;
 import mekanism.api.Chunk3D;
 import mekanism.api.Coord4D;
+import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismBlocks;
@@ -49,9 +50,11 @@ import java.util.*;
 public class TileEntityTeleporter extends TileEntityElectricBlock implements IComputerIntegration, IChunkLoader, IFrequencyHandler, IRedstoneControl, ISecurityTile,
         IUpgradeTile, IComparatorSupport {
 
-    private static final String[] methods = new String[]{"getEnergy", "canTeleport", "getMaxEnergy", "teleport", "setFrequency"};
+    private static final String[] methods = new String[]{"getEnergy", "canTeleport", "getMaxEnergy", "teleport", "setFrequency", "setDefaultColor"};
+    public static List<EnumColor> colors = Arrays.asList(EnumColor.BLACK, EnumColor.DARK_BLUE, EnumColor.DARK_GREEN, EnumColor.DARK_AQUA, EnumColor.DARK_RED,
+            EnumColor.PURPLE, EnumColor.ORANGE, EnumColor.GREY, EnumColor.DARK_GREY, EnumColor.INDIGO, EnumColor.BRIGHT_GREEN, EnumColor.AQUA, EnumColor.RED,
+            EnumColor.PINK, EnumColor.YELLOW, EnumColor.WHITE);
     public AxisAlignedBB teleportBounds = null;
-
     public Set<UUID> didTeleport = new HashSet<>();
 
     public int teleDelay = 0;
@@ -59,6 +62,8 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
     public boolean shouldRender;
 
     public boolean prevShouldRender;
+
+    public EnumColor color = EnumColor.PURPLE;
 
     public Frequency frequency;
 
@@ -79,7 +84,6 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
     public TileEntityTeleporter() {
         super("Teleporter", MachineType.TELEPORTER.getStorage());
         inventory = NonNullList.withSize(2, ItemStack.EMPTY);
-
         securityComponent = new TileComponentSecurity(this);
         chunkLoaderComponent = new TileComponentChunkLoader(this);
         upgradeComponent = new TileComponentUpgrade(this, 1);
@@ -126,6 +130,15 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
             }
         }
         player.connection.setPlayerLocation(player.posX, player.posY, player.posZ, yaw, player.rotationPitch);
+    }
+
+    public static EnumColor increment(EnumColor color) {
+        if (color == null) {
+            return colors.get(0);
+        } else if (colors.indexOf(color) == colors.size() - 1) {
+            return null;
+        }
+        return colors.get(colors.indexOf(color) + 1);
     }
 
     @Override
@@ -379,6 +392,7 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
     public void readFromNBT(NBTTagCompound nbtTags) {
         super.readFromNBT(nbtTags);
         controlType = RedstoneControl.values()[nbtTags.getInteger("controlType")];
+        color = colors.get(nbtTags.getInteger("color"));
         if (nbtTags.hasKey("frequency")) {
             frequency = new Frequency(nbtTags.getCompoundTag("frequency"));
             frequency.valid = false;
@@ -390,10 +404,12 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
     public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
         super.writeToNBT(nbtTags);
         nbtTags.setInteger("controlType", controlType.ordinal());
+        nbtTags.setInteger("color", colors.indexOf(color));
         if (frequency != null) {
             NBTTagCompound frequencyTag = new NBTTagCompound();
             frequency.write(frequencyTag);
             nbtTags.setTag("frequency", frequencyTag);
+
         }
         return nbtTags;
     }
@@ -413,6 +429,8 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
                 if (manager != null) {
                     manager.remove(freq, getSecurity().getOwnerUUID());
                 }
+            } else if (type == 2) {
+                color = increment(color);
             }
             return;
         }
@@ -429,7 +447,7 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
             status = dataStream.readByte();
             shouldRender = dataStream.readBoolean();
             controlType = RedstoneControl.values()[dataStream.readInt()];
-
+            color = EnumColor.values()[dataStream.readInt()];
             publicCache.clear();
             privateCache.clear();
 
@@ -458,6 +476,7 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
         data.add(status);
         data.add(shouldRender);
         data.add(controlType.ordinal());
+        data.add(colors.indexOf(color));
         data.add(Mekanism.publicTeleporters.getFrequencies().size());
         for (Frequency freq : Mekanism.publicTeleporters.getFrequencies()) {
             freq.write(data);

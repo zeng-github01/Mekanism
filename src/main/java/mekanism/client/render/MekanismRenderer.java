@@ -266,8 +266,14 @@ public class MekanismRenderer {
 
     public static void color(@Nullable Gas gas) {
         if (gas != null) {
+            color(gas,1.0F);
+        }
+    }
+
+    public static void color(@Nullable Gas gas,float alpha) {
+        if (gas != null) {
             int color = gas.getTint();
-            GlStateManager.color(getRed(color), getGreen(color), getBlue(color));
+            GlStateManager.color(getRed(color), getGreen(color), getBlue(color),alpha);
         }
     }
 

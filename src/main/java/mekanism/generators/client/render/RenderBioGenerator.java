@@ -44,7 +44,7 @@ public class RenderBioGenerator extends TileEntitySpecialRenderer<TileEntityBioG
             bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             GlStateManager.translate((float) x, (float) y, (float) z);
             GlowInfo glowInfo = MekanismRenderer.enableGlow();
-            MekanismRenderer.color(MekanismFluids.Biofuel);
+            MekanismRenderer.color(MekanismFluids.Biofuel,0.75F);
             getDisplayList(tileEntity.facing)[tileEntity.getScaledFuelLevel(stages - 1)].render();
             MekanismRenderer.resetColor();
             MekanismRenderer.disableGlow(glowInfo);

@@ -63,6 +63,6 @@ public class ContainerTeleporter extends ContainerMekanism<TileEntityTeleporter>
 
     @Override
     protected int getInventorYOffset() {
-        return 148;
+        return 158;
     }
 }

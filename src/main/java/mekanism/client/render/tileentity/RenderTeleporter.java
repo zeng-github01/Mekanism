@@ -37,7 +37,7 @@ public class RenderTeleporter extends TileEntitySpecialRenderer<TileEntityTelepo
             GlStateManager.disableAlpha();
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
-            MekanismRenderer.color(EnumColor.PURPLE, 0.75F);
+            MekanismRenderer.color(tileEntity.color, 0.75F);
 
             bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             GlStateManager.translate((float) x, (float) y, (float) z);

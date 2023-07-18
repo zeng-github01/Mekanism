@@ -191,6 +191,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
                 Frequency.Identity freq = Frequency.Identity.load(ItemDataUtils.getCompound(itemstack, "entangleporter_frequency"));
                 if (freq != null) {
                     list.add(EnumColor.INDIGO + LangUtils.localize("gui.frequency") + ": " + EnumColor.GREY + freq.name);
+
                     list.add(EnumColor.INDIGO + LangUtils.localize("gui.mode") + ": " + EnumColor.GREY + LangUtils.localize("gui." + (!freq.publicFreq ? "private" : "public")));
                 }
             }
