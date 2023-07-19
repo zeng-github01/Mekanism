@@ -10,13 +10,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiProgress extends GuiElement {
 
-    private final IProgressInfoHandler handler;
-    private final ProgressBar type;
-    private final int xLocation;
-    private final int yLocation;
+    protected final IProgressInfoHandler handler;
+    protected final ProgressBar type;
+    protected final int xLocation;
+    protected final int yLocation;
 
     public GuiProgress(IProgressInfoHandler handler, ProgressBar type, IGuiWrapper gui, ResourceLocation def, int x, int y) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiProgress.png"), gui, def);
+        super(MekanismUtils.getResource(ResourceType.PROGRESS, "Progress_Icon.png"), gui, def);
         xLocation = x;
         yLocation = y;
 

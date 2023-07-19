@@ -174,7 +174,7 @@ public class GuiThermoelectricBoiler extends GuiMekanismTile<TileEntityBoilerCas
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiThermoelectricBoiler.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
 }

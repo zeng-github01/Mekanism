@@ -88,6 +88,6 @@ public class GuiSolarNeutronActivator extends GuiMekanismTile<TileEntitySolarNeu
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 }

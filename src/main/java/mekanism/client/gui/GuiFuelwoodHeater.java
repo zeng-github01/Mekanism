@@ -56,7 +56,7 @@ public class GuiFuelwoodHeater extends GuiMekanismTile<TileEntityFuelwoodHeater>
                 return (double) tileEntity.burnTime / tileEntity.maxBurnTime;
             }
         }, resource, 46, 60));
-        addGuiElement(new GuiPlayerSlot(this,resource));
+        addGuiElement(new GuiPlayerSlot(this, resource));
     }
 
     @Override
@@ -71,16 +71,17 @@ public class GuiFuelwoodHeater extends GuiMekanismTile<TileEntityFuelwoodHeater>
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 137, guiTop + 29, 99, 167, 14, 14);
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.PROGRESS, "Progress_Icon.png"));
+        drawTexturedModalRect(guiLeft + 137, guiTop + 29, 1, 14, 14, 14);
         if (tileEntity.burnTime > 0) {
             int displayInt = tileEntity.burnTime * 13 / tileEntity.maxBurnTime;
-            drawTexturedModalRect(guiLeft + 137, guiTop + 29 + 12 - displayInt, 84, 179 - displayInt, 14, displayInt + 1);
+            drawTexturedModalRect(guiLeft + 137, guiTop + 29 + 12 - displayInt, 18, 26 - displayInt, 14, displayInt + 1);
         }
     }
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
     private String getTemp() {

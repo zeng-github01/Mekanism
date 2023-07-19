@@ -18,7 +18,7 @@ import net.minecraft.client.Minecraft;
 public class MachineRecipeCategory<WRAPPER extends MachineRecipeWrapper> extends BaseRecipeCategory<WRAPPER> {
 
     public MachineRecipeCategory(IGuiHelper helper, String name, String unlocalized, ProgressBar progress) {
-        super(helper, "mekanism:gui/GuiBlankIcon.png", name, unlocalized, progress, 28, 16, 144, 54);
+        super(helper, "mekanism:gui/Null.png", name, unlocalized, progress, 28, 16, 144, 54);
     }
 
     @Override

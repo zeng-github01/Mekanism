@@ -62,7 +62,7 @@ public abstract class TileEntityAdvancedElectricMachine<RECIPE extends AdvancedM
      * @param secondaryPerTick - how much secondary energy (fuel) this machine uses per tick.
      */
     public TileEntityAdvancedElectricMachine(String soundPath, MachineType type, int ticksRequired, int secondaryPerTick) {
-        super(soundPath, type, 4, ticksRequired, MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png"));
+        super(soundPath, type, 4, ticksRequired, MekanismUtils.getResource(ResourceType.GUI, "Null.png"));
         configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.ENERGY);
 
         configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));

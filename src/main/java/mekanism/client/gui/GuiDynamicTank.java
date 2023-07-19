@@ -74,7 +74,7 @@ public class GuiDynamicTank extends GuiMekanismTile<TileEntityDynamicTank> {
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiDynamicTankInductionMatrix.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
 }

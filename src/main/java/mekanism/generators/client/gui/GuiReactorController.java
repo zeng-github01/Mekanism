@@ -52,6 +52,6 @@ public class GuiReactorController extends GuiMekanismTile<TileEntityReactorContr
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 }

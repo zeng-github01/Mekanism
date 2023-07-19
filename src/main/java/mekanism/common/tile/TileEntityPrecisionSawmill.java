@@ -12,7 +12,7 @@ import java.util.Map;
 public class TileEntityPrecisionSawmill extends TileEntityChanceMachine<SawmillRecipe> {
 
     public TileEntityPrecisionSawmill() {
-        super("sawmill", MachineType.PRECISION_SAWMILL, 200, MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png"));
+        super("sawmill", MachineType.PRECISION_SAWMILL, 200, MekanismUtils.getResource(ResourceType.GUI, "Null.png"));
     }
 
     @Override

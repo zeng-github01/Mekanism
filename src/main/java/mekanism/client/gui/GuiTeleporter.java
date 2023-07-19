@@ -148,7 +148,9 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         buttonList.add(deleteButton = new GuiDisableableButton(3, guiLeft + 29 + buttonWidth, guiTop + yStart + 113, buttonWidth, 18, LangUtils.localize("gui.delete")));
         if (!itemStack.isEmpty()) {
             buttonList.add(teleportButton = new GuiDisableableButton(4, guiLeft + 42, guiTop + 147, 92, 20, LangUtils.localize("gui.teleport")));
-        } else {
+        }
+
+        if (!isPortable) {
             buttonList.add(colorButton = new GuiColorButton(7, guiLeft + 132, guiTop + yStart + 114, () -> tileEntity.color));
         }
         frequencyField = new GuiTextColorField(5, fontRenderer, guiLeft + 50, guiTop + yStart + 99, 98, 11);
@@ -221,7 +223,7 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, isPortable ? "GuiPortableTeleporter.png" : "GuiTeleporter.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
     @Override
@@ -319,7 +321,7 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
             if (energy) {
                 displayTooltips(info, xAxis, yAxis);
             }
-        } else if (colorButton.isMouseOver()) {
+        } else if (!isPortable && colorButton.isMouseOver()) {
             if (tileEntity != null) {
                 List<String> info = new ArrayList<>();
                 info.add(LangUtils.localize("gui.Teleportercolor"));

@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class MetallurgicInfuserRecipeCategory<WRAPPER extends MetallurgicInfuserRecipeWrapper<MetallurgicInfuserRecipe>> extends BaseRecipeCategory<WRAPPER> {
 
     public MetallurgicInfuserRecipeCategory(IGuiHelper helper) {
-        super(helper, "mekanism:gui/GuiBlankIcon.png", Recipe.METALLURGIC_INFUSER.getJEICategory(),
+        super(helper, "mekanism:gui/Null.png", Recipe.METALLURGIC_INFUSER.getJEICategory(),
                 "tile.MachineBlock.MetallurgicInfuser.name", ProgressBar.MEDIUM, 5, 16, 166, 54);
     }
 

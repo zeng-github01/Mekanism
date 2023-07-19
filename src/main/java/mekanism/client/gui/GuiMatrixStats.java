@@ -75,6 +75,6 @@ public class GuiMatrixStats extends GuiMekanismTile<TileEntityInductionCasing> {
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiNull.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 }

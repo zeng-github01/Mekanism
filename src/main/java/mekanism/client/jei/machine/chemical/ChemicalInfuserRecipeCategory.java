@@ -17,7 +17,7 @@ import mezz.jei.api.ingredients.IIngredients;
 public class ChemicalInfuserRecipeCategory<WRAPPER extends ChemicalInfuserRecipeWrapper<ChemicalInfuserRecipe>> extends BaseRecipeCategory<WRAPPER> {
 
     public ChemicalInfuserRecipeCategory(IGuiHelper helper) {
-        super(helper, "mekanism:gui/GuiBlankIcon.png", Recipe.CHEMICAL_INFUSER.getJEICategory(),
+        super(helper, "mekanism:gui/Null.png", Recipe.CHEMICAL_INFUSER.getJEICategory(),
                 "tile.MachineBlock2.ChemicalInfuser.name", null, 4, 4, 169, 79);
     }
 

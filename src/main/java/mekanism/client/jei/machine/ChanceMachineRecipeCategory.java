@@ -20,7 +20,7 @@ import net.minecraft.client.Minecraft;
 public class ChanceMachineRecipeCategory<RECIPE extends ChanceMachineRecipe<RECIPE>, WRAPPER extends ChanceMachineRecipeWrapper<RECIPE>> extends BaseRecipeCategory<WRAPPER> {
 
     public ChanceMachineRecipeCategory(IGuiHelper helper, String name, String unlocalized, ProgressBar progress) {
-        super(helper, "mekanism:gui/GuiBlankIcon.png", name, unlocalized, progress, 28, 16, 144, 54);
+        super(helper, "mekanism:gui/Null.png", name, unlocalized, progress, 28, 16, 144, 54);
     }
 
     @Override

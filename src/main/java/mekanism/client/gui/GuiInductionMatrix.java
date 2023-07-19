@@ -77,6 +77,6 @@ public class GuiInductionMatrix extends GuiMekanismTile<TileEntityInductionCasin
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiDynamicTankInductionMatrix.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 }

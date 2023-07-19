@@ -55,8 +55,8 @@ public class GuiPRC extends GuiMekanismTile<TileEntityPRC> {
             public double getProgress() {
                 return tileEntity.getScaledProgress();
             }
-        }, getProgressType(), this, resource, 75, 37));
-        addGuiElement(new GuiPlayerSlot(this,resource));
+        }, ProgressBar.MEDIUM, this, resource, 75, 37));
+        addGuiElement(new GuiPlayerSlot(this, resource));
     }
 
     @Override
@@ -97,7 +97,7 @@ public class GuiPRC extends GuiMekanismTile<TileEntityPRC> {
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
     @Override
@@ -131,9 +131,5 @@ public class GuiPRC extends GuiMekanismTile<TileEntityPRC> {
             drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
             addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
-    }
-
-    public ProgressBar getProgressType() {
-        return ProgressBar.MEDIUM;
     }
 }

@@ -26,7 +26,7 @@ import mezz.jei.api.ingredients.VanillaTypes;
 public class ElectrolyticSeparatorRecipeCategory<WRAPPER extends ElectrolyticSeparatorRecipeWrapper<SeparatorRecipe>> extends BaseRecipeCategory<WRAPPER> {
 
     public ElectrolyticSeparatorRecipeCategory(IGuiHelper helper) {
-        super(helper, "mekanism:gui/GuiBlankIcon.png", Recipe.ELECTROLYTIC_SEPARATOR.getJEICategory(),
+        super(helper, "mekanism:gui/Null.png", Recipe.ELECTROLYTIC_SEPARATOR.getJEICategory(),
                 "tile.MachineBlock2.ElectrolyticSeparator.name", ProgressBar.BI, 4, 9, 167, 62);
     }
 

@@ -19,7 +19,7 @@ import mezz.jei.api.ingredients.IIngredients;
 public class ChemicalCrystallizerRecipeCategory<WRAPPER extends ChemicalCrystallizerRecipeWrapper<CrystallizerRecipe>> extends BaseRecipeCategory<WRAPPER> {
 
     public ChemicalCrystallizerRecipeCategory(IGuiHelper helper) {
-        super(helper, "mekanism:gui/GuiBlankIcon.png", Recipe.CHEMICAL_CRYSTALLIZER.getJEICategory(),
+        super(helper, "mekanism:gui/Null.png", Recipe.CHEMICAL_CRYSTALLIZER.getJEICategory(),
                 "tile.MachineBlock2.ChemicalCrystallizer.name", GuiProgress.ProgressBar.LARGE_RIGHT, 5, 3, 147, 79);
     }
 

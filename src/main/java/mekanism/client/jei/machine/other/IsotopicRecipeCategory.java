@@ -18,7 +18,7 @@ import net.minecraft.client.Minecraft;
 public class IsotopicRecipeCategory<WRAPPER extends IsotopicRecipeWrapper<IsotopicRecipe>> extends BaseRecipeCategory<WRAPPER> {
 
     public IsotopicRecipeCategory(IGuiHelper helper) {
-        super(helper, "mekanism:gui/GuiBlankIcon.png", Recipe.ISOTOPIC_CENTRIFUGE.getJEICategory(),
+        super(helper, "mekanism:gui/Null.png", Recipe.ISOTOPIC_CENTRIFUGE.getJEICategory(),
                 "tile.MachineBlock3.IsotopicCentrifuge.name", GuiProgress.ProgressBar.LARGE_RIGHT, 3, 12, 170, 62);
     }
 

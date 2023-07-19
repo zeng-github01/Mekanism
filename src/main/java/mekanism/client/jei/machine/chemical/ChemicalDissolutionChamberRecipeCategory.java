@@ -20,7 +20,7 @@ import mezz.jei.api.ingredients.IIngredients;
 public class ChemicalDissolutionChamberRecipeCategory<WRAPPER extends ChemicalDissolutionChamberRecipeWrapper<DissolutionRecipe>> extends BaseRecipeCategory<WRAPPER> {
 
     public ChemicalDissolutionChamberRecipeCategory(IGuiHelper helper) {
-        super(helper, "mekanism:gui/GuiBlankIcon.png",
+        super(helper, "mekanism:gui/Null.png",
                 Recipe.CHEMICAL_DISSOLUTION_CHAMBER.getJEICategory(), "gui.chemicalDissolutionChamber.short", GuiProgress.ProgressBar.LARGE_RIGHT, 4, 4, 169, 78);
     }
 

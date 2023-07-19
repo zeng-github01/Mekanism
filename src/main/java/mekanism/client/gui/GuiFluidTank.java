@@ -42,6 +42,6 @@ public class GuiFluidTank extends GuiMekanismTile<TileEntityFluidTank> {
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiBlankIcon.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 }
