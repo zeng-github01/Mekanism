@@ -341,7 +341,7 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         MekanismRenderer.resetColor();
         boolean energy = getEnergy() == 0;
         if (energy) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.TAB, "Warning_Info.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
             addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }

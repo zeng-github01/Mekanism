@@ -151,7 +151,7 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
             drawTexturedModalRect(guiLeft + 100 + 10, guiTop + 18 + 1, 0, 0, 7, 28);
         }
         if (energy || outLeft || outRight) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.TAB, "Warning_Info.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
             addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }

@@ -5,13 +5,10 @@ import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
-import mekanism.common.base.IRedstoneControl;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.generators.common.inventory.container.ContainerSolarGenerator;
 import mekanism.generators.common.tile.TileEntitySolarGenerator;
-import mekanism.generators.common.util.MekanismGeneratorUtils;
-import mekanism.generators.common.util.MekanismGeneratorUtils.ResourceType;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -30,47 +27,30 @@ public class GuiSolarGenerator extends GuiMekanismTile<TileEntitySolarGenerator>
         addGuiElement(new GuiEnergyInfo(Collections::emptyList, this, resource));
         addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 142, 34).with(SlotOverlay.POWER));
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
-        addGuiElement(new GuiPlayerSlot(this,resource));
+        addGuiElement(new GuiPlayerSlot(this, resource));
+        addGuiElement(new GuiSlot(SlotType.STATE_HOLDER, this, resource, 18, 35));
+        addGuiElement(new GuiInnerScreen(this, resource, 48, 23, 80, 40));
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
-
-        if (!tileEntity.getActive()) {
-            String info = "";
-            String info2 = "";
-            String info3 = "";
-            if (!tileEntity.canSeeSun()) {
-                info = "gui.none";
-                info3 = " ";
-                info2 = "gui.solarGenerator.sun";
-            }
-            if (tileEntity.controlType == IRedstoneControl.RedstoneControl.HIGH && !tileEntity.redstone && tileEntity.canSeeSun()) {
-                info = "control.high.desc";
-            }
-            if (tileEntity.controlType == IRedstoneControl.RedstoneControl.LOW && tileEntity.redstone && tileEntity.canSeeSun())
-                info = "control.low.desc";
-            if (tileEntity.getEnergy() == tileEntity.getMaxEnergy()) {
-                info = "gui.enough_no_space";
-            }
-            renderScaledText(LangUtils.localize(info) + info3 + LangUtils.localize(info2), 49, 42, 0x00CD00, 78);
-        } else {
-            renderCenteredText(48, 80, 28, 0x00CD00, LangUtils.localize("gui.producing"));
-            renderCenteredText(48, 80, 42, 0x00CD00, MekanismUtils.getEnergyDisplay(tileEntity.getProduction()) + "/t");
-        }
+        fontRenderer.drawString(MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()), 51, 26, 0x00CD00);
+        fontRenderer.drawString(LangUtils.localize("gui.power") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getActive() ? tileEntity.getProduction() : 0) + "/t", 51, 35, 0x00CD00);
+        fontRenderer.drawString(LangUtils.localize("gui.out") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t", 51, 44, 0x00CD00);
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 20, guiTop + 37, 176, tileEntity.canSeeSun() ? 52 : 64, 12, 12);
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.SLOT, "Slot_Icon.png"));
+        drawTexturedModalRect(guiLeft + 20, guiTop + 37, tileEntity.canSeeSun() ? 36 : 24, 88, 12, 12);
     }
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismGeneratorUtils.getResource(ResourceType.GUI, "GuiSolarGenerator.png");
+        return MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Null.png");
     }
 }

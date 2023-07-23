@@ -19,7 +19,7 @@ public class GuiEnergyInfo extends GuiElement {
     private final IInfoHandler infoHandler;
 
     public GuiEnergyInfo(IInfoHandler handler, IGuiWrapper gui, ResourceLocation def) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiEnergyInfo.png"), gui, def);
+        super(MekanismUtils.getResource(ResourceType.TAB, "Energy_Info.png"), gui, def);
         infoHandler = handler;
     }
 

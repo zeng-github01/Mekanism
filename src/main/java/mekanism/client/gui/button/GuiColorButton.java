@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 public class GuiColorButton extends GuiButton {
 
     private final Supplier<EnumColor> colorSupplier;
-    private final ResourceLocation Slot = MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiSlot.png");
+    private final ResourceLocation Slot = MekanismUtils.getResource(MekanismUtils.ResourceType.SLOT, "Slot_Icon.png");
 
     public GuiColorButton(int id, int x, int y, Supplier<EnumColor> colorSupplier) {
         super(id, x, y, 16, 16, "");

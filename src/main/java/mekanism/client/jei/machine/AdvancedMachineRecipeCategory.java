@@ -9,6 +9,7 @@ import mekanism.client.gui.element.GuiProgress.ProgressBar;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
+import mekanism.client.gui.element.bar.GuiBar;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.client.jei.MekanismJEI;
 import mekanism.common.recipe.machines.AdvancedMachineRecipe;
@@ -44,6 +45,7 @@ public class AdvancedMachineRecipeCategory<RECIPE extends AdvancedMachineRecipe<
                 return (double) timer.getValue() / 20F;
             }
         }, progressBar, this, guiLocation, 77, 37));
+        guiElements.add(new GuiBar(this, guiLocation, 60, 36, 8, 14));
     }
 
     @Override

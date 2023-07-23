@@ -111,11 +111,11 @@ public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalC
         boolean outslot = tileEntity.inventory.get(1).getCount() == tileEntity.inventory.get(1).getMaxStackSize();
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
         if (outslot) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSlot.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.SLOT, "Slot_Icon.png"));
             drawTexturedModalRect(guiLeft + 130, guiTop + 56, 158, 0, 18, 18);
         }
         if (outslot || energy) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.TAB, "Warning_Info.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
             addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }

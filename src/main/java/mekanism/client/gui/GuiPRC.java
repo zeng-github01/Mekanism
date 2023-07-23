@@ -123,11 +123,11 @@ public class GuiPRC extends GuiMekanismTile<TileEntityPRC> {
             drawTexturedModalRect(guiLeft + 140 + 10, guiTop + 40 + 1, 0, 0, 7, 28);
         }
         if (outslot) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiSlot.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.SLOT, "Slot_Icon.png"));
             drawTexturedModalRect(guiLeft + 115, guiTop + 34, 158, 0, 18, 18);
         }
         if (outslot || inputfluid || outputgas || inputgas || energy) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.TAB, "Warning_Info.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
             addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }

@@ -43,7 +43,7 @@ public class GuiInnerScreen extends GuiElement {
         mc.renderEngine.bindTexture(RESOURCE);
         drawBlack(guiWidth, guiHeight);
         if (overlay){
-            mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSlot.png"));
+            mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.SLOT, "Slot_Icon.png"));
             guiObj.drawTexturedRect(guiWidth + xPosition + xSize - 18, guiHeight + yPosition ,0,54,18,18);
         }
         mc.renderEngine.bindTexture(defaultLocation);

@@ -214,7 +214,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
             boolean inputgas = (tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(5 + i).getCount() != 0) && tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED;
             boolean inputinfuse = (tileEntity.infuseStored.getAmount() == 0) && (tileEntity.inventory.get(5 + i).getCount() != 0) && tileEntity.getRecipeType() == RecipeType.INFUSING;
             if (outslot) {
-                mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSlot.png"));
+                mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.SLOT, "Slot_Icon.png"));
                 drawTexturedModalRect(guiLeft + (Slotlocation + (i * xDistance)), guiTop + 56, 158, 0, 18, 18);
             }
             if (inputgas || inputinfuse) {
@@ -222,7 +222,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
                 drawTexturedModalRect(guiLeft + 8, guiTop + 78, 0, 0, xgas - 2, 5);
             }
             if (outslot || energy || inputgas || inputinfuse) {
-                mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"));
+                mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.TAB, "Warning_Info.png"));
                 drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
                 addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
             }

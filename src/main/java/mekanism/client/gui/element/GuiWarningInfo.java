@@ -14,7 +14,7 @@ public class GuiWarningInfo extends GuiElement {
     private final boolean HeatInfoenabled;
 
     public GuiWarningInfo(IGuiWrapper gui, ResourceLocation def, boolean enabled) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiWarningInfo.png"), gui, def);
+        super(MekanismUtils.getResource(ResourceType.TAB, "Warning_Info.png"), gui, def);
         HeatInfoenabled = enabled;
     }
 
