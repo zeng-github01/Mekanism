@@ -7,6 +7,7 @@ import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
+import mekanism.client.gui.element.bar.GuiBar;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
 import mekanism.client.gui.element.tab.GuiTransporterConfigTab;
@@ -30,6 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
@@ -62,6 +64,8 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
             }
         }, ProgressBar.MEDIUM, this, resource, 70, 46));
         addGuiElement(new GuiPlayerSlot(this, resource));
+        addGuiElement(new GuiBar(() -> Collections.singletonList(tileEntity.infuseStored.getType() != null ? tileEntity.infuseStored.getType().getLocalizedName() + ": " + tileEntity.infuseStored.getAmount()
+                : LangUtils.localize("gui.empty")), this, getGuiLocation(), 6, 16, 6, 54));
     }
 
     @Override
@@ -89,9 +93,6 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
         int yAxis = mouseY - guiTop;
         if (toggleButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.remove"), xAxis, yAxis);
-        } else if (xAxis >= 7 && xAxis <= 11 && yAxis >= 17 && yAxis <= 69) {
-            displayTooltip(tileEntity.infuseStored.getType() != null ? tileEntity.infuseStored.getType().getLocalizedName() + ": " + tileEntity.infuseStored.getAmount()
-                    : LangUtils.localize("gui.empty"), xAxis, yAxis);
         } else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;

@@ -2,11 +2,11 @@ package mekanism.client.gui.robit;
 
 import mekanism.client.gui.GuiMekanism;
 import mekanism.client.gui.GuiTextColorField;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.tab.GuiSideHolder;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
 import mekanism.common.entity.EntityRobit;
@@ -33,23 +33,23 @@ public class GuiRobitMain extends GuiMekanism {
     private boolean displayNameChange;
     private GuiTextColorField nameChangeField;
     private GuiDisableableButton confirmName;
-    private GuiButtonDisableableImage teleportHomeButton;
-    private GuiButtonDisableableImage pickupButton;
-    private GuiButtonDisableableImage renameButton;
-    private GuiButtonDisableableImage followButton;
-    private GuiButtonDisableableImage mainButton;
-    private GuiButtonDisableableImage craftingButton;
-    private GuiButtonDisableableImage inventoryButton;
-    private GuiButtonDisableableImage smeltingButton;
-    private GuiButtonDisableableImage repairButton;
+    private GuiDisableableButton teleportHomeButton;
+    private GuiDisableableButton pickupButton;
+    private GuiDisableableButton renameButton;
+    private GuiDisableableButton followButton;
+    private GuiDisableableButton mainButton;
+    private GuiDisableableButton craftingButton;
+    private GuiDisableableButton inventoryButton;
+    private GuiDisableableButton smeltingButton;
+    private GuiDisableableButton repairButton;
 
     public GuiRobitMain(InventoryPlayer inventory, EntityRobit entity) {
         super(new ContainerRobitMain(inventory, entity));
-        xSize += 25;
         robit = entity;
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER,this,getGuiLocation(),152,16).with(GuiSlot.SlotOverlay.POWER));
-        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
-        addGuiElement(new GuiInnerScreen(this,getGuiLocation(),28,17,120,54));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER, this, getGuiLocation(), 152, 16).with(GuiSlot.SlotOverlay.POWER));
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
+        addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 28, 17, 120, 54));
+        addGuiElement(new GuiSideHolder(this,getGuiLocation(),176,6,25,106));
     }
 
     private void toggleNameChange() {
@@ -103,15 +103,15 @@ public class GuiRobitMain extends GuiMekanism {
         nameChangeField.setMaxStringLength(12);
         nameChangeField.setFocused(true);
 
-        buttonList.add(teleportHomeButton = new GuiButtonDisableableImage(2, guiLeft + 6, guiTop + 16, 18, 18, 18, 54, -18, getGuiRoBitTab()));
-        buttonList.add(pickupButton = new GuiButtonDisableableImage(3, guiLeft + 6, guiTop + 35, 18, 18, 18, 90, -18, getGuiRoBitTab()));
-        buttonList.add(renameButton = new GuiButtonDisableableImage(4, guiLeft + 6, guiTop + 54, 18, 18, 0, 234, -18, getGuiRoBitTab()));
-        buttonList.add(followButton = new GuiButtonDisableableImage(5, guiLeft + 152, guiTop + 54, 18, 18, 0, 198, -18, getGuiRoBitTab()));
-        buttonList.add(mainButton = new GuiButtonDisableableImage(6, guiLeft + 179, guiTop + 10, 18, 18, 0, 18, -18, getGuiRoBitTab()));
-        buttonList.add(craftingButton = new GuiButtonDisableableImage(7, guiLeft + 179, guiTop + 30, 18, 18, 0, 54, -18, getGuiRoBitTab()));
-        buttonList.add(inventoryButton = new GuiButtonDisableableImage(8, guiLeft + 179, guiTop + 50, 18, 18, 0, 90, -18, getGuiRoBitTab()));
-        buttonList.add(smeltingButton = new GuiButtonDisableableImage(9, guiLeft + 179, guiTop + 70, 18, 18, 0, 126, -18, getGuiRoBitTab()));
-        buttonList.add(repairButton = new GuiButtonDisableableImage(10, guiLeft + 179, guiTop + 90, 18, 18, 0, 162, -18, getGuiRoBitTab()));
+        buttonList.add(teleportHomeButton = new GuiDisableableButton(2, guiLeft + 6, guiTop + 16, 18, 18).with(GuiDisableableButton.ImageOverlay.HOME));
+        buttonList.add(pickupButton = new GuiDisableableButton(3, guiLeft + 6, guiTop + 35, 18, 18).with(GuiDisableableButton.ImageOverlay.DROP));
+        buttonList.add(renameButton = new GuiDisableableButton(4, guiLeft + 6, guiTop + 54, 18, 18).with(GuiDisableableButton.ImageOverlay.RENAME));
+        buttonList.add(followButton = new GuiDisableableButton(5, guiLeft + 152, guiTop + 54, 18, 18).with(GuiDisableableButton.ImageOverlay.FOLLOW));
+        buttonList.add(mainButton = new GuiDisableableButton(6, guiLeft + 179, guiTop + 10, 18, 18).with(GuiDisableableButton.ImageOverlay.MAIN));
+        buttonList.add(craftingButton = new GuiDisableableButton(7, guiLeft + 179, guiTop + 30, 18, 18).with(GuiDisableableButton.ImageOverlay.CRAFTING));
+        buttonList.add(inventoryButton = new GuiDisableableButton(8, guiLeft + 179, guiTop + 50, 18, 18).with(GuiDisableableButton.ImageOverlay.INVENTORY));
+        buttonList.add(smeltingButton = new GuiDisableableButton(9, guiLeft + 179, guiTop + 70, 18, 18).with(GuiDisableableButton.ImageOverlay.SMELTING));
+        buttonList.add(repairButton = new GuiDisableableButton(10, guiLeft + 179, guiTop + 90, 18, 18).with(GuiDisableableButton.ImageOverlay.REPAIR));
     }
 
     @Override
@@ -154,15 +154,15 @@ public class GuiRobitMain extends GuiMekanism {
             displayTooltip(LangUtils.localize("gui.robit.teleport"), xAxis, yAxis);
         } else if (pickupButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.robit.togglePickup"), xAxis, yAxis);
-        }else if (mainButton.isMouseOver()){
+        } else if (mainButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.robit"), xAxis, yAxis);
-        }else if (craftingButton.isMouseOver()){
+        } else if (craftingButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.robit.crafting"), xAxis, yAxis);
-        }else if (inventoryButton.isMouseOver()){
+        } else if (inventoryButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.robit.inventory"), xAxis, yAxis);
-        }else if (smeltingButton.isMouseOver()){
+        } else if (smeltingButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.robit.smelting"), xAxis, yAxis);
-        }else if (repairButton.isMouseOver()){
+        } else if (repairButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.robit.repair"), xAxis, yAxis);
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
@@ -200,7 +200,4 @@ public class GuiRobitMain extends GuiMekanism {
         return MekanismUtils.getResource(ResourceType.GUI, "GuiRobitMain.png");
     }
 
-    protected ResourceLocation getGuiRoBitTab() {
-        return MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiRoBitTab.png");
-    }
 }

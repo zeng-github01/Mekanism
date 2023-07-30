@@ -31,6 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 
 @SideOnly(Side.CLIENT)
 public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
@@ -49,7 +50,7 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
         addGuiElement(new GuiInnerScreen(this, resource, 42, 37, 118, 27));
         addGuiElement(new GuiPlayerSlot(this, resource));
         addGuiElement(new GuiPlayerArmmorSlot(this, resource, -26, 62, false));
-        addGuiElement(new GuiBar(() -> Arrays.asList((tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored()) : LangUtils.localize("gui.none"))),
+        addGuiElement(new GuiBar(() -> Collections.singletonList((tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored()) : LangUtils.localize("gui.none"))),
                 this, getGuiLocation(), 42, 16, 118, 12));
     }
 

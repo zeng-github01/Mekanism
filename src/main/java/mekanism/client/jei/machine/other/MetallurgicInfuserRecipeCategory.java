@@ -10,6 +10,7 @@ import mekanism.client.gui.element.GuiProgress.ProgressBar;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
+import mekanism.client.gui.element.bar.GuiBar;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.machines.MetallurgicInfuserRecipe;
@@ -53,7 +54,7 @@ public class MetallurgicInfuserRecipeCategory<WRAPPER extends MetallurgicInfuser
                 return (double) timer.getValue() / 20F;
             }
         }, ProgressBar.MEDIUM, this, guiLocation, 70, 46));
-
+        guiElements.add(new GuiBar(this, guiLocation, 6, 17, 6, 54));
     }
 
     @Override

@@ -7,6 +7,7 @@ import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
+import mekanism.client.gui.element.bar.GuiBar;
 import mekanism.client.gui.element.tab.*;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
@@ -36,6 +37,7 @@ import org.lwjgl.input.Keyboard;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
@@ -138,14 +140,6 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         int xgas = tileEntity.tier == FactoryTier.CREATIVE ? 219 : tileEntity.tier == FactoryTier.ULTIMATE ? 181 : 147;
         if (infuserDumpButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.remove"), xAxis, yAxis);
-        } else if (xAxis >= 8 && xAxis <= xgas && yAxis >= 78 && yAxis <= 83) {
-            if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED) {
-                GasStack gasStack = tileEntity.gasTank.getGas();
-                displayTooltip(gasStack != null ? gasStack.getGas().getLocalizedName() + ": " + tileEntity.gasTank.getStored() : LangUtils.localize("gui.none"), xAxis, yAxis);
-            } else if (tileEntity.getRecipeType() == RecipeType.INFUSING) {
-                InfuseType type = tileEntity.infuseStored.getType();
-                displayTooltip(type != null ? type.getLocalizedName() + ": " + tileEntity.infuseStored.getAmount() : LangUtils.localize("gui.empty"), xAxis, yAxis);
-            }
         } else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
             List<String> info = new ArrayList<>();
             boolean outslot = false;
@@ -190,9 +184,12 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         int xDistance = tileEntity.tier == FactoryTier.BASIC ? 38 : tileEntity.tier == FactoryTier.ADVANCED ? 26 : 19;
         int Slotlocation = tileEntity.tier == FactoryTier.BASIC ? 54 : tileEntity.tier == FactoryTier.ADVANCED ? 34 : tileEntity.tier == FactoryTier.ELITE ? 28 : 26;
         int xgas = tileEntity.tier == FactoryTier.CREATIVE ? 212 : tileEntity.tier == FactoryTier.ULTIMATE ? 174 : 140;
-        if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING) {
-            drawGuiGasBG(7, 77, xgas, 7);
+        if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED) {
+            addGuiElement(new GuiBar(() -> Collections.singletonList(tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + tileEntity.gasTank.getStored() : LangUtils.localize("gui.none")), this, getGuiLocation(), 7, 77, xgas, 7));
+        } else if (tileEntity.getRecipeType() == RecipeType.INFUSING) {
+            addGuiElement(new GuiBar(() -> Collections.singletonList(tileEntity.infuseStored.getType() != null ? tileEntity.infuseStored.getType().getLocalizedName() + ": " + tileEntity.infuseStored.getAmount() : LangUtils.localize("gui.empty")), this, getGuiLocation(), 7, 77, xgas, 7));
         }
+
         if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED) {
             if ((int) tileEntity.getScaledGasLevel(xgas - 2) > 0) {
                 GasStack gas = tileEntity.gasTank.getGas();
@@ -229,19 +226,6 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         }
     }
 
-
-    protected void drawGuiGasBG(int X, int Y, int GuiWidth, int GuiHeight) {
-        int halfWidthLeft = GuiWidth / 2;
-        int halfWidthRight = GuiWidth % 2 == 0 ? halfWidthLeft : halfWidthLeft + 1;
-        int halfHeightTop = GuiHeight / 2;
-        int halfHeight = GuiHeight % 2 == 0 ? halfHeightTop : halfHeightTop + 1;
-        MekanismRenderer.resetColor();
-        mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_BAR, "Base.png"));
-        drawTexturedModalRect(guiLeft + X, guiTop + Y, 0, 0, halfWidthLeft, halfHeightTop);
-        drawTexturedModalRect(guiLeft + X, guiTop + Y + halfHeightTop, 0, 256 - halfHeight, halfWidthLeft, halfHeight);
-        drawTexturedModalRect(guiLeft + X + halfWidthLeft, guiTop + Y, 256 - halfWidthRight, 0, halfWidthRight, halfHeightTop);
-        drawTexturedModalRect(guiLeft + X + halfWidthLeft, guiTop + Y + halfHeightTop, 256 - halfWidthRight, 256 - halfHeight, halfWidthRight, halfHeight);
-    }
 
     @Override
     protected void mouseClicked(int x, int y, int button) throws IOException {
