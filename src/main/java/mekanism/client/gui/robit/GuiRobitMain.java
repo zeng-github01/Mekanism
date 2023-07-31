@@ -6,6 +6,7 @@ import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.bar.GuiBar;
 import mekanism.client.gui.element.tab.GuiSideHolder;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
@@ -24,6 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;
+import java.util.Collections;
 
 @SideOnly(Side.CLIENT)
 public class GuiRobitMain extends GuiMekanism {
@@ -49,7 +51,8 @@ public class GuiRobitMain extends GuiMekanism {
         addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER, this, getGuiLocation(), 152, 16).with(GuiSlot.SlotOverlay.POWER));
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
         addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 28, 17, 120, 54));
-        addGuiElement(new GuiSideHolder(this,getGuiLocation(),176,6,25,106));
+        addGuiElement(new GuiSideHolder(this, getGuiLocation(), 176, 6, 25, 106));
+        addGuiElement(new GuiBar(() -> Collections.singletonList(MekanismUtils.getEnergyDisplay(robit.getEnergy(), robit.MAX_ELECTRICITY)), this, getGuiLocation(), 27, 74, 122, 6));
     }
 
     private void toggleNameChange() {
@@ -144,9 +147,7 @@ public class GuiRobitMain extends GuiMekanism {
 
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
-        if (xAxis >= 28 && xAxis <= 148 && yAxis >= 75 && yAxis <= 79) {
-            displayTooltip(MekanismUtils.getEnergyDisplay(robit.getEnergy(), robit.MAX_ELECTRICITY), xAxis, yAxis);
-        } else if (followButton.isMouseOver()) {
+        if (followButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.robit.toggleFollow"), xAxis, yAxis);
         } else if (renameButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.robit.rename"), xAxis, yAxis);
@@ -171,9 +172,10 @@ public class GuiRobitMain extends GuiMekanism {
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 28, guiTop + 75, 0, 166, getScaledEnergyLevel(120), 4);
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI, "Robit_Icon.png"));
+        drawTexturedModalRect(guiLeft + 28, guiTop + 75, 0, 110, getScaledEnergyLevel(120), 4);
         if (displayNameChange) {
-            drawTexturedModalRect(guiLeft + 28, guiTop + 17, 0, 166 + 4, 120, 54);
+            drawTexturedModalRect(guiLeft + 28, guiTop + 17, 0, 114, 120, 54);
             nameChangeField.drawTextBox();
             MekanismRenderer.resetColor();
         }
@@ -197,7 +199,7 @@ public class GuiRobitMain extends GuiMekanism {
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiRobitMain.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
 }

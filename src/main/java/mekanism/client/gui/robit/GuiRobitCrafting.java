@@ -1,6 +1,7 @@
 package mekanism.client.gui.robit;
 
 import mekanism.client.gui.element.GuiPlayerSlot;
+import mekanism.client.gui.element.GuiProgress;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.common.entity.EntityRobit;
 import mekanism.common.inventory.container.robit.ContainerRobitCrafting;
@@ -20,6 +21,12 @@ public class GuiRobitCrafting extends GuiRobit {
             }
         }
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL_LARGE,this,getGuiLocation(),119,30));
+        addGuiElement(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
+            @Override
+            public double getProgress() {
+                return 0F;
+            }
+        }, GuiProgress.ProgressBar.TALL_RIGHT, this, getGuiLocation(), 90, 35));
     }
 
     @Override
@@ -30,14 +37,8 @@ public class GuiRobitCrafting extends GuiRobit {
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
-        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 90, guiTop + 35, 201, 0, 22, 15);
-    }
-
-    @Override
     protected String getBackgroundImage() {
-        return "GuiRoBitIcon.png";
+        return "Null.png";
     }
 
     @Override

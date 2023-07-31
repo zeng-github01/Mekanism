@@ -2,7 +2,6 @@ package mekanism.client.gui;
 
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
@@ -32,6 +31,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @SideOnly(Side.CLIENT)
 public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumEntangloporter> {
@@ -40,10 +40,14 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
     private GuiDisableableButton privateButton;
     private GuiDisableableButton setButton;
     private GuiDisableableButton deleteButton;
-    private GuiButtonDisableableImage checkboxButton;
+    private GuiDisableableButton checkboxButton;
     private GuiScrollList scrollList;
     private GuiTextColorField frequencyField;
     private boolean privateMode;
+
+    private Frequency clientFreq;
+
+    private int yStart;
 
     public GuiQuantumEntangloporter(InventoryPlayer inventory, TileEntityQuantumEntangloporter tile) {
         super(tile, new ContainerQuantumEntangloporter(inventory, tile));
@@ -64,31 +68,26 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
         if (tileEntity.frequency != null) {
             privateMode = !tileEntity.frequency.publicFreq;
         }
-        addGuiElement(new GuiPlayerSlot(this,resource,7, 147));
-        ySize += 64;
+        addGuiElement(new GuiPlayerSlot(this, resource, 7, 157));
+        addGuiElement(new GuiElementScreen(this, getGuiLocation(), 27, 36, 122, 42).isFrame(true));
+        addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 48, 111, 101, 13));
+        ySize += 74;
+        yStart = 14;
     }
 
     @Override
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(publicButton = new GuiDisableableButton(0, guiLeft + 27, guiTop + 14, 60, 20, LangUtils.localize("gui.public")));
-        buttonList.add(privateButton = new GuiDisableableButton(1, guiLeft + 89, guiTop + 14, 60, 20, LangUtils.localize("gui.private")));
-        buttonList.add(setButton = new GuiDisableableButton(2, guiLeft + 27, guiTop + 116, 60, 20, LangUtils.localize("gui.set")));
-        buttonList.add(deleteButton = new GuiDisableableButton(3, guiLeft + 89, guiTop + 116, 60, 20, LangUtils.localize("gui.delete")));
-        frequencyField = new GuiTextColorField(4, fontRenderer, guiLeft + 50, guiTop + 104, 86, 11);
+        buttonList.add(publicButton = new GuiDisableableButton(0, guiLeft + 27, guiTop + yStart, 60, 20, LangUtils.localize("gui.public")));
+        buttonList.add(privateButton = new GuiDisableableButton(1, guiLeft + 89, guiTop + yStart, 60, 20, LangUtils.localize("gui.private")));
+        buttonList.add(setButton = new GuiDisableableButton(2, guiLeft + 27, guiTop + yStart + 113, 60, 20, LangUtils.localize("gui.set")));
+        buttonList.add(deleteButton = new GuiDisableableButton(3, guiLeft + 89, guiTop + yStart + 113, 60, 20, LangUtils.localize("gui.delete")));
+        frequencyField = new GuiTextColorField(4, fontRenderer, guiLeft + 50, guiTop + yStart + 99, 98, 11);
         frequencyField.setMaxStringLength(FrequencyManager.MAX_FREQ_LENGTH);
         frequencyField.setEnableBackgroundDrawing(false);
-        buttonList.add(checkboxButton = new GuiButtonDisableableImage(5, guiLeft + 137, guiTop + 103, 11, 11, xSize, 11, -11, getGuiLocation()));
+        buttonList.add(checkboxButton = new GuiDisableableButton(5, guiLeft + 137, guiTop + yStart + 98, 11, 11).with(GuiDisableableButton.ImageOverlay.CHECKMARK));
         updateButtons();
-    }
-
-    public void setFrequency(String freq) {
-        if (freq.isEmpty()) {
-            return;
-        }
-        TileNetworkList data = TileNetworkList.withContents(0, freq, !privateMode);
-        Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
     }
 
     public String getSecurity(Frequency freq) {
@@ -125,6 +124,7 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
             setButton.enabled = false;
             deleteButton.enabled = false;
         }
+        checkboxButton.enabled = !frequencyField.getText().isEmpty();
     }
 
     @Override
@@ -143,7 +143,7 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiTeleporter.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
     @Override
@@ -194,18 +194,18 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
-        fontRenderer.drawString(LangUtils.localize("gui.owner") + ": " + (tileEntity.getSecurity().getClientOwner() != null
-                ? tileEntity.getSecurity().getClientOwner()
-                : LangUtils.localize("gui.none")), 8, (ySize - 96) + 4, 0x404040);
-        fontRenderer.drawString(LangUtils.localize("gui.freq") + ":", 32, 81, 0x404040);
-        fontRenderer.drawString(LangUtils.localize("gui.security") + ":", 32, 91, 0x404040);
+        fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 4, 0x404040);
         Frequency frequency = tileEntity.getFrequency(null);
-        fontRenderer.drawString(" " + (frequency != null ? frequency.name : EnumColor.DARK_RED + LangUtils.localize("gui.none")),
-                32 + fontRenderer.getStringWidth(LangUtils.localize("gui.freq") + ":"), 81, 0x797979);
-        fontRenderer.drawString(" " + (frequency != null ? getSecurity(frequency) : EnumColor.DARK_RED + LangUtils.localize("gui.none")),
-                32 + fontRenderer.getStringWidth(LangUtils.localize("gui.security") + ":"), 91, 0x797979);
+        fontRenderer.drawString(LangUtils.localize("gui.owner") + ": " + (getFrequency() != null ? getOwnerUsername() : EnumColor.DARK_RED + LangUtils.localize("gui.none")), 27, yStart + 77, 0x404040);
+
+        fontRenderer.drawString(LangUtils.localize("gui.freq") + ":", 27, yStart + 67, 0x404040);
+        fontRenderer.drawString(" " + (frequency != null ? frequency.name : EnumColor.DARK_RED + LangUtils.localize("gui.none")), 27 + fontRenderer.getStringWidth(LangUtils.localize("gui.freq") + ":"), yStart + 67, 0x797979);
+
+        fontRenderer.drawString(LangUtils.localize("gui.security") + ":", 27, yStart + 87, 0x404040);
+        fontRenderer.drawString(" " + (frequency != null ? getSecurity(frequency) : EnumColor.DARK_RED + LangUtils.localize("gui.none")), 27 + fontRenderer.getStringWidth(LangUtils.localize("gui.security") + ":"), yStart + 87, 0x797979);
+
         String str = LangUtils.localize("gui.set") + ":";
-        renderScaledText(str, 27, 104, 0x404040, 20);
+        renderScaledText(str, 27, yStart + 100, 0x404040, 20);
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
         if (xAxis >= -21 && xAxis <= -3 && yAxis >= 90 && yAxis <= 108) {
@@ -228,11 +228,31 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
         MekanismRenderer.resetColor();
         Frequency frequency = tileEntity.getFrequency(null);
         boolean freq = frequency != null;
-        ;
         if (!freq) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.TAB, "Warning_Info.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 86, 0, 0, 26, 26);
             addGuiElement(new GuiWarningInfo(this, getGuiLocation(), true));
         }
     }
+
+    private Frequency getFrequency() {
+        return tileEntity != null ? tileEntity.frequency : clientFreq;
+    }
+
+    public void setFrequency(String freq) {
+        if (freq.isEmpty()) {
+            return;
+        }
+        TileNetworkList data = TileNetworkList.withContents(0, freq, !privateMode);
+        Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
+    }
+
+    private String getOwnerUsername() {
+        if (privateMode) {
+            return EnumColor.BRIGHT_GREEN + tileEntity.getSecurity().getClientOwner();
+        } else {
+            return (Objects.equals(tileEntity.getSecurity().getClientOwner(), tileEntity.frequency.clientOwner) ? EnumColor.BRIGHT_GREEN : EnumColor.DARK_RED) + tileEntity.frequency.clientOwner;
+        }
+    }
+
 }

@@ -48,6 +48,6 @@ public class ContainerQuantumEntangloporter extends ContainerMekanism<TileEntity
 
     @Override
     protected int getInventorYOffset() {
-        return 148;
+        return 158;
     }
 }

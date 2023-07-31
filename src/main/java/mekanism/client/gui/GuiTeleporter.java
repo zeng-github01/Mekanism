@@ -99,7 +99,7 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
             privateMode = !tileEntity.frequency.publicFreq;
         }
         ySize += 74;
-        addGuiElement(new GuiPlayerSlot(this, resource, 7, 147 + 10));
+        addGuiElement(new GuiPlayerSlot(this, resource, 7, 157));
         addGuiElement(new GuiElementScreen(this, getGuiLocation(), 27, 36, 122, 42).isFrame(true));
         addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 48, 111, 101, 13));
         yStart = 14;
@@ -335,13 +335,14 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        int y = getFrequency() == null ? 94 : getStatus() == 2 ? 22 : getStatus() == 3 ? 40 : getStatus() == 4 ? 58 : 76;
-        drawTexturedModalRect(guiLeft + 6, guiTop + 6, 176, y, 18, 18);
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI, "Teleporter_Icon.png"));
+        int y = getFrequency() == null ? 72 : getStatus() == 2 ? 0 : getStatus() == 3 ? 18 : getStatus() == 4 ? 36 : 54;
+        drawTexturedModalRect(guiLeft + 6, guiTop + 6, 0, y, 18, 18);
         frequencyField.drawTextBox();
         MekanismRenderer.resetColor();
         boolean energy = getEnergy() == 0;
         if (energy) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.TAB, "Warning_Info.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.TAB, "Warning_Info.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
             addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }

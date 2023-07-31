@@ -30,7 +30,7 @@ public class GuiRobitInventory extends GuiRobit {
 
     @Override
     protected String getBackgroundImage() {
-        return "GuiRoBitIcon.png";
+        return "Null.png";
     }
 
     @Override

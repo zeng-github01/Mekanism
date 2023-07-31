@@ -6,6 +6,7 @@ import mekanism.client.gui.element.GuiSlot;
 import mekanism.common.entity.EntityRobit;
 import mekanism.common.inventory.container.robit.ContainerRobitRepair;
 import mekanism.common.util.LangUtils;
+import mekanism.common.util.MekanismUtils;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -36,9 +37,9 @@ public class GuiRobitRepair extends GuiRobit implements IContainerListener {
         super(entity, new ContainerRobitRepair(inventory, entity));
         playerInventory = inventory;
         repairContainer = (ContainerRobitRepair) inventorySlots;
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),26,46));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),75,46));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),133,46));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 26, 46));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 75, 46));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 133, 46));
     }
 
     @Override
@@ -64,7 +65,7 @@ public class GuiRobitRepair extends GuiRobit implements IContainerListener {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         GlStateManager.disableLighting();
-            fontRenderer.drawString(LangUtils.localize("gui.robit.repair"), 60, 6, 0x404040);
+        fontRenderer.drawString(LangUtils.localize("gui.robit.repair"), 60, 6, 0x404040);
 
         if (repairContainer.maximumCost > 0) {
             int k = 8453920;
@@ -131,18 +132,19 @@ public class GuiRobitRepair extends GuiRobit implements IContainerListener {
 
     @Override
     protected String getBackgroundImage() {
-        return "GuiRoBitIcon.png";
+        return "Null.png";
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 53, guiTop + 49, 201, 32, 13, 13);
-        drawTexturedModalRect(guiLeft + 102, guiTop + 48, 201, 0, 22, 15);
-        drawTexturedModalRect(guiLeft + 17, guiTop + 7, 201, 46, 30, 30);
-        drawTexturedModalRect(guiLeft + 59, guiTop + 20, 0, ySize + (repairContainer.getSlot(0).getHasStack() ? 0 : 16), 110, 16);
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Robit_Icon.png"));
+        drawTexturedModalRect(guiLeft + 53, guiTop + 49, 0, 32, 13, 13);
+        drawTexturedModalRect(guiLeft + 102, guiTop + 48, 0, 0, 22, 15);
+        drawTexturedModalRect(guiLeft + 17, guiTop + 7, 0, 46, 30, 30);
+        drawTexturedModalRect(guiLeft + 59, guiTop + 20, 0, 77 + (repairContainer.getSlot(0).getHasStack() ? 0 : 16), 110, 16);
         if ((repairContainer.getSlot(0).getHasStack() || repairContainer.getSlot(1).getHasStack()) && !repairContainer.getSlot(2).getHasStack()) {
-            drawTexturedModalRect(guiLeft + 102, guiTop + 48, 201, 16, 22, 15);
+            drawTexturedModalRect(guiLeft + 102, guiTop + 48, 0, 16, 22, 15);
         }
     }
 

@@ -19,7 +19,11 @@ public class GuiBar extends GuiElement {
 
 
     public GuiBar(IInfoHandler handler, IGuiWrapper gui, ResourceLocation def, int x, int y, int sizeX, int sizeY) {
-        this(gui, def, x, y, sizeX, sizeY);
+        super(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_BAR, "Base.png"), gui, def);
+        xPosition = x;
+        yPosition = y;
+        xSize = sizeX;
+        ySize = sizeY;
         infoHandler = handler;
     }
 

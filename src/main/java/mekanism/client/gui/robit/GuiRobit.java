@@ -1,7 +1,6 @@
 package mekanism.client.gui.robit;
 
 import mekanism.client.gui.GuiMekanism;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.tab.GuiSideHolder;
@@ -32,8 +31,8 @@ public abstract class GuiRobit extends GuiMekanism {
     protected GuiRobit(EntityRobit robit, Container container) {
         super(container);
         this.robit = robit;
-        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
-        addGuiElement(new GuiSideHolder(this,getGuiLocation(),176,6,25,106));
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
+        addGuiElement(new GuiSideHolder(this, getGuiLocation(), 176, 6, 25, 106));
     }
 
     @Override
@@ -71,15 +70,15 @@ public abstract class GuiRobit extends GuiMekanism {
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
-        if (mainButton.isMouseOver()){
+        if (mainButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.robit"), xAxis, yAxis);
-        }else if (craftingButton.isMouseOver()){
+        } else if (craftingButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.robit.crafting"), xAxis, yAxis);
-        }else if (inventoryButton.isMouseOver()){
+        } else if (inventoryButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.robit.inventory"), xAxis, yAxis);
-        }else if (smeltingButton.isMouseOver()){
+        } else if (smeltingButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.robit.smelting"), xAxis, yAxis);
-        }else if (repairButton.isMouseOver()){
+        } else if (repairButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.robit.repair"), xAxis, yAxis);
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
