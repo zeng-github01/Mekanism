@@ -15,10 +15,10 @@ public class GuiBar extends GuiElement {
     private final int yPosition;
     private final int xSize;
     private final int ySize;
-    private IInfoHandler infoHandler;
+    private IInfoHandler2 infoHandler;
 
 
-    public GuiBar(IInfoHandler handler, IGuiWrapper gui, ResourceLocation def, int x, int y, int sizeX, int sizeY) {
+    public GuiBar(IInfoHandler2 handler, IGuiWrapper gui, ResourceLocation def, int x, int y, int sizeX, int sizeY) {
         super(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_BAR, "Base.png"), gui, def);
         xPosition = x;
         yPosition = y;
@@ -69,9 +69,8 @@ public class GuiBar extends GuiElement {
     @Override
     public void renderForeground(int xAxis, int yAxis) {
         if (inBounds(xAxis, yAxis)) {
-            List<String> info = new ArrayList<>(infoHandler.getInfo());
-            if (!info.isEmpty()) {
-                displayTooltips(info, xAxis, yAxis);
+            if (!infoHandler.getInfo().isEmpty()) {
+                displayTooltip(infoHandler.getInfo(), xAxis, yAxis);
             }
         }
     }

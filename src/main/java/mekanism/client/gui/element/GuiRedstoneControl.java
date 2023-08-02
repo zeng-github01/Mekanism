@@ -22,13 +22,12 @@ public class GuiRedstoneControl extends GuiTileEntityElement<TileEntity> {
 
     private final int xLocation;
     private final int yLocation;
-    protected Timeticks time;
+    protected Timeticks time = new Timeticks(20, 20, false);
 
     public GuiRedstoneControl(IGuiWrapper gui, TileEntity tile, ResourceLocation def, int x, int y) {
         super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiRedstoneControl.png"), gui, def, tile);
         xLocation = x;
         yLocation = y;
-        time = new Timeticks(20, 20, false);
     }
 
     public GuiRedstoneControl(IGuiWrapper gui, TileEntity tile, ResourceLocation def) {
@@ -57,7 +56,7 @@ public class GuiRedstoneControl extends GuiTileEntityElement<TileEntity> {
             guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 142 + yLocation, renderX, 0, 18, 18);
         } else {
             int DynamicGUI = 0;
-            double tick = (double) time.getValue() / 20F;
+            double tick = time.getValue() / 20F;
             if (tick >= 0.1F && tick < 0.2F || tick >= 0.8F && tick < 0.9F) {
                 DynamicGUI += 18;
             } else if (tick >= 0.2F && tick < 0.3F || tick >= 0.7F && tick < 0.8F) {

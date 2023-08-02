@@ -40,7 +40,7 @@ public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
         addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 142, 34).with(SlotOverlay.POWER));
         addGuiElement(new GuiInnerScreen(this, resource, 48, 23, 80, 40));
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
-        addGuiElement(new GuiBar(() -> Collections.singletonList(tileEntity.bioFuelSlot.fluidStored > 0 ? LangUtils.localize("gui.bioGenerator.bioFuel") + ":" + tileEntity.bioFuelSlot.fluidStored : LangUtils.localize("gui.empty")), this, getGuiLocation(), 6, 16, 6, 54));
+        addGuiElement(new GuiBar(() ->(tileEntity.bioFuelSlot.fluidStored > 0 ? LangUtils.localize("gui.bioGenerator.bioFuel") + ":" + tileEntity.bioFuelSlot.fluidStored : LangUtils.localize("gui.empty")), this, getGuiLocation(), 6, 16, 6, 54));
     }
 
     @Override

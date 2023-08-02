@@ -107,6 +107,11 @@ public abstract class GuiElement {
         List<String> getInfo();
     }
 
+    public interface IInfoHandler2 {
+
+        String getInfo();
+    }
+
     public static class Rectangle4i {
 
         public final int x;

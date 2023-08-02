@@ -64,7 +64,7 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
             }
         }, ProgressBar.MEDIUM, this, resource, 70, 46));
         addGuiElement(new GuiPlayerSlot(this, resource));
-        addGuiElement(new GuiBar(() -> Collections.singletonList(tileEntity.infuseStored.getType() != null ? tileEntity.infuseStored.getType().getLocalizedName() + ": " + tileEntity.infuseStored.getAmount()
+        addGuiElement(new GuiBar(() -> (tileEntity.infuseStored.getType() != null ? tileEntity.infuseStored.getType().getLocalizedName() + ": " + tileEntity.infuseStored.getAmount()
                 : LangUtils.localize("gui.empty")), this, getGuiLocation(), 6, 16, 6, 54));
     }
 

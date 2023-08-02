@@ -185,9 +185,9 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         int Slotlocation = tileEntity.tier == FactoryTier.BASIC ? 54 : tileEntity.tier == FactoryTier.ADVANCED ? 34 : tileEntity.tier == FactoryTier.ELITE ? 28 : 26;
         int xgas = tileEntity.tier == FactoryTier.CREATIVE ? 212 : tileEntity.tier == FactoryTier.ULTIMATE ? 174 : 140;
         if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED) {
-            addGuiElement(new GuiBar(() -> Collections.singletonList(tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + tileEntity.gasTank.getStored() : LangUtils.localize("gui.none")), this, getGuiLocation(), 7, 77, xgas, 7));
+            addGuiElement(new GuiBar(() -> (tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + tileEntity.gasTank.getStored() : LangUtils.localize("gui.none")), this, getGuiLocation(), 7, 77, xgas, 7));
         } else if (tileEntity.getRecipeType() == RecipeType.INFUSING) {
-            addGuiElement(new GuiBar(() -> Collections.singletonList(tileEntity.infuseStored.getType() != null ? tileEntity.infuseStored.getType().getLocalizedName() + ": " + tileEntity.infuseStored.getAmount() : LangUtils.localize("gui.empty")), this, getGuiLocation(), 7, 77, xgas, 7));
+            addGuiElement(new GuiBar(() -> (tileEntity.infuseStored.getType() != null ? tileEntity.infuseStored.getType().getLocalizedName() + ": " + tileEntity.infuseStored.getAmount() : LangUtils.localize("gui.empty")), this, getGuiLocation(), 7, 77, xgas, 7));
         }
 
         if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.ADVANCED) {

@@ -3,12 +3,9 @@ package mekanism.client.gui;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.client.gui.button.GuiDisableableButton;
-import mekanism.client.gui.element.GuiPlayerSlot;
-import mekanism.client.gui.element.GuiProgress;
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
-import mekanism.client.gui.element.GuiRedstoneControl;
-import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
@@ -62,7 +59,10 @@ public class GuiOredictionificator extends GuiMekanismTile<TileEntityOredictioni
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         ySize += 64;
-        addGuiElement(new GuiPlayerSlot(this,resource,7,147));
+        addGuiElement(new GuiPlayerSlot(this, resource, 7, 147));
+        addGuiElement(new GuiElementScreen(this, resource, 9, 17, 144, 68));
+        addGuiElement(new GuiElementScreen(this, resource, 9, 85, 144, 22));
+        addGuiElement(new GuiElementScreen(this, resource, 153, 17, 14, 90));
     }
 
     private boolean overFilter(int xAxis, int yAxis, int yStart) {

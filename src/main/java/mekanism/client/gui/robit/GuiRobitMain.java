@@ -52,7 +52,7 @@ public class GuiRobitMain extends GuiMekanism {
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
         addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 28, 17, 120, 54));
         addGuiElement(new GuiSideHolder(this, getGuiLocation(), 176, 6, 25, 106));
-        addGuiElement(new GuiBar(() -> Collections.singletonList(MekanismUtils.getEnergyDisplay(robit.getEnergy(), robit.MAX_ELECTRICITY)), this, getGuiLocation(), 27, 74, 122, 6));
+        addGuiElement(new GuiBar(() -> (MekanismUtils.getEnergyDisplay(robit.getEnergy(), robit.MAX_ELECTRICITY)), this, getGuiLocation(), 27, 74, 122, 6));
     }
 
     private void toggleNameChange() {
