@@ -50,13 +50,6 @@ public class GuiMModIDFilter extends GuiModIDFilter<MModIDFilter, TileEntityDigi
         return MekanismUtils.getResource(ResourceType.GUI, "GuiDigitalMinerFilter.png");
     }
 
-    //TODO
-    @Override
-    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
-        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 131, guiTop + 46, 228, 15,12, 14);
-    }
-
     @Override
     protected void updateStackList(String modName) {
         iterStacks = OreDictCache.getModIDStacks(modName, true);

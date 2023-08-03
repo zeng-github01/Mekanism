@@ -28,6 +28,7 @@ import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -59,7 +60,7 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
 
     private GuiColorButton colorButton;
     private GuiScrollList scrollList;
-    private GuiTextColorField frequencyField;
+    private GuiTextField frequencyField;
     private boolean privateMode;
     private Frequency clientFreq;
     private byte clientStatus;
@@ -153,7 +154,7 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         if (!isPortable) {
             buttonList.add(colorButton = new GuiColorButton(7, guiLeft + 132, guiTop + yStart + 114, () -> tileEntity.color));
         }
-        frequencyField = new GuiTextColorField(5, fontRenderer, guiLeft + 50, guiTop + yStart + 99, 98, 11);
+        frequencyField = new GuiTextField(5, fontRenderer, guiLeft + 50, guiTop + yStart + 99, 98, 11);
         frequencyField.setMaxStringLength(FrequencyManager.MAX_FREQ_LENGTH);
         frequencyField.setEnableBackgroundDrawing(false);
         buttonList.add(checkboxButton = new GuiDisableableButton(6, guiLeft + 137, guiTop + yStart + 98, 11, 11).with(GuiDisableableButton.ImageOverlay.CHECKMARK));

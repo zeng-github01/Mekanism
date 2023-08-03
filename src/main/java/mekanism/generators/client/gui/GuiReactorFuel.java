@@ -2,7 +2,6 @@ package mekanism.generators.client.gui;
 
 import mekanism.api.TileNetworkList;
 import mekanism.api.util.time.Timeticks;
-import mekanism.client.gui.GuiTextColorField;
 import mekanism.client.gui.element.GuiEnergyInfo;
 import mekanism.client.gui.element.GuiProgress;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -18,6 +17,7 @@ import mekanism.common.util.MekanismUtils;
 import mekanism.generators.client.gui.element.GuiReactorTab;
 import mekanism.generators.client.gui.element.GuiReactorTab.ReactorTab;
 import mekanism.generators.common.tile.reactor.TileEntityReactorController;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -32,7 +32,7 @@ import java.util.Arrays;
 public class GuiReactorFuel extends GuiReactorInfo {
 
     protected Timeticks time;
-    private GuiTextColorField injectionRateField;
+    private GuiTextField injectionRateField;
 
     public GuiReactorFuel(InventoryPlayer inventory, final TileEntityReactorController tile) {
         super(tile, new ContainerNull(inventory.player, tile));
@@ -116,7 +116,7 @@ public class GuiReactorFuel extends GuiReactorInfo {
     public void initGui() {
         super.initGui();
         String prevRad = injectionRateField != null ? injectionRateField.getText() : "";
-        injectionRateField = new GuiTextColorField(0, fontRenderer, guiLeft + 98, guiTop + 115, 26, 11);
+        injectionRateField = new GuiTextField(0, fontRenderer, guiLeft + 98, guiTop + 115, 26, 11);
         injectionRateField.setMaxStringLength(2);
         injectionRateField.setText(prevRad);
     }

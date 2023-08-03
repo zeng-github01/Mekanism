@@ -54,12 +54,7 @@ public class GuiMOreDictFilter extends GuiOreDictFilter<MOreDictFilter, TileEnti
     }
 
 
-    //TODO
-    @Override
-    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
-        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 131, guiTop + 46, 228, 15,12, 14);
-    }
+
 
     @Override
     protected void sendPacketToServer(int guiID) {

@@ -2,7 +2,6 @@ package mekanism.client.gui.filter;
 
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
-import mekanism.client.gui.GuiTextColorField;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiDisableableButton;
@@ -18,6 +17,7 @@ import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -31,8 +31,8 @@ import java.io.IOException;
 @SideOnly(Side.CLIENT)
 public class GuiTItemStackFilter extends GuiItemStackFilter<TItemStackFilter, TileEntityLogisticalSorter> {
 
-    private GuiTextColorField minField;
-    private GuiTextColorField maxField;
+    private GuiTextField minField;
+    private GuiTextField maxField;
     private GuiButton sizeButton;
 
     public GuiTItemStackFilter(EntityPlayer player, TileEntityLogisticalSorter tile, int index) {
@@ -60,10 +60,10 @@ public class GuiTItemStackFilter extends GuiItemStackFilter<TItemStackFilter, Ti
     @Override
     public void initGui() {
         super.initGui();
-        minField = new GuiTextColorField(2, fontRenderer, guiLeft + 149, guiTop + 19, 20, 11);
+        minField = new GuiTextField(2, fontRenderer, guiLeft + 149, guiTop + 19, 20, 11);
         minField.setMaxStringLength(2);
         minField.setText("" + filter.min);
-        maxField = new GuiTextColorField(3, fontRenderer, guiLeft + 149, guiTop + 31, 20, 11);
+        maxField = new GuiTextField(3, fontRenderer, guiLeft + 149, guiTop + 31, 20, 11);
         maxField.setMaxStringLength(2);
         maxField.setText("" + filter.max);
     }

@@ -10,6 +10,7 @@ import mekanism.common.OreDictCache;
 import mekanism.common.content.filter.*;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
+import mekanism.common.util.MekanismUtils;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -124,6 +125,7 @@ public abstract class GuiFilterHolder<TILE extends TileEntityContainerBlock, FIL
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         // Draw scrollbar
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Scroll_Icon.png"));
         drawTexturedModalRect(guiLeft + 154, guiTop + 18 + getScroll(), 232 + (needsScrollBars() ? 0 : 12), 0, 12, 15);
 
         HashList<FILTER> filters = getFilters();
@@ -144,18 +146,18 @@ public abstract class GuiFilterHolder<TILE extends TileEntityContainerBlock, FIL
                 int yStart = i * filterH + filterY;
                 // Flag for mouse over this filter
                 boolean mouseOver = xAxis >= filterX && xAxis <= filterX + filterW && yAxis >= yStart && yAxis <= yStart + filterH;
-                drawTexturedModalRect(guiLeft + filterX, guiTop + yStart, mouseOver ? 0 : filterW, 166, filterW, filterH);
+                drawTexturedModalRect(guiLeft + filterX, guiTop + yStart, mouseOver ? 0 : filterW, 0, filterW, filterH);
                 MekanismRenderer.resetColor();
 
                 // Draw sort buttons
                 int arrowX = filterX + filterW - 12;
                 if (getFilterIndex() + i > 0) {
                     mouseOver = xAxis >= arrowX && xAxis <= arrowX + 10 && yAxis >= yStart + 1 && yAxis <= yStart + 7;
-                    drawTexturedModalRect(guiLeft + arrowX, guiTop + yStart + 1, 190, mouseOver ? 143 : 115, 11, 7);
+                    drawTexturedModalRect(guiLeft + arrowX, guiTop + yStart + 1, mouseOver ? 220 : 209, 1, 11, 7);
                 }
                 if (getFilterIndex() + i < filters.size() - 1) {
                     mouseOver = xAxis >= arrowX && xAxis <= arrowX + 10 && yAxis >= yStart + 21 && yAxis <= yStart + 27;
-                    drawTexturedModalRect(guiLeft + arrowX, guiTop + yStart + 21, 190, mouseOver ? 157 : 129, 11, 7);
+                    drawTexturedModalRect(guiLeft + arrowX, guiTop + yStart + 21, mouseOver ? 220 : 209, 8, 11, 7);
                 }
             }
         }

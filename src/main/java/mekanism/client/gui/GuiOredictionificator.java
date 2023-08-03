@@ -114,6 +114,7 @@ public class GuiOredictionificator extends GuiMekanismTile<TileEntityOredictioni
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Scroll_Icon.png"));
         drawTexturedModalRect(guiLeft + 154, guiTop + 18 + getScroll(), 232, 0, 12, 15);
         for (int i = 0; i < 3; i++) {
             if (tileEntity.filters.get(getFilterIndex() + i) != null) {
@@ -122,7 +123,7 @@ public class GuiOredictionificator extends GuiMekanismTile<TileEntityOredictioni
                 if (mouseOver) {
                     MekanismRenderer.color(EnumColor.GREY);
                 }
-                drawTexturedModalRect(guiLeft + 10, guiTop + yStart, 0, 230, 142, 22);
+                drawTexturedModalRect(guiLeft + 10, guiTop + yStart, 0, 30, 142, 22);
                 if (mouseOver) {
                     MekanismRenderer.resetColor();
                 }
@@ -174,7 +175,7 @@ public class GuiOredictionificator extends GuiMekanismTile<TileEntityOredictioni
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiOredictionificator.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
     public void updateRenderStacks() {

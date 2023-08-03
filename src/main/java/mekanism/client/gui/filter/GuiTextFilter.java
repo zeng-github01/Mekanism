@@ -1,7 +1,6 @@
 package mekanism.client.gui.filter;
 
 import mekanism.api.EnumColor;
-import mekanism.client.gui.GuiTextColorField;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.content.filter.IFilter;
 import mekanism.common.content.miner.MinerFilter;
@@ -11,6 +10,7 @@ import mekanism.common.tile.TileEntityLogisticalSorter;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.util.LangUtils;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -37,8 +37,8 @@ public abstract class GuiTextFilter<FILTER extends IFilter, TILE extends TileEnt
     }
 
     @Override
-    protected GuiTextColorField createTextField() {
-        return new GuiTextColorField(2, fontRenderer, guiLeft + 35, guiTop + 47, 95, 12);
+    protected GuiTextField createTextField() {
+        return new GuiTextField(2, fontRenderer, guiLeft + 35, guiTop + 47, 95, 12);
     }
 
     @Override

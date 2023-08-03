@@ -21,6 +21,7 @@ import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import mekanism.common.util.UnitDisplayUtils;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -42,7 +43,7 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
     private GuiDisableableButton deleteButton;
     private GuiDisableableButton checkboxButton;
     private GuiScrollList scrollList;
-    private GuiTextColorField frequencyField;
+    private GuiTextField frequencyField;
     private boolean privateMode;
 
     private Frequency clientFreq;
@@ -83,7 +84,7 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
         buttonList.add(privateButton = new GuiDisableableButton(1, guiLeft + 89, guiTop + yStart, 60, 20, LangUtils.localize("gui.private")));
         buttonList.add(setButton = new GuiDisableableButton(2, guiLeft + 27, guiTop + yStart + 113, 60, 20, LangUtils.localize("gui.set")));
         buttonList.add(deleteButton = new GuiDisableableButton(3, guiLeft + 89, guiTop + yStart + 113, 60, 20, LangUtils.localize("gui.delete")));
-        frequencyField = new GuiTextColorField(4, fontRenderer, guiLeft + 50, guiTop + yStart + 99, 98, 11);
+        frequencyField = new GuiTextField(4, fontRenderer, guiLeft + 50, guiTop + yStart + 99, 98, 11);
         frequencyField.setMaxStringLength(FrequencyManager.MAX_FREQ_LENGTH);
         frequencyField.setEnableBackgroundDrawing(false);
         buttonList.add(checkboxButton = new GuiDisableableButton(5, guiLeft + 137, guiTop + yStart + 98, 11, 11).with(GuiDisableableButton.ImageOverlay.CHECKMARK));

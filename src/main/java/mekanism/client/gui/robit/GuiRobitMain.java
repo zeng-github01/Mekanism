@@ -1,7 +1,6 @@
 package mekanism.client.gui.robit;
 
 import mekanism.client.gui.GuiMekanism;
-import mekanism.client.gui.GuiTextColorField;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.GuiPlayerSlot;
@@ -18,6 +17,7 @@ import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -33,7 +33,7 @@ public class GuiRobitMain extends GuiMekanism {
     private final EntityRobit robit;
 
     private boolean displayNameChange;
-    private GuiTextColorField nameChangeField;
+    private GuiTextField nameChangeField;
     private GuiDisableableButton confirmName;
     private GuiDisableableButton teleportHomeButton;
     private GuiDisableableButton pickupButton;
@@ -102,7 +102,7 @@ public class GuiRobitMain extends GuiMekanism {
         buttonList.add(confirmName = new GuiDisableableButton(0, guiLeft + 58, guiTop + 47, 60, 20, LangUtils.localize("gui.confirm")));
         confirmName.visible = displayNameChange;
 
-        nameChangeField = new GuiTextColorField(1, fontRenderer, guiLeft + 48, guiTop + 21, 80, 12);
+        nameChangeField = new GuiTextField(1, fontRenderer, guiLeft + 48, guiTop + 21, 80, 12);
         nameChangeField.setMaxStringLength(12);
         nameChangeField.setFocused(true);
 

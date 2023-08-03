@@ -17,6 +17,7 @@ import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -40,7 +41,7 @@ public class GuiSecurityDesk extends GuiMekanismTile<TileEntitySecurityDesk> {
     private GuiDisableableButton checkboxButton;
     private GuiDisableableButton overrideButton;
     private GuiScrollList scrollList;
-    private GuiTextColorField trustedField;
+    private GuiTextField trustedField;
 
     public GuiSecurityDesk(InventoryPlayer inventory, TileEntitySecurityDesk tile) {
         super(tile, new ContainerSecurityDesk(inventory, tile));
@@ -57,7 +58,7 @@ public class GuiSecurityDesk extends GuiMekanismTile<TileEntitySecurityDesk> {
         super.initGui();
         buttonList.clear();
         buttonList.add(removeButton = new GuiDisableableButton(0, guiLeft + 13, guiTop + 81, 122, 20, LangUtils.localize("gui.remove")));
-        trustedField = new GuiTextColorField(1, fontRenderer, guiLeft + 35, guiTop + 69, 101, 13);
+        trustedField = new GuiTextField(1, fontRenderer, guiLeft + 35, guiTop + 69, 101, 13);
         trustedField.setMaxStringLength(MAX_LENGTH);
         trustedField.setEnableBackgroundDrawing(false);
         buttonList.add(publicButton = new GuiDisableableButton(2, guiLeft + 13, guiTop + 113, 40, 16).with(GuiDisableableButton.ImageOverlay.PUBLIC));
@@ -196,10 +197,11 @@ public class GuiSecurityDesk extends GuiMekanismTile<TileEntitySecurityDesk> {
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 144, 77, 8, 8));
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "State.png"));
         if (tileEntity.frequency != null && tileEntity.ownerUUID != null && tileEntity.ownerUUID.equals(mc.player.getUniqueID())) {
-            drawTexturedModalRect(guiLeft + 145, guiTop + 78, xSize + (tileEntity.frequency.override ? 0 : 6), 22, 6, 6);
+            drawTexturedModalRect(guiLeft + 145, guiTop + 78,  tileEntity.frequency.override ? 0 : 6, 0, 6, 6);
         } else {
-            drawTexturedModalRect(guiLeft + 145, guiTop + 78, xSize, 28, 6, 6);
+            drawTexturedModalRect(guiLeft + 145, guiTop + 78, 0, 6, 6, 6);
         }
         trustedField.drawTextBox();
         MekanismRenderer.resetColor();

@@ -1,9 +1,10 @@
 package mekanism.client.gui.filter;
 
-import mekanism.client.gui.GuiTextColorField;
+
 import mekanism.common.content.filter.IFilter;
 import mekanism.common.content.transporter.TransporterFilter;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -17,7 +18,7 @@ import java.io.IOException;
 public abstract class GuiTextFilterBase<FILTER extends IFilter, TILE extends TileEntityContainerBlock> extends GuiFilterBase<FILTER, TILE> {
 
     protected ItemStack renderStack = ItemStack.EMPTY;
-    protected GuiTextColorField text;
+    protected GuiTextField text;
 
     protected GuiTextFilterBase(TILE tile, Container container) {
         super(tile, container);
@@ -29,7 +30,7 @@ public abstract class GuiTextFilterBase<FILTER extends IFilter, TILE extends Til
 
     protected abstract void setText();
 
-    protected abstract GuiTextColorField createTextField();
+    protected abstract GuiTextField createTextField();
 
     protected boolean wasTextboxKey(char c, int i) {
         return Character.isLetter(c) || Character.isDigit(c) || isTextboxKey(c, i);

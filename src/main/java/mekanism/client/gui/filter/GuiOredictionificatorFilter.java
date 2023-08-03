@@ -1,7 +1,6 @@
 package mekanism.client.gui.filter;
 
 import mekanism.api.Coord4D;
-import mekanism.client.gui.GuiTextColorField;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.render.MekanismRenderer;
@@ -17,6 +16,7 @@ import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -80,8 +80,8 @@ public class GuiOredictionificatorFilter extends GuiTextFilterBase<Oredictionifi
     }
 
     @Override
-    protected GuiTextColorField createTextField() {
-        return new GuiTextColorField(2, fontRenderer, guiLeft + 33, guiTop + 48, 96, 12);
+    protected GuiTextField createTextField() {
+        return new GuiTextField(2, fontRenderer, guiLeft + 33, guiTop + 48, 96, 12);
     }
 
     @Override

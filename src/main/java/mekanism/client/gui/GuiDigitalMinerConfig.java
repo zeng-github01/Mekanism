@@ -141,7 +141,7 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiDigitalMinerConfig.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
     @Override

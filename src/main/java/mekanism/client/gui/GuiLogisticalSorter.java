@@ -137,7 +137,7 @@ public class GuiLogisticalSorter extends GuiFilterHolder<TileEntityLogisticalSor
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiLogisticalSorter.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
     @Override

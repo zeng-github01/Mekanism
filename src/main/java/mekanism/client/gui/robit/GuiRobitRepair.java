@@ -1,12 +1,12 @@
 package mekanism.client.gui.robit;
 
 import io.netty.buffer.Unpooled;
-import mekanism.client.gui.GuiTextColorField;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.common.entity.EntityRobit;
 import mekanism.common.inventory.container.robit.ContainerRobitRepair;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -31,7 +31,7 @@ public class GuiRobitRepair extends GuiRobit implements IContainerListener {
     private final ContainerRepair repairContainer;
     private final InventoryPlayer playerInventory;
 
-    private GuiTextColorField itemNameField;
+    private GuiTextField itemNameField;
 
     public GuiRobitRepair(InventoryPlayer inventory, EntityRobit entity) {
         super(entity, new ContainerRobitRepair(inventory, entity));
@@ -46,7 +46,7 @@ public class GuiRobitRepair extends GuiRobit implements IContainerListener {
     public void initGui() {
         super.initGui();
         Keyboard.enableRepeatEvents(true);
-        itemNameField = new GuiTextColorField(0, fontRenderer, guiLeft + 62, guiTop + 24, 103, 12);
+        itemNameField = new GuiTextField(0, fontRenderer, guiLeft + 62, guiTop + 24, 103, 12);
         itemNameField.setTextColor(-1);
         itemNameField.setDisabledTextColour(-1);
         itemNameField.setEnableBackgroundDrawing(false);

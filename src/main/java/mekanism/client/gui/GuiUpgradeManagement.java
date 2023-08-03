@@ -164,19 +164,20 @@ public class GuiUpgradeManagement extends GuiMekanism {
             if (index > upgrades.length - 1) {
                 break;
             }
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Scroll_Icon.png"));
             Upgrade upgrade = upgrades[index];
             int xPos = 25;
             int yPos = 7 + (i * 12);
             int yRender;
             if (upgrade == selectedType) {
-                yRender = 166 + 24;
+                yRender = 30 + 24;
             } else if (overUpgradeType(xAxis, yAxis, xPos, yPos)) {
-                yRender = 166;
+                yRender = 30;
             } else {
-                yRender = 166 + 12;
+                yRender = 30 + 12;
             }
             MekanismRenderer.color(upgrade.getColor(), 1.0F, 2.5F);
-            drawTexturedModalRect(guiLeft + xPos, guiTop + yPos, 0, yRender, 58, 12);
+            drawTexturedModalRect(guiLeft + xPos, guiTop + yPos, 143, yRender, 58, 12);
             MekanismRenderer.resetColor();
         }
     }
