@@ -2,8 +2,7 @@ package mekanism.client.gui;
 
 import mekanism.api.Coord4D;
 import mekanism.client.gui.button.GuiDisableableButton;
-import mekanism.client.gui.element.GuiPlayerSlot;
-import mekanism.client.gui.element.GuiScrollList;
+import mekanism.client.gui.element.*;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
@@ -12,6 +11,7 @@ import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.inventory.container.ContainerUpgradeManagement;
 import mekanism.common.network.PacketRemoveUpgrade.RemoveUpgradeMessage;
 import mekanism.common.network.PacketSimpleGui.SimpleGuiMessage;
+import mekanism.common.tile.component.TileComponentUpgrade;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
@@ -41,10 +41,22 @@ public class GuiUpgradeManagement extends GuiMekanism {
     private int delay;
     private float scroll;
 
+
     public GuiUpgradeManagement(InventoryPlayer inventory, IUpgradeTile tile) {
         super(new ContainerUpgradeManagement(inventory, tile));
         tileEntity = tile;
-        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 153, 6).with(GuiSlot.SlotOverlay.UPGRADE));
+        addGuiElement(new GuiProgress(
+                new GuiProgress.IProgressInfoHandler() {
+                    @Override
+                    public double getProgress() {
+                        return (double) tileEntity.getComponent().upgradeTicks / TileComponentUpgrade.UPGRADE_TICKS_REQUIRED;
+                    }
+                }, GuiProgress.ProgressBar.INSTALLING, this, getGuiLocation(), 153, 25));
+        addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 90, 6, 59, 50));
+        addGuiElement(new GuiElementScreen(this, getGuiLocation(), 24, 56, 125, 14));
+        addGuiElement(new GuiElementScreen(this, getGuiLocation(), 24, 6, 66, 50));
     }
 
     @Override
@@ -52,7 +64,7 @@ public class GuiUpgradeManagement extends GuiMekanism {
         super.initGui();
         buttonList.clear();
         buttonList.add(backButton = new GuiDisableableButton(0, guiLeft + 6, guiTop + 6, 14, 14).with(GuiDisableableButton.ImageOverlay.BACK));
-        buttonList.add(removeButton = new GuiDisableableButton(1, guiLeft + 92, guiTop + 42, 55, 12,LangUtils.localize("gui.upgrades.unistall")).handoff(true).enabledTextColor(0xFF30C97A).disabledTextColor(0XFF24965B).hoveredtextColor(0xFF3CFE9A));
+        buttonList.add(removeButton = new GuiDisableableButton(1, guiLeft + 92, guiTop + 42, 55, 12, LangUtils.localize("gui.upgrades.unistall")).handoff(true).enabledTextColor(0xFF30C97A).disabledTextColor(0XFF24965B).hoveredtextColor(0xFF3CFE9A));
         updateEnabledButtons();
     }
 
@@ -92,8 +104,10 @@ public class GuiUpgradeManagement extends GuiMekanism {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiScrollList.png"));
+        MekanismRenderer.resetColor();
+        drawTexturedModalRect(84, 8 + getScroll(), 16, 0, 4, 4);
         mc.renderEngine.bindTexture(getGuiLocation());
-        drawTexturedModalRect(84, 8 + getScroll(), 202, 0, 4, 4);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
         fontRenderer.drawString(LangUtils.localize("gui.upgrades.supported") + ":", 26, 59, 0x404040);
         if (selectedType == null) {
@@ -153,8 +167,8 @@ public class GuiUpgradeManagement extends GuiMekanism {
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        int displayInt = tileEntity.getComponent().getScaledUpgradeProgress(14);
-        drawTexturedModalRect(guiLeft + 154, guiTop + 26, 176, 28, 10, displayInt);
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiScrollList.png"));
+        drawTexturedModalRect(guiLeft + 83, guiTop + 7, 21, 0, 6, 48);
         if (selectedType != null && tileEntity.getComponent().getUpgrades(selectedType) == 0) {
             selectedType = null;
         }
@@ -217,7 +231,7 @@ public class GuiUpgradeManagement extends GuiMekanism {
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiUpgradeManagement.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
     @Override

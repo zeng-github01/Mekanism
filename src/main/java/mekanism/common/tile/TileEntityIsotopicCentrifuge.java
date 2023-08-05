@@ -12,6 +12,7 @@ import mekanism.common.Upgrade.IUpgradeInfoHandler;
 import mekanism.common.base.*;
 import mekanism.common.block.states.BlockStateMachine;
 import mekanism.common.capabilities.Capabilities;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.GasInput;
 import mekanism.common.recipe.machines.IsotopicRecipe;
@@ -115,7 +116,7 @@ public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements I
     }
 
     public int getUpgradedUsage(IsotopicRecipe recipe) {
-        int possibleProcess = (int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED));
+        int possibleProcess = Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val());
         possibleProcess = Math.min(Math.min(inputTank.getStored(), outputTank.getNeeded()), possibleProcess);
         possibleProcess = Math.min((int) (getEnergy() / energyPerTick), possibleProcess);
         return Math.min(inputTank.getStored() / recipe.recipeInput.ingredient.amount, possibleProcess);

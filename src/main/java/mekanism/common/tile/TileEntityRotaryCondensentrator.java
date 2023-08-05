@@ -158,7 +158,7 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
     }
 
     public int getUpgradedUsage() {
-        int possibleProcess = (int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED));
+        int possibleProcess = Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val());
         if (mode == 0) { //Gas to fluid
             possibleProcess = Math.min(Math.min(gasTank.getStored(), fluidTank.getCapacity() - fluidTank.getFluidAmount()), possibleProcess);
         } else { //Fluid to gas

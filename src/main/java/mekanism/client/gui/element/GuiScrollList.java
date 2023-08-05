@@ -24,6 +24,9 @@ public class GuiScrollList extends GuiElement {
     private int selected = -1;
     private float scroll;
 
+    private boolean background = true;
+
+
     public GuiScrollList(IGuiWrapper gui, ResourceLocation def, int x, int y, int sizeX, int sizeY) {
         super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiScrollList.png"), gui, def);
 
@@ -68,10 +71,18 @@ public class GuiScrollList extends GuiElement {
         return new Rectangle4i(guiWidth + xPosition, guiHeight + yPosition, xSize, size * 10);
     }
 
+    public GuiScrollList background(boolean background){
+        this.background = background;
+        return this;
+    }
+
+
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         mc.renderEngine.bindTexture(RESOURCE);
-        drawBlack(guiWidth, guiHeight);
+        if (background) {
+            drawBlack(guiWidth, guiHeight);
+        }
         drawSelected(guiWidth, guiHeight, selected);
         mc.renderEngine.bindTexture(defaultLocation);
     }

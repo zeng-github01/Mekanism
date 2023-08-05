@@ -133,7 +133,7 @@ public enum Upgrade {
     public List<String> getExpScaledInfo(IUpgradeTile tile) {
         List<String> ret = new ArrayList<>();
         if (canMultiply()) {
-            double effect = Math.pow(2, (float) tile.getComponent().getUpgrades(this));
+            double effect = Math.min(Math.pow(2, (float) tile.getComponent().getUpgrades(this)), MekanismConfig.current().mekce.MAXspeedmachines.val());
             ret.add(LangUtils.localize("gui.upgrades.effect") + ": " + effect + "x");
         }
         return ret;

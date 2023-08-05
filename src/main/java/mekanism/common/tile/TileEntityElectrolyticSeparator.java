@@ -12,6 +12,7 @@ import mekanism.common.Upgrade.IUpgradeInfoHandler;
 import mekanism.common.base.*;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.capabilities.Capabilities;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.integration.computer.IComputerIntegration;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.RecipeHandler.Recipe;
@@ -150,7 +151,7 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
             } else if (prevEnergy >= getEnergy()) {
                 setActive(false);
             }
-            int dumpAmount = 8 * (int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED));
+            int dumpAmount = 8 * Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val());
             handleTank(leftTank, dumpLeft, configComponent.getSidesForData(TransmissionType.GAS, facing, 1), dumpAmount);
             handleTank(rightTank, dumpRight, configComponent.getSidesForData(TransmissionType.GAS, facing, 2), dumpAmount);
             prevEnergy = getEnergy();
@@ -188,7 +189,7 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
             possibleProcess = leftTank.getNeeded() / recipe.recipeOutput.rightGas.amount;
             possibleProcess = Math.min(rightTank.getNeeded() / recipe.recipeOutput.leftGas.amount, possibleProcess);
         }
-        possibleProcess = Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), possibleProcess);
+        possibleProcess = Math.min(Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val()), possibleProcess);
         possibleProcess = Math.min((int) (getEnergy() / energyPerTick), possibleProcess);
         return Math.min(fluidTank.getFluidAmount() / recipe.recipeInput.ingredient.amount, possibleProcess);
     }

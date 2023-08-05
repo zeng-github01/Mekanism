@@ -12,6 +12,7 @@ import mekanism.common.Upgrade;
 import mekanism.common.Upgrade.IUpgradeInfoHandler;
 import mekanism.common.base.*;
 import mekanism.common.capabilities.Capabilities;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.GasInput;
 import mekanism.common.recipe.machines.SolarNeutronRecipe;
@@ -42,13 +43,10 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
         ITankManager, ISecurityTile, IUpgradeTile, IUpgradeInfoHandler, IComparatorSupport, ISideConfiguration {
 
     public static final int MAX_GAS = 10000;
-    private static final int[] INPUT_SLOT = {0};
-    private static final int[] OUTPUT_SLOT = {1};
 
     public GasTank inputTank = new GasTank(MAX_GAS);
     public GasTank outputTank = new GasTank(MAX_GAS);
 
-    public int gasOutput = 256;
     public RedstoneControl controlType = RedstoneControl.DISABLED;
     public TileComponentEjector ejectorComponent;
     public TileComponentConfig configComponent;
@@ -128,7 +126,7 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
     }
 
     public int getUpgradedUsage(SolarNeutronRecipe recipe) {
-        int possibleProcess = (int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED));
+        int possibleProcess = Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val());
         possibleProcess = Math.min(Math.min(inputTank.getStored(), outputTank.getNeeded()), possibleProcess);
         return Math.min(inputTank.getStored() / recipe.recipeInput.ingredient.amount, possibleProcess);
     }
@@ -352,7 +350,6 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
     public AxisAlignedBB getRenderBoundingBox() {
         return INFINITE_EXTENT_AABB;
     }
-
 
 
     @Nonnull

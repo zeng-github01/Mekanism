@@ -87,9 +87,6 @@ public class TileComponentUpgrade implements ITileComponent {
         upgradeSlot = i;
     }
 
-    public int getScaledUpgradeProgress(int i) {
-        return upgradeTicks * i / UPGRADE_TICKS_REQUIRED;
-    }
 
     public int getUpgrades(Upgrade upgrade) {
         return upgrades.getOrDefault(upgrade, 0);
