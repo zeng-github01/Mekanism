@@ -5,6 +5,9 @@ import mekanism.api.EnumColor;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiDisableableButton;
+import mekanism.client.gui.element.GuiInnerScreen;
+import mekanism.client.gui.element.GuiPlayerSlot;
+import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.content.transporter.TItemStackFilter;
@@ -39,22 +42,28 @@ public class GuiTItemStackFilter extends GuiItemStackFilter<TItemStackFilter, Ti
         super(player, tile);
         origFilter = (TItemStackFilter) tileEntity.filters.get(index);
         filter = ((TItemStackFilter) tileEntity.filters.get(index)).clone();
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),11,18));
+        addGuiElement(new GuiInnerScreen(this,getGuiLocation(),33,18,93,43));
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
     }
 
     public GuiTItemStackFilter(EntityPlayer player, TileEntityLogisticalSorter tile) {
         super(player, tile);
         isNew = true;
         filter = new TItemStackFilter();
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),11,18));
+        addGuiElement(new GuiInnerScreen(this,getGuiLocation(),33,18,93,43));
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
     }
 
     @Override
     protected void addButtons() {
         buttonList.add(saveButton = new GuiDisableableButton(0, guiLeft + 47, guiTop + 62, 60, 20, LangUtils.localize("gui.save")));
         buttonList.add(deleteButton = new GuiDisableableButton(1, guiLeft + 109, guiTop + 62, 60, 20, LangUtils.localize("gui.delete")));
-        buttonList.add(backButton = new GuiButtonDisableableImage(2, guiLeft + 5, guiTop + 5, 11, 11, 176, 11, -11, getGuiLocation()));
-        buttonList.add(defaultButton = new GuiButtonDisableableImage(3, guiLeft + 11, guiTop + 64, 11, 11, 198, 11, -11, getGuiLocation()));
+        buttonList.add(backButton = new GuiDisableableButton(2, guiLeft + 5, guiTop + 5, 11, 11).with(GuiDisableableButton.ImageOverlay.SMALL_BACK));
+        buttonList.add(defaultButton = new GuiDisableableButton(3, guiLeft + 11, guiTop + 64, 11, 11).with(GuiDisableableButton.ImageOverlay.DEFAULT));
         buttonList.add(colorButton = new GuiColorButton(4, guiLeft + 12, guiTop + 44, () -> filter.color));
-        buttonList.add(sizeButton = new GuiButtonDisableableImage(5, guiLeft + 128, guiTop + 44, 11, 11, 187, 11, -11, getGuiLocation()));
+        buttonList.add(sizeButton = new GuiDisableableButton(5, guiLeft + 128, guiTop + 44, 11, 11).with(GuiDisableableButton.ImageOverlay.SILK_TOUCH));
     }
 
     @Override
@@ -181,6 +190,6 @@ public class GuiTItemStackFilter extends GuiItemStackFilter<TItemStackFilter, Ti
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiTItemStackFilter.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 }

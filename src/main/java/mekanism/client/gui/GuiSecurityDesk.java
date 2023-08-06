@@ -50,7 +50,9 @@ public class GuiSecurityDesk extends GuiMekanismTile<TileEntitySecurityDesk> {
         ySize += 64;
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation(), 7, 147));
         addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 34, 67, 101, 13));
+        addGuiElement(new GuiElementScreen(this, getGuiLocation(), 141, 13, 26, 37));
         addGuiElement(new GuiElementScreen(this, getGuiLocation(), 141, 54, 26, 34));
+        addGuiElement(new GuiElementScreen(this, getGuiLocation(), 141, 92, 26, 37));
     }
 
     @Override
@@ -120,7 +122,7 @@ public class GuiSecurityDesk extends GuiMekanismTile<TileEntitySecurityDesk> {
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiSecurityDesk.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
     @Override
@@ -197,9 +199,15 @@ public class GuiSecurityDesk extends GuiMekanismTile<TileEntitySecurityDesk> {
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 144, 77, 8, 8));
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.BUTTON, "Button_Icon.png"));
+        drawTexturedModalRect(guiLeft + 151, guiTop + 37, 222, 23, 6, 7);
+        drawTexturedModalRect(guiLeft + 151, guiTop + 117, 204, 24, 6, 6);
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_BAR, "Base.png"));
+        drawTexturedModalRect(guiLeft + 146, guiTop + 18, 3, 3, 16, 16);
+        drawTexturedModalRect(guiLeft + 146, guiTop + 97, 3, 3, 16, 16);
         mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "State.png"));
         if (tileEntity.frequency != null && tileEntity.ownerUUID != null && tileEntity.ownerUUID.equals(mc.player.getUniqueID())) {
-            drawTexturedModalRect(guiLeft + 145, guiTop + 78,  tileEntity.frequency.override ? 0 : 6, 0, 6, 6);
+            drawTexturedModalRect(guiLeft + 145, guiTop + 78, tileEntity.frequency.override ? 0 : 6, 0, 6, 6);
         } else {
             drawTexturedModalRect(guiLeft + 145, guiTop + 78, 0, 6, 6, 6);
         }

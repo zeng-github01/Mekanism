@@ -19,7 +19,7 @@ public abstract class GuiFilterSelect<TILE extends TileEntityContainerBlock> ext
     protected GuiDisableableButton oredictButton;
     protected GuiDisableableButton materialButton;
     protected GuiDisableableButton modIDButton;
-    protected GuiButtonDisableableImage backButton;
+    protected GuiDisableableButton backButton;
 
     protected GuiFilterSelect(EntityPlayer player, TILE tile) {
         super(tile, new ContainerNull(player, tile));
@@ -31,7 +31,7 @@ public abstract class GuiFilterSelect<TILE extends TileEntityContainerBlock> ext
         buttonList.add(oredictButton = new GuiDisableableButton(1, guiLeft + 24, guiTop + 52, 128, 20, LangUtils.localize("gui.oredict")));
         buttonList.add(materialButton = new GuiDisableableButton(2, guiLeft + 24, guiTop + 72, 128, 20, LangUtils.localize("gui.material")));
         buttonList.add(modIDButton = new GuiDisableableButton(3, guiLeft + 24, guiTop + 92, 128, 20, LangUtils.localize("gui.modID")));
-        buttonList.add(backButton = new GuiButtonDisableableImage(4, guiLeft + 5, guiTop + 5, 11, 11, 176, 11, -11, getGuiLocation()));
+        buttonList.add(backButton = new GuiDisableableButton(4, guiLeft + 5, guiTop + 5, 11, 11).with(GuiDisableableButton.ImageOverlay.SMALL_BACK));
     }
 
     @Override

@@ -506,6 +506,7 @@ gui.finished=已完成
 gui.well=一切正常!
 gui.upgrade=升级
 gui.infinite=无限
+gui.radi=范围
 gui.min=最小
 gui.max=最大
 gui.delay=延时
@@ -614,6 +615,12 @@ gui.entityDetection=实体检测
 gui.energyContents=能量含量
 gui.redstoneOutput=红石输出
 gui.maxWaterOutput=最大水输出
+
+gui.stockControl=库存控制
+gui.allowDefault=允许预设
+gui.sizeMode=尺寸模式
+mekanism.gui.sizeModeConflict=目前无效果，因为单一物品模式已打开。
+
 gui.reactor.injectionRate=输入速率
 
 gui.upgrades=升级
@@ -702,7 +709,11 @@ gui.password=密码
 
 mekanism.gui.logisticalSorter.default=默认
 mekanism.gui.logisticalSorter.autoEject=自动
-mekanism.gui.logisticalSorter.roundRobin=循环模式
+mekanism.gui.logisticalSorter.autoEject.tooltip=使用默认配置，将未过滤的项目自动弹出到已连接的容器
+mekanism.gui.logisticalSorter.roundRobin=轮询
+mekanism.gui.logisticalSorter.roundRobin.tooltip=轮流往连接的物品栏发送物品
+mekanism.gui.logisticalSorter.singleItem=单个
+mekanism.gui.logisticalSorter.singleItem.tooltip=每次发送单个物品而不是整组（覆盖物品堆叠的最大值和最小值设置）
 
 gui.teleporter.notReady=未准备
 gui.teleporter.ready=已准备

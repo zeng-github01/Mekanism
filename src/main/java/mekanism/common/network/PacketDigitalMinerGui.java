@@ -155,8 +155,7 @@ public class PacketDigitalMinerGui implements IMessageHandler<DigitalMinerGuiMes
                     }
                 } else if (packetType == MinerGuiPacket.CLIENT_INDEX) {
                     if (type == 1) {
-                        return new GuiMItemStackFilter(player, (TileEntityDigitalMiner) world.getTileEntity(pos),
-                                index);
+                        return new GuiMItemStackFilter(player, (TileEntityDigitalMiner) world.getTileEntity(pos), index);
                     } else if (type == 2) {
                         return new GuiMOreDictFilter(player, (TileEntityDigitalMiner) world.getTileEntity(pos), index);
                     } else if (type == 3) {

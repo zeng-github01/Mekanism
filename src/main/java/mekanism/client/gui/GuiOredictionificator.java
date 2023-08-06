@@ -115,7 +115,7 @@ public class GuiOredictionificator extends GuiMekanismTile<TileEntityOredictioni
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Scroll_Icon.png"));
-        drawTexturedModalRect(guiLeft + 154, guiTop + 18 + getScroll(), 232, 0, 12, 15);
+        drawTexturedModalRect(guiLeft + 154, guiTop + 18 + getScroll(), 232 + (tileEntity.filters.size() > 3 ? 0 : 12), 0, 12, 15);
         for (int i = 0; i < 3; i++) {
             if (tileEntity.filters.get(getFilterIndex() + i) != null) {
                 int yStart = i * 22 + 18;

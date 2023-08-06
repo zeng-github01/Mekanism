@@ -1,8 +1,9 @@
 package mekanism.client.gui.filter;
 
 import mekanism.api.Coord4D;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiDisableableButton;
+import mekanism.client.gui.element.GuiPlayerSlot;
+import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
 import mekanism.common.inventory.container.ContainerFilter;
@@ -39,22 +40,26 @@ public class GuiOredictionificatorFilter extends GuiTextFilterBase<Oredictionifi
         origFilter = tileEntity.filters.get(index);
         filter = tileEntity.filters.get(index).clone();
         updateRenderStack();
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 44, 18));
     }
 
     public GuiOredictionificatorFilter(EntityPlayer player, TileEntityOredictionificator tile) {
         super(tile, new ContainerFilter(player.inventory, tile));
         filter = new OredictionificatorFilter();
         isNew = true;
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 44, 18));
     }
 
     @Override
     protected void addButtons() {
         buttonList.add(saveButton = new GuiDisableableButton(0, guiLeft + 31, guiTop + 62, 54, 20, LangUtils.localize("gui.save")));
         buttonList.add(deleteButton = new GuiDisableableButton(1, guiLeft + 89, guiTop + 62, 54, 20, LangUtils.localize("gui.delete")));
-        buttonList.add(backButton = new GuiButtonDisableableImage(2, guiLeft + 5, guiTop + 5, 11, 11, 212, 11, -11, getGuiLocation()));
-        buttonList.add(prevButton = new GuiButtonDisableableImage(3, guiLeft + 31, guiTop + 21, 12, 12, 200, 12, -12, getGuiLocation()));
-        buttonList.add(nextButton = new GuiButtonDisableableImage(4, guiLeft + 63, guiTop + 21, 12, 12, 188, 12, -12, getGuiLocation()));
-        buttonList.add(checkboxButton = new GuiButtonDisableableImage(5, guiLeft + 130, guiTop + 48, 12, 12, 176, 12, -12, getGuiLocation()));
+        buttonList.add(backButton = new GuiDisableableButton(2, guiLeft + 5, guiTop + 5, 11, 11).with(GuiDisableableButton.ImageOverlay.SMALL_BACK));
+        buttonList.add(prevButton = new GuiDisableableButton(3, guiLeft + 31, guiTop + 21, 12, 12).with(GuiDisableableButton.ImageOverlay.LEFT));
+        buttonList.add(nextButton = new GuiDisableableButton(4, guiLeft + 63, guiTop + 21, 12, 12).with(GuiDisableableButton.ImageOverlay.RIGHT));
+        buttonList.add(checkboxButton = new GuiDisableableButton(5, guiLeft + 130, guiTop + 48, 11, 11).with(GuiDisableableButton.ImageOverlay.CHECKMARK_DIGITAL));
     }
 
     @Override
@@ -76,17 +81,20 @@ public class GuiOredictionificatorFilter extends GuiTextFilterBase<Oredictionifi
 
     public void updateButtons() {
         saveButton.enabled = filter.filter != null && !filter.filter.isEmpty();
+        checkboxButton.enabled = !text.getText().isEmpty();
         deleteButton.enabled = !isNew;
     }
 
     @Override
     protected GuiTextField createTextField() {
-        return new GuiTextField(2, fontRenderer, guiLeft + 33, guiTop + 48, 96, 12);
+        return new GuiTextField(2, fontRenderer, guiLeft + 34, guiTop + 48, 109, 11);
     }
 
     @Override
     public void initGui() {
         super.initGui();
+        text.setEnableBackgroundDrawing(true);
+        text.setTextColor(14737632);
         updateButtons();
     }
 
@@ -177,7 +185,7 @@ public class GuiOredictionificatorFilter extends GuiTextFilterBase<Oredictionifi
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiOredictionificatorFilter.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
     private void updateRenderStack() {

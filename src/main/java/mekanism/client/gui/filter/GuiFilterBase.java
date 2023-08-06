@@ -36,9 +36,9 @@ public abstract class GuiFilterBase<FILTER extends IFilter, TILE extends TileEnt
 
     protected GuiDisableableButton saveButton;
     protected GuiDisableableButton deleteButton;
-    protected GuiButtonDisableableImage backButton;
-    protected GuiButtonDisableableImage replaceButton;
-    protected GuiButtonDisableableImage defaultButton;
+    protected GuiDisableableButton backButton;
+    protected GuiDisableableButton replaceButton;
+    protected GuiDisableableButton defaultButton;
     protected GuiColorButton colorButton;
 
     protected GuiFilterBase(TILE tile, Container container) {

@@ -1,6 +1,7 @@
 package mekanism.client.gui.filter;
 
 import mekanism.api.EnumColor;
+import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.content.filter.IFilter;
 import mekanism.common.content.miner.MinerFilter;
@@ -25,7 +26,7 @@ public abstract class GuiTextFilter<FILTER extends IFilter, TILE extends TileEnt
     protected List<ItemStack> iterStacks;
     protected int stackSwitch;
     protected int stackIndex;
-    protected GuiButton checkboxButton;
+    protected GuiDisableableButton checkboxButton;
 
     protected GuiTextFilter(EntityPlayer player, TILE tile) {
         super(player, tile);
@@ -38,7 +39,7 @@ public abstract class GuiTextFilter<FILTER extends IFilter, TILE extends TileEnt
 
     @Override
     protected GuiTextField createTextField() {
-        return new GuiTextField(2, fontRenderer, guiLeft + 35, guiTop + 47, 95, 12);
+        return new GuiTextField(2, fontRenderer, guiLeft + 34 + 12, guiTop + 48, 71, 12);
     }
 
     @Override

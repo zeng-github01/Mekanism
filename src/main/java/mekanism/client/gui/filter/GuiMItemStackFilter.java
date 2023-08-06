@@ -35,7 +35,7 @@ import java.io.IOException;
 @SideOnly(Side.CLIENT)
 public class GuiMItemStackFilter extends GuiItemStackFilter<MItemStackFilter, TileEntityDigitalMiner> {
 
-    private GuiButton fuzzyButton;
+    private GuiDisableableButton fuzzyButton;
 
     public GuiMItemStackFilter(EntityPlayer player, TileEntityDigitalMiner tile, int index) {
         super(player, tile);
@@ -61,9 +61,9 @@ public class GuiMItemStackFilter extends GuiItemStackFilter<MItemStackFilter, Ti
     protected void addButtons() {
         buttonList.add(saveButton = new GuiDisableableButton(0, guiLeft + 27, guiTop + 62, 60, 20, LangUtils.localize("gui.save")));
         buttonList.add(deleteButton = new GuiDisableableButton(1, guiLeft + 89, guiTop + 62, 60, 20, LangUtils.localize("gui.delete")));
-        buttonList.add(backButton = new GuiButtonDisableableImage(2, guiLeft + 5, guiTop + 5, 11, 11, 176, 11, -11, getGuiLocation()));
-        buttonList.add(replaceButton = new GuiButtonDisableableImage(3, guiLeft + 148, guiTop + 45, 14, 14, 199, 14, -14, getGuiLocation()));
-        buttonList.add(fuzzyButton = new GuiButtonDisableableImage(4, guiLeft + 15, guiTop + 45, 14, 14, 213, 14, -14, getGuiLocation()));
+        buttonList.add(backButton = new GuiDisableableButton(2, guiLeft + 5, guiTop + 5, 11, 11).with(GuiDisableableButton.ImageOverlay.SMALL_BACK));
+        buttonList.add(replaceButton = new GuiDisableableButton(3, guiLeft + 148, guiTop + 45, 14, 14).with(GuiDisableableButton.ImageOverlay.EXCLAMATION));
+        buttonList.add(fuzzyButton = new GuiDisableableButton(4, guiLeft + 15, guiTop + 45, 14, 14).with(GuiDisableableButton.ImageOverlay.FUZZY));
     }
 
     @Override
@@ -136,6 +136,6 @@ public class GuiMItemStackFilter extends GuiItemStackFilter<MItemStackFilter, Ti
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiDigitalMinerFilter.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 }

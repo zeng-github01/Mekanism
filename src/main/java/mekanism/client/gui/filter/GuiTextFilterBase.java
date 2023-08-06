@@ -41,6 +41,8 @@ public abstract class GuiTextFilterBase<FILTER extends IFilter, TILE extends Til
         super.initGui();
         text = createTextField();
         text.setMaxStringLength(TransporterFilter.MAX_LENGTH);
+        text.setEnableBackgroundDrawing(false);
+        text.setTextColor(0xFF3CFE9A);
         text.setFocused(true);
     }
 

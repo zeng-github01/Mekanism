@@ -1,7 +1,7 @@
 package mekanism.client.gui;
 
 import mekanism.api.TileNetworkList;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
+import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
@@ -35,7 +35,7 @@ import java.util.List;
 public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeater> {
 
     private GuiTextField energyUsageField;
-    private GuiButton checkboxButton;
+    private GuiDisableableButton checkboxButton;
 
     public GuiResistiveHeater(InventoryPlayer inventory, TileEntityResistiveHeater tile) {
         super(tile, new ContainerResistiveHeater(inventory, tile));
@@ -65,7 +65,8 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
                 return Math.min(1, tileEntity.temperature / MekanismConfig.current().general.evaporationMaxTemp.val());
             }
         }, resource, 153, 13));
-        addGuiElement(new GuiPlayerSlot(this,resource));
+        addGuiElement(new GuiPlayerSlot(this, resource));
+        addGuiElement(new GuiInnerScreen(this,getGuiLocation(),48,23,80,40));
     }
 
     @Override
@@ -73,11 +74,12 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
         super.initGui();
         buttonList.clear();
         String prevEnergyUsage = energyUsageField != null ? energyUsageField.getText() : "";
-        energyUsageField = new GuiTextField(0, fontRenderer, guiLeft + 49, guiTop + 52, 66, 11);
+        energyUsageField = new GuiTextField(0, fontRenderer, guiLeft + 61, guiTop + 52, 54, 11);
         energyUsageField.setMaxStringLength(7);
         energyUsageField.setEnableBackgroundDrawing(false);
         energyUsageField.setText(prevEnergyUsage);
-        buttonList.add(checkboxButton = new GuiButtonDisableableImage(1, guiLeft + 116, guiTop + 51, 11, 11, xSize, 11, -11, getGuiLocation()));
+        energyUsageField.setTextColor(0xFF3CFE9A);
+        buttonList.add(checkboxButton = new GuiDisableableButton(1, guiLeft + 115, guiTop + 50, 11, 11).with(GuiDisableableButton.ImageOverlay.CHECKMARK_DIGITAL));
     }
 
     @Override
@@ -88,6 +90,9 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
         }
     }
 
+    private void updateEnabledButtons() {
+        checkboxButton.enabled = !energyUsageField.getText().isEmpty();
+    }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
@@ -115,6 +120,8 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         energyUsageField.drawTextBox();
         MekanismRenderer.resetColor();
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.SWITCH, "switch_icon.png"));
+        drawTexturedModalRect(guiLeft + 53, guiTop + 53, 43, 0, 4, 7);
         boolean energy = tileEntity.getEnergy() == 0;
         if (energy) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.TAB, "Warning_Info.png"));
@@ -136,6 +143,7 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
     public void updateScreen() {
         super.updateScreen();
         energyUsageField.updateCursorCounter();
+        updateEnabledButtons();
     }
 
     @Override
@@ -146,7 +154,7 @@ public class GuiResistiveHeater extends GuiMekanismTile<TileEntityResistiveHeate
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiResistiveHeater.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
     @Override

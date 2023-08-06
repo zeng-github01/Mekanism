@@ -511,6 +511,7 @@ gui.finished=Finished
 gui.well=All is well!
 gui.upgrade=Upgrade
 gui.infinite=Infinite
+gui.radi=Radi
 gui.min=Min
 gui.max=Max
 gui.delay=Delay

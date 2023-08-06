@@ -4,6 +4,9 @@ import mekanism.api.Coord4D;
 import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiDisableableButton;
+import mekanism.client.gui.element.GuiInnerScreen;
+import mekanism.client.gui.element.GuiPlayerSlot;
+import mekanism.client.gui.element.GuiSlot;
 import mekanism.common.Mekanism;
 import mekanism.common.content.transporter.TMaterialFilter;
 import mekanism.common.network.PacketLogisticalSorterGui.LogisticalSorterGuiMessage;
@@ -26,20 +29,26 @@ public class GuiTMaterialFilter extends GuiMaterialFilter<TMaterialFilter, TileE
         super(player, tile);
         origFilter = (TMaterialFilter) tileEntity.filters.get(index);
         filter = ((TMaterialFilter) tileEntity.filters.get(index)).clone();
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),11,18));
+        addGuiElement(new GuiInnerScreen(this,getGuiLocation(),33,18,111,43));
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
     }
 
     public GuiTMaterialFilter(EntityPlayer player, TileEntityLogisticalSorter tile) {
         super(player, tile);
         isNew = true;
         filter = new TMaterialFilter();
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),11,18));
+        addGuiElement(new GuiInnerScreen(this,getGuiLocation(),33,18,111,43));
+        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
     }
 
     @Override
     protected void addButtons() {
         buttonList.add(saveButton = new GuiDisableableButton(0, guiLeft + 47, guiTop + 62, 60, 20, LangUtils.localize("gui.save")));
         buttonList.add(deleteButton = new GuiDisableableButton(1, guiLeft + 109, guiTop + 62, 60, 20, LangUtils.localize("gui.delete")));
-        buttonList.add(backButton = new GuiButtonDisableableImage(2, guiLeft + 5, guiTop + 5, 11, 11, 176, 11, -11, getGuiLocation()));
-        buttonList.add(defaultButton = new GuiButtonDisableableImage(3, guiLeft + 11, guiTop + 64, 11, 11, 198, 11, -11, getGuiLocation()));
+        buttonList.add(backButton = new GuiDisableableButton(2, guiLeft + 5, guiTop + 5, 11, 11).with(GuiDisableableButton.ImageOverlay.SMALL_BACK));
+        buttonList.add(defaultButton = new GuiDisableableButton(3, guiLeft + 11, guiTop + 64, 11, 11).with(GuiDisableableButton.ImageOverlay.DEFAULT));
         buttonList.add(colorButton = new GuiColorButton(4, guiLeft + 12, guiTop + 44,  () -> filter.color));
     }
 
@@ -68,6 +77,6 @@ public class GuiTMaterialFilter extends GuiMaterialFilter<TMaterialFilter, TileE
 
     @Override
     protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "GuiTMaterialFilter.png");
+        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 }

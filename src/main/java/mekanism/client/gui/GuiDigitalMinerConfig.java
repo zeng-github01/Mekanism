@@ -207,9 +207,9 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
         fontRenderer.drawString(LangUtils.localize("gui.filters") + ":", 11, 19, 0x00CD00);
         fontRenderer.drawString("T: " + tileEntity.filters.size(), 11, 28, 0x00CD00);
         fontRenderer.drawString("I: " + LangUtils.transOnOff(tileEntity.inverse), 11, 131, 0x00CD00);
-        fontRenderer.drawString("Radi: " + tileEntity.getRadius(), 11, 58, 0x00CD00);
-        fontRenderer.drawString("Min: " + tileEntity.minY, 11, 83, 0x00CD00);
-        fontRenderer.drawString("Max: " + tileEntity.maxY, 11, 108, 0x00CD00);
+        fontRenderer.drawString(LangUtils.localize("gui.radi") + ": " + tileEntity.getRadius(), 11, 58, 0x00CD00);
+        fontRenderer.drawString(LangUtils.localize("gui.min") + ": " + tileEntity.minY, 11, 83, 0x00CD00);
+        fontRenderer.drawString(LangUtils.localize("gui.max") + ": " + +tileEntity.maxY, 11, 108, 0x00CD00);
 
         for (int i = 0; i < 4; i++) {
             IFilter filter = tileEntity.filters.get(getFilterIndex() + i);
