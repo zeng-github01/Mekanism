@@ -1,7 +1,6 @@
 package mekanism.client.gui.filter;
 
 import mekanism.api.Coord4D;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.GuiPlayerSlot;
@@ -28,20 +27,20 @@ public class GuiMMaterialFilter extends GuiMaterialFilter<MMaterialFilter, TileE
         super(player, tile);
         origFilter = (MMaterialFilter) tileEntity.filters.get(index);
         filter = ((MMaterialFilter) tileEntity.filters.get(index)).clone();
-        addGuiElement(new GuiInnerScreen(this,getGuiLocation(),34,19,109,41));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),11,18));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),148,18));
-        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
+        addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 34, 19, 109, 41));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 11, 18));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 148, 18));
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
     }
 
     public GuiMMaterialFilter(EntityPlayer player, TileEntityDigitalMiner tile) {
         super(player, tile);
         isNew = true;
         filter = new MMaterialFilter();
-        addGuiElement(new GuiInnerScreen(this,getGuiLocation(),34,19,109,41));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),11,18));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),148,18));
-        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
+        addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 34, 19, 109, 41));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 11, 18));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 148, 18));
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
     }
 
     @Override

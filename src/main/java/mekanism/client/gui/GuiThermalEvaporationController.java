@@ -60,7 +60,7 @@ public class GuiThermalEvaporationController extends GuiMekanismTile<TileEntityT
         drawTexturedModalRect(guiLeft + 136, guiTop + 39, 20, 179, 8, 9);
         boolean outputfluid = tileEntity.outputTank.getFluidAmount() == tileEntity.outputTank.getCapacity();
         if (outputfluid) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Warning.png"));
             drawTexturedModalRect(guiLeft + 152 + 9, guiTop + 13 + 1, 9, 1, 8, 29);
             drawTexturedModalRect(guiLeft + 152 + 9, guiTop + 13 + 31, 9, 32, 8, 28);
         }

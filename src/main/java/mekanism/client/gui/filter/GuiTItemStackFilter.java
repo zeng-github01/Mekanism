@@ -2,7 +2,6 @@ package mekanism.client.gui.filter;
 
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiInnerScreen;
@@ -42,18 +41,18 @@ public class GuiTItemStackFilter extends GuiItemStackFilter<TItemStackFilter, Ti
         super(player, tile);
         origFilter = (TItemStackFilter) tileEntity.filters.get(index);
         filter = ((TItemStackFilter) tileEntity.filters.get(index)).clone();
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),11,18));
-        addGuiElement(new GuiInnerScreen(this,getGuiLocation(),33,18,93,43));
-        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 11, 18));
+        addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 33, 18, 93, 43));
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
     }
 
     public GuiTItemStackFilter(EntityPlayer player, TileEntityLogisticalSorter tile) {
         super(player, tile);
         isNew = true;
         filter = new TItemStackFilter();
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),11,18));
-        addGuiElement(new GuiInnerScreen(this,getGuiLocation(),33,18,93,43));
-        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 11, 18));
+        addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 33, 18, 93, 43));
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
     }
 
     @Override

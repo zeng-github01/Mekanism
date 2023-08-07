@@ -92,7 +92,7 @@ public class GuiGraph extends GuiElement {
     }
 
     public void drawBlack(int guiWidth, int guiHeight) {
-        mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "Inner_Screen.png"));
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.GUI, "Inner_Screen.png"));
         int halfWidthLeft = xSize / 2;
         int halfWidthRight = xSize % 2 == 0 ? halfWidthLeft : halfWidthLeft + 1;
         int halfHeightTop = (ySize + 1) / 2;

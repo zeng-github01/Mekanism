@@ -19,22 +19,36 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiReactorTab extends GuiTabElementType<TileEntityReactorController, ReactorTab> {
 
+    private ReactorTab tab;
+
     public GuiReactorTab(IGuiWrapper gui, TileEntityReactorController tile, ReactorTab type, ResourceLocation def) {
         super(gui, tile, type, def);
+        tab = type;
+    }
+
+
+    @Override
+    public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
+        super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.BUTTON_TAB, "button_tab_icon.png"));
+        guiObj.drawTexturedRect(guiWidth - 21, guiHeight + tab.getYPos() + 4, tab.xlocation, tab.ylocation, 18, 18);
     }
 
     public enum ReactorTab implements TabType {
-        HEAT("GuiHeatTab2.png", 11, "gui.heat", 6),
-        FUEL("GuiFuelTab.png", 12, "gui.fuel", 34),
-        STAT("GuiStatsTab.png", 13, "gui.stats", 62);
+        HEAT(180, 0, 11, "gui.heat", 6),
+        FUEL(234, 0, 12, "gui.fuel", 34),
+        STAT(198, 18, 13, "gui.stats", 62);
 
         private final String description;
-        private final String path;
+        public final int xlocation;
+
+        public final int ylocation;
         private final int guiId;
         private final int yPos;
 
-        ReactorTab(String path, int id, String desc, int y) {
-            this.path = path;
+        ReactorTab(int x, int yh, int id, String desc, int y) {
+            xlocation = x;
+            ylocation = yh;
             guiId = id;
             description = desc;
             yPos = y;
@@ -42,7 +56,7 @@ public class GuiReactorTab extends GuiTabElementType<TileEntityReactorController
 
         @Override
         public ResourceLocation getResource() {
-            return MekanismUtils.getResource(ResourceType.GUI_ELEMENT, path);
+            return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
         }
 
         @Override

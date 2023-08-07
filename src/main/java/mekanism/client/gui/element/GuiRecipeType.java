@@ -15,15 +15,11 @@ public class GuiRecipeType extends GuiTileEntityElement<TileEntityFactory> {
     private final int yLocation;
 
     public GuiRecipeType(IGuiWrapper gui, TileEntityFactory tile, ResourceLocation def, int x, int y) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiRecipeType.png"), gui, def, tile);
+        super(gui, def, tile, 176 + x, 70 + y, 26, 63);
         xLocation = x;
         yLocation = y;
     }
 
-    @Override
-    public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + 176 + xLocation, guiHeight + 70 + yLocation, 26, 63);
-    }
 
     @Override
     protected boolean inBounds(int xAxis, int yAxis) {
@@ -32,10 +28,17 @@ public class GuiRecipeType extends GuiTileEntityElement<TileEntityFactory> {
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        mc.renderEngine.bindTexture(RESOURCE);
-        guiObj.drawTexturedRect(guiWidth + 176 + xLocation, guiHeight + 70 + yLocation, 0, 0, 26, 63);
+        super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.SLOT, "Slot_Icon.png"));
+        guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 74 + yLocation, 36, 0, 18, 18);
+        guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 111 + yLocation, 72, 0, 18, 18);
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.BUTTON_TAB, "button_tab_icon.png"));
+        guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 74 + yLocation, 108, 18, 18, 18);
+        guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 111 + yLocation, 126, 18, 18, 18);
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.PROGRESS, "Progress_Icon.png"));
+        guiObj.drawTexturedRect(guiWidth + 181 + xLocation, guiHeight + 94 + yLocation, 130, 114, 10, 15);
         int displayInt = tileEntity.getScaledRecipeProgress(15);
-        guiObj.drawTexturedRect(guiWidth + 181 + xLocation, guiHeight + 94 + yLocation, 26, 0, 10, displayInt);
+        guiObj.drawTexturedRect(guiWidth + 181 + xLocation, guiHeight + 94 + yLocation, 144, 114, 10, displayInt);
         mc.renderEngine.bindTexture(defaultLocation);
     }
 

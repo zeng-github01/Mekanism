@@ -143,11 +143,11 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
         boolean outLeft = tileEntity.leftTank.getStored() == tileEntity.leftTank.getMaxGas();
         boolean outRight = tileEntity.rightTank.getStored() == tileEntity.rightTank.getMaxGas();
         if (outLeft) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Warning.png"));
             drawTexturedModalRect(guiLeft + 58 + 10, guiTop + 18 + 1, 0, 0, 7, 28);
         }
         if (outRight) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Warning.png"));
             drawTexturedModalRect(guiLeft + 100 + 10, guiTop + 18 + 1, 0, 0, 7, 28);
         }
         if (energy || outLeft || outRight) {

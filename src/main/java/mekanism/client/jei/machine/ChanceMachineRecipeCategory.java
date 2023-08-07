@@ -11,6 +11,7 @@ import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.common.recipe.machines.ChanceMachineRecipe;
 import mekanism.common.recipe.outputs.ChanceOutput;
+import mekanism.common.util.MekanismUtils;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -45,7 +46,8 @@ public class ChanceMachineRecipeCategory<RECIPE extends ChanceMachineRecipe<RECI
     @Override
     public void drawExtras(Minecraft minecraft) {
         super.drawExtras(minecraft);
-        drawTexturedRect(60 - xOffset, 38 - yOffset, 20, 167, 8, 10);
+        minecraft.renderEngine.bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Other_Icon.png"));
+        drawTexturedRect(60 - xOffset, 38 - yOffset, 22, 0, 8, 10);
     }
 
     @Override

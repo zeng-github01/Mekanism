@@ -15,13 +15,23 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiTransporterConfigTab extends GuiTabElement<TileEntity> {
 
+    private int y;
+
     public GuiTransporterConfigTab(IGuiWrapper gui, int y, TileEntity tile, ResourceLocation def) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiTransporterConfigTab.png"), gui, def, tile, y);
+        super(gui, def, tile, y);
+        this.y = y;
     }
 
     @Override
     public void buttonClicked() {
         Mekanism.packetHandler.sendToServer(new SimpleGuiMessage(Coord4D.get(tileEntity), 0, 51));
+    }
+
+    @Override
+    public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
+        super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.BUTTON_TAB, "button_tab_icon.png"));
+        guiObj.drawTexturedRect(guiWidth - 21, guiHeight + y + 4, 54, 18, 18, 18);
     }
 
     @Override

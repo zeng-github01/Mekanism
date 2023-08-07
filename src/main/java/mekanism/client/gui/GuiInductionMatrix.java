@@ -32,8 +32,7 @@ public class GuiInductionMatrix extends GuiMekanismTile<TileEntityInductionCasin
                 LangUtils.localize("gui.input") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getLastInput()) + "/t",
                 LangUtils.localize("gui.output") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getLastOutput()) + "/t"), this, resource));
         addGuiElement(new GuiInnerScreen(this, resource, 50, 23, 80, 41));
-        addGuiElement(new GuiBucketIcon(GuiBucketIcon.IconType.INDUCTIONMATRIX, this, resource, 141, 15));
-        addGuiElement(new GuiPlayerArmmorSlot(this, resource, -26, 37, false));
+        addGuiElement(new GuiPlayerArmmorSlot(this, resource, -26, 37, true));
         addGuiElement(new GuiNumberGauge(new GuiNumberGauge.INumberInfoHandler() {
             @Override
             public TextureAtlasSprite getIcon() {
@@ -74,6 +73,12 @@ public class GuiInductionMatrix extends GuiMekanismTile<TileEntityInductionCasin
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
+    @Override
+    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
+        super.drawGuiContainerBackgroundLayer(xAxis,yAxis);
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI, "Other_Icon.png"));
+        drawTexturedModalRect(guiLeft + 141, guiTop + 15, 0, 16, 26, 57);
+    }
 
     @Override
     protected ResourceLocation getGuiLocation() {

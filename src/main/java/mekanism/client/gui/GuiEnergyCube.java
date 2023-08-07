@@ -35,7 +35,7 @@ public class GuiEnergyCube extends GuiMekanismTile<TileEntityEnergyCube> {
         addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 16, 34).with(SlotOverlay.MINUS));
         addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 142, 34).with(SlotOverlay.PLUS));
         addGuiElement(new GuiPlayerSlot(this,resource));
-        addGuiElement(new GuiPlayerArmmorSlot(this, resource, 176, 37, true));
+        addGuiElement(new GuiPlayerArmmorSlot(this, resource, 176, 37, false));
     }
 
     @Override

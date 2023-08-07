@@ -30,7 +30,7 @@ public class GuiFluidTank extends GuiMekanismTile<TileEntityFluidTank> {
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 145, 18).with(SlotOverlay.INPUT));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 145, 50).with(SlotOverlay.OUTPUT));
         addGuiElement(new GuiPlayerSlot(this,resource));
-        addGuiElement(new GuiPlayerArmmorSlot(this,resource,-26,62,false));
+        addGuiElement(new GuiPlayerArmmorSlot(this,resource,-26,62,true));
     }
 
     @Override

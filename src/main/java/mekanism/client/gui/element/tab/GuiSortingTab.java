@@ -10,7 +10,6 @@ import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.tile.TileEntityFactory;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -20,24 +19,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiSortingTab extends GuiTileEntityElement<TileEntityFactory> {
 
     public GuiSortingTab(IGuiWrapper gui, TileEntityFactory tile, ResourceLocation def) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSortingTab.png"), gui, def, tile);
+        super(gui, def, tile, -26, 62, 26, 35, -21, 66, 18, 18);
     }
 
-    @Override
-    public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth - 26, guiHeight + 62, 26, 35);
-    }
-
-    @Override
-    protected boolean inBounds(int xAxis, int yAxis) {
-        return xAxis >= -21 && xAxis <= -3 && yAxis >= 66 && yAxis <= 84;
-    }
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        mc.renderEngine.bindTexture(RESOURCE);
-        guiObj.drawTexturedRect(guiWidth - 26, guiHeight + 62, 0, 0, 26, 35);
-        guiObj.drawTexturedRect(guiWidth - 21, guiHeight + 66, 26, inBounds(xAxis, yAxis) ? 0 : 18, 18, 18);
+        super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.BUTTON_TAB, "button_tab_icon.png"));
+        guiObj.drawTexturedRect(guiWidth - 21, guiHeight + 66, 216, 18, 18, 18);
         mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "State.png"));
         guiObj.drawTexturedRect(guiWidth - 22, guiHeight + 86, tileEntity.sorting ? 0 : 6, 0, 6, 6);
         mc.renderEngine.bindTexture(defaultLocation);
@@ -45,7 +35,6 @@ public class GuiSortingTab extends GuiTileEntityElement<TileEntityFactory> {
 
     @Override
     public void renderForeground(int xAxis, int yAxis) {
-        mc.renderEngine.bindTexture(RESOURCE);
         if (inBounds(xAxis, yAxis)) {
             displayTooltip(LangUtils.localize("gui.factory.autoSort") + ":" + LangUtils.transOnOff(tileEntity.sorting), xAxis, yAxis);
         }

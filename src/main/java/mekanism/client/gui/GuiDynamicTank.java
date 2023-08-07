@@ -1,6 +1,9 @@
 package mekanism.client.gui;
 
-import mekanism.client.gui.element.*;
+import mekanism.client.gui.element.GuiContainerEditMode;
+import mekanism.client.gui.element.GuiInnerScreen;
+import mekanism.client.gui.element.GuiPlayerArmmorSlot;
+import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.gui.element.gauge.GuiNumberGauge;
 import mekanism.client.render.MekanismRenderer;
@@ -25,8 +28,7 @@ public class GuiDynamicTank extends GuiMekanismTile<TileEntityDynamicTank> {
         ResourceLocation resource = getGuiLocation();
         addGuiElement(new GuiContainerEditMode(this, tileEntity, resource));
         addGuiElement(new GuiInnerScreen(this, resource, 50, 23, 80, 41));
-        addGuiElement(new GuiBucketIcon(GuiBucketIcon.IconType.DYNAMICTANK, this, resource, 141, 15));
-        addGuiElement(new GuiPlayerArmmorSlot(this, resource, -26, 62, false));
+        addGuiElement(new GuiPlayerArmmorSlot(this, resource, -26, 62, true));
         addGuiElement(new GuiPlayerSlot(this, resource));
         addGuiElement(new GuiNumberGauge(new GuiNumberGauge.INumberInfoHandler() {
             @Override
@@ -70,6 +72,14 @@ public class GuiDynamicTank extends GuiMekanismTile<TileEntityDynamicTank> {
             fontRenderer.drawString(fluidStored.amount + "mB", 53, 53, 0x00CD00);
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
+        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI, "Other_Icon.png"));
+        drawTexturedModalRect(guiLeft + 141, guiTop + 15, 0, 16, 26, 57);
+        drawTexturedModalRect(guiLeft + 150, guiTop + 39, 13, 0, 8, 9);
     }
 
     @Override

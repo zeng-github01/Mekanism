@@ -133,7 +133,7 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
             drawTexturedModalRect(guiLeft + 108, guiTop + 42, 158, 0, 18, 18);
         }
         if (input) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning_Background.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Warning_Background.png"));
             drawTexturedModalRect(guiLeft + 6 + 1, guiTop + 16 + 1, 0, 0, 4, 52);
         }
         if (outslot || input || energy) {

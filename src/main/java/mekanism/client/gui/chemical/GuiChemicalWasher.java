@@ -48,7 +48,7 @@ public class GuiChemicalWasher extends GuiMekanismTile<TileEntityChemicalWasher>
         addGuiElement(new GuiFluidGauge(() -> tileEntity.fluidTank, Type.STANDARD, this, resource, 5, 4));
         addGuiElement(new GuiGasGauge(() -> tileEntity.inputTank, GuiGauge.Type.STANDARD, this, resource, 26, 13));
         addGuiElement(new GuiGasGauge(() -> tileEntity.outputTank, GuiGauge.Type.STANDARD, this, resource, 133, 13));
-        addGuiElement(new GuiBucketIcon(GuiBucketIcon.IconType.BUCKET, this, resource, 8, 66));
+
         addGuiElement(new GuiBucketIO(this, resource));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 154, 4).with(SlotOverlay.POWER));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 154, 55).with(SlotOverlay.MINUS));
@@ -91,10 +91,12 @@ public class GuiChemicalWasher extends GuiMekanismTile<TileEntityChemicalWasher>
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI, "Other_Icon.png"));
+        drawTexturedModalRect(guiLeft + 8, guiTop + 66, 0, 0, 12, 13);
         boolean output = tileEntity.outputTank.getStored() == tileEntity.outputTank.getMaxGas();
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
         if (output) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "Warning.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI, "Warning.png"));
             drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 1, 9, 1, 8, 29);
             drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 31, 9, 32, 8, 28);
         }

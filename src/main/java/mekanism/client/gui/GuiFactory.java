@@ -215,7 +215,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
                 drawTexturedModalRect(guiLeft + (Slotlocation + (i * xDistance)), guiTop + 56, 158, 0, 18, 18);
             }
             if (inputgas || inputinfuse) {
-                mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning_Background.png"));
+                mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Warning_Background.png"));
                 drawTexturedModalRect(guiLeft + 8, guiTop + 78, 0, 0, xgas - 2, 5);
             }
             if (outslot || energy || inputgas || inputinfuse) {

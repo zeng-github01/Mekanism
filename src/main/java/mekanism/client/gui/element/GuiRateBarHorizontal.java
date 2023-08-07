@@ -17,7 +17,7 @@ public class GuiRateBarHorizontal extends GuiElement {
     private final RateBarHorizontal type = RateBarHorizontal.HORIZONTAL;
 
     public GuiRateBarHorizontal(IGuiWrapper gui, IRateInfoHandler h, ResourceLocation def, int x, int y) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiRateBarHorizontal.png"), gui, def);
+        super(MekanismUtils.getResource(ResourceType.GUI_BAR, "Rate_Bar_Horizontal.png"), gui, def);
         handler = h;
         xLocation = x;
         yLocation = y;

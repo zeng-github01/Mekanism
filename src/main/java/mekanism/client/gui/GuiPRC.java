@@ -109,17 +109,17 @@ public class GuiPRC extends GuiMekanismTile<TileEntityPRC> {
         boolean outputgas = tileEntity.outputGasTank.getStored() == tileEntity.outputGasTank.getMaxGas();
         boolean outslot = tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize();
         if (inputgas) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Warning.png"));
             drawTexturedModalRect(guiLeft + 28 + 9, guiTop + 10 + 1, 9, 1, 8, 29);
             drawTexturedModalRect(guiLeft + 28 + 9, guiTop + 10 + 31, 9, 32, 8, 28);
         }
         if (inputfluid) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Warning.png"));
             drawTexturedModalRect(guiLeft + 5 + 9, guiTop + 10 + 1, 9, 1, 8, 29);
             drawTexturedModalRect(guiLeft + 5 + 9, guiTop + 10 + 31, 9, 32, 8, 28);
         }
         if (outputgas) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Warning.png"));
             drawTexturedModalRect(guiLeft + 140 + 10, guiTop + 40 + 1, 0, 0, 7, 28);
         }
         if (outslot) {

@@ -1,34 +1,33 @@
 package mekanism.client.gui.element;
 
 import mekanism.client.gui.IGuiWrapper;
+import mekanism.client.gui.element.tab.GuiSideHolder;
 import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiBucketIO extends GuiElement {
+public class GuiBucketIO extends GuiSideHolder {
 
     public GuiBucketIO(IGuiWrapper gui, ResourceLocation def) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiBucketIO.png"), gui, def);
+        super(gui, def, 176, 66, 26, 57);
     }
 
-    @Override
-    public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + 176, guiHeight + 66, 26, 57);
-    }
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        mc.renderEngine.bindTexture(RESOURCE);
-        guiObj.drawTexturedRect(guiWidth + 176, guiHeight + 66, 0, 0, 26, 57);
+        super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.SLOT, "Slot_Icon.png"));
+        guiObj.drawTexturedRect(guiWidth + 179, guiHeight + 70, 36, 0, 18, 18);
+        guiObj.drawTexturedRect(guiWidth + 179, guiHeight + 101, 72, 0, 18, 18);
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Other_Icon.png"));
+        guiObj.drawTexturedRect(guiWidth + 184, guiHeight + 90, 13, 0, 8, 9);
         mc.renderEngine.bindTexture(defaultLocation);
     }
 
     @Override
     public void renderForeground(int xAxis, int yAxis) {
-        mc.renderEngine.bindTexture(RESOURCE);
         mc.renderEngine.bindTexture(defaultLocation);
     }
 

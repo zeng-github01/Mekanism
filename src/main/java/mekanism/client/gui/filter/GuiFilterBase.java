@@ -1,7 +1,6 @@
 package mekanism.client.gui.filter;
 
 import mekanism.api.EnumColor;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.sound.SoundHandler;

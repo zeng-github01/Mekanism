@@ -16,7 +16,7 @@ import java.util.Arrays;
 public class GuiVisualsTab extends GuiTabElement<TileEntityDigitalMiner> {
 
     public GuiVisualsTab(IGuiWrapper gui, TileEntityDigitalMiner tile, ResourceLocation def) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiVisualsTab.png"), gui, def, tile, 6);
+        super(gui, def, tile, 6);
     }
 
     @Override
@@ -27,6 +27,13 @@ public class GuiVisualsTab extends GuiTabElement<TileEntityDigitalMiner> {
             displayTooltips(Arrays.asList(LangUtils.localize("gui.visuals") + ": " + LangUtils.transOnOff(tileEntity.clientRendering),
                     TextFormatting.RED.toString() + LangUtils.localize("mekanism.gui.visuals.toobig")), xAxis, yAxis);
         }
+    }
+
+    @Override
+    public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
+        super.renderBackground(xAxis,yAxis,guiWidth,guiHeight);
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.BUTTON_TAB, "button_tab_icon.png"));
+        guiObj.drawTexturedRect(guiWidth -21, guiHeight + 6 + 4, 90, 18, 18, 18);
     }
 
     @Override

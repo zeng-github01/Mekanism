@@ -105,7 +105,7 @@ public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuse
         boolean output = tileEntity.centerTank.getStored() == tileEntity.centerTank.getMaxGas();
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
         if (output) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "Warning.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI, "Warning.png"));
             drawTexturedModalRect(guiLeft + 79 + 9, guiTop + 4 + 1  + 11, 9, 1, 8, 29);
             drawTexturedModalRect(guiLeft + 79 + 9, guiTop + 4 + 31  + 11, 9, 32, 8, 28);
         }

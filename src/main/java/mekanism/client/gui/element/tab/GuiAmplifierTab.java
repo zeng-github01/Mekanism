@@ -19,25 +19,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiAmplifierTab extends GuiTileEntityElement<TileEntityLaserAmplifier> {
 
     public GuiAmplifierTab(IGuiWrapper gui, TileEntityLaserAmplifier tile, ResourceLocation def) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiAmplifierTab.png"), gui, def, tile);
+        super(gui, def, tile, -26, 138, 26, 26, -21, 142, 18, 18);
     }
 
-    @Override
-    public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth - 26, guiHeight + 138, 26, 26);
-    }
-
-    @Override
-    protected boolean inBounds(int xAxis, int yAxis) {
-        return xAxis >= -21 && xAxis <= -3 && yAxis >= 142 && yAxis <= 160;
-    }
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        mc.renderEngine.bindTexture(RESOURCE);
-        guiObj.drawTexturedRect(guiWidth - 26, guiHeight + 138, 0, 0, 26, 26);
+        super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
         int outputOrdinal = tileEntity.outputMode.ordinal();
-        guiObj.drawTexturedRect(guiWidth - 21, guiHeight + 142, 26 + 18 * outputOrdinal, inBounds(xAxis, yAxis) ? 0 : 18, 18, 18);
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.BUTTON_TAB, "button_tab_icon.png"));
+        guiObj.drawTexturedRect(guiWidth - 21, guiHeight + 142, 18 * outputOrdinal, 0, 18, 18);
         mc.renderEngine.bindTexture(defaultLocation);
     }
 

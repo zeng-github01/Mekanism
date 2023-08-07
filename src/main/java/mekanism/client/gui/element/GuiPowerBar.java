@@ -20,7 +20,7 @@ public class GuiPowerBar extends GuiElement {
 
 
     public GuiPowerBar(IGuiWrapper gui, IStrictEnergyStorage tile, ResourceLocation def, int x, int y) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiPowerBar.png"), gui, def);
+        super(MekanismUtils.getResource(ResourceType.GUI_BAR, "Power_Bar.png"), gui, def);
         tileEntity = tile;
         handler = new IPowerInfoHandler() {
             @Override
@@ -43,7 +43,7 @@ public class GuiPowerBar extends GuiElement {
     }
 
     public GuiPowerBar(IGuiWrapper gui, IPowerInfoHandler h, ResourceLocation def, int x, int y) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiPowerBar.png"), gui, def);
+        super(MekanismUtils.getResource(ResourceType.GUI_BAR, "Power_Bar.png"), gui, def);
         tileEntity = null;
         handler = h;
 
@@ -66,7 +66,7 @@ public class GuiPowerBar extends GuiElement {
         mc.renderEngine.bindTexture(RESOURCE);
         guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, width, height);
         if (handler.powerbarWarning()) {
-            mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "Warning_Background.png"));
+            mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.GUI, "Warning_Background.png"));
             guiObj.drawTexturedRect(guiWidth + xLocation + 1, guiHeight + yLocation + 2, 0, 0, 4, 52);
         } else if (handler.getLevel() > 0) {
             int displayInt = (int) (handler.getLevel() * 52) + 2;

@@ -52,7 +52,7 @@ public class GuiFluidicPlenisher extends GuiMekanismTile<TileEntityFluidicPlenis
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
         boolean fluid = tileEntity.fluidTank.getFluidAmount() == 0;
         if (fluid) {
-            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI_ELEMENT, "Warning.png"));
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Warning.png"));
             drawTexturedModalRect(guiLeft + 6 + 9, guiTop + 13 + 1, 9, 1, 8, 29);
             drawTexturedModalRect(guiLeft + 6 + 9, guiTop + 13 + 31, 9, 32, 8, 28);
         }

@@ -1,7 +1,9 @@
 package mekanism.client.gui.element;
 
 import mekanism.api.Coord4D;
+import mekanism.api.EnumColor;
 import mekanism.client.gui.IGuiWrapper;
+import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.base.IFluidContainerManager;
@@ -19,26 +21,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiContainerEditMode extends GuiTileEntityElement<TileEntityContainerBlock> {
 
     public GuiContainerEditMode(IGuiWrapper gui, TileEntityContainerBlock tile, ResourceLocation def) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiContainerEditMode.png"), gui, def, tile);
+        super(gui, def, tile, 176, 138, 26, 26, 179, 142, 18, 18);
     }
 
-    @Override
-    public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + 176, guiHeight + 138, 26, 26);
-    }
-
-    @Override
-    protected boolean inBounds(int xAxis, int yAxis) {
-        return xAxis >= 179 && xAxis <= 197 && yAxis >= 142 && yAxis <= 160;
-    }
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        mc.renderEngine.bindTexture(RESOURCE);
-        guiObj.drawTexturedRect(guiWidth + 176, guiHeight + 138, 0, 0, 26, 26);
+        MekanismRenderer.color(EnumColor.INDIGO);
+        super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
+        MekanismRenderer.resetColor();
         IFluidContainerManager control = (IFluidContainerManager) tileEntity;
-        int renderX = 26 + (18 * control.getContainerEditMode().ordinal());
-        guiObj.drawTexturedRect(guiWidth + 179, guiHeight + 142, renderX, inBounds(xAxis, yAxis) ? 0 : 18, 18, 18);
+        int renderX = 72 + (18 * control.getContainerEditMode().ordinal());
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.BUTTON_TAB, "button_tab_icon.png"));
+        guiObj.drawTexturedRect(guiWidth + 179, guiHeight + 142, renderX, 0, 18, 18);
         mc.renderEngine.bindTexture(defaultLocation);
     }
 

@@ -1,7 +1,6 @@
 package mekanism.client.gui.filter;
 
 import mekanism.api.Coord4D;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiInnerScreen;
@@ -29,18 +28,18 @@ public class GuiTMaterialFilter extends GuiMaterialFilter<TMaterialFilter, TileE
         super(player, tile);
         origFilter = (TMaterialFilter) tileEntity.filters.get(index);
         filter = ((TMaterialFilter) tileEntity.filters.get(index)).clone();
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),11,18));
-        addGuiElement(new GuiInnerScreen(this,getGuiLocation(),33,18,111,43));
-        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 11, 18));
+        addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 33, 18, 111, 43));
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
     }
 
     public GuiTMaterialFilter(EntityPlayer player, TileEntityLogisticalSorter tile) {
         super(player, tile);
         isNew = true;
         filter = new TMaterialFilter();
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),11,18));
-        addGuiElement(new GuiInnerScreen(this,getGuiLocation(),33,18,111,43));
-        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 11, 18));
+        addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 33, 18, 111, 43));
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
     }
 
     @Override
@@ -49,7 +48,7 @@ public class GuiTMaterialFilter extends GuiMaterialFilter<TMaterialFilter, TileE
         buttonList.add(deleteButton = new GuiDisableableButton(1, guiLeft + 109, guiTop + 62, 60, 20, LangUtils.localize("gui.delete")));
         buttonList.add(backButton = new GuiDisableableButton(2, guiLeft + 5, guiTop + 5, 11, 11).with(GuiDisableableButton.ImageOverlay.SMALL_BACK));
         buttonList.add(defaultButton = new GuiDisableableButton(3, guiLeft + 11, guiTop + 64, 11, 11).with(GuiDisableableButton.ImageOverlay.DEFAULT));
-        buttonList.add(colorButton = new GuiColorButton(4, guiLeft + 12, guiTop + 44,  () -> filter.color));
+        buttonList.add(colorButton = new GuiColorButton(4, guiLeft + 12, guiTop + 44, () -> filter.color));
     }
 
     @Override

@@ -1,8 +1,10 @@
 package mekanism.client.gui.element;
 
 import mekanism.api.Coord4D;
+import mekanism.api.EnumColor;
 import mekanism.api.util.time.Timeticks;
 import mekanism.client.gui.IGuiWrapper;
+import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.base.IRedstoneControl;
@@ -25,21 +27,17 @@ public class GuiRedstoneControl extends GuiTileEntityElement<TileEntity> {
     protected Timeticks time = new Timeticks(20, 20, false);
 
     public GuiRedstoneControl(IGuiWrapper gui, TileEntity tile, ResourceLocation def, int x, int y) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiRedstoneControl.png"), gui, def, tile);
+        super(gui, def, tile,176 + x,138 + y,26,26);
         xLocation = x;
         yLocation = y;
     }
 
     public GuiRedstoneControl(IGuiWrapper gui, TileEntity tile, ResourceLocation def) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiRedstoneControl.png"), gui, def, tile);
+        super(gui, def, tile,176,138,26,26);
         xLocation = 0;
         yLocation = 0;
     }
 
-    @Override
-    public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + 176 + xLocation, guiHeight + 138 + yLocation, 26, 26);
-    }
 
     @Override
     protected boolean inBounds(int xAxis, int yAxis) {
@@ -48,7 +46,10 @@ public class GuiRedstoneControl extends GuiTileEntityElement<TileEntity> {
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        mc.renderEngine.bindTexture(RESOURCE);
+        MekanismRenderer.color(EnumColor.RED);
+        super.renderBackground(xAxis,yAxis,guiWidth,guiHeight);
+        MekanismRenderer.resetColor();
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiRedstoneControl.png"));
         guiObj.drawTexturedRect(guiWidth + 176 + xLocation, guiHeight + 138 + yLocation, 0, 0, 26, 26);
         IRedstoneControl control = (IRedstoneControl) tileEntity;
         int renderX = 26 + (18 * control.getControlType().ordinal());

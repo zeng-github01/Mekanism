@@ -2,14 +2,11 @@ package mekanism.generators.client.gui;
 
 import mekanism.api.Coord4D;
 import mekanism.client.gui.GuiMekanismTile;
-import mekanism.client.gui.button.GuiButtonDisableableImage;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.common.Mekanism;
 import mekanism.common.network.PacketSimpleGui.SimpleGuiMessage;
 import mekanism.common.util.MekanismUtils;
 import mekanism.generators.common.tile.reactor.TileEntityReactorController;
-import mekanism.generators.common.util.MekanismGeneratorUtils;
-import mekanism.generators.common.util.MekanismGeneratorUtils.ResourceType;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;

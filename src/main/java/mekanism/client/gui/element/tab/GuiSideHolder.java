@@ -1,5 +1,6 @@
 package mekanism.client.gui.element.tab;
 
+import mekanism.api.EnumColor;
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.client.gui.element.GuiElement;
 import mekanism.client.render.MekanismRenderer;
@@ -55,11 +56,11 @@ public class GuiSideHolder extends GuiElement {
         int halfWidthRight = xSize % 2 == 0 ? halfWidthLeft : halfWidthLeft + 1;
         int halfHeightTop = ySize / 2;
         int halfHeight = ySize % 2 == 0 ? halfHeightTop : halfHeightTop + 1;
-        MekanismRenderer.resetColor();
         guiObj.drawTexturedRect(guiWidth + xPosition, guiHeight + yPosition, 0, 0, halfWidthLeft, halfHeightTop);
         guiObj.drawTexturedRect(guiWidth + xPosition, guiHeight + yPosition + halfHeightTop, 0, 256 - halfHeight, halfWidthLeft, halfHeight);
         guiObj.drawTexturedRect(guiWidth + xPosition + halfWidthLeft, guiHeight + yPosition, 256 - halfWidthRight, 0, halfWidthRight, halfHeightTop);
         guiObj.drawTexturedRect(guiWidth + xPosition + halfWidthLeft, guiHeight + yPosition + halfHeightTop, 256 - halfWidthRight, 256 - halfHeight, halfWidthRight, halfHeight);
+        MekanismRenderer.resetColor();
     }
 
 
@@ -72,4 +73,5 @@ public class GuiSideHolder extends GuiElement {
     public void mouseClicked(int xAxis, int yAxis, int button) {
 
     }
+
 }

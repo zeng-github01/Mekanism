@@ -8,7 +8,6 @@ import mekanism.common.Mekanism;
 import mekanism.common.network.PacketSimpleGui.SimpleGuiMessage;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -22,39 +21,29 @@ public class GuiUpgradeTab extends GuiTileEntityElement<TileEntity> {
     private final int yLocation;
 
     public GuiUpgradeTab(IGuiWrapper gui, TileEntity tile, ResourceLocation def, int x, int y) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiUpgradeTab.png"), gui, def, tile);
+        super(gui, def, tile, 176 + x, 6 + y, 26, 26, 179 + x, 10 + y, 18, 18);
         xLocation = x;
         yLocation = y;
     }
 
 
     public GuiUpgradeTab(IGuiWrapper gui, TileEntity tile, ResourceLocation def) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiUpgradeTab.png"), gui, def, tile);
+        super(gui, def, tile, 176, 6, 26, 26, 179, 10, 18, 18);
         xLocation = 0;
         yLocation = 0;
     }
 
-    @Override
-    public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + 176 + xLocation, guiHeight + 6 + yLocation, 26, 26);
-    }
-
-    @Override
-    protected boolean inBounds(int xAxis, int yAxis) {
-        return xAxis >= 179 + xLocation && xAxis <= 197 + xLocation && yAxis >= 10 + yLocation && yAxis <= 28 + yLocation;
-    }
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        mc.renderEngine.bindTexture(RESOURCE);
-        guiObj.drawTexturedRect(guiWidth + 176 + xLocation, guiHeight + 6 + yLocation, 0, 0, 26, 26);
-        guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 10 + yLocation, 26, inBounds(xAxis, yAxis) ? 0 : 18, 18, 18);
+        super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.BUTTON_TAB, "button_tab_icon.png"));
+        guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 10 + yLocation, 72, 18, 18, 18);
         mc.renderEngine.bindTexture(defaultLocation);
     }
 
     @Override
     public void renderForeground(int xAxis, int yAxis) {
-        mc.renderEngine.bindTexture(RESOURCE);
         if (inBounds(xAxis, yAxis)) {
             displayTooltip(LangUtils.localize("gui.upgrades"), xAxis, yAxis);
         }

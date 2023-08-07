@@ -20,7 +20,7 @@ public class GuiInnerScreen extends GuiElement {
 
 
     public GuiInnerScreen(IGuiWrapper gui, ResourceLocation def, int x, int y, int sizeX, int sizeY) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "Inner_Screen.png"), gui, def);
+        super(MekanismUtils.getResource(ResourceType.GUI, "Inner_Screen.png"), gui, def);
         xPosition = x;
         yPosition = y;
         xSize = sizeX;

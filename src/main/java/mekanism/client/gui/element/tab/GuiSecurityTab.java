@@ -5,6 +5,7 @@ import mekanism.api.EnumColor;
 import mekanism.client.MekanismClient;
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.client.gui.element.GuiTileEntityElement;
+import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.config.MekanismConfig;
@@ -16,7 +17,6 @@ import mekanism.common.security.SecurityData;
 import mekanism.common.security.SecurityFrequency;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
 import mekanism.common.util.SecurityUtils;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -38,58 +38,51 @@ public class GuiSecurityTab extends GuiTileEntityElement<TileEntity> {
     private boolean isItem;
 
     public GuiSecurityTab(IGuiWrapper gui, TileEntity tile, ResourceLocation def, int x, int y) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSecurityTab.png"), gui, def, tile);
+        super(gui, def, tile, 176 + x, 32 + y, 26, 26, 179 + x, 36 + y, 18, 18);
         this.currentHand = EnumHand.MAIN_HAND;
         xLocation = x;
         yLocation = y;
     }
 
     public GuiSecurityTab(IGuiWrapper gui, TileEntity tile, ResourceLocation def) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSecurityTab.png"), gui, def, tile);
+        super(gui, def, tile, 176, 32, 26, 26, 179, 36, 18, 18);
         this.currentHand = EnumHand.MAIN_HAND;
         xLocation = 0;
         yLocation = 0;
     }
 
-    public GuiSecurityTab(IGuiWrapper gui, TileEntity tile, ResourceLocation def,int y) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSecurityTab.png"), gui, def, tile);
+    public GuiSecurityTab(IGuiWrapper gui, TileEntity tile, ResourceLocation def, int y) {
+        super(gui, def, tile, 176, 32 + y, 26, 26, 179, 36 + y, 18, 18);
         this.currentHand = EnumHand.MAIN_HAND;
         xLocation = 0;
         yLocation = y;
     }
 
     public GuiSecurityTab(IGuiWrapper gui, ResourceLocation def, EnumHand hand) {
-        super(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiSecurityTab.png"), gui, def, null);
+        super(gui, def, null, 176, 32, 26, 26, 179, 36, 18, 18);
         isItem = true;
         currentHand = hand;
         xLocation = 0;
         yLocation = 0;
     }
 
-    @Override
-    public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + 176 + xLocation, guiHeight + 32 + yLocation, 26, 26);
-    }
-
-    @Override
-    protected boolean inBounds(int xAxis, int yAxis) {
-        return xAxis >= 179 + xLocation && xAxis <= 197 + xLocation && yAxis >= 36 + yLocation && yAxis <= 54 + yLocation;
-    }
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        mc.renderEngine.bindTexture(RESOURCE);
-        guiObj.drawTexturedRect(guiWidth + 176 + xLocation, guiHeight + 32 + yLocation, 0, 0, 26, 26);
+        MekanismRenderer.color(EnumColor.ORANGE);
+        super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
+        MekanismRenderer.resetColor();
+        mc.renderEngine.bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.BUTTON_TAB, "Button_Tab_Icon.png"));
         SecurityMode mode = getSecurity();
         SecurityData data = MekanismClient.clientSecurityMap.get(getOwner());
         if (data != null && data.override) {
             mode = data.mode;
         }
-        int renderX = 26 + (18 * mode.ordinal());
+        int renderX = (18 * mode.ordinal());
         if (getOwner() != null && getOwner().equals(mc.player.getUniqueID()) && (data == null || !data.override)) {
-            guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 36 + yLocation, renderX, inBounds(xAxis, yAxis) ? 0 : 18, 18, 18);
+            guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 36 + yLocation, renderX, 18, 18, 18);
         } else {
-            guiObj.drawTexturedRect(guiWidth + 179 + xLocation, guiHeight + 36 + yLocation, renderX, 36, 18, 18);
+            setNull(true);
         }
         mc.renderEngine.bindTexture(defaultLocation);
     }

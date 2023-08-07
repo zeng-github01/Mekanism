@@ -51,7 +51,7 @@ public class AdvancedMachineRecipeCategory<RECIPE extends AdvancedMachineRecipe<
     @Override
     public void drawExtras(Minecraft minecraft) {
         super.drawExtras(minecraft);
-        drawTexturedRect(60 - xOffset, 36 - yOffset, 0, 167, 8, 14);
+        drawTexturedRect(61 - xOffset, 37 - yOffset, 0, 167, 6, 12);
     }
 
     @Override
