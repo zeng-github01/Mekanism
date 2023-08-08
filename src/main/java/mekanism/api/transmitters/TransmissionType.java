@@ -4,18 +4,26 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.translation.I18n;
 
 public enum TransmissionType {
-    ENERGY("EnergyNetwork", "Energy"),
-    FLUID("FluidNetwork", "Fluids"),
-    GAS("GasNetwork", "Gases"),
-    ITEM("InventoryNetwork", "Items"),
-    HEAT("HeatNetwork", "Heat");
+    ENERGY("EnergyNetwork", "Energy", 0xFF4F9C57, 126, 0),
+    FLUID("FluidNetwork", "Fluids", 0xFF3263A9, 144, 0),
+    GAS("GasNetwork", "Gases", 0xFFC7AF4A, 162, 0),
+    ITEM("InventoryNetwork", "Items", 0xFFA8A8A8, 216, 0),
+    HEAT("HeatNetwork", "Heat", 0xFFC88858, 180, 0);
 
     private String name;
     private String transmission;
+    private int color;
 
-    TransmissionType(String n, String t) {
+    private int buttonx;
+
+    private int buttony;
+
+    TransmissionType(String n, String t, int tabcolor, int buttonx, int buttony) {
         name = n;
         transmission = t;
+        color = tabcolor;
+        this.buttonx = buttonx;
+        this.buttony = buttony;
     }
 
     public static boolean checkTransmissionType(ITransmitter sideTile, TransmissionType type) {
@@ -34,8 +42,20 @@ public enum TransmissionType {
         return name;
     }
 
+    public int getColor() {
+        return color;
+    }
+
     public String getTransmission() {
         return transmission;
+    }
+
+    public int getButtonx() {
+        return buttonx;
+    }
+
+    public int getButtony() {
+        return buttony;
     }
 
     public String localize() {
