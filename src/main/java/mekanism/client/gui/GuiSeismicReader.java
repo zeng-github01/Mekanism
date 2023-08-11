@@ -1,7 +1,7 @@
 package mekanism.client.gui;
 
 import mekanism.api.Coord4D;
-import mekanism.client.gui.button.GuiButtonSeismicReader;
+import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
 import mekanism.common.util.LangUtils;
@@ -33,14 +33,13 @@ public class GuiSeismicReader extends GuiScreen {
 
     private final ItemStack itemStack;
     private Coord4D pos;
-    private int xSize = 137;
+    private int xSize = 147;
     private int ySize = 182;
     private World worldObj;
     private List<Pair<Integer, Block>> blockList = new ArrayList<>();
     private Rectangle tooltip;
-    private GuiButton upButton;
-    private GuiButton downButton;
-
+    private GuiDisableableButton upButton;
+    private GuiDisableableButton downButton;
     private int currentLayer;
 
     public GuiSeismicReader(World world, Coord4D coord, ItemStack stack) {
@@ -56,9 +55,9 @@ public class GuiSeismicReader extends GuiScreen {
         super.initGui();
         int guiLeft = (width - xSize) / 2;
         int guiTop = (height - ySize) / 2;
-        buttonList.add(upButton = new GuiButtonSeismicReader(0, guiLeft + 70, guiTop + 75, 13, 13, 137, 0, getGuiLocation()));
-        buttonList.add(downButton = new GuiButtonSeismicReader(1, guiLeft + 70, guiTop + 92, 13, 13, 150, 0, getGuiLocation()));
-        tooltip = new Rectangle(guiLeft + 30, guiTop + 82, 16, 16);
+        buttonList.add(upButton = new GuiDisableableButton(0, guiLeft + 57, guiTop + 74, 14, 14).with(GuiDisableableButton.ImageOverlay.UP));
+        buttonList.add(downButton = new GuiDisableableButton(1, guiLeft + 57, guiTop + 92, 14, 14).with(GuiDisableableButton.ImageOverlay.DOWN));
+        tooltip = new Rectangle(guiLeft + 92, guiTop + 82, 16, 16);
         updateEnabledButtons();
     }
 
@@ -82,19 +81,19 @@ public class GuiSeismicReader extends GuiScreen {
 
         // Fix the overlapping if > 100
         GlStateManager.pushMatrix();
-        GlStateManager.translate(guiLeft + 48, guiTop + 87, 0);
+        GlStateManager.translate(guiLeft + 111, guiTop + 87, 0);
 
         if (currentLayer >= 100) {
             GlStateManager.translate(0, 1, 0);
             GlStateManager.scale(0.7F, 0.7F, 0.7F);
         }
 
-        fontRenderer.drawString(String.format("%s", currentLayer), 0, 0, 0xAFAFAF);
+        fontRenderer.drawString(String.format("%s", currentLayer), 0, 0, 0x3BFB98);
         GlStateManager.popMatrix();
 
         // Render the item stacks
         for (int i = 0; i < 9; i++) {
-            int centralX = guiLeft + 32, centralY = guiTop + 103;
+            int centralX = guiLeft + 94, centralY = guiTop + 102;
             int layer = currentLayer + (i - 5);
             if (0 <= layer && layer < blockList.size()) {
                 Pair<Integer, Block> integerBlockPair = blockList.get(layer);
@@ -125,10 +124,11 @@ public class GuiSeismicReader extends GuiScreen {
             float renderScale = lengthX > 53 ? 53f / lengthX : 1.0f;
 
             GlStateManager.pushMatrix();
-            GlStateManager.translate(guiLeft + 72, guiTop + 16, 0);
+            GlStateManager.translate(guiLeft + 10, guiTop + 16, 0);
             GlStateManager.scale(renderScale, renderScale, renderScale);
-            fontRenderer.drawString(capitalised, 0, 0, 0x919191);
+            fontRenderer.drawString(capitalised, 0, 0, 0x3BFB98);
             GlStateManager.popMatrix();
+            MekanismRenderer.resetColor();
 
             if (tooltip.intersects(new Rectangle(mouseX, mouseY, 1, 1))) {
                 mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiTooltips.png"));
@@ -137,8 +137,9 @@ public class GuiSeismicReader extends GuiScreen {
                 GlStateManager.pushMatrix();
                 drawTexturedModalRect(renderX, renderY, 0, 0, fontLengthX, 16);
                 drawTexturedModalRect(renderX + fontLengthX, renderY, 0, 16, 2, 16);
-                fontRenderer.drawString(capitalised, renderX + 4, renderY + 4, 0x919191);
+                fontRenderer.drawString(capitalised, renderX + 4, renderY + 4, 0x3BFB98);
                 GlStateManager.popMatrix();
+                MekanismRenderer.resetColor();
             }
 
             for (Pair<Integer, Block> pair : blockList) {
@@ -150,9 +151,9 @@ public class GuiSeismicReader extends GuiScreen {
         }
 
         GlStateManager.pushMatrix();
-        GlStateManager.translate(guiLeft + 72, guiTop + 26, 0);
-        GlStateManager.scale(0.7F, 0.7F, 0.7F);
-        fontRenderer.drawString(LangUtils.localize("gui.abundancy") + ": " + frequency, 0, 0, 0x919191);
+        GlStateManager.translate(guiLeft + 10, guiTop + 26, 0);
+        GlStateManager.scale(1.0F, 1.0F, 1.0F);
+        fontRenderer.drawString(LangUtils.localize("gui.abundancy") + ": " + frequency, 0, 0, 0x3BFB98);
         GlStateManager.popMatrix();
         MekanismRenderer.resetColor();
         super.drawScreen(mouseX, mouseY, partialTick);
