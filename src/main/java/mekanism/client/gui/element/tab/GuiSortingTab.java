@@ -19,7 +19,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiSortingTab extends GuiTileEntityElement<TileEntityFactory> {
 
     public GuiSortingTab(IGuiWrapper gui, TileEntityFactory tile, ResourceLocation def) {
-        super(gui, def, tile, -26, 62, 26, 35, -21, 66, 18, 18);
+        super(gui, def, tile, -26, 58, 26, 54, -21, 62, 18, 18);
     }
 
 
@@ -27,9 +27,10 @@ public class GuiSortingTab extends GuiTileEntityElement<TileEntityFactory> {
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
         mc.renderEngine.bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.BUTTON_TAB, "button_tab_icon.png"));
-        guiObj.drawTexturedRect(guiWidth - 21, guiHeight + 66, 216, 18, 18, 18);
+        guiObj.drawTexturedRect(guiWidth - 21, guiHeight + 62, 216, 18, 18, 18);
         mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "State.png"));
-        guiObj.drawTexturedRect(guiWidth - 22, guiHeight + 86, tileEntity.sorting ? 0 : 6, 0, 6, 6);
+        guiObj.drawTexturedRect(guiWidth - 22, guiHeight + 81, 6, 6, 8, 8);
+        guiObj.drawTexturedRect(guiWidth - 21, guiHeight + 82, tileEntity.sorting ? 0 : 6, 0, 6, 6);
         mc.renderEngine.bindTexture(defaultLocation);
     }
 

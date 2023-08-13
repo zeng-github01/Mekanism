@@ -2,7 +2,6 @@ package mekanism.client.gui;
 
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.GasStack;
-import mekanism.api.infuse.InfuseType;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -37,13 +36,13 @@ import org.lwjgl.input.Keyboard;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
 
     private GuiButton infuserDumpButton = null;
+    private GuiButton FactoryOldSortingButton;
 
     public GuiFactory(InventoryPlayer inventory, TileEntityFactory tile) {
         super(tile, new ContainerFactory(inventory, tile));
@@ -81,9 +80,8 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
             addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, resource, Slotlocation + (i * xDistance), 56));
         }
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
-        addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
+        addGuiElement(new GuiTransporterConfigTab(this, 32, tileEntity, resource));
         addGuiElement(new GuiSortingTab(this, tileEntity, resource));
-
 
         addGuiElement(new GuiEnergyInfo(() -> {
             String multiplier = MekanismUtils.getEnergyDisplay(tileEntity.energyPerTick);
@@ -121,6 +119,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
                         && super.mousePressed(mc, mouseX, mouseY);
             }
         }.with(GuiDisableableButton.ImageOverlay.DUMP));
+        buttonList.add(FactoryOldSortingButton = new GuiDisableableButton(2, guiLeft - 21, guiTop + 90, 18, 18).with(GuiDisableableButton.ImageOverlay.ROUND_ROBIN));
     }
 
     public void displayGauge(int xPos, int yPos, int sizeX, int sizeY, TextureAtlasSprite icon) {
@@ -140,6 +139,8 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         int xgas = tileEntity.tier == FactoryTier.CREATIVE ? 219 : tileEntity.tier == FactoryTier.ULTIMATE ? 181 : 147;
         if (infuserDumpButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.remove"), xAxis, yAxis);
+        } else if (FactoryOldSortingButton.isMouseOver()) {
+            displayTooltip(LangUtils.localize("gui.factory.autoSort") + ":" + LangUtils.transOnOff(tileEntity.Factoryoldsorting), xAxis, yAxis);
         } else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
             List<String> info = new ArrayList<>();
             boolean outslot = false;
@@ -224,6 +225,9 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
                 addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
             }
         }
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "State.png"));
+        drawTexturedModalRect(guiLeft - 10, guiTop + 81, 6, 6, 8, 8);
+        drawTexturedModalRect(guiLeft - 9, guiTop + 82, tileEntity.Factoryoldsorting ? 0 : 6, 0, 6, 6);
     }
 
 
@@ -255,6 +259,10 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         super.actionPerformed(button);
         if (button == this.infuserDumpButton) {
             TileNetworkList data = TileNetworkList.withContents(1);
+            Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
+            SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
+        } else if (button == FactoryOldSortingButton) {
+            TileNetworkList data = TileNetworkList.withContents(2);
             Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
             SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
         }

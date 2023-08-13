@@ -17,7 +17,6 @@ import mekanism.common.base.ISustainedData;
 import mekanism.common.base.ITierUpgradeable;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.capabilities.Capabilities;
-import mekanism.common.config.MekanismConfig;
 import mekanism.common.integration.computer.IComputerIntegration;
 import mekanism.common.item.ItemBlockMachine;
 import mekanism.common.recipe.GasConversionHandler;
@@ -105,6 +104,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
      */
     @Nonnull
     private RecipeType recipeType = RecipeType.SMELTING;
+
+    public boolean Factoryoldsorting;
 
     public TileEntityFactory() {
         this(FactoryTier.BASIC, MachineType.BASIC_FACTORY);
@@ -228,6 +229,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         factory.prevEnergy = prevEnergy;
         factory.gasTank.setGas(gasTank.getGas());
         factory.sorting = sorting;
+        factory.Factoryoldsorting = Factoryoldsorting;
         factory.setControlType(getControlType());
         factory.upgradeComponent.readFrom(upgradeComponent);
         factory.ejectorComponent.readFrom(ejectorComponent);
@@ -270,7 +272,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             ChargeUtils.discharge(1, this);
 
             handleSecondaryFuel();
-            if (MekanismConfig.current().mekce.FactoryOldSorting.val()) {
+            if (Factoryoldsorting) {
                 sortInventory(); //Keeping the old sort prevents some problems
             } else {
                 inventorySorter.sort();
@@ -706,6 +708,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             } else if (type == 1) {
                 gasTank.setGas(null);
                 infuseStored.setEmpty();
+            } else if (type == 2) {
+                Factoryoldsorting = !Factoryoldsorting;
             }
             return;
         }
@@ -718,6 +722,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             upgradeComponent.setSupported(Upgrade.GAS, recipeType.fuelEnergyUpgrades());
             recipeTicks = dataStream.readInt();
             sorting = dataStream.readBoolean();
+            Factoryoldsorting = dataStream.readBoolean();
             upgraded = dataStream.readBoolean();
             lastUsage = dataStream.readDouble();
             int amount = dataStream.readInt();
@@ -754,6 +759,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         upgradeComponent.setSupported(Upgrade.GAS, recipeType.fuelEnergyUpgrades());
         recipeTicks = nbtTags.getInteger("recipeTicks");
         sorting = nbtTags.getBoolean("sorting");
+        Factoryoldsorting = nbtTags.getBoolean("factoryoldsorting");
         int amount = nbtTags.getInteger("infuseStored");
         if (amount != 0) {
             infuseStored.setAmount(amount);
@@ -773,6 +779,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         nbtTags.setInteger("recipeType", recipeType.ordinal());
         nbtTags.setInteger("recipeTicks", recipeTicks);
         nbtTags.setBoolean("sorting", sorting);
+        nbtTags.setBoolean("factoryoldsorting", Factoryoldsorting);
         if (infuseStored.getType() != null) {
             nbtTags.setString("type", infuseStored.getType().name);
             nbtTags.setInteger("infuseStored", infuseStored.getAmount());
@@ -793,6 +800,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         data.add(recipeType.ordinal());
         data.add(recipeTicks);
         data.add(sorting);
+        data.add(Factoryoldsorting);
         data.add(upgraded);
         data.add(lastUsage);
 
@@ -1123,6 +1131,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             }
         }
     }
+
 
     /**
      * <p>Efficient, intelligent factory sequencing.</p>
