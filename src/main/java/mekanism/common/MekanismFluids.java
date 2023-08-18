@@ -1,10 +1,8 @@
 package mekanism.common;
 
-import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.OreGas;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -43,8 +41,8 @@ public class MekanismFluids {
      */
     //V10 gases
 
-    public static final Gas HydrofluoricAcid =new Gas("hydrofluoricacid",0xFFC6C7BD);
-    public static final Gas Antimatter= new Gas("antimatter",0xA464B3);
+    public static final Gas HydrofluoricAcid = new Gas("hydrofluoricacid", 0xFFC6C7BD);
+    public static final Gas Antimatter = new Gas("antimatter", 0xA464B3);
     public static final Gas FissileFuel = new Gas("fissilefuel", 0x2E332F);
     public static final Gas SuperheatedSodium = new Gas("superheatedsodium", 0xFFD19469);
     public static final Gas UraniumHexafluoride = new Gas("uraniumhexafluoride", 0xFF809960);
@@ -53,8 +51,26 @@ public class MekanismFluids {
     public static final Gas Plutonium = new Gas("plutonium", 0x1F919C);
     public static final Gas Polonium = new Gas("polonium", 0x1B9E7B);
     public static final Gas SpentNuclearWaste = new Gas("spentnuclearwaste", 0x262015);
+    public static final Gas Biofuel = new Gas("Biofuel", 0x9dd221);
 
-    public static final Gas Biofuel = new Gas("Biofuel",0x9dd221);
+    //color gas
+    public static final Gas WHITE = new Gas("white.name", 16383998);
+    public static final Gas ORANGE = new Gas("orange.name", 16351261);
+    public static final Gas MAGENTA = new Gas("magenta.name", 13061821);
+    public static final Gas LIGHT_BLUE = new Gas("lightBlue.name", 3847130);
+    public static final Gas YELLOW = new Gas("yellow.name", 16701501);
+    public static final Gas LIME = new Gas("lime.name", 8439583);
+    public static final Gas PINK = new Gas("pink.name", 15961002);
+    public static final Gas GRAY = new Gas("gray.name", 4673362);
+    public static final Gas SILVER = new Gas("silver.name", 10329495);
+    public static final Gas CYAN = new Gas("cyan.name", 1481884);
+    public static final Gas PURPLE = new Gas("purple.name", 8991416);
+    public static final Gas BLUE = new Gas("blue.name", 3949738);
+    public static final Gas BROWN = new Gas("brown.name", 8606770);
+    public static final Gas GREEN = new Gas("green.name", 6192150);
+    public static final Gas RED = new Gas("red.name", 11546150);
+    public static final Gas BLACK = new Gas("black.name", 1908001);
+
     /**
      * ADD END
      */
@@ -97,14 +113,24 @@ public class MekanismFluids {
         GasRegistry.register(Polonium);
         GasRegistry.register(SpentNuclearWaste);
 
-        //color gas
-        for (EnumDyeColor Color : EnumDyeColor.values()){
-            String name =Color.getTranslationKey() + ".name";
-            Gas colorgas = new Gas(name, Color.getColorValue());
-            GasRegistry.register(colorgas);
-        }
-
         GasRegistry.register(Biofuel).registerFluid().setVisible(false);
+        //color gas
+        GasRegistry.register(WHITE);
+        GasRegistry.register(ORANGE);
+        GasRegistry.register(MAGENTA);
+        GasRegistry.register(LIGHT_BLUE);
+        GasRegistry.register(YELLOW);
+        GasRegistry.register(LIME);
+        GasRegistry.register(PINK);
+        GasRegistry.register(GRAY);
+        GasRegistry.register(SILVER);
+        GasRegistry.register(CYAN);
+        GasRegistry.register(PURPLE);
+        GasRegistry.register(BLUE);
+        GasRegistry.register(BROWN);
+        GasRegistry.register(GREEN);
+        GasRegistry.register(RED);
+        GasRegistry.register(BLACK);
         /**
          * ADD END
          */
