@@ -651,6 +651,10 @@ gui.rotaryCondensentrator.toggleOperation=Toggle operation
 
 gui.factory.secondaryEnergy=Secondary energy
 gui.factory.autoSort=Auto-sort
+gui.factory.autoSort.isold=Old state auto-sorting is being used
+gui.factory.autoSort.old=Old Auto-sort
+gui.factory.autoSort.old.info=If automatic classification is fine, do not enable this
+gui.factory.autoSort.old.info2=This can cause problems with legacy automatic classification
 
 # Recipe types
 gui.factory.Smelting= Smelting

@@ -15,6 +15,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiSortingTab extends GuiTileEntityElement<TileEntityFactory> {
 
@@ -37,7 +40,12 @@ public class GuiSortingTab extends GuiTileEntityElement<TileEntityFactory> {
     @Override
     public void renderForeground(int xAxis, int yAxis) {
         if (inBounds(xAxis, yAxis)) {
-            displayTooltip(LangUtils.localize("gui.factory.autoSort") + ":" + LangUtils.transOnOff(tileEntity.sorting), xAxis, yAxis);
+            List<String> info = new ArrayList<>();
+            info.add(LangUtils.localize("gui.factory.autoSort") + ":" + LangUtils.transOnOff(tileEntity.sorting));
+            if (tileEntity.Factoryoldsorting){
+                info.add(LangUtils.localize("gui.factory.autoSort.isold"));
+            }
+            displayTooltips(info, xAxis, yAxis);
         }
         mc.renderEngine.bindTexture(defaultLocation);
         MekanismRenderer.resetColor();

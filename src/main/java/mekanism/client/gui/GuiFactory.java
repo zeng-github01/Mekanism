@@ -140,7 +140,11 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         if (infuserDumpButton.isMouseOver()) {
             displayTooltip(LangUtils.localize("gui.remove"), xAxis, yAxis);
         } else if (FactoryOldSortingButton.isMouseOver()) {
-            displayTooltip(LangUtils.localize("gui.factory.autoSort") + ":" + LangUtils.transOnOff(tileEntity.Factoryoldsorting), xAxis, yAxis);
+            List<String> info = new ArrayList<>();
+            info.add(LangUtils.localize("gui.factory.autoSort.old") + ":" + LangUtils.transOnOff(tileEntity.Factoryoldsorting));
+            info.add(LangUtils.localize("gui.factory.autoSort.old.info"));
+            info.add(LangUtils.localize("gui.factory.autoSort.old.info2"));
+            displayTooltips(info, xAxis, yAxis);
         } else if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
             List<String> info = new ArrayList<>();
             boolean outslot = false;

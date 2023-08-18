@@ -141,6 +141,16 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
         return colors.get(colors.indexOf(color) + 1);
     }
 
+    public static EnumColor decrement(EnumColor color) {
+        if (color == null) {
+            return colors.get(colors.size() - 1);
+        } else if (colors.indexOf(color) == 0) {
+            return null;
+        }
+        return colors.get(colors.indexOf(color) - 1);
+    }
+
+
     @Override
     public void onUpdate() {
         super.onUpdate();
@@ -430,7 +440,15 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
                     manager.remove(freq, getSecurity().getOwnerUUID());
                 }
             } else if (type == 2) {
-                color = increment(color);
+                int clickType = dataStream.readInt();
+                if (clickType == 0) {
+                    color = increment(color);
+                } else if (clickType == 1) {
+                    color = decrement(color);
+                }else if (clickType == 2) {
+                    color = EnumColor.PURPLE;
+                }
+
             }
             return;
         }

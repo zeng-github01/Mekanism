@@ -13,6 +13,7 @@ import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
 import mekanism.client.render.MekanismRenderer;
+import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.frequency.Frequency;
 import mekanism.common.frequency.FrequencyManager;
@@ -220,6 +221,10 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         super.mouseClicked(mouseX, mouseY, button);
         updateButtons();
         frequencyField.mouseClicked(mouseX, mouseY, button);
+        if (colorButton.isMouseOver() && button == 1 && tileEntity != null) {
+            Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, TileNetworkList.withContents(2, 1)));
+            SoundHandler.playSound(net.minecraft.init.SoundEvents.UI_BUTTON_CLICK);
+        }
     }
 
     @Override
@@ -280,8 +285,7 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
             frequencyField.setText("");
         } else if (guibutton.id == colorButton.id) {
             if (tileEntity != null) {
-                TileNetworkList data = TileNetworkList.withContents(2);
-                Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
+                Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, TileNetworkList.withContents(2, Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? 2 : 0)));
             }
         }
         updateButtons();
