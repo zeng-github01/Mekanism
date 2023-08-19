@@ -51,6 +51,8 @@ public class RenderMachineItem extends SubTypeItemRenderer<MachineType> {
              */
               else if (machineType == MachineType.ISOTOPIC_CENTRIFUGE) {
                 RenderIsotopicCentrifugeItem.renderStack(stack, transformType);
+            }else if (machineType == MachineType.NUTRITIONAL_LIQUIFIER) {
+                RenderNutritionalLiquifierItem.renderStack(stack, transformType);
             }
             /**
              * ADD END

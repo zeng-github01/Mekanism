@@ -251,6 +251,16 @@ public final class RecipeHandler {
     }
 
     /**
+     * Add a Nutritional Liquifier recipe.
+     *
+     * @param input  - input ItemStack
+     * @param output - output GasStack
+     */
+    public static void addNutritionalLiquifierRecipe(ItemStack input, GasStack output) {
+        addRecipe(Recipe.NUTRITIONAL_LIQUIFIER, new NutritionalRecipe(input, output));
+    }
+
+    /**
     * Add End
      */
 
@@ -326,6 +336,8 @@ public final class RecipeHandler {
         return getRecipe(input, recipes);
     }
 
+
+
     /**
      * Gets the Recipe of the given Input in the parameters, using the map in the parameters.
      *
@@ -386,7 +398,15 @@ public final class RecipeHandler {
         return getRecipe(input, Recipe.ISOTOPIC_CENTRIFUGE);
     }
 
-
+    /**
+     * Gets the Nutritional Liquifier Recipe for the ItemStackInput in the parameters.
+     *
+     * @param input - ItemStackInput
+     * @return NutritionalRecipe
+     */
+    @Nullable public static NutritionalRecipe getNutritionalRecipe(@Nonnull ItemStackInput input) {
+        return getRecipe(input, Recipe.NUTRITIONAL_LIQUIFIER);
+    }
 
 
 
@@ -489,6 +509,10 @@ public final class RecipeHandler {
 
         public static final Recipe<GasInput, GasOutput, IsotopicRecipe> ISOTOPIC_CENTRIFUGE = new Recipe<>(
                 MachineType.ISOTOPIC_CENTRIFUGE, GasInput.class, GasOutput.class, IsotopicRecipe.class);
+
+
+        public static final Recipe<ItemStackInput, GasOutput, NutritionalRecipe> NUTRITIONAL_LIQUIFIER = new Recipe<>(
+                MachineType.NUTRITIONAL_LIQUIFIER, ItemStackInput.class, GasOutput.class, NutritionalRecipe.class);
 
         /**
          * ADD END

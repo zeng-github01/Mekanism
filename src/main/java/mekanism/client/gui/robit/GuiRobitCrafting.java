@@ -36,11 +36,6 @@ public class GuiRobitCrafting extends GuiRobit {
     }
 
     @Override
-    protected String getBackgroundImage() {
-        return "Null.png";
-    }
-
-    @Override
     protected boolean shouldOpenGui(int id) {
         return id != 1;
     }

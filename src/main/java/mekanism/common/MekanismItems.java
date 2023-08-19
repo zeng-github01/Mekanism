@@ -65,6 +65,15 @@ public class MekanismItems {
     public static final Item ControlCircuit = new ItemControlCircuit();
 
     /**
+     * ADD START
+     */
+    public static final ItemCanteen Canteen = new ItemCanteen();
+    public static final Item CosmicAlloy = new ItemAlloy();
+    /**
+     * ADD END
+     */
+
+    /**
      * Adds and registers all items.
      *
      * @param registry Forge registry to add the items to
@@ -122,6 +131,16 @@ public class MekanismItems {
         registry.register(init(GaugeDropper, "GaugeDropper"));
         registry.register(init(TierInstaller, "TierInstaller"));
         registry.register(init(OtherDust, "OtherDust"));
+
+        /**
+         * ADD START
+         */
+        registry.register(init(Canteen, "Canteen"));
+        registry.register(init(CosmicAlloy, "CosmicAlloy"));
+        /**
+         * ADD END
+         */
+
     }
 
     public static Item init(Item item, String name) {

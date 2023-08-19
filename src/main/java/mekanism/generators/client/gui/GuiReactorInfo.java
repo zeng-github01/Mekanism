@@ -6,11 +6,9 @@ import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.common.Mekanism;
 import mekanism.common.network.PacketSimpleGui.SimpleGuiMessage;
-import mekanism.common.util.MekanismUtils;
 import mekanism.generators.common.tile.reactor.TileEntityReactorController;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.inventory.Container;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -39,8 +37,4 @@ public abstract class GuiReactorInfo extends GuiMekanismTile<TileEntityReactorCo
         }
     }
 
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Null.png");
-    }
 }

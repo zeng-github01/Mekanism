@@ -252,10 +252,6 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         }
     }
 
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
-    }
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {

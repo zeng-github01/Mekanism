@@ -189,8 +189,4 @@ public class GuiFormulaicAssemblicator extends GuiMekanismTile<TileEntityFormula
         return !formulaStack.isEmpty() && formulaStack.getItem() instanceof ItemCraftingFormula && ((ItemCraftingFormula) formulaStack.getItem()).getInventory(formulaStack) == null;
     }
 
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
-    }
 }

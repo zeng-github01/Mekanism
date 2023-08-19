@@ -226,10 +226,6 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         }
     }
 
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
-    }
 
     @Override
     public void keyTyped(char c, int i) throws IOException {

@@ -45,7 +45,7 @@ public class TileEntityChemicalOxidizer extends TileEntityOperationalMachine imp
         configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.RED, new int[]{0}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Energy", EnumColor.BRIGHT_GREEN, new int[]{1}));
-            configComponent.addOutput(TransmissionType.ITEM, new SideData("Gas", EnumColor.YELLOW, new int[]{2}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Gas", EnumColor.YELLOW, new int[]{2}));
         configComponent.setConfig(TransmissionType.ITEM, new byte[]{2, 2, 1, 2, 4, 3});
         configComponent.setCanEject(TransmissionType.ITEM, false);
 
@@ -161,7 +161,7 @@ public class TileEntityChemicalOxidizer extends TileEntityOperationalMachine imp
 
     @Override
     public boolean canSetFacing(@Nonnull EnumFacing facing) {
-        return facing != EnumFacing.DOWN && facing != EnumFacing.UP;
+        return super.canSetFacing(facing);
     }
 
     @Override

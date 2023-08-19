@@ -20,7 +20,6 @@ import net.minecraftforge.common.capabilities.Capability;
 public abstract class TileEntityBasicMachine<INPUT extends MachineInput<INPUT>, OUTPUT extends MachineOutput<OUTPUT>, RECIPE extends MachineRecipe<INPUT, OUTPUT, RECIPE>> extends
         TileEntityOperationalMachine implements IElectricMachine<INPUT, OUTPUT, RECIPE>, IComputerIntegration, ISideConfiguration, IConfigCardAccess {
 
-    public ResourceLocation guiLocation;
 
     public RECIPE cachedRecipe = null;
 

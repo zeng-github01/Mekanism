@@ -77,8 +77,4 @@ public class GuiInductionMatrix extends GuiMekanismTile<TileEntityInductionCasin
         drawTexturedModalRect(guiLeft + 141, guiTop + 15, 0, 16, 26, 57);
     }
 
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
-    }
 }

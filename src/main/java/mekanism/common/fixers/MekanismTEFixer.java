@@ -80,6 +80,7 @@ public class MekanismTEFixer extends TEFixer {
         putEntry("EliteSmeltingFactory", "elite_smelting_factory");
         putEntry("CreativeSmeltingFactory", "creative_smelting_factory");
         putEntry("IsotopicCentrifuge", "isotopic_centrifuge");
+        putEntry("NutritionalLiquifier", "nutritional_liquifier");
         //End of addition
 
     }

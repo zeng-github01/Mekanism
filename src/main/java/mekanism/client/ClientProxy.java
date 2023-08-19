@@ -177,7 +177,7 @@ public class ClientProxy extends CommonProxy {
         * ADD Start
          */
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityIsotopicCentrifuge.class, new RenderIsotopicCentrifuge());
-
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNutritionalLiquifier.class, new RenderNutritionalLiquifier());
     }
 
     @Override
@@ -232,7 +232,14 @@ public class ClientProxy extends CommonProxy {
         registerItemRender(MekanismItems.GaugeDropper);
         registerItemRender(MekanismItems.TierInstaller);
         registerItemRender(MekanismItems.OtherDust);
-
+        /**
+         * ADD START
+         */
+        registerItemRender(MekanismItems.Canteen);
+        registerItemRender(MekanismItems.CosmicAlloy);
+        /**
+         * ADD END
+         */
         ModelBakery.registerItemVariants(MekanismItems.WalkieTalkie, ItemWalkieTalkie.OFF_MODEL);
 
         for (int i = 1; i <= 9; i++) {
@@ -304,7 +311,7 @@ public class ClientProxy extends CommonProxy {
          * ADD START
          * */
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(MekanismBlocks.MachineBlock3), 9, getInventoryMRL("isotopic_centrifuge"));
-
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(MekanismBlocks.MachineBlock3), 10, getInventoryMRL("nutritional_liquifier"));
 
         /**
          * ADD END
@@ -724,7 +731,8 @@ public class ClientProxy extends CommonProxy {
                 return new GuiLogisticalSorter(player, (TileEntityLogisticalSorter) tileEntity);
             case 60:
                 return new GuiIsotopicCentrifuge(player.inventory, (TileEntityIsotopicCentrifuge) tileEntity);
-
+            case 61:
+                return new GuiNutritionalLiquifier(player.inventory, (TileEntityNutritionalLiquifier) tileEntity);
         }
         return null;
     }
@@ -872,7 +880,7 @@ public class ClientProxy extends CommonProxy {
         * ADD START
         */
         machineModelBake(modelRegistry, "isotopic_centrifuge", MachineType.ISOTOPIC_CENTRIFUGE);
-
+        machineModelBake(modelRegistry, "nutritional_liquifier", MachineType.NUTRITIONAL_LIQUIFIER);
         /**
          * ADD END
          */

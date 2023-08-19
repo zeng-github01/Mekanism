@@ -23,7 +23,6 @@ import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.tile.TileEntityQuantumEntangloporter;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
 import mekanism.common.util.UnitDisplayUtils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -141,10 +140,6 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
         frequencyField.mouseClicked(mouseX, mouseY, button);
     }
 
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
-    }
 
     @Override
     public void keyTyped(char c, int i) throws IOException {

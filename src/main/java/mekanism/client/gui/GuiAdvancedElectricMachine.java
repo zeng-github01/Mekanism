@@ -116,10 +116,7 @@ public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<REC
         }
     }
 
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return tileEntity.guiLocation;
-    }
+
 
     public void displayGauge(int xPos, int yPos, int sizeX, int sizeY, GasStack gas) {
         if (gas != null) {

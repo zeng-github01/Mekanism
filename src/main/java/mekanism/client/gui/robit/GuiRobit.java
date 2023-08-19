@@ -9,11 +9,8 @@ import mekanism.common.Mekanism;
 import mekanism.common.entity.EntityRobit;
 import mekanism.common.network.PacketRobit.RobitMessage;
 import mekanism.common.util.LangUtils;
-import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.inventory.Container;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -82,13 +79,6 @@ public abstract class GuiRobit extends GuiMekanism {
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
-
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, getBackgroundImage());
-    }
-
-    protected abstract String getBackgroundImage();
 
     protected abstract boolean shouldOpenGui(int id);
 }

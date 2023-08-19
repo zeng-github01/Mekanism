@@ -67,4 +67,6 @@ public class MEKCEConfig extends BaseConfig {
     public final IntOption MAXMufflingUpgradeSize = new IntOption(this, "mekce", "MAXMufflingUpgradeSize", 4, "The maximum number of stacks that can be stacked for muffling upgrades", 1, 64).setRequiresGameRestart(true);
 
     public final IntOption MAXspeedmachines= new IntOption(this, "mekce","Maximum speed multiplier for some machines",256,"Modify the maximum speed multiplier for some machines",1,Integer.MAX_VALUE);
+
+    public final BooleanOption EnableBuff = new BooleanOption(this, "mekce","EnableBuff",false,"If true, a buff effect will be added to the player each time Canteen is used");
 }

@@ -3,6 +3,7 @@ package mekanism.common.item;
 import javax.annotation.Nonnull;
 import mekanism.common.base.IMetaItem;
 import mekanism.common.tier.BaseTier;
+import mekanism.common.util.LangUtils;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -21,16 +22,14 @@ public class ItemControlCircuit extends ItemMekanism implements IMetaItem {
 
     @Override
     public int getVariants() {
-        return BaseTier.values().length - 1;
+        return BaseTier.values().length;
     }
 
     @Override
     public void getSubItems(@Nonnull CreativeTabs tabs, @Nonnull NonNullList<ItemStack> itemList) {
         if (isInCreativeTab(tabs)) {
             for (BaseTier tier : BaseTier.values()) {
-                if (tier.isObtainable()) {
-                    itemList.add(new ItemStack(this, 1, tier.ordinal()));
-                }
+                itemList.add(new ItemStack(this, 1, tier.ordinal()));
             }
         }
     }
@@ -39,5 +38,12 @@ public class ItemControlCircuit extends ItemMekanism implements IMetaItem {
     @Override
     public String getTranslationKey(ItemStack item) {
         return "item." + BaseTier.values()[item.getItemDamage()].getSimpleName() + "ControlCircuit";
+    }
+
+    @Nonnull
+    @Override
+    public String getItemStackDisplayName(@Nonnull ItemStack itemstack) {
+        BaseTier tier = BaseTier.values()[itemstack.getItemDamage()];
+        return tier.getColor() + LangUtils.localize("item." + tier.getSimpleName() + "ControlCircuit.name");
     }
 }

@@ -288,6 +288,15 @@ public class RecipeRegistryHelper {
         registry.addRecipeClickArea(GuiIsotopicCentrifuge.class, 61, 39, 55, 8, Recipe.ISOTOPIC_CENTRIFUGE.getJEICategory());
         registerRecipeItem(registry, MachineType.ISOTOPIC_CENTRIFUGE, Recipe.ISOTOPIC_CENTRIFUGE);
     }
+
+    public static void registerNutritional(IModRegistry registry) {
+        if (!MachineType.NUTRITIONAL_LIQUIFIER.isEnabled()) {
+            return;
+        }
+        addRecipes(registry, Recipe.NUTRITIONAL_LIQUIFIER, NutritionalLiquifierRecipeWrapper::new);
+        registry.addRecipeClickArea(GuiNutritionalLiquifier.class, 64, 40, 48, 8, Recipe.NUTRITIONAL_LIQUIFIER.getJEICategory());
+        registerRecipeItem(registry, MachineType.NUTRITIONAL_LIQUIFIER, Recipe.NUTRITIONAL_LIQUIFIER);
+    }
     /**
      * ADD END
      */

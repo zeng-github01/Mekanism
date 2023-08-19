@@ -270,6 +270,13 @@ public class GeneralConfig extends BaseConfig {
     public final DoubleOption sawdustChanceLog = new DoubleOption(this, "general", "SawdustChanceLog", 1D,
             "Chance of producing sawdust per operation in the precision sawmill when turning logs into planks.").setRequiresGameRestart(true);
 
+
+    /**
+     * ADD START
+     */
+    public final IntOption maxCanteen = new IntOption(this, "general", "MaxCanteenGas", 64000,
+            "Canteen Gas Tank capacity in mB.");
+
     public final TypeConfigManager<MachineType> machinesManager = new TypeConfigManager<>(this, "machines", MachineType.class, MachineType::getValidMachines, MachineType::getBlockName);
 
     public final EnumMap<BaseTier, TierConfig> tiers = TierConfig.create(this);

@@ -48,8 +48,4 @@ public class GuiSolarGenerator extends GuiMekanismTile<TileEntitySolarGenerator>
         drawTexturedModalRect(guiLeft + 20, guiTop + 37, tileEntity.canSeeSun() ? 36 : 24, 88, 12, 12);
     }
 
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Null.png");
-    }
 }

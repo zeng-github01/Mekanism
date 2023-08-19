@@ -283,6 +283,46 @@ public class MekanismRecipe {
             RecipeHandler.addIsotopicRecipe(new GasStack(MekanismFluids.NuclearWaste, 10), new GasStack(MekanismFluids.Plutonium, 1));
         }
 
+        //Nutritional Liquifier Recipes
+        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.NUTRITIONAL_LIQUIFIER)) {
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.APPLE, 1), new GasStack(MekanismFluids.NutritionalPaste, 100));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.BAKED_POTATO, 1), new GasStack(MekanismFluids.NutritionalPaste, 125));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.BEEF, 1), new GasStack(MekanismFluids.NutritionalPaste, 75));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.BEETROOT, 1), new GasStack(MekanismFluids.NutritionalPaste, 25));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.BEETROOT_SOUP, 1), new GasStack(MekanismFluids.NutritionalPaste, 150));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.BREAD, 1), new GasStack(MekanismFluids.NutritionalPaste, 125));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.CARROT, 1), new GasStack(MekanismFluids.NutritionalPaste, 75));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.CHICKEN, 1), new GasStack(MekanismFluids.NutritionalPaste, 50));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.CHORUS_FRUIT, 1), new GasStack(MekanismFluids.NutritionalPaste, 100));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.FISH, 1, 0), new GasStack(MekanismFluids.NutritionalPaste, 50));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.FISH, 1, 1), new GasStack(MekanismFluids.NutritionalPaste, 50));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.FISH, 1, 2), new GasStack(MekanismFluids.NutritionalPaste, 50));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.FISH, 1, 3), new GasStack(MekanismFluids.NutritionalPaste, 50));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.COOKED_FISH, 1, 0), new GasStack(MekanismFluids.NutritionalPaste, 125));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.COOKED_FISH, 1, 1), new GasStack(MekanismFluids.NutritionalPaste, 125));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.COOKED_BEEF, 1), new GasStack(MekanismFluids.NutritionalPaste, 200));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.COOKED_CHICKEN, 1), new GasStack(MekanismFluids.NutritionalPaste, 150));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.COOKED_MUTTON, 1), new GasStack(MekanismFluids.NutritionalPaste, 150));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.COOKED_PORKCHOP, 1), new GasStack(MekanismFluids.NutritionalPaste, 200));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.COOKED_RABBIT, 1), new GasStack(MekanismFluids.NutritionalPaste, 125));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.COOKIE, 1), new GasStack(MekanismFluids.NutritionalPaste, 50));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.GOLDEN_APPLE, 1, 0), new GasStack(MekanismFluids.NutritionalPaste, 150));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.GOLDEN_APPLE, 1, 1), new GasStack(MekanismFluids.NutritionalPaste, 300));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.GOLDEN_CARROT, 1), new GasStack(MekanismFluids.NutritionalPaste, 150));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.MELON, 1), new GasStack(MekanismFluids.NutritionalPaste, 50));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.MUSHROOM_STEW, 1), new GasStack(MekanismFluids.NutritionalPaste, 150));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.MUTTON, 1), new GasStack(MekanismFluids.NutritionalPaste, 50));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.POISONOUS_POTATO, 1), new GasStack(MekanismFluids.NutritionalPaste, 10));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.PORKCHOP, 1), new GasStack(MekanismFluids.NutritionalPaste, 75));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.POTATO, 1), new GasStack(MekanismFluids.NutritionalPaste, 50));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.PUMPKIN_PIE, 1), new GasStack(MekanismFluids.NutritionalPaste, 200));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.RABBIT, 1), new GasStack(MekanismFluids.NutritionalPaste, 75));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.RABBIT_STEW, 1), new GasStack(MekanismFluids.NutritionalPaste, 250));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.ROTTEN_FLESH, 1), new GasStack(MekanismFluids.NutritionalPaste, 10));
+            RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.SPIDER_EYE, 1), new GasStack(MekanismFluids.NutritionalPaste, 10));
+
+        }
+
         /**
          * ADD END
          */

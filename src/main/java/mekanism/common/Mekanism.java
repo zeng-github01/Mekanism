@@ -1,6 +1,9 @@
 package mekanism.common;
 
 import com.mojang.authlib.GameProfile;
+import java.io.File;
+import java.util.*;
+import java.util.Map.Entry;
 import mekanism.api.Coord4D;
 import mekanism.api.MekanismAPI;
 import mekanism.api.MekanismAPI.BoxBlacklistEvent;
@@ -92,10 +95,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.io.File;
-import java.util.*;
-import java.util.Map.Entry;
 
 @Mod(modid = Tags.MOD_ID, useMetadata = true, guiFactory = "mekanism.client.gui.ConfigGuiFactory", acceptedMinecraftVersions = "[1.12,1.13)", version = Tags.VERSION)
 @Mod.EventBusSubscriber()
@@ -407,6 +406,7 @@ public class Mekanism {
         //So the ultimate factory here is registered as elite_smelting_factory
         registerTileEntity(TileEntityCreativeFactory.class, "creative_smelting_factory");
         registerTileEntity(TileEntityIsotopicCentrifuge.class, "isotopic_centrifuge");
+        registerTileEntity(TileEntityNutritionalLiquifier.class, "nutritional_liquifier");
 
         /**
          * End of adding machine

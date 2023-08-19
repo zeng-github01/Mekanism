@@ -10,7 +10,6 @@ import mekanism.client.gui.element.gauge.GuiGauge.Type;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
 import mekanism.generators.common.inventory.container.ContainerGasGenerator;
 import mekanism.generators.common.tile.TileEntityGasGenerator;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -45,8 +44,4 @@ public class GuiGasGenerator extends GuiMekanismTile<TileEntityGasGenerator> {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
-    }
 }

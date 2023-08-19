@@ -12,7 +12,6 @@ import mekanism.common.recipe.machines.MachineRecipe;
 import mekanism.common.recipe.outputs.MachineOutput;
 import mekanism.common.tier.BaseTier;
 import mekanism.common.tile.TileEntityFactory;
-import net.minecraft.util.ResourceLocation;
 
 public abstract class TileEntityUpgradeableMachine<INPUT extends MachineInput<INPUT>, OUTPUT extends MachineOutput<OUTPUT>, RECIPE extends MachineRecipe<INPUT, OUTPUT, RECIPE>> extends
         TileEntityBasicMachine<INPUT, OUTPUT, RECIPE> implements ITierUpgradeable {

@@ -129,6 +129,7 @@ public class MekanismJEI implements IModPlugin {
          * ADD START
          */
         addRecipeCategory(registry, MachineType.ISOTOPIC_CENTRIFUGE, new IsotopicRecipeCategory(guiHelper));
+        addRecipeCategory(registry, MachineType.NUTRITIONAL_LIQUIFIER, new NutritionalLiquifierRecipeCategory(guiHelper));
         /**
          * ADD END
          */
@@ -179,6 +180,7 @@ public class MekanismJEI implements IModPlugin {
          *  ADD START
          */
         RecipeRegistryHelper.registerIsotopicCentrifuge(registry);
+        RecipeRegistryHelper.registerNutritional(registry);
         /**
          * ADD END
          */

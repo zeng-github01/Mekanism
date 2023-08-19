@@ -5,10 +5,7 @@ import mekanism.client.gui.element.gauge.GuiGauge.Type;
 import mekanism.common.inventory.container.ContainerNull;
 import mekanism.common.tile.TileEntityAmbientAccumulator;
 import mekanism.common.util.LangUtils;
-import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -27,8 +24,4 @@ public class GuiAmbientAccumulator extends GuiMekanismTile<TileEntityAmbientAccu
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
-    }
 }

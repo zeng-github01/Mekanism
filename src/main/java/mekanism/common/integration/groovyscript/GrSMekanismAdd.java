@@ -19,7 +19,7 @@ public class GrSMekanismAdd {
     public static void init() {
         loaded = Loader.isModLoaded(MekanismHooks.GROOVYSCRIPT_MOD_ID);
         if (!loaded) return;
-        modSupportContainer = new ModSupport.Container<>(Mekanism.MODID, "Mekanism", Container::new, "mek", "mekceu", "MekanismCEUnofficial");
+        modSupportContainer = new ModSupport.Container<>(Mekanism.MODID, Mekanism.MOD_NAME, Container::new, "mek", "mekceu", "MekanismCEUnofficial");
     }
 
     public static boolean isLoaded() {
@@ -35,10 +35,12 @@ public class GrSMekanismAdd {
 
         public Smelter smelter = new Smelter();
         public IsotopicCentrifuge isotopicCentrifuge = new IsotopicCentrifuge();
+        public NutritionalLiquifier nutritionalLiquifier = new NutritionalLiquifier();
 
         public Container() {
             addRegistry(smelter);
             addRegistry(isotopicCentrifuge);
+            addRegistry(nutritionalLiquifier);
         }
     }
 }

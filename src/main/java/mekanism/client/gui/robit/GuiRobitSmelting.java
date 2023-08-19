@@ -34,11 +34,6 @@ public class GuiRobitSmelting extends GuiRobit {
     }
 
     @Override
-    protected String getBackgroundImage() {
-        return "Null.png";
-    }
-
-    @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.PROGRESS, "Progress_Icon.png"));

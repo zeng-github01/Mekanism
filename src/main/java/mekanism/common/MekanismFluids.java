@@ -52,6 +52,8 @@ public class MekanismFluids {
     public static final Gas SpentNuclearWaste = new Gas("spentnuclearwaste", 0x262015);
     public static final Gas Biofuel = new Gas("Biofuel", 0x9dd221);
 
+    public static final Gas NutritionalPaste = new Gas("nutritionalpaste", 0XEB6CA3);
+
     //color gas
     public static final Gas WHITE = new Gas("white.name", 16383998);
     public static final Gas ORANGE = new Gas("orange.name", 16351261);
@@ -103,7 +105,7 @@ public class MekanismFluids {
         GasRegistry.register(SuperheatedSodium);
         GasRegistry.register(UraniumHexafluoride);
         GasRegistry.register(Uraniumoxide);
-
+        GasRegistry.register(NutritionalPaste);
         /**
          *Radioactive material
          * */

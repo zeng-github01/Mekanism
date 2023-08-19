@@ -142,6 +142,12 @@ public class APIHandler implements MekanismRecipeHelper {
         RecipeHandler.addIsotopicRecipe(inputGas, outputGas);
     }
 
+    @Override
+    public void addNutritionalLiquifierRecipe(ItemStack input, GasStack output) {
+        checkPhase();
+        RecipeHandler.addChemicalOxidizerRecipe(input, output);
+    }
+
     /**
      * ADD END
      */

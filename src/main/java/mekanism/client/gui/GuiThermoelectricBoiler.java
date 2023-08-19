@@ -16,7 +16,6 @@ import mekanism.common.inventory.container.ContainerFilter;
 import mekanism.common.tile.TileEntityBoilerCasing;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
 import mekanism.common.util.UnitDisplayUtils;
 import mekanism.common.util.UnitDisplayUtils.TemperatureUnit;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -169,11 +168,6 @@ public class GuiThermoelectricBoiler extends GuiMekanismTile<TileEntityBoilerCas
             drawTexturedModalRect(guiLeft - 26, guiTop + 86, 0, 0, 26, 26);
             addGuiElement(new GuiWarningInfo(this, getGuiLocation(), true));
         }
-    }
-
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
     }
 
 }

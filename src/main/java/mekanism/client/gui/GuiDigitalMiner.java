@@ -206,10 +206,7 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
         }
     }
 
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
-    }
+
 
     protected boolean silkTouchButtoninBounds(int xAxis, int yAxis) {
         return xAxis > 57 && xAxis < 57 + 15 && yAxis > 52 && yAxis < 52 + 28;

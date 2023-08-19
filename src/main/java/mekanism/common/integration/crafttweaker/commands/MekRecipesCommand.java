@@ -23,9 +23,26 @@ public class MekRecipesCommand extends CraftTweakerCommand {
 
     public MekRecipesCommand() {
         super("mekrecipes");
-        subCommands = Stream.of("crystallizer", "dissolution", "chemicalInfuser", "injection", "oxidizer", "washer", "combiner", "crusher", "separator", "smelter",
-                "enrichment", "metallurgicInfuser", "compressor", "sawmill", "prc", "purification", "solarneutronactivator", "thermalevaporation",
-                "isotopiccentrifuge"
+        subCommands = Stream.of("crystallizer",
+                "dissolution",
+                "chemicalInfuser",
+                "injection",
+                "oxidizer",
+                "washer",
+                "combiner",
+                "crusher",
+                "separator",
+                "smelter",
+                "enrichment",
+                "metallurgicInfuser",
+                "compressor",
+                "sawmill",
+                "prc",
+                "purification",
+                "solarneutronactivator",
+                "thermalevaporation",
+                "isotopiccentrifuge",
+                "nutritionalliquifier"
                 ).collect(Collectors.toList());
     }
 
@@ -236,7 +253,15 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                     ));
                 }
                 break;
-
+            case "nutritionalliquifier":
+                type = Recipe.NUTRITIONAL_LIQUIFIER;
+                for (NutritionalRecipe recipe : Recipe.NUTRITIONAL_LIQUIFIER.get().values()) {
+                    CraftTweakerAPI.logCommand(String.format("mods.mekanism.nutritionalliquifier.addRecipe(%s, %s)",
+                            RecipeInfoHelper.getItemName(recipe.getInput().ingredient),
+                            RecipeInfoHelper.getGasName(recipe.getOutput().output)
+                    ));
+                }
+                break;
             /**
              * ADD END
              */

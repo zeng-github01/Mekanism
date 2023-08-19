@@ -167,4 +167,12 @@ public interface MekanismRecipeHelper {
      */
     void addIsotopicRecipe(GasStack inputGas, GasStack outputGas);
 
+    /**
+     * Add a Nutritional Liquifier recipe.
+     *
+     * @param input  - input ItemStack
+     * @param output - output GasStack
+     */
+    void addNutritionalLiquifierRecipe(ItemStack input, GasStack output);
+
 }

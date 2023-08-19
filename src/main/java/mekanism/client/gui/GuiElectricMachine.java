@@ -27,7 +27,7 @@ public class GuiElectricMachine<RECIPE extends BasicMachineRecipe<RECIPE>> exten
 
     public GuiElectricMachine(InventoryPlayer inventory, TileEntityElectricMachine<RECIPE> tile) {
         super(tile, new ContainerElectricMachine<>(inventory, tile));
-        ResourceLocation resource = tileEntity.guiLocation;
+        ResourceLocation resource = getGuiLocation();
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
@@ -47,14 +47,10 @@ public class GuiElectricMachine<RECIPE extends BasicMachineRecipe<RECIPE>> exten
             public double getProgress() {
                 return tileEntity.getScaledProgress();
             }
-        }, getProgressType(), this, resource, 77, 37));
+        },  ProgressBar.BAR, this, resource, 77, 37));
         addGuiElement(new GuiPlayerSlot(this, resource));
     }
 
-
-    public ProgressBar getProgressType() {
-        return ProgressBar.BAR;
-    }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
@@ -97,8 +93,4 @@ public class GuiElectricMachine<RECIPE extends BasicMachineRecipe<RECIPE>> exten
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return tileEntity.guiLocation;
-    }
 }

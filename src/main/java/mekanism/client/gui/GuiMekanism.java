@@ -231,5 +231,7 @@ public abstract class GuiMekanism extends GuiContainer implements IGuiWrapper {
         }
     }
 
-    protected abstract ResourceLocation getGuiLocation();
+    protected ResourceLocation getGuiLocation(){
+        return MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Null.png");
+    }
 }

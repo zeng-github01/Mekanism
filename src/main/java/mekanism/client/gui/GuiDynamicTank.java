@@ -82,9 +82,4 @@ public class GuiDynamicTank extends GuiMekanismTile<TileEntityDynamicTank> {
         drawTexturedModalRect(guiLeft + 150, guiTop + 39, 13, 0, 8, 9);
     }
 
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
-    }
-
 }

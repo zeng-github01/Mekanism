@@ -92,5 +92,7 @@ public class UsageConfig extends BaseConfig {
     public final DoubleOption isotopicCentrifuge = new DoubleOption(this, "usage", "isotopicCentrifuge", 200D,
             "Energy per operation tick (Joules).");
 
+    public final DoubleOption liquifierNutritional = new DoubleOption(this, "usage", "OxidationChamberUsage", 200D,
+            "Energy per operation tick (Joules).");
 
 }

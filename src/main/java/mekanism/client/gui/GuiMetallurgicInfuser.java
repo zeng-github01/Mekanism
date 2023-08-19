@@ -141,8 +141,4 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
         }
     }
 
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(ResourceType.GUI, "Null.png");
-    }
 }

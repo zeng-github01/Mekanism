@@ -71,8 +71,4 @@ public class GuiWindGenerator extends GuiMekanismTile<TileEntityWindGenerator> {
         drawTexturedModalRect(guiLeft + 20, guiTop + 37, tileEntity.getActive() ? 12 : 0, 88, 12, 12);
     }
 
-    @Override
-    protected ResourceLocation getGuiLocation() {
-        return MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Null.png");
-    }
 }

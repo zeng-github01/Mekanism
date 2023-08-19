@@ -50,12 +50,15 @@ item.Flamethrower.name=喷火器
 item.GaugeDropper.name=滴量器
 item.BioFuel.name=生物燃料
 item.CraftingFormula.name=合成配方
+item.Canteen.name=餐壶
+item.CosmicAlloy.name=宇宙合金
 
 # Control Circuits
 item.BasicControlCircuit.name=基础控制电路
 item.AdvancedControlCircuit.name=高级控制电路
 item.EliteControlCircuit.name=精英控制电路
 item.UltimateControlCircuit.name=终极控制电路
+item.CreativeControlCircuit.name=创造控制电路
 
 # Gas Tank
 tile.GasTankBasic.name=基础燃气储罐
@@ -166,6 +169,7 @@ tile.MachineBlock3.FuelwoodHeater.name=木料加热器
 # Add new machine block start
 tile.MachineBlock3.Factory.name=工厂
 tile.MachineBlock3.IsotopicCentrifuge.name=同位素离心机
+tile.MachineBlock3.NutritionalLiquifier.name=营养液化器
 
 # Plastic
 tile.PlasticBlock.name=塑料方块
@@ -351,6 +355,7 @@ gas.nuclearwaste=核废水
 gas.plutonium=钚
 gas.polonium=钋
 gas.spentnuclearwaste=用尽的核废料
+gas.nutritionalpaste=营养糊剂
 
 #Color gas
 gas.black.name=黑色颜料
@@ -633,6 +638,7 @@ gui.upgrades.unistall=卸载
 
 gui.chemicalInfuser.short=化学灌注器
 gui.chemicalDissolutionChamber.short=化学溶解室
+gui.thermalEvaporationController.short=热力蒸馏控制器
 
 gui.dictionary.noKey=无关键字.
 
@@ -941,6 +947,12 @@ tooltip.ReactorLogicAdapter=一个可以通过红石信号来对反应堆进行�
 tooltip.OsmiumOre=一种牢固的材料，它能够在这个世界任何高度被发现。 它因经常用于机器建造而闻名。
 tooltip.CopperOre=一种常见的导电材料，能够用于线缆的产出。 它耐高温的特性也使它成为生成高级机械的重要材料。
 tooltip.TinOre=一种轻盈，但牢固的导电材料，比铜要略微稀有点。
+
+# Add new machine block and item tooltip - start
+tooltip.IsotopicCentrifuge=一台只有一个目的的机器：非常非常快地旋转它装载的东西。
+tooltip.NutritionalLiquifier=一种能将任何食物加工成无害、易消化的营养糊剂的机器
+tooltip.canteen1=只能添加营养糊剂
+tooltip.canteen2=为什么这物品是如此的昂贵？
 
 # Side data
 sideData.None=无
