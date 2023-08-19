@@ -1,5 +1,9 @@
 package mekanism.common.block;
 
+import java.util.Collections;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.api.IMekWrench;
 import mekanism.client.render.particle.MekanismParticleHelper;
 import mekanism.common.Mekanism;
@@ -44,11 +48,6 @@ import net.minecraftforge.client.model.obj.OBJModel.OBJState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
 
 public class BlockTransmitter extends BlockTileDrops implements ITileEntityProvider {
 

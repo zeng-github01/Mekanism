@@ -1,29 +1,19 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.digital_miner.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.digital_miner.title"
-    },
-    "icon": {
-      "item": "mekanism:machineblock",
-      "data": 4
-    },
-    "frame": "goal"
-  },
-  "criteria": {
-    "mekanism_digital_miner": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:machineblock",
-            "data": 4
-          }
-        ]
+      "parent": "mekanism:robit",
+      "criteria": {"mekanism_digital_miner": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanism:machineblock",
+                  "data": 4
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanism:machineblock",
+                  "data": 4
+            },
+            "description": {"translate": "advancements.mekanism.digital_miner.description"},
+            "title": {"translate": "advancements.mekanism.digital_miner.title"},
+            "frame": "goal"
       }
-    }
-  },
-  "parent": "mekanism:robit"
 }

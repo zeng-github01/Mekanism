@@ -1,5 +1,9 @@
 package mekanism.generators.client.render.item;
 
+import java.util.EnumMap;
+import java.util.Map;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.client.render.item.ItemLayerWrapper;
 import mekanism.client.render.item.SubTypeItemRenderer;
 import mekanism.generators.common.block.states.BlockStateGenerator.GeneratorType;
@@ -7,11 +11,6 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformT
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.EnumMap;
-import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class RenderGeneratorItem extends SubTypeItemRenderer<GeneratorType> {
@@ -48,14 +47,12 @@ public class RenderGeneratorItem extends SubTypeItemRenderer<GeneratorType> {
 
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     protected ItemLayerWrapper getModel(GeneratorType generatorType) {
         return modelMap.get(generatorType);
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     protected GeneratorType getType(@Nonnull ItemStack stack) {
         return GeneratorType.get(stack);
     }

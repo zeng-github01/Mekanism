@@ -1,6 +1,8 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import java.util.List;
+import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
@@ -24,16 +26,11 @@ import mekanism.common.util.FluidContainerUtils.FluidChecker;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
-
-import javax.annotation.Nonnull;
-import java.util.List;
 
 public class TileEntityChemicalWasher extends TileEntityMachine implements IGasHandler, IFluidHandlerWrapper, ISustainedData, IUpgradeInfoHandler, ITankManager,
         IComparatorSupport,ISideConfiguration {

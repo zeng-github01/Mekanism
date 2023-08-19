@@ -1,28 +1,18 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanismgenerators.solar_generator.description"
-    },
-    "title": {
-      "translate": "advancements.mekanismgenerators.solar_generator.title"
-    },
-    "icon": {
-      "item": "mekanismgenerators:generator",
-      "data": 1
-    }
-  },
-  "criteria": {
-    "mekanism_solar_generator": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismgenerators:generator",
-            "data": 1
-          }
-        ]
+      "parent": "mekanismgenerators:heat_generator",
+      "criteria": {"mekanism_solar_generator": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanismgenerators:generator",
+                  "data": 1
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanismgenerators:generator",
+                  "data": 1
+            },
+            "description": {"translate": "advancements.mekanismgenerators.solar_generator.description"},
+            "title": {"translate": "advancements.mekanismgenerators.solar_generator.title"}
       }
-    }
-  },
-  "parent": "mekanismgenerators:heat_generator"
 }

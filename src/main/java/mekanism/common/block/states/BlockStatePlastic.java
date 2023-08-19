@@ -1,5 +1,7 @@
 package mekanism.common.block.states;
 
+import java.util.Locale;
+import javax.annotation.Nonnull;
 import mekanism.common.Mekanism;
 import mekanism.common.block.BlockPlastic;
 import net.minecraft.block.properties.PropertyEnum;
@@ -10,9 +12,6 @@ import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
-
-import javax.annotation.Nonnull;
-import java.util.Locale;
 
 public class BlockStatePlastic extends BlockStateContainer {
 

@@ -1,10 +1,9 @@
 package mekanism.common.integration.wrenches;
 
+import java.util.function.Supplier;
+import javax.annotation.Nullable;
 import mekanism.api.IMekWrench;
 import net.minecraft.item.ItemStack;
-
-import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 /**
  * Generic handler for wrenches, exposed as {@link IMekWrench}. Generally you don't want to use the enum directly, instead use {@link Wrenches#getHandler(ItemStack)}, and
@@ -47,8 +46,7 @@ public enum Wrenches {
         }
     }
 
-    public static @Nullable
-    IMekWrench getHandler(ItemStack it) {
+    public static @Nullable IMekWrench getHandler(ItemStack it) {
         for (Wrenches w : values()) {
             if (w.canHandle(it)) {
                 return w.provider.get(it);

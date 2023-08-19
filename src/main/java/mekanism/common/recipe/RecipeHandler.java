@@ -1,6 +1,11 @@
 package mekanism.common.recipe;
 
 import com.google.common.collect.ImmutableList;
+import java.lang.reflect.Constructor;
+import java.util.*;
+import java.util.Map.Entry;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.api.infuse.InfuseType;
@@ -14,12 +19,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.lang.reflect.Constructor;
-import java.util.*;
-import java.util.Map.Entry;
 
 /**
  * Class used to handle machine recipes. This is used for both adding and fetching recipes.
@@ -262,8 +261,7 @@ public final class RecipeHandler {
      * @param input - input Infusion
      * @return MetallurgicInfuserRecipe
      */
-    @Nullable
-    public static MetallurgicInfuserRecipe getMetallurgicInfuserRecipe(@Nonnull InfusionInput input) {
+    @Nullable public static MetallurgicInfuserRecipe getMetallurgicInfuserRecipe(@Nonnull InfusionInput input) {
         return getRecipe(input, Recipe.METALLURGIC_INFUSER);
     }
 
@@ -273,8 +271,7 @@ public final class RecipeHandler {
      * @param input - the pair of gases to infuse
      * @return ChemicalInfuserRecipe
      */
-    @Nullable
-    public static ChemicalInfuserRecipe getChemicalInfuserRecipe(@Nonnull ChemicalPairInput input) {
+    @Nullable public static ChemicalInfuserRecipe getChemicalInfuserRecipe(@Nonnull ChemicalPairInput input) {
         return getRecipe(input, Recipe.CHEMICAL_INFUSER);
     }
 
@@ -284,8 +281,7 @@ public final class RecipeHandler {
      * @param input - GasInput
      * @return CrystallizerRecipe
      */
-    @Nullable
-    public static CrystallizerRecipe getChemicalCrystallizerRecipe(@Nonnull GasInput input) {
+    @Nullable public static CrystallizerRecipe getChemicalCrystallizerRecipe(@Nonnull GasInput input) {
         return getRecipe(input, Recipe.CHEMICAL_CRYSTALLIZER);
     }
 
@@ -295,8 +291,7 @@ public final class RecipeHandler {
      * @param input - GasInput
      * @return WasherRecipe
      */
-    @Nullable
-    public static WasherRecipe getChemicalWasherRecipe(@Nonnull GasInput input) {
+    @Nullable public static WasherRecipe getChemicalWasherRecipe(@Nonnull GasInput input) {
         return getRecipe(input, Recipe.CHEMICAL_WASHER);
     }
 
@@ -306,8 +301,7 @@ public final class RecipeHandler {
      * @param input - ItemStackInput
      * @return DissolutionRecipe
      */
-    @Nullable
-    public static DissolutionRecipe getDissolutionRecipe(@Nonnull ItemStackInput input) {
+    @Nullable public static DissolutionRecipe getDissolutionRecipe(@Nonnull ItemStackInput input) {
         return getRecipe(input, Recipe.CHEMICAL_DISSOLUTION_CHAMBER);
     }
 
@@ -317,8 +311,7 @@ public final class RecipeHandler {
      * @param input - ItemStackInput
      * @return OxidationRecipe
      */
-    @Nullable
-    public static OxidationRecipe getOxidizerRecipe(@Nonnull ItemStackInput input) {
+    @Nullable public static OxidationRecipe getOxidizerRecipe(@Nonnull ItemStackInput input) {
         return getRecipe(input, Recipe.CHEMICAL_OXIDIZER);
     }
 
@@ -329,8 +322,7 @@ public final class RecipeHandler {
      * @param recipes - Map of recipes
      * @return ChanceRecipe
      */
-    @Nullable
-    public static <RECIPE extends ChanceMachineRecipe<RECIPE>> RECIPE getChanceRecipe(@Nonnull ItemStackInput input, @Nonnull Map<ItemStackInput, RECIPE> recipes) {
+    @Nullable public static <RECIPE extends ChanceMachineRecipe<RECIPE>> RECIPE getChanceRecipe(@Nonnull ItemStackInput input, @Nonnull Map<ItemStackInput, RECIPE> recipes) {
         return getRecipe(input, recipes);
     }
 
@@ -341,8 +333,7 @@ public final class RecipeHandler {
      * @param recipes - Map of recipes
      * @return Recipe
      */
-    @Nullable
-    public static <INPUT extends MachineInput<INPUT>, RECIPE extends MachineRecipe<INPUT, ?, RECIPE>>
+    @Nullable public static <INPUT extends MachineInput<INPUT>, RECIPE extends MachineRecipe<INPUT, ?, RECIPE>>
     RECIPE getRecipe(@Nonnull INPUT input, @Nonnull Map<INPUT, RECIPE> recipes) {
         if (input.isValid()) {
             RECIPE recipe = recipes.get(input);
@@ -356,8 +347,7 @@ public final class RecipeHandler {
         return null;
     }
 
-    @Nullable
-    public static <INPUT extends MachineInput<INPUT>, RECIPE extends MachineRecipe<INPUT, ?, RECIPE>>
+    @Nullable public static <INPUT extends MachineInput<INPUT>, RECIPE extends MachineRecipe<INPUT, ?, RECIPE>>
     RECIPE getRecipe(@Nonnull INPUT input, @Nonnull Recipe<INPUT, ?, RECIPE> type) {
         return getRecipe(input, type.get());
     }
@@ -368,28 +358,23 @@ public final class RecipeHandler {
      * @param input - the FluidInput to electrolyse fluid from
      * @return SeparatorRecipe
      */
-    @Nullable
-    public static SeparatorRecipe getElectrolyticSeparatorRecipe(@Nonnull FluidInput input) {
+    @Nullable public static SeparatorRecipe getElectrolyticSeparatorRecipe(@Nonnull FluidInput input) {
         return getRecipe(input, Recipe.ELECTROLYTIC_SEPARATOR);
     }
 
-    @Nullable
-    public static ThermalEvaporationRecipe getThermalEvaporationRecipe(@Nonnull FluidInput input) {
+    @Nullable public static ThermalEvaporationRecipe getThermalEvaporationRecipe(@Nonnull FluidInput input) {
         return getRecipe(input, Recipe.THERMAL_EVAPORATION_PLANT);
     }
 
-    @Nullable
-    public static SolarNeutronRecipe getSolarNeutronRecipe(@Nonnull GasInput input) {
+    @Nullable public static SolarNeutronRecipe getSolarNeutronRecipe(@Nonnull GasInput input) {
         return getRecipe(input, Recipe.SOLAR_NEUTRON_ACTIVATOR);
     }
 
-    @Nullable
-    public static PressurizedRecipe getPRCRecipe(@Nonnull PressurizedInput input) {
+    @Nullable public static PressurizedRecipe getPRCRecipe(@Nonnull PressurizedInput input) {
         return getRecipe(input, Recipe.PRESSURIZED_REACTION_CHAMBER);
     }
 
-    @Nullable
-    public static AmbientGasRecipe getDimensionGas(IntegerInput input) {
+    @Nullable public static AmbientGasRecipe getDimensionGas(IntegerInput input) {
         return getRecipe(input, Recipe.AMBIENT_ACCUMULATOR);
     }
 
@@ -397,8 +382,7 @@ public final class RecipeHandler {
      * Add Start
      */
 
-    @Nullable
-    public static IsotopicRecipe getIsotopicRecipe(@Nonnull GasInput input) {
+    @Nullable public static IsotopicRecipe getIsotopicRecipe(@Nonnull GasInput input) {
         return getRecipe(input, Recipe.ISOTOPIC_CENTRIFUGE);
     }
 
@@ -558,8 +542,7 @@ public final class RecipeHandler {
             return jeiCategory;
         }
 
-        @Nullable
-        public INPUT createInput(NBTTagCompound nbtTags) {
+        @Nullable public INPUT createInput(NBTTagCompound nbtTags) {
             try {
                 INPUT input = inputClass.newInstance();
                 input.load(nbtTags);
@@ -569,8 +552,7 @@ public final class RecipeHandler {
             }
         }
 
-        @Nullable
-        public RECIPE createRecipe(INPUT input, NBTTagCompound nbtTags) {
+        @Nullable public RECIPE createRecipe(INPUT input, NBTTagCompound nbtTags) {
             try {
                 OUTPUT output = outputClass.newInstance();
                 output.load(nbtTags);

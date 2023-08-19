@@ -1,37 +1,34 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/bin/binbasicside",
-      "front": "mekanism:blocks/bin/binbasicfront",
-      "west": "mekanism:blocks/bin/binbasicside",
-      "east": "mekanism:blocks/bin/binbasicside",
-      "south": "mekanism:blocks/bin/binbasicside",
-      "up": "mekanism:blocks/bin/binbasictop",
-      "down": "mekanism:blocks/bin/binbottom"
-    }
-  },
-  "variants": {
-    "facing": {
-      "north": {},
-      "south": {"y": 180},
-      "east":  {"y": 90},
-      "west":  {"y": -90}
-    },
-    "active": {
-      "true": {
-        "textures": {
-          "front": "mekanism:blocks/bin/binbasicfronton",
-          "west": "mekanism:blocks/bin/binbasicsideon",
-          "east": "mekanism:blocks/bin/binbasicsideon",
-          "south": "mekanism:blocks/bin/binbasicsideon",
-          "up": "mekanism:blocks/bin/binbasictopon"
-        }
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/bin/binbasicside",
+                  "south": "mekanism:blocks/bin/binbasicside",
+                  "west": "mekanism:blocks/bin/binbasicside",
+                  "sides": "mekanism:blocks/bin/binbasicside",
+                  "front": "mekanism:blocks/bin/binbasicfront",
+                  "up": "mekanism:blocks/bin/binbasictop",
+                  "down": "mekanism:blocks/bin/binbottom"
+            },
+            "model": "mekanism:machine"
       },
-      "false": {}
-    },
-    "inventory": [{}]
-  }
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/bin/binbasicsideon",
+                        "south": "mekanism:blocks/bin/binbasicsideon",
+                        "west": "mekanism:blocks/bin/binbasicsideon",
+                        "front": "mekanism:blocks/bin/binbasicfronton",
+                        "up": "mekanism:blocks/bin/binbasictopon"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
+      }
 }
-

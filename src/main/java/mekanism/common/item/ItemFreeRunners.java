@@ -3,6 +3,8 @@ package mekanism.common.item;
 import cofh.redstoneflux.api.IEnergyContainerItem;
 import ic2.api.item.IElectricItemManager;
 import ic2.api.item.ISpecialElectricItem;
+import java.util.List;
+import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.energy.IEnergizedItem;
 import mekanism.client.render.ModelCustomArmor;
@@ -40,9 +42,6 @@ import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import java.util.List;
 
 @InterfaceList({
         @Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = MekanismHooks.IC2_MOD_ID),

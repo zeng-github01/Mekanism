@@ -1,5 +1,6 @@
 package mekanism.common.block;
 
+import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismBlocks;
@@ -29,8 +30,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
 
 public class BlockGlowPanel extends BlockTileDrops implements ITileEntityProvider {
 

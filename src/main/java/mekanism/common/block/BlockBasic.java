@@ -1,6 +1,9 @@
 package mekanism.common.block;
 
 import com.google.common.cache.LoadingCache;
+import java.util.Objects;
+import java.util.UUID;
+import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.IMekWrench;
 import mekanism.api.energy.IEnergizedItem;
@@ -71,10 +74,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * Block class for handling multiple metal block IDs. 0:0: Osmium Block 0:1: Bronze Block 0:2: Refined Obsidian 0:3: Charcoal Block 0:4: Refined Glowstone 0:5: Steel

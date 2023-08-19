@@ -1,5 +1,8 @@
 package mekanism.client.gui;
 
+import java.io.IOException;
+import java.util.Set;
+import javax.annotation.Nullable;
 import mekanism.api.Coord4D;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
@@ -23,18 +26,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.util.Set;
-
 @SideOnly(Side.CLIENT)
 public class GuiUpgradeManagement extends GuiMekanism {
 
     private GuiButton backButton;
     private GuiButton removeButton;
     private IUpgradeTile tileEntity;
-    @Nullable
-    private Upgrade selectedType;
+    @Nullable private Upgrade selectedType;
     private boolean isDragging = false;
     private int dragOffset = 0;
     private int supportedIndex;

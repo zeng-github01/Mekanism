@@ -1,5 +1,6 @@
 package mekanism.common.inventory.container;
 
+import javax.annotation.Nonnull;
 import mekanism.api.infuse.InfuseRegistry;
 import mekanism.common.inventory.slot.SlotEnergy;
 import mekanism.common.inventory.slot.SlotOutput;
@@ -13,8 +14,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
-
-import javax.annotation.Nonnull;
 
 public class ContainerMetallurgicInfuser extends ContainerMekanism<TileEntityMetallurgicInfuser> {
 

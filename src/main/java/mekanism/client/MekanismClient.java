@@ -1,5 +1,8 @@
 package mekanism.client;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import mekanism.api.MekanismAPI;
 import mekanism.api.MekanismAPI.BoxBlacklistEvent;
 import mekanism.client.render.obj.TransmitterModel;
@@ -13,10 +16,6 @@ import mekanism.common.security.SecurityData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class MekanismClient extends Mekanism {
 

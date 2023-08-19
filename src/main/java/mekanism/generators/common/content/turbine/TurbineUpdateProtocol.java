@@ -1,5 +1,8 @@
 package mekanism.generators.common.content.turbine;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import mekanism.api.Coord4D;
 import mekanism.common.content.tank.TankUpdateProtocol;
 import mekanism.common.multiblock.MultiblockCache;
@@ -13,10 +16,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class TurbineUpdateProtocol extends UpdateProtocol<SynchronizedTurbineData> {
 

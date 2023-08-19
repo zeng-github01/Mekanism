@@ -1,45 +1,34 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryRight",
-      "front": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryFront",
-      "south": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryBack",
-      "west": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryRight",
-      "east": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryLeft",
-      "up": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryTop",
-      "down": "mekanism:blocks/factory/ultimate/UltimateFactoryBottom"
-    }
-  },
-  "variants": {
-    "facing": {
-      "north": {},
-      "south": {
-        "y": 180
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryLeft",
+                  "south": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryBack",
+                  "west": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryRight",
+                  "sides": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryRight",
+                  "front": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryFront",
+                  "up": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryTop",
+                  "down": "mekanism:blocks/factory/ultimate/UltimateFactoryBottom"
+            },
+            "model": "mekanism:machine"
       },
-      "east": {
-        "y": 90
-      },
-      "west": {
-        "y": -90
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryLeftOn",
+                        "south": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryBackOn",
+                        "west": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryRightOn",
+                        "front": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryFrontOn",
+                        "up": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryTopOn"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
       }
-    },
-    "active": {
-      "true": {
-        "textures": {
-          "front": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryFrontOn",
-          "south": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryBackOn",
-          "west": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryRightOn",
-          "east": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryLeftOn",
-          "up": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryTopOn"
-        }
-      },
-      "false": {}
-    },
-    "inventory": [
-      {}
-    ]
-  }
 }
-

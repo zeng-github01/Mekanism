@@ -1,5 +1,10 @@
 package mekanism.client.render;
 
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.Map;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
@@ -41,12 +46,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class MekanismRenderer {

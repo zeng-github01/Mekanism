@@ -1,481 +1,391 @@
 {
-  "etc.Beep": {
-    "category": "master",
-    "sounds": [
-      {
-        "name": "mekanism:etc/Beep",
-        "stream": false
-      }
-    ]
-  },
-  "etc.Beep2": {
-    "category": "master",
-    "sounds": [
-      {
-        "name": "mekanism:etc/Beep2",
-        "stream": false
-      }
-    ]
-  },
-  "etc.Click": {
-    "category": "master",
-    "sounds": [
-      {
-        "name": "mekanism:etc/Click",
-        "stream": false
-      }
-    ]
-  },
-  "etc.Ding": {
-    "category": "master",
-    "sounds": [
-      {
-        "name": "mekanism:etc/Ding",
-        "stream": false
-      }
-    ]
-  },
-  "etc.Error": {
-    "category": "master",
-    "sounds": [
-      {
-        "name": "mekanism:etc/Error",
-        "stream": false
-      }
-    ]
-  },
-  "etc.GasMask": {
-    "category": "master",
-    "sounds": [
-      {
-        "name": "mekanism:etc/GasMask",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.item.scuba_mask"
-  },
-  "etc.Hydraulic": {
-    "category": "master",
-    "sounds": [
-      {
-        "name": "mekanism:etc/Hydraulic",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.item.hydraulic"
-  },
-  "etc.Pop": {
-    "category": "master",
-    "sounds": [
-      {
-        "name": "mekanism:etc/Pop",
-        "stream": false
-      }
-    ]
-  },
-  "etc.Success": {
-    "category": "master",
-    "sounds": [
-      {
-        "name": "mekanism:etc/Success",
-        "stream": false
-      }
-    ]
-  },
-  "etc.cj": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:cj/CJ_1",
-        "stream": false
+      "item.jetpack": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:Jetpack"
+            }],
+            "subtitle": "sound_event.mekanism.item.jetpack",
+            "category": "player"
       },
-      {
-        "name": "mekanism:cj/CJ_2",
-        "stream": false
+      "tile.machine.laser": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:Laser"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.laser",
+            "category": "block"
       },
-      {
-        "name": "mekanism:cj/CJ_3",
-        "stream": false
+      "tile.machine.rotarycondensentrator": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:RotaryCondensentrator"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.rotary_condensentrator",
+            "category": "block"
       },
-      {
-        "name": "mekanism:cj/CJ_4",
-        "stream": false
+      "tile.gen.wind": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:WindTurbine"
+            }],
+            "subtitle": "sound_event.mekanismgenerators.tile.generator.wind",
+            "category": "weather"
       },
-      {
-        "name": "mekanism:cj/CJ_5",
-        "stream": false
+      "etc.Pop": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:etc/Pop"
+            }],
+            "category": "master"
       },
-      {
-        "name": "mekanism:cj/CJ_6",
-        "stream": false
+      "tile.machine.compressor": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:Compressor"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.compressor",
+            "category": "block"
       },
-      {
-        "name": "mekanism:cj/CJ_7",
-        "stream": false
+      "tile.machine.prc": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:PressurizedReactionChamber"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.pressurized_reaction_chamber",
+            "category": "block"
       },
-      {
-        "name": "mekanism:cj/CJ_8",
-        "stream": false
+      "tile.machine.fusionreactor": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:FusionReactor"
+            }],
+            "subtitle": "sound_event.mekanismgenerators.tile.machine.fusion_reactor",
+            "category": "block"
+      },
+      "tile.machine.metalinfuser": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:MetallurgicInfuser"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.metallurgic_infuser",
+            "category": "block"
+      },
+      "tile.machine.chargepad": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:Chargepad"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.chargepad",
+            "category": "block"
+      },
+      "tile.machine.oxidizer": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:ChemicalOxidizer"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.chemical_oxidizer",
+            "category": "block"
+      },
+      "tile.machine.dissolution": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:ChemicalDissolutionChamber"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.chemical_dissolution_chamber",
+            "category": "block"
+      },
+      "tile.machine.crusher": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:Crusher"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.crusher",
+            "category": "block"
+      },
+      "tile.machine.combiner": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:Combiner"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.combiner",
+            "category": "block"
+      },
+      "tile.machine.sawmill": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:PrecisionSawmill"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.precision_sawmill",
+            "category": "block"
+      },
+      "tile.machine.smelter": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:Smelter"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.energized_smelter",
+            "category": "block"
+      },
+      "tile.gen.solar": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:SolarGenerator"
+            }],
+            "subtitle": "sound_event.mekanismgenerators.tile.generator.solar",
+            "category": "block"
+      },
+      "etc.Success": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:etc/Success"
+            }],
+            "category": "master"
+      },
+      "tile.machine.enrichment": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:EnrichmentChamber"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.enrichment_chamber",
+            "category": "block"
+      },
+      "tile.gen.heat": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:HeatGenerator"
+            }],
+            "subtitle": "sound_event.mekanismgenerators.tile.generator.heat",
+            "category": "block"
+      },
+      "item.flamethrower.active": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:FlamethrowerActive"
+            }],
+            "subtitle": "sound_event.mekanism.item.flamethrower.active",
+            "category": "player"
+      },
+      "etc.Error": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:etc/Error"
+            }],
+            "category": "master"
+      },
+      "etc.Hydraulic": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:etc/Hydraulic"
+            }],
+            "subtitle": "sound_event.mekanism.item.hydraulic",
+            "category": "master"
+      },
+      "tile.machine.electrolyticseparator": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:ElectrolyticSeparator"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.electrolytic_separator",
+            "category": "block"
+      },
+      "etc.GasMask": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:etc/GasMask"
+            }],
+            "subtitle": "sound_event.mekanism.item.scuba_mask",
+            "category": "master"
+      },
+      "tile.machine.washer": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:ChemicalWasher"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.chemical_washer",
+            "category": "block"
+      },
+      "tile.christmas.5": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:holiday/Nutcracker5"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.crusher",
+            "category": "block"
+      },
+      "tile.christmas.4": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:holiday/Nutcracker4"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.energized_smelter",
+            "category": "block"
+      },
+      "tile.gen.gas": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:GasGenerator"
+            }],
+            "subtitle": "sound_event.mekanismgenerators.tile.generator.gas",
+            "category": "block"
+      },
+      "etc.cj": {
+            "sounds": [
+                  {
+                        "stream": false,
+                        "name": "mekanism:cj/CJ_1"
+                  },
+                  {
+                        "stream": false,
+                        "name": "mekanism:cj/CJ_2"
+                  },
+                  {
+                        "stream": false,
+                        "name": "mekanism:cj/CJ_3"
+                  },
+                  {
+                        "stream": false,
+                        "name": "mekanism:cj/CJ_4"
+                  },
+                  {
+                        "stream": false,
+                        "name": "mekanism:cj/CJ_5"
+                  },
+                  {
+                        "stream": false,
+                        "name": "mekanism:cj/CJ_6"
+                  },
+                  {
+                        "stream": false,
+                        "name": "mekanism:cj/CJ_7"
+                  },
+                  {
+                        "stream": false,
+                        "name": "mekanism:cj/CJ_8"
+                  }
+            ],
+            "category": "block"
+      },
+      "tile.christmas.1": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:holiday/Nutcracker1"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.enrichment_chamber",
+            "category": "block"
+      },
+      "etc.Beep": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:etc/Beep"
+            }],
+            "category": "master"
+      },
+      "tile.machine.cheminfuser": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:ChemicalInfuser"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.chemical_infuser",
+            "category": "block"
+      },
+      "tile.christmas.3": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:holiday/Nutcracker3"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.purification_chamber",
+            "category": "block"
+      },
+      "etc.Beep2": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:etc/Beep2"
+            }],
+            "category": "master"
+      },
+      "tile.machine.logisticalsorter": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:etc/Click"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.logistical_sorter",
+            "category": "block"
+      },
+      "tile.christmas.2": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:holiday/Nutcracker2"
+            }],
+            "category": "block"
+      },
+      "item.flamethrower.idle": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:FlamethrowerIdle"
+            }],
+            "subtitle": "sound_event.mekanism.item.flamethrower.idle",
+            "category": "player"
+      },
+      "tile.machine.injection": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:ChemicalInjectionChamber"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.chemical_injection_chamber",
+            "category": "block"
+      },
+      "tile.machine.crystallizer": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:ChemicalCrystallizer"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.chemical_crystallizer",
+            "category": "block"
+      },
+      "tile.machine.purifier": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:PurificationChamber"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.purification_chamber",
+            "category": "block"
+      },
+      "tile.machine.resistiveheater": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:ResistiveHeater"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.resistive_heater",
+            "category": "block"
+      },
+      "tile.gen.bio": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:BioGenerator"
+            }],
+            "subtitle": "sound_event.mekanismgenerators.tile.generator.bio",
+            "category": "block"
+      },
+      "etc.Ding": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:etc/Ding"
+            }],
+            "category": "master"
+      },
+      "item.gasMask": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:GasMask"
+            }],
+            "subtitle": "sound_event.mekanism.item.scuba_mask",
+            "category": "player"
+      },
+      "etc.Click": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:etc/Click"
+            }],
+            "category": "master"
       }
-    ]
-  },
-  "tile.machine.chargepad": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:Chargepad",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.chargepad"
-  },
-  "tile.machine.crystallizer": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:ChemicalCrystallizer",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.chemical_crystallizer"
-  },
-  "tile.machine.dissolution": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:ChemicalDissolutionChamber",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.chemical_dissolution_chamber"
-  },
-  "tile.machine.cheminfuser": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:ChemicalInfuser",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.chemical_infuser"
-  },
-  "tile.machine.injection": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:ChemicalInjectionChamber",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.chemical_injection_chamber"
-  },
-  "tile.machine.oxidizer": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:ChemicalOxidizer",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.chemical_oxidizer"
-  },
-  "tile.machine.washer": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:ChemicalWasher",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.chemical_washer"
-  },
-  "tile.machine.combiner": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:Combiner",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.combiner"
-  },
-  "tile.machine.compressor": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:Compressor",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.compressor"
-  },
-  "tile.machine.crusher": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:Crusher",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.crusher"
-  },
-  "tile.machine.enrichment": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:EnrichmentChamber",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.enrichment_chamber"
-  },
-  "tile.machine.metalinfuser": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:MetallurgicInfuser",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.metallurgic_infuser"
-  },
-  "tile.machine.sawmill": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:PrecisionSawmill",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.precision_sawmill"
-  },
-  "tile.machine.prc": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:PressurizedReactionChamber",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.pressurized_reaction_chamber"
-  },
-  "tile.machine.purifier": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:PurificationChamber",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.purification_chamber"
-  },
-  "tile.machine.smelter": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:Smelter",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.energized_smelter"
-  },
-  "tile.machine.laser": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:Laser",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.laser"
-  },
-  "tile.machine.resistiveheater": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:ResistiveHeater",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.resistive_heater"
-  },
-  "tile.machine.electrolyticseparator": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:ElectrolyticSeparator",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.electrolytic_separator"
-  },
-  "tile.machine.rotarycondensentrator": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:RotaryCondensentrator",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.rotary_condensentrator"
-  },
-  "tile.machine.logisticalsorter": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:etc/Click",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.logistical_sorter"
-  },
-  "tile.christmas.1": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:holiday/Nutcracker1",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.enrichment_chamber"
-  },
-  "tile.christmas.2": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:holiday/Nutcracker2",
-        "stream": false
-      }
-    ]
-  },
-  "tile.christmas.3": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:holiday/Nutcracker3",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.purification_chamber"
-  },
-  "tile.christmas.4": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:holiday/Nutcracker4",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.energized_smelter"
-  },
-  "tile.christmas.5": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:holiday/Nutcracker5",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.tile.machine.crusher"
-  },
-  "tile.machine.fusionreactor": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:FusionReactor",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanismgenerators.tile.machine.fusion_reactor"
-  },
-  "tile.gen.bio": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:BioGenerator",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanismgenerators.tile.generator.bio"
-  },
-  "tile.gen.gas": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:GasGenerator",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanismgenerators.tile.generator.gas"
-  },
-  "tile.gen.heat": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:HeatGenerator",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanismgenerators.tile.generator.heat"
-  },
-  "tile.gen.solar": {
-    "category": "block",
-    "sounds": [
-      {
-        "name": "mekanism:SolarGenerator",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanismgenerators.tile.generator.solar"
-  },
-  "tile.gen.wind": {
-    "category": "weather",
-    "sounds": [
-      {
-        "name": "mekanism:WindTurbine",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanismgenerators.tile.generator.wind"
-  },
-  "item.flamethrower.idle": {
-    "category": "player",
-    "sounds": [
-      {
-        "name": "mekanism:FlamethrowerIdle",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.item.flamethrower.idle"
-  },
-  "item.flamethrower.active": {
-    "category": "player",
-    "sounds": [
-      {
-        "name": "mekanism:FlamethrowerActive",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.item.flamethrower.active"
-  },
-  "item.gasMask": {
-    "category": "player",
-    "sounds": [
-      {
-        "name": "mekanism:GasMask",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.item.scuba_mask"
-  },
-  "item.jetpack": {
-    "category": "player",
-    "sounds": [
-      {
-        "name": "mekanism:Jetpack",
-        "stream": false
-      }
-    ],
-    "subtitle": "sound_event.mekanism.item.jetpack"
-  }
 }

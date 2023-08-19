@@ -1,5 +1,10 @@
 package mekanism.common.transmitters.grid;
 
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
+import javax.annotation.Nullable;
 import mekanism.api.Coord4D;
 import mekanism.api.energy.EnergyStack;
 import mekanism.api.transmitters.DynamicNetwork;
@@ -13,12 +18,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.Event;
-
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
 
 public class EnergyNetwork extends DynamicNetwork<EnergyAcceptorWrapper, EnergyNetwork, EnergyStack> {
 
@@ -57,8 +56,7 @@ public class EnergyNetwork extends DynamicNetwork<EnergyAcceptorWrapper, EnergyN
         return Math.round(d * 10000) / 10000;
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public EnergyStack getBuffer() {
         return buffer;
     }

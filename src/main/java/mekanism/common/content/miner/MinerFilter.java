@@ -1,14 +1,13 @@
 package mekanism.common.content.miner;
 
 import io.netty.buffer.ByteBuf;
+import javax.annotation.Nullable;
 import mekanism.api.TileNetworkList;
 import mekanism.common.content.filter.IFilter;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
-import javax.annotation.Nullable;
 
 public abstract class MinerFilter implements IFilter {
 
@@ -28,8 +27,7 @@ public abstract class MinerFilter implements IFilter {
         return filter;
     }
 
-    @Nullable
-    private static MinerFilter getType(int type) {
+    @Nullable private static MinerFilter getType(int type) {
         MinerFilter filter = null;
         if (type == 0) {
             filter = new MItemStackFilter();

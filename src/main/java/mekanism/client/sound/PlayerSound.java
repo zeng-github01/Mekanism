@@ -1,5 +1,8 @@
 package mekanism.client.sound;
 
+import java.lang.ref.WeakReference;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.common.config.MekanismConfig;
 import net.minecraft.client.audio.ITickableSound;
 import net.minecraft.client.audio.PositionedSound;
@@ -8,10 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.lang.ref.WeakReference;
 
 @SideOnly(Side.CLIENT)
 public abstract class PlayerSound extends PositionedSound implements ITickableSound {
@@ -41,8 +40,7 @@ public abstract class PlayerSound extends PositionedSound implements ITickableSo
         this.volume = 0.1F;
     }
 
-    @Nullable
-    private EntityPlayer getPlayer() {
+    @Nullable private EntityPlayer getPlayer() {
         return playerReference.get();
     }
 

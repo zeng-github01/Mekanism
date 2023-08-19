@@ -1,37 +1,34 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryRight",
-      "front": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryFront",
-      "south": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryBack",
-      "west": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryRight",
-      "east": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryLeft",
-      "up": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryTop",
-      "down": "mekanism:blocks/factory/basic/BasicFactoryBottom"
-    }
-  },
-  "variants": {
-    "facing": {
-      "north": {},
-      "south": {"y": 180},
-      "east":  {"y": 90},
-      "west":  {"y": -90}
-    },
-    "active": {
-      "true": {
-        "textures": {
-          "front": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryFrontOn",
-          "south": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryBackOn",
-          "west": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryRightOn",
-          "east": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryLeftOn",
-          "up": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryTopOn"
-        }
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryLeft",
+                  "south": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryBack",
+                  "west": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryRight",
+                  "sides": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryRight",
+                  "front": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryFront",
+                  "up": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryTop",
+                  "down": "mekanism:blocks/factory/basic/BasicFactoryBottom"
+            },
+            "model": "mekanism:machine"
       },
-      "false": {}
-    },
-    "inventory": [{}]
-  }
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryLeftOn",
+                        "south": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryBackOn",
+                        "west": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryRightOn",
+                        "front": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryFrontOn",
+                        "up": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryTopOn"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
+      }
 }
-

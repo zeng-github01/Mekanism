@@ -1,37 +1,34 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryRight",
-      "front": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryFront",
-      "south": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryBack",
-      "west": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryRight",
-      "east": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryLeft",
-      "up": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryTop",
-      "down": "mekanism:blocks/factory/elite/EliteFactoryBottom"
-    }
-  },
-  "variants": {
-    "facing": {
-      "north": {},
-      "south": {"y": 180},
-      "east":  {"y": 90},
-      "west":  {"y": -90}
-    },
-    "active": {
-      "true": {
-        "textures": {
-          "front": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryFrontOn",
-          "south": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryBackOn",
-          "west": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryRightOn",
-          "east": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryLeftOn",
-          "up": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryTopOn"
-        }
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryLeft",
+                  "south": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryBack",
+                  "west": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryRight",
+                  "sides": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryRight",
+                  "front": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryFront",
+                  "up": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryTop",
+                  "down": "mekanism:blocks/factory/elite/EliteFactoryBottom"
+            },
+            "model": "mekanism:machine"
       },
-      "false": {}
-    },
-    "inventory": [{}]
-  }
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryLeftOn",
+                        "south": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryBackOn",
+                        "west": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryRightOn",
+                        "front": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryFrontOn",
+                        "up": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryTopOn"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
+      }
 }
-

@@ -1,5 +1,11 @@
 package mekanism.common;
 
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import javax.annotation.Nullable;
 import mekanism.api.EnumColor;
 import mekanism.common.base.IUpgradeTile;
 import mekanism.common.config.MekanismConfig;
@@ -9,13 +15,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants.NBT;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public enum Upgrade {
     SPEED("speed", MekanismConfig.current().mekce.MAXSpeedUpgrade.val(), MekanismConfig.current().mekce.MAXSpeedUpgradeSize.val(), EnumColor.RED),

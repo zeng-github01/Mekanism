@@ -1,5 +1,6 @@
 package mekanism.common.content.matrix;
 
+import java.util.List;
 import mekanism.api.Coord4D;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismBlocks;
@@ -14,8 +15,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-
-import java.util.List;
 
 public class MatrixUpdateProtocol extends UpdateProtocol<SynchronizedMatrixData> {
 

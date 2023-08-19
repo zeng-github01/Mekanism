@@ -4,6 +4,12 @@ import cofh.redstoneflux.api.IEnergyContainerItem;
 import ic2.api.item.IElectricItemManager;
 import ic2.api.item.ISpecialElectricItem;
 import io.netty.buffer.ByteBuf;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.energy.IEnergizedItem;
@@ -63,13 +69,6 @@ import net.minecraftforge.fml.common.Optional.InterfaceList;
 import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
 
 /**
  * Item class for handling multiple machine block IDs.
@@ -462,8 +461,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
         return itemStack.getTagCompound().getInteger("recipeType");
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public RecipeType getRecipeTypeOrNull(ItemStack itemStack) {
         int recipeType = getRecipeType(itemStack);
         if (recipeType < RecipeType.values().length) {

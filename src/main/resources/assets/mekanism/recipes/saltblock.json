@@ -1,15 +1,9 @@
 {
-  "result": {
-    "item": "mekanism:saltblock"
-  },
-  "pattern": [
-    "**",
-    "**"
-  ],
-  "type": "minecraft:crafting_shaped",
-  "key": {
-    "*": {
-      "item": "mekanism:salt"
-    }
-  }
+      "result": {"item": "mekanism:saltblock"},
+      "pattern": [
+            "**",
+            "**"
+      ],
+      "type": "minecraft:crafting_shaped",
+      "key": {"*": {"item": "mekanism:salt"}}
 }

@@ -1,6 +1,5 @@
 package mekanism.client.gui.element.tab;
 
-import mekanism.api.EnumColor;
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.client.gui.element.GuiElement;
 import mekanism.client.render.MekanismRenderer;

@@ -1,6 +1,9 @@
 package mekanism.common.integration;
 
 import ic2.api.recipe.Recipes;
+import java.util.Arrays;
+import java.util.List;
+import javax.annotation.Nonnull;
 import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.GasStack;
 import mekanism.api.infuse.InfuseObject;
@@ -36,10 +39,6 @@ import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
-
-import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.List;
 
 @EventBusSubscriber(modid = Mekanism.MODID)
 public final class OreDictManager {

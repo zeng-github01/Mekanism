@@ -1,5 +1,8 @@
 package mekanism.client.gui;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiRedstoneControl;
@@ -24,10 +27,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiLaserAmplifier extends GuiMekanismTile<TileEntityLaserAmplifier> {

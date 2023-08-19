@@ -1,29 +1,19 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanismgenerators.burn_the_gas.description"
-    },
-    "title": {
-      "translate": "advancements.mekanismgenerators.burn_the_gas.title"
-    },
-    "icon": {
-      "item": "mekanismgenerators:generator",
-      "data": 3
-    },
-    "frame": "goal"
-  },
-  "criteria": {
-    "mekanism_burn_the_gas": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismgenerators:generator",
-            "data": 3
-          }
-        ]
+      "parent": "mekanismgenerators:wind_generator",
+      "criteria": {"mekanism_burn_the_gas": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanismgenerators:generator",
+                  "data": 3
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanismgenerators:generator",
+                  "data": 3
+            },
+            "description": {"translate": "advancements.mekanismgenerators.burn_the_gas.description"},
+            "title": {"translate": "advancements.mekanismgenerators.burn_the_gas.title"},
+            "frame": "goal"
       }
-    }
-  },
-  "parent": "mekanismgenerators:wind_generator"
 }

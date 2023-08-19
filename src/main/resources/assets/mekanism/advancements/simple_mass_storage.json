@@ -1,28 +1,18 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.simple_mass_storage.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.simple_mass_storage.title"
-    },
-    "icon": {
-      "item": "mekanism:basicblock",
-      "data": 6
-    }
-  },
-  "criteria": {
-    "mekanism_simple_mass_storage": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:basicblock",
-            "data": 6
-          }
-        ]
+      "parent": "mekanism:basic_control_circuit",
+      "criteria": {"mekanism_simple_mass_storage": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanism:basicblock",
+                  "data": 6
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanism:basicblock",
+                  "data": 6
+            },
+            "description": {"translate": "advancements.mekanism.simple_mass_storage.description"},
+            "title": {"translate": "advancements.mekanism.simple_mass_storage.title"}
       }
-    }
-  },
-  "parent": "mekanism:basic_control_circuit"
 }

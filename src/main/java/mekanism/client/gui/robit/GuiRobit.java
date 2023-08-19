@@ -1,5 +1,6 @@
 package mekanism.client.gui.robit;
 
+import java.io.IOException;
 import mekanism.client.gui.GuiMekanism;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiPlayerSlot;
@@ -15,8 +16,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.io.IOException;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiRobit extends GuiMekanism {

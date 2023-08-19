@@ -1,5 +1,9 @@
 package mekanism.common.content.boiler;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import mekanism.api.Coord4D;
 import mekanism.api.IHeatTransfer;
 import mekanism.common.config.MekanismConfig;
@@ -10,11 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fluids.FluidStack;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public class SynchronizedBoilerData extends SynchronizedData<SynchronizedBoilerData> implements IHeatTransfer {
 

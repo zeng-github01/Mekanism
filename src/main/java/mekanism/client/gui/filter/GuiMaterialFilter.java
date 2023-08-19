@@ -1,5 +1,6 @@
 package mekanism.client.gui.filter;
 
+import java.io.IOException;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.client.sound.SoundHandler;
@@ -23,8 +24,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
-
-import java.io.IOException;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiMaterialFilter<FILTER extends IMaterialFilter, TILE extends TileEntityContainerBlock> extends GuiTypeFilter<FILTER, TILE> {

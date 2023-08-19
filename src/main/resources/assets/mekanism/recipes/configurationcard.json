@@ -1,19 +1,13 @@
 {
-  "result": {
-    "item": "mekanism:configurationcard"
-  },
-  "pattern": [
-    " A ",
-    "ACA",
-    " A "
-  ],
-  "type": "forge:ore_shaped",
-  "key": {
-    "A": {
-      "item": "mekanism:enrichedalloy"
-    },
-    "C": {
-      "item": "#CIRCUITBASIC"
-    }
-  }
+      "result": {"item": "mekanism:configurationcard"},
+      "pattern": [
+            " A ",
+            "ACA",
+            " A "
+      ],
+      "type": "forge:ore_shaped",
+      "key": {
+            "A": {"item": "mekanism:enrichedalloy"},
+            "C": {"item": "#CIRCUITBASIC"}
+      }
 }

@@ -1,5 +1,7 @@
 package mekanism.client.render.transmitter;
 
+import java.util.*;
+import java.util.function.Function;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.ColourRGBA;
 import mekanism.common.tile.transmitter.TileEntityTransmitter;
@@ -20,9 +22,6 @@ import net.minecraftforge.client.model.obj.OBJModel;
 import net.minecraftforge.client.model.obj.OBJModel.OBJState;
 import net.minecraftforge.client.model.pipeline.LightUtil;
 import org.lwjgl.opengl.GL11;
-
-import java.util.*;
-import java.util.function.Function;
 
 public abstract class RenderTransmitterBase<T extends TileEntityTransmitter> extends TileEntitySpecialRenderer<T> {
 

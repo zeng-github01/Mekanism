@@ -1,5 +1,10 @@
 package mekanism.client.jei;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.client.gui.*;
@@ -29,12 +34,6 @@ import mezz.jei.api.IModRegistry;
 import mezz.jei.api.recipe.IRecipeWrapperFactory;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.crafting.FurnaceRecipes;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class RecipeRegistryHelper {
 

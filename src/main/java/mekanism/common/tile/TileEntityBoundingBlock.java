@@ -1,6 +1,7 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
@@ -15,8 +16,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
-
-import javax.annotation.Nonnull;
 
 /**
  * Multi-block used by wind turbines, solar panels, and other machines

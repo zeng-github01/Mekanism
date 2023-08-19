@@ -1,5 +1,10 @@
 package mekanism.api;
 
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.api.util.BlockInfo;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
@@ -7,12 +12,6 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.LogManager;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
 
 public class MekanismAPI {
 

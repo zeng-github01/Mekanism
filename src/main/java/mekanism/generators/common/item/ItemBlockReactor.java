@@ -1,5 +1,7 @@
 package mekanism.generators.common.item;
 
+import java.util.List;
+import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
@@ -12,9 +14,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
-
-import javax.annotation.Nonnull;
-import java.util.List;
 
 public class ItemBlockReactor extends ItemBlock {
 

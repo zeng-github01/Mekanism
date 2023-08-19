@@ -1,5 +1,8 @@
 package mekanism.common.tile;
 
+import java.util.EnumSet;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.common.base.FluidHandlerWrapper;
 import mekanism.common.base.IComparatorSupport;
 import mekanism.common.base.IFluidHandlerWrapper;
@@ -15,10 +18,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.EnumSet;
 
 public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFluidHandlerWrapper, IComputerIntegration, IComparatorSupport {
 
@@ -82,8 +81,7 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
     }
 
     @Override
-    @Nullable
-    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
+    @Nullable public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
         return steamTank.drain(maxDrain, doDrain);
     }
 

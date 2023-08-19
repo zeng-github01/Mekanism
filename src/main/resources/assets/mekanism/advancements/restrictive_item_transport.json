@@ -1,28 +1,18 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.restrictive_item_transport.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.restrictive_item_transport.title"
-    },
-    "icon": {
-      "item": "mekanism:transmitter",
-      "data": 4
-    }
-  },
-  "criteria": {
-    "mekanism_restrictive_item_transport": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:transmitter",
-            "data": 4
-          }
-        ]
+      "parent": "mekanism:item_transport",
+      "criteria": {"mekanism_restrictive_item_transport": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanism:transmitter",
+                  "data": 4
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanism:transmitter",
+                  "data": 4
+            },
+            "description": {"translate": "advancements.mekanism.restrictive_item_transport.description"},
+            "title": {"translate": "advancements.mekanism.restrictive_item_transport.title"}
       }
-    }
-  },
-  "parent": "mekanism:item_transport"
 }

@@ -1,5 +1,12 @@
 package mekanism.common.block.states;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import javax.annotation.Nonnull;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismBlocks;
 import mekanism.common.base.IBlockType;
@@ -25,14 +32,6 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 public class BlockStateMachine extends ExtendedBlockState {
 

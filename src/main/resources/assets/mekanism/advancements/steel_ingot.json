@@ -1,28 +1,18 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.steel_ingot.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.steel_ingot.title"
-    },
-    "icon": {
-      "item": "mekanism:ingot",
-      "data": 4
-    }
-  },
-  "criteria": {
-    "mekanism_steel_ingot": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:ingot",
-            "data": 4
-          }
-        ]
+      "parent": "mekanism:metallurgic_infuser",
+      "criteria": {"mekanism_steel_ingot": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanism:ingot",
+                  "data": 4
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanism:ingot",
+                  "data": 4
+            },
+            "description": {"translate": "advancements.mekanism.steel_ingot.description"},
+            "title": {"translate": "advancements.mekanism.steel_ingot.title"}
       }
-    }
-  },
-  "parent": "mekanism:metallurgic_infuser"
 }

@@ -1,6 +1,9 @@
 package mekanism.generators.common.tile.reactor;
 
 import io.netty.buffer.ByteBuf;
+import java.util.EnumSet;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.api.*;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
@@ -30,10 +33,6 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.EnumSet;
 
 public class TileEntityReactorPort extends TileEntityReactorBlock implements IFluidHandlerWrapper, IGasHandler, IHeatTransfer, IConfigurable {
 
@@ -92,8 +91,7 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
     }
 
     @Override
-    @Nullable
-    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
+    @Nullable public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
         return getReactor().getSteamTank().drain(maxDrain, doDrain);
     }
 

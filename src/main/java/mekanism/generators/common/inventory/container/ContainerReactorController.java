@@ -1,5 +1,6 @@
 package mekanism.generators.common.inventory.container;
 
+import javax.annotation.Nonnull;
 import mekanism.common.inventory.container.ContainerMekanism;
 import mekanism.common.util.MekanismUtils;
 import mekanism.generators.common.item.ItemHohlraum;
@@ -11,8 +12,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
 
 public class ContainerReactorController extends ContainerMekanism<TileEntityReactorController> {
 

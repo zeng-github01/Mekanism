@@ -1,18 +1,16 @@
 {
-  "result": {
-    "item": "mekanism:basicblock",
-    "data": 2
-  },
-  "pattern": [
-    "***",
-    "***",
-    "***"
-  ],
-  "type": "mekanism:ore_shaped",
-  "key": {
-    "*": {
-      "ore": "ingotRefinedObsidian",
-      "type": "forge:ore_dict"
-    }
-  }
+      "result": {
+            "item": "mekanism:basicblock",
+            "data": 2
+      },
+      "pattern": [
+            "***",
+            "***",
+            "***"
+      ],
+      "type": "mekanism:ore_shaped",
+      "key": {"*": {
+            "ore": "ingotRefinedObsidian",
+            "type": "forge:ore_dict"
+      }}
 }

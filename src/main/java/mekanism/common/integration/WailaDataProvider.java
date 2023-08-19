@@ -1,5 +1,7 @@
 package mekanism.common.integration;
 
+import java.util.List;
+import javax.annotation.Nonnull;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -16,9 +18,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional.Interface;
 import net.minecraftforge.fml.common.Optional.Method;
-
-import javax.annotation.Nonnull;
-import java.util.List;
 
 @Interface(iface = "mcp.mobius.waila.api.IWailaDataProvider", modid = MekanismHooks.WAILA_MOD_ID)
 public class WailaDataProvider implements IWailaDataProvider {

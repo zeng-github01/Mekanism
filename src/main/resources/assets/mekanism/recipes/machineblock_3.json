@@ -1,34 +1,28 @@
 {
-  "result": {
-    "item": "mekanism:machineblock",
-    "data": 3
-  },
-  "pattern": [
-    "RCR",
-    "LIL",
-    "RCR"
-  ],
-  "type": "mekanism:ore_shaped",
-  "conditions": [
-    {
-      "type": "mekanism:recipe_enabled",
-      "machineType": "Crusher"
-    }
-  ],
-  "key": {
-    "R": {
-      "ore": "dustRedstone",
-      "type": "forge:ore_dict"
-    },
-    "C": {
-      "item": "#CIRCUITBASIC"
-    },
-    "I": {
-      "item": "mekanism:basicblock",
-      "data": 8
-    },
-    "L": {
-      "item": "minecraft:lava_bucket"
-    }
-  }
+      "result": {
+            "item": "mekanism:machineblock",
+            "data": 3
+      },
+      "pattern": [
+            "RCR",
+            "LIL",
+            "RCR"
+      ],
+      "type": "mekanism:ore_shaped",
+      "conditions": [{
+            "type": "mekanism:recipe_enabled",
+            "machineType": "Crusher"
+      }],
+      "key": {
+            "R": {
+                  "ore": "dustRedstone",
+                  "type": "forge:ore_dict"
+            },
+            "C": {"item": "#CIRCUITBASIC"},
+            "I": {
+                  "item": "mekanism:basicblock",
+                  "data": 8
+            },
+            "L": {"item": "minecraft:lava_bucket"}
+      }
 }

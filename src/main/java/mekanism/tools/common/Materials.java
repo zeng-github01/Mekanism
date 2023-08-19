@@ -1,5 +1,8 @@
 package mekanism.tools.common;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
+import javax.annotation.Nonnull;
 import mekanism.common.MekanismItems;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.config.ToolsConfig;
@@ -12,10 +15,6 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.util.EnumHelper;
-
-import javax.annotation.Nonnull;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 public enum Materials {
     OBSIDIAN("OBSIDIAN", cfg -> cfg.toolOBSIDIAN, cfg -> cfg.toolOBSIDIAN2, cfg -> cfg.armorOBSIDIAN, () -> new ItemStack(MekanismItems.Ingot)),

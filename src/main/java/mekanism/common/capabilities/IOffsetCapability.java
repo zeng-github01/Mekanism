@@ -1,11 +1,10 @@
 package mekanism.common.capabilities;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.common.capabilities.Capability;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * Allows for handling capabilities at an offset to the actual implementer. This allows Tile Entities such as the Digital Miner to via the advanced bounding blocks be
@@ -41,8 +40,7 @@ public interface IOffsetCapability extends IToggleableCapability {
      * @param offset     An offset position to figure out what block is actually the one that is being checked.
      * @return The requested capability. Must <strong>NOT</strong> be null when {@link #hasCapability(Capability, EnumFacing)} would return true.
      */
-    @Nullable
-    <T> T getOffsetCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing side, @Nonnull Vec3i offset);
+    @Nullable <T> T getOffsetCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing side, @Nonnull Vec3i offset);
 
     /**
      * Checks if a given capability is disabled for this provider on the given side and offset. If false is returned it makes makes no guarantees that the capability is

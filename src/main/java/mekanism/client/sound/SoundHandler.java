@@ -1,5 +1,9 @@
 package mekanism.client.sound;
 
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.client.sound.PlayerSound.SoundType;
 import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
@@ -20,11 +24,6 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 // SoundHandler is the central point for sounds on Mek client side. There are roughly three classes of sounds to deal
 // with:
@@ -256,8 +255,7 @@ public class SoundHandler {
             return original.getSoundLocation();
         }
 
-        @Nullable
-        @Override
+        @Nullable @Override
         public SoundEventAccessor createAccessor(@Nonnull net.minecraft.client.audio.SoundHandler handler) {
             return original.createAccessor(handler);
         }

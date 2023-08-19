@@ -3,6 +3,7 @@ package mekanism.common.recipe;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import javax.annotation.Nonnull;
 import mekanism.common.Mekanism;
 import mekanism.common.util.RecipeUtils;
 import net.minecraft.block.Block;
@@ -22,8 +23,6 @@ import net.minecraftforge.common.crafting.IRecipeFactory;
 import net.minecraftforge.common.crafting.JsonContext;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-
-import javax.annotation.Nonnull;
 
 public class ShapelessMekanismRecipe extends ShapelessOreRecipe {
 

@@ -1,5 +1,7 @@
 package mekanism.common.item;
 
+import java.util.List;
+import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
@@ -32,9 +34,6 @@ import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import java.util.List;
 
 public class ItemJetpack extends ItemArmor implements IGasItem, ISpecialArmor {
 

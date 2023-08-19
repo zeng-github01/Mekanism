@@ -1,12 +1,11 @@
 package mekanism.api;
 
+import java.util.Locale;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
-
-import java.util.Locale;
 
 /**
  * Simple color enum for adding colors to in-game GUI strings of text.

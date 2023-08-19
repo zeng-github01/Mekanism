@@ -1,5 +1,7 @@
 package mekanism.client.gui;
 
+import java.io.IOException;
+import javax.annotation.Nullable;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiDisableableButton;
@@ -28,9 +30,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
-
-import javax.annotation.Nullable;
-import java.io.IOException;
 
 @SideOnly(Side.CLIENT)
 public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMiner, MinerFilter> {

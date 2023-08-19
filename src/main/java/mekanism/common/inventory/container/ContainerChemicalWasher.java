@@ -1,5 +1,6 @@
 package mekanism.common.inventory.container;
 
+import javax.annotation.Nonnull;
 import mekanism.api.gas.IGasItem;
 import mekanism.common.inventory.slot.SlotEnergy.SlotDischarge;
 import mekanism.common.inventory.slot.SlotOutput;
@@ -12,8 +13,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidUtil;
-
-import javax.annotation.Nonnull;
 
 public class ContainerChemicalWasher extends ContainerMekanism<TileEntityChemicalWasher> {
 

@@ -1,18 +1,12 @@
 {
-  "result": {
-    "item": "mekanism:dictionary"
-  },
-  "pattern": [
-    "C",
-    "B"
-  ],
-  "type": "forge:ore_shaped",
-  "key": {
-    "B": {
-      "item": "minecraft:book"
-    },
-    "C": {
-      "item": "#CIRCUITBASIC"
-    }
-  }
+      "result": {"item": "mekanism:dictionary"},
+      "pattern": [
+            "C",
+            "B"
+      ],
+      "type": "forge:ore_shaped",
+      "key": {
+            "B": {"item": "minecraft:book"},
+            "C": {"item": "#CIRCUITBASIC"}
+      }
 }

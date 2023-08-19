@@ -19,7 +19,7 @@ public class GrSMekanismAdd {
     public static void init() {
         loaded = Loader.isModLoaded(MekanismHooks.GROOVYSCRIPT_MOD_ID);
         if (!loaded) return;
-        modSupportContainer = new ModSupport.Container<>(Mekanism.MODID, Mekanism.MOD_NAME, Container::new, "mek", "mekceu", "MekanismCEUnofficial");
+        modSupportContainer = new ModSupport.Container<>(Mekanism.MODID, "Mekanism", Container::new, "mek", "mekceu", "MekanismCEUnofficial");
     }
 
     public static boolean isLoaded() {

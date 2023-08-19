@@ -1,6 +1,7 @@
 package mekanism.common.util;
 
 import io.netty.buffer.ByteBuf;
+import java.util.EnumSet;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.GasStack;
 import mekanism.api.gas.GasTank;
@@ -11,8 +12,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
-
-import java.util.EnumSet;
 
 //TODO: Move this and factor out the parts into proper classes. This is mainly just temp to make organization not as needed
 public class TileUtils {

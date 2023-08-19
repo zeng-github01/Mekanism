@@ -1,5 +1,12 @@
 package mekanism.client;
 
+import static mekanism.common.block.states.BlockStatePlastic.colorProperty;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.Pos3D;
@@ -95,14 +102,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static mekanism.common.block.states.BlockStatePlastic.colorProperty;
 
 /**
  * Client proxy for the Mekanism mod.

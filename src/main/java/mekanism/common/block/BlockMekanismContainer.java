@@ -1,5 +1,6 @@
 package mekanism.common.block;
 
+import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockFlowerPot;
@@ -16,8 +17,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.IWorldNameable;
 import net.minecraft.world.World;
-
-import javax.annotation.Nonnull;
 
 public abstract class BlockMekanismContainer extends BlockContainer {
 

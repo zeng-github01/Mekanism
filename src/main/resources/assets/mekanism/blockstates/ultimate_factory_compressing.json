@@ -1,45 +1,34 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryRight",
-      "front": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryFront",
-      "south": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryBack",
-      "west": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryRight",
-      "east": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryLeft",
-      "up": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryTop",
-      "down": "mekanism:blocks/factory/ultimate/UltimateFactoryBottom"
-    }
-  },
-  "variants": {
-    "facing": {
-      "north": {},
-      "south": {
-        "y": 180
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryLeft",
+                  "south": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryBack",
+                  "west": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryRight",
+                  "sides": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryRight",
+                  "front": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryFront",
+                  "up": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryTop",
+                  "down": "mekanism:blocks/factory/ultimate/UltimateFactoryBottom"
+            },
+            "model": "mekanism:machine"
       },
-      "east": {
-        "y": 90
-      },
-      "west": {
-        "y": -90
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryLeftOn",
+                        "south": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryBackOn",
+                        "west": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryRightOn",
+                        "front": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryFrontOn",
+                        "up": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryTopOn"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
       }
-    },
-    "active": {
-      "true": {
-        "textures": {
-          "front": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryFrontOn",
-          "south": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryBackOn",
-          "west": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryRightOn",
-          "east": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryLeftOn",
-          "up": "mekanism:blocks/factory/ultimate/compressing/UltimateCompressingFactoryTopOn"
-        }
-      },
-      "false": {}
-    },
-    "inventory": [
-      {}
-    ]
-  }
 }
-

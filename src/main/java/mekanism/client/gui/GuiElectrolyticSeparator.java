@@ -1,5 +1,9 @@
 package mekanism.client.gui;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -26,11 +30,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrolyticSeparator> {

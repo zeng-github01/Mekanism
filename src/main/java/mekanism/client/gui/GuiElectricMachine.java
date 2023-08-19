@@ -1,5 +1,8 @@
 package mekanism.client.gui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
@@ -18,10 +21,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiElectricMachine<RECIPE extends BasicMachineRecipe<RECIPE>> extends GuiMekanismTile<TileEntityElectricMachine<RECIPE>> {

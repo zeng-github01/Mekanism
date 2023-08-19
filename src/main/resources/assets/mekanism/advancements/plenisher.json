@@ -1,28 +1,18 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.plenisher.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.plenisher.title"
-    },
-    "icon": {
-      "item": "mekanism:machineblock2",
-      "data": 12
-    }
-  },
-  "criteria": {
-    "mekanism_plenisher": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:machineblock2",
-            "data": 12
-          }
-        ]
+      "parent": "mekanism:pump",
+      "criteria": {"mekanism_plenisher": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanism:machineblock2",
+                  "data": 12
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanism:machineblock2",
+                  "data": 12
+            },
+            "description": {"translate": "advancements.mekanism.plenisher.description"},
+            "title": {"translate": "advancements.mekanism.plenisher.title"}
       }
-    }
-  },
-  "parent": "mekanism:pump"
 }

@@ -7,6 +7,7 @@ import ic2.api.energy.tile.IEnergyAcceptor;
 import ic2.api.energy.tile.IEnergyConductor;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergyTile;
+import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.common.base.FluidHandlerWrapper;
 import mekanism.common.base.IComparatorSupport;
@@ -36,8 +37,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.Optional.Method;
-
-import javax.annotation.Nonnull;
 
 public class TileEntityTurbineValve extends TileEntityTurbineCasing implements IFluidHandlerWrapper, IEnergyWrapper, IComputerIntegration, IComparatorSupport {
 

@@ -1,5 +1,6 @@
 package mekanism.common.inventory.container;
 
+import javax.annotation.Nonnull;
 import mekanism.common.inventory.slot.SlotArmor;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.util.FluidContainerUtils;
@@ -8,8 +9,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-
-import javax.annotation.Nonnull;
 
 public abstract class ContainerFluidStorage<TILE extends TileEntityContainerBlock> extends ContainerMekanism<TILE> {
 

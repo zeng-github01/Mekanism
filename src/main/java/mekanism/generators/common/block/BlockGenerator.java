@@ -1,5 +1,7 @@
 package mekanism.generators.common.block;
 
+import java.util.Random;
+import javax.annotation.Nonnull;
 import mekanism.api.IMekWrench;
 import mekanism.api.energy.IEnergizedItem;
 import mekanism.common.base.*;
@@ -44,9 +46,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import java.util.Random;
 
 /**
  * Block class for handling multiple generator block IDs. 0: Heat Generator 1: Solar Generator 3: Hydrogen Generator 4: Bio-Generator 5: Advanced Solar Generator 6: Wind

@@ -1,38 +1,24 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.seismic_vibrations.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.seismic_vibrations.title"
-    },
-    "icon": {
-      "item": "mekanism:machineblock2",
-      "data": 9
-    }
-  },
-  "criteria": {
-    "mekanism_seismic_vibrations": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:machineblock2",
-            "data": 9
-          }
-        ]
+      "parent": "mekanism:steel_casing",
+      "criteria": {
+            "mekanism_seismic_Reader": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanism:seismicreader"}]}
+            },
+            "mekanism_seismic_vibrations": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{
+                        "item": "mekanism:machineblock2",
+                        "data": 9
+                  }]}
+            }
+      },
+      "display": {
+            "icon": {
+                  "item": "mekanism:machineblock2",
+                  "data": 9
+            },
+            "description": {"translate": "advancements.mekanism.seismic_vibrations.description"},
+            "title": {"translate": "advancements.mekanism.seismic_vibrations.title"}
       }
-    },
-    "mekanism_seismic_Reader": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:seismicreader"
-          }
-        ]
-      }
-    }
-  },
-  "parent": "mekanism:steel_casing"
 }

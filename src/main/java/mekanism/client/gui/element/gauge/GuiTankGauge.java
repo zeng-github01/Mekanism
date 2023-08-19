@@ -1,5 +1,6 @@
 package mekanism.client.gui.element.gauge;
 
+import java.util.Arrays;
 import mekanism.api.Coord4D;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.IGuiWrapper;
@@ -14,8 +15,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
-
-import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiTankGauge<T, TANK> extends GuiGauge<T> {

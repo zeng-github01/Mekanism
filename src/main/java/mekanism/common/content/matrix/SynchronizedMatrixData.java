@@ -1,6 +1,8 @@
 package mekanism.common.content.matrix;
 
 import io.netty.buffer.ByteBuf;
+import java.util.HashSet;
+import java.util.Set;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.common.multiblock.SynchronizedData;
@@ -11,9 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
-
-import java.util.HashSet;
-import java.util.Set;
 
 //TODO: Do something better for purposes of double precision such as BigInt
 public class SynchronizedMatrixData extends SynchronizedData<SynchronizedMatrixData> {

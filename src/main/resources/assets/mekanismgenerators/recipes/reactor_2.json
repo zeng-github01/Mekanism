@@ -1,22 +1,20 @@
 {
-  "result": {
-    "item": "mekanismgenerators:reactor",
-    "data": 2,
-    "count": 2
-  },
-  "pattern": [
-    " I ",
-    "ICI",
-    " I "
-  ],
-  "type": "forge:ore_shaped",
-  "key": {
-    "C": {
-      "item": "#CIRCUITULTIMATE"
-    },
-    "I": {
-      "item": "mekanismgenerators:reactor",
-      "data": 1
-    }
-  }
+      "result": {
+            "item": "mekanismgenerators:reactor",
+            "data": 2,
+            "count": 2
+      },
+      "pattern": [
+            " I ",
+            "ICI",
+            " I "
+      ],
+      "type": "forge:ore_shaped",
+      "key": {
+            "C": {"item": "#CIRCUITULTIMATE"},
+            "I": {
+                  "item": "mekanismgenerators:reactor",
+                  "data": 1
+            }
+      }
 }

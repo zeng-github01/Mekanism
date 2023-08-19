@@ -1,6 +1,7 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.IHeatTransfer;
 import mekanism.api.TileNetworkList;
@@ -22,8 +23,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-
-import javax.annotation.Nonnull;
 
 public class TileEntityFuelwoodHeater extends TileEntityContainerBlock implements IHeatTransfer, ISecurityTile, IActiveState {
 

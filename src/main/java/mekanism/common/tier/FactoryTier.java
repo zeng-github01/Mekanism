@@ -1,8 +1,7 @@
 package mekanism.common.tier;
 
-import mekanism.common.block.states.BlockStateMachine.MachineType;
-
 import java.util.function.Consumer;
+import mekanism.common.block.states.BlockStateMachine.MachineType;
 
 public enum FactoryTier implements ITier {
     BASIC(3),

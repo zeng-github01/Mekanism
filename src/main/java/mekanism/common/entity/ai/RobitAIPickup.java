@@ -1,11 +1,10 @@
 package mekanism.common.entity.ai;
 
+import java.util.Iterator;
+import java.util.List;
 import mekanism.common.entity.EntityRobit;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.math.AxisAlignedBB;
-
-import java.util.Iterator;
-import java.util.List;
 
 /*
  * 	Written by pixlepix (I'm in mekanism! Yay!)

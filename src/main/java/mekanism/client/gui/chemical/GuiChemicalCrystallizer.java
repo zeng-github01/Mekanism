@@ -1,5 +1,8 @@
 package mekanism.client.gui.chemical;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.OreGas;
 import mekanism.client.gui.GuiMekanismTile;
@@ -27,10 +30,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalCrystallizer> {

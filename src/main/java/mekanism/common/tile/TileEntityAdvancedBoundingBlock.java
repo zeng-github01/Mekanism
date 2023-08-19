@@ -4,6 +4,7 @@ import cofh.redstoneflux.api.IEnergyProvider;
 import cofh.redstoneflux.api.IEnergyReceiver;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
+import javax.annotation.Nonnull;
 import mekanism.api.IConfigCardAccess.ISpecialConfigData;
 import mekanism.api.energy.IStrictEnergyAcceptor;
 import mekanism.common.Mekanism;
@@ -24,8 +25,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.Optional.Interface;
 import net.minecraftforge.fml.common.Optional.InterfaceList;
 import net.minecraftforge.fml.common.Optional.Method;
-
-import javax.annotation.Nonnull;
 
 @InterfaceList({
         @Interface(iface = "cofh.redstoneflux.api.IEnergyProvider", modid = MekanismHooks.REDSTONEFLUX_MOD_ID),

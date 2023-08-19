@@ -1,13 +1,12 @@
 package mekanism.common.voice;
 
-import mekanism.common.Mekanism;
-import mekanism.common.config.MekanismConfig;
-
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.HashSet;
 import java.util.Set;
+import mekanism.common.Mekanism;
+import mekanism.common.config.MekanismConfig;
 
 public class VoiceServerManager {
 

@@ -1,6 +1,7 @@
 package mekanism.generators.common.block;
 
 import buildcraft.api.tools.IToolWrench;
+import javax.annotation.Nonnull;
 import mekanism.common.base.IActiveState;
 import mekanism.common.tile.prefab.TileEntityBasicBlock;
 import mekanism.common.tile.prefab.TileEntityElectricBlock;
@@ -31,8 +32,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
 
 public abstract class BlockReactor extends Block implements ITileEntityProvider {
 

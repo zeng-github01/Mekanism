@@ -1,5 +1,7 @@
 package mekanism.common;
 
+import java.io.File;
+import java.lang.ref.WeakReference;
 import mekanism.api.Coord4D;
 import mekanism.api.MekanismAPI;
 import mekanism.api.Pos3D;
@@ -40,9 +42,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.FMLInjectionData;
 import net.minecraftforge.oredict.OreDictionary;
-
-import java.io.File;
-import java.lang.ref.WeakReference;
 
 /**
  * Common proxy for the Mekanism mod.

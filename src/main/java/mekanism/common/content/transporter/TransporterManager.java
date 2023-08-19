@@ -1,5 +1,7 @@
 package mekanism.common.content.transporter;
 
+import java.util.*;
+import java.util.Map.Entry;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.common.Mekanism;
@@ -15,9 +17,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.items.IItemHandler;
 import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.*;
-import java.util.Map.Entry;
 
 public class TransporterManager {
 

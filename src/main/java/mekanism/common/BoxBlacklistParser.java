@@ -1,9 +1,8 @@
 package mekanism.common;
 
+import java.io.*;
 import mekanism.api.MekanismAPI;
 import net.minecraft.block.Block;
-
-import java.io.*;
 
 public final class BoxBlacklistParser {
 

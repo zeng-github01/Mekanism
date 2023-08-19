@@ -1,5 +1,6 @@
 package mekanism.client.gui;
 
+import java.util.List;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.SideData;
 import mekanism.common.base.ISideConfiguration;
@@ -10,8 +11,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiMekanismTile<TILE extends TileEntityContainerBlock> extends GuiMekanism {

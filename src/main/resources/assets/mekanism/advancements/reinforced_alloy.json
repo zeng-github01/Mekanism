@@ -1,26 +1,12 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.reinforced_alloy.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.reinforced_alloy.title"
-    },
-    "icon": {
-      "item": "mekanism:reinforcedalloy"
-    }
-  },
-  "criteria": {
-    "mekanism_reinforced_alloy": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:reinforcedalloy"
-          }
-        ]
+      "parent": "mekanism:infused_alloy",
+      "criteria": {"mekanism_reinforced_alloy": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{"item": "mekanism:reinforcedalloy"}]}
+      }},
+      "display": {
+            "icon": {"item": "mekanism:reinforcedalloy"},
+            "description": {"translate": "advancements.mekanism.reinforced_alloy.description"},
+            "title": {"translate": "advancements.mekanism.reinforced_alloy.title"}
       }
-    }
-  },
-  "parent": "mekanism:infused_alloy"
 }

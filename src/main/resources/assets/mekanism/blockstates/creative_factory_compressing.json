@@ -1,45 +1,34 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryRight",
-      "front": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryFront",
-      "south": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryBack",
-      "west": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryRight",
-      "east": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryLeft",
-      "up": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryTop",
-      "down": "mekanism:blocks/factory/creative/CreativeFactoryBottom"
-    }
-  },
-  "variants": {
-    "facing": {
-      "north": {},
-      "south": {
-        "y": 180
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryLeft",
+                  "south": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryBack",
+                  "west": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryRight",
+                  "sides": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryRight",
+                  "front": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryFront",
+                  "up": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryTop",
+                  "down": "mekanism:blocks/factory/creative/CreativeFactoryBottom"
+            },
+            "model": "mekanism:machine"
       },
-      "east": {
-        "y": 90
-      },
-      "west": {
-        "y": -90
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryLeftOn",
+                        "south": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryBackOn",
+                        "west": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryRightOn",
+                        "front": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryFrontOn",
+                        "up": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryTopOn"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
       }
-    },
-    "active": {
-      "true": {
-        "textures": {
-          "front": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryFrontOn",
-          "south": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryBackOn",
-          "west": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryRightOn",
-          "east": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryLeftOn",
-          "up": "mekanism:blocks/factory/creative/compressing/CreativeCompressingFactoryTopOn"
-        }
-      },
-      "false": {}
-    },
-    "inventory": [
-      {}
-    ]
-  }
 }
-

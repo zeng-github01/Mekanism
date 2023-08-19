@@ -1,15 +1,9 @@
 {
-  "result": {
-    "item": "mekanismtools:glowstonehelmet"
-  },
-  "pattern": [
-    "***",
-    "* *"
-  ],
-  "type": "forge:ore_shaped",
-  "key": {
-    "*": {
-      "item": "#INGOT_REFINED_GLOWSTONE"
-    }
-  }
+      "result": {"item": "mekanismtools:glowstonehelmet"},
+      "pattern": [
+            "***",
+            "* *"
+      ],
+      "type": "forge:ore_shaped",
+      "key": {"*": {"item": "#INGOT_REFINED_GLOWSTONE"}}
 }

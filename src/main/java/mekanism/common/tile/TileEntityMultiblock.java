@@ -1,6 +1,8 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
@@ -20,16 +22,12 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 public abstract class TileEntityMultiblock<T extends SynchronizedData<T>> extends TileEntityContainerBlock implements IMultiblock<T> {
 
     /**
      * The multiblock data for this structure.
      */
-    @Nullable
-    public T structure;
+    @Nullable public T structure;
 
     /**
      * Whether or not to send this multiblock's structure in the next update packet.
@@ -59,8 +57,7 @@ public abstract class TileEntityMultiblock<T extends SynchronizedData<T>> extend
     /**
      * This multiblock segment's cached inventory ID
      */
-    @Nullable
-    public String cachedID = null;
+    @Nullable public String cachedID = null;
 
     public TileEntityMultiblock(String name) {
         super(name);

@@ -1,26 +1,12 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.chemical_tank.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.chemical_tank.title"
-    },
-    "icon": {
-      "item": "mekanism:gastank"
-    }
-  },
-  "criteria": {
-    "mekanism_chemical_tank": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:gastank"
-          }
-        ]
+      "parent": "mekanism:infused_alloy",
+      "criteria": {"mekanism_chemical_tank": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{"item": "mekanism:gastank"}]}
+      }},
+      "display": {
+            "icon": {"item": "mekanism:gastank"},
+            "description": {"translate": "advancements.mekanism.chemical_tank.description"},
+            "title": {"translate": "advancements.mekanism.chemical_tank.title"}
       }
-    }
-  },
-  "parent": "mekanism:infused_alloy"
 }

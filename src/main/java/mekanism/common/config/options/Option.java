@@ -1,12 +1,11 @@
 package mekanism.common.config.options;
 
 import io.netty.buffer.ByteBuf;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import mekanism.common.config.BaseConfig;
 import mekanism.common.util.FieldsAreNonnullByDefault;
 import net.minecraftforge.common.config.Configuration;
-
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Thiakil on 15/03/2019.
@@ -17,8 +16,7 @@ public abstract class Option<THISTYPE extends Option> {
 
     protected final String key;
 
-    @Nullable
-    protected final String comment;
+    @Nullable protected final String comment;
 
     protected final String category;
 

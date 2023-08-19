@@ -1,31 +1,27 @@
 {
-  "result": {
-    "item": "mekanismgenerators:generator",
-    "data": 5
-  },
-  "pattern": [
-    "SES",
-    "SES",
-    "III"
-  ],
-  "type": "mekanism:ore_shaped",
-  "conditions": [
-    {
-      "type": "mekanism:recipe_enabled",
-      "generatorType": "AdvancedSolarGenerator"
-    }
-  ],
-  "key": {
-    "S": {
-      "item": "mekanismgenerators:generator",
-      "data": 1
-    },
-    "E": {
-      "item": "mekanism:enrichedalloy"
-    },
-    "I": {
-      "ore": "ingotIron",
-      "type": "forge:ore_dict"
-    }
-  }
+      "result": {
+            "item": "mekanismgenerators:generator",
+            "data": 5
+      },
+      "pattern": [
+            "SES",
+            "SES",
+            "III"
+      ],
+      "type": "mekanism:ore_shaped",
+      "conditions": [{
+            "type": "mekanism:recipe_enabled",
+            "generatorType": "AdvancedSolarGenerator"
+      }],
+      "key": {
+            "S": {
+                  "item": "mekanismgenerators:generator",
+                  "data": 1
+            },
+            "E": {"item": "mekanism:enrichedalloy"},
+            "I": {
+                  "ore": "ingotIron",
+                  "type": "forge:ore_dict"
+            }
+      }
 }

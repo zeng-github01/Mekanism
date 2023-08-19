@@ -6,9 +6,6 @@ import mekanism.client.render.MekanismRenderer;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GuiBar extends GuiElement {
 
     private final int xPosition;

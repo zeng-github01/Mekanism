@@ -1,5 +1,8 @@
 package mekanism.generators.common;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import mekanism.api.Coord4D;
 import mekanism.api.IHeatTransfer;
 import mekanism.api.gas.GasStack;
@@ -25,10 +28,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class FusionReactor {
 

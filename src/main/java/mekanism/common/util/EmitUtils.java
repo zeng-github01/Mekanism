@@ -1,5 +1,7 @@
 package mekanism.common.util;
 
+import java.util.Set;
+import java.util.function.BiConsumer;
 import mekanism.common.base.SplitInfo;
 import mekanism.common.base.SplitInfo.DoubleSplitInfo;
 import mekanism.common.base.SplitInfo.IntegerSplitInfo;
@@ -9,9 +11,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.Set;
-import java.util.function.BiConsumer;
 
 public class EmitUtils {
 

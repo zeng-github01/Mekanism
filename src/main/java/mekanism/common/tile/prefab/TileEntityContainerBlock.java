@@ -1,5 +1,6 @@
 package mekanism.common.tile.prefab;
 
+import javax.annotation.Nonnull;
 import mekanism.common.Upgrade;
 import mekanism.common.base.ISustainedInventory;
 import mekanism.common.base.ItemHandlerWrapper;
@@ -22,8 +23,6 @@ import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
-
-import javax.annotation.Nonnull;
 
 public abstract class TileEntityContainerBlock extends TileEntityBasicBlock implements ISidedInventory, ISustainedInventory, ITickable, IToggleableCapability {
 

@@ -1,29 +1,19 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.purification_chamber.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.purification_chamber.title"
-    },
-    "icon": {
-      "item": "mekanism:machineblock",
-      "data": 9
-    },
-    "frame": "goal"
-  },
-  "criteria": {
-    "mekanism_purification_chamber": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:machineblock",
-            "data": 9
-          }
-        ]
+      "parent": "mekanism:enricher",
+      "criteria": {"mekanism_purification_chamber": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanism:machineblock",
+                  "data": 9
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanism:machineblock",
+                  "data": 9
+            },
+            "description": {"translate": "advancements.mekanism.purification_chamber.description"},
+            "title": {"translate": "advancements.mekanism.purification_chamber.title"},
+            "frame": "goal"
       }
-    }
-  },
-  "parent": "mekanism:enricher"
 }

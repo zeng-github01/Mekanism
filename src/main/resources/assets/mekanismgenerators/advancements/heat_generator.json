@@ -1,28 +1,18 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanismgenerators.heat_generator.description"
-    },
-    "title": {
-      "translate": "advancements.mekanismgenerators.heat_generator.title"
-    },
-    "icon": {
-      "item": "mekanismgenerators:generator",
-      "data" : 0
-    }
-  },
-  "criteria": {
-    "mekanism_heat_generator": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismgenerators:generator",
-            "data" : 0
-          }
-        ]
+      "parent": "mekanism:materials",
+      "criteria": {"mekanism_heat_generator": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanismgenerators:generator",
+                  "data": 0
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanismgenerators:generator",
+                  "data": 0
+            },
+            "description": {"translate": "advancements.mekanismgenerators.heat_generator.description"},
+            "title": {"translate": "advancements.mekanismgenerators.heat_generator.title"}
       }
-    }
-  },
-  "parent": "mekanism:materials"
 }

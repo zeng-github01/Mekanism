@@ -1,28 +1,18 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.energy_transport.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.energy_transport.title"
-    },
-    "icon": {
-      "item": "mekanism:transmitter",
-      "data": 0
-    }
-  },
-  "criteria": {
-    "mekanism_energy_transport": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:transmitter",
-            "data": 0
-          }
-        ]
+      "parent": "mekanism:steel_ingot",
+      "criteria": {"mekanism_energy_transport": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanism:transmitter",
+                  "data": 0
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanism:transmitter",
+                  "data": 0
+            },
+            "description": {"translate": "advancements.mekanism.energy_transport.description"},
+            "title": {"translate": "advancements.mekanism.energy_transport.title"}
       }
-    }
-  },
-  "parent": "mekanism:steel_ingot"
 }

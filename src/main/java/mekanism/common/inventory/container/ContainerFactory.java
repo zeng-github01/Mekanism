@@ -1,5 +1,6 @@
 package mekanism.common.inventory.container;
 
+import javax.annotation.Nonnull;
 import mekanism.api.infuse.InfuseRegistry;
 import mekanism.common.base.IFactory;
 import mekanism.common.base.IFactory.RecipeType;
@@ -16,8 +17,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
-
-import javax.annotation.Nonnull;
 
 public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
 

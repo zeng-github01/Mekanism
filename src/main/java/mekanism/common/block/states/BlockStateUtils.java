@@ -1,8 +1,7 @@
 package mekanism.common.block.states;
 
-import net.minecraft.util.EnumFacing;
-
 import java.util.function.Predicate;
+import net.minecraft.util.EnumFacing;
 
 /**
  * Created by Thiakil on 18/04/2019.

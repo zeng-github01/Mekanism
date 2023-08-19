@@ -1,5 +1,6 @@
 package mekanism.common.item;
 
+import javax.annotation.Nonnull;
 import mekanism.common.util.ItemDataUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,8 +8,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-
-import javax.annotation.Nonnull;
 
 public class ItemProxy extends Item {
 

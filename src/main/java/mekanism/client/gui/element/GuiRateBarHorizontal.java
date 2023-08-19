@@ -62,7 +62,7 @@ public class GuiRateBarHorizontal extends GuiElement {
     public void mouseClicked(int xAxis, int yAxis, int button) {
     }
 
-    public static abstract class IRateInfoHandler {
+    public abstract static class IRateInfoHandler {
 
         public String getTooltip() {
             return null;

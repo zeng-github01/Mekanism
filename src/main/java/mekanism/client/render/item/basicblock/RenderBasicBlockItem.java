@@ -1,5 +1,9 @@
 package mekanism.client.render.item.basicblock;
 
+import java.util.EnumMap;
+import java.util.Map;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.client.render.item.ItemLayerWrapper;
 import mekanism.client.render.item.SubTypeItemRenderer;
 import mekanism.common.block.states.BlockStateBasic.BasicBlockType;
@@ -7,11 +11,6 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformT
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.EnumMap;
-import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class RenderBasicBlockItem extends SubTypeItemRenderer<BasicBlockType> {
@@ -39,14 +38,12 @@ public class RenderBasicBlockItem extends SubTypeItemRenderer<BasicBlockType> {
     protected void renderItemSpecific(@Nonnull ItemStack stack, TransformType transformType) {
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     protected ItemLayerWrapper getModel(BasicBlockType basicBlockType) {
         return modelMap.get(basicBlockType);
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     protected BasicBlockType getType(@Nonnull ItemStack stack) {
         return BasicBlockType.get(stack);
     }

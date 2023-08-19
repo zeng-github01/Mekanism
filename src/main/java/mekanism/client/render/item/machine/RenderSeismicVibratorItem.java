@@ -1,5 +1,6 @@
 package mekanism.client.render.item.machine;
 
+import javax.annotation.Nonnull;
 import mekanism.client.model.ModelSeismicVibrator;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.util.MekanismUtils;
@@ -9,8 +10,6 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformT
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 public class RenderSeismicVibratorItem {

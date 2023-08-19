@@ -1,16 +1,10 @@
 {
-  "result": {
-    "item": "mekanismtools:osmiumchestplate"
-  },
-  "pattern": [
-    "* *",
-    "***",
-    "***"
-  ],
-  "type": "forge:ore_shaped",
-  "key": {
-    "*": {
-      "item": "#INGOT_OSMIUM"
-    }
-  }
+      "result": {"item": "mekanismtools:osmiumchestplate"},
+      "pattern": [
+            "* *",
+            "***",
+            "***"
+      ],
+      "type": "forge:ore_shaped",
+      "key": {"*": {"item": "#INGOT_OSMIUM"}}
 }

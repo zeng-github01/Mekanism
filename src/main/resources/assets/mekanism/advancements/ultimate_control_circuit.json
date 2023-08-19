@@ -1,29 +1,19 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.ultimate_control_circuit.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.ultimate_control_circuit.title"
-    },
-    "icon": {
-      "item": "mekanism:controlcircuit",
-      "data": 3
-    },
-    "frame": "goal"
-  },
-  "criteria": {
-    "mekanism_ultimate_control_circuit": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:controlcircuit",
-            "data": 3
-          }
-        ]
+      "parent": "mekanism:atomic_alloy",
+      "criteria": {"mekanism_ultimate_control_circuit": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanism:controlcircuit",
+                  "data": 3
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanism:controlcircuit",
+                  "data": 3
+            },
+            "description": {"translate": "advancements.mekanism.ultimate_control_circuit.description"},
+            "title": {"translate": "advancements.mekanism.ultimate_control_circuit.title"},
+            "frame": "goal"
       }
-    }
-  },
-  "parent": "mekanism:atomic_alloy"
 }

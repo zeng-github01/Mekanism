@@ -1,5 +1,6 @@
 package mekanism.common.world;
 
+import java.util.Random;
 import mekanism.common.MekanismBlocks;
 import mekanism.common.config.MekanismConfig;
 import net.minecraft.block.state.pattern.BlockMatcher;
@@ -12,8 +13,6 @@ import net.minecraft.world.gen.ChunkGeneratorHell;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
-
-import java.util.Random;
 
 public class GenHandler implements IWorldGenerator {
 

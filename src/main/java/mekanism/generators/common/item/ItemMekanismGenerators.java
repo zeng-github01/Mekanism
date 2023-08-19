@@ -9,4 +9,3 @@ public class ItemMekanismGenerators extends Item {
         setCreativeTab(MekanismGenerators.tabMekanismGenerators);
     }
 }
-

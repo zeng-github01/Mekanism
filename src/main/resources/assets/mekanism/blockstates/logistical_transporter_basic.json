@@ -1,20 +1,17 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:transmitter_large.obj.mek",
-    "textures": {
-      "#side": "mekanism:blocks/models/multipart/LogisticalTransporterVerticalBasic",
-      "#center": "mekanism:blocks/models/multipart/LogisticalTransporterBasic",
-      "#side_opaque": "mekanism:blocks/models/multipart/opaque/LogisticalTransporterVerticalBasic",
-      "#center_opaque": "mekanism:blocks/models/multipart/LogisticalTransporterBasic"
-    },
-    "custom": {
-      "flip-v": true
-    }
-  },
-  "variants": {
-    "normal": [{}],
-    "inventory": [{}]
-  }
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "#center_opaque": "mekanism:blocks/models/multipart/LogisticalTransporterBasic",
+                  "#center": "mekanism:blocks/models/multipart/LogisticalTransporterBasic",
+                  "#side": "mekanism:blocks/models/multipart/LogisticalTransporterVerticalBasic",
+                  "#side_opaque": "mekanism:blocks/models/multipart/opaque/LogisticalTransporterVerticalBasic"
+            },
+            "custom": {"flip-v": true},
+            "model": "mekanism:transmitter_large.obj.mek"
+      },
+      "variants": {
+            "normal": [{}],
+            "inventory": [{}]
+      }
 }
-

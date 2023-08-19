@@ -1,5 +1,10 @@
 package mekanism.common.tile.transmitter;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.api.Coord4D;
 import mekanism.api.IAlloyInteraction;
 import mekanism.api.transmitters.DynamicNetwork;
@@ -16,12 +21,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public abstract class TileEntityTransmitter<A, N extends DynamicNetwork<A, N, BUFFER>, BUFFER> extends TileEntitySidedPipe implements IAlloyInteraction {
 
@@ -265,11 +264,9 @@ public abstract class TileEntityTransmitter<A, N extends DynamicNetwork<A, N, BU
 
     public abstract int getCapacity();
 
-    @Nullable
-    public abstract BUFFER getBuffer();
+    @Nullable public abstract BUFFER getBuffer();
 
-    @Nullable
-    public BUFFER getBufferWithFallback() {
+    @Nullable public BUFFER getBufferWithFallback() {
         BUFFER buffer = getBuffer();
         //If we don't have a buffer try falling back to the network's buffer
         if (buffer == null && getTransmitter().hasTransmitterNetwork()) {

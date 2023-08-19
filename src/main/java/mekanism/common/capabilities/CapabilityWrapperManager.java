@@ -1,9 +1,8 @@
 package mekanism.common.capabilities;
 
 import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
-import net.minecraft.util.EnumFacing;
-
 import java.util.Map;
+import net.minecraft.util.EnumFacing;
 
 public class CapabilityWrapperManager<IMPL, WRAPPER> {
 

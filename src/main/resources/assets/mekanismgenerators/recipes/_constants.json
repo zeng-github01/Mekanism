@@ -1,118 +1,102 @@
 [
-  {
-    "conditions": [
       {
-        "type": "mekanism:recipe_enabled",
-        "circuitOredict": ""
-      }
-    ],
-    "name" : "CIRCUITBASIC",
-    "ingredient" : {
-      "type" : "forge:ore_dict",
-      "ore" : "circuitBasic"
-    }
-  },
-  {
-    "conditions": [
+            "ingredient": {
+                  "ore": "circuitBasic",
+                  "type": "forge:ore_dict"
+            },
+            "name": "CIRCUITBASIC",
+            "conditions": [{
+                  "circuitOredict": "",
+                  "type": "mekanism:recipe_enabled"
+            }]
+      },
       {
-        "type": "forge:not",
-        "value": {
-          "type": "mekanism:recipe_enabled",
-          "circuitOredict": ""
-        }
-      }
-    ],
-    "name": "CIRCUITBASIC",
-    "ingredient" : {
-      "item" : "mekanism:controlcircuit",
-      "data" : 0
-    }
-  },
-  {
-    "conditions": [
+            "ingredient": {
+                  "item": "mekanism:controlcircuit",
+                  "data": 0
+            },
+            "name": "CIRCUITBASIC",
+            "conditions": [{
+                  "type": "forge:not",
+                  "value": {
+                        "circuitOredict": "",
+                        "type": "mekanism:recipe_enabled"
+                  }
+            }]
+      },
       {
-        "type": "mekanism:recipe_enabled",
-        "circuitOredict": ""
-      }
-    ],
-    "name" : "CIRCUITADVANCED",
-    "ingredient" : {
-      "type" : "forge:ore_dict",
-      "ore" : "circuitAdvanced"
-    }
-  },
-  {
-    "conditions": [
+            "ingredient": {
+                  "ore": "circuitAdvanced",
+                  "type": "forge:ore_dict"
+            },
+            "name": "CIRCUITADVANCED",
+            "conditions": [{
+                  "circuitOredict": "",
+                  "type": "mekanism:recipe_enabled"
+            }]
+      },
       {
-        "type": "forge:not",
-        "value": {
-          "type": "mekanism:recipe_enabled",
-          "circuitOredict": ""
-        }
-      }
-    ],
-    "name": "CIRCUITADVANCED",
-    "ingredient" : {
-      "item" : "mekanism:controlcircuit",
-      "data" : 1
-    }
-  },
-  {
-    "conditions": [
+            "ingredient": {
+                  "item": "mekanism:controlcircuit",
+                  "data": 1
+            },
+            "name": "CIRCUITADVANCED",
+            "conditions": [{
+                  "type": "forge:not",
+                  "value": {
+                        "circuitOredict": "",
+                        "type": "mekanism:recipe_enabled"
+                  }
+            }]
+      },
       {
-        "type": "mekanism:recipe_enabled",
-        "circuitOredict": ""
-      }
-    ],
-    "name" : "CIRCUITELITE",
-    "ingredient" : {
-      "type" : "forge:ore_dict",
-      "ore" : "circuitElite"
-    }
-  },
-  {
-    "conditions": [
+            "ingredient": {
+                  "ore": "circuitElite",
+                  "type": "forge:ore_dict"
+            },
+            "name": "CIRCUITELITE",
+            "conditions": [{
+                  "circuitOredict": "",
+                  "type": "mekanism:recipe_enabled"
+            }]
+      },
       {
-        "type": "forge:not",
-        "value": {
-          "type": "mekanism:recipe_enabled",
-          "circuitOredict": ""
-        }
-      }
-    ],
-    "name": "CIRCUITELITE",
-    "ingredient" : {
-      "item" : "mekanism:controlcircuit",
-      "data" : 2
-    }
-  },
-  {
-    "conditions": [
+            "ingredient": {
+                  "item": "mekanism:controlcircuit",
+                  "data": 2
+            },
+            "name": "CIRCUITELITE",
+            "conditions": [{
+                  "type": "forge:not",
+                  "value": {
+                        "circuitOredict": "",
+                        "type": "mekanism:recipe_enabled"
+                  }
+            }]
+      },
       {
-        "type": "mekanism:recipe_enabled",
-        "circuitOredict": ""
-      }
-    ],
-    "name" : "CIRCUITULTIMATE",
-    "ingredient" : {
-      "type" : "forge:ore_dict",
-      "ore" : "circuitUltimate"
-    }
-  },
-  {
-    "conditions": [
+            "ingredient": {
+                  "ore": "circuitUltimate",
+                  "type": "forge:ore_dict"
+            },
+            "name": "CIRCUITULTIMATE",
+            "conditions": [{
+                  "circuitOredict": "",
+                  "type": "mekanism:recipe_enabled"
+            }]
+      },
       {
-        "type": "forge:not",
-        "value": {
-          "type": "mekanism:recipe_enabled",
-          "circuitOredict": ""
-        }
+            "ingredient": {
+                  "item": "mekanism:controlcircuit",
+                  "data": 3
+            },
+            "name": "CIRCUITULTIMATE",
+            "conditions": [{
+                  "type": "forge:not",
+                  "value": {
+                        "circuitOredict": "",
+                        "type": "mekanism:recipe_enabled"
+                  }
+            }]
       }
-    ],
-    "name": "CIRCUITULTIMATE",
-    "ingredient" : {
-      "item" : "mekanism:controlcircuit",
-      "data" : 3
-    }
-  }
 ]

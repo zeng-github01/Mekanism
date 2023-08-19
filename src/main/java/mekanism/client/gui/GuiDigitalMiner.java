@@ -1,5 +1,8 @@
 package mekanism.client.gui;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
@@ -30,10 +33,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {

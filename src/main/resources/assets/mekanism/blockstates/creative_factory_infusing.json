@@ -1,45 +1,34 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryRight",
-      "front": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryFront",
-      "south": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryBack",
-      "west": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryRight",
-      "east": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryLeft",
-      "up": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryTop",
-      "down": "mekanism:blocks/factory/creative/CreativeFactoryBottom"
-    }
-  },
-  "variants": {
-    "facing": {
-      "north": {},
-      "south": {
-        "y": 180
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryLeft",
+                  "south": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryBack",
+                  "west": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryRight",
+                  "sides": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryRight",
+                  "front": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryFront",
+                  "up": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryTop",
+                  "down": "mekanism:blocks/factory/creative/CreativeFactoryBottom"
+            },
+            "model": "mekanism:machine"
       },
-      "east": {
-        "y": 90
-      },
-      "west": {
-        "y": -90
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryLeftOn",
+                        "south": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryBackOn",
+                        "west": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryRightOn",
+                        "front": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryFrontOn",
+                        "up": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryTopOn"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
       }
-    },
-    "active": {
-      "true": {
-        "textures": {
-          "front": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryFrontOn",
-          "south": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryBackOn",
-          "west": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryRightOn",
-          "east": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryLeftOn",
-          "up": "mekanism:blocks/factory/creative/infusing/CreativeInfusingFactoryTopOn"
-        }
-      },
-      "false": {}
-    },
-    "inventory": [
-      {}
-    ]
-  }
 }
-

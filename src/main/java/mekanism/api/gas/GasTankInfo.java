@@ -12,8 +12,7 @@ public interface GasTankInfo {
      *
      * @return the stored gas, or null
      */
-    @Nullable
-    GasStack getGas();
+    @Nullable GasStack getGas();
 
     /**
      * Gets the amount of gas stored by this GasTank.

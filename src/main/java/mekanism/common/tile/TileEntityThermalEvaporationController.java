@@ -1,6 +1,9 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import java.util.HashSet;
+import java.util.Set;
+import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.IEvaporationSolar;
 import mekanism.api.TileNetworkList;
@@ -33,10 +36,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
-
-import javax.annotation.Nonnull;
-import java.util.HashSet;
-import java.util.Set;
 
 public class TileEntityThermalEvaporationController extends TileEntityThermalEvaporationBlock implements IActiveState, ITankManager {
 

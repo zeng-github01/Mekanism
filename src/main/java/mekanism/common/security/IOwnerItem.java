@@ -1,8 +1,7 @@
 package mekanism.common.security;
 
-import net.minecraft.item.ItemStack;
-
 import java.util.UUID;
+import net.minecraft.item.ItemStack;
 
 public interface IOwnerItem {
 

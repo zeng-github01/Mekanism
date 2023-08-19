@@ -1,5 +1,7 @@
 package mekanism.common.block.states;
 
+import java.util.Locale;
+import javax.annotation.Nonnull;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.Mekanism;
 import mekanism.common.block.BlockTransmitter;
@@ -16,9 +18,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.obj.OBJModel.OBJProperty;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-
-import javax.annotation.Nonnull;
-import java.util.Locale;
 
 public class BlockStateTransmitter extends ExtendedBlockState {
 

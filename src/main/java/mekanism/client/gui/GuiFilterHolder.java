@@ -1,5 +1,8 @@
 package mekanism.client.gui;
 
+import java.io.IOException;
+import java.util.*;
+import java.util.Map.Entry;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.client.render.MekanismRenderer;
@@ -16,10 +19,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
-
-import java.io.IOException;
-import java.util.*;
-import java.util.Map.Entry;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiFilterHolder<TILE extends TileEntityContainerBlock, FILTER extends IFilter> extends GuiMekanismTile<TILE> {

@@ -1,5 +1,8 @@
 package mekanism.client.gui.chemical;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -21,10 +24,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiChemicalDissolutionChamber extends GuiMekanismTile<TileEntityChemicalDissolutionChamber> {

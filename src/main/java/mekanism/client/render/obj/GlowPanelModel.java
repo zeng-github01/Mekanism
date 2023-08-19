@@ -2,6 +2,13 @@ package mekanism.client.render.obj;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Nonnull;
+import javax.vecmath.Matrix4f;
+import javax.vecmath.Vector3f;
 import mekanism.api.EnumColor;
 import mekanism.common.block.property.PropertyColor;
 import mekanism.common.tile.TileEntityGlowPanel;
@@ -28,14 +35,6 @@ import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import org.apache.commons.lang3.tuple.Pair;
-
-import javax.annotation.Nonnull;
-import javax.vecmath.Matrix4f;
-import javax.vecmath.Vector3f;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class GlowPanelModel extends OBJBakedModelBase {
 

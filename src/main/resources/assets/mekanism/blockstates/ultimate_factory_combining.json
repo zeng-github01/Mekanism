@@ -1,45 +1,34 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryRight",
-      "front": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryFront",
-      "south": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryBack",
-      "west": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryRight",
-      "east": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryLeft",
-      "up": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryTop",
-      "down": "mekanism:blocks/factory/ultimate/UltimateFactoryBottom"
-    }
-  },
-  "variants": {
-    "facing": {
-      "north": {},
-      "south": {
-        "y": 180
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryLeft",
+                  "south": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryBack",
+                  "west": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryRight",
+                  "sides": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryRight",
+                  "front": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryFront",
+                  "up": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryTop",
+                  "down": "mekanism:blocks/factory/ultimate/UltimateFactoryBottom"
+            },
+            "model": "mekanism:machine"
       },
-      "east": {
-        "y": 90
-      },
-      "west": {
-        "y": -90
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryLeftOn",
+                        "south": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryBackOn",
+                        "west": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryRightOn",
+                        "front": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryFrontOn",
+                        "up": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryTopOn"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
       }
-    },
-    "active": {
-      "true": {
-        "textures": {
-          "front": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryFrontOn",
-          "south": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryBackOn",
-          "west": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryRightOn",
-          "east": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryLeftOn",
-          "up": "mekanism:blocks/factory/ultimate/combining/UltimateCombiningFactoryTopOn"
-        }
-      },
-      "false": {}
-    },
-    "inventory": [
-      {}
-    ]
-  }
 }
-

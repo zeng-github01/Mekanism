@@ -1,5 +1,6 @@
 package mekanism.common.recipe;
 
+import javax.annotation.Nonnull;
 import mekanism.common.MekanismItems;
 import mekanism.common.block.states.BlockStateBasic.BasicBlockType;
 import mekanism.common.inventory.InventoryBin;
@@ -18,8 +19,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.IForgeRegistryEntry;
-
-import javax.annotation.Nonnull;
 
 public class BinRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
 

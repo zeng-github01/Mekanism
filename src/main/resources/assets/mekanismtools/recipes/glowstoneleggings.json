@@ -1,16 +1,10 @@
 {
-  "result": {
-    "item": "mekanismtools:glowstoneleggings"
-  },
-  "pattern": [
-    "***",
-    "* *",
-    "* *"
-  ],
-  "type": "forge:ore_shaped",
-  "key": {
-    "*": {
-      "item": "#INGOT_REFINED_GLOWSTONE"
-    }
-  }
+      "result": {"item": "mekanismtools:glowstoneleggings"},
+      "pattern": [
+            "***",
+            "* *",
+            "* *"
+      ],
+      "type": "forge:ore_shaped",
+      "key": {"*": {"item": "#INGOT_REFINED_GLOWSTONE"}}
 }

@@ -1,45 +1,34 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryRight",
-      "front": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryFront",
-      "south": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryBack",
-      "west": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryRight",
-      "east": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryLeft",
-      "up": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryTop",
-      "down": "mekanism:blocks/factory/ultimate/UltimateFactoryBottom"
-    }
-  },
-  "variants": {
-    "facing": {
-      "north": {},
-      "south": {
-        "y": 180
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryLeft",
+                  "south": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryBack",
+                  "west": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryRight",
+                  "sides": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryRight",
+                  "front": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryFront",
+                  "up": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryTop",
+                  "down": "mekanism:blocks/factory/ultimate/UltimateFactoryBottom"
+            },
+            "model": "mekanism:machine"
       },
-      "east": {
-        "y": 90
-      },
-      "west": {
-        "y": -90
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryLeftOn",
+                        "south": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryBackOn",
+                        "west": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryRightOn",
+                        "front": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryFrontOn",
+                        "up": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryTopOn"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
       }
-    },
-    "active": {
-      "true": {
-        "textures": {
-          "front": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryFrontOn",
-          "south": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryBackOn",
-          "west": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryRightOn",
-          "east": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryLeftOn",
-          "up": "mekanism:blocks/factory/ultimate/crushing/UltimateCrushingFactoryTopOn"
-        }
-      },
-      "false": {}
-    },
-    "inventory": [
-      {}
-    ]
-  }
 }
-

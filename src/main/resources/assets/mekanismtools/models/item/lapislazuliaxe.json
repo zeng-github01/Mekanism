@@ -1,7 +1,4 @@
 {
-    "parent": "item/handheld",
-    "textures": { 
-        "layer0": "mekanismtools:items/LapisLazuliAxe"
-    }
+      "parent": "item/handheld",
+      "textures": {"layer0": "mekanismtools:items/LapisLazuliAxe"}
 }
-

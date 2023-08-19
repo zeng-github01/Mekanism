@@ -1,26 +1,12 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.basic_control_circuit.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.basic_control_circuit.title"
-    },
-    "icon": {
-      "item": "mekanism:controlcircuit"
-    }
-  },
-  "criteria": {
-    "mekanism_basic_control_circuit": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:controlcircuit"
-          }
-        ]
+      "parent": "mekanism:metallurgic_infuser",
+      "criteria": {"mekanism_basic_control_circuit": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{"item": "mekanism:controlcircuit"}]}
+      }},
+      "display": {
+            "icon": {"item": "mekanism:controlcircuit"},
+            "description": {"translate": "advancements.mekanism.basic_control_circuit.description"},
+            "title": {"translate": "advancements.mekanism.basic_control_circuit.title"}
       }
-    }
-  },
-  "parent": "mekanism:metallurgic_infuser"
 }

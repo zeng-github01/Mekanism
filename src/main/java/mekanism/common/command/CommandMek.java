@@ -1,6 +1,11 @@
 package mekanism.common.command;
 
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+import java.util.UUID;
+import javax.annotation.Nonnull;
 import mekanism.api.MekanismAPI;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.command.CommandBase;
@@ -14,12 +19,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.server.command.CommandTreeBase;
-
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
-import java.util.UUID;
 
 public class CommandMek extends CommandTreeBase {
 

@@ -1,26 +1,12 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.hydrogen_powered_flight.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.hydrogen_powered_flight.title"
-    },
-    "icon": {
-      "item": "mekanism:jetpack"
-    }
-  },
-  "criteria": {
-    "mekanism_hydrogen_powered_flight": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:jetpack"
-          }
-        ]
+      "parent": "mekanism:chemical_tank",
+      "criteria": {"mekanism_hydrogen_powered_flight": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{"item": "mekanism:jetpack"}]}
+      }},
+      "display": {
+            "icon": {"item": "mekanism:jetpack"},
+            "description": {"translate": "advancements.mekanism.hydrogen_powered_flight.description"},
+            "title": {"translate": "advancements.mekanism.hydrogen_powered_flight.title"}
       }
-    }
-  },
-  "parent": "mekanism:chemical_tank"
 }

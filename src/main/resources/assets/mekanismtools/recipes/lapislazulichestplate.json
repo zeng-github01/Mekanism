@@ -1,16 +1,10 @@
 {
-  "result": {
-    "item": "mekanismtools:lapislazulichestplate"
-  },
-  "pattern": [
-    "* *",
-    "***",
-    "***"
-  ],
-  "type": "minecraft:crafting_shaped",
-  "key": {
-    "*": {
-      "item": "#GEM_LAPIS"
-    }
-  }
+      "result": {"item": "mekanismtools:lapislazulichestplate"},
+      "pattern": [
+            "* *",
+            "***",
+            "***"
+      ],
+      "type": "minecraft:crafting_shaped",
+      "key": {"*": {"item": "#GEM_LAPIS"}}
 }

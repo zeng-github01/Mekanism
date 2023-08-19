@@ -1,28 +1,18 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.automated_crafting.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.automated_crafting.title"
-    },
-    "icon": {
-      "item": "mekanism:machineblock3",
-      "data": 5
-    }
-  },
-  "criteria": {
-    "mekanism_automated_crafting": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:machineblock3",
-            "data": 5
-          }
-        ]
+      "parent": "mekanism:steel_casing",
+      "criteria": {"mekanism_automated_crafting": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanism:machineblock3",
+                  "data": 5
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanism:machineblock3",
+                  "data": 5
+            },
+            "description": {"translate": "advancements.mekanism.automated_crafting.description"},
+            "title": {"translate": "advancements.mekanism.automated_crafting.title"}
       }
-    }
-  },
-  "parent": "mekanism:steel_casing"
 }

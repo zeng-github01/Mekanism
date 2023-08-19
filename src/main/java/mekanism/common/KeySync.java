@@ -1,11 +1,10 @@
 package mekanism.common;
 
-import net.minecraft.entity.player.EntityPlayer;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class KeySync {
 

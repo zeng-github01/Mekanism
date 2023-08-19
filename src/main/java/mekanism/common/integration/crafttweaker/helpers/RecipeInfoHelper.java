@@ -1,6 +1,7 @@
 package mekanism.common.integration.crafttweaker.helpers;
 
 import crafttweaker.mc1120.item.MCItemStack;
+import java.util.Map.Entry;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.common.recipe.inputs.MachineInput;
@@ -9,8 +10,6 @@ import mekanism.common.recipe.outputs.*;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-
-import java.util.Map.Entry;
 
 public class RecipeInfoHelper {
 

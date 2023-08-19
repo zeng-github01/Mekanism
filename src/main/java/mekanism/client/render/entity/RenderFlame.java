@@ -1,5 +1,6 @@
 package mekanism.client.render.entity;
 
+import javax.annotation.Nonnull;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.render.MekanismRenderer.GlowInfo;
 import mekanism.common.Mekanism;
@@ -16,8 +17,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
-
-import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 public class RenderFlame extends Render<EntityFlame> {

@@ -1,12 +1,11 @@
 package mekanism.common.util;
 
+import java.util.Collection;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.*;
 import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.Collection;
 
 public final class MultipartUtils {
 

@@ -1,6 +1,7 @@
 package mekanism.generators.common.tile.reactor;
 
 import io.netty.buffer.ByteBuf;
+import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.GasStack;
 import mekanism.api.gas.GasTank;
@@ -32,8 +33,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
-
-import javax.annotation.Nonnull;
 
 public class TileEntityReactorController extends TileEntityReactorBlock implements IActiveState {
 

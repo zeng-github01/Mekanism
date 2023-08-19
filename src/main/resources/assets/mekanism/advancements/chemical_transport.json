@@ -1,28 +1,18 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.chemical_transport.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.chemical_transport.title"
-    },
-    "icon": {
-      "item": "mekanism:transmitter",
-      "data": 2
-    }
-  },
-  "criteria": {
-    "mekanism_chemical_transport": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:transmitter",
-            "data": 2
-          }
-        ]
+      "parent": "mekanism:steel_ingot",
+      "criteria": {"mekanism_chemical_transport": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanism:transmitter",
+                  "data": 2
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanism:transmitter",
+                  "data": 2
+            },
+            "description": {"translate": "advancements.mekanism.chemical_transport.description"},
+            "title": {"translate": "advancements.mekanism.chemical_transport.title"}
       }
-    }
-  },
-  "parent": "mekanism:steel_ingot"
 }

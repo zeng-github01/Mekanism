@@ -1,6 +1,9 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import java.util.List;
+import java.util.Random;
+import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
@@ -22,10 +25,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Random;
 
 public class TileEntityChargepad extends TileEntityEffectsBlock {
 

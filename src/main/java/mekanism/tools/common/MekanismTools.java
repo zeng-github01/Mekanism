@@ -1,6 +1,8 @@
 package mekanism.tools.common;
 
 import io.netty.buffer.ByteBuf;
+import java.util.List;
+import java.util.Random;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismItems;
 import mekanism.common.Version;
@@ -28,9 +30,6 @@ import net.minecraftforge.fml.common.event.FMLModIdMappingEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import java.util.List;
-import java.util.Random;
 
 @Mod(modid = MekanismTools.MODID, useMetadata = true, guiFactory = "mekanism.tools.client.gui.ToolsGuiFactory")
 @Mod.EventBusSubscriber()

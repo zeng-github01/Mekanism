@@ -1,5 +1,6 @@
 package mekanism.generators.client.render.item;
 
+import javax.annotation.Nonnull;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.generators.client.model.ModelSolarGenerator;
 import mekanism.generators.common.util.MekanismGeneratorUtils;
@@ -9,8 +10,6 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformT
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 public class RenderSolarGeneratorItem {

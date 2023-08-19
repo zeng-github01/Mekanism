@@ -1,13 +1,12 @@
 package mekanism.common.capabilities;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.Nonnull;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ItemCapabilityWrapper implements ICapabilityProvider {
 
@@ -42,7 +41,7 @@ public class ItemCapabilityWrapper implements ICapabilityProvider {
         return null;
     }
 
-    public static abstract class ItemCapability {
+    public abstract static class ItemCapability {
 
         private ItemCapabilityWrapper wrapper;
 

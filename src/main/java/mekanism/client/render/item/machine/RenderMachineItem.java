@@ -1,5 +1,9 @@
 package mekanism.client.render.item.machine;
 
+import java.util.EnumMap;
+import java.util.Map;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.client.render.item.ItemLayerWrapper;
 import mekanism.client.render.item.SubTypeItemRenderer;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
@@ -7,11 +11,6 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformT
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.EnumMap;
-import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class RenderMachineItem extends SubTypeItemRenderer<MachineType> {
@@ -64,14 +63,12 @@ public class RenderMachineItem extends SubTypeItemRenderer<MachineType> {
 
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     protected ItemLayerWrapper getModel(MachineType machineType) {
         return modelMap.get(machineType);
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     protected MachineType getType(@Nonnull ItemStack stack) {
         return MachineType.get(stack);
     }

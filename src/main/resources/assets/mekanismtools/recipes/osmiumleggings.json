@@ -1,16 +1,10 @@
 {
-  "result": {
-    "item": "mekanismtools:osmiumleggings"
-  },
-  "pattern": [
-    "***",
-    "* *",
-    "* *"
-  ],
-  "type": "forge:ore_shaped",
-  "key": {
-    "*": {
-      "item": "#INGOT_OSMIUM"
-    }
-  }
+      "result": {"item": "mekanismtools:osmiumleggings"},
+      "pattern": [
+            "***",
+            "* *",
+            "* *"
+      ],
+      "type": "forge:ore_shaped",
+      "key": {"*": {"item": "#INGOT_OSMIUM"}}
 }

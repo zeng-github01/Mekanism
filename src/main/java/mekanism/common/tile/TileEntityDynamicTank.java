@@ -1,6 +1,9 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import java.util.HashSet;
+import java.util.Set;
+import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
@@ -24,10 +27,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
-
-import javax.annotation.Nonnull;
-import java.util.HashSet;
-import java.util.Set;
 
 public class TileEntityDynamicTank extends TileEntityMultiblock<SynchronizedTankData> implements IComputerIntegration, IFluidContainerManager {
 

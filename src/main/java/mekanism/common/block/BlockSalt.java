@@ -1,5 +1,7 @@
 package mekanism.common.block;
 
+import java.util.Random;
+import javax.annotation.Nonnull;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismItems;
 import net.minecraft.block.Block;
@@ -7,9 +9,6 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
-
-import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class BlockSalt extends Block {
 

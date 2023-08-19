@@ -1,13 +1,12 @@
 package mekanism.common.entity;
 
+import javax.annotation.Nonnull;
 import mekanism.common.config.MekanismConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
-
-import javax.annotation.Nonnull;
 
 public class EntityObsidianTNT extends Entity {
 

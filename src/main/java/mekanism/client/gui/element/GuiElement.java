@@ -1,5 +1,7 @@
 package mekanism.client.gui.element;
 
+import java.awt.*;
+import java.util.List;
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.client.render.MekanismRenderer;
 import net.minecraft.client.Minecraft;
@@ -9,9 +11,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.awt.*;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiElement {

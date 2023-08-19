@@ -1,6 +1,7 @@
 package mekanism.common.content.transporter;
 
 import io.netty.buffer.ByteBuf;
+import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
 import mekanism.common.content.filter.IItemStackFilter;
 import mekanism.common.content.transporter.Finder.ItemStackFinder;
@@ -9,8 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.items.ItemHandlerHelper;
-
-import javax.annotation.Nonnull;
 
 public class TItemStackFilter extends TransporterFilter implements IItemStackFilter {
 

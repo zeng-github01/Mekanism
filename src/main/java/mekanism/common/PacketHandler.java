@@ -1,6 +1,10 @@
 package mekanism.common;
 
 import io.netty.buffer.ByteBuf;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.UUID;
+import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.Range4D;
 import mekanism.common.base.ITileNetwork;
@@ -53,11 +57,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
-
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.UUID;
 
 /**
  * Mekanism packet handler. As always, use packets sparingly!

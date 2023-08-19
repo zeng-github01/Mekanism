@@ -1,6 +1,7 @@
 package mekanism.generators.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
 import mekanism.common.FluidSlot;
 import mekanism.common.MekanismItems;
@@ -26,8 +27,6 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-
-import javax.annotation.Nonnull;
 
 public class TileEntityBioGenerator extends TileEntityGenerator implements IFluidHandlerWrapper, ISustainedData, IComparatorSupport {
 

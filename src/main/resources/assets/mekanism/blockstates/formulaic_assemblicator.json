@@ -1,29 +1,28 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/formulaic_assemblicator/FormulaicAssemblicatorRight",
-      "front": "mekanism:blocks/formulaic_assemblicator/FormulaicAssemblicatorFront",
-      "west": "mekanism:blocks/formulaic_assemblicator/FormulaicAssemblicatorRight",
-      "east": "mekanism:blocks/formulaic_assemblicator/FormulaicAssemblicatorLeft",
-      "south": "mekanism:blocks/formulaic_assemblicator/FormulaicAssemblicatorBack",
-      "up": "mekanism:blocks/formulaic_assemblicator/FormulaicAssemblicatorTop",
-      "down": "mekanism:blocks/formulaic_assemblicator/FormulaicAssemblicatorBottom"
-    }
-  },
-  "variants": {
-    "facing": {
-      "north": {},
-      "south": {"y": 180},
-      "east":  {"y": 90},
-      "west":  {"y": -90}
-    },
-    "active": {
-      "true": {},
-      "false": {}
-    },
-    "inventory": [{}]
-  }
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/formulaic_assemblicator/FormulaicAssemblicatorLeft",
+                  "south": "mekanism:blocks/formulaic_assemblicator/FormulaicAssemblicatorBack",
+                  "west": "mekanism:blocks/formulaic_assemblicator/FormulaicAssemblicatorRight",
+                  "sides": "mekanism:blocks/formulaic_assemblicator/FormulaicAssemblicatorRight",
+                  "front": "mekanism:blocks/formulaic_assemblicator/FormulaicAssemblicatorFront",
+                  "up": "mekanism:blocks/formulaic_assemblicator/FormulaicAssemblicatorTop",
+                  "down": "mekanism:blocks/formulaic_assemblicator/FormulaicAssemblicatorBottom"
+            },
+            "model": "mekanism:machine"
+      },
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {},
+                  "false": {}
+            },
+            "inventory": [{}]
+      }
 }
-

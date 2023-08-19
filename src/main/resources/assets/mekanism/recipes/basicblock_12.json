@@ -1,18 +1,16 @@
 {
-  "result": {
-    "item": "mekanism:basicblock",
-    "data": 12
-  },
-  "pattern": [
-    "***",
-    "***",
-    "***"
-  ],
-  "type": "mekanism:ore_shaped",
-  "key": {
-    "*": {
-      "ore": "ingotCopper",
-      "type": "forge:ore_dict"
-    }
-  }
+      "result": {
+            "item": "mekanism:basicblock",
+            "data": 12
+      },
+      "pattern": [
+            "***",
+            "***",
+            "***"
+      ],
+      "type": "mekanism:ore_shaped",
+      "key": {"*": {
+            "ore": "ingotCopper",
+            "type": "forge:ore_dict"
+      }}
 }

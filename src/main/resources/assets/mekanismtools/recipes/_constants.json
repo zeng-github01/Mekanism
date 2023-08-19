@@ -1,58 +1,58 @@
 [
-  {
-    "name": "STICK_WOOD",
-    "ingredient": {
-      "type": "forge:ore_dict",
-      "ore": "stickWood"
-    }
-  },
-  {
-    "name": "INGOT_BRONZE",
-    "ingredient": {
-      "type": "forge:ore_dict",
-      "ore": "ingotBronze"
-    }
-  },
-  {
-    "name": "INGOT_IRON",
-    "ingredient": {
-      "type": "forge:ore_dict",
-      "ore": "ingotIron"
-    }
-  },
-  {
-    "name": "INGOT_STEEL",
-    "ingredient": {
-      "type": "forge:ore_dict",
-      "ore": "ingotSteel"
-    }
-  },
-  {
-    "name": "INGOT_OSMIUM",
-    "ingredient": {
-      "type": "forge:ore_dict",
-      "ore": "ingotOsmium"
-    }
-  },
-  {
-    "name": "INGOT_REFINED_GLOWSTONE",
-    "ingredient": {
-      "type": "forge:ore_dict",
-      "ore": "ingotRefinedGlowstone"
-    }
-  },
-  {
-    "name": "INGOT_REFINED_OBSIDIAN",
-    "ingredient": {
-      "type": "forge:ore_dict",
-      "ore": "ingotRefinedObsidian"
-    }
-  },
-  {
-    "name": "GEM_LAPIS",
-    "ingredient": {
-      "type": "forge:ore_dict",
-      "ore": "gemLapis"
-    }
-  }
+      {
+            "ingredient": {
+                  "ore": "stickWood",
+                  "type": "forge:ore_dict"
+            },
+            "name": "STICK_WOOD"
+      },
+      {
+            "ingredient": {
+                  "ore": "ingotBronze",
+                  "type": "forge:ore_dict"
+            },
+            "name": "INGOT_BRONZE"
+      },
+      {
+            "ingredient": {
+                  "ore": "ingotIron",
+                  "type": "forge:ore_dict"
+            },
+            "name": "INGOT_IRON"
+      },
+      {
+            "ingredient": {
+                  "ore": "ingotSteel",
+                  "type": "forge:ore_dict"
+            },
+            "name": "INGOT_STEEL"
+      },
+      {
+            "ingredient": {
+                  "ore": "ingotOsmium",
+                  "type": "forge:ore_dict"
+            },
+            "name": "INGOT_OSMIUM"
+      },
+      {
+            "ingredient": {
+                  "ore": "ingotRefinedGlowstone",
+                  "type": "forge:ore_dict"
+            },
+            "name": "INGOT_REFINED_GLOWSTONE"
+      },
+      {
+            "ingredient": {
+                  "ore": "ingotRefinedObsidian",
+                  "type": "forge:ore_dict"
+            },
+            "name": "INGOT_REFINED_OBSIDIAN"
+      },
+      {
+            "ingredient": {
+                  "ore": "gemLapis",
+                  "type": "forge:ore_dict"
+            },
+            "name": "GEM_LAPIS"
+      }
 ]

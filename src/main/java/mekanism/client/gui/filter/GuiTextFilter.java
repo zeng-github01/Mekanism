@@ -1,5 +1,7 @@
 package mekanism.client.gui.filter;
 
+import java.io.IOException;
+import java.util.List;
 import mekanism.api.EnumColor;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.render.MekanismRenderer;
@@ -16,9 +18,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.io.IOException;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiTextFilter<FILTER extends IFilter, TILE extends TileEntityContainerBlock> extends GuiTextFilterBase<FILTER, TILE> {

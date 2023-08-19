@@ -1,45 +1,34 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryRight",
-      "front": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryFront",
-      "south": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryBack",
-      "west": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryRight",
-      "east": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryLeft",
-      "up": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryTop",
-      "down": "mekanism:blocks/factory/ultimate/UltimateFactoryBottom"
-    }
-  },
-  "variants": {
-    "facing": {
-      "north": {},
-      "south": {
-        "y": 180
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryLeft",
+                  "south": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryBack",
+                  "west": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryRight",
+                  "sides": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryRight",
+                  "front": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryFront",
+                  "up": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryTop",
+                  "down": "mekanism:blocks/factory/ultimate/UltimateFactoryBottom"
+            },
+            "model": "mekanism:machine"
       },
-      "east": {
-        "y": 90
-      },
-      "west": {
-        "y": -90
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryLeftOn",
+                        "south": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryBackOn",
+                        "west": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryRightOn",
+                        "front": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryFrontOn",
+                        "up": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryTopOn"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
       }
-    },
-    "active": {
-      "true": {
-        "textures": {
-          "front": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryFrontOn",
-          "south": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryBackOn",
-          "west": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryRightOn",
-          "east": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryLeftOn",
-          "up": "mekanism:blocks/factory/ultimate/injecting/UltimateInjectingFactoryTopOn"
-        }
-      },
-      "false": {}
-    },
-    "inventory": [
-      {}
-    ]
-  }
 }
-

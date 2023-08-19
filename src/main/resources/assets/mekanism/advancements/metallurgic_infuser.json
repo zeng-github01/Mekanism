@@ -1,28 +1,18 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.metallurgic_infuser.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.metallurgic_infuser.title"
-    },
-    "icon": {
-      "item": "mekanism:machineblock",
-      "data": 8
-    }
-  },
-  "criteria": {
-    "mekanism_metallurgic_infuser": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:machineblock",
-            "data": 8
-          }
-        ]
+      "parent": "mekanism:materials",
+      "criteria": {"mekanism_metallurgic_infuser": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanism:machineblock",
+                  "data": 8
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanism:machineblock",
+                  "data": 8
+            },
+            "description": {"translate": "advancements.mekanism.metallurgic_infuser.description"},
+            "title": {"translate": "advancements.mekanism.metallurgic_infuser.title"}
       }
-    }
-  },
-  "parent": "mekanism:materials"
 }

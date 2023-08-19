@@ -1,30 +1,27 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/thermal_evaporation_block",
-      "front": "mekanism:blocks/thermal_evaporation_controller"
-    }
-  },
-  "variants": {
-    "normal": [{}],
-    "facing": {
-      "north": {},
-      "south": {"y": 180},
-      "east":  {"y": 90},
-      "west":  {"y": -90}
-    },
-    "inventory": [{}],
-    "active": {
-      "false": {},
-      "true": {
-        "textures": {
-          "sides": "mekanism:blocks/thermal_evaporation_block",
-          "front": "mekanism:blocks/thermal_evaporation_controller_on"
-        }
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "sides": "mekanism:blocks/thermal_evaporation_block",
+                  "front": "mekanism:blocks/thermal_evaporation_controller"
+            },
+            "model": "mekanism:machine"
+      },
+      "variants": {
+            "normal": [{}],
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "false": {},
+                  "true": {"textures": {
+                        "sides": "mekanism:blocks/thermal_evaporation_block",
+                        "front": "mekanism:blocks/thermal_evaporation_controller_on"
+                  }}
+            },
+            "inventory": [{}]
       }
-    }
-  }
 }
-

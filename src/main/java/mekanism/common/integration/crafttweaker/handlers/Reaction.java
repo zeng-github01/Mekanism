@@ -5,6 +5,8 @@ import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
+import java.util.ArrayList;
+import java.util.List;
 import mekanism.api.gas.GasStack;
 import mekanism.common.Mekanism;
 import mekanism.common.integration.crafttweaker.CrafttweakerIntegration;
@@ -24,9 +26,6 @@ import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @ZenClass("mods.mekanism.reaction")
 @ZenRegister

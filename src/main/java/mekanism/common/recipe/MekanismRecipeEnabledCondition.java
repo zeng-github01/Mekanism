@@ -1,6 +1,7 @@
 package mekanism.common.recipe;
 
 import com.google.gson.JsonObject;
+import java.util.function.BooleanSupplier;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.config.MekanismConfig;
 import mekanism.generators.common.MekanismGenerators;
@@ -9,8 +10,6 @@ import net.minecraft.util.JsonUtils;
 import net.minecraftforge.common.crafting.IConditionFactory;
 import net.minecraftforge.common.crafting.JsonContext;
 import net.minecraftforge.fml.common.Loader;
-
-import java.util.function.BooleanSupplier;
 
 /**
  * Used as a condition in mekanism _factories.json

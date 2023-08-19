@@ -1,5 +1,6 @@
 package mekanism.common.inventory.container.robit;
 
+import javax.annotation.Nonnull;
 import mekanism.common.entity.EntityRobit;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -9,8 +10,6 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
-
-import javax.annotation.Nonnull;
 
 public class ContainerRobitSmelting extends ContainerRobit {
 

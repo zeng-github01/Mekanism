@@ -1,6 +1,8 @@
 package mekanism.common.network;
 
 import io.netty.buffer.ByteBuf;
+import java.util.Collection;
+import java.util.HashSet;
 import mekanism.api.Coord4D;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
@@ -24,9 +26,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
-import java.util.Collection;
-import java.util.HashSet;
 
 public class PacketTransmitterUpdate implements IMessageHandler<TransmitterUpdateMessage, IMessage> {
 

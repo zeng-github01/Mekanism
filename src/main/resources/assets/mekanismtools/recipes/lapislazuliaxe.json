@@ -1,19 +1,13 @@
 {
-  "result": {
-    "item": "mekanismtools:lapislazuliaxe"
-  },
-  "pattern": [
-    "XX",
-    "XT",
-    " T"
-  ],
-  "type": "minecraft:crafting_shaped",
-  "key": {
-    "T": {
-      "item": "#STICK_WOOD"
-    },
-    "X": {
-      "item": "#GEM_LAPIS"
-    }
-  }
+      "result": {"item": "mekanismtools:lapislazuliaxe"},
+      "pattern": [
+            "XX",
+            "XT",
+            " T"
+      ],
+      "type": "minecraft:crafting_shaped",
+      "key": {
+            "T": {"item": "#STICK_WOOD"},
+            "X": {"item": "#GEM_LAPIS"}
+      }
 }

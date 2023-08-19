@@ -1,45 +1,34 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryRight",
-      "front": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryFront",
-      "south": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryBack",
-      "west": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryRight",
-      "east": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryLeft",
-      "up": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryTop",
-      "down": "mekanism:blocks/factory/ultimate/UltimateFactoryBottom"
-    }
-  },
-  "variants": {
-    "facing": {
-      "north": {},
-      "south": {
-        "y": 180
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryLeft",
+                  "south": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryBack",
+                  "west": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryRight",
+                  "sides": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryRight",
+                  "front": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryFront",
+                  "up": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryTop",
+                  "down": "mekanism:blocks/factory/ultimate/UltimateFactoryBottom"
+            },
+            "model": "mekanism:machine"
       },
-      "east": {
-        "y": 90
-      },
-      "west": {
-        "y": -90
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryLeftOn",
+                        "south": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryBackOn",
+                        "west": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryRightOn",
+                        "front": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryFrontOn",
+                        "up": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryTopOn"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
       }
-    },
-    "active": {
-      "true": {
-        "textures": {
-          "front": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryFrontOn",
-          "south": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryBackOn",
-          "west": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryRightOn",
-          "east": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryLeftOn",
-          "up": "mekanism:blocks/factory/ultimate/smelting/UltimateSmeltingFactoryTopOn"
-        }
-      },
-      "false": {}
-    },
-    "inventory": [
-      {}
-    ]
-  }
 }
-

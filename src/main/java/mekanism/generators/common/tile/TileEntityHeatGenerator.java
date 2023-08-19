@@ -1,6 +1,7 @@
 package mekanism.generators.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.IHeatTransfer;
 import mekanism.api.TileNetworkList;
@@ -24,8 +25,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-
-import javax.annotation.Nonnull;
 
 public class TileEntityHeatGenerator extends TileEntityGenerator implements IFluidHandlerWrapper, ISustainedData, IHeatTransfer, IComparatorSupport {
 

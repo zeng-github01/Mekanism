@@ -1,28 +1,18 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.enricher.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.enricher.title"
-    },
-    "icon": {
-      "item": "mekanism:machineblock",
-      "data": 1
-    }
-  },
-  "criteria": {
-    "mekanism_enricher": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:machineblock",
-            "data": 1
-          }
-        ]
+      "parent": "mekanism:steel_casing",
+      "criteria": {"mekanism_enricher": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanism:machineblock",
+                  "data": 1
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanism:machineblock",
+                  "data": 1
+            },
+            "description": {"translate": "advancements.mekanism.enricher.description"},
+            "title": {"translate": "advancements.mekanism.enricher.title"}
       }
-    }
-  },
-  "parent": "mekanism:steel_casing"
 }

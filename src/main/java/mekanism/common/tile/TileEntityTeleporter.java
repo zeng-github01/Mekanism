@@ -1,6 +1,8 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import java.util.*;
+import javax.annotation.Nonnull;
 import mekanism.api.Chunk3D;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
@@ -43,9 +45,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import java.util.*;
 
 public class TileEntityTeleporter extends TileEntityElectricBlock implements IComputerIntegration, IChunkLoader, IFrequencyHandler, IRedstoneControl, ISecurityTile,
         IUpgradeTile, IComparatorSupport {

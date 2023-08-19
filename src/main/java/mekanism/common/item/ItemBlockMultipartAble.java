@@ -1,5 +1,7 @@
 package mekanism.common.item;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import mcmultipart.api.container.IMultipartContainer;
 import mcmultipart.api.multipart.IMultipart;
 import mcmultipart.api.multipart.MultipartHelper;
@@ -19,9 +21,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import javax.annotation.Nonnull;
-import java.util.Optional;
 
 /**
  * Created by Thiakil on 19/11/2017.

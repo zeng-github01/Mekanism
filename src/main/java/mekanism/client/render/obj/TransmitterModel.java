@@ -2,6 +2,10 @@ package mekanism.client.render.obj;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import java.util.*;
+import javax.annotation.Nonnull;
+import javax.vecmath.Matrix4f;
+import javax.vecmath.Vector3f;
 import mekanism.common.Mekanism;
 import mekanism.common.block.property.PropertyColor;
 import mekanism.common.block.property.PropertyConnection;
@@ -34,11 +38,6 @@ import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import org.apache.commons.lang3.tuple.Pair;
-
-import javax.annotation.Nonnull;
-import javax.vecmath.Matrix4f;
-import javax.vecmath.Vector3f;
-import java.util.*;
 
 public class TransmitterModel extends OBJBakedModelBase {
 

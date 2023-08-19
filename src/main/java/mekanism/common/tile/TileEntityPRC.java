@@ -1,6 +1,8 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import java.util.Map;
+import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
@@ -34,9 +36,6 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-
-import javax.annotation.Nonnull;
-import java.util.Map;
 
 public class TileEntityPRC extends TileEntityBasicMachine<PressurizedInput, PressurizedOutput, PressurizedRecipe> implements IFluidHandlerWrapper, IGasHandler,
         ISustainedData, ITankManager {

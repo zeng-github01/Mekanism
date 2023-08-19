@@ -1,28 +1,18 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.diversion_item_transport.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.diversion_item_transport.title"
-    },
-    "icon": {
-      "item": "mekanism:transmitter",
-      "data": 5
-    }
-  },
-  "criteria": {
-    "mekanism_diversion_item_transport": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:transmitter",
-            "data": 5
-          }
-        ]
+      "parent": "mekanism:item_transport",
+      "criteria": {"mekanism_diversion_item_transport": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanism:transmitter",
+                  "data": 5
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanism:transmitter",
+                  "data": 5
+            },
+            "description": {"translate": "advancements.mekanism.diversion_item_transport.description"},
+            "title": {"translate": "advancements.mekanism.diversion_item_transport.title"}
       }
-    }
-  },
-  "parent": "mekanism:item_transport"
 }

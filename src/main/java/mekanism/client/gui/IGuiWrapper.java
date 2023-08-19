@@ -1,12 +1,11 @@
 package mekanism.client.gui;
 
+import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public interface IGuiWrapper {
@@ -19,6 +18,5 @@ public interface IGuiWrapper {
 
     void displayTooltips(List<String> list, int xAxis, int yAxis);
 
-    @Nullable
-    FontRenderer getFont();
+    @Nullable FontRenderer getFont();
 }

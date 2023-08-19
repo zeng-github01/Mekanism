@@ -2,6 +2,9 @@ package mekanism.common.util;
 
 import com.mojang.authlib.GameProfile;
 import ic2.api.energy.EnergyNet;
+import java.util.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.api.Chunk3D;
 import mekanism.api.Coord4D;
 import mekanism.api.IMekWrench;
@@ -59,10 +62,6 @@ import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
 
 /**
  * Utilities used by Mekanism. All miscellaneous methods are located here.
@@ -1040,8 +1039,7 @@ public final class MekanismUtils {
      * @param pos   - position
      * @return tile entity if found, null if either not found or not loaded
      */
-    @Nullable
-    public static TileEntity getTileEntity(World world, BlockPos pos) {
+    @Nullable public static TileEntity getTileEntity(World world, BlockPos pos) {
         if (world != null && world.isBlockLoaded(pos)) {
             return world.getTileEntity(pos);
         }

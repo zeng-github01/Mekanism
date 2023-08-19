@@ -1,26 +1,12 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.configuration_copying.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.configuration_copying.title"
-    },
-    "icon": {
-      "item": "mekanism:configurationcard"
-    }
-  },
-  "criteria": {
-    "mekanism_configuration_copying": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:configurationcard"
-          }
-        ]
+      "parent": "mekanism:basic_control_circuit",
+      "criteria": {"mekanism_configuration_copying": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{"item": "mekanism:configurationcard"}]}
+      }},
+      "display": {
+            "icon": {"item": "mekanism:configurationcard"},
+            "description": {"translate": "advancements.mekanism.configuration_copying.description"},
+            "title": {"translate": "advancements.mekanism.configuration_copying.title"}
       }
-    }
-  },
-  "parent": "mekanism:basic_control_circuit"
 }

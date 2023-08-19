@@ -1,6 +1,9 @@
 package mekanism.common.tile.transmitter;
 
 import io.netty.buffer.ByteBuf;
+import java.util.Collection;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.api.TileNetworkList;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.base.FluidHandlerWrapper;
@@ -22,10 +25,6 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Collection;
 
 public class TileEntityMechanicalPipe extends TileEntityTransmitter<IFluidHandler, FluidNetwork, FluidStack> implements IFluidHandlerWrapper {
 
@@ -180,8 +179,7 @@ public class TileEntityMechanicalPipe extends TileEntityTransmitter<IFluidHandle
         return tier.getPipeCapacity();
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public FluidStack getBuffer() {
         return buffer == null ? null : buffer.getFluid();
     }

@@ -5,6 +5,7 @@ import crafttweaker.annotations.BracketHandler;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IngredientAny;
 import crafttweaker.zenscript.IBracketHandler;
+import java.util.List;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.GasStack;
@@ -16,8 +17,6 @@ import stanhebben.zenscript.parser.Token;
 import stanhebben.zenscript.symbols.IZenSymbol;
 import stanhebben.zenscript.type.natives.IJavaMethod;
 import stanhebben.zenscript.util.ZenPosition;
-
-import java.util.List;
 
 @BracketHandler(priority = 100)
 @ZenRegister

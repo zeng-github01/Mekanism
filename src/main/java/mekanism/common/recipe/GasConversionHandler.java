@@ -1,5 +1,11 @@
 package mekanism.common.recipe;
 
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.function.BiFunction;
+import java.util.function.Predicate;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.api.gas.GasTank;
@@ -13,18 +19,11 @@ import mekanism.common.util.MekanismUtils;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.function.BiFunction;
-import java.util.function.Predicate;
-
 public class GasConversionHandler {
 
     //TODO: Show uses in JEI for fuels that can be turned to gas??
-    private final static Map<Gas, List<IMekanismIngredient<ItemStack>>> gasToIngredients = new HashMap<>();
-    private final static Map<IMekanismIngredient<ItemStack>, GasStack> ingredientToGas = new HashMap<>();
+    private static final Map<Gas, List<IMekanismIngredient<ItemStack>>> gasToIngredients = new HashMap<>();
+    private static final Map<IMekanismIngredient<ItemStack>, GasStack> ingredientToGas = new HashMap<>();
 
     public static void addDefaultGasMappings() {
         addGasMapping(new ItemStack(Items.FLINT), MekanismFluids.Oxygen, 10);
@@ -85,8 +84,7 @@ public class GasConversionHandler {
     /**
      * Gets an item gas checking if it will be valid for a specific tank and if the type is also valid.
      */
-    @Nullable
-    public static GasStack getItemGas(ItemStack itemStack, GasTank gasTank, Predicate<Gas> isValidGas) {
+    @Nullable public static GasStack getItemGas(ItemStack itemStack, GasTank gasTank, Predicate<Gas> isValidGas) {
         return getItemGas(itemStack, gasTank.getNeeded(), (gas, quantity) -> {
             if (gas != null && gasTank.canReceive(gas) && isValidGas.test(gas)) {
                 return new GasStack(gas, quantity);
@@ -102,8 +100,7 @@ public class GasConversionHandler {
      * @param needed    The max amount we need for use with IGasItem's so that we do not return a value that is too large, thus making it so it thinks there is no room.
      * @return fuel ticks
      */
-    @Nullable
-    public static GasStack getItemGas(ItemStack itemStack, int needed, BiFunction<Gas, Integer, GasStack> getIfValid) {
+    @Nullable public static GasStack getItemGas(ItemStack itemStack, int needed, BiFunction<Gas, Integer, GasStack> getIfValid) {
         if (itemStack.getItem() instanceof IGasItem) {
             IGasItem item = (IGasItem) itemStack.getItem();
             GasStack gas = item.getGas(itemStack);

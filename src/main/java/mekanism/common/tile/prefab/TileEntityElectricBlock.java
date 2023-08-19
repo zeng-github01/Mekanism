@@ -6,6 +6,7 @@ import ic2.api.energy.tile.IEnergyAcceptor;
 import ic2.api.energy.tile.IEnergyConductor;
 import ic2.api.energy.tile.IEnergyEmitter;
 import io.netty.buffer.ByteBuf;
+import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
 import mekanism.common.base.IEnergyWrapper;
 import mekanism.common.capabilities.Capabilities;
@@ -26,8 +27,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Optional.Method;
-
-import javax.annotation.Nonnull;
 
 public abstract class TileEntityElectricBlock extends TileEntityContainerBlock implements IEnergyWrapper {
 
@@ -88,9 +87,9 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
 
     @Override
     public void onUpdate() {
-		/*if(MekanismUtils.useIC2()) {
-			register();
-		}*/
+        /*if(MekanismUtils.useIC2()) {
+            register();
+        }*/
     }
 
     @Override

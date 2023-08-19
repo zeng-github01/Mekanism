@@ -1,5 +1,7 @@
 package mekanism.common.item;
 
+import java.util.List;
+import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.common.Upgrade;
 import mekanism.common.base.IUpgradeItem;
@@ -19,9 +21,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
-
-import javax.annotation.Nonnull;
-import java.util.List;
 
 public class ItemUpgrade extends ItemMekanism implements IUpgradeItem {
 

@@ -2,6 +2,9 @@ package mekanism.common;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Random;
 import mekanism.common.frequency.FrequencyManager;
 import mekanism.common.multiblock.MultiblockManager;
 import net.minecraft.util.math.ChunkPos;
@@ -11,10 +14,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
-
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Random;
 
 public class CommonWorldTickHandler {
 

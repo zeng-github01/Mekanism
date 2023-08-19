@@ -1,6 +1,9 @@
 package mekanism.generators.common.block.states;
 
 import com.google.common.base.Predicate;
+import java.util.Locale;
+import java.util.function.Supplier;
+import javax.annotation.Nonnull;
 import mekanism.common.tile.prefab.TileEntityElectricBlock;
 import mekanism.common.util.LangUtils;
 import mekanism.generators.common.GeneratorsBlocks;
@@ -20,10 +23,6 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-
-import javax.annotation.Nonnull;
-import java.util.Locale;
-import java.util.function.Supplier;
 
 public class BlockStateReactor extends ExtendedBlockState {
 

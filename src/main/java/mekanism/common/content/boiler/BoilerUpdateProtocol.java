@@ -1,5 +1,8 @@
 package mekanism.common.content.boiler;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import mekanism.api.Coord4D;
 import mekanism.common.Mekanism;
 import mekanism.common.block.states.BlockStateBasic.BasicBlockType;
@@ -14,10 +17,6 @@ import mekanism.common.tile.TileEntitySuperheatingElement;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class BoilerUpdateProtocol extends UpdateProtocol<SynchronizedBoilerData> {
 

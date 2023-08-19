@@ -1,141 +1,67 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanismtools.paxel.description"
-    },
-    "title": {
-      "translate": "advancements.mekanismtools.paxel.title"
-    },
-    "icon": {
-      "item": "mekanismtools:diamondpaxel"
-    }
-  },
-  "criteria": {
-    "mekanism_Paxel_Wood": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:woodpaxel"
-          }
-        ]
+      "parent": "mekanism:root",
+      "requirements": [[
+            "mekanism_Paxel_Osmium",
+            "mekanism_Paxel_Wood",
+            "mekanism_Paxel_Stone",
+            "mekanism_Paxel_Iron",
+            "mekanism_Paxel_Diamond",
+            "mekanism_Paxel_Gold",
+            "mekanism_Paxel_Obsidian",
+            "mekanism_Paxel_Lapis_Lazuli",
+            "mekanism_Paxel_Bronze",
+            "mekanism_Paxel_Steel",
+            "mekanism_Paxel_Glowstone"
+      ]],
+      "criteria": {
+            "mekanism_Paxel_Osmium": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:osmiumpaxel"}]}
+            },
+            "mekanism_Paxel_Diamond": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:diamondpaxel"}]}
+            },
+            "mekanism_Paxel_Wood": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:woodpaxel"}]}
+            },
+            "mekanism_Paxel_Lapis_Lazuli": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:lapislazulipaxel"}]}
+            },
+            "mekanism_Paxel_Obsidian": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:obsidianpaxel"}]}
+            },
+            "mekanism_Paxel_Steel": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:steelpaxel"}]}
+            },
+            "mekanism_Paxel_Gold": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:goldpaxel"}]}
+            },
+            "mekanism_Paxel_Glowstone": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:glowstonepaxel"}]}
+            },
+            "mekanism_Paxel_Iron": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:ironpaxel"}]}
+            },
+            "mekanism_Paxel_Stone": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:stonepaxel"}]}
+            },
+            "mekanism_Paxel_Bronze": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:bronzepaxel"}]}
+            }
+      },
+      "display": {
+            "icon": {"item": "mekanismtools:diamondpaxel"},
+            "description": {"translate": "advancements.mekanismtools.paxel.description"},
+            "title": {"translate": "advancements.mekanismtools.paxel.title"}
       }
-    },
-    "mekanism_Paxel_Stone": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:stonepaxel"
-          }
-        ]
-      }
-    },
-    "mekanism_Paxel_Iron": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:ironpaxel"
-          }
-        ]
-      }
-    },
-    "mekanism_Paxel_Diamond": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:diamondpaxel"
-          }
-        ]
-      }
-    },
-    "mekanism_Paxel_Gold": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:goldpaxel"
-          }
-        ]
-      }
-    },
-    "mekanism_Paxel_Obsidian": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:obsidianpaxel"
-          }
-        ]
-      }
-    },
-    "mekanism_Paxel_Lapis_Lazuli": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:lapislazulipaxel"
-          }
-        ]
-      }
-    },
-    "mekanism_Paxel_Osmium": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:osmiumpaxel"
-          }
-        ]
-      }
-    },
-    "mekanism_Paxel_Bronze": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:bronzepaxel"
-          }
-        ]
-      }
-    },
-    "mekanism_Paxel_Steel": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:steelpaxel"
-          }
-        ]
-      }
-    },
-    "mekanism_Paxel_Glowstone": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:glowstonepaxel"
-          }
-        ]
-      }
-    }
-  },
-  "requirements": [
-    [
-      "mekanism_Paxel_Osmium",
-      "mekanism_Paxel_Wood",
-      "mekanism_Paxel_Stone",
-      "mekanism_Paxel_Iron",
-      "mekanism_Paxel_Diamond",
-      "mekanism_Paxel_Gold",
-      "mekanism_Paxel_Obsidian",
-      "mekanism_Paxel_Lapis_Lazuli",
-      "mekanism_Paxel_Bronze",
-      "mekanism_Paxel_Steel",
-      "mekanism_Paxel_Glowstone"
-    ]
-  ],
-  "parent": "mekanism:root"
 }

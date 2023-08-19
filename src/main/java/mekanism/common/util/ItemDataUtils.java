@@ -1,12 +1,11 @@
 package mekanism.common.util;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants.NBT;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public final class ItemDataUtils {
 
@@ -18,8 +17,7 @@ public final class ItemDataUtils {
         return stack.getTagCompound().getCompoundTag(DATA_ID);
     }
 
-    @Nullable
-    public static NBTTagCompound getDataMapIfPresent(ItemStack stack) {
+    @Nullable public static NBTTagCompound getDataMapIfPresent(ItemStack stack) {
         return hasDataTag(stack) ? getDataMap(stack) : null;
     }
 

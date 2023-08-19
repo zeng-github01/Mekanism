@@ -1,37 +1,34 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryRight",
-      "front": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryFront",
-      "south": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryBack",
-      "west": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryRight",
-      "east": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryLeft",
-      "up": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryTop",
-      "down": "mekanism:blocks/factory/basic/BasicFactoryBottom"
-    }
-  },
-  "variants": {
-    "facing": {
-      "north": {},
-      "south": {"y": 180},
-      "east":  {"y": 90},
-      "west":  {"y": -90}
-    },
-    "active": {
-      "true": {
-        "textures": {
-          "front": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryFrontOn",
-          "south": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryBackOn",
-          "west": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryRightOn",
-          "east": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryLeftOn",
-          "up": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryTopOn"
-        }
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryLeft",
+                  "south": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryBack",
+                  "west": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryRight",
+                  "sides": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryRight",
+                  "front": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryFront",
+                  "up": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryTop",
+                  "down": "mekanism:blocks/factory/basic/BasicFactoryBottom"
+            },
+            "model": "mekanism:machine"
       },
-      "false": {}
-    },
-    "inventory": [{}]
-  }
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryLeftOn",
+                        "south": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryBackOn",
+                        "west": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryRightOn",
+                        "front": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryFrontOn",
+                        "up": "mekanism:blocks/factory/basic/injecting/BasicInjectingFactoryTopOn"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
+      }
 }
-

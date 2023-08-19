@@ -1,16 +1,10 @@
 {
-  "result": {
-    "item": "mekanismtools:bronzechestplate"
-  },
-  "pattern": [
-    "* *",
-    "***",
-    "***"
-  ],
-  "type": "forge:ore_shaped",
-  "key": {
-    "*": {
-      "item": "#INGOT_BRONZE"
-    }
-  }
+      "result": {"item": "mekanismtools:bronzechestplate"},
+      "pattern": [
+            "* *",
+            "***",
+            "***"
+      ],
+      "type": "forge:ore_shaped",
+      "key": {"*": {"item": "#INGOT_BRONZE"}}
 }

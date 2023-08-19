@@ -1,39 +1,27 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.teleporter.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.teleporter.title"
-    },
-    "icon": {
-      "item": "mekanism:machineblock",
-      "data": 11
-    }
-  },
-  "criteria": {
-    "mekanism_teleporter": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:machineblock",
-            "data": 11
-          }
-        ]
+      "parent": "mekanism:teleportation_core",
+      "criteria": {
+            "mekanism_teleporter": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{
+                        "item": "mekanism:machineblock",
+                        "data": 11
+                  }]}
+            },
+            "mekanism_teleporter_Frame": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{
+                        "item": "mekanism:basicblock",
+                        "data": 7
+                  }]}
+            }
+      },
+      "display": {
+            "icon": {
+                  "item": "mekanism:machineblock",
+                  "data": 11
+            },
+            "description": {"translate": "advancements.mekanism.teleporter.description"},
+            "title": {"translate": "advancements.mekanism.teleporter.title"}
       }
-    },
-    "mekanism_teleporter_Frame": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:basicblock",
-            "data": 7
-          }
-        ]
-      }
-    }
-  },
-  "parent": "mekanism:teleportation_core"
 }

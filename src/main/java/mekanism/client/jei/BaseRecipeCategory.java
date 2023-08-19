@@ -1,15 +1,18 @@
 package mekanism.client.jei;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.annotation.Nullable;
 import mekanism.api.gas.GasStack;
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.client.gui.element.GuiElement;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
-import mekanism.client.gui.element.gauge.GuiGauge.Type;
 import mekanism.client.jei.gas.GasStackRenderer;
 import mekanism.common.Mekanism;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.MekanismUtils.ResourceType;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiIngredientGroup;
@@ -22,20 +25,13 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
 
-import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 public abstract class BaseRecipeCategory<WRAPPER extends IRecipeWrapper> implements IRecipeCategory<WRAPPER>, IGuiWrapper {
 
     private static final GuiDummy gui = new GuiDummy();
 
     private IGuiHelper guiHelper;
     protected ResourceLocation guiLocation;
-    @Nullable
-    protected ProgressBar progressBar;
+    @Nullable protected ProgressBar progressBar;
     protected ITickTimer timer;
     protected int xOffset;
     protected int yOffset;

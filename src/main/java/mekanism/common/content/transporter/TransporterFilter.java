@@ -1,16 +1,15 @@
 package mekanism.common.content.transporter;
 
 import io.netty.buffer.ByteBuf;
+import java.util.Arrays;
+import java.util.List;
+import javax.annotation.Nullable;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.common.content.filter.IFilter;
 import mekanism.common.util.TransporterUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.List;
 
 public abstract class TransporterFilter implements IFilter {
 
@@ -34,8 +33,7 @@ public abstract class TransporterFilter implements IFilter {
         return filter;
     }
 
-    @Nullable
-    private static TransporterFilter getType(int type) {
+    @Nullable private static TransporterFilter getType(int type) {
         TransporterFilter filter = null;
         if (type == 0) {
             filter = new TItemStackFilter();

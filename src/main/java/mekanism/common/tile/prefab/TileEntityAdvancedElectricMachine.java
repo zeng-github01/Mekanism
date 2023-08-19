@@ -1,6 +1,8 @@
 package mekanism.common.tile.prefab;
 
 import io.netty.buffer.ByteBuf;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
@@ -28,9 +30,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public abstract class TileEntityAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<RECIPE>> extends
         TileEntityUpgradeableMachine<AdvancedMachineInput, ItemStackOutput, RECIPE> implements IGasHandler, ISustainedData {
@@ -106,8 +105,7 @@ public abstract class TileEntityAdvancedElectricMachine<RECIPE extends AdvancedM
      * @param itemStack - itemstack to check with
      * @return fuel ticks
      */
-    @Nullable
-    public GasStack getItemGas(ItemStack itemStack) {
+    @Nullable public GasStack getItemGas(ItemStack itemStack) {
         return GasConversionHandler.getItemGas(itemStack, gasTank, this::isValidGas);
     }
 

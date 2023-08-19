@@ -1,8 +1,7 @@
 package mekanism.api.gas;
 
-import net.minecraft.util.EnumFacing;
-
 import javax.annotation.Nonnull;
+import net.minecraft.util.EnumFacing;
 
 /**
  * Implement this if your tile entity accepts gas from an external source.

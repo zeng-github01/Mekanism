@@ -1,37 +1,34 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/bin/bincreativeside",
-      "front": "mekanism:blocks/bin/bincreativefront",
-      "west": "mekanism:blocks/bin/bincreativeside",
-      "east": "mekanism:blocks/bin/bincreativeside",
-      "south": "mekanism:blocks/bin/bincreativeside",
-      "up": "mekanism:blocks/bin/bincreativetop",
-      "down": "mekanism:blocks/bin/binbottom"
-    }
-  },
-  "variants": {
-    "facing": {
-      "north": {},
-      "south": {"y": 180},
-      "east":  {"y": 90},
-      "west":  {"y": -90}
-    },
-    "active": {
-      "true": {
-        "textures": {
-          "front": "mekanism:blocks/bin/bincreativefronton",
-          "west": "mekanism:blocks/bin/bincreativesideon",
-          "east": "mekanism:blocks/bin/bincreativesideon",
-          "south": "mekanism:blocks/bin/bincreativesideon",
-          "up": "mekanism:blocks/bin/bincreativetopon"
-        }
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/bin/bincreativeside",
+                  "south": "mekanism:blocks/bin/bincreativeside",
+                  "west": "mekanism:blocks/bin/bincreativeside",
+                  "sides": "mekanism:blocks/bin/bincreativeside",
+                  "front": "mekanism:blocks/bin/bincreativefront",
+                  "up": "mekanism:blocks/bin/bincreativetop",
+                  "down": "mekanism:blocks/bin/binbottom"
+            },
+            "model": "mekanism:machine"
       },
-      "false": {}
-    },
-    "inventory": [{}]
-  }
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/bin/bincreativesideon",
+                        "south": "mekanism:blocks/bin/bincreativesideon",
+                        "west": "mekanism:blocks/bin/bincreativesideon",
+                        "front": "mekanism:blocks/bin/bincreativefronton",
+                        "up": "mekanism:blocks/bin/bincreativetopon"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
+      }
 }
-

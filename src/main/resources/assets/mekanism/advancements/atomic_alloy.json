@@ -1,27 +1,13 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.atomic_alloy.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.atomic_alloy.title"
-    },
-    "icon": {
-      "item": "mekanism:atomicalloy"
-    },
-    "frame": "goal"
-  },
-  "criteria": {
-    "mekanism_atomic_alloy": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:atomicalloy"
-          }
-        ]
+      "parent": "mekanism:reinforced_alloy",
+      "criteria": {"mekanism_atomic_alloy": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{"item": "mekanism:atomicalloy"}]}
+      }},
+      "display": {
+            "icon": {"item": "mekanism:atomicalloy"},
+            "description": {"translate": "advancements.mekanism.atomic_alloy.description"},
+            "title": {"translate": "advancements.mekanism.atomic_alloy.title"},
+            "frame": "goal"
       }
-    }
-  },
-  "parent": "mekanism:reinforced_alloy"
 }

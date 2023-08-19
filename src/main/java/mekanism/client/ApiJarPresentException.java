@@ -1,11 +1,10 @@
 package mekanism.client;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiErrorScreen;
 import net.minecraftforge.fml.client.CustomModLoadingErrorDisplayException;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * Copied from EnderCore

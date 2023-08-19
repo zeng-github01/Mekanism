@@ -1,5 +1,7 @@
 package mekanism.client;
 
+import java.util.*;
+import java.util.Map.Entry;
 import mekanism.api.IClientTicker;
 import mekanism.api.gas.GasStack;
 import mekanism.client.render.RenderTickHandler;
@@ -29,9 +31,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.*;
-import java.util.Map.Entry;
 
 /**
  * Client-side tick handler for Mekanism. Used mainly for the update check upon startup.

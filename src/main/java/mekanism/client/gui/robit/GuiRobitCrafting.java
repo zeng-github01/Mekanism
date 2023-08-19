@@ -1,6 +1,5 @@
 package mekanism.client.gui.robit;
 
-import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiProgress;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.common.entity.EntityRobit;

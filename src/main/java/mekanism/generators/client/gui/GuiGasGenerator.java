@@ -1,5 +1,6 @@
 package mekanism.generators.client.gui;
 
+import java.util.Arrays;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
@@ -16,8 +17,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class GuiGasGenerator extends GuiMekanismTile<TileEntityGasGenerator> {

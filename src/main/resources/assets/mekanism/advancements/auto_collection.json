@@ -1,28 +1,18 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.auto_collection.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.auto_collection.title"
-    },
-    "icon": {
-      "item": "mekanism:machineblock2",
-      "data": 15
-    }
-  },
-  "criteria": {
-    "mekanism_auto_collection": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:machineblock2",
-            "data": 15
-          }
-        ]
+      "parent": "mekanism:laser",
+      "criteria": {"mekanism_auto_collection": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanism:machineblock2",
+                  "data": 15
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanism:machineblock2",
+                  "data": 15
+            },
+            "description": {"translate": "advancements.mekanism.auto_collection.description"},
+            "title": {"translate": "advancements.mekanism.auto_collection.title"}
       }
-    }
-  },
-  "parent": "mekanism:laser"
 }

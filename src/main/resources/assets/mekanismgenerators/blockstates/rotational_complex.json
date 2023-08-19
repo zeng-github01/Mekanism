@@ -1,17 +1,16 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanismgenerators:blocks/RotationalComplexSide",
-      "front": "mekanismgenerators:blocks/RotationalComplexSide",
-      "up": "mekanismgenerators:blocks/RotationalComplexTop",
-      "down": "mekanismgenerators:blocks/RotationalComplexTop"
-    }
-  },
-  "variants": {
-    "normal": [{}],
-    "inventory": [{}]
-  }
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "sides": "mekanismgenerators:blocks/RotationalComplexSide",
+                  "front": "mekanismgenerators:blocks/RotationalComplexSide",
+                  "up": "mekanismgenerators:blocks/RotationalComplexTop",
+                  "down": "mekanismgenerators:blocks/RotationalComplexTop"
+            },
+            "model": "mekanism:machine"
+      },
+      "variants": {
+            "normal": [{}],
+            "inventory": [{}]
+      }
 }
-

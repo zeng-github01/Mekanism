@@ -1,26 +1,12 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.energy_cube.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.energy_cube.title"
-    },
-    "icon": {
-      "item": "mekanism:energycube"
-    }
-  },
-  "criteria": {
-    "mekanism_energy_cube": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:energycube"
-          }
-        ]
+      "parent": "mekanism:steel_casing",
+      "criteria": {"mekanism_energy_cube": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{"item": "mekanism:energycube"}]}
+      }},
+      "display": {
+            "icon": {"item": "mekanism:energycube"},
+            "description": {"translate": "advancements.mekanism.energy_cube.description"},
+            "title": {"translate": "advancements.mekanism.energy_cube.title"}
       }
-    }
-  },
-  "parent": "mekanism:steel_casing"
 }

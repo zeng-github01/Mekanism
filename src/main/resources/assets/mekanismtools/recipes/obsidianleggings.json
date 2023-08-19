@@ -1,16 +1,10 @@
 {
-  "result": {
-    "item": "mekanismtools:obsidianleggings"
-  },
-  "pattern": [
-    "***",
-    "* *",
-    "* *"
-  ],
-  "type": "forge:ore_shaped",
-  "key": {
-    "*": {
-      "item": "#INGOT_REFINED_OBSIDIAN"
-    }
-  }
+      "result": {"item": "mekanismtools:obsidianleggings"},
+      "pattern": [
+            "***",
+            "* *",
+            "* *"
+      ],
+      "type": "forge:ore_shaped",
+      "key": {"*": {"item": "#INGOT_REFINED_OBSIDIAN"}}
 }

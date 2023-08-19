@@ -1,6 +1,7 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigCardAccess;
 import mekanism.api.TileNetworkList;
@@ -26,8 +27,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-
-import javax.annotation.Nonnull;
 
 public class TileEntityChemicalCrystallizer extends TileEntityOperationalMachine implements IGasHandler, ISideConfiguration, ISustainedData, ITankManager, IConfigCardAccess {
 

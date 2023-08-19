@@ -1,20 +1,17 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:transmitter_large.obj.mek",
-    "textures": {
-      "#side": "mekanism:blocks/models/multipart/MechanicalPipeVerticalAdvanced",
-      "#center": "mekanism:blocks/models/multipart/MechanicalPipeAdvanced",
-      "#side_opaque": "mekanism:blocks/models/multipart/opaque/MechanicalPipeVerticalAdvanced",
-      "#center_opaque": "mekanism:blocks/models/multipart/opaque/MechanicalPipeAdvanced"
-    },
-    "custom": {
-      "flip-v": true
-    }
-  },
-  "variants": {
-    "normal": [{}],
-    "inventory": [{}]
-  }
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "#center_opaque": "mekanism:blocks/models/multipart/opaque/MechanicalPipeAdvanced",
+                  "#center": "mekanism:blocks/models/multipart/MechanicalPipeAdvanced",
+                  "#side": "mekanism:blocks/models/multipart/MechanicalPipeVerticalAdvanced",
+                  "#side_opaque": "mekanism:blocks/models/multipart/opaque/MechanicalPipeVerticalAdvanced"
+            },
+            "custom": {"flip-v": true},
+            "model": "mekanism:transmitter_large.obj.mek"
+      },
+      "variants": {
+            "normal": [{}],
+            "inventory": [{}]
+      }
 }
-

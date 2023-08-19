@@ -1,5 +1,8 @@
 package mekanism.common.item;
 
+import java.util.List;
+import java.util.UUID;
+import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
@@ -42,10 +45,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.UUID;
 
 public class ItemBlockGasTank extends ItemBlock implements IGasItem, ISustainedInventory, ITierItem, ISecurityItem {
 

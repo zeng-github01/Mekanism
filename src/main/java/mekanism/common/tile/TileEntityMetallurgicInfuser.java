@@ -1,6 +1,8 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import java.util.Objects;
+import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigCardAccess;
 import mekanism.api.TileNetworkList;
@@ -35,9 +37,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Contract;
-
-import javax.annotation.Nonnull;
-import java.util.Objects;
 
 public class TileEntityMetallurgicInfuser extends TileEntityOperationalMachine implements IComputerIntegration, ISideConfiguration, IConfigCardAccess, ITierUpgradeable,
         ISustainedData {

@@ -1,8 +1,7 @@
 package mekanism.api.gas;
 
-import net.minecraft.nbt.NBTTagCompound;
-
 import javax.annotation.Nullable;
+import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * GasStack - a specified amount of a defined Gas with certain properties.
@@ -45,8 +44,7 @@ public class GasStack {
      * @param nbtTags - tag compound to read from
      * @return GasStack stored in the tag compound
      */
-    @Nullable
-    public static GasStack readFromNBT(NBTTagCompound nbtTags) {
+    @Nullable public static GasStack readFromNBT(NBTTagCompound nbtTags) {
         if (nbtTags == null || nbtTags.isEmpty()) {
             return null;
         }

@@ -1,26 +1,12 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.infused_alloy.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.infused_alloy.title"
-    },
-    "icon": {
-      "item": "mekanism:enrichedalloy"
-    }
-  },
-  "criteria": {
-    "mekanism_infused_alloy": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:enrichedalloy"
-          }
-        ]
+      "parent": "mekanism:metallurgic_infuser",
+      "criteria": {"mekanism_infused_alloy": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{"item": "mekanism:enrichedalloy"}]}
+      }},
+      "display": {
+            "icon": {"item": "mekanism:enrichedalloy"},
+            "description": {"translate": "advancements.mekanism.infused_alloy.description"},
+            "title": {"translate": "advancements.mekanism.infused_alloy.title"}
       }
-    }
-  },
-  "parent": "mekanism:metallurgic_infuser"
 }

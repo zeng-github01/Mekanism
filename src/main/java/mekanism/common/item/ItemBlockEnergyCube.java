@@ -3,6 +3,9 @@ package mekanism.common.item;
 import cofh.redstoneflux.api.IEnergyContainerItem;
 import ic2.api.item.IElectricItemManager;
 import ic2.api.item.ISpecialElectricItem;
+import java.util.List;
+import java.util.UUID;
+import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.energy.IEnergizedItem;
 import mekanism.api.transmitters.TransmissionType;
@@ -50,10 +53,6 @@ import net.minecraftforge.fml.common.Optional.InterfaceList;
 import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.UUID;
 
 @InterfaceList({
         @Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = MekanismHooks.REDSTONEFLUX_MOD_ID),

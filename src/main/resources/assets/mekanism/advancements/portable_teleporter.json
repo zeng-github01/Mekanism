@@ -1,26 +1,12 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.portable_teleporter.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.portable_teleporter.title"
-    },
-    "icon": {
-      "item": "mekanism:portableteleporter"
-    }
-  },
-  "criteria": {
-    "mekanism_portable_teleporter": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:portableteleporter"
-          }
-        ]
+      "parent": "mekanism:teleporter",
+      "criteria": {"mekanism_portable_teleporter": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{"item": "mekanism:portableteleporter"}]}
+      }},
+      "display": {
+            "icon": {"item": "mekanism:portableteleporter"},
+            "description": {"translate": "advancements.mekanism.portable_teleporter.description"},
+            "title": {"translate": "advancements.mekanism.portable_teleporter.title"}
       }
-    }
-  },
-  "parent": "mekanism:teleporter"
 }

@@ -1,6 +1,8 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import java.util.Iterator;
+import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigCardAccess.ISpecialConfigData;
@@ -33,9 +35,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
-
-import javax.annotation.Nonnull;
-import java.util.Iterator;
 
 public class TileEntityLogisticalSorter extends TileEntityEffectsBlock implements IRedstoneControl, ISpecialConfigData, ISustainedData, ISecurityTile,
         IComputerIntegration, IUpgradeTile, IComparatorSupport {

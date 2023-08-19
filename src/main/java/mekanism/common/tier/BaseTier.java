@@ -1,10 +1,9 @@
 package mekanism.common.tier;
 
+import java.util.Locale;
 import mekanism.api.EnumColor;
 import mekanism.common.util.LangUtils;
 import net.minecraft.util.IStringSerializable;
-
-import java.util.Locale;
 
 /**
  * The default tiers used in Mekanism.

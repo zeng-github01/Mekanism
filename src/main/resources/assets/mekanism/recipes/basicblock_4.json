@@ -1,18 +1,16 @@
 {
-  "result": {
-    "item": "mekanism:basicblock",
-    "data": 4
-  },
-  "pattern": [
-    "***",
-    "***",
-    "***"
-  ],
-  "type": "mekanism:ore_shaped",
-  "key": {
-    "*": {
-      "ore": "ingotRefinedGlowstone",
-      "type": "forge:ore_dict"
-    }
-  }
+      "result": {
+            "item": "mekanism:basicblock",
+            "data": 4
+      },
+      "pattern": [
+            "***",
+            "***",
+            "***"
+      ],
+      "type": "mekanism:ore_shaped",
+      "key": {"*": {
+            "ore": "ingotRefinedGlowstone",
+            "type": "forge:ore_dict"
+      }}
 }

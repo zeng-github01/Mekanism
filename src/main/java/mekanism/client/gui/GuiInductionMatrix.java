@@ -1,5 +1,6 @@
 package mekanism.client.gui;
 
+import java.util.Arrays;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.gui.element.gauge.GuiNumberGauge;
@@ -8,18 +9,14 @@ import mekanism.client.gui.element.tab.GuiMatrixTab.MatrixTab;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.inventory.container.ContainerInductionMatrix;
 import mekanism.common.tile.TileEntityInductionCasing;
-import mekanism.common.tile.TileEntityLaserAmplifier;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class GuiInductionMatrix extends GuiMekanismTile<TileEntityInductionCasing> {

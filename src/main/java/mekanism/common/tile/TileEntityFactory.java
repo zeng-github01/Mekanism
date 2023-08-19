@@ -1,6 +1,12 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigCardAccess.ISpecialConfigData;
 import mekanism.api.TileNetworkList;
@@ -44,13 +50,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 public class TileEntityFactory extends TileEntityMachine implements IComputerIntegration, ISideConfiguration, IGasHandler, ISpecialConfigData, ITierUpgradeable,
         ISustainedData, IComparatorSupport {
@@ -479,8 +478,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         }
     }
 
-    @Nullable
-    public GasStack getItemGas(ItemStack itemStack) {
+    @Nullable public GasStack getItemGas(ItemStack itemStack) {
         if (recipeType.getFuelType() == MachineFuelType.ADVANCED) {
             return GasConversionHandler.getItemGas(itemStack, gasTank, recipeType::isValidGas);
         }

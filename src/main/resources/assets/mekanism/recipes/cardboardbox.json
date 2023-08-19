@@ -1,19 +1,15 @@
 {
-  "result": {
-    "item": "mekanism:cardboardbox"
-  },
-  "pattern": [
-    "SS",
-    "SS"
-  ],
-  "type": "forge:ore_shaped",
-  "key": {
-    "S": {
-      "ores": [
-        "pulpWood",
-        "dustWood"
+      "result": {"item": "mekanism:cardboardbox"},
+      "pattern": [
+            "SS",
+            "SS"
       ],
-      "type": "mekanism:multi_ore"
-    }
-  }
+      "type": "forge:ore_shaped",
+      "key": {"S": {
+            "ores": [
+                  "pulpWood",
+                  "dustWood"
+            ],
+            "type": "mekanism:multi_ore"
+      }}
 }

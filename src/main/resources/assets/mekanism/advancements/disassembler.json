@@ -1,26 +1,12 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.disassembler.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.disassembler.title"
-    },
-    "icon": {
-      "item": "mekanism:atomicdisassembler"
-    }
-  },
-  "criteria": {
-    "mekanism_disassembler": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:atomicdisassembler"
-          }
-        ]
+      "parent": "mekanism:atomic_alloy",
+      "criteria": {"mekanism_disassembler": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{"item": "mekanism:atomicdisassembler"}]}
+      }},
+      "display": {
+            "icon": {"item": "mekanism:atomicdisassembler"},
+            "description": {"translate": "advancements.mekanism.disassembler.description"},
+            "title": {"translate": "advancements.mekanism.disassembler.title"}
       }
-    }
-  },
-  "parent": "mekanism:atomic_alloy"
 }

@@ -1,5 +1,6 @@
 package mekanism.client;
 
+import java.util.Collections;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismSounds;
@@ -31,8 +32,6 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
-
-import java.util.Collections;
 
 @SideOnly(Side.CLIENT)
 public class MekanismKeyHandler extends MekKeyHandler {

@@ -1,5 +1,7 @@
 package mekanism.common.item;
 
+import java.util.List;
+import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.common.Mekanism;
 import mekanism.common.OreDictCache;
@@ -16,9 +18,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-
-import javax.annotation.Nonnull;
-import java.util.List;
 
 public class ItemDictionary extends ItemMekanism {
 

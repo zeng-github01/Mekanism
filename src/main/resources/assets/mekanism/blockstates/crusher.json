@@ -1,35 +1,32 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/crusher/crusherside",
-      "front": "mekanism:blocks/crusher/crusherfront",
-      "west": "mekanism:blocks/crusher/crusherside",
-      "east": "mekanism:blocks/crusher/crusherside",
-      "south": "mekanism:blocks/crusher/crusherback",
-      "up": "mekanism:blocks/crusher/crushertop",
-      "down": "mekanism:blocks/crusher/crusherbottom"
-    }
-  },
-  "variants": {
-    "facing": {
-      "north": {},
-      "south": {"y": 180},
-      "east":  {"y": 90},
-      "west":  {"y": -90}
-    },
-    "active": {
-      "true": {
-        "textures": {
-          "front": "mekanism:blocks/crusher/crusherfronton",
-          "west": "mekanism:blocks/crusher/crushersideon",
-          "east": "mekanism:blocks/crusher/crushersideon"
-        }
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/crusher/crusherside",
+                  "south": "mekanism:blocks/crusher/crusherback",
+                  "west": "mekanism:blocks/crusher/crusherside",
+                  "sides": "mekanism:blocks/crusher/crusherside",
+                  "front": "mekanism:blocks/crusher/crusherfront",
+                  "up": "mekanism:blocks/crusher/crushertop",
+                  "down": "mekanism:blocks/crusher/crusherbottom"
+            },
+            "model": "mekanism:machine"
       },
-      "false": {}
-    },
-    "inventory": [{}]
-  }
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/crusher/crushersideon",
+                        "west": "mekanism:blocks/crusher/crushersideon",
+                        "front": "mekanism:blocks/crusher/crusherfronton"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
+      }
 }
-

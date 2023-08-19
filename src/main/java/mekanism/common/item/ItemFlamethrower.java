@@ -1,5 +1,7 @@
 package mekanism.common.item;
 
+import java.util.List;
+import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
@@ -19,9 +21,6 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import java.util.List;
 
 public class ItemFlamethrower extends ItemMekanism implements IGasItem {
 

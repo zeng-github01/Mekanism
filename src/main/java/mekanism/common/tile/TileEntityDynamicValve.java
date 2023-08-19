@@ -1,5 +1,7 @@
 package mekanism.common.tile;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.common.base.FluidHandlerWrapper;
 import mekanism.common.base.IComparatorSupport;
 import mekanism.common.base.IFluidHandlerWrapper;
@@ -12,9 +14,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class TileEntityDynamicValve extends TileEntityDynamicTank implements IFluidHandlerWrapper, IComparatorSupport {
 
@@ -54,8 +53,7 @@ public class TileEntityDynamicValve extends TileEntityDynamicTank implements IFl
     }
 
     @Override
-    @Nullable
-    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
+    @Nullable public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
         return fluidTank.drain(maxDrain, doDrain);
     }
 

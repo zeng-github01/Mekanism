@@ -92,7 +92,7 @@ public class GuiPowerBar extends GuiElement {
     public void mouseClicked(int xAxis, int yAxis, int button) {
     }
 
-    public static abstract class IPowerInfoHandler {
+    public abstract static class IPowerInfoHandler {
         public String getTooltip() {
             return null;
         }

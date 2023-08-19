@@ -1,5 +1,6 @@
 package mekanism.client.gui.element.tab;
 
+import java.util.Arrays;
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.common.tile.TileEntityDigitalMiner;
 import mekanism.common.util.LangUtils;
@@ -9,8 +10,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class GuiVisualsTab extends GuiTabElement<TileEntityDigitalMiner> {

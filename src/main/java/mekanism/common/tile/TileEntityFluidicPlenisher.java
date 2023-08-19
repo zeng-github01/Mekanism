@@ -1,6 +1,11 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigurable;
@@ -31,12 +36,6 @@ import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-
-import javax.annotation.Nonnull;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 public class TileEntityFluidicPlenisher extends TileEntityElectricBlock implements IComputerIntegration, IConfigurable, IFluidHandlerWrapper, ISustainedTank,
         IUpgradeTile, IRedstoneControl, ISecurityTile, IComparatorSupport {

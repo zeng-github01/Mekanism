@@ -1,5 +1,9 @@
 package mekanism.common.base;
 
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import javax.annotation.Nullable;
 import mekanism.api.gas.Gas;
 import mekanism.common.InfuseStorage;
 import mekanism.common.Mekanism;
@@ -22,11 +26,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-import javax.annotation.Nullable;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-
 /**
  * Internal interface for managing various Factory types.
  *
@@ -48,8 +47,7 @@ public interface IFactory {
      * @param itemStack - stack to check
      * @return RecipeType or null if it has invalid NBT
      */
-    @Nullable
-    RecipeType getRecipeTypeOrNull(ItemStack itemStack);
+    @Nullable RecipeType getRecipeTypeOrNull(ItemStack itemStack);
 
     /**
      * Sets the recipe type of this Smelting Factory to a new value.
@@ -110,8 +108,7 @@ public interface IFactory {
             return type;
         }
 
-        @Nullable
-        public static RecipeType getFromMachineType(MachineType machineType) {
+        @Nullable public static RecipeType getFromMachineType(MachineType machineType) {
             for (RecipeType type : values()) {
                 if (type.type == machineType) {
                     return type;
@@ -160,8 +157,7 @@ public interface IFactory {
             return getRecipe(new InfusionInput(storage, input));
         }
 
-        @Nullable
-        public MachineRecipe getAnyRecipe(ItemStack slotStack, ItemStack extraStack, Gas gasType, InfuseStorage infuse) {
+        @Nullable public MachineRecipe getAnyRecipe(ItemStack slotStack, ItemStack extraStack, Gas gasType, InfuseStorage infuse) {
             if (fuelType == MachineFuelType.ADVANCED) {
                 return getRecipe(slotStack, gasType);
             } else if (fuelType == MachineFuelType.DOUBLE) {

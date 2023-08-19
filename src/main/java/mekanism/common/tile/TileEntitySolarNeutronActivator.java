@@ -1,6 +1,8 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import java.util.List;
+import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
@@ -35,9 +37,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import java.util.List;
 
 public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock implements IRedstoneControl, IBoundingBlock, IGasHandler, IActiveState, ISustainedData,
         ITankManager, ISecurityTile, IUpgradeTile, IUpgradeInfoHandler, IComparatorSupport, ISideConfiguration {

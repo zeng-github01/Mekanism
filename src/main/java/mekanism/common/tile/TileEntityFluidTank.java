@@ -1,6 +1,8 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.api.Coord4D;
 import mekanism.api.IConfigurable;
 import mekanism.api.TileNetworkList;
@@ -32,9 +34,6 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class TileEntityFluidTank extends TileEntityContainerBlock implements IActiveState, IConfigurable, IFluidHandlerWrapper, ISustainedTank, IFluidContainerManager,
         ITankManager, ISecurityTile, ITierUpgradeable, ITieredTile, IComparatorSupport {
@@ -396,8 +395,7 @@ public class TileEntityFluidTank extends TileEntityContainerBlock implements IAc
     }
 
     @Override
-    @Nullable
-    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
+    @Nullable public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
         return fluidTank.drain(maxDrain, tier != FluidTankTier.CREATIVE && doDrain);
     }
 

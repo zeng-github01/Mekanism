@@ -104,7 +104,7 @@ public class GuiProgress extends GuiElement {
     }
 
 
-    public static abstract class IProgressInfoHandler {
+    public abstract static class IProgressInfoHandler {
 
         public abstract double getProgress();
 

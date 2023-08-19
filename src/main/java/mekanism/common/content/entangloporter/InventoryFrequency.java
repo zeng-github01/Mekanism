@@ -1,6 +1,8 @@
 package mekanism.common.content.entangloporter;
 
 import io.netty.buffer.ByteBuf;
+import java.util.UUID;
+import java.util.function.Supplier;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.GasTank;
 import mekanism.common.config.MekanismConfig;
@@ -14,9 +16,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fluids.FluidTank;
-
-import java.util.UUID;
-import java.util.function.Supplier;
 
 public class InventoryFrequency extends Frequency {
 

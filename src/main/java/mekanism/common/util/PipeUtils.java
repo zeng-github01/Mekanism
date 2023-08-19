@@ -1,5 +1,8 @@
 package mekanism.common.util;
 
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
 import mekanism.common.base.target.FluidHandlerTarget;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.tileentity.TileEntity;
@@ -11,10 +14,6 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
-
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
 
 public final class PipeUtils {
 

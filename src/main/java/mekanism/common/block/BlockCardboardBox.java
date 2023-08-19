@@ -1,5 +1,8 @@
 package mekanism.common.block;
 
+import static mekanism.common.block.states.BlockStateCardboardBox.storageProperty;
+
+import javax.annotation.Nonnull;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismBlocks;
 import mekanism.common.block.states.BlockStateCardboardBox;
@@ -24,10 +27,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import javax.annotation.Nonnull;
-
-import static mekanism.common.block.states.BlockStateCardboardBox.storageProperty;
 
 public class BlockCardboardBox extends BlockMekanismContainer {
 

@@ -1,5 +1,7 @@
 package mekanism.generators.client.gui;
 
+import java.util.ArrayList;
+import java.util.List;
 import mekanism.common.Mekanism;
 import mekanism.common.util.LangUtils;
 import mekanism.generators.common.MekanismGenerators;
@@ -13,9 +15,6 @@ import net.minecraftforge.fml.client.config.GuiConfigEntries.CategoryEntry;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by ben on 27/06/14.

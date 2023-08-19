@@ -1,5 +1,6 @@
 package mekanism.common.capabilities;
 
+import java.util.Collection;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.transmitters.IGridTransmitter;
@@ -15,8 +16,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-
-import java.util.Collection;
 
 /**
  * Created by ben on 03/05/16.

@@ -1,15 +1,9 @@
 {
-  "result": {
-    "item": "mekanismtools:lapislazulihelmet"
-  },
-  "pattern": [
-    "***",
-    "* *"
-  ],
-  "type": "minecraft:crafting_shaped",
-  "key": {
-    "*": {
-      "item": "#GEM_LAPIS"
-    }
-  }
+      "result": {"item": "mekanismtools:lapislazulihelmet"},
+      "pattern": [
+            "***",
+            "* *"
+      ],
+      "type": "minecraft:crafting_shaped",
+      "key": {"*": {"item": "#GEM_LAPIS"}}
 }

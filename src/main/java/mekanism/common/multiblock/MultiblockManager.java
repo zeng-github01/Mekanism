@@ -1,12 +1,11 @@
 package mekanism.common.multiblock;
 
+import java.util.*;
+import java.util.Map.Entry;
 import mekanism.api.Coord4D;
 import mekanism.common.tile.TileEntityMultiblock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-
-import java.util.*;
-import java.util.Map.Entry;
 
 public class MultiblockManager<T extends SynchronizedData<T>> {
 

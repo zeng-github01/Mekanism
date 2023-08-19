@@ -1,57 +1,39 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.materials.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.materials.title"
-    },
-    "icon": {
-      "item": "mekanism:ingot",
-      "data": 1
-    }
-  },
-  "criteria": {
-    "mekanism_materials_Osmium": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:ingot",
-            "data": 1
-          }
-        ]
+      "parent": "mekanism:root",
+      "requirements": [[
+            "mekanism_materials_Osmium",
+            "mekanism_materials_Copper",
+            "mekanism_materials_Tin"
+      ]],
+      "criteria": {
+            "mekanism_materials_Tin": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{
+                        "item": "mekanism:ingot",
+                        "data": 6
+                  }]}
+            },
+            "mekanism_materials_Osmium": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{
+                        "item": "mekanism:ingot",
+                        "data": 1
+                  }]}
+            },
+            "mekanism_materials_Copper": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{
+                        "item": "mekanism:ingot",
+                        "data": 5
+                  }]}
+            }
+      },
+      "display": {
+            "icon": {
+                  "item": "mekanism:ingot",
+                  "data": 1
+            },
+            "description": {"translate": "advancements.mekanism.materials.description"},
+            "title": {"translate": "advancements.mekanism.materials.title"}
       }
-    },
-    "mekanism_materials_Copper": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:ingot",
-            "data": 5
-          }
-        ]
-      }
-    },
-    "mekanism_materials_Tin": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:ingot",
-            "data": 6
-          }
-        ]
-      }
-    }
-  },
-  "requirements": [
-    [
-      "mekanism_materials_Osmium",
-      "mekanism_materials_Copper",
-      "mekanism_materials_Tin"
-    ]
-  ],
-  "parent": "mekanism:root"
 }

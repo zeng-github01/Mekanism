@@ -1,5 +1,6 @@
 package mekanism.common.tile;
 
+import javax.annotation.Nonnull;
 import mekanism.common.security.ISecurityTile;
 import mekanism.common.tile.component.TileComponentSecurity;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
@@ -13,8 +14,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.items.CapabilityItemHandler;
-
-import javax.annotation.Nonnull;
 
 public class TileEntityPersonalChest extends TileEntityContainerBlock implements ISecurityTile {
 

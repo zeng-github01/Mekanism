@@ -1,10 +1,9 @@
 package mekanism.common.base;
 
+import javax.annotation.Nonnull;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec3i;
-
-import javax.annotation.Nonnull;
 
 /**
  * Internal interface.  A bounding block is not actually a 'bounding' block, it is really just a fake block that is used to mimic actual block bounds.

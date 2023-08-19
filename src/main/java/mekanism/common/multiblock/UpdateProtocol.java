@@ -1,13 +1,12 @@
 package mekanism.common.multiblock;
 
+import java.util.*;
 import mekanism.api.Coord4D;
 import mekanism.common.tile.TileEntityMultiblock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-
-import java.util.*;
 
 public abstract class UpdateProtocol<T extends SynchronizedData<T>> {
 
@@ -407,7 +406,7 @@ public abstract class UpdateProtocol<T extends SynchronizedData<T>> {
         }
     }
 
-    public static abstract class NodeChecker {
+    public abstract static class NodeChecker {
 
         public abstract boolean isValid(final Coord4D coord);
 

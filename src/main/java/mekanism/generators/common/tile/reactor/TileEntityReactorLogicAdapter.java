@@ -1,6 +1,7 @@
 package mekanism.generators.common.tile.reactor;
 
 import io.netty.buffer.ByteBuf;
+import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
 import mekanism.common.integration.computer.IComputerIntegration;
 import mekanism.common.util.LangUtils;
@@ -8,8 +9,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-
-import javax.annotation.Nonnull;
 
 public class TileEntityReactorLogicAdapter extends TileEntityReactorBlock implements IComputerIntegration {
 

@@ -1,28 +1,18 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.machine_security.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.machine_security.title"
-    },
-    "icon": {
-      "item": "mekanism:basicblock2",
-      "data": 9
-    }
-  },
-  "criteria": {
-    "mekanism_machine_security": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:basicblock2",
-            "data": 9
-          }
-        ]
+      "parent": "mekanism:elite_control_circuit",
+      "criteria": {"mekanism_machine_security": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanism:basicblock2",
+                  "data": 9
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanism:basicblock2",
+                  "data": 9
+            },
+            "description": {"translate": "advancements.mekanism.machine_security.description"},
+            "title": {"translate": "advancements.mekanism.machine_security.title"}
       }
-    }
-  },
-  "parent": "mekanism:elite_control_circuit"
 }

@@ -1,19 +1,13 @@
 {
-  "result": {
-    "item": "mekanismtools:steelsword"
-  },
-  "pattern": [
-    "X",
-    "X",
-    "I"
-  ],
-  "type": "forge:ore_shaped",
-  "key": {
-    "X": {
-      "item": "#INGOT_STEEL"
-    },
-    "I": {
-      "item": "#INGOT_IRON"
-    }
-  }
+      "result": {"item": "mekanismtools:steelsword"},
+      "pattern": [
+            "X",
+            "X",
+            "I"
+      ],
+      "type": "forge:ore_shaped",
+      "key": {
+            "X": {"item": "#INGOT_STEEL"},
+            "I": {"item": "#INGOT_IRON"}
+      }
 }

@@ -1,45 +1,34 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:machine",
-    "textures": {
-      "sides": "mekanism:blocks/factory/creative/sawing/creativesawingfactoryside",
-      "front": "mekanism:blocks/factory/creative/sawing/creativesawingfactoryfront",
-      "south": "mekanism:blocks/factory/creative/sawing/creativesawingfactoryback",
-      "west": "mekanism:blocks/factory/creative/sawing/creativesawingfactoryside",
-      "east": "mekanism:blocks/factory/creative/sawing/creativesawingfactoryside",
-      "up": "mekanism:blocks/factory/creative/sawing/creativesawingfactorytop",
-      "down": "mekanism:blocks/factory/creative/CreativeFactoryBottom"
-    }
-  },
-  "variants": {
-    "facing": {
-      "north": {},
-      "south": {
-        "y": 180
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/factory/creative/sawing/creativesawingfactoryside",
+                  "south": "mekanism:blocks/factory/creative/sawing/creativesawingfactoryback",
+                  "west": "mekanism:blocks/factory/creative/sawing/creativesawingfactoryside",
+                  "sides": "mekanism:blocks/factory/creative/sawing/creativesawingfactoryside",
+                  "front": "mekanism:blocks/factory/creative/sawing/creativesawingfactoryfront",
+                  "up": "mekanism:blocks/factory/creative/sawing/creativesawingfactorytop",
+                  "down": "mekanism:blocks/factory/creative/CreativeFactoryBottom"
+            },
+            "model": "mekanism:machine"
       },
-      "east": {
-        "y": 90
-      },
-      "west": {
-        "y": -90
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/factory/creative/sawing/creativesawingfactorysideon",
+                        "south": "mekanism:blocks/factory/creative/sawing/creativesawingfactorybackon",
+                        "west": "mekanism:blocks/factory/creative/sawing/creativesawingfactorysideon",
+                        "front": "mekanism:blocks/factory/creative/sawing/creativesawingfactoryfronton",
+                        "up": "mekanism:blocks/factory/creative/sawing/creativesawingfactorytopon"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
       }
-    },
-    "active": {
-      "true": {
-        "textures": {
-          "front": "mekanism:blocks/factory/creative/sawing/creativesawingfactoryfronton",
-          "south": "mekanism:blocks/factory/creative/sawing/creativesawingfactorybackon",
-          "west": "mekanism:blocks/factory/creative/sawing/creativesawingfactorysideon",
-          "east": "mekanism:blocks/factory/creative/sawing/creativesawingfactorysideon",
-          "up": "mekanism:blocks/factory/creative/sawing/creativesawingfactorytopon"
-        }
-      },
-      "false": {}
-    },
-    "inventory": [
-      {}
-    ]
-  }
 }
-

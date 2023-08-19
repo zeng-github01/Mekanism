@@ -1,5 +1,7 @@
 package mekanism.common.item;
 
+import java.util.Locale;
+import javax.annotation.Nonnull;
 import mekanism.common.base.IMetaItem;
 import mekanism.common.base.ITierUpgradeable;
 import mekanism.common.tier.BaseTier;
@@ -14,9 +16,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import javax.annotation.Nonnull;
-import java.util.Locale;
 
 public class ItemTierInstaller extends ItemMekanism implements IMetaItem {
 

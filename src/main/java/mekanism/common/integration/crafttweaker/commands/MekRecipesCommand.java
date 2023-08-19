@@ -3,6 +3,12 @@ package mekanism.common.integration.crafttweaker.commands;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.mc1120.commands.CraftTweakerCommand;
 import crafttweaker.mc1120.commands.SpecialMessagesChat;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import javax.annotation.Nullable;
 import mekanism.common.integration.crafttweaker.helpers.RecipeInfoHelper;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.machines.*;
@@ -10,13 +16,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
-
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class MekRecipesCommand extends CraftTweakerCommand {
 

@@ -1,5 +1,7 @@
 package mekanism.common.util;
 
+import java.util.Map;
+import java.util.Map.Entry;
 import mekanism.api.EnumColor;
 import mekanism.common.Mekanism;
 import mekanism.common.base.ISideConfiguration;
@@ -16,9 +18,6 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.Map;
-import java.util.Map.Entry;
 
 public final class InventoryUtils {
 

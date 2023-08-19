@@ -1,6 +1,8 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import java.util.Random;
+import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.common.capabilities.Capabilities;
@@ -15,9 +17,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-
-import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class TileEntityAmbientAccumulator extends TileEntityContainerBlock implements IGasHandler {
 

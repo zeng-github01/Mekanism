@@ -1,26 +1,12 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.playing_with_fire.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.playing_with_fire.title"
-    },
-    "icon": {
-      "item": "mekanism:flamethrower"
-    }
-  },
-  "criteria": {
-    "mekanism_playing_with_fire": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:flamethrower"
-          }
-        ]
+      "parent": "mekanism:advanced_control_circuit",
+      "criteria": {"mekanism_playing_with_fire": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{"item": "mekanism:flamethrower"}]}
+      }},
+      "display": {
+            "icon": {"item": "mekanism:flamethrower"},
+            "description": {"translate": "advancements.mekanism.playing_with_fire.description"},
+            "title": {"translate": "advancements.mekanism.playing_with_fire.title"}
       }
-    }
-  },
-  "parent": "mekanism:advanced_control_circuit"
 }

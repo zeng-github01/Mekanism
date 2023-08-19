@@ -1,28 +1,18 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.quantum_entangloporter.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.quantum_entangloporter.title"
-    },
-    "icon": {
-      "item": "mekanism:machineblock3",
-      "data" : 0
-    }
-  },
-  "criteria": {
-    "mekanism_quantum_entangloporter": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:machineblock3",
-            "data" : 0
-          }
-        ]
+      "parent": "mekanism:teleportation_core",
+      "criteria": {"mekanism_quantum_entangloporter": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{
+                  "item": "mekanism:machineblock3",
+                  "data": 0
+            }]}
+      }},
+      "display": {
+            "icon": {
+                  "item": "mekanism:machineblock3",
+                  "data": 0
+            },
+            "description": {"translate": "advancements.mekanism.quantum_entangloporter.description"},
+            "title": {"translate": "advancements.mekanism.quantum_entangloporter.title"}
       }
-    }
-  },
-  "parent": "mekanism:teleportation_core"
 }

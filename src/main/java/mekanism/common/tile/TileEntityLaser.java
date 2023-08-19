@@ -1,5 +1,6 @@
 package mekanism.common.tile;
 
+import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.common.LaserManager;
 import mekanism.common.LaserManager.LaserInfo;
@@ -15,8 +16,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
-
-import javax.annotation.Nonnull;
 
 public class TileEntityLaser extends TileEntityEffectsBlock {
 

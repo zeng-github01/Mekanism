@@ -1,284 +1,132 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanismtools.alternate_armor.description"
-    },
-    "title": {
-      "translate": "advancements.mekanismtools.alternate_armor.title"
-    },
-    "icon": {
-      "item": "mekanismtools:osmiumchestplate"
-    }
-  },
-  "criteria": {
-    "mekanism_Helmet_Obsidian": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:obsidianhelmet"
-          }
-        ]
+      "parent": "mekanism:materials",
+      "requirements": [[
+            "mekanism_Helmet_Obsidian",
+            "mekanism_Helmet_Lapis_Lazuli",
+            "mekanism_Helmet_Osmium",
+            "mekanism_Helmet_Bronze",
+            "mekanism_Helmet_Steel",
+            "mekanism_Helmet_Glowstone",
+            "mekanism_Chestplate_Obsidian",
+            "mekanism_Chestplate_Lapis_Lazuli",
+            "mekanism_Chestplate_Osmium",
+            "mekanism_Chestplate_Bronze",
+            "mekanism_Chestplate_Steel",
+            "mekanism_Chestplate_Glowstone",
+            "mekanism_Leggings_Obsidian",
+            "mekanism_Leggings_Lapis_Lazuli",
+            "mekanism_Leggings_Osmium",
+            "mekanism_Leggings_Bronze",
+            "mekanism_Leggings_Steel",
+            "mekanism_Leggings_Glowstone",
+            "mekanism_Boots_Obsidian",
+            "mekanism_Boots_Lapis_Lazuli",
+            "mekanism_Boots_Osmium",
+            "mekanism_Boots_Bronze",
+            "mekanism_Boots_Steel",
+            "mekanism_Boots_Glowstone"
+      ]],
+      "criteria": {
+            "mekanism_Chestplate_Obsidian": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:obsidianchestplate"}]}
+            },
+            "mekanism_Chestplate_Lapis_Lazuli": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:lapislazulichestplate"}]}
+            },
+            "mekanism_Leggings_Glowstone": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:glowstoneleggings"}]}
+            },
+            "mekanism_Helmet_Obsidian": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:obsidianhelmet"}]}
+            },
+            "mekanism_Chestplate_Osmium": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:osmiumchestplate"}]}
+            },
+            "mekanism_Boots_Lapis_Lazuli": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:lapislazuliboots"}]}
+            },
+            "mekanism_Helmet_Bronze": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:bronzehelmet"}]}
+            },
+            "mekanism_Leggings_Steel": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:steelleggings"}]}
+            },
+            "mekanism_Helmet_Steel": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:steelhelmet"}]}
+            },
+            "mekanism_Helmet_Glowstone": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:glowstonehelmet"}]}
+            },
+            "mekanism_Boots_Glowstone": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:glowstoneboots"}]}
+            },
+            "mekanism_Boots_Osmium": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:osmiumboots"}]}
+            },
+            "mekanism_Leggings_Lapis_Lazuli": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:lapislazulileggings"}]}
+            },
+            "mekanism_Boots_Obsidian": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:obsidianboots"}]}
+            },
+            "mekanism_Helmet_Osmium": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:osmiumhelmet"}]}
+            },
+            "mekanism_Leggings_Osmium": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:osmiumleggings"}]}
+            },
+            "mekanism_Chestplate_Steel": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:steelchestplate"}]}
+            },
+            "mekanism_Chestplate_Bronze": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:bronzechestplate"}]}
+            },
+            "mekanism_Leggings_Bronze": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:bronzeleggings"}]}
+            },
+            "mekanism_Helmet_Lapis_Lazuli": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:lapislazulihelmet"}]}
+            },
+            "mekanism_Leggings_Obsidian": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:obsidianleggings"}]}
+            },
+            "mekanism_Chestplate_Glowstone": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:glowstonechestplate"}]}
+            },
+            "mekanism_Boots_Bronze": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:bronzeboots"}]}
+            },
+            "mekanism_Boots_Steel": {
+                  "trigger": "minecraft:inventory_changed",
+                  "conditions": {"items": [{"item": "mekanismtools:steelboots"}]}
+            }
+      },
+      "display": {
+            "icon": {"item": "mekanismtools:osmiumchestplate"},
+            "description": {"translate": "advancements.mekanismtools.alternate_armor.description"},
+            "title": {"translate": "advancements.mekanismtools.alternate_armor.title"}
       }
-    },
-    "mekanism_Helmet_Lapis_Lazuli": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:lapislazulihelmet"
-          }
-        ]
-      }
-    },
-    "mekanism_Helmet_Osmium": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:osmiumhelmet"
-          }
-        ]
-      }
-    },
-    "mekanism_Helmet_Bronze": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:bronzehelmet"
-          }
-        ]
-      }
-    },
-    "mekanism_Helmet_Steel": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:steelhelmet"
-          }
-        ]
-      }
-    },
-    "mekanism_Helmet_Glowstone": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:glowstonehelmet"
-          }
-        ]
-      }
-    },
-    "mekanism_Chestplate_Obsidian": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:obsidianchestplate"
-          }
-        ]
-      }
-    },
-    "mekanism_Chestplate_Lapis_Lazuli": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:lapislazulichestplate"
-          }
-        ]
-      }
-    },
-    "mekanism_Chestplate_Osmium": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:osmiumchestplate"
-          }
-        ]
-      }
-    },
-    "mekanism_Chestplate_Bronze": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:bronzechestplate"
-          }
-        ]
-      }
-    },
-    "mekanism_Chestplate_Steel": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:steelchestplate"
-          }
-        ]
-      }
-    },
-    "mekanism_Chestplate_Glowstone": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:glowstonechestplate"
-          }
-        ]
-      }
-    },
-    "mekanism_Leggings_Obsidian": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:obsidianleggings"
-          }
-        ]
-      }
-    },
-    "mekanism_Leggings_Lapis_Lazuli": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:lapislazulileggings"
-          }
-        ]
-      }
-    },
-    "mekanism_Leggings_Osmium": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:osmiumleggings"
-          }
-        ]
-      }
-    },
-    "mekanism_Leggings_Bronze": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:bronzeleggings"
-          }
-        ]
-      }
-    },
-    "mekanism_Leggings_Steel": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:steelleggings"
-          }
-        ]
-      }
-    },
-    "mekanism_Leggings_Glowstone": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:glowstoneleggings"
-          }
-        ]
-      }
-    },
-    "mekanism_Boots_Obsidian": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:obsidianboots"
-          }
-        ]
-      }
-    },
-    "mekanism_Boots_Lapis_Lazuli": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:lapislazuliboots"
-          }
-        ]
-      }
-    },
-    "mekanism_Boots_Osmium": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:osmiumboots"
-          }
-        ]
-      }
-    },
-    "mekanism_Boots_Bronze": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:bronzeboots"
-          }
-        ]
-      }
-    },
-    "mekanism_Boots_Steel": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:steelboots"
-          }
-        ]
-      }
-    },
-    "mekanism_Boots_Glowstone": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanismtools:glowstoneboots"
-          }
-        ]
-      }
-    }
-  },
-  "requirements": [
-    [
-      "mekanism_Helmet_Obsidian",
-      "mekanism_Helmet_Lapis_Lazuli",
-      "mekanism_Helmet_Osmium",
-      "mekanism_Helmet_Bronze",
-      "mekanism_Helmet_Steel",
-      "mekanism_Helmet_Glowstone",
-      "mekanism_Chestplate_Obsidian",
-      "mekanism_Chestplate_Lapis_Lazuli",
-      "mekanism_Chestplate_Osmium",
-      "mekanism_Chestplate_Bronze",
-      "mekanism_Chestplate_Steel",
-      "mekanism_Chestplate_Glowstone",
-      "mekanism_Leggings_Obsidian",
-      "mekanism_Leggings_Lapis_Lazuli",
-      "mekanism_Leggings_Osmium",
-      "mekanism_Leggings_Bronze",
-      "mekanism_Leggings_Steel",
-      "mekanism_Leggings_Glowstone",
-      "mekanism_Boots_Obsidian",
-      "mekanism_Boots_Lapis_Lazuli",
-      "mekanism_Boots_Osmium",
-      "mekanism_Boots_Bronze",
-      "mekanism_Boots_Steel",
-      "mekanism_Boots_Glowstone"
-    ]
-  ],
-  "parent": "mekanism:materials"
 }

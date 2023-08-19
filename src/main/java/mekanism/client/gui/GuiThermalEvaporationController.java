@@ -1,5 +1,8 @@
 package mekanism.client.gui;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
@@ -16,10 +19,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiThermalEvaporationController extends GuiMekanismTile<TileEntityThermalEvaporationController> {

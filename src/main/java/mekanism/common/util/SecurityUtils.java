@@ -1,5 +1,6 @@
 package mekanism.common.util;
 
+import java.util.UUID;
 import mekanism.api.EnumColor;
 import mekanism.client.MekanismClient;
 import mekanism.common.Mekanism;
@@ -12,8 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.relauncher.Side;
-
-import java.util.UUID;
 
 public final class SecurityUtils {
 

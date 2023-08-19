@@ -1,5 +1,6 @@
 package mekanism.client.render.entity;
 
+import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.client.model.ModelBalloon;
 import mekanism.common.entity.EntityBalloon;
@@ -12,8 +13,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 public class RenderBalloon extends Render<EntityBalloon> {

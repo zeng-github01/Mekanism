@@ -1,26 +1,12 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.teleportation_core.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.teleportation_core.title"
-    },
-    "icon": {
-      "item": "mekanism:teleportationcore"
-    }
-  },
-  "criteria": {
-    "mekanism_teleportation_core": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "mekanism:teleportationcore"
-          }
-        ]
+      "parent": "mekanism:atomic_alloy",
+      "criteria": {"mekanism_teleportation_core": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {"items": [{"item": "mekanism:teleportationcore"}]}
+      }},
+      "display": {
+            "icon": {"item": "mekanism:teleportationcore"},
+            "description": {"translate": "advancements.mekanism.teleportation_core.description"},
+            "title": {"translate": "advancements.mekanism.teleportation_core.title"}
       }
-    }
-  },
-  "parent": "mekanism:atomic_alloy"
 }

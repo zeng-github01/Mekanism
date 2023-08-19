@@ -1,6 +1,7 @@
 package mekanism.common.tile.component;
 
 import io.netty.buffer.ByteBuf;
+import java.util.*;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.GasStack;
@@ -23,8 +24,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
-
-import java.util.*;
 
 public class TileComponentEjector implements ITileComponent {
 

@@ -1,5 +1,6 @@
 package mekanism.tools.item;
 
+import java.util.List;
 import mekanism.common.util.LangUtils;
 import mekanism.tools.common.IHasRepairType;
 import mekanism.tools.common.Materials;
@@ -9,8 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.List;
 
 public class ItemMekanismAxe extends ItemAxe implements IHasRepairType {
 

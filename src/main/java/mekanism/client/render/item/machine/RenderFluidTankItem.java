@@ -1,5 +1,6 @@
 package mekanism.client.render.item.machine;
 
+import javax.annotation.Nonnull;
 import mekanism.client.model.ModelFluidTank;
 import mekanism.client.render.FluidRenderMap;
 import mekanism.client.render.MekanismRenderer;
@@ -22,8 +23,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
-
-import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 public class RenderFluidTankItem {

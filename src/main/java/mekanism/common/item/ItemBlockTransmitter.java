@@ -1,5 +1,7 @@
 package mekanism.common.item;
 
+import java.util.List;
+import javax.annotation.Nonnull;
 import mcmultipart.api.multipart.IMultipart;
 import mekanism.api.EnumColor;
 import mekanism.api.transmitters.TransmissionType;
@@ -27,9 +29,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import java.util.List;
 
 public class ItemBlockTransmitter extends ItemBlockMultipartAble implements ITierItem {
 

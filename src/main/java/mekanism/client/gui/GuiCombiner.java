@@ -1,6 +1,5 @@
 package mekanism.client.gui;
 
-import mekanism.client.gui.element.GuiProgress.ProgressBar;
 import mekanism.common.recipe.machines.CombinerRecipe;
 import mekanism.common.tile.prefab.TileEntityDoubleElectricMachine;
 import net.minecraft.entity.player.InventoryPlayer;

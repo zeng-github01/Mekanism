@@ -1,7 +1,9 @@
 package mekanism.common;
 
 import com.mojang.authlib.GameProfile;
-import mekanism.MekanismCEu.Tags;
+import java.io.File;
+import java.util.*;
+import java.util.Map.Entry;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.MekanismAPI;
@@ -62,6 +64,7 @@ import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.StackUtils;
 import mekanism.common.voice.VoiceServerManager;
 import mekanism.common.world.GenHandler;
+import mekanism.mekanism.Tags;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
@@ -104,15 +107,11 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.util.*;
-import java.util.Map.Entry;
-
-@Mod(modid = Mekanism.MODID, useMetadata = true, guiFactory = "mekanism.client.gui.ConfigGuiFactory", acceptedMinecraftVersions = "[1.12,1.13)", version = Tags.VERSION)
+@Mod(modid = Tags.MOD_ID, useMetadata = true, guiFactory = "mekanism.client.gui.ConfigGuiFactory", acceptedMinecraftVersions = "[1.12,1.13)", version = Tags.VERSION)
 @Mod.EventBusSubscriber()
 public class Mekanism {
 
-    public static final String MODID = "mekanism";
+    public static final String MODID = Tags.MOD_ID;
     public static final String MOD_NAME = "Mekanism";
     public static final String LOG_TAG = '[' + MOD_NAME + ']';
     public static final PlayerState playerState = new PlayerState();

@@ -1,13 +1,12 @@
 package mekanism.common;
 
+import java.util.Locale;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.OreGas;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
-
-import java.util.Locale;
 
 public class MekanismFluids {
 

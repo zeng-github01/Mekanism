@@ -1,23 +1,14 @@
 {
-  "display": {
-    "description": {
-      "translate": "advancements.mekanism.root.description"
-    },
-    "title": {
-      "translate": "advancements.mekanism.root.title"
-    },
-    "icon": {
-      "item": "mekanism:atomicdisassembler"
-    },
-    "frame": "goal",
-    "announce_to_chat": false,
-    "background": "mekanism:textures/blocks/osmiumblock.png"
-  },
-  "criteria": {
-    "location": {
-      "trigger": "minecraft:location",
-      "conditions": {
+      "criteria": {"location": {
+            "trigger": "minecraft:location",
+            "conditions": {}
+      }},
+      "display": {
+            "background": "mekanism:textures/blocks/osmiumblock.png",
+            "icon": {"item": "mekanism:atomicdisassembler"},
+            "description": {"translate": "advancements.mekanism.root.description"},
+            "title": {"translate": "advancements.mekanism.root.title"},
+            "announce_to_chat": false,
+            "frame": "goal"
       }
-    }
-  }
 }

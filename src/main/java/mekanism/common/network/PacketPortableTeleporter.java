@@ -1,6 +1,9 @@
 package mekanism.common.network;
 
 import io.netty.buffer.ByteBuf;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
@@ -22,10 +25,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 public class PacketPortableTeleporter implements IMessageHandler<PortableTeleporterMessage, IMessage> {
 

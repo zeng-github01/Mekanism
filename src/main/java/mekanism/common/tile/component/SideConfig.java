@@ -1,9 +1,8 @@
 package mekanism.common.tile.component;
 
-import net.minecraft.util.EnumFacing;
-
 import java.util.Observable;
 import java.util.Observer;
+import net.minecraft.util.EnumFacing;
 
 public class SideConfig {
 

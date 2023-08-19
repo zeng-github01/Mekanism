@@ -1,20 +1,17 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "mekanism:transmitter_small.obj.mek",
-    "textures": {
-      "#side": "mekanism:blocks/models/multipart/ThermodynamicConductorVerticalAdvanced",
-      "#center": "mekanism:blocks/models/multipart/ThermodynamicConductorAdvanced",
-      "#side_opaque": "mekanism:blocks/models/multipart/opaque/ThermodynamicConductorVerticalAdvanced",
-      "#center_opaque": "mekanism:blocks/models/multipart/ThermodynamicConductorAdvanced"
-    },
-    "custom": {
-      "flip-v": true
-    }
-  },
-  "variants": {
-    "normal": [{}],
-    "inventory": [{}]
-  }
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "#center_opaque": "mekanism:blocks/models/multipart/ThermodynamicConductorAdvanced",
+                  "#center": "mekanism:blocks/models/multipart/ThermodynamicConductorAdvanced",
+                  "#side": "mekanism:blocks/models/multipart/ThermodynamicConductorVerticalAdvanced",
+                  "#side_opaque": "mekanism:blocks/models/multipart/opaque/ThermodynamicConductorVerticalAdvanced"
+            },
+            "custom": {"flip-v": true},
+            "model": "mekanism:transmitter_small.obj.mek"
+      },
+      "variants": {
+            "normal": [{}],
+            "inventory": [{}]
+      }
 }
-

@@ -1,6 +1,7 @@
 package mekanism.tools.client.jei;
 
 import com.google.common.collect.ImmutableList;
+import java.util.Collections;
 import mekanism.tools.common.ToolsItem;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
@@ -8,8 +9,6 @@ import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.recipe.IVanillaRecipeFactory;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.ItemStack;
-
-import java.util.Collections;
 
 @JEIPlugin
 public class ToolsJEI implements IModPlugin {
