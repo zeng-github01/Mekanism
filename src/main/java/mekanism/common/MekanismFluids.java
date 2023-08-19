@@ -112,7 +112,7 @@ public class MekanismFluids {
         GasRegistry.register(Polonium);
         GasRegistry.register(SpentNuclearWaste);
 
-        GasRegistry.register(Biofuel).registerFluid().setVisible(false);
+        GasRegistry.register(Biofuel).setVisible(false);
         //color gas
         GasRegistry.register(WHITE);
         GasRegistry.register(ORANGE);

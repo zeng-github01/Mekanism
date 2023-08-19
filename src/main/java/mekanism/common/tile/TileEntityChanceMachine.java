@@ -26,8 +26,8 @@ public abstract class TileEntityChanceMachine<RECIPE extends ChanceMachineRecipe
 
     private static final String[] methods = new String[]{"getEnergy", "getProgress", "isActive", "facing", "canOperate", "getMaxEnergy", "getEnergyNeeded"};
 
-    public TileEntityChanceMachine(String soundPath, MachineType type, int ticksRequired, ResourceLocation location) {
-        super(soundPath, type, 3, ticksRequired, location);
+    public TileEntityChanceMachine(String soundPath, MachineType type, int ticksRequired) {
+        super(soundPath, type, 3, ticksRequired);
         configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.ENERGY);
 
         configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));

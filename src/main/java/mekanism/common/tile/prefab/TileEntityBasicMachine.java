@@ -34,9 +34,8 @@ public abstract class TileEntityBasicMachine<INPUT extends MachineInput<INPUT>, 
      * @param type              - the type of this machine
      * @param baseTicksRequired - how many ticks it takes to run a cycle
      */
-    public TileEntityBasicMachine(String soundPath, MachineType type, int upgradeSlot, int baseTicksRequired, ResourceLocation location) {
+    public TileEntityBasicMachine(String soundPath, MachineType type, int upgradeSlot, int baseTicksRequired) {
         super("machine." + soundPath, type, upgradeSlot, baseTicksRequired);
-        guiLocation = location;
     }
 
     @Override
