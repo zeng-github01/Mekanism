@@ -20,7 +20,10 @@ public class BlockStateOre extends BlockStateContainer {
     public enum EnumOreType implements IStringSerializable {
         OSMIUM,
         COPPER,
-        TIN;
+        TIN,
+        FLUORITE,
+        LEAD,
+        URANIUM;
 
         @Override
         public String getName() {

@@ -1,0 +1,34 @@
+{
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/chemical_injection_chamber/ChemicalInjectionChamberLeft",
+                  "south": "mekanism:blocks/chemical_injection_chamber/ChemicalInjectionChamberBack",
+                  "west": "mekanism:blocks/chemical_injection_chamber/ChemicalInjectionChamberRight",
+                  "sides": "mekanism:blocks/chemical_injection_chamber/ChemicalInjectionChamberRight",
+                  "front": "mekanism:blocks/chemical_injection_chamber/ChemicalInjectionChamberFront",
+                  "up": "mekanism:blocks/chemical_injection_chamber/ChemicalInjectionChamberTop",
+                  "down": "mekanism:blocks/chemical_injection_chamber/ChemicalInjectionChamberBottom"
+            },
+            "model": "mekanism:machine"
+      },
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/chemical_injection_chamber/ChemicalInjectionChamberLeftOn",
+                        "south": "mekanism:blocks/chemical_injection_chamber/ChemicalInjectionChamberBackOn",
+                        "west": "mekanism:blocks/chemical_injection_chamber/ChemicalInjectionChamberRightOn",
+                        "front": "mekanism:blocks/chemical_injection_chamber/ChemicalInjectionChamberFrontOn",
+                        "up": "mekanism:blocks/chemical_injection_chamber/ChemicalInjectionChamberTopOn"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
+      }
+}

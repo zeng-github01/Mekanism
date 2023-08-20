@@ -156,9 +156,6 @@ public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements I
         return nbtTags;
     }
 
-    public boolean canSetFacing(@Nonnull EnumFacing facing) {
-        return facing != EnumFacing.DOWN && facing != EnumFacing.UP;
-    }
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {

@@ -2,9 +2,9 @@ package mekanism.client.render.tileentity;
 
 import java.util.EnumMap;
 import java.util.Map;
+import mekanism.api.gas.GasStack;
 import mekanism.client.model.ModelNutritionalLiquifier;
 import mekanism.client.render.MekanismRenderer;
-import mekanism.common.MekanismFluids;
 import mekanism.common.tile.TileEntityNutritionalLiquifier;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
@@ -28,6 +28,8 @@ public class RenderNutritionalLiquifier extends TileEntitySpecialRenderer<TileEn
     private static final int stages = 10000;
     private ModelNutritionalLiquifier model = new ModelNutritionalLiquifier();
     private Map<EnumFacing, MekanismRenderer.DisplayInteger[]> energyDisplays = new EnumMap<>(EnumFacing.class);
+
+    private TileEntityNutritionalLiquifier TENl;
 
     @SuppressWarnings("incomplete-switch")
     @Override
@@ -64,8 +66,8 @@ public class RenderNutritionalLiquifier extends TileEntitySpecialRenderer<TileEn
             bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             GlStateManager.translate((float) x, (float) y, (float) z);
             MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
-            MekanismRenderer.color(MekanismFluids.NutritionalPaste);
-            getDisplayList(tileEntity.facing)[tileEntity.getScaledFuelLevel(stages - 1)].render();
+            MekanismRenderer.color(tileEntity.gasTank.getGas());
+            getDisplayList(tileEntity.facing, tileEntity.gasTank.getGas())[tileEntity.getScaledFuelLevel(stages - 1)].render();
             MekanismRenderer.resetColor();
             MekanismRenderer.disableGlow(glowInfo);
             GlStateManager.disableBlend();
@@ -88,7 +90,7 @@ public class RenderNutritionalLiquifier extends TileEntitySpecialRenderer<TileEn
 
 
     @SuppressWarnings("incomplete-switch")
-    private MekanismRenderer.DisplayInteger[] getDisplayList(EnumFacing side) {
+    private MekanismRenderer.DisplayInteger[] getDisplayList(EnumFacing side, GasStack gasStack) {
         if (energyDisplays.containsKey(side)) {
             return energyDisplays.get(side);
         }
@@ -97,7 +99,8 @@ public class RenderNutritionalLiquifier extends TileEntitySpecialRenderer<TileEn
 
         MekanismRenderer.Model3D model3D = new MekanismRenderer.Model3D();
         model3D.baseBlock = Blocks.WATER;
-        model3D.setTexture(MekanismFluids.NutritionalPaste.getSprite());
+        model3D.setTexture(gasStack.getGas().getSprite());
+
 
         for (int i = 0; i < stages; i++) {
             displays[i] = MekanismRenderer.DisplayInteger.createAndStart();

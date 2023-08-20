@@ -1,7 +1,6 @@
 package mekanism.common;
 
-import static mekanism.common.block.states.BlockStateBasic.BasicBlock.BASIC_BLOCK_1;
-import static mekanism.common.block.states.BlockStateBasic.BasicBlock.BASIC_BLOCK_2;
+import static mekanism.common.block.states.BlockStateBasic.BasicBlock.*;
 import static mekanism.common.block.states.BlockStateMachine.MachineBlock.*;
 
 import mekanism.common.block.*;
@@ -38,6 +37,8 @@ public class MekanismBlocks {
     public static Block PlasticFence = new BlockPlasticFence();
     public static Block SaltBlock = new BlockSalt();
 
+    public static Block BasicBlock3 = BlockBasic.getBlockBasic(BASIC_BLOCK_3);
+
     /**
      * Adds and registers all blocks.
      *
@@ -64,6 +65,9 @@ public class MekanismBlocks {
         registry.register(init(RoadPlasticBlock, "RoadPlasticBlock"));
         registry.register(init(PlasticFence, "PlasticFence"));
         registry.register(init(SaltBlock, "SaltBlock"));
+
+        registry.register(init(BasicBlock3, "BasicBlock3"));
+
         registry.register(BlockBasic.BlockPortalOverride.instance);
     }
 
@@ -93,6 +97,8 @@ public class MekanismBlocks {
         registry.register(MekanismItems.init(new ItemBlockPlastic(RoadPlasticBlock), "RoadPlasticBlock"));
         registry.register(MekanismItems.init(new ItemBlockPlastic(PlasticFence), "PlasticFence"));
         registry.register(MekanismItems.init(new ItemBlock(SaltBlock), "SaltBlock"));
+
+        registry.register(MekanismItems.init(new ItemBlockBasic(BasicBlock3), "BasicBlock3"));
     }
 
     public static Block init(Block block, String name) {

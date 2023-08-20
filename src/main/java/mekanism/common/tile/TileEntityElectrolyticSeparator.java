@@ -290,11 +290,6 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
         return data;
     }
 
-    @Override
-    public boolean canSetFacing(@Nonnull EnumFacing facing) {
-        return facing != EnumFacing.DOWN && facing != EnumFacing.UP;
-    }
-
     public GasTank getTank(EnumFacing side) {
         if (configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1)) {
             return leftTank;

@@ -69,6 +69,18 @@ public class MekanismItems {
      */
     public static final ItemCanteen Canteen = new ItemCanteen();
     public static final Item CosmicAlloy = new ItemAlloy();
+    public static final Item PlutoniumPellet = new ItemMekanism();
+    public static final Item AntimatterPellet = new ItemMekanism();
+    public static final Item ReprocessedFissileFragment = new ItemMekanism();
+    public static final Item YellowCakeUranium = new ItemMekanism();
+    public static final Item PoloniumPellet = new ItemMekanism();
+    public static final Item EnergyTabletCraft = new ItemMekanism();
+    public static final Item CosmicMatter = new ItemMekanism();
+    public static final Item Scrap = new ItemMekanism();
+    public static final Item ScrapBox = new ItemMekanism();
+    public static final Item EmptyCrystals = new ItemMekanism();
+    public static final Item FluoriteClump = new ItemMekanism();
+
     /**
      * ADD END
      */
@@ -80,6 +92,9 @@ public class MekanismItems {
      */
     public static void registerItems(IForgeRegistry<Item> registry) {
         registry.register(init(ElectricBow, "ElectricBow"));
+
+        registry.register(init(Canteen, "Canteen"));
+
         registry.register(init(Dust, "Dust"));
         registry.register(init(Ingot, "Ingot"));
         registry.register(init(Nugget, "Nugget"));
@@ -95,6 +110,9 @@ public class MekanismItems {
         registry.register(init(EnrichedAlloy, "EnrichedAlloy"));
         registry.register(init(ReinforcedAlloy, "ReinforcedAlloy"));
         registry.register(init(AtomicAlloy, "AtomicAlloy"));
+
+        registry.register(init(CosmicAlloy, "CosmicAlloy"));
+
         registry.register(init(ItemProxy, "ItemProxy"));
         registry.register(init(ControlCircuit, "ControlCircuit"));
         registry.register(init(EnrichedIron, "EnrichedIron"));
@@ -135,8 +153,18 @@ public class MekanismItems {
         /**
          * ADD START
          */
-        registry.register(init(Canteen, "Canteen"));
-        registry.register(init(CosmicAlloy, "CosmicAlloy"));
+
+        registry.register(init(EnergyTabletCraft, "EnergyTabletCraft"));
+        registry.register(init(CosmicMatter, "CosmicMatter"));
+        registry.register(init(Scrap, "Scrap"));
+        registry.register(init(ScrapBox, "ScrapBox"));
+        registry.register(init(EmptyCrystals, "EmptyCrystals"));
+        registry.register(init(FluoriteClump,"FluoriteClump"));
+        registry.register(init(PlutoniumPellet, "PlutoniumPellet"));
+        registry.register(init(AntimatterPellet, "AntimatterPellet"));
+        registry.register(init(ReprocessedFissileFragment, "ReprocessedFissileFragment"));
+        registry.register(init(YellowCakeUranium, "YellowCakeUranium"));
+        registry.register(init(PoloniumPellet, "PoloniumPellet"));
         /**
          * ADD END
          */

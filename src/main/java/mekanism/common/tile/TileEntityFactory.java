@@ -887,11 +887,6 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
     @Override
-    public boolean canSetFacing(@Nonnull EnumFacing facing) {
-        return facing != EnumFacing.DOWN && facing != EnumFacing.UP;
-    }
-
-    @Override
     public TileComponentConfig getConfig() {
         return configComponent;
     }

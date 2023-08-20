@@ -43,6 +43,24 @@ public class GenHandler implements IWorldGenerator {
                 BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(randPosX, 60, randPosZ));
                 new WorldGenSalt(MekanismConfig.current().general.saltMaxVeinSize.val()).generate(world, random, pos);
             }
+
+            for (int i = 0; i < MekanismConfig.current().general.fluoritePerChunk.val(); i++) {
+                BlockPos pos = new BlockPos(chunkX * 16 + random.nextInt(16), random.nextInt(60), (chunkZ * 16) + random.nextInt(16));
+                new WorldGenMinable(MekanismBlocks.OreBlock.getStateFromMeta(3), MekanismConfig.current().general.fluoriteMaxVeinSize.val(),
+                        BlockMatcher.forBlock(Blocks.STONE)).generate(world, random, pos);
+            }
+
+            for (int i = 0; i < MekanismConfig.current().general.leadPerChunk.val(); i++) {
+                BlockPos pos = new BlockPos(chunkX * 16 + random.nextInt(16), random.nextInt(60), (chunkZ * 16) + random.nextInt(16));
+                new WorldGenMinable(MekanismBlocks.OreBlock.getStateFromMeta(4), MekanismConfig.current().general.leadMaxVeinSize.val(),
+                        BlockMatcher.forBlock(Blocks.STONE)).generate(world, random, pos);
+            }
+
+            for (int i = 0; i < MekanismConfig.current().general.uraniumPerChunk.val(); i++) {
+                BlockPos pos = new BlockPos(chunkX * 16 + random.nextInt(16), random.nextInt(60), (chunkZ * 16) + random.nextInt(16));
+                new WorldGenMinable(MekanismBlocks.OreBlock.getStateFromMeta(5), MekanismConfig.current().general.uraniumMaxVeinSize.val(),
+                        BlockMatcher.forBlock(Blocks.STONE)).generate(world, random, pos);
+            }
         }
     }
 }

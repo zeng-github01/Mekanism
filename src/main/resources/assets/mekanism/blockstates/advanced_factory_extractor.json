@@ -1,0 +1,34 @@
+{
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/factory/advanced/purifying/AdvancedPurifyingFactoryLeft",
+                  "south": "mekanism:blocks/factory/advanced/purifying/AdvancedPurifyingFactoryBack",
+                  "west": "mekanism:blocks/factory/advanced/purifying/AdvancedPurifyingFactoryRight",
+                  "sides": "mekanism:blocks/factory/advanced/purifying/AdvancedPurifyingFactoryRight",
+                  "front": "mekanism:blocks/factory/advanced/purifying/AdvancedPurifyingFactoryFront",
+                  "up": "mekanism:blocks/factory/advanced/purifying/AdvancedPurifyingFactoryTop",
+                  "down": "mekanism:blocks/factory/advanced/AdvancedFactoryBottom"
+            },
+            "model": "mekanism:machine"
+      },
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/factory/advanced/purifying/AdvancedPurifyingFactoryLeftOn",
+                        "south": "mekanism:blocks/factory/advanced/purifying/AdvancedPurifyingFactoryBackOn",
+                        "west": "mekanism:blocks/factory/advanced/purifying/AdvancedPurifyingFactoryRightOn",
+                        "front": "mekanism:blocks/factory/advanced/purifying/AdvancedPurifyingFactoryFrontOn",
+                        "up": "mekanism:blocks/factory/advanced/purifying/AdvancedPurifyingFactoryTopOn"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
+      }
+}

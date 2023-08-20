@@ -1,0 +1,34 @@
+{
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/factory/creative/combining/CreativeCombiningFactoryLeft",
+                  "south": "mekanism:blocks/factory/creative/combining/CreativeCombiningFactoryBack",
+                  "west": "mekanism:blocks/factory/creative/combining/CreativeCombiningFactoryRight",
+                  "sides": "mekanism:blocks/factory/creative/combining/CreativeCombiningFactoryRight",
+                  "front": "mekanism:blocks/factory/creative/combining/CreativeCombiningFactoryFront",
+                  "up": "mekanism:blocks/factory/creative/combining/CreativeCombiningFactoryTop",
+                  "down": "mekanism:blocks/factory/creative/CreativeFactoryBottom"
+            },
+            "model": "mekanism:machine"
+      },
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/factory/creative/combining/CreativeCombiningFactoryLeftOn",
+                        "south": "mekanism:blocks/factory/creative/combining/CreativeCombiningFactoryBackOn",
+                        "west": "mekanism:blocks/factory/creative/combining/CreativeCombiningFactoryRightOn",
+                        "front": "mekanism:blocks/factory/creative/combining/CreativeCombiningFactoryFrontOn",
+                        "up": "mekanism:blocks/factory/creative/combining/CreativeCombiningFactoryTopOn"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
+      }
+}

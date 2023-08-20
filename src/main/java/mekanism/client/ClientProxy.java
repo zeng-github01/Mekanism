@@ -237,6 +237,18 @@ public class ClientProxy extends CommonProxy {
          */
         registerItemRender(MekanismItems.Canteen);
         registerItemRender(MekanismItems.CosmicAlloy);
+        registerItemRender(MekanismItems.PlutoniumPellet);
+        registerItemRender(MekanismItems.AntimatterPellet);
+        registerItemRender(MekanismItems.ReprocessedFissileFragment);
+        registerItemRender(MekanismItems.YellowCakeUranium);
+        registerItemRender(MekanismItems.PoloniumPellet);
+
+        registerItemRender(MekanismItems.EnergyTabletCraft);
+        registerItemRender(MekanismItems.CosmicMatter);
+        registerItemRender(MekanismItems.Scrap);
+        registerItemRender(MekanismItems.ScrapBox);
+        registerItemRender(MekanismItems.EmptyCrystals);
+        registerItemRender(MekanismItems.FluoriteClump);
         /**
          * ADD END
          */
@@ -261,6 +273,9 @@ public class ClientProxy extends CommonProxy {
         Item.getItemFromBlock(MekanismBlocks.MachineBlock2).setTileEntityItemStackRenderer(new RenderMachineItem());
         Item.getItemFromBlock(MekanismBlocks.MachineBlock3).setTileEntityItemStackRenderer(new RenderMachineItem());
         Item.getItemFromBlock(MekanismBlocks.BasicBlock2).setTileEntityItemStackRenderer(new RenderBasicBlockItem());
+
+        Item.getItemFromBlock(MekanismBlocks.BasicBlock3).setTileEntityItemStackRenderer(new RenderBasicBlockItem());
+
     }
 
     private ModelResourceLocation getInventoryMRL(String type) {
@@ -282,6 +297,8 @@ public class ClientProxy extends CommonProxy {
         ModelLoader.setCustomStateMapper(MekanismBlocks.PlasticFence, fenceMapper);
         ModelLoader.setCustomStateMapper(MekanismBlocks.CardboardBox, boxMapper);
         ModelLoader.setCustomStateMapper(MekanismBlocks.Transmitter, transmitterMapper);
+
+        ModelLoader.setCustomStateMapper(MekanismBlocks.BasicBlock3, basicMapper);
 
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(MekanismBlocks.ObsidianTNT), 0, getInventoryMRL("ObsidianTNT"));
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(MekanismBlocks.SaltBlock), 0, getInventoryMRL("SaltBlock"));
@@ -486,6 +503,7 @@ public class ClientProxy extends CommonProxy {
 
         ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(MekanismBlocks.BasicBlock), basicMesher);
         ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(MekanismBlocks.BasicBlock2), basicMesher);
+        ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(MekanismBlocks.BasicBlock3), basicMesher);
 
         ItemMeshDefinition transmitterMesher = stack -> {
             TransmitterType type = TransmitterType.get(stack.getItemDamage());

@@ -1,0 +1,50 @@
+{"variants": {
+      "facing=south,active=false": {
+            "x": 90,
+            "y": 180,
+            "model": "mekanism:block/industrial_alarm"
+      },
+      "facing=east,active=true": {
+            "x": 90,
+            "y": 90,
+            "model": "mekanism:block/industrial_alarm_active"
+      },
+      "facing=up,active=true": {"model": "mekanism:block/industrial_alarm_active"},
+      "facing=south,active=true": {
+            "x": 90,
+            "y": 180,
+            "model": "mekanism:block/industrial_alarm_active"
+      },
+      "facing=up,active=false": {"model": "mekanism:block/industrial_alarm"},
+      "facing=down,active=true": {
+            "x": 180,
+            "model": "mekanism:block/industrial_alarm_active"
+      },
+      "facing=north,active=false": {
+            "x": 90,
+            "model": "mekanism:block/industrial_alarm"
+      },
+      "facing=north,active=true": {
+            "x": 90,
+            "model": "mekanism:block/industrial_alarm_active"
+      },
+      "facing=west,active=false": {
+            "x": 90,
+            "y": -90,
+            "model": "mekanism:block/industrial_alarm"
+      },
+      "facing=east,active=false": {
+            "x": 90,
+            "y": 90,
+            "model": "mekanism:block/industrial_alarm"
+      },
+      "facing=west,active=true": {
+            "x": 90,
+            "y": -90,
+            "model": "mekanism:block/industrial_alarm_active"
+      },
+      "facing=down,active=false": {
+            "x": 180,
+            "model": "mekanism:block/industrial_alarm"
+      }
+}}

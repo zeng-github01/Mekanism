@@ -1,7 +1,6 @@
 package mekanism.client.gui.element;
 
 import mekanism.api.Coord4D;
-import mekanism.api.EnumColor;
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
@@ -27,7 +26,7 @@ public class GuiContainerEditMode extends GuiTileEntityElement<TileEntityContain
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        MekanismRenderer.color(EnumColor.INDIGO);
+        MekanismRenderer.color(0xFF3263A9);
         super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
         MekanismRenderer.resetColor();
         IFluidContainerManager control = (IFluidContainerManager) tileEntity;

@@ -9,7 +9,8 @@ public enum Resource {
     COPPER("Copper", 0xaa4b19),
     TIN("Tin", 0xccccd9),
     SILVER("Silver", 0xbfc9cd),
-    LEAD("Lead", 0x3d3d41);
+    LEAD("Lead", 0x3d3d41),
+    URANIUM("Uranium", 0x50d224);
 
     public final int tint;
     private String name;

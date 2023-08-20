@@ -277,6 +277,24 @@ public class GeneralConfig extends BaseConfig {
     public final IntOption maxCanteen = new IntOption(this, "general", "MaxCanteenGas", 64000,
             "Canteen Gas Tank capacity in mB.");
 
+    public final IntOption fluoritePerChunk = new IntOption(this, "general", "FluoritePerChunk", 16,
+            "Chance that fluorite generates in a chunk. (0 to Disable)", 0, Integer.MAX_VALUE);
+
+    public final IntOption fluoriteMaxVeinSize = new IntOption(this, "general", "FluoriteVeinSize", 8,
+            "Max number of blocks in a fluorite vein.", 1, Integer.MAX_VALUE);
+
+    public final IntOption leadPerChunk = new IntOption(this, "general", "LeadPerChunk", 16,
+            "Chance that lead generates in a chunk. (0 to Disable)", 0, Integer.MAX_VALUE);
+
+    public final IntOption leadMaxVeinSize = new IntOption(this, "general", "LeadVeinSize", 8,
+            "Max number of blocks in a lead vein.", 1, Integer.MAX_VALUE);
+
+    public final IntOption uraniumPerChunk = new IntOption(this, "general", "UraniumPerChunk", 16,
+            "Chance that uranium generates in a chunk. (0 to Disable)", 0, Integer.MAX_VALUE);
+
+    public final IntOption uraniumMaxVeinSize = new IntOption(this, "general", "UraniumVeinSize", 8,
+            "Max number of blocks in a uranium vein.", 1, Integer.MAX_VALUE);
+
     public final TypeConfigManager<MachineType> machinesManager = new TypeConfigManager<>(this, "machines", MachineType.class, MachineType::getValidMachines, MachineType::getBlockName);
 
     public final EnumMap<BaseTier, TierConfig> tiers = TierConfig.create(this);

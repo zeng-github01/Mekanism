@@ -62,6 +62,15 @@ public class ItemBlockOre extends ItemBlock {
             case 2:
                 name = "TinOre";
                 break;
+            case 3:
+                name = "FluoriteOre";
+                break;
+            case 4:
+                name = "LeadOre";
+                break;
+            case 5:
+                name = "UraniumOre";
+                break;
             default:
                 name = "Unknown";
                 break;

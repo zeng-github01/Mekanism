@@ -1,0 +1,34 @@
+{
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/factory/basic/smelting/BasicSmeltingFactoryLeft",
+                  "south": "mekanism:blocks/factory/basic/smelting/BasicSmeltingFactoryBack",
+                  "west": "mekanism:blocks/factory/basic/smelting/BasicSmeltingFactoryRight",
+                  "sides": "mekanism:blocks/factory/basic/smelting/BasicSmeltingFactoryRight",
+                  "front": "mekanism:blocks/factory/basic/smelting/BasicSmeltingFactoryFront",
+                  "up": "mekanism:blocks/factory/basic/smelting/BasicSmeltingFactoryTop",
+                  "down": "mekanism:blocks/factory/basic/BasicFactoryBottom"
+            },
+            "model": "mekanism:machine"
+      },
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/factory/basic/smelting/BasicSmeltingFactoryLeftOn",
+                        "south": "mekanism:blocks/factory/basic/smelting/BasicSmeltingFactoryBackOn",
+                        "west": "mekanism:blocks/factory/basic/smelting/BasicSmeltingFactoryRightOn",
+                        "front": "mekanism:blocks/factory/basic/smelting/BasicSmeltingFactoryFrontOn",
+                        "up": "mekanism:blocks/factory/basic/smelting/BasicSmeltingFactoryTopOn"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
+      }
+}

@@ -39,7 +39,8 @@ public class BlockStateBasic extends ExtendedBlockState {
 
     public enum BasicBlock {
         BASIC_BLOCK_1,
-        BASIC_BLOCK_2;
+        BASIC_BLOCK_2,
+        BASIC_BLOCK_3;
 
         private PropertyEnum<BasicBlockType> predicatedProperty;
 
@@ -56,6 +57,8 @@ public class BlockStateBasic extends ExtendedBlockState {
                     return MekanismBlocks.BasicBlock;
                 case BASIC_BLOCK_2:
                     return MekanismBlocks.BasicBlock2;
+                case BASIC_BLOCK_3:
+                    return MekanismBlocks.BasicBlock3;
                 default:
                     throw new IllegalStateException();
             }
@@ -79,6 +82,7 @@ public class BlockStateBasic extends ExtendedBlockState {
         TIN_BLOCK(BasicBlock.BASIC_BLOCK_1, 13, "TinBlock", null, false, BlockStateUtils.NO_ROTATION, false, false, true),
         THERMAL_EVAPORATION_CONTROLLER(BasicBlock.BASIC_BLOCK_1, 14, "ThermalEvaporationController", TileEntityThermalEvaporationController::new, true, Plane.HORIZONTAL, true, false, false),
         THERMAL_EVAPORATION_VALVE(BasicBlock.BASIC_BLOCK_1, 15, "ThermalEvaporationValve", TileEntityThermalEvaporationValve::new, true, BlockStateUtils.NO_ROTATION, false, false, false, true),
+
         THERMAL_EVAPORATION_BLOCK(BasicBlock.BASIC_BLOCK_2, 0, "ThermalEvaporationBlock", TileEntityThermalEvaporationBlock::new, true, BlockStateUtils.NO_ROTATION, false, false, false),
         INDUCTION_CASING(BasicBlock.BASIC_BLOCK_2, 1, "InductionCasing", TileEntityInductionCasing::new, true, BlockStateUtils.NO_ROTATION, false, false, false),
         INDUCTION_PORT(BasicBlock.BASIC_BLOCK_2, 2, "InductionPort", TileEntityInductionPort::new, true, BlockStateUtils.NO_ROTATION, true, false, false, true),
@@ -88,7 +92,24 @@ public class BlockStateBasic extends ExtendedBlockState {
         PRESSURE_DISPERSER(BasicBlock.BASIC_BLOCK_2, 6, "PressureDisperser", TileEntityPressureDisperser::new, true, BlockStateUtils.NO_ROTATION, false, false, false),
         BOILER_CASING(BasicBlock.BASIC_BLOCK_2, 7, "BoilerCasing", TileEntityBoilerCasing::new, true, BlockStateUtils.NO_ROTATION, false, false, false),
         BOILER_VALVE(BasicBlock.BASIC_BLOCK_2, 8, "BoilerValve", TileEntityBoilerValve::new, true, BlockStateUtils.NO_ROTATION, false, false, false, true),
-        SECURITY_DESK(BasicBlock.BASIC_BLOCK_2, 9, "SecurityDesk", TileEntitySecurityDesk::new, true, Plane.HORIZONTAL, false, false, false, false, false, false);
+        SECURITY_DESK(BasicBlock.BASIC_BLOCK_2, 9, "SecurityDesk", TileEntitySecurityDesk::new, true, Plane.HORIZONTAL, false, false, false, false, false, false),
+        URANIUM_BLOCK(BasicBlock.BASIC_BLOCK_2, 10, "UraniumBlock", null, false, BlockStateUtils.NO_ROTATION, false, false, true),
+        lEAD_BLOCK(BasicBlock.BASIC_BLOCK_2, 11, "LeadBlock", null, false, BlockStateUtils.NO_ROTATION, false, false, true),
+
+        SPS_CASING(BasicBlock.BASIC_BLOCK_3, 0, "SpsCasing", null, false, BlockStateUtils.NO_ROTATION, false, false, false),
+        FISSION_REACHER_CASING(BasicBlock.BASIC_BLOCK_3, 1, "FissionReacherCasing", null, false, BlockStateUtils.NO_ROTATION, false, false, false),
+        CONTROL_ROD_ASSEMBLY(BasicBlock.BASIC_BLOCK_3, 2, "ControlRodAssembly", null, false, BlockStateUtils.NO_ROTATION, false, false, false, false, false, false),
+        FISSION_FUEL_ASSEMBLY(BasicBlock.BASIC_BLOCK_3, 3, "FissionFuelAssembly", null, false, BlockStateUtils.NO_ROTATION, false, false, false, false, false, false),
+        BASIC_ENERGY_CUBE_CRAFT(BasicBlock.BASIC_BLOCK_3, 4, "BasicEnergyCubeCraft", null, false, BlockStateUtils.NO_ROTATION, false, false, false, false, false, false),
+        ADVANCED_ENERGY_CUBE_CRAFT(BasicBlock.BASIC_BLOCK_3, 5, "AdvancedEnergyCubeCraft", null, false, BlockStateUtils.NO_ROTATION, false, false, false, false, false, false),
+        ELITE_ENERGY_CUBE_CRAFT(BasicBlock.BASIC_BLOCK_3, 6, "EliteEnergyCubeCraft", null, false, BlockStateUtils.NO_ROTATION, false, false, false, false, false, false),
+        ULTIMATE_ENERGY_CUBE_CRAFT(BasicBlock.BASIC_BLOCK_3, 7, "UltimateEnergyCubeCraft", null, false, BlockStateUtils.NO_ROTATION, false, false, false, false, false, false),
+        CREATIVE_ENERGY_CUBE_CRAFT(BasicBlock.BASIC_BLOCK_3, 8, "CreativeEnergyCubeCraft", null, false, BlockStateUtils.NO_ROTATION, false, false, false, false, false, false),
+        BASIC_ENERGY_CUBE_FRAME(BasicBlock.BASIC_BLOCK_3, 9, "BasicEnergyCubeFrame", null, false, BlockStateUtils.NO_ROTATION, false, false, false, false, false, false),
+        ADVANCED_ENERGY_CUBE_FRAME(BasicBlock.BASIC_BLOCK_3, 10, "AdvancedEnergyCubeFrame", null, false, BlockStateUtils.NO_ROTATION, false, false, false, false, false, false),
+        ELITE_ENERGY_CUBE_FRAME(BasicBlock.BASIC_BLOCK_3, 11, "EliteEnergyCubeFrame", null, false, BlockStateUtils.NO_ROTATION, false, false, false, false, false, false),
+        ULTIMATE_ENERGY_CUBE_FRAME(BasicBlock.BASIC_BLOCK_3, 12, "UltimateEnergyCubeFrame", null, false, BlockStateUtils.NO_ROTATION, false, false, false, false, false, false),
+        CREATIVE_ENERGY_CUBE_FRAME(BasicBlock.BASIC_BLOCK_3, 13, "CreativeEnergyCubeFrame", null, false, BlockStateUtils.NO_ROTATION, false, false, false, false, false, false);
 
         @Nonnull
         public BasicBlock blockType;

@@ -1,0 +1,17 @@
+{
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "#center_opaque": "mekanism:blocks/models/multipart/opaque/MechanicalPipeElite",
+                  "#center": "mekanism:blocks/models/multipart/MechanicalPipeElite",
+                  "#side": "mekanism:blocks/models/multipart/MechanicalPipeVerticalElite",
+                  "#side_opaque": "mekanism:blocks/models/multipart/opaque/MechanicalPipeVerticalElite"
+            },
+            "custom": {"flip-v": true},
+            "model": "mekanism:transmitter_large.obj.mek"
+      },
+      "variants": {
+            "normal": [{}],
+            "inventory": [{}]
+      }
+}

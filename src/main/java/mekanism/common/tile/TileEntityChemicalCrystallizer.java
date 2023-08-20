@@ -140,11 +140,6 @@ public class TileEntityChemicalCrystallizer extends TileEntityOperationalMachine
     }
 
     @Override
-    public boolean canSetFacing(@Nonnull EnumFacing facing) {
-        return facing != EnumFacing.DOWN && facing != EnumFacing.UP;
-    }
-
-    @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
         return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(0) && inputTank.canReceive(type) &&
                 Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(type);

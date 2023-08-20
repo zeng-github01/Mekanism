@@ -313,10 +313,6 @@ public class TileEntityMetallurgicInfuser extends TileEntityOperationalMachine i
         return configComponent.getOutput(TransmissionType.ITEM, side, facing).availableSlots;
     }
 
-    @Override
-    public boolean canSetFacing(@Nonnull EnumFacing facing) {
-        return facing != EnumFacing.DOWN && facing != EnumFacing.UP;
-    }
 
     @Override
     public TileComponentConfig getConfig() {

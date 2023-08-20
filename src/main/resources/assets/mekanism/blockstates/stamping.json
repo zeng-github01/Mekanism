@@ -1,0 +1,32 @@
+{
+      "forge_marker": 1,
+      "defaults": {
+            "textures": {
+                  "east": "mekanism:blocks/crusher/crusherside",
+                  "south": "mekanism:blocks/crusher/crusherback",
+                  "west": "mekanism:blocks/crusher/crusherside",
+                  "sides": "mekanism:blocks/crusher/crusherside",
+                  "front": "mekanism:blocks/crusher/crusherfront",
+                  "up": "mekanism:blocks/crusher/crushertop",
+                  "down": "mekanism:blocks/crusher/crusherbottom"
+            },
+            "model": "mekanism:machine"
+      },
+      "variants": {
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {"textures": {
+                        "east": "mekanism:blocks/crusher/crushersideon",
+                        "west": "mekanism:blocks/crusher/crushersideon",
+                        "front": "mekanism:blocks/crusher/crusherfronton"
+                  }},
+                  "false": {}
+            },
+            "inventory": [{}]
+      }
+}

@@ -48,14 +48,15 @@ public class GuiThermalEvaporationController extends GuiMekanismTile<TileEntityT
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 131, 19));
         addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 131, 50));
         addGuiElement(new GuiInnerScreen(this, resource, 48, 19, 80, 40));
-        addGuiElement(new GuiPlayerSlot(this,resource));
+        addGuiElement(new GuiPlayerSlot(this, resource));
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 32, guiTop + 39, 20, 179, 8, 9);
-        drawTexturedModalRect(guiLeft + 136, guiTop + 39, 20, 179, 8, 9);
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Other_Icon.png"));
+        drawTexturedModalRect(guiLeft + 32, guiTop + 39, 13, 0, 8, 9);
+        drawTexturedModalRect(guiLeft + 136, guiTop + 39, 13, 0, 8, 9);
         boolean outputfluid = tileEntity.outputTank.getFluidAmount() == tileEntity.outputTank.getCapacity();
         if (outputfluid) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Warning.png"));

@@ -184,6 +184,8 @@ public class MultipartMekanism implements IMCMPAddon {
 
         FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", new ItemStack(MekanismBlocks.BasicBlock2, 1, 0));
         FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", new ItemStack(MekanismBlocks.CardboardBox));
+        //FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", new ItemStack(MekanismBlocks.BasicBlock3, 1, 0));
+
     }
 
     //No idea why mcmultipart doesnt do this itself...

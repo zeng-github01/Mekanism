@@ -257,4 +257,15 @@ public class ItemBlockBasic extends ItemBlock implements IEnergizedItem, ITierIt
         }
         return super.getItemBurnTime(itemStack);
     }
+
+    @Nonnull
+    @Override
+    public String getItemStackDisplayName(@Nonnull ItemStack itemstack) {
+        BasicBlockType type = BasicBlockType.get(itemstack);
+        if (type == BasicBlockType.BIN) {
+            BinTier tier = BinTier.values()[getBaseTier(itemstack).ordinal()];
+            return tier.getBaseTier().getColor() + LangUtils.localize("tile.BasicBlock.Bin" + tier.getBaseTier().getSimpleName() + ".name");
+        }
+        return super.getItemStackDisplayName(itemstack);
+    }
 }

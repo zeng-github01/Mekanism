@@ -159,10 +159,6 @@ public class TileEntityChemicalOxidizer extends TileEntityOperationalMachine imp
         return nbtTags;
     }
 
-    @Override
-    public boolean canSetFacing(@Nonnull EnumFacing facing) {
-        return super.canSetFacing(facing);
-    }
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing side) {

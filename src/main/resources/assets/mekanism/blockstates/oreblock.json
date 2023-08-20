@@ -5,7 +5,10 @@
             "type": {
                   "tin": {"textures": {"all": "mekanism:blocks/TinOre"}},
                   "osmium": {"textures": {"all": "mekanism:blocks/OsmiumOre"}},
-                  "copper": {"textures": {"all": "mekanism:blocks/CopperOre"}}
+                  "copper": {"textures": {"all": "mekanism:blocks/CopperOre"}},
+                  "fluorite": {"textures": {"all": "mekanism:blocks/FluoriteOre"}},
+                  "uranium": {"textures": {"all": "mekanism:blocks/UraniumOre"}},
+                  "lead": {"textures": {"all": "mekanism:blocks/LeadOre"}}
             },
             "inventory": [{}]
       }

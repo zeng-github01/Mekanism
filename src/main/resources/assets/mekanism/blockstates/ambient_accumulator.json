@@ -1,0 +1,18 @@
+{
+      "forge_marker": 1,
+      "defaults": {"model": "mekanism:ambient_accumulator"},
+      "variants": {
+            "normal": [{}],
+            "facing": {
+                  "east": {"y": 90},
+                  "south": {"y": 180},
+                  "north": {},
+                  "west": {"y": -90}
+            },
+            "active": {
+                  "true": {},
+                  "false": {}
+            },
+            "inventory": [{}]
+      }
+}

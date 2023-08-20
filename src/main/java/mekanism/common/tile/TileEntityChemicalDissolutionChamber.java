@@ -20,7 +20,6 @@ import mekanism.common.recipe.inputs.ItemStackInput;
 import mekanism.common.recipe.machines.DissolutionRecipe;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
-import mekanism.common.tile.component.TileComponentUpgrade;
 import mekanism.common.tile.prefab.TileEntityMachine;
 import mekanism.common.util.*;
 import net.minecraft.inventory.Container;
@@ -207,10 +206,6 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityMachine impl
         return nbtTags;
     }
 
-    @Override
-    public boolean canSetFacing(@Nonnull EnumFacing facing) {
-        return facing != EnumFacing.DOWN && facing != EnumFacing.UP;
-    }
 
     @Override
     public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
@@ -272,10 +267,6 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityMachine impl
         return configComponent.isCapabilityDisabled(capability, side, facing) || super.isCapabilityDisabled(capability, side);
     }
 
-    @Override
-    public TileComponentUpgrade getComponent() {
-        return upgradeComponent;
-    }
 
     @Override
     public void writeSustainedData(ItemStack itemStack) {
