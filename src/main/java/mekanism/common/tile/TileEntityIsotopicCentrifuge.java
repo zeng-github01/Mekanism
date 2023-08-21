@@ -294,4 +294,8 @@ public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements I
     public TileComponentEjector getEjector() {
         return ejectorComponent;
     }
+
+    public int getScaledFuelLevel(int i) {
+        return outputTank.getStored() * i / outputTank.getMaxGas();
+    }
 }

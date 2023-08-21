@@ -328,4 +328,8 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityMachine impl
     public TileComponentEjector getEjector() {
         return ejectorComponent;
     }
+
+    public int getScaledFuelLevel(int i) {
+        return outputTank.getStored() * i / outputTank.getMaxGas();
+    }
 }

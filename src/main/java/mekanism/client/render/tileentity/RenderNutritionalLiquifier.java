@@ -29,8 +29,6 @@ public class RenderNutritionalLiquifier extends TileEntitySpecialRenderer<TileEn
     private ModelNutritionalLiquifier model = new ModelNutritionalLiquifier();
     private Map<EnumFacing, MekanismRenderer.DisplayInteger[]> energyDisplays = new EnumMap<>(EnumFacing.class);
 
-    private TileEntityNutritionalLiquifier TENl;
-
     @SuppressWarnings("incomplete-switch")
     @Override
     public void render(TileEntityNutritionalLiquifier tileEntity, double x, double y, double z, float partialTick, int destroyStage, float alpha) {
@@ -75,8 +73,6 @@ public class RenderNutritionalLiquifier extends TileEntitySpecialRenderer<TileEn
             GlStateManager.enableLighting();
             GlStateManager.disableCull();
             GlStateManager.popMatrix();
-
-
         }
 
         GlStateManager.pushMatrix();

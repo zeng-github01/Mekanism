@@ -258,4 +258,8 @@ public class TileEntityChemicalCrystallizer extends TileEntityOperationalMachine
     public Object[] getTanks() {
         return new Object[]{inputTank};
     }
+
+    public int getScaledFuelLevel(int i) {
+        return inputTank.getStored() * i / inputTank.getMaxGas();
+    }
 }
