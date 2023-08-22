@@ -82,6 +82,7 @@ public class RenderNutritionalLiquifier extends TileEntitySpecialRenderer<TileEn
         GlStateManager.rotate(180, 0, 0, 1);
         model.render(0.0625F);
         GlStateManager.popMatrix();
+        MekanismRenderer.machineRenderer().render(tileEntity, x, y, z, partialTick, destroyStage, alpha);
     }
 
 

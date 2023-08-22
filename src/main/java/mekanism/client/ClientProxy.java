@@ -178,6 +178,12 @@ public class ClientProxy extends CommonProxy {
          */
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityIsotopicCentrifuge.class, new RenderIsotopicCentrifuge());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNutritionalLiquifier.class, new RenderNutritionalLiquifier());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRotaryCondensentrator.class,new RenderConfigurableMachine<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChemicalOxidizer.class,new RenderConfigurableMachine<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChemicalInfuser.class,new RenderConfigurableMachine<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityElectrolyticSeparator.class,new RenderConfigurableMachine<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChemicalWasher.class, new RenderConfigurableMachine<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOredictionificator.class, new RenderConfigurableMachine<>());
     }
 
     @Override
