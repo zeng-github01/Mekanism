@@ -170,6 +170,54 @@ tile.MachineBlock3.FuelwoodHeater.name=木料加热器
 tile.MachineBlock3.Factory.name=工厂
 tile.MachineBlock3.IsotopicCentrifuge.name=同位素离心机
 tile.MachineBlock3.NutritionalLiquifier.name=营养液化器
+tile.BasicBlock2.UraniumBlock.name=铀块
+tile.BasicBlock2.LeadBlock.name=铅块
+
+tile.BasicBlock3.SpsCasing.name=超临界移相器外壳[WIP]
+tile.BasicBlock3.FissionReacherCasing.name=裂变反应堆外壳[WIP]
+tile.BasicBlock3.ControlRodAssembly.name=控制棒组件[WIP]
+tile.BasicBlock3.FissionFuelAssembly.name=裂变燃料组件[WIP]
+tile.BasicBlock3.BasicEnergyCubeCraft.name=基础能量立方 - 合成用
+tile.BasicBlock3.AdvancedEnergyCubeCraft.name=高级能量立方 - 合成用
+tile.BasicBlock3.EliteEnergyCubeCraft.name=精英能量立方 - 合成用
+tile.BasicBlock3.UltimateEnergyCubeCraft.name=终极能量立方 - 合成用
+tile.BasicBlock3.CreativeEnergyCubeCraft.name=创造能量立方 - 合成用
+
+tile.BasicBlock3.BasicEnergyCubeFrame.name=基础能量立方框架
+tile.BasicBlock3.AdvancedEnergyCubeFrame.name=高级能量立方框架
+tile.BasicBlock3.EliteEnergyCubeFrame.name=精英能量立方框架
+tile.BasicBlock3.UltimateEnergyCubeFrame.name=终极能量立方框架
+tile.BasicBlock3.CreativeEnergyCubeFrame.name=创造能量立方框架
+
+tile.OreBlock.UraniumOre.name=铀矿石
+tile.OreBlock.LeadOre.name=铅矿石
+tile.OreBlock.FluoriteOre.name=氟石矿石
+item.dirtyUraniumDust.name=污浊的铀粉
+item.uraniumIngot.name=铀锭
+item.leadIngot.name=铅锭
+item.uraniumNugget.name=铀颗粒
+item.leadNugget.name=铅颗粒
+gas.cleanUranium=纯净铀浆液
+oregas.uranium=铀矿石
+item.uraniumDust.name=铀粉
+item.FluoriteClump.name=氟石
+item.fluoriteDust.name=氟石粉
+item.charcoalDust.name=木炭粉
+item.PlutoniumPellet.name=钚球
+item.AntimatterPellet.name=反物质球
+item.ReprocessedFissileFragment.name=再处理裂变碎片
+item.YellowCakeUranium.name=铀黄饼
+item.PoloniumPellet.name=钋球
+item.uraniumClump.name=铀碎块
+item.uraniumShard.name=铀碎片
+item.uraniumCrystal.name=铀晶体
+item.EnergyTabletCraft.name=能量板 - 合成用
+item.CosmicMatter.name=宇宙物质
+item.Scrap.name=废料
+item.ScrapBox.name=废料盒
+item.EmptyCrystals.name=空晶体
+gas.uranium=铀浆液
+gas.Biofuel=生物燃料
 
 # Plastic
 tile.PlasticBlock.name=塑料方块
@@ -451,15 +499,21 @@ entity.BabySkeleton.name=骷髅射手宝宝
 
 # Config Gui
 mekanism.configgui.ctgy.general=通用机械常规设定
+mekanism.configgui.ctgy.mekce=MEK:CE 设定
 mekanism.configgui.ctgy.machines=机器设定
+mekanism.configgui.ctgy.tier=机器层设定
 mekanism.configgui.ctgy.usage=能耗设定
 mekanism.configgui.ctgy.client=客户端设定
+mekanism.configgui.ctgy.storage=能量存储设定
 
 # Config Tooltips
 mekanism.configgui.ctgy.general.tooltip=通用机械及其下所有模块的常规设定
 mekanism.configgui.ctgy.machines.tooltip=是否启用特定机器的设定
-mekanism.configgui.ctgy.usage.tooltip=有关机械以及能耗的设定
+mekanism.configgui.ctgy.tier.tooltip=Mekanism 机器层及其相应值的设置
+mekanism.configgui.ctgy.usage.tooltip=机械以及能耗的设定
 mekanism.configgui.ctgy.client.tooltip=通用机械及其下所有模块在客户端的特殊设定
+mekanism.configgui.ctgy.storage.tooltip=机器及其最大储能的设置
+mekanism.configgui.ctgy.mekce.tooltip=额外调整设置
 
 # Gui text
 gui.condensentrating=凝聚液体中...
@@ -1116,6 +1170,16 @@ gui.steamProduction=蒸汽产量
 gui.editrate=编辑速率
 gui.Plasma=等离子体
 gui.Case=外壳
+
+# Config Gui
+mekanism.configgui.ctgy.generators.general=常规设置
+mekanism.configgui.ctgy.generators.generators=发电机机器设置
+mekanism.configgui.ctgy.generators.generation=发电机配置设置
+
+# Config Tooltips
+mekanism.configgui.ctgy.generators.general.tooltip=Mekanism发电机常规配置的设置
+mekanism.configgui.ctgy.generators.generators.tooltip=有关启用和禁用特定发电机的设置
+mekanism.configgui.ctgy.generators.generation.tooltip=有关发电机能源使用的设置
 
 #########
 # TOOLS

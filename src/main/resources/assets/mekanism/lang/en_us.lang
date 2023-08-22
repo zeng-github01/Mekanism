@@ -170,6 +170,56 @@ tile.MachineBlock3.FuelwoodHeater.name=Fuelwood Heater
 tile.MachineBlock3.Factory.name= Factory
 tile.MachineBlock3.IsotopicCentrifuge.name=Isotopic Centrifuge
 tile.MachineBlock3.NutritionalLiquifier.name=Nutritional Liquifier
+tile.BasicBlock2.UraniumBlock.name=Uranium Block
+tile.BasicBlock2.LeadBlock.name=Lead Block
+
+tile.BasicBlock3.SpsCasing.name=SPS Casing[WIP]
+tile.BasicBlock3.FissionReacherCasing.name=Fission Reactor Casing[WIP]
+tile.BasicBlock3.ControlRodAssembly.name=Control Rod Assembly[WIP]
+tile.BasicBlock3.FissionFuelAssembly.name=Fission Fuel Assembly[WIP]
+tile.BasicBlock3.BasicEnergyCubeCraft.name=Basic Energy Cube - Crafting
+tile.BasicBlock3.AdvancedEnergyCubeCraft.name=Advanced Energy Cube - Crafting
+tile.BasicBlock3.EliteEnergyCubeCraft.name=Elite Energy Cube - Crafting
+tile.BasicBlock3.UltimateEnergyCubeCraft.name=Ultimate Energy Cube - Crafting
+tile.BasicBlock3.CreativeEnergyCubeCraft.name=Creative Energy Cube - Crafting
+
+tile.BasicBlock3.BasicEnergyCubeFrame.name=Basic Energy Cube Frame
+tile.BasicBlock3.AdvancedEnergyCubeFrame.name=Advanced Energy Cube Frame
+tile.BasicBlock3.EliteEnergyCubeFrame.name=Elite Energy Cube Frame
+tile.BasicBlock3.UltimateEnergyCubeFrame.name=Ultimate Energy Cube Frame
+tile.BasicBlock3.CreativeEnergyCubeFrame.name=Creative Energy Cube Frame
+
+tile.OreBlock.UraniumOre.name=Uranium Ore
+tile.OreBlock.LeadOre.name=Lead Ore
+tile.OreBlock.FluoriteOre.name=Fluorite Ore
+item.dirtyUraniumDust.name=Dirty Uranium Dust
+item.uraniumIngot.name=Uranium Ingot
+item.leadIngot.name=Lead Ingot
+item.uraniumNugget.name=Ultimate Nugget
+item.leadNugget.name=Lead Nugget
+gas.cleanUranium=Clean Uranium Slurry
+oregas.uranium=Uranium Ore
+item.uraniumDust.name=Uranium Dust
+item.FluoriteClump.name=Fluorite
+item.fluoriteDust.name=Fluorite Dust
+item.charcoalDust.name=Charcoal Dust
+item.PlutoniumPellet.name=Plutonium Pellet
+item.AntimatterPellet.name=Antimatter Pellet
+item.ReprocessedFissileFragment.name=Reprocessed Fissile Fragment
+item.YellowCakeUranium.name=Yellow Cake Uranium
+item.PoloniumPellet.name=Polonium Pellet
+item.uraniumClump.name=Uranium Clump
+item.uraniumShard.name=Uranium Shard
+item.uraniumCrystal.name=Uranium Crystal
+item.EnergyTabletCraft.name=Energy Tablet - Crafting
+item.CosmicMatter.name=Cosmic Matter
+item.Scrap.name=Scrap
+item.ScrapBox.name=Scrap Box
+item.EmptyCrystals.name=Empty Crystals
+gas.uranium=Uranium Slurry
+gas.Biofuel=Biofuel
+
+
 
 # Plastic
 tile.PlasticBlock.name=Plastic Block
@@ -465,7 +515,7 @@ mekanism.configgui.ctgy.tier.tooltip=Settings regarding Mekanism tiers and their
 mekanism.configgui.ctgy.usage.tooltip=Settings regarding machinery and their energy usage
 mekanism.configgui.ctgy.client.tooltip=Client-specific settings regarding Mekanism and all its modules
 mekanism.configgui.ctgy.storage.tooltip=Settings regarding machinery and their energy storage maximum
-
+mekanism.configgui.ctgy.mekce.tooltip=Additional adjustment settings
 # Gui text
 gui.condensentrating=Condensentrating
 gui.decondensentrating=Decondensentrating

@@ -24,7 +24,7 @@ public class MEKCEConfig extends BaseConfig {
     //public final BooleanOption EnableSingleUseCardboxes = new BooleanOption(this, "mekce", "EnableSingleUseCardboxes", true,
     //        "This allows to force single use on cardboxes or not");
 
-    public final BooleanOption ShoHiddenGas = new BooleanOption(this, "mekce", "ShowHiddenGases", true, "Displays hidden gas in creative gas tanks, which is invalid if PrefilledGasTanks is not enabled");
+    public final BooleanOption ShowHiddenGas = new BooleanOption(this, "mekce", "ShowHiddenGases", true, "Displays hidden gas in creative gas tanks, which is invalid if PrefilledGasTanks is not enabled");
 
     public final BooleanOption EmptyToCreateBin = new BooleanOption(this, "mekce", "EmptytoCreateBin", false, "Let Configurator clear Create Bin");
 
@@ -66,7 +66,7 @@ public class MEKCEConfig extends BaseConfig {
 
     public final IntOption MAXMufflingUpgradeSize = new IntOption(this, "mekce", "MAXMufflingUpgradeSize", 4, "The maximum number of stacks that can be stacked for muffling upgrades", 1, 64).setRequiresGameRestart(true);
 
-    public final IntOption MAXspeedmachines= new IntOption(this, "mekce","Maximum speed multiplier for some machines",256,"Modify the maximum speed multiplier for some machines",1,Integer.MAX_VALUE);
+    public final IntOption MAXspeedmachines= new IntOption(this, "mekce","Maximumspeedmultiplierforsomemachines",256,"Modify the maximum speed multiplier for some machines",1,Integer.MAX_VALUE);
 
     public final BooleanOption EnableBuff = new BooleanOption(this, "mekce","EnableBuff",false,"If true, a buff effect will be added to the player each time Canteen is used");
 }
