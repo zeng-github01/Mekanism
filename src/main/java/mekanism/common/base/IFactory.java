@@ -15,6 +15,7 @@ import mekanism.common.recipe.inputs.DoubleMachineInput;
 import mekanism.common.recipe.inputs.InfusionInput;
 import mekanism.common.recipe.inputs.ItemStackInput;
 import mekanism.common.recipe.machines.*;
+import mekanism.common.tile.prefab.TileEntityFarmMachine;
 import mekanism.common.tile.prefab.TileEntityAdvancedElectricMachine;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.StackUtils;
@@ -61,7 +62,8 @@ public interface IFactory {
         BASIC,
         ADVANCED,
         DOUBLE,
-        CHANCE
+        CHANCE,
+        FARM
     }
 
     enum RecipeType implements IStringSerializable {
@@ -73,8 +75,8 @@ public interface IFactory {
         PURIFYING("Purifying", "purifier", MachineType.PURIFICATION_CHAMBER, MachineFuelType.ADVANCED, true, Recipe.PURIFICATION_CHAMBER),
         INJECTING("Injecting", "injection", MachineType.CHEMICAL_INJECTION_CHAMBER, MachineFuelType.ADVANCED, true, Recipe.CHEMICAL_INJECTION_CHAMBER),
         INFUSING("Infusing", "metalinfuser", MachineType.METALLURGIC_INFUSER, MachineFuelType.BASIC, false, Recipe.METALLURGIC_INFUSER),
-        SAWING("Sawing", "sawmill", MachineType.PRECISION_SAWMILL, MachineFuelType.CHANCE, false, Recipe.PRECISION_SAWMILL);
-
+        SAWING("Sawing", "sawmill", MachineType.PRECISION_SAWMILL, MachineFuelType.CHANCE, false, Recipe.PRECISION_SAWMILL),
+        FARM("Farm", "farm", MachineType.ORGANIC_FARM, MachineFuelType.FARM, false, Recipe.ORGANIC_FARM);
         private String name;
         private SoundEvent sound;
         private MachineType type;
@@ -82,6 +84,8 @@ public interface IFactory {
         private boolean fuelSpeed;
         private Recipe recipe;
         private TileEntityAdvancedElectricMachine cacheTile;
+
+        private TileEntityFarmMachine cacheTile2;
 
         RecipeType(String s, String s1, MachineType t, MachineFuelType ft, boolean speed, Recipe r) {
             name = s;
@@ -149,12 +153,21 @@ public interface IFactory {
             return getChanceRecipe(new ItemStackInput(input));
         }
 
+
         public MetallurgicInfuserRecipe getRecipe(InfusionInput input) {
             return RecipeHandler.getMetallurgicInfuserRecipe(input);
         }
 
         public MetallurgicInfuserRecipe getRecipe(ItemStack input, InfuseStorage storage) {
             return getRecipe(new InfusionInput(storage, input));
+        }
+
+        public FarmMachineRecipe getFarmRecipe(AdvancedMachineInput input) {
+            return (FarmMachineRecipe) RecipeHandler.getRecipe(input, recipe);
+        }
+
+        public FarmMachineRecipe getFarmRecipe(ItemStack input, Gas gas) {
+            return getFarmRecipe(new AdvancedMachineInput(input, gas));
         }
 
         @Nullable public MachineRecipe getAnyRecipe(ItemStack slotStack, ItemStack extraStack, Gas gasType, InfuseStorage infuse) {
@@ -173,6 +186,8 @@ public interface IFactory {
                         return entry.getValue();
                     }
                 }
+            } else if (fuelType == MachineFuelType.FARM) {
+                return getFarmRecipe(slotStack, gasType);
             }
             return getRecipe(slotStack);
         }
@@ -180,6 +195,8 @@ public interface IFactory {
         public int getSecondaryEnergyPerTick() {
             if (fuelType == MachineFuelType.ADVANCED) {
                 return getTile().BASE_SECONDARY_ENERGY_PER_TICK;
+            }else if (fuelType == MachineFuelType.FARM) {
+                return getTile2().BASE_SECONDARY_ENERGY_PER_TICK;
             }
             return 0;
         }
@@ -187,17 +204,21 @@ public interface IFactory {
         public boolean canReceiveGas(EnumFacing side, Gas type) {
             if (fuelType == MachineFuelType.ADVANCED) {
                 return getTile().canReceiveGas(side, type);
+            }else if (fuelType == MachineFuelType.FARM) {
+                return getTile2().canReceiveGas(side, type);
             }
             return false;
         }
 
         public boolean supportsGas() {
-            return fuelType == MachineFuelType.ADVANCED;
+            return fuelType == MachineFuelType.ADVANCED || fuelType == MachineFuelType.FARM;
         }
 
         public boolean isValidGas(Gas gas) {
             if (fuelType == MachineFuelType.ADVANCED) {
                 return getTile().isValidGas(gas);
+            }else if (fuelType == MachineFuelType.FARM) {
+                return getTile2().isValidGas(gas);
             }
             return false;
         }
@@ -240,6 +261,13 @@ public interface IFactory {
                 cacheTile = (TileEntityAdvancedElectricMachine) type.create();
             }
             return cacheTile;
+        }
+        public TileEntityFarmMachine getTile2() {
+            if (cacheTile2 == null) {
+                MachineType type = MachineType.get(getStack());
+                cacheTile2 = (TileEntityFarmMachine) type.create();
+            }
+            return cacheTile2;
         }
 
         public double getEnergyUsage() {

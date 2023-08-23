@@ -19,10 +19,7 @@ import mekanism.common.item.ItemPortableTeleporter;
 import mekanism.common.item.ItemSeismicReader;
 import mekanism.common.network.PacketPortableTeleporter.PortableTeleporterMessage;
 import mekanism.common.tile.*;
-import mekanism.common.tile.prefab.TileEntityAdvancedElectricMachine;
-import mekanism.common.tile.prefab.TileEntityContainerBlock;
-import mekanism.common.tile.prefab.TileEntityDoubleElectricMachine;
-import mekanism.common.tile.prefab.TileEntityElectricMachine;
+import mekanism.common.tile.prefab.*;
 import mekanism.common.voice.VoiceServerManager;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -321,6 +318,8 @@ public class CommonProxy implements IGuiProvider {
                 return new ContainerIsotopicCentrifuge(player.inventory, (TileEntityIsotopicCentrifuge) tileEntity);
             case 61:
                 return new ContainerNutritionalLiquifier(player.inventory, (TileEntityNutritionalLiquifier) tileEntity);
+            case 62:
+                return new ContainerFarmMachine(player.inventory, (TileEntityFarmMachine) tileEntity);
         }
         return null;
     }

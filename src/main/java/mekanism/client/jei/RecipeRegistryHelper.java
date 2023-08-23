@@ -9,10 +9,7 @@ import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.client.gui.*;
 import mekanism.client.gui.chemical.*;
-import mekanism.client.jei.machine.AdvancedMachineRecipeWrapper;
-import mekanism.client.jei.machine.ChanceMachineRecipeWrapper;
-import mekanism.client.jei.machine.DoubleMachineRecipeWrapper;
-import mekanism.client.jei.machine.MachineRecipeWrapper;
+import mekanism.client.jei.machine.*;
 import mekanism.client.jei.machine.chemical.*;
 import mekanism.client.jei.machine.other.*;
 import mekanism.common.Mekanism;
@@ -296,6 +293,16 @@ public class RecipeRegistryHelper {
         addRecipes(registry, Recipe.NUTRITIONAL_LIQUIFIER, NutritionalLiquifierRecipeWrapper::new);
         registry.addRecipeClickArea(GuiNutritionalLiquifier.class, 64, 40, 48, 8, Recipe.NUTRITIONAL_LIQUIFIER.getJEICategory());
         registerRecipeItem(registry, MachineType.NUTRITIONAL_LIQUIFIER, Recipe.NUTRITIONAL_LIQUIFIER);
+    }
+
+
+    public static void registerFarm(IModRegistry registry) {
+        if (!MachineType.ORGANIC_FARM.isEnabled()) {
+            return;
+        }
+        addRecipes(registry, Recipe.ORGANIC_FARM, FarmMachineRecipeWrapper::new);
+        registry.addRecipeClickArea(GuiOrganicFarm.class, 79, 40, 24, 7, Recipe.ORGANIC_FARM.getJEICategory());
+        registerRecipeItem(registry, MachineType.ORGANIC_FARM, Recipe.ORGANIC_FARM);
     }
     /**
      * ADD END

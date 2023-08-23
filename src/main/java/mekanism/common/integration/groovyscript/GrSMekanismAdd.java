@@ -36,11 +36,13 @@ public class GrSMekanismAdd {
         public Smelter smelter = new Smelter();
         public IsotopicCentrifuge isotopicCentrifuge = new IsotopicCentrifuge();
         public NutritionalLiquifier nutritionalLiquifier = new NutritionalLiquifier();
+        public OrganicFarm organicFarm = new OrganicFarm();
 
         public Container() {
             addRegistry(smelter);
             addRegistry(isotopicCentrifuge);
             addRegistry(nutritionalLiquifier);
+            addRegistry(organicFarm);
         }
     }
 }

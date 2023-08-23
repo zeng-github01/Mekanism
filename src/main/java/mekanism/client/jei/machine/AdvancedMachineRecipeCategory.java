@@ -14,6 +14,7 @@ import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.client.jei.MekanismJEI;
 import mekanism.common.recipe.machines.AdvancedMachineRecipe;
 import mekanism.common.tile.prefab.TileEntityAdvancedElectricMachine;
+import mekanism.common.util.MekanismUtils;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IGuiIngredientGroup;
 import mezz.jei.api.gui.IGuiItemStackGroup;
@@ -48,11 +49,6 @@ public class AdvancedMachineRecipeCategory<RECIPE extends AdvancedMachineRecipe<
         guiElements.add(new GuiBar(this, guiLocation, 60, 36, 8, 14));
     }
 
-    @Override
-    public void drawExtras(Minecraft minecraft) {
-        super.drawExtras(minecraft);
-        drawTexturedRect(61 - xOffset, 37 - yOffset, 0, 167, 6, 12);
-    }
 
     @Override
     public void setRecipe(IRecipeLayout recipeLayout, WRAPPER recipeWrapper, IIngredients ingredients) {

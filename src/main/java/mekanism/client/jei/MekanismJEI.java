@@ -8,10 +8,7 @@ import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.GasStack;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
 import mekanism.client.jei.gas.GasStackRenderer;
-import mekanism.client.jei.machine.AdvancedMachineRecipeCategory;
-import mekanism.client.jei.machine.ChanceMachineRecipeCategory;
-import mekanism.client.jei.machine.DoubleMachineRecipeCategory;
-import mekanism.client.jei.machine.MachineRecipeCategory;
+import mekanism.client.jei.machine.*;
 import mekanism.client.jei.machine.chemical.*;
 import mekanism.client.jei.machine.other.*;
 import mekanism.common.MekanismBlocks;
@@ -132,6 +129,8 @@ public class MekanismJEI implements IModPlugin {
          */
         addRecipeCategory(registry, MachineType.ISOTOPIC_CENTRIFUGE, new IsotopicRecipeCategory(guiHelper));
         addRecipeCategory(registry, MachineType.NUTRITIONAL_LIQUIFIER, new NutritionalLiquifierRecipeCategory(guiHelper));
+        addRecipeCategory(registry, MachineType.ORGANIC_FARM, new FarmMachineRecipeCategory(guiHelper, Recipe.ORGANIC_FARM.getJEICategory(),
+                "tile.MachineBlock3.OrganicFarm.name", ProgressBar.BAR));
         /**
          * ADD END
          */
@@ -183,6 +182,7 @@ public class MekanismJEI implements IModPlugin {
          */
         RecipeRegistryHelper.registerIsotopicCentrifuge(registry);
         RecipeRegistryHelper.registerNutritional(registry);
+        RecipeRegistryHelper.registerFarm(registry);
         /**
          * ADD END
          */

@@ -71,6 +71,12 @@ public class MekanismFluids {
     public static final Gas RED = new Gas("red.name", 11546150);
     public static final Gas BLACK = new Gas("black.name", 1908001);
 
+
+    /** sddsd2332 add gas*/
+
+    public static final Gas NutrientSolution = new Gas("nutrientsolution", 0x1B9E7B);
+    public static final Gas OxygenEnrichedWater = new Gas("oxygenenrichedwater", 0x6CE2FF);
+    public static final Gas UnstableDimensional = new Gas("unstabledimensional", 0xFF9C1A);
     /**
      * ADD END
      */
@@ -131,6 +137,13 @@ public class MekanismFluids {
         GasRegistry.register(GREEN);
         GasRegistry.register(RED);
         GasRegistry.register(BLACK);
+
+
+        /** Register sddsd2332 add new gas */
+        GasRegistry.register(NutrientSolution);
+        GasRegistry.register(OxygenEnrichedWater);
+        GasRegistry.register(UnstableDimensional);
+
         /**
          * ADD END
          */

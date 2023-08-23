@@ -42,7 +42,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                 "solarneutronactivator",
                 "thermalevaporation",
                 "isotopiccentrifuge",
-                "nutritionalliquifier"
+                "nutritionalliquifier",
+                "organicfarm"
                 ).collect(Collectors.toList());
     }
 
@@ -259,6 +260,18 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.nutritionalliquifier.addRecipe(%s, %s)",
                             RecipeInfoHelper.getItemName(recipe.getInput().ingredient),
                             RecipeInfoHelper.getGasName(recipe.getOutput().output)
+                    ));
+                }
+                break;
+            case "organicfarm":
+                type = Recipe.ORGANIC_FARM;
+                for (FarmRecipe recipe : Recipe.ORGANIC_FARM.get().values()) {
+                    CraftTweakerAPI.logCommand(String.format("mods.mekanism.organicfarm.addRecipe(%s, %s, %s, %s, %s)",
+                            RecipeInfoHelper.getItemName(recipe.getInput().itemStack),
+                            RecipeInfoHelper.getGasName(recipe.getInput().gasType),
+                            RecipeInfoHelper.getItemName(recipe.getOutput().primaryOutput),
+                            RecipeInfoHelper.getItemName(recipe.getOutput().secondaryOutput),
+                            recipe.getOutput().secondaryChance
                     ));
                 }
                 break;

@@ -87,4 +87,7 @@ public class StorageConfig extends BaseConfig {
 
     public final DoubleOption liquifierNutritional = new DoubleOption(this, "storage", "liquifierNutritionalStorage", 80000D,
             "Base energy storage (Joules).");
+
+    public final DoubleOption organicfarm = new DoubleOption(this, "storage", "OrganicFarmStorage", 20000D,
+            "Base energy storage (Joules).");
 }

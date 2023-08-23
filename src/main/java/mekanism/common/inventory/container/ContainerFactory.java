@@ -1,6 +1,5 @@
 package mekanism.common.inventory.container;
 
-import javax.annotation.Nonnull;
 import mekanism.api.infuse.InfuseRegistry;
 import mekanism.common.base.IFactory;
 import mekanism.common.base.IFactory.RecipeType;
@@ -17,6 +16,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
+
+import javax.annotation.Nonnull;
 
 public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
 
@@ -47,11 +48,11 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
 
     @Override
     protected int getInventorYOffset() {
-        return tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING ? 95 : 84;
+        return tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.ADVANCED || tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.FARM || tileEntity.getRecipeType() == RecipeType.INFUSING ? 95 : 84;
     }
 
     @Override
-    protected int getInventorXOffset(){
+    protected int getInventorXOffset() {
         return tileEntity.tier == FactoryTier.CREATIVE ? 44 : tileEntity.tier == FactoryTier.ULTIMATE ? 27 : 8;
     }
 

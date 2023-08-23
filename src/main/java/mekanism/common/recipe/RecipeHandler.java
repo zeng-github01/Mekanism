@@ -260,6 +260,15 @@ public final class RecipeHandler {
         addRecipe(Recipe.NUTRITIONAL_LIQUIFIER, new NutritionalRecipe(input, output));
     }
 
+    public static void addOrganicFarmRecipe(ItemStack input, Gas gas, ItemStack primaryOutput, ItemStack secondaryOutput, double chance) {
+        addRecipe(Recipe.ORGANIC_FARM, new FarmRecipe(input, gas, primaryOutput, secondaryOutput, chance));
+    }
+
+
+    public static void addOrganicFarmRecipe(ItemStack input, Gas gas, ItemStack primaryOutput) {
+        addRecipe(Recipe.ORGANIC_FARM, new FarmRecipe(input, gas, primaryOutput));
+    }
+
     /**
     * Add End
      */
@@ -336,6 +345,11 @@ public final class RecipeHandler {
         return getRecipe(input, recipes);
     }
 
+
+    @Nullable
+    public static <RECIPE extends FarmMachineRecipe<RECIPE>> RECIPE getFarmRecipe(@Nonnull AdvancedMachineInput input, @Nonnull Map<AdvancedMachineInput, RECIPE> recipes) {
+        return getRecipe(input, recipes);
+    }
 
 
     /**
@@ -514,6 +528,9 @@ public final class RecipeHandler {
         public static final Recipe<ItemStackInput, GasOutput, NutritionalRecipe> NUTRITIONAL_LIQUIFIER = new Recipe<>(
                 MachineType.NUTRITIONAL_LIQUIFIER, ItemStackInput.class, GasOutput.class, NutritionalRecipe.class);
 
+        public static final Recipe<AdvancedMachineInput, ChanceOutput, FarmRecipe> ORGANIC_FARM = new Recipe<>(
+                MachineType.ORGANIC_FARM, AdvancedMachineInput.class, ChanceOutput.class, FarmRecipe.class);
+
         /**
          * ADD END
          */
@@ -641,6 +658,7 @@ public final class RecipeHandler {
             }
             return false;
         }
+
 
         public Class<RECIPE> getRecipeClass() {
             return recipeClass;

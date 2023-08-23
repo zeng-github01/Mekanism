@@ -114,7 +114,9 @@ public class BlockStateMachine extends ExtendedBlockState {
         ULTIMATE_FACTORY(MachineBlock.MACHINE_BLOCK_3, 7, "Factory", 11, TileEntityUltimateFactory::new, true, false, true, Plane.HORIZONTAL, true, FactoryTier.ULTIMATE),
         CREATIVE_FACTORY(MachineBlock.MACHINE_BLOCK_3, 8, "Factory", 11, TileEntityCreativeFactory::new, true, false, true, Plane.HORIZONTAL, true, FactoryTier.CREATIVE),
         ISOTOPIC_CENTRIFUGE(MachineBlock.MACHINE_BLOCK_3, 9, "IsotopicCentrifuge", 60, TileEntityIsotopicCentrifuge::new, true, true, false, Plane.HORIZONTAL, false),
-        NUTRITIONAL_LIQUIFIER(MachineBlock.MACHINE_BLOCK_3, 10, "NutritionalLiquifier", 61, TileEntityNutritionalLiquifier::new, true, true, true, Plane.HORIZONTAL, false);
+        NUTRITIONAL_LIQUIFIER(MachineBlock.MACHINE_BLOCK_3, 10, "NutritionalLiquifier", 61, TileEntityNutritionalLiquifier::new, true, true, true, Plane.HORIZONTAL, false),
+        SUPERCHARGED_COIL(MachineBlock.MACHINE_BLOCK_3, 11, "SuperchargedCoil", -1, TileEntitySuperchargedCoil::new, false, true, false, BlockStateUtils.ALL_FACINGS, false),
+        ORGANIC_FARM(MachineBlock.MACHINE_BLOCK_3, 12, "OrganicFarm", 62, TileEntityOrganicFarm::new, true, false, true, Plane.HORIZONTAL, true);
 
         public MachineBlock typeBlock;
         public int meta;
@@ -274,6 +276,8 @@ public class BlockStateMachine extends ExtendedBlockState {
                     return MekanismConfig.current().usage.isotopicCentrifuge.val();
                 case NUTRITIONAL_LIQUIFIER:
                     return MekanismConfig.current().usage.liquifierNutritional.val();
+                case ORGANIC_FARM:
+                    return MekanismConfig.current().usage.organicfarm.val();
                 default:
                     return 0;
             }
@@ -338,6 +342,8 @@ public class BlockStateMachine extends ExtendedBlockState {
                     return MekanismConfig.current().storage.isotopicCentrifuge.val();
                 case NUTRITIONAL_LIQUIFIER:
                     return MekanismConfig.current().storage.liquifierNutritional.val();
+                case ORGANIC_FARM:
+                    return MekanismConfig.current().storage.organicfarm.val();
                 default:
                     return 400 * getUsage();
             }

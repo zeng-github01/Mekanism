@@ -95,4 +95,6 @@ public class UsageConfig extends BaseConfig {
     public final DoubleOption liquifierNutritional = new DoubleOption(this, "usage", "OxidationChamberUsage", 200D,
             "Energy per operation tick (Joules).");
 
+    public final DoubleOption organicfarm = new DoubleOption(this, "usage", "OrganicFarmUsage", 50D,
+            "Energy per operation tick (Joules).");
 }

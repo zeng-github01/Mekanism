@@ -184,6 +184,7 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityElectrolyticSeparator.class,new RenderConfigurableMachine<>());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChemicalWasher.class, new RenderConfigurableMachine<>());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOredictionificator.class, new RenderConfigurableMachine<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOrganicFarm.class, new RenderConfigurableMachine<>());
     }
 
     @Override
@@ -757,6 +758,8 @@ public class ClientProxy extends CommonProxy {
                 return new GuiIsotopicCentrifuge(player.inventory, (TileEntityIsotopicCentrifuge) tileEntity);
             case 61:
                 return new GuiNutritionalLiquifier(player.inventory, (TileEntityNutritionalLiquifier) tileEntity);
+            case 62:
+                return new GuiOrganicFarm(player.inventory, (TileEntityOrganicFarm) tileEntity);
         }
         return null;
     }

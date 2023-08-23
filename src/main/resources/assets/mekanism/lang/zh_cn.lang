@@ -218,6 +218,9 @@ item.ScrapBox.name=废料盒
 item.EmptyCrystals.name=空晶体
 gas.uranium=铀浆液
 gas.Biofuel=生物燃料
+tile.MachineBlock3.OrganicFarm.name=有机农场
+tile.MachineBlock3.SuperchargedCoil.name=增压线圈(WIP)
+
 
 # Plastic
 tile.PlasticBlock.name=塑料方块

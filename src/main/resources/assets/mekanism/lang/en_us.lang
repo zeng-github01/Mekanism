@@ -218,7 +218,8 @@ item.ScrapBox.name=Scrap Box
 item.EmptyCrystals.name=Empty Crystals
 gas.uranium=Uranium Slurry
 gas.Biofuel=Biofuel
-
+tile.MachineBlock3.OrganicFarm.name=Organic Farm
+tile.MachineBlock3.SuperchargedCoil.name=Supercharged Coil(WIP)
 
 
 # Plastic

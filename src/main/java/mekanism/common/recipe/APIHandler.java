@@ -148,6 +148,18 @@ public class APIHandler implements MekanismRecipeHelper {
         RecipeHandler.addChemicalOxidizerRecipe(input, output);
     }
 
+    @Override
+    public void addOrganicFarmRecipe(ItemStack input, Gas gas, ItemStack primaryOutput, ItemStack secondaryOutput, double chance) {
+        checkPhase();
+        RecipeHandler.addOrganicFarmRecipe(input, gas, primaryOutput, secondaryOutput, chance);
+    }
+
+    @Override
+    public void addOrganicFarmRecipe(ItemStack input, Gas gas, ItemStack primaryOutput) {
+        checkPhase();
+        RecipeHandler.addOrganicFarmRecipe(input, gas, primaryOutput);
+    }
+
     /**
      * ADD END
      */

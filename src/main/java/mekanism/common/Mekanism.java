@@ -324,7 +324,8 @@ public class Mekanism {
         registerTileEntity(TileEntityCreativeFactory.class, "creative_smelting_factory");
         registerTileEntity(TileEntityIsotopicCentrifuge.class, "isotopic_centrifuge");
         registerTileEntity(TileEntityNutritionalLiquifier.class, "nutritional_liquifier");
-
+        registerTileEntity(TileEntitySuperchargedCoil.class, "supercharged_coil");
+        registerTileEntity(TileEntityOrganicFarm.class, "organic_farm");
         /**
          * End of adding machine
          */

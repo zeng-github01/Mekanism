@@ -323,6 +323,31 @@ public class MekanismRecipe {
 
         }
 
+
+        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.ORGANIC_FARM)) {
+            //Farm log
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Blocks.SAPLING, 1, 0), MekanismFluids.NutrientSolution, new ItemStack(Blocks.LOG, 6, 0), new ItemStack(Blocks.SAPLING, 1, 0), MekanismConfig.current().mekce.log.val());
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Blocks.SAPLING, 1, 1), MekanismFluids.NutrientSolution, new ItemStack(Blocks.LOG, 6, 1), new ItemStack(Blocks.SAPLING, 1, 1), MekanismConfig.current().mekce.log.val());
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Blocks.SAPLING, 1, 2), MekanismFluids.NutrientSolution, new ItemStack(Blocks.LOG, 6, 2), new ItemStack(Blocks.SAPLING, 1, 2), MekanismConfig.current().mekce.log.val());
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Blocks.SAPLING, 1, 3), MekanismFluids.NutrientSolution, new ItemStack(Blocks.LOG, 6, 3), new ItemStack(Blocks.SAPLING, 1, 3), MekanismConfig.current().mekce.log.val());
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Blocks.SAPLING, 1, 4), MekanismFluids.NutrientSolution, new ItemStack(Blocks.LOG2, 6, 0), new ItemStack(Blocks.SAPLING, 1, 4), MekanismConfig.current().mekce.log.val());
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Blocks.SAPLING, 1, 5), MekanismFluids.NutrientSolution, new ItemStack(Blocks.LOG2, 6, 1), new ItemStack(Blocks.SAPLING, 1, 5), MekanismConfig.current().mekce.log.val());
+            // Farm seed
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Items.NETHER_WART, 1), MekanismFluids.NutrientSolution, new ItemStack(Items.NETHER_WART, 3));
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Items.REEDS, 1), MekanismFluids.NutrientSolution, new ItemStack(Items.REEDS, 3));
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Items.CARROT, 1), MekanismFluids.NutrientSolution, new ItemStack(Items.CARROT, 3));
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Items.DYE, 1, 3), MekanismFluids.NutrientSolution, new ItemStack(Items.DYE, 3, 3));
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Items.POTATO, 1), MekanismFluids.NutrientSolution, new ItemStack(Items.POTATO, 3), new ItemStack(Items.POISONOUS_POTATO, 1), 0.15);
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Items.PUMPKIN_SEEDS, 1), MekanismFluids.NutrientSolution, new ItemStack(Blocks.PUMPKIN, 1), new ItemStack(Items.PUMPKIN_SEEDS, 1), MekanismConfig.current().mekce.seed.val());
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Items.MELON_SEEDS, 1), MekanismFluids.NutrientSolution, new ItemStack(Blocks.MELON_BLOCK, 1), new ItemStack(Items.MELON_SEEDS, 1), MekanismConfig.current().mekce.seed.val());
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Items.WHEAT_SEEDS, 1), MekanismFluids.NutrientSolution, new ItemStack(Items.WHEAT, 3), new ItemStack(Items.WHEAT_SEEDS, 1), MekanismConfig.current().mekce.seed.val());
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Items.BEETROOT_SEEDS, 1), MekanismFluids.NutrientSolution, new ItemStack(Items.BEETROOT, 3), new ItemStack(Items.BEETROOT_SEEDS, 1), MekanismConfig.current().mekce.seed.val());
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Blocks.CHORUS_FLOWER, 1), MekanismFluids.NutrientSolution, new ItemStack(Items.CHORUS_FRUIT, 3), new ItemStack(Blocks.CHORUS_FLOWER, 1), MekanismConfig.current().mekce.log.val());
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Blocks.BROWN_MUSHROOM, 1), MekanismFluids.NutrientSolution, new ItemStack(Blocks.BROWN_MUSHROOM, 3));
+            RecipeHandler.addOrganicFarmRecipe(new ItemStack(Blocks.RED_MUSHROOM, 1), MekanismFluids.NutrientSolution, new ItemStack(Blocks.RED_MUSHROOM, 3));
+
+        }
+
         /**
          * ADD END
          */

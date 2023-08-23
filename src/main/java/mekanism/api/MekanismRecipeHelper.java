@@ -175,4 +175,7 @@ public interface MekanismRecipeHelper {
      */
     void addNutritionalLiquifierRecipe(ItemStack input, GasStack output);
 
+    void addOrganicFarmRecipe(ItemStack input, Gas gas, ItemStack primaryOutput, ItemStack secondaryOutput, double chance);
+
+    void addOrganicFarmRecipe(ItemStack input, Gas gas, ItemStack primaryOutput);
 }
