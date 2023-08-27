@@ -1,10 +1,14 @@
 package mekanism.common.tile.prefab;
 
 import io.netty.buffer.ByteBuf;
+import java.util.Map;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
+import mekanism.common.MekanismItems;
 import mekanism.common.SideData;
 import mekanism.common.Upgrade;
 import mekanism.common.base.ISustainedData;
@@ -15,7 +19,6 @@ import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.AdvancedMachineInput;
 import mekanism.common.recipe.machines.FarmMachineRecipe;
 import mekanism.common.recipe.outputs.ChanceOutput;
-import mekanism.common.MekanismItems;
 import mekanism.common.tile.TileEntityFactory;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
@@ -27,10 +30,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Map;
 
 public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> extends TileEntityUpgradeableMachine<AdvancedMachineInput, ChanceOutput, RECIPE> implements IGasHandler, ISustainedData {
 
@@ -59,8 +58,8 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
 
         configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.RED, new int[]{0}));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.INDIGO, new int[]{2, 4}));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Energy", EnumColor.BRIGHT_GREEN, new int[]{3}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.INDIGO, new int[]{3, 4}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Energy", EnumColor.BRIGHT_GREEN, new int[]{2}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Extra", EnumColor.YELLOW, new int[]{1}));
 
         configComponent.setConfig(TransmissionType.ITEM, new byte[]{2, 1, 0, 0, 0, 3});
@@ -87,13 +86,12 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
         factory.gasTank.setGas(gasTank.getGas());
         factory.inventory.set(5, inventory.get(0));
         factory.inventory.set(4, inventory.get(1));
-        factory.inventory.set(5 + 3, inventory.get(2));
-        factory.inventory.set(1, inventory.get(3));
+        factory.inventory.set(5 + 3, inventory.get(3));
+        factory.inventory.set(1, inventory.get(2));
         factory.inventory.set(0, inventory.get(5));
     }
 
-    @Nullable
-    public GasStack getItemGas(ItemStack itemStack) {
+    @Nullable public GasStack getItemGas(ItemStack itemStack) {
         return GasConversionHandler.getItemGas(itemStack, gasTank, this::isValidGas);
     }
 
@@ -103,7 +101,7 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
     public void onUpdate() {
         super.onUpdate();
         if (!world.isRemote) {
-            ChargeUtils.discharge(3, this);
+            ChargeUtils.discharge(2, this);
             handleSecondaryFuel();
             boolean inactive = false;
             RECIPE recipe = getRecipe();
@@ -158,7 +156,7 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
 
     @Override
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
-        if (slotID == 2 || slotID == 4) {
+        if (slotID == 3 || slotID == 4) {
             return false;
         } else if (slotID == 5) {
             return itemstack.getItem() == MekanismItems.SpeedUpgrade || itemstack.getItem() == MekanismItems.EnergyUpgrade;
@@ -168,7 +166,7 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
                     return true;
                 }
             }
-        } else if (slotID == 3) {
+        } else if (slotID == 2) {
             return ChargeUtils.canBeDischarged(itemstack);
         } else if (slotID == 1) {
             return getItemGas(itemstack) != null;
@@ -192,13 +190,13 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
 
     @Override
     public void operate(RECIPE recipe) {
-        recipe.operate(inventory, 0, gasTank, secondaryEnergyThisTick, 2, 4);
+        recipe.operate(inventory, 0, gasTank, secondaryEnergyThisTick, 3, 4);
         markDirty();
     }
 
     @Override
     public boolean canOperate(RECIPE recipe) {
-        return recipe != null && recipe.canOperate(inventory, 0, gasTank, secondaryEnergyThisTick, 2, 4);
+        return recipe != null && recipe.canOperate(inventory, 0, gasTank, secondaryEnergyThisTick, 3, 4);
     }
 
     @Override
@@ -245,10 +243,10 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
 
     @Override
     public boolean canExtractItem(int slotID, @Nonnull ItemStack itemstack, @Nonnull EnumFacing side) {
-        if (slotID == 3) {
+        if (slotID == 2) {
             return ChargeUtils.canBeOutputted(itemstack, false);
         }
-        return slotID == 2 || slotID == 4;
+        return slotID == 3 || slotID == 4;
     }
 
     @Override

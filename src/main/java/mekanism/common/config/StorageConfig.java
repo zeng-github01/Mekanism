@@ -90,4 +90,28 @@ public class StorageConfig extends BaseConfig {
 
     public final DoubleOption organicfarm = new DoubleOption(this, "storage", "OrganicFarmStorage", 20000D,
             "Base energy storage (Joules).");
+
+    public final DoubleOption nucleosynthesizer = new DoubleOption(this, "storage", "nucleosynthesizerStorage", 80000D,
+            "Base energy storage (Joules).");
+
+    public final DoubleOption stamping = new DoubleOption(this, "storage", "StampingStorage", 20000D,
+            "Base energy storage (Joules).");
+
+    public final DoubleOption rolling = new DoubleOption(this, "storage", "RollingStorage", 20000D,
+            "Base energy storage (Joules).");
+
+    public final DoubleOption brushed = new DoubleOption(this, "storage", "BrushedStorage", 20000D,
+            "Base energy storage (Joules).");
+
+    public final DoubleOption turning = new DoubleOption(this, "storage", "TurningStorage", 20000D,
+            "Base energy storage (Joules).");
+
+    public final DoubleOption alloy = new DoubleOption(this, "storage", "AlloyStorage", 40000D,
+            "Base energy storage (Joules).");
+
+    public final DoubleOption cellExtractor = new DoubleOption(this, "storage", "CellExtractorStorage", 20000D,
+            "Base energy storage (Joules).");
+
+    public final DoubleOption cellSeparator = new DoubleOption(this, "storage", "CellSeparatorStorage", 20000D,
+            "Base energy storage (Joules).");
 }

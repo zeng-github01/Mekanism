@@ -326,6 +326,14 @@ public class Mekanism {
         registerTileEntity(TileEntityNutritionalLiquifier.class, "nutritional_liquifier");
         registerTileEntity(TileEntitySuperchargedCoil.class, "supercharged_coil");
         registerTileEntity(TileEntityOrganicFarm.class, "organic_farm");
+        registerTileEntity(TileEntityAntiprotonicNucleosynthesizer.class, "antiprotonic_nucleosynthesizer");
+        registerTileEntity(TileEntityStamping.class, "stamping");
+        registerTileEntity(TileEntityRolling.class, "rolling");
+        registerTileEntity(TileEntityBrushed.class, "brushed");
+        registerTileEntity(TileEntityTurning.class, "turning");
+        registerTileEntity(TileEntityAlloy.class, "alloy");
+        registerTileEntity(TileEntityCellExtractor.class, "cell_extractor");
+        registerTileEntity(TileEntityCellSeparator.class, "cell_separator");
         /**
          * End of adding machine
          */

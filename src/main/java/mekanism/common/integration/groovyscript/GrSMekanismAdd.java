@@ -37,12 +37,28 @@ public class GrSMekanismAdd {
         public IsotopicCentrifuge isotopicCentrifuge = new IsotopicCentrifuge();
         public NutritionalLiquifier nutritionalLiquifier = new NutritionalLiquifier();
         public OrganicFarm organicFarm = new OrganicFarm();
+        public AntiprotonicNucleosynthesizer antiprotonicNucleosynthesizer = new AntiprotonicNucleosynthesizer();
+        public Stamping stamping = new Stamping();
+        public Rolling rolling = new Rolling();
+        public Brushed brushed = new Brushed();
+        public Turning turning = new Turning();
+        public Alloy alloy = new Alloy();
+        public CellExtractor cellExtractor = new CellExtractor();
+        public CellSeparator cellSeparator = new CellSeparator();
 
         public Container() {
             addRegistry(smelter);
             addRegistry(isotopicCentrifuge);
             addRegistry(nutritionalLiquifier);
             addRegistry(organicFarm);
+            addRegistry(antiprotonicNucleosynthesizer);
+            addRegistry(stamping);
+            addRegistry(rolling);
+            addRegistry(brushed);
+            addRegistry(turning);
+            addRegistry(alloy);
+            addRegistry(cellExtractor);
+            addRegistry(cellSeparator);
         }
     }
 }

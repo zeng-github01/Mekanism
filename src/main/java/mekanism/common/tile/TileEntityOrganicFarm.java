@@ -1,5 +1,6 @@
 package mekanism.common.tile;
 
+import java.util.Map;
 import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
@@ -12,8 +13,6 @@ import mekanism.common.recipe.machines.FarmRecipe;
 import mekanism.common.tile.prefab.TileEntityFarmMachine;
 import mekanism.common.util.InventoryUtils;
 import net.minecraft.util.EnumFacing;
-
-import java.util.Map;
 
 public class TileEntityOrganicFarm extends TileEntityFarmMachine<FarmRecipe> {
     public TileEntityOrganicFarm() {

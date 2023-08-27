@@ -1,5 +1,6 @@
 package mekanism.common.inventory.container;
 
+import javax.annotation.Nonnull;
 import mekanism.common.inventory.slot.SlotEnergy.SlotDischarge;
 import mekanism.common.inventory.slot.SlotOutput;
 import mekanism.common.recipe.inputs.AdvancedMachineInput;
@@ -12,8 +13,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-import javax.annotation.Nonnull;
-
 public class ContainerFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> extends ContainerMekanism<TileEntityFarmMachine<RECIPE>> {
 
     public ContainerFarmMachine(InventoryPlayer inventory, TileEntityFarmMachine<RECIPE> tile) {
@@ -22,24 +21,22 @@ public class ContainerFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> exte
 
     @Nonnull
     @Override
-    //TODO:It needs to be fixed that it is not possible to use "shift+mouse button" to push items containing energy to the energy slot
     public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
         ItemStack stack = ItemStack.EMPTY;
         Slot currentSlot = inventorySlots.get(slotID);
         if (currentSlot != null && currentSlot.getHasStack()) {
             ItemStack slotStack = currentSlot.getStack();
             stack = slotStack.copy();
-
-            if (slotID == 2  || slotID == 4) { //OUT
-                if (!mergeItemStack(slotStack, 5, inventorySlots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (ChargeUtils.canBeDischarged(slotStack)) { //energy
-                if (slotID != 3) {
-                    if (!mergeItemStack(slotStack, 3, 4, false)) {
+            if (ChargeUtils.canBeDischarged(slotStack)) { //energy
+                if (slotID != 2) {
+                    if (!mergeItemStack(slotStack, 2, 3, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (!mergeItemStack(slotStack, 5, inventorySlots.size(), true)) {
+                } else if (!mergeItemStack(slotStack, tileEntity.inventory.size() - 1, inventorySlots.size(), true)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (slotID == 3 || slotID == 4) { //OUT
+                if (!mergeItemStack(slotStack, tileEntity.inventory.size() - 1, inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
             } else if (tileEntity.getItemGas(slotStack) != null) { //GAS
@@ -47,7 +44,7 @@ public class ContainerFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> exte
                     if (!mergeItemStack(slotStack, 1, 2, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (!mergeItemStack(slotStack, 5, inventorySlots.size(), true)) {
+                } else if (!mergeItemStack(slotStack, tileEntity.inventory.size() - 1, inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
             } else if (isInputItem(slotStack)) { //IN
@@ -55,20 +52,22 @@ public class ContainerFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> exte
                     if (!mergeItemStack(slotStack, 0, 1, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (!mergeItemStack(slotStack, 5, inventorySlots.size(), true)) {
+                } else if (!mergeItemStack(slotStack, tileEntity.inventory.size() - 1, inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-
-            } else if (slotID >= 5 && slotID <= 31) {
-                if (!mergeItemStack(slotStack, 32, inventorySlots.size(), false)) {
+            } else {
+                int slotEnd = tileEntity.inventory.size() - 1;
+                if (slotID >= slotEnd && slotID <= (slotEnd + 26)) {
+                    if (!mergeItemStack(slotStack, slotEnd + 27, inventorySlots.size(), false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else if (slotID > (slotEnd + 26)) {
+                    if (!mergeItemStack(slotStack, slotEnd, slotEnd + 26, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else if (!mergeItemStack(slotStack, slotEnd, inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (slotID > 31) {
-                if (!mergeItemStack(slotStack, 5, 31, false)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (!mergeItemStack(slotStack, 5, inventorySlots.size(), true)) {
-                return ItemStack.EMPTY;
             }
             if (slotStack.getCount() == 0) {
                 currentSlot.putStack(ItemStack.EMPTY);
@@ -96,8 +95,8 @@ public class ContainerFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> exte
     protected void addSlots() {
         addSlotToContainer(new Slot(tileEntity, 0, 56, 17));
         addSlotToContainer(new Slot(tileEntity, 1, 56, 53));
-        addSlotToContainer(new SlotDischarge(tileEntity, 3, 31, 35));
-        addSlotToContainer(new SlotOutput(tileEntity, 2, 116, 35));
+        addSlotToContainer(new SlotDischarge(tileEntity, 2, 31, 35));
+        addSlotToContainer(new SlotOutput(tileEntity, 3, 116, 35));
         addSlotToContainer(new SlotOutput(tileEntity, 4, 132, 35));
 
     }

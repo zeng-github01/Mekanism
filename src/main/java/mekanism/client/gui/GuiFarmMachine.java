@@ -1,6 +1,9 @@
 package mekanism.client.gui;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import mekanism.api.gas.GasStack;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.bar.GuiBar;
@@ -19,10 +22,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> extends GuiMekanismTile<TileEntityFarmMachine<RECIPE>> {
@@ -68,7 +67,7 @@ public class GuiFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> extends Gu
             List<String> info = new ArrayList<>();
             boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
             boolean inputgas = (tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(0).getCount() != 0);
-            boolean outslot = tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize() ||
+            boolean outslot = tileEntity.inventory.get(3).getCount() == tileEntity.inventory.get(3).getMaxStackSize() ||
                     tileEntity.inventory.get(4).getCount() == tileEntity.inventory.get(4).getMaxStackSize();
             if (energy) {
                 info.add(LangUtils.localize("gui.no_energy"));
@@ -95,7 +94,7 @@ public class GuiFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> extends Gu
         }
         boolean inputgas = (tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(0).getCount() != 0);
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
-        boolean outslot = tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize() ||
+        boolean outslot = tileEntity.inventory.get(3).getCount() == tileEntity.inventory.get(3).getMaxStackSize() ||
                 tileEntity.inventory.get(4).getCount() == tileEntity.inventory.get(4).getMaxStackSize();
 
         if (outslot) {

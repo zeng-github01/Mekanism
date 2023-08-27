@@ -160,6 +160,66 @@ public class APIHandler implements MekanismRecipeHelper {
         RecipeHandler.addOrganicFarmRecipe(input, gas, primaryOutput);
     }
 
+    @Override
+    public void addAntiprotonicNucleosynthesizerRecipe(ItemStack inputSolid, GasStack inputGas, ItemStack outputSolid, double extraEnergy, int ticks) {
+        checkPhase();
+        RecipeHandler.addNucleosynthesizerRecipe(inputSolid, inputGas, outputSolid, extraEnergy, ticks);
+    }
+
+    @Override
+    public void addStampingRecipe(ItemStack input, ItemStack output) {
+        checkPhase();
+        RecipeHandler.addCrusherRecipe(input, output);
+    }
+
+    @Override
+    public void addRollingRecipe(ItemStack input, ItemStack output) {
+        checkPhase();
+        RecipeHandler.addCrusherRecipe(input, output);
+    }
+
+    @Override
+    public void addBrushedRecipe(ItemStack input, ItemStack output) {
+        checkPhase();
+        RecipeHandler.addCrusherRecipe(input, output);
+    }
+
+    @Override
+    public void addTurningRecipe(ItemStack input, ItemStack output) {
+        checkPhase();
+        RecipeHandler.addCrusherRecipe(input, output);
+    }
+
+    @Override
+    public void addAlloyRecipe(ItemStack input, ItemStack extra, ItemStack output) {
+        checkPhase();
+        RecipeHandler.addAlloyRecipe(input, extra, output);
+    }
+
+    @Override
+    public void addCellExtractorRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, double chance) {
+        checkPhase();
+        RecipeHandler.addCellExtractorRecipe(input, primaryOutput, secondaryOutput, chance);
+    }
+
+    @Override
+    public void addCellExtractorRecipe(ItemStack input, ItemStack primaryOutput) {
+        checkPhase();
+        RecipeHandler.addCellExtractorRecipe(input, primaryOutput);
+    }
+
+    @Override
+    public void addCellSeparatorRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, double chance) {
+        checkPhase();
+        RecipeHandler.addCellSeparatorRecipe(input, primaryOutput, secondaryOutput, chance);
+    }
+
+    @Override
+    public void addCellSeparatorRecipe(ItemStack input, ItemStack primaryOutput) {
+        checkPhase();
+        RecipeHandler.addCellSeparatorRecipe(input, primaryOutput);
+    }
+
     /**
      * ADD END
      */

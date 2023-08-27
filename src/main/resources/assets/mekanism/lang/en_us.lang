@@ -188,6 +188,7 @@ tile.BasicBlock3.AdvancedEnergyCubeFrame.name=Advanced Energy Cube Frame
 tile.BasicBlock3.EliteEnergyCubeFrame.name=Elite Energy Cube Frame
 tile.BasicBlock3.UltimateEnergyCubeFrame.name=Ultimate Energy Cube Frame
 tile.BasicBlock3.CreativeEnergyCubeFrame.name=Creative Energy Cube Frame
+tile.MachineBlock3.antiprotonicnucleosynthesizer.name=Antiprotonic Nucleosynthesizer(WIP)
 
 tile.OreBlock.UraniumOre.name=Uranium Ore
 tile.OreBlock.LeadOre.name=Lead Ore
@@ -220,6 +221,20 @@ gas.uranium=Uranium Slurry
 gas.Biofuel=Biofuel
 tile.MachineBlock3.OrganicFarm.name=Organic Farm
 tile.MachineBlock3.SuperchargedCoil.name=Supercharged Coil(WIP)
+gas.nutrientsolution=Nutrient solution
+gas.oxygenenrichedwater=Oxygen-rich water
+gas.unstabledimensional=Unstable dimensional gases
+
+tile.MachineBlock4.Stamping.name=CNC punching machine
+tile.MachineBlock4.Rolling.name=CNC rolling machine
+tile.MachineBlock4.Brushed.name=CNC wire drawing machine
+tile.MachineBlock4.Turning.name=CNC lathes
+tile.MachineBlock4.Alloy.name=Alloy furnace
+tile.MachineBlock4.CellExtractor.name=Cell extractor
+tile.MachineBlock4.CellSeparator.name=Cell separator
+tile.MachineBlock4.Recycler.name=Recycler
+tile.MachineBlock4.Void.name=Void Excavating
+
 
 
 # Plastic
@@ -722,6 +737,15 @@ gui.factory.Purifying= Purifying
 gui.factory.Injecting= Injecting
 gui.factory.Infusing= Infusing
 gui.factory.Sawing= Sawing
+gui.factory.Farm= Farm
+gui.factory.Stamping= Stamping
+gui.factory.Rolling= Rolling
+gui.factory.Brushed= Brushed
+gui.factory.Turning= Turning
+gui.factory.Alloy= Alloy
+gui.factory.Extractor= Extractor
+gui.factory.Separator= Separator
+gui.factory.Recycler= Recycler
 
 gui.seismicReader.short=S. Reader
 gui.seismicReader.solids=Solids

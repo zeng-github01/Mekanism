@@ -185,6 +185,14 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChemicalWasher.class, new RenderConfigurableMachine<>());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOredictionificator.class, new RenderConfigurableMachine<>());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOrganicFarm.class, new RenderConfigurableMachine<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAntiprotonicNucleosynthesizer.class, new RenderAntiprotonicNucleosynthesizer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityStamping.class, new RenderConfigurableMachine<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRolling.class, new RenderConfigurableMachine<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBrushed.class, new RenderConfigurableMachine<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurning.class, new RenderConfigurableMachine<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAlloy.class, new RenderConfigurableMachine<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCellExtractor.class, new RenderConfigurableMachine<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCellSeparator.class, new RenderConfigurableMachine<>());
     }
 
     @Override
@@ -282,7 +290,7 @@ public class ClientProxy extends CommonProxy {
         Item.getItemFromBlock(MekanismBlocks.BasicBlock2).setTileEntityItemStackRenderer(new RenderBasicBlockItem());
 
         Item.getItemFromBlock(MekanismBlocks.BasicBlock3).setTileEntityItemStackRenderer(new RenderBasicBlockItem());
-
+        Item.getItemFromBlock(MekanismBlocks.MachineBlock4).setTileEntityItemStackRenderer(new RenderMachineItem());
     }
 
     private ModelResourceLocation getInventoryMRL(String type) {
@@ -306,6 +314,7 @@ public class ClientProxy extends CommonProxy {
         ModelLoader.setCustomStateMapper(MekanismBlocks.Transmitter, transmitterMapper);
 
         ModelLoader.setCustomStateMapper(MekanismBlocks.BasicBlock3, basicMapper);
+        ModelLoader.setCustomStateMapper(MekanismBlocks.MachineBlock4, machineMapper);
 
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(MekanismBlocks.ObsidianTNT), 0, getInventoryMRL("ObsidianTNT"));
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(MekanismBlocks.SaltBlock), 0, getInventoryMRL("SaltBlock"));
@@ -336,7 +345,7 @@ public class ClientProxy extends CommonProxy {
          * */
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(MekanismBlocks.MachineBlock3), 9, getInventoryMRL("isotopic_centrifuge"));
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(MekanismBlocks.MachineBlock3), 10, getInventoryMRL("nutritional_liquifier"));
-
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(MekanismBlocks.MachineBlock3), 13, getInventoryMRL("antiprotonic_nucleosynthesizer"));
         /**
          * ADD END
          * */
@@ -494,7 +503,7 @@ public class ClientProxy extends CommonProxy {
         ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(MekanismBlocks.MachineBlock), machineMesher);
         ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(MekanismBlocks.MachineBlock2), machineMesher);
         ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(MekanismBlocks.MachineBlock3), machineMesher);
-
+        ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(MekanismBlocks.MachineBlock4), machineMesher);
         ItemMeshDefinition basicMesher = stack -> {
             BasicBlockType type = BasicBlockType.get(stack);
             if (type != null) {
@@ -760,6 +769,26 @@ public class ClientProxy extends CommonProxy {
                 return new GuiNutritionalLiquifier(player.inventory, (TileEntityNutritionalLiquifier) tileEntity);
             case 62:
                 return new GuiOrganicFarm(player.inventory, (TileEntityOrganicFarm) tileEntity);
+            case 63:
+                return new GuiAntiprotonicNucleosynthesizer(player.inventory, (TileEntityAntiprotonicNucleosynthesizer) tileEntity);
+            case 64:
+                return new GuiStamping(player.inventory, (TileEntityElectricMachine<StampingRecipe>) tileEntity);
+            case 65:
+                return new GuiRolling(player.inventory, (TileEntityElectricMachine<RollingRecipe>) tileEntity);
+            case 66:
+                return new GuiBrushed(player.inventory, (TileEntityElectricMachine<BrushedRecipe>) tileEntity);
+            case 67:
+                return new GuiTurning(player.inventory, (TileEntityElectricMachine<TurningRecipe>) tileEntity);
+            case 68:
+                return new GuiAlloy(player.inventory, (TileEntityDoubleElectricMachine<AlloyRecipe>) tileEntity);
+           /*
+            case 69:
+                return new GuiCellCultivate(player.inventory, (TileEntityCellCultivate) tileEntity);
+            */
+            case 70:
+                return new GuiCellExtractor(player.inventory, (TileEntityChanceMachine) tileEntity);
+            case 71:
+                return new GuiCellSeparator(player.inventory, (TileEntityCellSeparator) tileEntity);
         }
         return null;
     }
@@ -818,7 +847,7 @@ public class ClientProxy extends CommonProxy {
                 return (int) (color.getColor(0) * 255) << 16 | (int) (color.getColor(1) * 255) << 8 | (int) (color.getColor(2) * 255);
             }
             return -1;
-        }, MekanismBlocks.MachineBlock, MekanismBlocks.MachineBlock2, MekanismBlocks.MachineBlock3);
+        }, MekanismBlocks.MachineBlock, MekanismBlocks.MachineBlock2, MekanismBlocks.MachineBlock3, MekanismBlocks.MachineBlock4);
         Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler((state, worldIn, pos, tintIndex) -> {
                     EnumDyeColor color = state.getValue(colorProperty);
                     EnumColor dye = EnumColor.DYES[color.getDyeDamage()];
@@ -831,7 +860,7 @@ public class ClientProxy extends CommonProxy {
                 return (int) (color.getColor(0) * 255) << 16 | (int) (color.getColor(1) * 255) << 8 | (int) (color.getColor(2) * 255);
             }
             return -1;
-        }, MekanismBlocks.MachineBlock, MekanismBlocks.MachineBlock2, MekanismBlocks.MachineBlock3);
+        }, MekanismBlocks.MachineBlock, MekanismBlocks.MachineBlock2, MekanismBlocks.MachineBlock3, MekanismBlocks.MachineBlock4);
         Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) -> {
                     EnumDyeColor dyeColor = EnumDyeColor.byDyeDamage(stack.getItemDamage() & 15);
                     EnumColor dye = EnumColor.DYES[dyeColor.getDyeDamage()];
@@ -908,6 +937,7 @@ public class ClientProxy extends CommonProxy {
         */
         machineModelBake(modelRegistry, "isotopic_centrifuge", MachineType.ISOTOPIC_CENTRIFUGE);
         machineModelBake(modelRegistry, "nutritional_liquifier", MachineType.NUTRITIONAL_LIQUIFIER);
+        machineModelBake(modelRegistry, "antiprotonic_nucleosynthesizer", MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER);
         /**
          * ADD END
          */

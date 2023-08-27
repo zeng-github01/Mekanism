@@ -43,8 +43,16 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                 "thermalevaporation",
                 "isotopiccentrifuge",
                 "nutritionalliquifier",
-                "organicfarm"
-                ).collect(Collectors.toList());
+                "organicfarm",
+                "antiprotonicnucleosynthesizer",
+                "stamping",
+                "rolling",
+                "brushed",
+                "turning",
+                "alloy",
+                "cellextractor",
+                "cellseparator"
+        ).collect(Collectors.toList());
     }
 
     @Override
@@ -269,6 +277,86 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.organicfarm.addRecipe(%s, %s, %s, %s, %s)",
                             RecipeInfoHelper.getItemName(recipe.getInput().itemStack),
                             RecipeInfoHelper.getGasName(recipe.getInput().gasType),
+                            RecipeInfoHelper.getItemName(recipe.getOutput().primaryOutput),
+                            RecipeInfoHelper.getItemName(recipe.getOutput().secondaryOutput),
+                            recipe.getOutput().secondaryChance
+                    ));
+                }
+                break;
+            case "antiprotonicnucleosynthesizer":
+                type = Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER;
+                for (NucleosynthesizerRecipe recipe : Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER.get().values()) {
+                    CraftTweakerAPI.logCommand(String.format("mods.mekanism.nucleosynthesizer.addRecipe(%s, %s, %s, %s, %s)",
+                            RecipeInfoHelper.getItemName(recipe.getInput().getSolid()),
+                            RecipeInfoHelper.getGasName(recipe.getInput().getGas()),
+                            RecipeInfoHelper.getItemName(recipe.getOutput().output),
+                            recipe.extraEnergy,
+                            recipe.ticks
+                    ));
+                }
+                break;
+            case "stamping":
+                type = Recipe.STAMPING;
+                for (StampingRecipe recipe : Recipe.STAMPING.get().values()) {
+                    CraftTweakerAPI.logCommand(String.format("mods.mekanism.stamping.addRecipe(%s, %s)",
+                            RecipeInfoHelper.getItemName(recipe.getInput().ingredient),
+                            RecipeInfoHelper.getItemName(recipe.getOutput().output)
+                    ));
+                }
+                break;
+            case "rolling":
+                type = Recipe.ROLLING;
+                for (RollingRecipe recipe : Recipe.ROLLING.get().values()) {
+                    CraftTweakerAPI.logCommand(String.format("mods.mekanism.rolling.addRecipe(%s, %s)",
+                            RecipeInfoHelper.getItemName(recipe.getInput().ingredient),
+                            RecipeInfoHelper.getItemName(recipe.getOutput().output)
+                    ));
+                }
+                break;
+            case "brushed":
+                type = Recipe.BRUSHED;
+                for (BrushedRecipe recipe : Recipe.BRUSHED.get().values()) {
+                    CraftTweakerAPI.logCommand(String.format("mods.mekanism.brushed.addRecipe(%s, %s)",
+                            RecipeInfoHelper.getItemName(recipe.getInput().ingredient),
+                            RecipeInfoHelper.getItemName(recipe.getOutput().output)
+                    ));
+                }
+                break;
+            case "turning":
+                type = Recipe.TURNING;
+                for (TurningRecipe recipe : Recipe.TURNING.get().values()) {
+                    CraftTweakerAPI.logCommand(String.format("mods.mekanism.turning.addRecipe(%s, %s)",
+                            RecipeInfoHelper.getItemName(recipe.getInput().ingredient),
+                            RecipeInfoHelper.getItemName(recipe.getOutput().output)
+                    ));
+                }
+                break;
+            case "alloy":
+                type = Recipe.ALLOY;
+                for (AlloyRecipe recipe : Recipe.ALLOY.get().values()) {
+                    CraftTweakerAPI.logCommand(String.format("mods.mekanism.alloy.addRecipe(%s, %s, %s)",
+                            RecipeInfoHelper.getItemName(recipe.getInput().itemStack),
+                            RecipeInfoHelper.getItemName(recipe.getInput().extraStack),
+                            RecipeInfoHelper.getItemName(recipe.getOutput().output)
+                    ));
+                }
+                break;
+            case "cellextractor":
+                type = Recipe.CELL_EXTRACTOR;
+                for (CellExtractorRecipe recipe : Recipe.CELL_EXTRACTOR.get().values()) {
+                    CraftTweakerAPI.logCommand(String.format("mods.mekanism.cellextractor.addRecipe(%s, %s, %s, %s)",
+                            RecipeInfoHelper.getItemName(recipe.getInput().ingredient),
+                            RecipeInfoHelper.getItemName(recipe.getOutput().primaryOutput),
+                            RecipeInfoHelper.getItemName(recipe.getOutput().secondaryOutput),
+                            recipe.getOutput().secondaryChance
+                    ));
+                }
+                break;
+            case "cellseparator":
+                type = Recipe.CELL_SEPARATOR;
+                for (CellSeparatorRecipe recipe : Recipe.CELL_SEPARATOR.get().values()) {
+                    CraftTweakerAPI.logCommand(String.format("mods.mekanism.cellseparator.addRecipe(%s, %s, %s, %s)",
+                            RecipeInfoHelper.getItemName(recipe.getInput().ingredient),
                             RecipeInfoHelper.getItemName(recipe.getOutput().primaryOutput),
                             RecipeInfoHelper.getItemName(recipe.getOutput().secondaryOutput),
                             recipe.getOutput().secondaryChance

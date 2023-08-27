@@ -320,6 +320,26 @@ public class CommonProxy implements IGuiProvider {
                 return new ContainerNutritionalLiquifier(player.inventory, (TileEntityNutritionalLiquifier) tileEntity);
             case 62:
                 return new ContainerFarmMachine(player.inventory, (TileEntityFarmMachine) tileEntity);
+            case 63:
+                return new ContainerAntiprotonicNucleosynthesizer(player.inventory, (TileEntityAntiprotonicNucleosynthesizer) tileEntity);
+            case 64:
+                return new ContainerElectricMachine<>(player.inventory, (TileEntityElectricMachine) tileEntity);
+            case 65:
+                return new ContainerElectricMachine<>(player.inventory, (TileEntityElectricMachine) tileEntity);
+            case 66:
+                return new ContainerElectricMachine<>(player.inventory, (TileEntityElectricMachine) tileEntity);
+            case 67:
+                return new ContainerElectricMachine<>(player.inventory, (TileEntityElectricMachine) tileEntity);
+            case 68:
+                return new ContainerDoubleElectricMachine<>(player.inventory, (TileEntityDoubleElectricMachine) tileEntity);
+            /*
+            case 69:
+                return new ContainerCultivateElectricMachine<>(player.inventory, (TileEntityCultivateElectricMachine) tileEntity);
+            */
+            case 70:
+                return new ContainerChanceMachine<>(player.inventory, (TileEntityChanceMachine) tileEntity);
+            case 71:
+                return new ContainerChanceMachine<>(player.inventory, (TileEntityChanceMachine) tileEntity);
         }
         return null;
     }

@@ -12,6 +12,7 @@ import mekanism.api.infuse.InfuseType;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.recipe.inputs.*;
 import mekanism.common.recipe.machines.*;
+import mekanism.common.recipe.machines.StampingRecipe;
 import mekanism.common.recipe.outputs.*;
 import mekanism.common.util.StackUtils;
 import net.minecraft.item.ItemStack;
@@ -269,6 +270,46 @@ public final class RecipeHandler {
         addRecipe(Recipe.ORGANIC_FARM, new FarmRecipe(input, gas, primaryOutput));
     }
 
+
+    public static void addNucleosynthesizerRecipe(ItemStack inputSolid, GasStack inputGas, ItemStack outputSolid, double extraEnergy, int ticks) {
+        addRecipe(Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER, new NucleosynthesizerRecipe(inputSolid, inputGas, outputSolid, extraEnergy, ticks));
+    }
+
+    public static void addStampingRecipe(ItemStack input, ItemStack output) {
+        addRecipe(Recipe.STAMPING, new StampingRecipe(input, output));
+    }
+
+    public static void addRollingRecipe(ItemStack input, ItemStack output) {
+        addRecipe(Recipe.ROLLING, new RollingRecipe(input, output));
+    }
+
+    public static void addBrushedRecipe(ItemStack input, ItemStack output) {
+        addRecipe(Recipe.BRUSHED, new BrushedRecipe(input, output));
+    }
+
+    public static void addTurningRecipe(ItemStack input, ItemStack output) {
+        addRecipe(Recipe.TURNING, new TurningRecipe(input, output));
+    }
+
+    public static void addAlloyRecipe(ItemStack input, ItemStack extra, ItemStack output) {
+        addRecipe(Recipe.ALLOY, new AlloyRecipe(input, extra, output));
+    }
+
+    public static void addCellExtractorRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, double chance) {
+        addRecipe(Recipe.CELL_EXTRACTOR, new CellExtractorRecipe(input, primaryOutput, secondaryOutput, chance));
+    }
+
+    public static void addCellExtractorRecipe(ItemStack input, ItemStack primaryOutput) {
+        addRecipe(Recipe.CELL_EXTRACTOR, new CellExtractorRecipe(input, primaryOutput));
+    }
+
+    public static void addCellSeparatorRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, double chance) {
+        addRecipe(Recipe.CELL_SEPARATOR, new CellSeparatorRecipe(input, primaryOutput, secondaryOutput, chance));
+    }
+
+    public static void addCellSeparatorRecipe(ItemStack input, ItemStack primaryOutput) {
+        addRecipe(Recipe.CELL_SEPARATOR, new CellSeparatorRecipe(input, primaryOutput));
+    }
     /**
     * Add End
      */
@@ -346,8 +387,7 @@ public final class RecipeHandler {
     }
 
 
-    @Nullable
-    public static <RECIPE extends FarmMachineRecipe<RECIPE>> RECIPE getFarmRecipe(@Nonnull AdvancedMachineInput input, @Nonnull Map<AdvancedMachineInput, RECIPE> recipes) {
+    @Nullable public static <RECIPE extends FarmMachineRecipe<RECIPE>> RECIPE getFarmRecipe(@Nonnull AdvancedMachineInput input, @Nonnull Map<AdvancedMachineInput, RECIPE> recipes) {
         return getRecipe(input, recipes);
     }
 
@@ -412,6 +452,11 @@ public final class RecipeHandler {
         return getRecipe(input, Recipe.ISOTOPIC_CENTRIFUGE);
     }
 
+    @Nullable public static NucleosynthesizerRecipe getNucleosynthesizerRecipe(@Nonnull NucleosynthesizerInput input) {
+        return getRecipe(input, Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER);
+    }
+
+
     /**
      * Gets the Nutritional Liquifier Recipe for the ItemStackInput in the parameters.
      *
@@ -421,8 +466,6 @@ public final class RecipeHandler {
     @Nullable public static NutritionalRecipe getNutritionalRecipe(@Nonnull ItemStackInput input) {
         return getRecipe(input, Recipe.NUTRITIONAL_LIQUIFIER);
     }
-
-
 
     /**
      * Gets the whether the input ItemStack is in a recipe
@@ -524,13 +567,35 @@ public final class RecipeHandler {
         public static final Recipe<GasInput, GasOutput, IsotopicRecipe> ISOTOPIC_CENTRIFUGE = new Recipe<>(
                 MachineType.ISOTOPIC_CENTRIFUGE, GasInput.class, GasOutput.class, IsotopicRecipe.class);
 
-
         public static final Recipe<ItemStackInput, GasOutput, NutritionalRecipe> NUTRITIONAL_LIQUIFIER = new Recipe<>(
                 MachineType.NUTRITIONAL_LIQUIFIER, ItemStackInput.class, GasOutput.class, NutritionalRecipe.class);
 
         public static final Recipe<AdvancedMachineInput, ChanceOutput, FarmRecipe> ORGANIC_FARM = new Recipe<>(
                 MachineType.ORGANIC_FARM, AdvancedMachineInput.class, ChanceOutput.class, FarmRecipe.class);
 
+        public static final Recipe<NucleosynthesizerInput, ItemStackOutput, NucleosynthesizerRecipe> ANTIPROTONIC_NUCLEOSYNTHESIZER = new Recipe<>(
+                MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER, NucleosynthesizerInput.class, ItemStackOutput.class, NucleosynthesizerRecipe.class);
+
+        public static final Recipe<ItemStackInput, ItemStackOutput, StampingRecipe> STAMPING = new Recipe<>(
+                MachineType.STAMPING, ItemStackInput.class, ItemStackOutput.class, StampingRecipe.class);
+
+        public static final Recipe<ItemStackInput, ItemStackOutput, RollingRecipe> ROLLING = new Recipe<>(
+                MachineType.ROLLING, ItemStackInput.class, ItemStackOutput.class, RollingRecipe.class);
+
+        public static final Recipe<ItemStackInput, ItemStackOutput, BrushedRecipe> BRUSHED = new Recipe<>(
+                MachineType.BRUSHED, ItemStackInput.class, ItemStackOutput.class, BrushedRecipe.class);
+
+        public static final Recipe<ItemStackInput, ItemStackOutput, TurningRecipe> TURNING = new Recipe<>(
+                MachineType.TURNING, ItemStackInput.class, ItemStackOutput.class, TurningRecipe.class);
+
+        public static final Recipe<DoubleMachineInput, ItemStackOutput, AlloyRecipe> ALLOY = new Recipe<>(
+                MachineType.ALLOY, DoubleMachineInput.class, ItemStackOutput.class, AlloyRecipe.class);
+
+        public static final Recipe<ItemStackInput, ChanceOutput, CellExtractorRecipe> CELL_EXTRACTOR = new Recipe<>(
+                MachineType.CELL_EXTRACTOR, ItemStackInput.class, ChanceOutput.class, CellExtractorRecipe.class);
+
+        public static final Recipe<ItemStackInput, ChanceOutput, CellSeparatorRecipe> CELL_SEPARATOR = new Recipe<>(
+                MachineType.CELL_SEPARATOR, ItemStackInput.class, ChanceOutput.class, CellSeparatorRecipe.class);
         /**
          * ADD END
          */

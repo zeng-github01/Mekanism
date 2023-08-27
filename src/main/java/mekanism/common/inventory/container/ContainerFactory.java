@@ -1,5 +1,6 @@
 package mekanism.common.inventory.container;
 
+import javax.annotation.Nonnull;
 import mekanism.api.infuse.InfuseRegistry;
 import mekanism.common.base.IFactory;
 import mekanism.common.base.IFactory.RecipeType;
@@ -16,8 +17,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
-
-import javax.annotation.Nonnull;
 
 public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
 
@@ -42,6 +41,8 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
         int xDistance = tileEntity.tier == FactoryTier.BASIC ? 38 : tileEntity.tier == FactoryTier.ADVANCED ? 26 : 19;
         for (int i = 0; i < tileEntity.tier.processes; i++) {
             addSlotToContainer(new FactoryInputSlot(tileEntity, getInputSlotIndex(i), xOffset + (i * xDistance), 13, i));
+        }
+        for (int i = 0; i < tileEntity.tier.processes; i++) {
             addSlotToContainer(new SlotOutput(tileEntity, getOutputSlotIndex(i), xOffset + (i * xDistance), 57));
         }
     }

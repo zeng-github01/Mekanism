@@ -21,6 +21,7 @@ public class MekanismBlocks {
     public static Block MachineBlock = BlockMachine.getBlockMachine(MACHINE_BLOCK_1);
     public static Block MachineBlock2 = BlockMachine.getBlockMachine(MACHINE_BLOCK_2);
     public static Block MachineBlock3 = BlockMachine.getBlockMachine(MACHINE_BLOCK_3);
+    public static Block MachineBlock4 = BlockMachine.getBlockMachine(MACHINE_BLOCK_4);
     public static Block OreBlock = new BlockOre();
     public static Block ObsidianTNT = new BlockObsidianTNT().setCreativeTab(Mekanism.tabMekanismAddition);
     public static Block EnergyCube = new BlockEnergyCube();
@@ -50,6 +51,7 @@ public class MekanismBlocks {
         registry.register(init(MachineBlock, "MachineBlock"));
         registry.register(init(MachineBlock2, "MachineBlock2"));
         registry.register(init(MachineBlock3, "MachineBlock3"));
+        registry.register(init(MachineBlock4, "MachineBlock4"));
         registry.register(init(OreBlock, "OreBlock"));
         registry.register(init(EnergyCube, "EnergyCube"));
         registry.register(init(Transmitter, "Transmitter"));
@@ -99,6 +101,7 @@ public class MekanismBlocks {
         registry.register(MekanismItems.init(new ItemBlock(SaltBlock), "SaltBlock"));
 
         registry.register(MekanismItems.init(new ItemBlockBasic(BasicBlock3), "BasicBlock3"));
+        registry.register(MekanismItems.init(new ItemBlockMachine(MachineBlock4), "MachineBlock4"));
     }
 
     public static Block init(Block block, String name) {

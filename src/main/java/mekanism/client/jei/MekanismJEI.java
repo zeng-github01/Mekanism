@@ -78,6 +78,7 @@ public class MekanismJEI implements IModPlugin {
         registry.registerSubtypeInterpreter(Item.getItemFromBlock(MekanismBlocks.Transmitter), NBT_INTERPRETER);
 
         registry.registerSubtypeInterpreter(Item.getItemFromBlock(MekanismBlocks.BasicBlock3), NBT_INTERPRETER);
+        registry.registerSubtypeInterpreter(Item.getItemFromBlock(MekanismBlocks.MachineBlock4), NBT_INTERPRETER);
     }
 
     @Override
@@ -129,8 +130,16 @@ public class MekanismJEI implements IModPlugin {
          */
         addRecipeCategory(registry, MachineType.ISOTOPIC_CENTRIFUGE, new IsotopicRecipeCategory(guiHelper));
         addRecipeCategory(registry, MachineType.NUTRITIONAL_LIQUIFIER, new NutritionalLiquifierRecipeCategory(guiHelper));
-        addRecipeCategory(registry, MachineType.ORGANIC_FARM, new FarmMachineRecipeCategory(guiHelper, Recipe.ORGANIC_FARM.getJEICategory(),
-                "tile.MachineBlock3.OrganicFarm.name", ProgressBar.BAR));
+        addRecipeCategory(registry, MachineType.ORGANIC_FARM, new FarmMachineRecipeCategory(guiHelper, Recipe.ORGANIC_FARM.getJEICategory(), "tile.MachineBlock3.OrganicFarm.name", ProgressBar.BAR));
+        addRecipeCategory(registry, MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER, new AntiprotonicNucleosynthesizerRecipeCategory(guiHelper));
+        addRecipeCategory(registry, MachineType.STAMPING, new MachineRecipeCategory(guiHelper, Recipe.STAMPING.getJEICategory(), "tile.MachineBlock4.Stamping.name", ProgressBar.BAR));
+        addRecipeCategory(registry, MachineType.ROLLING, new MachineRecipeCategory(guiHelper, Recipe.ROLLING.getJEICategory(), "tile.MachineBlock4.Rolling.name", ProgressBar.BAR));
+        addRecipeCategory(registry, MachineType.BRUSHED, new MachineRecipeCategory(guiHelper, Recipe.BRUSHED.getJEICategory(), "tile.MachineBlock4.Brushed.name", ProgressBar.BAR));
+        addRecipeCategory(registry, MachineType.TURNING, new MachineRecipeCategory(guiHelper, Recipe.TURNING.getJEICategory(), "tile.MachineBlock4.Turning.name", ProgressBar.BAR));
+        addRecipeCategory(registry, MachineType.CELL_EXTRACTOR, new ChanceMachineRecipeCategory(guiHelper, Recipe.CELL_EXTRACTOR.getJEICategory(),
+                "tile.MachineBlock4.CellExtractor.name", ProgressBar.BAR));
+        addRecipeCategory(registry, MachineType.CELL_SEPARATOR, new ChanceMachineRecipeCategory(guiHelper, Recipe.CELL_SEPARATOR.getJEICategory(),
+                "tile.MachineBlock4.CellSeparator.name", ProgressBar.BAR));
         /**
          * ADD END
          */
@@ -183,6 +192,14 @@ public class MekanismJEI implements IModPlugin {
         RecipeRegistryHelper.registerIsotopicCentrifuge(registry);
         RecipeRegistryHelper.registerNutritional(registry);
         RecipeRegistryHelper.registerFarm(registry);
+        RecipeRegistryHelper.registerAntiprotonicNucleosynthesizer(registry);
+        RecipeRegistryHelper.registerStamping(registry);
+        RecipeRegistryHelper.registerRolling(registry);
+        RecipeRegistryHelper.registerBrushed(registry);
+        RecipeRegistryHelper.registerTurning(registry);
+        RecipeRegistryHelper.registerAlloy(registry);
+        RecipeRegistryHelper.registerCellExtractor(registry);
+        RecipeRegistryHelper.registerCellSeparator(registry);
         /**
          * ADD END
          */

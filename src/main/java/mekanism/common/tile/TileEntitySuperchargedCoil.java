@@ -1,5 +1,6 @@
 package mekanism.common.tile;
 
+import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.common.tile.prefab.TileEntityEffectsBlock;
 import mekanism.common.util.InventoryUtils;
@@ -8,8 +9,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
-
-import javax.annotation.Nonnull;
 
 public class TileEntitySuperchargedCoil extends TileEntityEffectsBlock {
 

@@ -178,4 +178,24 @@ public interface MekanismRecipeHelper {
     void addOrganicFarmRecipe(ItemStack input, Gas gas, ItemStack primaryOutput, ItemStack secondaryOutput, double chance);
 
     void addOrganicFarmRecipe(ItemStack input, Gas gas, ItemStack primaryOutput);
+
+    void addAntiprotonicNucleosynthesizerRecipe(ItemStack inputSolid, GasStack inputGas, ItemStack outputSolid, double extraEnergy, int ticks);
+
+    void addStampingRecipe(ItemStack input, ItemStack output);
+
+    void addRollingRecipe(ItemStack input, ItemStack output);
+
+    void addBrushedRecipe(ItemStack input, ItemStack output);
+
+    void addTurningRecipe(ItemStack input, ItemStack output);
+
+    void addAlloyRecipe(ItemStack input, ItemStack extra, ItemStack output);
+
+    void addCellExtractorRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, double chance);
+
+    void addCellExtractorRecipe(ItemStack input, ItemStack primaryOutput);
+
+    void addCellSeparatorRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, double chance);
+
+    void addCellSeparatorRecipe(ItemStack input, ItemStack primaryOutput);
 }

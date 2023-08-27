@@ -28,12 +28,12 @@ public class ContainerChanceMachine<RECIPE extends ChanceMachineRecipe<RECIPE>> 
         if (currentSlot != null && currentSlot.getHasStack()) {
             ItemStack slotStack = currentSlot.getStack();
             stack = slotStack.copy();
-
             if (slotID == 2 || slotID == 3) {
                 if (!mergeItemStack(slotStack, 4, inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (ChargeUtils.canBeDischarged(slotStack)) {
+            }
+            else if (ChargeUtils.canBeDischarged(slotStack)) {
                 if (slotID != 1) {
                     if (!mergeItemStack(slotStack, 1, 2, false)) {
                         return ItemStack.EMPTY;

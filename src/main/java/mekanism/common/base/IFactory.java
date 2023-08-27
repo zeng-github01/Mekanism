@@ -15,8 +15,8 @@ import mekanism.common.recipe.inputs.DoubleMachineInput;
 import mekanism.common.recipe.inputs.InfusionInput;
 import mekanism.common.recipe.inputs.ItemStackInput;
 import mekanism.common.recipe.machines.*;
-import mekanism.common.tile.prefab.TileEntityFarmMachine;
 import mekanism.common.tile.prefab.TileEntityAdvancedElectricMachine;
+import mekanism.common.tile.prefab.TileEntityFarmMachine;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.StackUtils;
 import net.minecraft.block.Block;
@@ -76,7 +76,14 @@ public interface IFactory {
         INJECTING("Injecting", "injection", MachineType.CHEMICAL_INJECTION_CHAMBER, MachineFuelType.ADVANCED, true, Recipe.CHEMICAL_INJECTION_CHAMBER),
         INFUSING("Infusing", "metalinfuser", MachineType.METALLURGIC_INFUSER, MachineFuelType.BASIC, false, Recipe.METALLURGIC_INFUSER),
         SAWING("Sawing", "sawmill", MachineType.PRECISION_SAWMILL, MachineFuelType.CHANCE, false, Recipe.PRECISION_SAWMILL),
-        FARM("Farm", "farm", MachineType.ORGANIC_FARM, MachineFuelType.FARM, false, Recipe.ORGANIC_FARM);
+        STAMPING("Stamping", "stamping", MachineType.STAMPING, MachineFuelType.BASIC, false, Recipe.STAMPING),
+        ROLLING("Rolling", "rolling", MachineType.ROLLING, MachineFuelType.BASIC, false, Recipe.ROLLING),
+        BRUSHED("Brushed", "brushed", MachineType.BRUSHED, MachineFuelType.BASIC, false, Recipe.BRUSHED),
+        TURNING("Turning", "turning", MachineType.TURNING, MachineFuelType.BASIC, false, Recipe.TURNING),
+        AllOY("Alloy", "alloy", MachineType.ALLOY, MachineFuelType.DOUBLE, false, Recipe.ALLOY),
+        EXTRACTOR("Extractor", "extractor", MachineType.CELL_EXTRACTOR, MachineFuelType.CHANCE, false, Recipe.CELL_EXTRACTOR),
+        SEPARATOR("Separator", "separator", MachineType.CELL_SEPARATOR, MachineFuelType.CHANCE, false, Recipe.CELL_SEPARATOR),
+        FARM("Farm", "farm", MachineType.ORGANIC_FARM, MachineFuelType.FARM, true, Recipe.ORGANIC_FARM);
         private String name;
         private SoundEvent sound;
         private MachineType type;
@@ -177,6 +184,8 @@ public interface IFactory {
                 return getRecipe(slotStack, extraStack);
             } else if (fuelType == MachineFuelType.CHANCE) {
                 return getChanceRecipe(slotStack);
+            } else if (fuelType == MachineFuelType.FARM) {
+                return getFarmRecipe(slotStack, gasType);
             } else if (this == INFUSING) {
                 if (infuse.getType() != null) {
                     return RecipeHandler.getMetallurgicInfuserRecipe(new InfusionInput(infuse, slotStack));
@@ -186,8 +195,6 @@ public interface IFactory {
                         return entry.getValue();
                     }
                 }
-            } else if (fuelType == MachineFuelType.FARM) {
-                return getFarmRecipe(slotStack, gasType);
             }
             return getRecipe(slotStack);
         }
@@ -204,20 +211,22 @@ public interface IFactory {
         public boolean canReceiveGas(EnumFacing side, Gas type) {
             if (fuelType == MachineFuelType.ADVANCED) {
                 return getTile().canReceiveGas(side, type);
-            }else if (fuelType == MachineFuelType.FARM) {
+            }
+            if (fuelType == MachineFuelType.FARM) {
                 return getTile2().canReceiveGas(side, type);
             }
             return false;
         }
 
         public boolean supportsGas() {
-            return fuelType == MachineFuelType.ADVANCED || fuelType == MachineFuelType.FARM;
+            return (fuelType == MachineFuelType.ADVANCED || fuelType == MachineFuelType.FARM);
         }
 
         public boolean isValidGas(Gas gas) {
             if (fuelType == MachineFuelType.ADVANCED) {
                 return getTile().isValidGas(gas);
-            }else if (fuelType == MachineFuelType.FARM) {
+            }
+            if (fuelType == MachineFuelType.FARM) {
                 return getTile2().isValidGas(gas);
             }
             return false;

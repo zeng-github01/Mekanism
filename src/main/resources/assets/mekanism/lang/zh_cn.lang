@@ -188,6 +188,7 @@ tile.BasicBlock3.AdvancedEnergyCubeFrame.name=高级能量立方框架
 tile.BasicBlock3.EliteEnergyCubeFrame.name=精英能量立方框架
 tile.BasicBlock3.UltimateEnergyCubeFrame.name=终极能量立方框架
 tile.BasicBlock3.CreativeEnergyCubeFrame.name=创造能量立方框架
+tile.MachineBlock3.antiprotonicnucleosynthesizer.name=反质子核合成器(WIP)
 
 tile.OreBlock.UraniumOre.name=铀矿石
 tile.OreBlock.LeadOre.name=铅矿石
@@ -220,7 +221,19 @@ gas.uranium=铀浆液
 gas.Biofuel=生物燃料
 tile.MachineBlock3.OrganicFarm.name=有机农场
 tile.MachineBlock3.SuperchargedCoil.name=增压线圈(WIP)
+gas.nutrientsolution=营养液
+gas.oxygenenrichedwater=富氧水
+gas.unstabledimensional=不稳定维度气体
 
+tile.MachineBlock4.Stamping.name=数控冲床
+tile.MachineBlock4.Rolling.name=数控轧制机
+tile.MachineBlock4.Brushed.name=数控拉丝机
+tile.MachineBlock4.Turning.name=数控车床
+tile.MachineBlock4.Alloy.name=合金炉
+tile.MachineBlock4.CellExtractor.name=细胞提取机
+tile.MachineBlock4.CellSeparator.name=细胞分离机
+tile.MachineBlock4.Recycler.name=回收机
+tile.MachineBlock4.Void.name=虚空采掘机
 
 # Plastic
 tile.PlasticBlock.name=塑料方块
@@ -723,6 +736,15 @@ gui.factory.Purifying=提纯
 gui.factory.Injecting=压射
 gui.factory.Infusing=灌注
 gui.factory.Sawing=切割
+gui.factory.Farm=农场
+gui.factory.Stamping=冲压
+gui.factory.Rolling=压延
+gui.factory.Brushed=拉丝
+gui.factory.Turning=车削
+gui.factory.Alloy=合金
+gui.factory.Extractor=提取
+gui.factory.Separator=分离
+gui.factory.Recycler=回收
 
 gui.seismicReader.short=地震读取器
 gui.seismicReader.solids=固体

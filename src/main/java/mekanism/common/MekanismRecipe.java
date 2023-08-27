@@ -345,7 +345,45 @@ public class MekanismRecipe {
             RecipeHandler.addOrganicFarmRecipe(new ItemStack(Blocks.CHORUS_FLOWER, 1), MekanismFluids.NutrientSolution, new ItemStack(Items.CHORUS_FRUIT, 3), new ItemStack(Blocks.CHORUS_FLOWER, 1), MekanismConfig.current().mekce.log.val());
             RecipeHandler.addOrganicFarmRecipe(new ItemStack(Blocks.BROWN_MUSHROOM, 1), MekanismFluids.NutrientSolution, new ItemStack(Blocks.BROWN_MUSHROOM, 3));
             RecipeHandler.addOrganicFarmRecipe(new ItemStack(Blocks.RED_MUSHROOM, 1), MekanismFluids.NutrientSolution, new ItemStack(Blocks.RED_MUSHROOM, 3));
+        }
 
+        //Antiprotonic Nucleosynthesizer Recipes
+        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER)) {
+            RecipeHandler.addNucleosynthesizerRecipe(new ItemStack(Blocks.WOOL, 1, 8), new GasStack(MekanismFluids.Antimatter, 500), new ItemStack(Blocks.QUARTZ_BLOCK), 0, 500);
+            RecipeHandler.addNucleosynthesizerRecipe(new ItemStack(Blocks.WOOL, 1, 4), new GasStack(MekanismFluids.Antimatter, 500), new ItemStack(Blocks.GLOWSTONE), 0, 500);
+            RecipeHandler.addNucleosynthesizerRecipe(new ItemStack(MekanismItems.Ingot, 1, 6), new GasStack(MekanismFluids.Antimatter, 500), new ItemStack(Items.IRON_INGOT), 0, 500);
+            RecipeHandler.addNucleosynthesizerRecipe(new ItemStack(Items.COAL), new GasStack(MekanismFluids.Antimatter, 500), new ItemStack(Items.DIAMOND), 0, 1000);
+            RecipeHandler.addNucleosynthesizerRecipe(new ItemStack(Items.DIAMOND), new GasStack(MekanismFluids.Antimatter, 500), new ItemStack(Items.EMERALD), 0, 1000);
+            RecipeHandler.addNucleosynthesizerRecipe(new ItemStack(Blocks.WOOL, 1, 14), new GasStack(MekanismFluids.Antimatter, 500), new ItemStack(Blocks.REDSTONE_BLOCK), 0, 500);
+            RecipeHandler.addNucleosynthesizerRecipe(new ItemStack(Blocks.WOOL, 1, 11), new GasStack(MekanismFluids.Antimatter, 500), new ItemStack(Blocks.LAPIS_BLOCK), 0, 500);
+            RecipeHandler.addNucleosynthesizerRecipe(new ItemStack(MekanismItems.EmptyCrystals, 64), new GasStack(MekanismFluids.UnstableDimensional, 10000), new ItemStack(MekanismItems.CosmicMatter), 80000, 2000);
+        }
+
+        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.STAMPING)) {
+            RecipeHandler.addStampingRecipe(new ItemStack(Blocks.DIRT), new ItemStack(Blocks.SAND, 2));
+        }
+
+        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.ROLLING)) {
+            RecipeHandler.addRollingRecipe(new ItemStack(Blocks.DIRT), new ItemStack(Blocks.SAND, 2));
+        }
+
+        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.BRUSHED)) {
+            RecipeHandler.addBrushedRecipe(new ItemStack(Blocks.DIRT), new ItemStack(Blocks.SAND, 2));
+        }
+        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.TURNING)) {
+            RecipeHandler.addTurningRecipe(new ItemStack(Blocks.DIRT), new ItemStack(Blocks.SAND, 2));
+        }
+
+        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.ALLOY)) {
+            RecipeHandler.addAlloyRecipe(new ItemStack(MekanismItems.Ingot, 3, 5), new ItemStack(MekanismItems.Ingot, 1, 6), new ItemStack(MekanismItems.Ingot, 4, 2));
+        }
+
+        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.CELL_EXTRACTOR)) {
+            RecipeHandler.addCellExtractorRecipe(new ItemStack(Blocks.IRON_ORE), new ItemStack(Blocks.IRON_BLOCK), new ItemStack(Items.IRON_INGOT), 1);
+        }
+
+        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.CELL_SEPARATOR)) {
+            RecipeHandler.addCellSeparatorRecipe(new ItemStack(Blocks.IRON_ORE), new ItemStack(Blocks.IRON_BLOCK), new ItemStack(Items.IRON_INGOT), 1);
         }
 
         /**

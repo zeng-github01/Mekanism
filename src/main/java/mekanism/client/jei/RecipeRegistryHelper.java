@@ -304,6 +304,78 @@ public class RecipeRegistryHelper {
         registry.addRecipeClickArea(GuiOrganicFarm.class, 79, 40, 24, 7, Recipe.ORGANIC_FARM.getJEICategory());
         registerRecipeItem(registry, MachineType.ORGANIC_FARM, Recipe.ORGANIC_FARM);
     }
+
+    public static void registerAntiprotonicNucleosynthesizer(IModRegistry registry) {
+        if (!MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER.isEnabled()) {
+            return;
+        }
+        addRecipes(registry, Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER, AntiprotonicNucleosynthesizerRecipeWrapper::new);
+        registry.addRecipeClickArea(GuiAntiprotonicNucleosynthesizer.class, 75, 37, 36, 10, Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER.getJEICategory());
+        registerRecipeItem(registry, MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER, Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER);
+    }
+
+    public static void registerStamping(IModRegistry registry) {
+        if (!MachineType.STAMPING.isEnabled()) {
+            return;
+        }
+        addRecipes(registry, Recipe.STAMPING, MachineRecipeWrapper::new);
+        registry.addRecipeClickArea(GuiStamping.class, 79, 40, 24, 7, Recipe.STAMPING.getJEICategory());
+        registerRecipeItem(registry, MachineType.STAMPING, Recipe.STAMPING);
+    }
+
+    public static void registerRolling(IModRegistry registry) {
+        if (!MachineType.ROLLING.isEnabled()) {
+            return;
+        }
+        addRecipes(registry, Recipe.ROLLING, MachineRecipeWrapper::new);
+        registry.addRecipeClickArea(GuiRolling.class, 79, 40, 24, 7, Recipe.ROLLING.getJEICategory());
+        registerRecipeItem(registry, MachineType.ROLLING, Recipe.ROLLING);
+    }
+
+    public static void registerBrushed(IModRegistry registry) {
+        if (!MachineType.BRUSHED.isEnabled()) {
+            return;
+        }
+        addRecipes(registry, Recipe.BRUSHED, MachineRecipeWrapper::new);
+        registry.addRecipeClickArea(GuiBrushed.class, 79, 40, 24, 7, Recipe.BRUSHED.getJEICategory());
+        registerRecipeItem(registry, MachineType.BRUSHED, Recipe.BRUSHED);
+    }
+
+    public static void registerTurning(IModRegistry registry) {
+        if (!MachineType.TURNING.isEnabled()) {
+            return;
+        }
+        addRecipes(registry, Recipe.TURNING, MachineRecipeWrapper::new);
+        registry.addRecipeClickArea(GuiTurning.class, 79, 40, 24, 7, Recipe.TURNING.getJEICategory());
+        registerRecipeItem(registry, MachineType.TURNING, Recipe.TURNING);
+    }
+
+    public static void registerAlloy(IModRegistry registry) {
+        if (!MachineType.ALLOY.isEnabled()) {
+            return;
+        }
+        addRecipes(registry, Recipe.ALLOY, DoubleMachineRecipeWrapper::new);
+        registry.addRecipeClickArea(GuiAlloy.class, 79, 40, 24, 7, Recipe.ALLOY.getJEICategory());
+        registerRecipeItem(registry, MachineType.ALLOY, Recipe.ALLOY);
+    }
+
+    public static void registerCellExtractor(IModRegistry registry) {
+        if (!MachineType.CELL_EXTRACTOR.isEnabled()) {
+            return;
+        }
+        addRecipes(registry, Recipe.CELL_EXTRACTOR, ChanceMachineRecipeWrapper::new);
+        registry.addRecipeClickArea(GuiCellExtractor.class, 79, 40, 24, 7, Recipe.CELL_EXTRACTOR.getJEICategory());
+        registerRecipeItem(registry, MachineType.CELL_EXTRACTOR, Recipe.CELL_EXTRACTOR);
+    }
+
+    public static void registerCellSeparator(IModRegistry registry) {
+        if (!MachineType.CELL_SEPARATOR.isEnabled()) {
+            return;
+        }
+        addRecipes(registry, Recipe.CELL_SEPARATOR, ChanceMachineRecipeWrapper::new);
+        registry.addRecipeClickArea(GuiCellSeparator.class, 79, 40, 24, 7, Recipe.CELL_SEPARATOR.getJEICategory());
+        registerRecipeItem(registry, MachineType.CELL_SEPARATOR, Recipe.CELL_SEPARATOR);
+    }
     /**
      * ADD END
      */

@@ -1,5 +1,7 @@
 package mekanism.client.render.tileentity;
 
+import java.util.EnumMap;
+import java.util.Map;
 import mekanism.api.gas.GasStack;
 import mekanism.client.model.ModelChemicalDissolutionChamber;
 import mekanism.client.render.MekanismRenderer;
@@ -14,9 +16,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
-
-import java.util.EnumMap;
-import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class RenderChemicalDissolutionChamber extends TileEntitySpecialRenderer<TileEntityChemicalDissolutionChamber> {

@@ -82,6 +82,14 @@ public class MekanismTEFixer extends TEFixer {
         putEntry("IsotopicCentrifuge", "isotopic_centrifuge");
         putEntry("NutritionalLiquifier", "nutritional_liquifier");
         putEntry("OrganicFarm", "organic_farm");
+        putEntry("AntiprotonicNucleosynthesizer", "antiprotonic_nucleosynthesizer");
+        putEntry("Stamping", "stamping");
+        putEntry("Rolling", "rolling");
+        putEntry("Brushed", "brushed");
+        putEntry("Turning", "turning");
+        putEntry("Alloy", "alloy");
+        putEntry("CellExtractor", "cell_extractor");
+        putEntry("CellSeparator", "cell_separator");
         //End of addition
 
     }

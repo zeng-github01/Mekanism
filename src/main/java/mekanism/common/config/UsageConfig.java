@@ -97,4 +97,29 @@ public class UsageConfig extends BaseConfig {
 
     public final DoubleOption organicfarm = new DoubleOption(this, "usage", "OrganicFarmUsage", 50D,
             "Energy per operation tick (Joules).");
+
+    public final DoubleOption nucleosynthesizer = new DoubleOption(this, "usage", "nucleosynthesizerUsage", 200D,
+            "Energy per operation tick (Joules).");
+
+    public final DoubleOption stamping = new DoubleOption(this, "usage", "StampingUsage", 50D,
+            "Energy per operation tick (Joules).");
+
+    public final DoubleOption rolling = new DoubleOption(this, "usage", "RollingUsage", 50D,
+            "Energy per operation tick (Joules).");
+
+    public final DoubleOption brushed = new DoubleOption(this, "usage", "BrushedUsage", 50D,
+            "Energy per operation tick (Joules).");
+
+    public final DoubleOption turning = new DoubleOption(this, "usage", "TurningUsage", 50D,
+            "Energy per operation tick (Joules).");
+
+    public final DoubleOption alloy = new DoubleOption(this, "usage", "AlloyUsage", 50D,
+            "Energy per operation tick (Joules).");
+
+    public final DoubleOption cellExtractor = new DoubleOption(this, "usage", "CellExtractorUsage", 50D,
+            "Energy per operation tick (Joules).");
+
+    public final DoubleOption cellSeparator = new DoubleOption(this, "usage", "CellSeparatorUsage", 50D,
+            "Energy per operation tick (Joules).");
+
 }
