@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import mekanism.api.Coord4D;
 import mekanism.client.render.MekanismRenderer.DisplayInteger;
 import mekanism.client.render.MekanismRenderer.GlowInfo;
 import mekanism.client.render.MekanismRenderer.Model3D;
@@ -48,24 +47,17 @@ public final class MinerVisualRenderer {
         if (cachedVisuals.containsKey(data)) {
             return cachedVisuals.get(data);
         }
-
         DisplayInteger display = DisplayInteger.createAndStart();
         cachedVisuals.put(data, display);
-
         List<Model3D> models = new ArrayList<>();
 
+        Model3D toReturn = new Model3D();
         if (data.radius <= 64) {
-            for (int x = -data.radius; x <= data.radius; x++) {
-                for (int y = data.minY - data.yCoord; y <= data.maxY - data.yCoord; y++) {
-                    for (int z = -data.radius; z <= data.radius; z++) {
-                        if (x == -data.radius || x == data.radius || y == data.minY - data.yCoord || y == data.maxY - data.yCoord || z == -data.radius || z == data.radius) {
-                            models.add(createModel(new Coord4D(x, y, z, mc.world.provider.getDimension())));
-                        }
-                    }
-                }
-            }
+            toReturn.setBlockBounds(-data.radius, data.minY - data.yCoord, -data.radius, data.radius + 1, data.maxY - data.yCoord, data.radius + 1);
+            toReturn.baseBlock = Blocks.WATER;
+            toReturn.setTexture(MekanismRenderer.whiteIcon);
+            models.add(toReturn);
         }
-
         for (Model3D model : models) {
             MekanismRenderer.renderObject(model);
         }
@@ -75,15 +67,6 @@ public final class MinerVisualRenderer {
         return display;
     }
 
-    private static Model3D createModel(Coord4D rel) {
-        Model3D toReturn = new Model3D();
-
-        toReturn.setBlockBounds(rel.x + 0.4, rel.y + 0.4, rel.z + 0.4, rel.x + 0.6, rel.y + 0.6, rel.z + 0.6);
-        toReturn.baseBlock = Blocks.WATER;
-        toReturn.setTexture(MekanismRenderer.whiteIcon);
-
-        return toReturn;
-    }
 
     private static double getX(int x) {
         return x - TileEntityRendererDispatcher.staticPlayerX;
