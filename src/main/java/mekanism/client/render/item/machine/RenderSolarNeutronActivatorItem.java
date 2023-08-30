@@ -21,6 +21,6 @@ public class RenderSolarNeutronActivatorItem {
         GlStateManager.scale(0.6F, 0.6F, 0.6F);
         GlStateManager.translate(0, -0.55F, 0);
         MekanismRenderer.bindTexture(MekanismUtils.getResource(ResourceType.RENDER, "SolarNeutronActivator.png"));
-        solarNeutronActivator.render(0.0625F);
+        solarNeutronActivator.render(0.0625F,false);
     }
 }

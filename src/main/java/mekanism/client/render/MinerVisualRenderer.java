@@ -1,8 +1,6 @@
 package mekanism.client.render;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import mekanism.client.render.MekanismRenderer.DisplayInteger;
 import mekanism.client.render.MekanismRenderer.GlowInfo;
@@ -49,17 +47,13 @@ public final class MinerVisualRenderer {
         }
         DisplayInteger display = DisplayInteger.createAndStart();
         cachedVisuals.put(data, display);
-        List<Model3D> models = new ArrayList<>();
 
         Model3D toReturn = new Model3D();
         if (data.radius <= 64) {
-            toReturn.setBlockBounds(-data.radius, data.minY - data.yCoord, -data.radius, data.radius + 1, data.maxY - data.yCoord, data.radius + 1);
+            toReturn.setBlockBounds(-data.radius + 0.01, data.minY - data.yCoord + 0.01, -data.radius + 0.01, data.radius + 1 - 0.01, data.maxY - data.yCoord + 1 - 0.01, data.radius + 1 - 0.01);
             toReturn.baseBlock = Blocks.WATER;
             toReturn.setTexture(MekanismRenderer.whiteIcon);
-            models.add(toReturn);
-        }
-        for (Model3D model : models) {
-            MekanismRenderer.renderObject(model);
+            MekanismRenderer.renderObject(toReturn);
         }
 
         DisplayInteger.endList();

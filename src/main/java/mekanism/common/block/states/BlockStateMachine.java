@@ -130,7 +130,8 @@ public class BlockStateMachine extends ExtendedBlockState {
         //TODO
         //CELL_CULTIVATE(MachineBlock.MACHINE_BLOCK_4, 5, "CellCultivate", 69, TileEntityCellCultivate::new, true, false, true, Plane.HORIZONTAL, true),
         CELL_EXTRACTOR(MachineBlock.MACHINE_BLOCK_4, 6, "CellExtractor", 70, TileEntityCellExtractor::new, true, false, true, Plane.HORIZONTAL, true),
-        CELL_SEPARATOR(MachineBlock.MACHINE_BLOCK_4, 7, "CellSeparator", 71, TileEntityCellSeparator::new, true, false, true, Plane.HORIZONTAL, true);
+        CELL_SEPARATOR(MachineBlock.MACHINE_BLOCK_4, 7, "CellSeparator", 71, TileEntityCellSeparator::new, true, false, true, Plane.HORIZONTAL, true),
+        RECYCLER(MachineBlock.MACHINE_BLOCK_4, 8, "Recycler", 72, TileEntityRecycler::new, true, false, true, Plane.HORIZONTAL, true);
 
         public MachineBlock typeBlock;
         public int meta;
@@ -308,6 +309,8 @@ public class BlockStateMachine extends ExtendedBlockState {
                     return MekanismConfig.current().usage.cellExtractor.val();
                 case CELL_SEPARATOR:
                     return MekanismConfig.current().usage.cellSeparator.val();
+                case RECYCLER:
+                    return MekanismConfig.current().usage.recycler.val();
                 default:
                     return 0;
             }
@@ -390,6 +393,8 @@ public class BlockStateMachine extends ExtendedBlockState {
                     return MekanismConfig.current().storage.cellExtractor.val();
                 case CELL_SEPARATOR:
                     return MekanismConfig.current().storage.cellSeparator.val();
+                case RECYCLER:
+                    return MekanismConfig.current().storage.recycler.val();
                 default:
                     return 400 * getUsage();
             }

@@ -140,6 +140,8 @@ public class MekanismJEI implements IModPlugin {
                 "tile.MachineBlock4.CellExtractor.name", ProgressBar.BAR));
         addRecipeCategory(registry, MachineType.CELL_SEPARATOR, new ChanceMachineRecipeCategory(guiHelper, Recipe.CELL_SEPARATOR.getJEICategory(),
                 "tile.MachineBlock4.CellSeparator.name", ProgressBar.BAR));
+        addRecipeCategory(registry, MachineType.RECYCLER, new Chance2MachineRecipeCategory(guiHelper, Recipe.RECYCLER.getJEICategory(), "tile.MachineBlock4.Recycler.name",
+                ProgressBar.BAR));
         /**
          * ADD END
          */
@@ -200,6 +202,7 @@ public class MekanismJEI implements IModPlugin {
         RecipeRegistryHelper.registerAlloy(registry);
         RecipeRegistryHelper.registerCellExtractor(registry);
         RecipeRegistryHelper.registerCellSeparator(registry);
+        RecipeRegistryHelper.registerRecycler(registry);
         /**
          * ADD END
          */

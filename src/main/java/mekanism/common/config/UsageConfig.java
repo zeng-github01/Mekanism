@@ -122,4 +122,7 @@ public class UsageConfig extends BaseConfig {
     public final DoubleOption cellSeparator = new DoubleOption(this, "usage", "CellSeparatorUsage", 50D,
             "Energy per operation tick (Joules).");
 
+    public final DoubleOption recycler = new DoubleOption(this, "usage", "RecyclerUsage", 50D,
+            "Energy per operation tick (Joules).");
+
 }

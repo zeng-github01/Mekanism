@@ -90,6 +90,7 @@ public class MekanismTEFixer extends TEFixer {
         putEntry("Alloy", "alloy");
         putEntry("CellExtractor", "cell_extractor");
         putEntry("CellSeparator", "cell_separator");
+        putEntry("Recycler", "Recycler");
         //End of addition
 
     }

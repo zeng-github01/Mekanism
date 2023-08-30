@@ -310,6 +310,11 @@ public final class RecipeHandler {
     public static void addCellSeparatorRecipe(ItemStack input, ItemStack primaryOutput) {
         addRecipe(Recipe.CELL_SEPARATOR, new CellSeparatorRecipe(input, primaryOutput));
     }
+
+    public static void addRecyclerRecipe(ItemStack input, ItemStack primaryOutput, double chance) {
+        addRecipe(Recipe.RECYCLER, new RecyclerRecipe(input, primaryOutput, chance));
+    }
+
     /**
     * Add End
      */
@@ -467,6 +472,11 @@ public final class RecipeHandler {
         return getRecipe(input, Recipe.NUTRITIONAL_LIQUIFIER);
     }
 
+    @Nullable public static <RECIPE extends Chance2MachineRecipe<RECIPE>> RECIPE getChance2Recipe(@Nonnull ItemStackInput input, @Nonnull Map<ItemStackInput, RECIPE> recipes) {
+        return getRecipe(input, recipes);
+    }
+
+
     /**
      * Gets the whether the input ItemStack is in a recipe
      *
@@ -596,6 +606,9 @@ public final class RecipeHandler {
 
         public static final Recipe<ItemStackInput, ChanceOutput, CellSeparatorRecipe> CELL_SEPARATOR = new Recipe<>(
                 MachineType.CELL_SEPARATOR, ItemStackInput.class, ChanceOutput.class, CellSeparatorRecipe.class);
+
+        public static final Recipe<ItemStackInput, ChanceOutput2, RecyclerRecipe> RECYCLER = new Recipe<>(
+                MachineType.RECYCLER, ItemStackInput.class, ChanceOutput2.class, RecyclerRecipe.class);
         /**
          * ADD END
          */

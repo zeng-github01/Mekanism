@@ -45,6 +45,7 @@ public class GrSMekanismAdd {
         public Alloy alloy = new Alloy();
         public CellExtractor cellExtractor = new CellExtractor();
         public CellSeparator cellSeparator = new CellSeparator();
+        public Recycler recycler = new Recycler();
 
         public Container() {
             addRegistry(smelter);
@@ -59,6 +60,7 @@ public class GrSMekanismAdd {
             addRegistry(alloy);
             addRegistry(cellExtractor);
             addRegistry(cellSeparator);
+            addRegistry(recycler);
         }
     }
 }

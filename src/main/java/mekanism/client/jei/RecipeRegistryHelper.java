@@ -376,6 +376,15 @@ public class RecipeRegistryHelper {
         registry.addRecipeClickArea(GuiCellSeparator.class, 79, 40, 24, 7, Recipe.CELL_SEPARATOR.getJEICategory());
         registerRecipeItem(registry, MachineType.CELL_SEPARATOR, Recipe.CELL_SEPARATOR);
     }
+
+    public static void registerRecycler(IModRegistry registry) {
+        if (!MachineType.RECYCLER.isEnabled()) {
+            return;
+        }
+        addRecipes(registry, Recipe.RECYCLER, Chance2MachineRecipeWrapper::new);
+        registry.addRecipeClickArea(GuiRecycler.class, 79, 40, 24, 7, Recipe.RECYCLER.getJEICategory());
+        registerRecipeItem(registry, MachineType.RECYCLER, Recipe.RECYCLER);
+    }
     /**
      * ADD END
      */

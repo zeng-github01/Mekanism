@@ -334,6 +334,7 @@ public class Mekanism {
         registerTileEntity(TileEntityAlloy.class, "alloy");
         registerTileEntity(TileEntityCellExtractor.class, "cell_extractor");
         registerTileEntity(TileEntityCellSeparator.class, "cell_separator");
+        registerTileEntity(TileEntityRecycler.class, "Recycler");
         /**
          * End of adding machine
          */

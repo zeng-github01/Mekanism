@@ -114,4 +114,7 @@ public class StorageConfig extends BaseConfig {
 
     public final DoubleOption cellSeparator = new DoubleOption(this, "storage", "CellSeparatorStorage", 20000D,
             "Base energy storage (Joules).");
+
+    public final DoubleOption recycler = new DoubleOption(this, "storage", "RecyclerStorage", 20000D,
+            "Base energy storage (Joules).");
 }

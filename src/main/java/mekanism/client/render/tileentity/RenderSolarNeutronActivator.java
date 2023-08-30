@@ -22,7 +22,7 @@ public class RenderSolarNeutronActivator extends TileEntitySpecialRenderer<TileE
         bindTexture(MekanismUtils.getResource(ResourceType.RENDER, "SolarNeutronActivator.png"));
         MekanismRenderer.rotate(tileEntity.facing, 0, 180, 90, 270);
         GlStateManager.rotate(180, 0, 0, 1);
-        model.render(0.0625F);
+        model.render(0.0625F,tileEntity.getActive());
         GlStateManager.popMatrix();
         MekanismRenderer.machineRenderer().render(tileEntity, x, y, z, partialTick, destroyStage, alpha);
     }

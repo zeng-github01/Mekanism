@@ -33,6 +33,7 @@ import mekanism.common.recipe.inputs.InfusionInput;
 import mekanism.common.recipe.inputs.ItemStackInput;
 import mekanism.common.recipe.machines.*;
 import mekanism.common.recipe.outputs.ChanceOutput;
+import mekanism.common.recipe.outputs.ChanceOutput2;
 import mekanism.common.recipe.outputs.ItemStackOutput;
 import mekanism.common.recipe.outputs.PressurizedOutput;
 import mekanism.common.tier.BaseTier;
@@ -467,6 +468,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             ItemStack recipeOutput = ItemStack.EMPTY;
             if (cached.recipeOutput instanceof ItemStackOutput) {
                 recipeOutput = ((ItemStackOutput) cached.recipeOutput).output;
+            }else if (cached.recipeOutput instanceof ChanceOutput2) {
+                recipeOutput = ((ChanceOutput2) cached.recipeOutput).primaryOutput;
             }/* else if (cached.recipeOutput instanceof PressurizedOutput) {
                 //TODO: uncomment if we add a PRC factory
                 recipeOutput = ((PressurizedOutput) cached.recipeOutput).getItemOutput();
@@ -660,6 +663,13 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             FarmMachineRecipe<?> recipe = recipeType.getFarmRecipe(inventory.get(inputSlot), gasTank.getGasType());
             cachedRecipe[process] = recipe;
             return recipe != null && recipe.canOperate(inventory, inputSlot, gasTank, secondaryEnergyThisTick, outputSlot, 4);
+        }else if (recipeType.getFuelType() == MachineFuelType.CHANCE2) {
+            if (cachedRecipe[process] instanceof Chance2MachineRecipe && ((Chance2MachineRecipe) cachedRecipe[process]).inputMatches(inventory, inputSlot)) {
+                return ((Chance2MachineRecipe) cachedRecipe[process]).canOperate(inventory, inputSlot, outputSlot);
+            }
+            Chance2MachineRecipe<?> recipe = recipeType.getChance2Recipe(inventory.get(inputSlot));
+            cachedRecipe[process] = recipe;
+            return recipe != null && recipe.canOperate(inventory, inputSlot, outputSlot);
         }
 
         if (recipeType == RecipeType.INFUSING) {
@@ -709,6 +719,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         } else if (recipeType.getFuelType() == MachineFuelType.FARM && cachedRecipe[process] instanceof FarmMachineRecipe) {
             FarmMachineRecipe<?> recipe = (FarmMachineRecipe<?>) cachedRecipe[process];
             recipe.operate(inventory, inputSlot, gasTank, secondaryEnergyThisTick, outputSlot, 4);
+        } else if (recipeType.getFuelType() == MachineFuelType.CHANCE2 && cachedRecipe[process] instanceof Chance2MachineRecipe) {
+            Chance2MachineRecipe<?> recipe = (Chance2MachineRecipe<?>) cachedRecipe[process];
+            recipe.operate(inventory, inputSlot, outputSlot);
         } else {
             BasicMachineRecipe<?> recipe = (BasicMachineRecipe<?>) cachedRecipe[process];
             recipe.operate(inventory, inputSlot, outputSlot);
@@ -1085,6 +1098,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 recipeOutput = ((ItemStackOutput) cached.recipeOutput).output;
             } else if (cached.recipeOutput instanceof ChanceOutput) {
                 recipeOutput = ((ChanceOutput) cached.recipeOutput).primaryOutput;
+            } else if (cached.recipeOutput instanceof ChanceOutput2) {
+                recipeOutput = ((ChanceOutput2) cached.recipeOutput).primaryOutput;
             }
             if (cached.recipeOutput instanceof PressurizedOutput) {
                 recipeOutput = ((PressurizedOutput) cached.recipeOutput).getItemOutput();

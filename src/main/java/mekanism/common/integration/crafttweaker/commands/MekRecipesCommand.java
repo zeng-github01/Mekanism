@@ -51,7 +51,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                 "turning",
                 "alloy",
                 "cellextractor",
-                "cellseparator"
+                "cellseparator",
+                "recycler"
         ).collect(Collectors.toList());
     }
 
@@ -360,6 +361,16 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getItemName(recipe.getOutput().primaryOutput),
                             RecipeInfoHelper.getItemName(recipe.getOutput().secondaryOutput),
                             recipe.getOutput().secondaryChance
+                    ));
+                }
+                break;
+            case "recycler":
+                type = Recipe.RECYCLER;
+                for (RecyclerRecipe recipe : Recipe.RECYCLER.get().values()) {
+                    CraftTweakerAPI.logCommand(String.format("mods.mekanism.recycler.addRecipe(%s, %s, %s)",
+                            RecipeInfoHelper.getItemName(recipe.getInput().ingredient),
+                            RecipeInfoHelper.getItemName(recipe.getOutput().primaryOutput),
+                            recipe.getOutput().primaryChance
                     ));
                 }
                 break;

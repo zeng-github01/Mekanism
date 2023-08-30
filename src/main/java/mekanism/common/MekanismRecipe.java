@@ -386,6 +386,10 @@ public class MekanismRecipe {
             RecipeHandler.addCellSeparatorRecipe(new ItemStack(Blocks.IRON_ORE), new ItemStack(Blocks.IRON_BLOCK), new ItemStack(Items.IRON_INGOT), 1);
         }
 
+        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.RECYCLER)) {
+            RecipeHandler.addRecyclerRecipe(new ItemStack(Blocks.DIRT), new ItemStack(MekanismItems.Scrap, 1), 1F / 6F);
+        }
+
         /**
          * ADD END
          */

@@ -220,6 +220,12 @@ public class APIHandler implements MekanismRecipeHelper {
         RecipeHandler.addCellSeparatorRecipe(input, primaryOutput);
     }
 
+    @Override
+    public void addRecyclerRecipe(ItemStack input, ItemStack primaryOutput, double chance) {
+        checkPhase();
+        RecipeHandler.addRecyclerRecipe(input, primaryOutput, chance);
+    }
+
     /**
      * ADD END
      */

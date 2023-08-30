@@ -47,13 +47,10 @@ public class GuiChanceMachine<RECIPE extends ChanceMachineRecipe<RECIPE>> extend
             public double getProgress() {
                 return tileEntity.getScaledProgress();
             }
-        }, getProgressType(), this, resource, 77, 37));
+        }, ProgressBar.BAR, this, resource, 77, 37));
         addGuiElement(new GuiPlayerSlot(this, resource));
     }
 
-    public ProgressBar getProgressType() {
-        return ProgressBar.BAR;
-    }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {

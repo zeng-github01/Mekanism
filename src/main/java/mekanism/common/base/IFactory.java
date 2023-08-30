@@ -63,7 +63,8 @@ public interface IFactory {
         ADVANCED,
         DOUBLE,
         CHANCE,
-        FARM
+        FARM,
+        CHANCE2
     }
 
     enum RecipeType implements IStringSerializable {
@@ -83,7 +84,8 @@ public interface IFactory {
         AllOY("Alloy", "alloy", MachineType.ALLOY, MachineFuelType.DOUBLE, false, Recipe.ALLOY),
         EXTRACTOR("Extractor", "extractor", MachineType.CELL_EXTRACTOR, MachineFuelType.CHANCE, false, Recipe.CELL_EXTRACTOR),
         SEPARATOR("Separator", "separator", MachineType.CELL_SEPARATOR, MachineFuelType.CHANCE, false, Recipe.CELL_SEPARATOR),
-        FARM("Farm", "farm", MachineType.ORGANIC_FARM, MachineFuelType.FARM, true, Recipe.ORGANIC_FARM);
+        FARM("Farm", "farm", MachineType.ORGANIC_FARM, MachineFuelType.FARM, true, Recipe.ORGANIC_FARM),
+        RECYCLER("Recycler", "Recycler", MachineType.RECYCLER, MachineFuelType.CHANCE2, false, Recipe.RECYCLER);
         private String name;
         private SoundEvent sound;
         private MachineType type;
@@ -177,6 +179,14 @@ public interface IFactory {
             return getFarmRecipe(new AdvancedMachineInput(input, gas));
         }
 
+        public Chance2MachineRecipe getChance2Recipe(ItemStackInput input) {
+            return (Chance2MachineRecipe) RecipeHandler.getRecipe(input, recipe);
+        }
+
+        public Chance2MachineRecipe getChance2Recipe(ItemStack input) {
+            return getChance2Recipe(new ItemStackInput(input));
+        }
+
         @Nullable public MachineRecipe getAnyRecipe(ItemStack slotStack, ItemStack extraStack, Gas gasType, InfuseStorage infuse) {
             if (fuelType == MachineFuelType.ADVANCED) {
                 return getRecipe(slotStack, gasType);
@@ -186,6 +196,8 @@ public interface IFactory {
                 return getChanceRecipe(slotStack);
             } else if (fuelType == MachineFuelType.FARM) {
                 return getFarmRecipe(slotStack, gasType);
+            } else if (fuelType == MachineFuelType.CHANCE2) {
+                return getChance2Recipe(slotStack);
             } else if (this == INFUSING) {
                 if (infuse.getType() != null) {
                     return RecipeHandler.getMetallurgicInfuserRecipe(new InfusionInput(infuse, slotStack));

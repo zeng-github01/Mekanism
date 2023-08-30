@@ -198,4 +198,6 @@ public interface MekanismRecipeHelper {
     void addCellSeparatorRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, double chance);
 
     void addCellSeparatorRecipe(ItemStack input, ItemStack primaryOutput);
+
+    void addRecyclerRecipe(ItemStack input, ItemStack primaryOutput, double chance);
 }
