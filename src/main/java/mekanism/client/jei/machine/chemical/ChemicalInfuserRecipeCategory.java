@@ -23,13 +23,13 @@ public class ChemicalInfuserRecipeCategory<WRAPPER extends ChemicalInfuserRecipe
 
     @Override
     protected void addGuiElements() {
-        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 25, 13));
-        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 79, 4));
-        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 133, 13));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 154, 4).with(GuiSlot.SlotOverlay.POWER));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 154, 55).with(GuiSlot.SlotOverlay.MINUS));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 4, 55).with(GuiSlot.SlotOverlay.MINUS));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 79, 64).with(GuiSlot.SlotOverlay.PLUS));
+        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 25, 13).withColor(GuiGauge.TypeColor.RED));
+        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 79, 4).withColor(GuiGauge.TypeColor.BLUE));
+        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 133, 13).withColor(GuiGauge.TypeColor.ORANGE));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.POWER, this, guiLocation, 154, 4).with(GuiSlot.SlotOverlay.POWER));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.EXTRA, this, guiLocation, 154, 55).with(GuiSlot.SlotOverlay.MINUS));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.INPUT, this, guiLocation, 4, 55).with(GuiSlot.SlotOverlay.MINUS));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, guiLocation, 79, 64).with(GuiSlot.SlotOverlay.PLUS));
 
         guiElements.add(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override

@@ -31,10 +31,10 @@ public class RotaryCondensentratorRecipeCategory extends BaseRecipeCategory<Rota
     protected void addGuiElements() {
         guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 133, 13));
         guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 25, 13));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 4, 24).with(GuiSlot.SlotOverlay.PLUS));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 4, 55).with(GuiSlot.SlotOverlay.MINUS));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 154, 24));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 154, 55));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.INPUT, this, guiLocation, 4, 24).with(GuiSlot.SlotOverlay.PLUS));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, guiLocation, 4, 55).with(GuiSlot.SlotOverlay.MINUS));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.INPUT, this, guiLocation, 154, 24));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, guiLocation, 154, 55));
     }
 
     @Override

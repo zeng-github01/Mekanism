@@ -1,6 +1,8 @@
 package mekanism.generators.client.gui;
 
 import java.util.Arrays;
+
+import mekanism.api.gas.GasStack;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
@@ -44,9 +46,9 @@ public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
-        fontRenderer.drawString(MekanismUtils.getEnergyDisplay(tileEntity.getEnergy()), 51, 26, 0x00CD00);
-        fontRenderer.drawString(LangUtils.localize("gui.bioGenerator.bioFuel") + ": " + tileEntity.bioFuelSlot.fluidStored, 51, 35, 0x00CD00);
-        fontRenderer.drawString(LangUtils.localize("gui.out") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t", 51, 44, 0x00CD00);
+        fontRenderer.drawString(MekanismUtils.getEnergyDisplay(tileEntity.getEnergy()), 51, 26, 0xFF3CFE9A);
+        fontRenderer.drawString(LangUtils.localize("gui.bioGenerator.bioFuel") + ": " + tileEntity.bioFuelSlot.fluidStored, 51, 35, 0xFF3CFE9A);
+        fontRenderer.drawString(LangUtils.localize("gui.out") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t", 51, 44, 0xFF3CFE9A);
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
     }
@@ -55,18 +57,16 @@ public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         if (tileEntity.getScaledFuelLevel(52) > 0) {
-            MekanismRenderer.color(MekanismFluids.Biofuel);
             int displayInt = tileEntity.getScaledFuelLevel(52);
-            displayGauge(7, 17 + 52 - displayInt, 4, displayInt, MekanismFluids.Biofuel.getSprite());
+            displayGauge2(7, 17 + 52 - displayInt, 4, displayInt);
             MekanismRenderer.resetColor();
         }
     }
 
-    public void displayGauge(int xPos, int yPos, int sizeX, int sizeY, TextureAtlasSprite icon) {
-        if (icon != null) {
+    public void displayGauge2(int xPos, int yPos, int sizeX, int sizeY) {
             mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-            drawTexturedModalRect(guiLeft + xPos, guiTop + yPos, icon, sizeX, sizeY);
-        }
+            MekanismRenderer.color(MekanismFluids.Biofuel);
+            drawTexturedModalRect(guiLeft + xPos, guiTop + yPos, MekanismFluids.Biofuel.getSprite(), sizeX, sizeY);
+            MekanismRenderer.resetColor();
     }
-
 }

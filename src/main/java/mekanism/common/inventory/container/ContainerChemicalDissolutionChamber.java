@@ -79,9 +79,9 @@ public class ContainerChemicalDissolutionChamber extends ContainerMekanism<TileE
 
     @Override
     protected void addSlots() {
-        addSlotToContainer(new SlotStorageTank(tileEntity, 0, 6, 65));
-        addSlotToContainer(new Slot(tileEntity, 1, 26, 36));
-        addSlotToContainer(new SlotStorageTank(tileEntity, 2, 155, 25));
-        addSlotToContainer(new SlotDischarge(tileEntity, 3, 155, 5));
+        addSlotToContainer(new SlotStorageTank(tileEntity, 0, 8, 65));
+        addSlotToContainer(new Slot(tileEntity, 1, 28, 36));
+        addSlotToContainer(new SlotStorageTank(tileEntity, 2, 152, 55));
+        addSlotToContainer(new SlotDischarge(tileEntity, 3, 152, 14));
     }
 }

@@ -42,10 +42,10 @@ public class GuiChemicalOxidizer extends GuiMekanismTile<TileEntityChemicalOxidi
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
                     LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
-        addGuiElement(new GuiGasGauge(() -> tileEntity.gasTank, GuiGauge.Type.STANDARD, this, resource, 133, 13));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 154, 4).with(SlotOverlay.POWER));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 25, 35));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 154, 24).with(SlotOverlay.PLUS));
+        addGuiElement(new GuiGasGauge(() -> tileEntity.gasTank, GuiGauge.Type.STANDARD, this, resource, 131, 13).withColor(GuiGauge.TypeColor.BLUE));
+        addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 153, 13).with(SlotOverlay.POWER));
+        addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 25, 35));
+        addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 153, 54).with(SlotOverlay.PLUS));
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
@@ -87,8 +87,8 @@ public class GuiChemicalOxidizer extends GuiMekanismTile<TileEntityChemicalOxidi
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
         if (output) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI, "Warning.png"));
-            drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 1, 9, 1, 8, 29);
-            drawTexturedModalRect(guiLeft + 133 + 9, guiTop + 13 + 31, 9, 32, 8, 28);
+            drawTexturedModalRect(guiLeft + 131 + 9, guiTop + 13 + 1, 9, 1, 8, 29);
+            drawTexturedModalRect(guiLeft + 131 + 9, guiTop + 13 + 31, 9, 32, 8, 28);
         }
         if (output || energy) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.TAB, "Warning_Info.png"));

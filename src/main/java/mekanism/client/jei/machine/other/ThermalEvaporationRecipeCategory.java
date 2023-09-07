@@ -8,6 +8,7 @@ import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.machines.ThermalEvaporationRecipe;
+import mekanism.common.util.MekanismUtils;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IGuiFluidStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -25,10 +26,10 @@ public class ThermalEvaporationRecipeCategory<WRAPPER extends ThermalEvaporation
     protected void addGuiElements() {
         guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 6, 13));
         guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 152, 13));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 27, 19));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 27, 50));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 131, 19));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 131, 50));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.INPUT, this, guiLocation, 27, 19));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.INPUT, this, guiLocation, 27, 50));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, guiLocation, 131, 19));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, guiLocation, 131, 50));
         guiElements.add(new GuiInnerScreen(this, guiLocation, 48, 19, 80, 40));
         guiElements.add(new GuiRateBarHorizontal(this, new GuiRateBarHorizontal.IRateInfoHandler() {
             @Override
@@ -41,8 +42,9 @@ public class ThermalEvaporationRecipeCategory<WRAPPER extends ThermalEvaporation
     @Override
     public void drawExtras(Minecraft minecraft) {
         super.drawExtras(minecraft);
-        drawTexturedRect(32 - xOffset, 39 - yOffset, 20, 179, 8, 9);
-        drawTexturedRect(136 - xOffset, 39 - yOffset, 20, 179, 8, 9);
+        minecraft.renderEngine.bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Other_Icon.png"));
+        drawTexturedRect(32 - xOffset, 39 - yOffset, 13, 0, 8, 9);
+        drawTexturedRect(136 - xOffset, 39 - yOffset, 13, 0, 8, 9);
     }
 
 

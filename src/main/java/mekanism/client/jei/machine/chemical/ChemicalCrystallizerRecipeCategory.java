@@ -25,8 +25,8 @@ public class ChemicalCrystallizerRecipeCategory<WRAPPER extends ChemicalCrystall
 
     @Override
     protected void addGuiElements() {
-        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 5, 4));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.EXTRA, this, guiLocation, 5, 64).with(GuiSlot.SlotOverlay.PLUS));
+        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 5, 4).withColor(GuiGauge.TypeColor.RED));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.INPUT, this, guiLocation, 5, 64).with(GuiSlot.SlotOverlay.PLUS));
         guiElements.add(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, guiLocation, 130, 56));
         guiElements.add(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override

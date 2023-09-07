@@ -36,10 +36,10 @@ public class GuiNutritionalLiquifier extends GuiMekanismTile<TileEntityNutrition
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
                     LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
-        addGuiElement(new GuiGasGauge(() -> tileEntity.gasTank, GuiGauge.Type.STANDARD, this, resource, 133, 13));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 154, 4).with(GuiSlot.SlotOverlay.POWER));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 25, 35));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 154, 24).with(GuiSlot.SlotOverlay.PLUS));
+        addGuiElement(new GuiGasGauge(() -> tileEntity.gasTank, GuiGauge.Type.STANDARD, this, resource, 133, 13).withColor(GuiGauge.TypeColor.BLUE));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER, this, resource, 153, 13).with(GuiSlot.SlotOverlay.POWER));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.INPUT, this, resource, 25, 35));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, resource, 153, 54).with(GuiSlot.SlotOverlay.PLUS));
         addGuiElement(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override
             public double getProgress() {

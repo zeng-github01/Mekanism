@@ -47,7 +47,7 @@ public class GuiRobitMain extends GuiMekanism {
         robit = entity;
         addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER, this, getGuiLocation(), 152, 16).with(GuiSlot.SlotOverlay.POWER));
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
-        addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 28, 17, 120, 54));
+        addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 27, 16, 122, 56));
         addGuiElement(new GuiSideHolder(this, getGuiLocation(), 176, 6, 25, 106));
         addGuiElement(new GuiBar(() -> (MekanismUtils.getEnergyDisplay(robit.getEnergy(), robit.MAX_ELECTRICITY)), this, getGuiLocation(), 27, 74, 122, 6));
     }
@@ -134,12 +134,11 @@ public class GuiRobitMain extends GuiMekanism {
 
         if (!displayNameChange) {
             CharSequence owner = robit.getOwnerName().length() > 14 ? robit.getOwnerName().subSequence(0, 14) : robit.getOwnerName();
-            fontRenderer.drawString(LangUtils.localize("gui.robit.greeting") + " " + robit.getName() + "!", 29, 18, 0x00CD00);
-            fontRenderer.drawString(LangUtils.localize("gui.energy") + ": " + MekanismUtils.getEnergyDisplay(robit.getEnergy(), robit.MAX_ELECTRICITY),
-                    29, 36 - 4, 0x00CD00);
-            fontRenderer.drawString(LangUtils.localize("gui.robit.following") + ": " + robit.getFollowing(), 29, 45 - 4, 0x00CD00);
-            fontRenderer.drawString(LangUtils.localize("gui.robit.dropPickup") + ": " + robit.getDropPickup(), 29, 54 - 4, 0x00CD00);
-            fontRenderer.drawString(LangUtils.localize("gui.robit.owner") + ": " + owner, 29, 63 - 4, 0x00CD00);
+            fontRenderer.drawString(LangUtils.localize("gui.robit.greeting")  + robit.getName() + LangUtils.localize("!"), 29, 18, 0xFF3CFE9A);
+            fontRenderer.drawString(LangUtils.localize("gui.energy") + ": " + MekanismUtils.getEnergyDisplay(robit.getEnergy(), robit.MAX_ELECTRICITY), 29, 36 - 4, 0xFF3CFE9A);
+            fontRenderer.drawString(LangUtils.localize("gui.robit.following") + " : " + robit.getFollowing(), 29, 45 - 4, 0xFF3CFE9A);
+            fontRenderer.drawString(LangUtils.localize("gui.robit.dropPickup") + " : " + robit.getDropPickup(), 29, 54 - 4, 0xFF3CFE9A);
+            fontRenderer.drawString(LangUtils.localize("gui.robit.owner") + " : " + owner, 29, 63 - 4, 0xFF3CFE9A);
         }
 
         int xAxis = mouseX - guiLeft;

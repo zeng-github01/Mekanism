@@ -197,12 +197,12 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String config = LangUtils.localize("gui.digitalMinerConfig");
         fontRenderer.drawString(config, (xSize / 2) - (fontRenderer.getStringWidth(config) / 2), 4, 0x404040);
-        fontRenderer.drawString(LangUtils.localize("gui.filters") + ":", 11, 19, 0x00CD00);
-        fontRenderer.drawString("T: " + tileEntity.filters.size(), 11, 28, 0x00CD00);
-        fontRenderer.drawString("I: " + LangUtils.transOnOff(tileEntity.inverse), 11, 131, 0x00CD00);
-        fontRenderer.drawString(LangUtils.localize("gui.radi") + ": " + tileEntity.getRadius(), 11, 58, 0x00CD00);
-        fontRenderer.drawString(LangUtils.localize("gui.min") + ": " + tileEntity.minY, 11, 83, 0x00CD00);
-        fontRenderer.drawString(LangUtils.localize("gui.max") + ": " + +tileEntity.maxY, 11, 108, 0x00CD00);
+        fontRenderer.drawString(LangUtils.localize("gui.filters") + ":", 11, 19, 0xFF3CFE9A);
+        fontRenderer.drawString("T: " + tileEntity.filters.size(), 11, 28, 0xFF3CFE9A);
+        fontRenderer.drawString("I: " + LangUtils.transOnOff(tileEntity.inverse), 11, 131, 0xFF3CFE9A);
+        fontRenderer.drawString(LangUtils.localize("gui.radi") + ": " + tileEntity.getRadius(), 11, 58, 0xFF3CFE9A);
+        fontRenderer.drawString(LangUtils.localize("gui.min") + ": " + tileEntity.minY, 11, 83, 0xFF3CFE9A);
+        fontRenderer.drawString(LangUtils.localize("gui.max") + ": " + +tileEntity.maxY, 11, 108, 0xFF3CFE9A);
 
         for (int i = 0; i < 4; i++) {
             IFilter filter = tileEntity.filters.get(getFilterIndex() + i);

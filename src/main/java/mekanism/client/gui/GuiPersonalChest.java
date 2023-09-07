@@ -37,7 +37,7 @@ public class GuiPersonalChest extends GuiMekanismTile<TileEntityPersonalChest> {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String chest = LangUtils.localize("tile.MachineBlock.PersonalChest.name");
-        fontRenderer.drawString(chest, (xSize / 2) - (fontRenderer.getStringWidth(chest) / 2), 4, 0x404040);
+        fontRenderer.drawString(chest, (xSize / 2) - (fontRenderer.getStringWidth(chest) / 2), 6, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }

@@ -90,7 +90,7 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
     }
 
     public String getSecurity(Frequency freq) {
-        return !freq.publicFreq ? EnumColor.DARK_RED + LangUtils.localize("gui.private") : LangUtils.localize("gui.public");
+        return !freq.publicFreq ? EnumColor.DARK_RED + LangUtils.localize("gui.private") : EnumColor.BRIGHT_GREEN + LangUtils.localize("gui.public");
     }
 
     public void updateButtons() {

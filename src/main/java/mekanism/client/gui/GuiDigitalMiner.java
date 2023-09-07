@@ -132,9 +132,9 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
         } else {
             runningType = LangUtils.localize("gui.idle");
         }
-        fontRenderer.drawString(runningType, 9, 21, 0x00CD00);
-        fontRenderer.drawString(tileEntity.searcher.state.localize(), 9, 31, 0x00CD00);
-        fontRenderer.drawString(LangUtils.localize("gui.digitalMiner.toMine") + ":" + " " + tileEntity.clientToMine, 9, 41, 0x00CD00);
+        fontRenderer.drawString(runningType, 9, 21, 0xFF3CFE9A);
+        fontRenderer.drawString(tileEntity.searcher.state.localize(), 9, 31, 0xFF3CFE9A);
+        fontRenderer.drawString(LangUtils.localize("gui.digitalMiner.toMine") + ":" + " " + tileEntity.clientToMine, 9, 41, 0xFF3CFE9A);
         if (!tileEntity.missingStack.isEmpty()) {
             drawColorIcon(64, 21, EnumColor.DARK_RED, 0.8F);
             renderItem(tileEntity.missingStack, 64, 21);

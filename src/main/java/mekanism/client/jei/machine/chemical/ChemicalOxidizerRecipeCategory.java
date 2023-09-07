@@ -27,8 +27,8 @@ public class ChemicalOxidizerRecipeCategory<WRAPPER extends ChemicalOxidizerReci
 
     @Override
     protected void addGuiElements() {
-        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 133, 13));
-        guiElements.add(new GuiSlot(SlotType.NORMAL, this, guiLocation, 25, 35));
+        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 131, 13).withColor(GuiGauge.TypeColor.BLUE));
+        guiElements.add(new GuiSlot(SlotType.INPUT, this, guiLocation, 25, 35));
         guiElements.add(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
@@ -44,6 +44,6 @@ public class ChemicalOxidizerRecipeCategory<WRAPPER extends ChemicalOxidizerReci
         itemStacks.init(0, true, 25 - xOffset, 35 - yOffset);
         itemStacks.set(0, tempRecipe.getInput().ingredient);
         IGuiIngredientGroup<GasStack> gasStacks = recipeLayout.getIngredientsGroup(MekanismJEI.TYPE_GAS);
-        initGas(gasStacks, 0, false, 134 - xOffset, 14 - yOffset, 16, 58, tempRecipe.recipeOutput.output, true);
+        initGas(gasStacks, 0, false, 132 - xOffset, 14 - yOffset, 16, 58, tempRecipe.recipeOutput.output, true);
     }
 }

@@ -45,7 +45,8 @@ public class GuiElectricPump extends GuiMekanismTile<TileEntityElectricPump> {
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        drawTexturedModalRect(guiLeft + 32, guiTop + 39, 20, 179, 8, 9);
+        mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Other_Icon.png"));
+        drawTexturedModalRect(guiLeft + 32, guiTop + 39, 13, 0, 8, 9);
         boolean input = tileEntity.fluidTank.getFluidAmount() == tileEntity.fluidTank.getCapacity();
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
         if (input) {
@@ -64,10 +65,10 @@ public class GuiElectricPump extends GuiMekanismTile<TileEntityElectricPump> {
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 94) + 2, 0x404040);
-        fontRenderer.drawString(MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()), 51, 26, 0x00CD00);
+        fontRenderer.drawString(MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()), 51, 26, 0xFF3CFE9A);
         String text = tileEntity.fluidTank.getFluid() != null ? LangUtils.localizeFluidStack(tileEntity.fluidTank.getFluid()) + ": " + tileEntity.fluidTank.getFluid().amount
                 : LangUtils.localize("gui.noFluid");
-        renderScaledText(text, 51, 35, 0x00CD00, 74);
+        renderScaledText(text, 51, 35, 0xFF3CFE9A, 74);
 
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;

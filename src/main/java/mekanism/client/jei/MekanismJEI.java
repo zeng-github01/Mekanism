@@ -1,8 +1,5 @@
 package mekanism.client.jei;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.GasStack;
@@ -31,6 +28,10 @@ import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 @JEIPlugin
 public class MekanismJEI implements IModPlugin {
@@ -136,12 +137,14 @@ public class MekanismJEI implements IModPlugin {
         addRecipeCategory(registry, MachineType.ROLLING, new MachineRecipeCategory(guiHelper, Recipe.ROLLING.getJEICategory(), "tile.MachineBlock4.Rolling.name", ProgressBar.BAR));
         addRecipeCategory(registry, MachineType.BRUSHED, new MachineRecipeCategory(guiHelper, Recipe.BRUSHED.getJEICategory(), "tile.MachineBlock4.Brushed.name", ProgressBar.BAR));
         addRecipeCategory(registry, MachineType.TURNING, new MachineRecipeCategory(guiHelper, Recipe.TURNING.getJEICategory(), "tile.MachineBlock4.Turning.name", ProgressBar.BAR));
+        addRecipeCategory(registry, MachineType.ALLOY, new DoubleMachineRecipeCategory(guiHelper, Recipe.ALLOY.getJEICategory(), "tile.MachineBlock4.Alloy.name", ProgressBar.BAR));
         addRecipeCategory(registry, MachineType.CELL_EXTRACTOR, new ChanceMachineRecipeCategory(guiHelper, Recipe.CELL_EXTRACTOR.getJEICategory(),
                 "tile.MachineBlock4.CellExtractor.name", ProgressBar.BAR));
         addRecipeCategory(registry, MachineType.CELL_SEPARATOR, new ChanceMachineRecipeCategory(guiHelper, Recipe.CELL_SEPARATOR.getJEICategory(),
                 "tile.MachineBlock4.CellSeparator.name", ProgressBar.BAR));
         addRecipeCategory(registry, MachineType.RECYCLER, new Chance2MachineRecipeCategory(guiHelper, Recipe.RECYCLER.getJEICategory(), "tile.MachineBlock4.Recycler.name",
                 ProgressBar.BAR));
+
         /**
          * ADD END
          */

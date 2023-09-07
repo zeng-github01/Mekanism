@@ -27,7 +27,7 @@ public class GuiDynamicTank extends GuiMekanismTile<TileEntityDynamicTank> {
         super(tile, new ContainerDynamicTank(inventory, tile));
         ResourceLocation resource = getGuiLocation();
         addGuiElement(new GuiContainerEditMode(this, tileEntity, resource));
-        addGuiElement(new GuiInnerScreen(this, resource, 50, 23, 80, 41));
+        addGuiElement(new GuiInnerScreen(this, resource, 49, 21, 84, 46));
         addGuiElement(new GuiPlayerArmmorSlot(this, resource, -26, 62, true));
         addGuiElement(new GuiPlayerSlot(this, resource));
         addGuiElement(new GuiNumberGauge(new GuiNumberGauge.INumberInfoHandler() {
@@ -58,19 +58,20 @@ public class GuiDynamicTank extends GuiMekanismTile<TileEntityDynamicTank> {
             public String getText(double level) {
                 return tileEntity.structure != null ? (tileEntity.structure.fluidStored != null ? LangUtils.localizeFluidStack(tileEntity.structure.fluidStored) + ": " + tileEntity.structure.fluidStored.amount + "mB" : LangUtils.localize("gui.empty")) : "";
             }
-        }, GuiGauge.Type.MEDIUM, this, resource, 6, 13));
+        }, GuiGauge.Type.MEDIUM, this, resource, 7, 13));
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 94) + 2, 0x404040);
-        fontRenderer.drawString(LangUtils.localize("gui.volume") + ": " + tileEntity.clientCapacity / TankUpdateProtocol.FLUID_PER_TANK, 53, 26, 0x00CD00);
         FluidStack fluidStored = tileEntity.structure != null ? tileEntity.structure.fluidStored : null;
-        renderScaledText(fluidStored != null ? LangUtils.localizeFluidStack(fluidStored) + ":" : LangUtils.localize("gui.noFluid"), 53, 44, 0x00CD00, 74);
+        renderScaledText(fluidStored != null ? LangUtils.localizeFluidStack(fluidStored) + ":" : LangUtils.localize("gui.noFluid"), 53, fluidStored != null ? 26 : 35, 0xFF3CFE9A, 74);
         if (fluidStored != null) {
-            fontRenderer.drawString(fluidStored.amount + "mB", 53, 53, 0x00CD00);
+            fontRenderer.drawString(fluidStored.amount + "mB", 53, 35, 0xFF3CFE9A);
         }
+        fontRenderer.drawString(LangUtils.localize("gui.capacity") + ": ", 53, 44, 0xFF3CFE9A);
+        fontRenderer.drawString(tileEntity.clientCapacity  + "mB",53,53,0xFF3CFE9A);
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 

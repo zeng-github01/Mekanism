@@ -27,11 +27,11 @@ public class ChemicalWasherRecipeCategory<WRAPPER extends ChemicalWasherRecipeWr
 
     @Override
     protected void addGuiElements() {
-        guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 5, 4));
-        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 26, 13));
-        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 133, 13));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 154, 4).with(GuiSlot.SlotOverlay.POWER));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.NORMAL, this, guiLocation, 154, 55).with(GuiSlot.SlotOverlay.MINUS));
+        guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 5, 13).withColor(GuiGauge.TypeColor.RED));
+        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 26, 13).withColor(GuiGauge.TypeColor.RED));
+        guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 133, 13).withColor(GuiGauge.TypeColor.BLUE));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.POWER, this, guiLocation, 154, 13).with(GuiSlot.SlotOverlay.POWER));
+        guiElements.add(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, guiLocation, 154, 55).with(GuiSlot.SlotOverlay.MINUS));
         guiElements.add(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override
             public double getProgress() {
@@ -44,7 +44,7 @@ public class ChemicalWasherRecipeCategory<WRAPPER extends ChemicalWasherRecipeWr
     public void setRecipe(IRecipeLayout recipeLayout, WRAPPER recipeWrapper, IIngredients ingredients) {
         WasherRecipe tempRecipe = recipeWrapper.getRecipe();
         IGuiFluidStackGroup fluidStacks = recipeLayout.getFluidStacks();
-        fluidStacks.init(0, true, 6 - xOffset, 5 - yOffset, 16, 58, TileEntityChemicalWasher.WATER_USAGE, false, fluidOverlayLarge);
+        fluidStacks.init(0, true, 6 - xOffset, 14 - yOffset, 16, 58, TileEntityChemicalWasher.WATER_USAGE, false, fluidOverlayLarge);
         fluidStacks.set(0, ingredients.getInputs(VanillaTypes.FLUID).get(0));
         IGuiIngredientGroup<GasStack> gasStacks = recipeLayout.getIngredientsGroup(MekanismJEI.TYPE_GAS);
         initGas(gasStacks, 0, true, 27 - xOffset, 14 - yOffset, 16, 58, tempRecipe.getInput().ingredient, true);

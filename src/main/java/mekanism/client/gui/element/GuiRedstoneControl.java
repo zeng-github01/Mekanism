@@ -46,7 +46,7 @@ public class GuiRedstoneControl extends GuiTileEntityElement<TileEntity> {
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        MekanismRenderer.color(EnumColor.RED);
+        MekanismRenderer.color(0xFFC9071F);
         super.renderBackground(xAxis,yAxis,guiWidth,guiHeight);
         MekanismRenderer.resetColor();
         mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiRedstoneControl.png"));

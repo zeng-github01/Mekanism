@@ -75,6 +75,6 @@ public class ContainerIsotopicCentrifuge extends ContainerMekanism<TileEntityIso
     protected void addSlots() {
         addSlotToContainer(new SlotStorageTank(tileEntity, 0, 5, 56));
         addSlotToContainer(new SlotStorageTank(tileEntity, 1, 155, 56));
-        addSlotToContainer(new SlotDischarge(tileEntity, 2, 155, 5));
+        addSlotToContainer(new SlotDischarge(tileEntity, 2, 155, 14));
     }
 }

@@ -46,13 +46,13 @@ public class GuiChemicalInfuser extends GuiMekanismTile<TileEntityChemicalInfuse
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + usage + "/t",
                     LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
-        addGuiElement(new GuiGasGauge(() -> tileEntity.leftTank, GuiGauge.Type.STANDARD, this, resource, 25, 13 + 11 ));
-        addGuiElement(new GuiGasGauge(() -> tileEntity.centerTank, GuiGauge.Type.STANDARD, this, resource, 79, 4  + 11));
-        addGuiElement(new GuiGasGauge(() -> tileEntity.rightTank, GuiGauge.Type.STANDARD, this, resource, 133, 13 + 11));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 154, 4  + 11).with(SlotOverlay.POWER));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 154, 55  + 11).with(SlotOverlay.MINUS));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 4, 55  + 11).with(SlotOverlay.MINUS));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 79, 64  + 11).with(SlotOverlay.PLUS));
+        addGuiElement(new GuiGasGauge(() -> tileEntity.leftTank, GuiGauge.Type.STANDARD, this, resource, 25, 13 + 11 ).withColor(GuiGauge.TypeColor.RED));
+        addGuiElement(new GuiGasGauge(() -> tileEntity.centerTank, GuiGauge.Type.STANDARD, this, resource, 79, 4  + 11).withColor(GuiGauge.TypeColor.BLUE));
+        addGuiElement(new GuiGasGauge(() -> tileEntity.rightTank, GuiGauge.Type.STANDARD, this, resource, 133, 13 + 11).withColor(GuiGauge.TypeColor.ORANGE));
+        addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 154, 4  + 11).with(SlotOverlay.POWER));
+        addGuiElement(new GuiSlot(SlotType.EXTRA, this, resource, 154, 55  + 11).with(SlotOverlay.MINUS));
+        addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 4, 55  + 11).with(SlotOverlay.MINUS));
+        addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 79, 64  + 11).with(SlotOverlay.PLUS));
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {

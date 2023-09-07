@@ -68,7 +68,7 @@ public class GuiSecurityTab extends GuiTileEntityElement<TileEntity> {
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        MekanismRenderer.color(EnumColor.ORANGE);
+        MekanismRenderer.color(0xFFFFA160);
         super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
         MekanismRenderer.resetColor();
         mc.renderEngine.bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.BUTTON_TAB, "Button_Tab_Icon.png"));

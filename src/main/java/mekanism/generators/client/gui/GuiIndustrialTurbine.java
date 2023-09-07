@@ -64,7 +64,7 @@ public class GuiIndustrialTurbine extends GuiMekanismTile<TileEntityTurbineCasin
             return Arrays.asList(LangUtils.localize("gui.storing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()),
                     LangUtils.localize("gui.producing") + ": " + MekanismUtils.getEnergyDisplay(producing) + "/t");
         }, this, resource));
-        addGuiElement(new GuiInnerScreen(this, resource, 50, 23, 112, 41));
+        addGuiElement(new GuiInnerScreen(this, resource, 50, 18, 112, 50));
         addGuiElement(new GuiPlayerSlot(this, resource));
         addGuiElement(new GuiNumberGauge(new GuiNumberGauge.INumberInfoHandler() {
 
@@ -108,10 +108,10 @@ public class GuiIndustrialTurbine extends GuiMekanismTile<TileEntityTurbineCasin
             double rate = tileEntity.structure.lowerVolume * (tileEntity.structure.clientDispersers * MekanismConfig.current().generators.turbineDisperserGasFlow.val());
             rate = Math.min(rate, tileEntity.structure.vents * MekanismConfig.current().generators.turbineVentGasFlow.val());
             renderScaledText(LangUtils.localize("gui.production") + ": " +
-                    MekanismUtils.getEnergyDisplay(tileEntity.structure.clientFlow * energyMultiplier), 53, 26, 0x00CD00, 106);
-            renderScaledText(LangUtils.localize("gui.flowRate") + ": " + tileEntity.structure.clientFlow + " mB/t", 53, 35, 0x00CD00, 106);
-            renderScaledText(LangUtils.localize("gui.capacity") + ": " + tileEntity.structure.getFluidCapacity() + " mB", 53, 44, 0x00CD00, 106);
-            renderScaledText(LangUtils.localize("gui.maxFlow") + ": " + rate + " mB/t", 53, 53, 0x00CD00, 106);
+                    MekanismUtils.getEnergyDisplay(tileEntity.structure.clientFlow * energyMultiplier), 53, 26, 0xFF3CFE9A, 106);
+            renderScaledText(LangUtils.localize("gui.flowRate") + ": " + tileEntity.structure.clientFlow + " mB/t", 53, 35, 0xFF3CFE9A, 106);
+            renderScaledText(LangUtils.localize("gui.capacity") + ": " + tileEntity.structure.getFluidCapacity() + " mB", 53, 44, 0xFF3CFE9A, 106);
+            renderScaledText(LangUtils.localize("gui.maxFlow") + ": " + rate + " mB/t", 53, 53, 0xFF3CFE9A, 106);
             String name = LangUtils.localize(tileEntity.structure.dumpMode.getLangKey());
             renderScaledText(name, 156 - (int) (fontRenderer.getStringWidth(name) * getNeededScale(name, 66)), 73, 0x404040, 66);
         }

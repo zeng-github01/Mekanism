@@ -73,6 +73,7 @@ public class GuiSlot extends GuiElement {
         INPUT(18, 18, 36, 0),
         EXTRA(18, 18, 54, 0),
         OUTPUT(18, 18, 72, 0),
+        AQUA(18, 18, 36, 54),
         OUTPUT_LARGE(26, 26, 90, 0),
         NORMAL_LARGE(26, 26, 90, 26),
         OUTPUT_WIDE(42, 26, 116, 0),

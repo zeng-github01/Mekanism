@@ -1,10 +1,5 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import mekanism.api.Coord4D;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.client.gui.button.GuiDisableableButton;
@@ -31,6 +26,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlock> {
@@ -133,11 +134,12 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
         String title = currentType.localize() + " " + LangUtils.localize("gui.config");
         fontRenderer.drawString(title, (xSize / 2) - (fontRenderer.getStringWidth(title) / 2), 5, 0x404040);
         if (configurable.getConfig().canEject(currentType)) {
-            fontRenderer.drawString(LangUtils.localize("gui.eject") + ": " + LangUtils.transOnOff(configurable.getConfig().isEjecting(currentType)), 53, 17, 0x00CD00);
+            fontRenderer.drawString(LangUtils.localize("gui.eject") + ": " + LangUtils.transOnOff(configurable.getConfig().isEjecting(currentType)), 53, 17, 0xFF3CFE9A);
         } else {
-            fontRenderer.drawString(LangUtils.localize("gui.noEject"), 53, 17, 0x00CD00);
+            fontRenderer.drawString(LangUtils.localize("gui.noEject"), 53, 17, 0xFF3CFE9A);
         }
-        fontRenderer.drawString(LangUtils.localize("gui.slots"), 77, 81, 0x787878);
+        String slots = LangUtils.localize("gui.slots");
+        fontRenderer.drawString(slots, (xSize / 2) - (fontRenderer.getStringWidth(slots) / 2), 81, 0x787878);
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
         for (GuiSideDataButton button : sideDataButtons) {

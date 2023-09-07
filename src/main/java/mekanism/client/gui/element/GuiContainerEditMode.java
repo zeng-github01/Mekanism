@@ -26,7 +26,7 @@ public class GuiContainerEditMode extends GuiTileEntityElement<TileEntityContain
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        MekanismRenderer.color(0xFF3263A9);
+        MekanismRenderer.color(0xFF366BD0);
         super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
         MekanismRenderer.resetColor();
         IFluidContainerManager control = (IFluidContainerManager) tileEntity;

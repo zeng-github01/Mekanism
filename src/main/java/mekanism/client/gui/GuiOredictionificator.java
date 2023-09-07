@@ -52,8 +52,8 @@ public class GuiOredictionificator extends GuiMekanismTile<TileEntityOredictioni
                 return tileEntity.didProcess ? 1 : 0;
             }
         }, ProgressBar.LARGE_RIGHT, this, resource, 62, 118));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 25, 114));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 133, 114));
+        addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 25, 114));
+        addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 133, 114));
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         ySize += 64;

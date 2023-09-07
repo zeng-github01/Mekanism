@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import mekanism.api.TileNetworkList;
+import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
@@ -24,6 +25,7 @@ import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.tile.TileEntityElectrolyticSeparator;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
@@ -32,6 +34,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrolyticSeparator> {
+
+    public GuiDisableableButton LeftMode;
+    public GuiDisableableButton RightMode;
 
     public GuiElectrolyticSeparator(InventoryPlayer inventory, TileEntityElectrolyticSeparator tile) {
         super(tile, new ContainerElectrolyticSeparator(inventory, tile));
@@ -45,15 +50,15 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + usage + "/t",
                     LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
-        addGuiElement(new GuiFluidGauge(() -> tileEntity.fluidTank, GuiGauge.Type.STANDARD, this, resource, 5, 10));
-        addGuiElement(new GuiGasGauge(() -> tileEntity.leftTank, GuiGauge.Type.SMALL, this, resource, 58, 18));
-        addGuiElement(new GuiGasGauge(() -> tileEntity.rightTank, GuiGauge.Type.SMALL, this, resource, 100, 18));
+        addGuiElement(new GuiFluidGauge(() -> tileEntity.fluidTank, GuiGauge.Type.STANDARD, this, resource, 5, 10).withColor(GuiGauge.TypeColor.RED));
+        addGuiElement(new GuiGasGauge(() -> tileEntity.leftTank, GuiGauge.Type.SMALL, this, resource, 58, 18).withColor(GuiGauge.TypeColor.BLUE));
+        addGuiElement(new GuiGasGauge(() -> tileEntity.rightTank, GuiGauge.Type.SMALL, this, resource, 100, 18).withColor(GuiGauge.TypeColor.AQUA));
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 25, 34));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 58, 51));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 100, 51));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 142, 34).with(SlotOverlay.POWER));
+        addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 25, 34));
+        addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 58, 51));
+        addGuiElement(new GuiSlot(SlotType.AQUA, this, resource, 100, 51));
+        addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 142, 34).with(SlotOverlay.POWER));
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
@@ -64,20 +69,28 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
     }
 
     @Override
-    protected void mouseClicked(int x, int y, int button) throws IOException {
-        super.mouseClicked(x, y, button);
-        int xAxis = x - guiLeft;
-        int yAxis = y - guiTop;
-        if (xAxis > 8 && xAxis < 17 && yAxis > 73 && yAxis < 82) {
+    public void initGui() {
+        super.initGui();
+        buttonList.clear();
+        buttonList.add(LeftMode = new GuiDisableableButton(0, guiLeft + 7, guiTop + 72, 10, 10, () -> tileEntity.dumpLeft.ordinal()).with(GuiDisableableButton.ImageOverlay.GAS_MOD));
+        buttonList.add(RightMode = new GuiDisableableButton(1, guiLeft + 159, guiTop + 72, 10, 10, () -> tileEntity.dumpRight.ordinal()).with(GuiDisableableButton.ImageOverlay.GAS_MOD));
+    }
+
+    @Override
+    protected void actionPerformed(GuiButton guibutton) throws IOException {
+        super.actionPerformed(guibutton);
+        if (guibutton.id == LeftMode.id) {
             TileNetworkList data = TileNetworkList.withContents((byte) 0);
             Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
             SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
-        } else if (xAxis > 160 && xAxis < 169 && yAxis > 73 && yAxis < 82) {
+        }else if (guibutton.id == RightMode.id){
             TileNetworkList data = TileNetworkList.withContents((byte) 1);
             Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
             SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
         }
     }
+
+
 
 
     @Override
@@ -112,26 +125,10 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
-    protected boolean inBounds(int xAxis, int yAxis) {
-        return xAxis >= 8 && xAxis <= 15 && yAxis >= 73 && yAxis <= 80;
-    }
-
-    protected boolean inBounds2(int xAxis, int yAxis) {
-        return xAxis >= 160 && xAxis <= 167 && yAxis >= 73 && yAxis <= 80;
-    }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-
-        drawTexturedModalRect(guiLeft + 7, guiTop + 72, 9, 167, 10, 10);
-        drawTexturedModalRect(guiLeft + 159, guiTop + 72, 9, 167, 10, 10);
-        //Left
-        int dumpLeft = tileEntity.dumpLeft.ordinal();
-        drawTexturedModalRect(guiLeft + 8, guiTop + 73, 59 + 8 * dumpLeft, inBounds(xAxis, yAxis) ? 167 : 175, 8, 8);
-        //Right
-        int dumpRight = tileEntity.dumpRight.ordinal();
-        drawTexturedModalRect(guiLeft + 160, guiTop + 73, 59 + 8 * dumpRight, inBounds2(xAxis, yAxis) ? 167 : 175, 8, 8);
 
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
         boolean outLeft = tileEntity.leftTank.getStored() == tileEntity.leftTank.getMaxGas();
