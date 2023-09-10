@@ -385,13 +385,13 @@ public abstract class BlockGenerator extends BlockMekanismContainer {
     @Override
     @Deprecated
     public boolean isOpaqueCube(IBlockState state) {
-        return state.getBlock().getMetaFromState(state) >= 7;
+        return state.getBlock().getMetaFromState(state) >= 8;
     }
 
     @Override
     @Deprecated
     public boolean isFullCube(IBlockState state) {
-        return state.getBlock().getMetaFromState(state) >= 7;
+        return state.getBlock().getMetaFromState(state) >= 8;
     }
 
     @Nonnull

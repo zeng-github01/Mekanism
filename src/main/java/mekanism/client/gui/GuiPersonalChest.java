@@ -32,6 +32,12 @@ public class GuiPersonalChest extends GuiMekanismTile<TileEntityPersonalChest> {
         //xSize += 26;
         ySize += 64;
         addGuiElement(new GuiSecurityTab(this, getGuiLocation(), inv.currentHand));
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation(), 7, 147));
+        for (int y = 0; y < 6; y++) {
+            for (int x = 0; x < 9; x++) {
+                addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 7 + x * 18, 25 + y * 18));
+            }
+        }
     }
 
     @Override
