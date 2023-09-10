@@ -1122,21 +1122,10 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         return cached;
     }
 
-    public void sortInventory() {
+    public void sortInventory() { //old
         if (sorting) {
-            int[] inputSlots;
-            if (tier == FactoryTier.BASIC) {
-                inputSlots = new int[]{5, 6, 7};
-            } else if (tier == FactoryTier.ADVANCED) {
-                inputSlots = new int[]{5, 6, 7, 8, 9};
-            } else if (tier == FactoryTier.ELITE) {
-                inputSlots = new int[]{5, 6, 7, 8, 9, 10, 11};
-            } else if (tier == FactoryTier.ULTIMATE) {
-                inputSlots = new int[]{5, 6, 7, 8, 9, 10, 11, 12, 13};
-            } else if (tier == FactoryTier.CREATIVE) {
-                inputSlots = new int[]{5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-            } else {
-                //If something went wrong finding the tier don't sort it
+            int[] inputSlots = getSlotsWithTier(tier);
+            if (inputSlots == null) {
                 return;
             }
             for (int i = 0; i < inputSlots.length; i++) {
@@ -1157,13 +1146,11 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                             checkStack.isEmpty() && !inputProducesOutput(slotID, stack, inventory.get(tier.processes + checkSlotID), true)) {
                         continue;
                     }
-
                     //Balance the two slots
                     int total = count + checkStack.getCount();
                     ItemStack newStack = stack.isEmpty() ? checkStack : stack;
                     inventory.set(slotID, StackUtils.size(newStack, (total + 1) / 2));
                     inventory.set(checkSlotID, StackUtils.size(newStack, total / 2));
-
                     markDirty();
                     return;
                 }

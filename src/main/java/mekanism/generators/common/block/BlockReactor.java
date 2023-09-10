@@ -173,13 +173,13 @@ public abstract class BlockReactor extends Block implements ITileEntityProvider 
     @Override
     @Deprecated
     public boolean isOpaqueCube(IBlockState state) {
-        return false;
+        return this == GeneratorsBlocks.Reactor;
     }
 
     @Override
     @Deprecated
     public boolean isFullCube(IBlockState state) {
-        return false;
+        return this == GeneratorsBlocks.Reactor;
     }
 
     /*This method is not used, metadata manipulation is required to create a Tile Entity.*/
