@@ -45,11 +45,27 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
         for (int i = 0; i < tileEntity.tier.processes; i++) {
             addSlotToContainer(new SlotOutput(tileEntity, getOutputSlotIndex(i), xOffset + (i * xDistance), 57));
         }
+
+        for (int i = 0; i < tileEntity.tier.processes; i++){
+            if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.FARM || tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.CHANCE){
+                addSlotToContainer(new SlotOutput(tileEntity, getSecondaryOutputSlotIndex(i), xOffset + (i * xDistance), 78));
+            }else {
+                addSlotToContainer(new SlotOutput(tileEntity, getSecondaryOutputSlotIndex(i), 7, 35)); //Secondary output slots are reserved to prevent errors
+            }
+        }
     }
 
     @Override
     protected int getInventorYOffset() {
-        return tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.ADVANCED || tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.FARM || tileEntity.getRecipeType() == RecipeType.INFUSING ? 95 : 84;
+        if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING){
+            return 95;
+        }else if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.FARM){
+            return 116;
+        }else if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.CHANCE){
+            return 105;
+        }else {
+            return 84;
+        }
     }
 
     @Override
@@ -66,6 +82,10 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
             ItemStack slotStack = currentSlot.getStack();
             stack = slotStack.copy();
             if (isOutputSlot(slotID)) {
+                if (!mergeItemStack(slotStack, tileEntity.inventory.size() - 1, inventorySlots.size(), true)) {
+                    return ItemStack.EMPTY;
+                }
+            }else if(isSecondaryOutputSlot(slotID)){
                 if (!mergeItemStack(slotStack, tileEntity.inventory.size() - 1, inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
@@ -155,8 +175,16 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
         return slot >= 4 + tileEntity.tier.processes && slot < 4 + tileEntity.tier.processes * 2;
     }
 
+    public boolean isSecondaryOutputSlot(int slot) {
+        return slot >= 4 + tileEntity.tier.processes * 2 && slot < 4 + tileEntity.tier.processes * 3;
+    }
+
     private int getOutputSlotIndex(int processNumber) {
         return tileEntity.tier.processes + getInputSlotIndex(processNumber);
+    }
+
+    private int getSecondaryOutputSlotIndex(int processNumber) {
+        return tileEntity.tier.processes * 2 + getInputSlotIndex(processNumber);
     }
 
     private int getInputSlotIndex(int processNumber) {

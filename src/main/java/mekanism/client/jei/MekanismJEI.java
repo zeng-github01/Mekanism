@@ -1,5 +1,8 @@
 package mekanism.client.jei;
 
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.GasStack;
@@ -28,10 +31,6 @@ import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
-
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 @JEIPlugin
 public class MekanismJEI implements IModPlugin {

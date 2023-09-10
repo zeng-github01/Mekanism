@@ -1,7 +1,6 @@
 package mekanism.client.gui.element;
 
 import mekanism.api.Coord4D;
-import mekanism.api.EnumColor;
 import mekanism.api.util.time.Timeticks;
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.client.render.MekanismRenderer;

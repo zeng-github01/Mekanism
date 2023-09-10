@@ -7,7 +7,6 @@ import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.gui.element.gauge.GuiNumberGauge;
 import mekanism.client.render.MekanismRenderer;
-import mekanism.common.content.tank.TankUpdateProtocol;
 import mekanism.common.inventory.container.ContainerDynamicTank;
 import mekanism.common.tile.TileEntityDynamicTank;
 import mekanism.common.util.LangUtils;

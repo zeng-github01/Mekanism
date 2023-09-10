@@ -1,5 +1,6 @@
 package mekanism.client.jei.machine.other;
 
+import javax.annotation.Nonnull;
 import mekanism.client.jei.machine.MekanismRecipeWrapper;
 import mekanism.common.recipe.machines.ThermalEvaporationRecipe;
 import mekanism.common.util.LangUtils;
@@ -9,8 +10,6 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-
-import javax.annotation.Nonnull;
 
 public class ThermalEvaporationRecipeWrapper<RECIPE extends ThermalEvaporationRecipe> extends MekanismRecipeWrapper<RECIPE> {
 
