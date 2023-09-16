@@ -1,9 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.HashSet;
-import java.util.Set;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.IEvaporationSolar;
 import mekanism.api.TileNetworkList;
@@ -36,6 +33,10 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
+
+import javax.annotation.Nonnull;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TileEntityThermalEvaporationController extends TileEntityThermalEvaporationBlock implements IActiveState, ITankManager {
 
@@ -97,6 +98,13 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
             }
 
             manageBuckets();
+
+            if (structured) {
+                if (inputTank.getFluidAmount() > inputTank.getCapacity() && inputTank.getFluid() != null) {
+                    inputTank.getFluid().amount = inputTank.getCapacity();
+                }
+            }
+
 
             ThermalEvaporationRecipe recipe = getRecipe();
             if (canOperate(recipe)) {
@@ -265,7 +273,7 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
         updatedThisTick = true;
 
         Coord4D startPoint = Coord4D.get(this);
-        while (startPoint.offset(EnumFacing.UP).getTileEntity(world) instanceof TileEntityThermalEvaporationBlock) {
+        while (startPoint.offset(EnumFacing.UP).getTileEntity(world) instanceof TileEntityThermalEvaporationBlock || (startPoint.offset(EnumFacing.UP).getTileEntity(world) instanceof TileEntityStructuralGlass && MekanismConfig.current().mekce.EnableGlassInThermal.val())) {
             startPoint = startPoint.offset(EnumFacing.UP);
         }
 
@@ -302,7 +310,7 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
                 int corner = getCorner(x, z);
                 if (corner != -1) {
                     if (!addSolarPanel(pointer.getTileEntity(world), corner)) {
-                        if (pointer.offset(EnumFacing.UP).getTileEntity(world) instanceof TileEntityThermalEvaporationBlock || !addTankPart(pointerTile)) {
+                        if (pointer.offset(EnumFacing.UP).getTileEntity(world) instanceof TileEntityThermalEvaporationBlock || (pointer.offset(EnumFacing.UP).getTileEntity(world) instanceof TileEntityStructuralGlass && MekanismConfig.current().mekce.EnableGlassInThermal.val()) || !addTankPart(pointerTile)) {
                             return false;
                         }
                     }
@@ -310,7 +318,7 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
                     if (!pointer.isAirBlock(world)) {
                         return false;
                     }
-                } else if (pointer.offset(EnumFacing.UP).getTileEntity(world) instanceof TileEntityThermalEvaporationBlock || !addTankPart(pointerTile)) {
+                } else if (pointer.offset(EnumFacing.UP).getTileEntity(world) instanceof TileEntityThermalEvaporationBlock || (pointer.offset(EnumFacing.UP).getTileEntity(world) instanceof TileEntityStructuralGlass && MekanismConfig.current().mekce.EnableGlassInThermal.val()) || !addTankPart(pointerTile)) {
                     return false;
                 }
             }
@@ -373,6 +381,12 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
         if (tile instanceof TileEntityThermalEvaporationBlock && (tile == this || !(tile instanceof TileEntityThermalEvaporationController))) {
             if (tile != this) {
                 ((TileEntityThermalEvaporationBlock) tile).addToStructure(Coord4D.get(this));
+                tankParts.add(Coord4D.get(tile));
+            }
+            return true;
+        } else if (tile instanceof TileEntityStructuralGlass && (tile == this || !(tile instanceof TileEntityThermalEvaporationController)) && MekanismConfig.current().mekce.EnableGlassInThermal.val()) {
+            if (tile != this) {
+                ((TileEntityStructuralGlass) tile).setController(Coord4D.get(this));
                 tankParts.add(Coord4D.get(tile));
             }
             return true;
