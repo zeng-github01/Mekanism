@@ -7,16 +7,17 @@ import mekanism.api.IConfigCardAccess;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
+import mekanism.common.MekanismBlocks;
 import mekanism.common.SideData;
-import mekanism.common.base.ISideConfiguration;
-import mekanism.common.base.ISustainedData;
-import mekanism.common.base.ITankManager;
+import mekanism.common.Upgrade;
+import mekanism.common.base.*;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.inputs.GasInput;
 import mekanism.common.recipe.machines.CrystallizerRecipe;
+import mekanism.common.tier.BaseTier;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
 import mekanism.common.tile.prefab.TileEntityOperationalMachine;
@@ -28,7 +29,9 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class TileEntityChemicalCrystallizer extends TileEntityOperationalMachine implements IGasHandler, ISideConfiguration, ISustainedData, ITankManager, IConfigCardAccess {
+import java.util.Objects;
+
+public class TileEntityChemicalCrystallizer extends TileEntityOperationalMachine implements IGasHandler, ISideConfiguration, ISustainedData, ITankManager, IConfigCardAccess, ITierUpgradeable {
 
     public static final int MAX_GAS = 10000;
 
@@ -88,6 +91,56 @@ public class TileEntityChemicalCrystallizer extends TileEntityOperationalMachine
         }
     }
 
+    @Override
+    public boolean upgrade(BaseTier upgradeTier) {
+        if (upgradeTier != BaseTier.BASIC) {
+            return false;
+        }
+        world.setBlockToAir(getPos());
+        world.setBlockState(getPos(), MekanismBlocks.MachineBlock.getStateFromMeta(5), 3);
+        TileEntityFactory factory = Objects.requireNonNull((TileEntityFactory) world.getTileEntity(getPos()));
+        IFactory.RecipeType type = IFactory.RecipeType.Crystallizer;
+
+        factory.facing = facing;
+        factory.clientFacing = clientFacing;
+        factory.ticker = ticker;
+        factory.redstone = redstone;
+        factory.redstoneLastTick = redstoneLastTick;
+        factory.doAutoSync = doAutoSync;
+
+        factory.electricityStored = electricityStored;
+
+        factory.progress[0] = operatingTicks;
+        factory.setActive(isActive);
+        factory.setControlType(getControlType());
+        factory.prevEnergy = prevEnergy;
+        factory.upgradeComponent.readFrom(upgradeComponent);
+        factory.upgradeComponent.setUpgradeSlot(0);
+        factory.ejectorComponent.readFrom(ejectorComponent);
+        factory.ejectorComponent.setOutputData(TransmissionType.ITEM, factory.configComponent.getOutputs(TransmissionType.ITEM).get(2));
+        factory.setRecipeType(type);
+        factory.securityComponent.readFrom(securityComponent);
+
+        for (TransmissionType transmission : configComponent.getTransmissions()) {
+            factory.configComponent.setConfig(transmission, configComponent.getConfig(transmission).asByteArray());
+            factory.configComponent.setEjecting(transmission, configComponent.isEjecting(transmission));
+        }
+        factory.gasTank.setGas(inputTank.getGas());
+
+        factory.inventory.set(1, inventory.get(2));
+        factory.inventory.set(5 + 3, inventory.get(1));
+        factory.inventory.set(0, inventory.get(3));
+        factory.inventory.set(4, inventory.get(0));
+
+        for (Upgrade upgrade : factory.upgradeComponent.getSupportedTypes()) {
+            factory.recalculateUpgradables(upgrade);
+        }
+        factory.upgraded = true;
+        factory.markDirty();
+        return true;
+    }
+
+
     public GasInput getInput() {
         return new GasInput(inputTank.getGas());
     }
@@ -101,11 +154,11 @@ public class TileEntityChemicalCrystallizer extends TileEntityOperationalMachine
     }
 
     public boolean canOperate(CrystallizerRecipe recipe) {
-        return recipe != null && recipe.canOperate(inputTank, inventory);
+        return recipe != null && recipe.canOperate(inputTank, inventory,1);
     }
 
     public void operate(CrystallizerRecipe recipe) {
-        recipe.operate(inputTank, inventory);
+        recipe.operate(inputTank, inventory,1);
         markDirty();
     }
 

@@ -5,16 +5,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import javax.annotation.Nullable;
 import mekanism.api.gas.Gas;
+import mekanism.api.gas.GasStack;
 import mekanism.common.InfuseStorage;
 import mekanism.common.Mekanism;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.RecipeHandler.Recipe;
-import mekanism.common.recipe.inputs.AdvancedMachineInput;
-import mekanism.common.recipe.inputs.DoubleMachineInput;
-import mekanism.common.recipe.inputs.InfusionInput;
-import mekanism.common.recipe.inputs.ItemStackInput;
+import mekanism.common.recipe.inputs.*;
 import mekanism.common.recipe.machines.*;
+import mekanism.common.tile.TileEntityChemicalCrystallizer;
 import mekanism.common.tile.prefab.TileEntityAdvancedElectricMachine;
 import mekanism.common.tile.prefab.TileEntityFarmMachine;
 import mekanism.common.util.LangUtils;
@@ -85,7 +84,8 @@ public interface IFactory {
         EXTRACTOR("Extractor", "extractor", MachineType.CELL_EXTRACTOR, MachineFuelType.CHANCE, false, Recipe.CELL_EXTRACTOR),
         SEPARATOR("Separator", "separator", MachineType.CELL_SEPARATOR, MachineFuelType.CHANCE, false, Recipe.CELL_SEPARATOR),
         FARM("Farm", "farm", MachineType.ORGANIC_FARM, MachineFuelType.FARM, true, Recipe.ORGANIC_FARM),
-        RECYCLER("Recycler", "Recycler", MachineType.RECYCLER, MachineFuelType.CHANCE2, false, Recipe.RECYCLER);
+        RECYCLER("Recycler", "Recycler", MachineType.RECYCLER, MachineFuelType.CHANCE2, false, Recipe.RECYCLER),
+        Crystallizer("Crystallizer","crystallizer",MachineType.CHEMICAL_CRYSTALLIZER,MachineFuelType.BASIC, false, Recipe.CHEMICAL_CRYSTALLIZER);
         private String name;
         private SoundEvent sound;
         private MachineType type;
@@ -95,6 +95,8 @@ public interface IFactory {
         private TileEntityAdvancedElectricMachine cacheTile;
 
         private TileEntityFarmMachine cacheTile2;
+
+        private TileEntityChemicalCrystallizer cacheTile3;
 
         RecipeType(String s, String s1, MachineType t, MachineFuelType ft, boolean speed, Recipe r) {
             name = s;
@@ -171,6 +173,14 @@ public interface IFactory {
             return getRecipe(new InfusionInput(storage, input));
         }
 
+        public CrystallizerRecipe getCrystallizerRecipe(GasInput input){
+            return RecipeHandler.getChemicalCrystallizerRecipe(input);
+        }
+
+        public CrystallizerRecipe getCrystallizerRecipe(GasStack gas){
+         return getCrystallizerRecipe(new GasInput(gas));
+        }
+
         public FarmMachineRecipe getFarmRecipe(AdvancedMachineInput input) {
             return (FarmMachineRecipe) RecipeHandler.getRecipe(input, recipe);
         }
@@ -187,7 +197,7 @@ public interface IFactory {
             return getChance2Recipe(new ItemStackInput(input));
         }
 
-        @Nullable public MachineRecipe getAnyRecipe(ItemStack slotStack, ItemStack extraStack, Gas gasType, InfuseStorage infuse) {
+        @Nullable public MachineRecipe getAnyRecipe(ItemStack slotStack, ItemStack extraStack, Gas gasType, InfuseStorage infuse, GasStack gasStackType) {
             if (fuelType == MachineFuelType.ADVANCED) {
                 return getRecipe(slotStack, gasType);
             } else if (fuelType == MachineFuelType.DOUBLE) {
@@ -198,7 +208,9 @@ public interface IFactory {
                 return getFarmRecipe(slotStack, gasType);
             } else if (fuelType == MachineFuelType.CHANCE2) {
                 return getChance2Recipe(slotStack);
-            } else if (this == INFUSING) {
+            } else if (this == Crystallizer){
+                return getCrystallizerRecipe(gasStackType);
+            }else if (this == INFUSING) {
                 if (infuse.getType() != null) {
                     return RecipeHandler.getMetallurgicInfuserRecipe(new InfusionInput(infuse, slotStack));
                 }
@@ -227,11 +239,15 @@ public interface IFactory {
             if (fuelType == MachineFuelType.FARM) {
                 return getTile2().canReceiveGas(side, type);
             }
+
+            if (this == Crystallizer){
+                return getTile3().canReceiveGas(side,type);
+            }
             return false;
         }
 
         public boolean supportsGas() {
-            return (fuelType == MachineFuelType.ADVANCED || fuelType == MachineFuelType.FARM);
+            return (fuelType == MachineFuelType.ADVANCED || fuelType == MachineFuelType.FARM || this == Crystallizer);
         }
 
         public boolean isValidGas(Gas gas) {
@@ -241,8 +257,13 @@ public interface IFactory {
             if (fuelType == MachineFuelType.FARM) {
                 return getTile2().isValidGas(gas);
             }
+            if (this == Crystallizer){
+                return Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(gas);
+            }
+
             return false;
         }
+
 
         public boolean hasRecipe(ItemStack itemStack) {
             if (itemStack.isEmpty()) {
@@ -289,6 +310,14 @@ public interface IFactory {
                 cacheTile2 = (TileEntityFarmMachine) type.create();
             }
             return cacheTile2;
+        }
+
+        public TileEntityChemicalCrystallizer getTile3() {
+            if (cacheTile3 == null) {
+                MachineType type = MachineType.get(getStack());
+                cacheTile3 = (TileEntityChemicalCrystallizer) type.create();
+            }
+            return cacheTile3;
         }
 
         public double getEnergyUsage() {

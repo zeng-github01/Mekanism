@@ -39,8 +39,13 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
         addSlotToContainer(new Slot(tileEntity, 4, 7, 57));
         int xOffset = tileEntity.tier == FactoryTier.BASIC ? 55 : tileEntity.tier == FactoryTier.ADVANCED ? 35 : tileEntity.tier == FactoryTier.ELITE ? 29 : 27;
         int xDistance = tileEntity.tier == FactoryTier.BASIC ? 38 : tileEntity.tier == FactoryTier.ADVANCED ? 26 : 19;
+
         for (int i = 0; i < tileEntity.tier.processes; i++) {
-            addSlotToContainer(new FactoryInputSlot(tileEntity, getInputSlotIndex(i), xOffset + (i * xDistance), 13, i));
+            if (tileEntity.NoItemInputMachine()){
+                addSlotToContainer(new FactoryInputSlot(tileEntity, getInputSlotIndex(i), 7, 35, i));
+            }else {
+                addSlotToContainer(new FactoryInputSlot(tileEntity, getInputSlotIndex(i), xOffset + (i * xDistance), 13, i));
+            }
         }
         for (int i = 0; i < tileEntity.tier.processes; i++) {
             addSlotToContainer(new SlotOutput(tileEntity, getOutputSlotIndex(i), xOffset + (i * xDistance), 57));
@@ -59,6 +64,8 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
     protected int getInventorYOffset() {
         if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING){
             return 95;
+        }else if (tileEntity.getRecipeType() == RecipeType.Crystallizer){
+            return 91;
         }else if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.FARM){
             return 116;
         }else if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.CHANCE){
@@ -97,7 +104,7 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
                 if (!mergeItemStack(slotStack, tileEntity.inventory.size() - 1, inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (tileEntity.getRecipeType().getAnyRecipe(slotStack, inventorySlots.get(4).getStack(), tileEntity.gasTank.getGasType(), tileEntity.infuseStored) != null) {
+            } else if (tileEntity.getRecipeType().getAnyRecipe(slotStack, inventorySlots.get(4).getStack(), tileEntity.gasTank.getGasType(), tileEntity.infuseStored, tileEntity.gasTank.getGas()) != null) {
                 if (isInputSlot(slotID)) {
                     if (!mergeItemStack(slotStack, tileEntity.inventory.size() - 1, inventorySlots.size(), true)) {
                         return ItemStack.EMPTY;

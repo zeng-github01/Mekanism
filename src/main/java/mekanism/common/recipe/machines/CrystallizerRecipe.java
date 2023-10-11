@@ -17,13 +17,13 @@ public class CrystallizerRecipe extends MachineRecipe<GasInput, ItemStackOutput,
         this(new GasInput(input), new ItemStackOutput(output));
     }
 
-    public boolean canOperate(GasTank gasTank, NonNullList<ItemStack> inventory) {
-        return getInput().useGas(gasTank, false, 1) && getOutput().applyOutputs(inventory, 1, false);
+    public boolean canOperate(GasTank gasTank, NonNullList<ItemStack> inventory,int outputIndex) {
+        return getInput().useGas(gasTank, false, 1) && getOutput().applyOutputs(inventory, outputIndex, false);
     }
 
-    public void operate(GasTank inputTank, NonNullList<ItemStack> inventory) {
+    public void operate(GasTank inputTank, NonNullList<ItemStack> inventory,int outputIndex) {
         if (getInput().useGas(inputTank, true, 1)) {
-            getOutput().applyOutputs(inventory, 1, true);
+            getOutput().applyOutputs(inventory, outputIndex, true);
         }
     }
 
