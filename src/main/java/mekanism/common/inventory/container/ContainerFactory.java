@@ -48,7 +48,11 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
             }
         }
         for (int i = 0; i < tileEntity.tier.processes; i++) {
-            addSlotToContainer(new SlotOutput(tileEntity, getOutputSlotIndex(i), xOffset + (i * xDistance), 57));
+            if (tileEntity.GasOutputMachine()) {
+                addSlotToContainer(new SlotOutput(tileEntity, getOutputSlotIndex(i), 7,35));
+            }else {
+                addSlotToContainer(new SlotOutput(tileEntity, getOutputSlotIndex(i), xOffset + (i * xDistance), 57));
+            }
         }
 
         for (int i = 0; i < tileEntity.tier.processes; i++){
@@ -62,7 +66,7 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
 
     @Override
     protected int getInventorYOffset() {
-        if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING){
+        if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING || tileEntity.getRecipeType() == RecipeType.Dissolution){
             return 95;
         }else if (tileEntity.getRecipeType() == RecipeType.Crystallizer){
             return 91;
