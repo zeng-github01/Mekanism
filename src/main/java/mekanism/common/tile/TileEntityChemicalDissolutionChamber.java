@@ -6,18 +6,17 @@ import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
+import mekanism.common.MekanismBlocks;
 import mekanism.common.MekanismFluids;
 import mekanism.common.SideData;
 import mekanism.common.Upgrade;
-import mekanism.common.base.IComparatorSupport;
-import mekanism.common.base.ISideConfiguration;
-import mekanism.common.base.ISustainedData;
-import mekanism.common.base.ITankManager;
+import mekanism.common.base.*;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.ItemStackInput;
 import mekanism.common.recipe.machines.DissolutionRecipe;
+import mekanism.common.tier.BaseTier;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
 import mekanism.common.tile.prefab.TileEntityMachine;
@@ -30,7 +29,9 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class TileEntityChemicalDissolutionChamber extends TileEntityMachine implements IGasHandler, ISustainedData, ITankManager, IComparatorSupport, ISideConfiguration {
+import java.util.Objects;
+
+public class TileEntityChemicalDissolutionChamber extends TileEntityMachine implements IGasHandler, ISustainedData, ITankManager, IComparatorSupport, ISideConfiguration, ITierUpgradeable {
 
     public static final int MAX_GAS = 10000;
     public static final int BASE_INJECT_USAGE = 1;
@@ -116,6 +117,57 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityMachine impl
     }
 
     @Override
+    public boolean upgrade(BaseTier upgradeTier) {
+        if (upgradeTier != BaseTier.BASIC) {
+            return false;
+        }
+        world.setBlockToAir(getPos());
+        world.setBlockState(getPos(), MekanismBlocks.MachineBlock.getStateFromMeta(5), 3);
+        TileEntityFactory factory = Objects.requireNonNull((TileEntityFactory) world.getTileEntity(getPos()));
+        IFactory.RecipeType type = IFactory.RecipeType.Dissolution;
+
+        factory.facing = facing;
+        factory.clientFacing = clientFacing;
+        factory.ticker = ticker;
+        factory.redstone = redstone;
+        factory.redstoneLastTick = redstoneLastTick;
+        factory.doAutoSync = doAutoSync;
+
+        factory.electricityStored = electricityStored;
+
+        factory.progress[0] = operatingTicks;
+        factory.setActive(isActive);
+        factory.setControlType(getControlType());
+        factory.prevEnergy = prevEnergy;
+        factory.upgradeComponent.readFrom(upgradeComponent);
+        factory.upgradeComponent.setUpgradeSlot(0);
+        factory.ejectorComponent.readFrom(ejectorComponent);
+        factory.ejectorComponent.setOutputData(TransmissionType.GAS, configComponent.getOutputs(TransmissionType.GAS).get(2));
+        factory.setRecipeType(type);
+        factory.securityComponent.readFrom(securityComponent);
+
+        for (TransmissionType transmission : configComponent.getTransmissions()) {
+            factory.configComponent.setConfig(transmission, configComponent.getConfig(transmission).asByteArray());
+            factory.configComponent.setEjecting(transmission, configComponent.isEjecting(transmission));
+        }
+
+        factory.gasTank.setGas(injectTank.getGas());
+        factory.gasOutTank.setGas(outputTank.getGas());
+
+        factory.inventory.set(0, inventory.get(4));
+        factory.inventory.set(1, inventory.get(3));
+        factory.inventory.set(5, inventory.get(1));
+        factory.inventory.set(4, inventory.get(0));
+
+        for (Upgrade upgrade : factory.upgradeComponent.getSupportedTypes()) {
+            factory.recalculateUpgradables(upgrade);
+        }
+        factory.upgraded = true;
+        factory.markDirty();
+        return true;
+    }
+
+    @Override
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
         if (slotID == 1) {
             return RecipeHandler.getDissolutionRecipe(new ItemStackInput(itemstack)) != null;
@@ -156,11 +208,11 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityMachine impl
     }
 
     public boolean canOperate(DissolutionRecipe recipe) {
-        return recipe != null && recipe.canOperate(inventory, outputTank);
+        return recipe != null && recipe.canOperate(inventory,1, outputTank);
     }
 
     public void operate(DissolutionRecipe recipe) {
-        recipe.operate(inventory, outputTank);
+        recipe.operate(inventory,1, outputTank);
         markDirty();
     }
 

@@ -8,12 +8,14 @@ import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.common.InfuseStorage;
 import mekanism.common.Mekanism;
+import mekanism.common.MekanismFluids;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.inputs.*;
 import mekanism.common.recipe.machines.*;
 import mekanism.common.tile.TileEntityChemicalCrystallizer;
+import mekanism.common.tile.TileEntityChemicalDissolutionChamber;
 import mekanism.common.tile.prefab.TileEntityAdvancedElectricMachine;
 import mekanism.common.tile.prefab.TileEntityFarmMachine;
 import mekanism.common.util.LangUtils;
@@ -85,7 +87,9 @@ public interface IFactory {
         SEPARATOR("Separator", "separator", MachineType.CELL_SEPARATOR, MachineFuelType.CHANCE, false, Recipe.CELL_SEPARATOR),
         FARM("Farm", "farm", MachineType.ORGANIC_FARM, MachineFuelType.FARM, true, Recipe.ORGANIC_FARM),
         RECYCLER("Recycler", "Recycler", MachineType.RECYCLER, MachineFuelType.CHANCE2, false, Recipe.RECYCLER),
-        Crystallizer("Crystallizer","crystallizer",MachineType.CHEMICAL_CRYSTALLIZER,MachineFuelType.BASIC, false, Recipe.CHEMICAL_CRYSTALLIZER);
+        Crystallizer("Crystallizer","crystallizer",MachineType.CHEMICAL_CRYSTALLIZER,MachineFuelType.BASIC, false, Recipe.CHEMICAL_CRYSTALLIZER),
+        Dissolution("Dissolution","dissolution",MachineType.CHEMICAL_DISSOLUTION_CHAMBER,MachineFuelType.BASIC,true,Recipe.CHEMICAL_DISSOLUTION_CHAMBER);
+
         private String name;
         private SoundEvent sound;
         private MachineType type;
@@ -97,6 +101,7 @@ public interface IFactory {
         private TileEntityFarmMachine cacheTile2;
 
         private TileEntityChemicalCrystallizer cacheTile3;
+        private TileEntityChemicalDissolutionChamber cacheTile4;
 
         RecipeType(String s, String s1, MachineType t, MachineFuelType ft, boolean speed, Recipe r) {
             name = s;
@@ -181,6 +186,14 @@ public interface IFactory {
          return getCrystallizerRecipe(new GasInput(gas));
         }
 
+        public DissolutionRecipe getDissolutionRecipe(ItemStackInput input){
+            return (DissolutionRecipe) RecipeHandler.getRecipe(input, recipe);
+        }
+
+        public DissolutionRecipe getDissolutionRecipe(ItemStack input){
+            return getDissolutionRecipe(new ItemStackInput(input));
+        }
+
         public FarmMachineRecipe getFarmRecipe(AdvancedMachineInput input) {
             return (FarmMachineRecipe) RecipeHandler.getRecipe(input, recipe);
         }
@@ -210,6 +223,8 @@ public interface IFactory {
                 return getChance2Recipe(slotStack);
             } else if (this == Crystallizer){
                 return getCrystallizerRecipe(gasStackType);
+            }else if (this == Dissolution){
+               return getDissolutionRecipe(slotStack);
             }else if (this == INFUSING) {
                 if (infuse.getType() != null) {
                     return RecipeHandler.getMetallurgicInfuserRecipe(new InfusionInput(infuse, slotStack));
@@ -228,6 +243,8 @@ public interface IFactory {
                 return getTile().BASE_SECONDARY_ENERGY_PER_TICK;
             }else if (fuelType == MachineFuelType.FARM) {
                 return getTile2().BASE_SECONDARY_ENERGY_PER_TICK;
+            }else if (this == Dissolution){
+                return getTile4().BASE_INJECT_USAGE;
             }
             return 0;
         }
@@ -243,11 +260,15 @@ public interface IFactory {
             if (this == Crystallizer){
                 return getTile3().canReceiveGas(side,type);
             }
+
+            if (this == Dissolution){
+                return getTile4().canReceiveGas(side,type);
+            }
             return false;
         }
 
         public boolean supportsGas() {
-            return (fuelType == MachineFuelType.ADVANCED || fuelType == MachineFuelType.FARM || this == Crystallizer);
+            return (fuelType == MachineFuelType.ADVANCED || fuelType == MachineFuelType.FARM || this == Crystallizer || this == Dissolution);
         }
 
         public boolean isValidGas(Gas gas) {
@@ -259,6 +280,10 @@ public interface IFactory {
             }
             if (this == Crystallizer){
                 return Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(gas);
+            }
+
+            if (this == Dissolution){
+                return gas == MekanismFluids.SulfuricAcid; //todo
             }
 
             return false;
@@ -318,6 +343,13 @@ public interface IFactory {
                 cacheTile3 = (TileEntityChemicalCrystallizer) type.create();
             }
             return cacheTile3;
+        }
+        public TileEntityChemicalDissolutionChamber getTile4() {
+            if (cacheTile4 == null) {
+                MachineType type = MachineType.get(getStack());
+                cacheTile4 = (TileEntityChemicalDissolutionChamber) type.create();
+            }
+            return cacheTile4;
         }
 
         public double getEnergyUsage() {

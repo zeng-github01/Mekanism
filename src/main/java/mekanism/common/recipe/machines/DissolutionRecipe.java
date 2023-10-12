@@ -17,12 +17,12 @@ public class DissolutionRecipe extends MachineRecipe<ItemStackInput, GasOutput, 
         this(new ItemStackInput(input), new GasOutput(output));
     }
 
-    public boolean canOperate(NonNullList<ItemStack> inventory, GasTank outputTank) {
-        return getInput().useItemStackFromInventory(inventory, 1, false) && getOutput().applyOutputs(outputTank, false, 1);
+    public boolean canOperate(NonNullList<ItemStack> inventory, int inputIndex ,GasTank outputTank) {
+        return getInput().useItemStackFromInventory(inventory, inputIndex, false) && getOutput().applyOutputs(outputTank, false, 1);
     }
 
-    public void operate(NonNullList<ItemStack> inventory, GasTank outputTank) {
-        if (getInput().useItemStackFromInventory(inventory, 1, true)) {
+    public void operate(NonNullList<ItemStack> inventory,int inputIndex, GasTank outputTank) {
+        if (getInput().useItemStackFromInventory(inventory, inputIndex, true)) {
             getOutput().applyOutputs(outputTank, true, 1);
         }
     }
