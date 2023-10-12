@@ -95,7 +95,7 @@ public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<REC
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         if (tileEntity.getScaledGasLevel(12) > 0) {
             int displayInt = tileEntity.getScaledGasLevel(12);
-            displayGauge(61, 37 + 12 - displayInt, 6, displayInt, tileEntity.gasTank.getGas());
+            displayGauge(60, 36, 8,14, tileEntity.gasTank.getGas(),displayInt);
         }
         boolean inputgas = (tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(0).getCount() != 0);
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
@@ -116,13 +116,11 @@ public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<REC
         }
     }
 
-
-
-    public void displayGauge(int xPos, int yPos, int sizeX, int sizeY, GasStack gas) {
+    public void displayGauge(int xPos, int yPos, int sizeX, int sizeY, GasStack gas, int displayInt) {
         if (gas != null) {
             mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             MekanismRenderer.color(gas);
-            drawTexturedModalRect(guiLeft + xPos, guiTop + yPos, gas.getGas().getSprite(), sizeX, sizeY);
+            GuiUtils.drawTiledSprite(guiLeft + xPos + 1, guiTop + yPos + 1, sizeY - 2, sizeX - 2, displayInt,  gas.getGas().getSprite(), GuiUtils.TilingDirection.DOWN_RIGHT);
             MekanismRenderer.resetColor();
         }
     }

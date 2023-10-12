@@ -3,6 +3,8 @@ package mekanism.client.jei.machine.other;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import mekanism.client.gui.element.GuiUtils;
 import mekanism.client.jei.machine.MekanismRecipeWrapper;
 import mekanism.common.InfuseStorage;
 import mekanism.common.config.MekanismConfig;
@@ -34,7 +36,7 @@ public class MetallurgicInfuserRecipeWrapper<RECIPE extends MetallurgicInfuserRe
     public void drawInfo(Minecraft mc, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
         if (mc.currentScreen != null) {
             mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-            mc.currentScreen.drawTexturedModalRect(2, 2, recipe.getInput().infuse.getType().sprite, 4, 52);
+            GuiUtils.drawTiledSprite(2,2,52,4,52,recipe.getInput().infuse.getType().sprite,GuiUtils.TilingDirection.DOWN_RIGHT);
         }
     }
 

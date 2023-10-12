@@ -57,12 +57,6 @@ public class MetallurgicInfuserRecipeCategory<WRAPPER extends MetallurgicInfuser
     }
 
     @Override
-    public void drawExtras(Minecraft minecraft) {
-        super.drawExtras(minecraft);
-        drawTexturedRect(1, 1, 177, 0, 6, 54);
-    }
-
-    @Override
     public void setRecipe(IRecipeLayout recipeLayout, WRAPPER recipeWrapper, IIngredients ingredients) {
         MetallurgicInfuserRecipe tempRecipe = recipeWrapper.getRecipe();
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();

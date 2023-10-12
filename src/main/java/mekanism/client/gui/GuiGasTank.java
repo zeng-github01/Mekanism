@@ -79,15 +79,15 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
         if (gas != null) {
             MekanismRenderer.color(gas);
             int scale = (int) (((double) tileEntity.gasTank.getStored() / tileEntity.tier.getStorage()) * 116);
-            displayGauge(43, 17, scale, 10, gas.getGas().getSprite());
+            displayGauge(42, 16, 118, 12, gas.getGas().getSprite(),scale);
             MekanismRenderer.resetColor();
         }
     }
 
-    public void displayGauge(int xPos, int yPos, int sizeX, int sizeY, TextureAtlasSprite icon) {
+    public void displayGauge(int xPos, int yPos, int sizeX, int sizeY, TextureAtlasSprite icon,int displayInt) {
         if (icon != null) {
             mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-            drawTexturedModalRect(guiLeft + xPos, guiTop + yPos, icon, sizeX, sizeY);
+            GuiUtils.drawTiledSprite(guiLeft + xPos + 1, guiTop + yPos + 1, sizeY - 2, displayInt, sizeY - 2, icon, GuiUtils.TilingDirection.DOWN_RIGHT);
         }
     }
 

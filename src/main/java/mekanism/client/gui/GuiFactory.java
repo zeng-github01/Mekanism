@@ -17,6 +17,7 @@ import mekanism.common.base.IFactory.RecipeType;
 import mekanism.common.inventory.container.ContainerFactory;
 import mekanism.common.item.ItemGaugeDropper;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
+import mekanism.client.gui.element.GuiUtils.*;
 import mekanism.common.tier.FactoryTier;
 import mekanism.common.tile.TileEntityFactory;
 import mekanism.common.util.LangUtils;
@@ -39,8 +40,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static mekanism.client.gui.element.GuiUtils.TilingDirection;
-import static mekanism.client.gui.element.GuiUtils.drawTiledSprite1;
 
 @SideOnly(Side.CLIENT)
 public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
@@ -150,7 +149,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
     public void displayGauge(int xPos, int yPos, int sizeX, int sizeY, TextureAtlasSprite icon, int displayInt) {
         if (icon != null) {
             mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-            drawTiledSprite1(guiLeft + xPos + 1, guiTop + yPos + 1, sizeY - 2, displayInt, sizeY - 2, icon, TilingDirection.DOWN_RIGHT);
+            GuiUtils.drawTiledSprite(guiLeft + xPos + 1, guiTop + yPos + 1, sizeY - 2, displayInt, sizeY - 2, icon, TilingDirection.DOWN_RIGHT);
         }
     }
 
