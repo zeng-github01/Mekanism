@@ -108,7 +108,7 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
                 if (!mergeItemStack(slotStack, tileEntity.inventory.size() - 1, inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (tileEntity.getRecipeType().getAnyRecipe(slotStack, inventorySlots.get(4).getStack(), tileEntity.gasTank.getGasType(), tileEntity.infuseStored, tileEntity.gasTank.getGas()) != null) {
+            } else if (tileEntity.getRecipeType().getAnyRecipe(slotStack, inventorySlots.get(4).getStack(), tileEntity.gasTank.getGasType(), tileEntity.infuseStored, tileEntity.gasTank.getGas(),tileEntity.fluidTank.getFluid()) != null) {
                 if (isInputSlot(slotID)) {
                     if (!mergeItemStack(slotStack, tileEntity.inventory.size() - 1, inventorySlots.size(), true)) {
                         return ItemStack.EMPTY;

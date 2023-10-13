@@ -166,6 +166,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         } else if (recipe.recipeInput instanceof InfusionInput) {
             InfusionInput infusionInput = (InfusionInput) recipe.recipeInput;
             return infusionInput.inputStack;
+        } else if (recipe.recipeInput instanceof PressurizedInput) {
+            PressurizedInput pressurizedInput = (PressurizedInput) recipe.recipeInput;
+            return pressurizedInput.getSolid();
         } else {
             return ItemStack.EMPTY;
         }
@@ -338,7 +341,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 electricityStored = Double.MAX_VALUE;
             }
 
-            if (GasOutputMachine()) {
+            if (recipeType == RecipeType.Dissolution) {
                 secondaryEnergyThisTick = Math.max(BASE_INJECT_USAGE * tier.processes, StatUtils.inversePoisson(BASE_INJECT_USAGE * tier.processes));
             } else {
                 secondaryEnergyThisTick = recipeType.fuelEnergyUpgrades() ? StatUtils.inversePoisson(secondaryEnergyPerTick) : (int) Math.ceil(secondaryEnergyPerTick);
@@ -433,11 +436,11 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
     public boolean GasOutputMachine() {
-        return recipeType == RecipeType.Dissolution;
+        return recipeType == RecipeType.Dissolution || recipeType == RecipeType.PRC;
     }
 
     public boolean GasInputMachine() {
-        return recipeType == RecipeType.Dissolution || recipeType == RecipeType.Crystallizer;
+        return recipeType == RecipeType.Dissolution || recipeType == RecipeType.Crystallizer || recipeType == RecipeType.PRC;
     }
 
     public boolean GasAdvancedInputMachine() {
@@ -462,7 +465,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         MachineRecipe cached = cachedRecipe[process];
         ItemStack extra = inventory.get(4);
         if (cached == null) {
-            cached = recipeType.getAnyRecipe(fallbackInput, extra, gasTank.getGasType(), infuseStored, gasTank.getGas());
+            cached = recipeType.getAnyRecipe(fallbackInput, extra, gasTank.getGasType(), infuseStored, gasTank.getGas(), fluidTank.getFluid());
             if (updateCache) {
                 cachedRecipe[process] = cached;
             }
@@ -479,13 +482,11 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 DoubleMachineInput doubleMachineInput = (DoubleMachineInput) cached.recipeInput;
                 recipeInput = doubleMachineInput.itemStack;
                 secondaryMatch = extra.isEmpty() || ItemStack.areItemsEqual(doubleMachineInput.extraStack, extra);
-            }/*else if (cached.recipeInput instanceof PressurizedInput) {
+            } else if (cached.recipeInput instanceof PressurizedInput) {
                 PressurizedInput pressurizedInput = (PressurizedInput) cached.recipeInput;
                 recipeInput = pressurizedInput.getSolid();
-                secondaryMatch = gasTank.getGas() == null || gasTank.getGas().isGasEqual(pressurizedInput.getGas());
-                //TODO: Handle fluid for secondary matching if we ever have a PRC factory
-                pressurizedInput.getFluid();
-            }*/ else if (cached.recipeInput instanceof InfusionInput) {
+                secondaryMatch = (gasTank.getGas() == null || gasTank.getGas().isGasEqual(pressurizedInput.getGas())) && (fluidTank.getFluid() == null || fluidTank.getFluid() == pressurizedInput.getFluid());
+            } else if (cached.recipeInput instanceof InfusionInput) {
                 InfusionInput infusionInput = (InfusionInput) cached.recipeInput;
                 recipeInput = infusionInput.inputStack;
                 secondaryMatch = infuseStored.getAmount() == 0 || infuseStored.getType() == infusionInput.infuse.getType();
@@ -497,7 +498,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             // then it is an out of date cache so we compare against the new one
             // and update the cache while we are at it
             if (recipeInput.isEmpty() || !secondaryMatch || !ItemStack.areItemsEqual(recipeInput, fallbackInput)) {
-                cached = recipeType.getAnyRecipe(fallbackInput, extra, gasTank.getGasType(), infuseStored, gasTank.getGas());
+                cached = recipeType.getAnyRecipe(fallbackInput, extra, gasTank.getGasType(), infuseStored, gasTank.getGas(), fluidTank.getFluid());
                 if (updateCache) {
                     cachedRecipe[process] = cached;
                 }
@@ -510,10 +511,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 recipeOutput = ((ItemStackOutput) cached.recipeOutput).output;
             } else if (cached.recipeOutput instanceof ChanceOutput2) {
                 recipeOutput = ((ChanceOutput2) cached.recipeOutput).primaryOutput;
-            }/* else if (cached.recipeOutput instanceof PressurizedOutput) {
-                //TODO: uncomment if we add a PRC factory
+            } else if (cached.recipeOutput instanceof PressurizedOutput) {
                 recipeOutput = ((PressurizedOutput) cached.recipeOutput).getItemOutput();
-            }*/
+            }
             if (!recipeOutput.isEmpty()) {
                 return ItemStack.areItemsEqual(recipeOutput, output);
             }
@@ -531,7 +531,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Nullable
     public GasStack getItemGas(ItemStack itemStack) {
-        if (GasInputMachine() || GasAdvancedInputMachine()) {
+        if (GasInputMachine() || GasAdvancedInputMachine() || recipeType == RecipeType.PRC) {
             return GasConversionHandler.getItemGas(itemStack, gasTank, recipeType::isValidGas);
         }
         return null;
@@ -540,7 +540,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     public void handleSecondaryFuel() {
         ItemStack extra = inventory.get(4);
         if (!extra.isEmpty()) {
-            if ((GasInputMachine() || GasAdvancedInputMachine()) && gasTank.getNeeded() > 0) {
+            if ((GasInputMachine() || GasAdvancedInputMachine() || recipeType == RecipeType.PRC) && gasTank.getNeeded() > 0) {
                 GasStack gasStack = getItemGas(extra);
                 if (gasStack != null) {
                     Gas gas = gasStack.getGas();
@@ -647,7 +647,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         } else if (isSecondaryOutputSlot(slotID)) {
             return false;
         } else if (isInputSlot(slotID)) {
-            return recipeType.getAnyRecipe(itemstack, inventory.get(4), gasTank.getGasType(), infuseStored, gasTank.getGas()) != null;
+            return recipeType.getAnyRecipe(itemstack, inventory.get(4), gasTank.getGasType(), infuseStored, gasTank.getGas(), fluidTank.getFluid()) != null;
         }
 
         if (slotID == 0) {
@@ -775,6 +775,19 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             return recipe.canOperate(inventory, inputSlot, gasOutTank);
         }
 
+        if (recipeType == RecipeType.PRC) {
+            if (cachedRecipe[process] instanceof PressurizedRecipe && ((PressurizedRecipe) cachedRecipe[process]).getInput().use(inventory, inputSlot, fluidTank, gasTank, false)) {
+                return ((PressurizedRecipe) cachedRecipe[process]).canOperate(inventory, inputSlot, fluidTank, gasTank, gasOutTank,outputSlot);
+            }
+            PressurizedInput input = new PressurizedInput(inventory.get(inputSlot), fluidTank.getFluid(), gasTank.getGas());
+            PressurizedRecipe recipe = RecipeHandler.getPRCRecipe(input);
+            cachedRecipe[process] = recipe;
+            if (recipe == null) {
+                return false;
+            }
+            return recipe.canOperate(inventory, inputSlot, fluidTank, gasTank, gasOutTank,outputSlot);
+        }
+
         if (cachedRecipe[process] instanceof BasicMachineRecipe && ((BasicMachineRecipe) cachedRecipe[process]).inputMatches(inventory, inputSlot)) {
             return ((BasicMachineRecipe) cachedRecipe[process]).canOperate(inventory, inputSlot, outputSlot);
         }
@@ -818,6 +831,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         } else if (recipeType == RecipeType.Dissolution && cachedRecipe[process] instanceof DissolutionRecipe) {
             DissolutionRecipe recipe = (DissolutionRecipe) cachedRecipe[process];
             recipe.operate(inventory, inputSlot, gasOutTank);
+        } else if (recipeType == RecipeType.PRC && cachedRecipe[process] instanceof PressurizedRecipe) {
+            PressurizedRecipe recipe = (PressurizedRecipe) cachedRecipe[process];
+            recipe.operate(inventory, inputSlot, fluidTank, gasTank, gasOutTank,outputSlot);
         } else {
             BasicMachineRecipe<?> recipe = (BasicMachineRecipe<?>) cachedRecipe[process];
             recipe.operate(inventory, inputSlot, outputSlot);
@@ -1207,9 +1223,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         MachineRecipe<?, ?, ?> cached = cachedRecipe[process];
         ItemStack extra = inventory.get(4);
         if (cached == null) {
-            cached = recipeType.getAnyRecipe(fallbackInput, extra, gasTank.getGasType(), infuseStored, gasTank.getGas());
+            cached = recipeType.getAnyRecipe(fallbackInput, extra, gasTank.getGasType(), infuseStored, gasTank.getGas(),fluidTank.getFluid());
             if (cached == null) { // We have not enough input probably
-                cached = recipeType.getAnyRecipe(StackUtils.size(fallbackInput, fallbackInput.getMaxStackSize()), extra, gasTank.getGasType(), infuseStored, gasTank.getGas());
+                cached = recipeType.getAnyRecipe(StackUtils.size(fallbackInput, fallbackInput.getMaxStackSize()), extra, gasTank.getGasType(), infuseStored, gasTank.getGas(),fluidTank.getFluid());
             }
         } else {
             ItemStack recipeInput = ItemStack.EMPTY;
@@ -1231,12 +1247,15 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             } else if (cached.recipeInput instanceof GasInput) {
                 GasInput gasInput = (GasInput) cached.recipeInput;
                 secondaryMatch = gasTank.getGasType() == null || gasInput.ingredient.getGas() == gasTank.getGasType();
+            }else if (cached.recipeInput instanceof PressurizedInput){
+                PressurizedInput pressurizedInput = (PressurizedInput)cached.recipeInput;
+                secondaryMatch = (gasTank.getGas() == null || gasTank.getGas().isGasEqual(pressurizedInput.getGas())) && (fluidTank.getFluid() == null || fluidTank.getFluid() == pressurizedInput.getFluid());
             }
             //If there is no cached item input or it doesn't match our fallback
             // then it is an out of date cache so we compare against the new one
             // and update the cache while we are at it
             if (recipeInput.isEmpty() || !secondaryMatch || !ItemStack.areItemsEqual(recipeInput, fallbackInput)) {
-                cached = recipeType.getAnyRecipe(fallbackInput, extra, gasTank.getGasType(), infuseStored, gasTank.getGas());
+                cached = recipeType.getAnyRecipe(fallbackInput, extra, gasTank.getGasType(), infuseStored, gasTank.getGas(),fluidTank.getFluid());
             }
         }
 
@@ -1248,8 +1267,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 recipeOutput = ((ChanceOutput) cached.recipeOutput).primaryOutput;
             } else if (cached.recipeOutput instanceof ChanceOutput2) {
                 recipeOutput = ((ChanceOutput2) cached.recipeOutput).primaryOutput;
-            }
-            if (cached.recipeOutput instanceof PressurizedOutput) {
+            } else if (cached.recipeOutput instanceof PressurizedOutput) {
                 recipeOutput = ((PressurizedOutput) cached.recipeOutput).getItemOutput();
             }
             if (!recipeOutput.isEmpty()) {

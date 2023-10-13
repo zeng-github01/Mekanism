@@ -135,13 +135,13 @@ public class TileEntityPRC extends TileEntityBasicMachine<PressurizedInput, Pres
 
     @Override
     public void operate(PressurizedRecipe recipe) {
-        recipe.operate(inventory, inputFluidTank, inputGasTank, outputGasTank);
+        recipe.operate(inventory, 0 ,inputFluidTank, inputGasTank, outputGasTank,2);
         markDirty();
     }
 
     @Override
     public boolean canOperate(PressurizedRecipe recipe) {
-        return recipe != null && recipe.canOperate(inventory, inputFluidTank, inputGasTank, outputGasTank);
+        return recipe != null && recipe.canOperate(inventory,0, inputFluidTank, inputGasTank, outputGasTank,2);
     }
 
     @Override
