@@ -68,6 +68,8 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
     protected int getInventorYOffset() {
         if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.ADVANCED || tileEntity.getRecipeType() == RecipeType.INFUSING || tileEntity.getRecipeType() == RecipeType.Dissolution){
             return 95;
+        }else if (tileEntity.getRecipeType() == RecipeType.PRC){
+            return 113;
         }else if (tileEntity.getRecipeType() == RecipeType.Crystallizer){
             return 91;
         }else if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.FARM){
