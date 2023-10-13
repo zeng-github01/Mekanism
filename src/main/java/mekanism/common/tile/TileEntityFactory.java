@@ -37,6 +37,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
@@ -48,11 +52,10 @@ import java.util.Objects;
 import static mekanism.common.tile.TileEntityChemicalDissolutionChamber.BASE_INJECT_USAGE;
 
 public class TileEntityFactory extends TileEntityMachine implements IComputerIntegration, ISideConfiguration, IGasHandler, ISpecialConfigData, ITierUpgradeable,
-        ISustainedData, IComparatorSupport, ITankManager {
+        ISustainedData, IComparatorSupport, ITankManager, IFluidHandlerWrapper {
 
     private static final String[] methods = new String[]{"getEnergy", "getProgress", "facing", "canOperate", "getMaxEnergy", "getEnergyNeeded"};
     public static int BASE_MAX_GAS = 10000;
-    public static int Advanced_MAX_GAS = 210;
     /**
      * How long it takes this factory to switch recipe types.
      */
@@ -63,6 +66,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     public final InfuseStorage infuseStored = new InfuseStorage();
     public final GasTank gasTank;
     public final GasTank gasOutTank;
+    public FluidTank fluidTank;
     private final MachineRecipe[] cachedRecipe;
     private final FactoryInvSorter inventorySorter = new FactoryInvSorter(this);
     /**
@@ -101,14 +105,12 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     /**
      * This machine's recipe type.
      */
-
-
     @Nonnull
     private RecipeType recipeType = RecipeType.SMELTING;
 
     public TileEntityFactory() {
         this(FactoryTier.BASIC, MachineType.BASIC_FACTORY);
-        configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.ENERGY, TransmissionType.GAS);
+        configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.ENERGY, TransmissionType.GAS, TransmissionType.FLUID);
 
         configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.RED, new int[]{5, 6, 7}));
@@ -116,6 +118,11 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Energy", EnumColor.BRIGHT_GREEN, new int[]{1}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Extra", EnumColor.ORANGE, new int[]{4}));
         configComponent.setConfig(TransmissionType.ITEM, new byte[]{4, 1, 1, 3, 1, 2});
+
+        configComponent.addOutput(TransmissionType.FLUID, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
+        configComponent.addOutput(TransmissionType.FLUID, new SideData("Input", EnumColor.RED, new int[]{2}));
+        configComponent.fillConfig(TransmissionType.FLUID, 1);
+        configComponent.setCanEject(TransmissionType.FLUID, false);
 
         configComponent.addOutput(TransmissionType.GAS, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.GAS, new SideData("Input", EnumColor.RED, new int[]{0}));
@@ -136,8 +143,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         progress = new int[type.processes];
         isActive = false;
         cachedRecipe = new MachineRecipe[tier.processes];
-        gasTank = new GasTank(tier == FactoryTier.CREATIVE ? Integer.MAX_VALUE : !GasInputMachine() ? BASE_MAX_GAS * tier.processes : Advanced_MAX_GAS * tier.processes);
-        gasOutTank = new GasTank(tier == FactoryTier.CREATIVE ? Integer.MAX_VALUE : !GasInputMachine() ? BASE_MAX_GAS * tier.processes : Advanced_MAX_GAS * tier.processes);
+        gasTank = new GasTank(tier == FactoryTier.CREATIVE ? Integer.MAX_VALUE : BASE_MAX_GAS * tier.processes);
+        gasOutTank = new GasTank(tier == FactoryTier.CREATIVE ? Integer.MAX_VALUE : BASE_MAX_GAS * tier.processes);
+        fluidTank = new FluidTank(tier == FactoryTier.CREATIVE ? Integer.MAX_VALUE : BASE_MAX_GAS * tier.processes);
         maxInfuse = tier != FactoryTier.CREATIVE ? BASE_MAX_INFUSE * tier.processes : Integer.MAX_VALUE;
         BASE_TICKS_REQUIRED = tier != FactoryTier.CREATIVE ? 200 : 1;
         if (tier == FactoryTier.CREATIVE) {
@@ -230,6 +238,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         factory.prevEnergy = prevEnergy;
         factory.gasTank.setGas(gasTank.getGas());
         factory.gasOutTank.setGas(gasOutTank.getGas());
+        factory.fluidTank.setFluid(fluidTank.getFluid());
         factory.sorting = sorting;
         factory.Factoryoldsorting = Factoryoldsorting;
         factory.setControlType(getControlType());
@@ -310,6 +319,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                             setRecipeType(toSet);
                             gasTank.setGas(null);
                             gasOutTank.setGas(null);
+                            fluidTank.setFluid(null);
                             secondaryEnergyPerTick = getSecondaryEnergyPerTick(recipeType);
                             world.notifyNeighborsOfStateChange(getPos(), getBlockType(), true);
                             MekanismUtils.saveChunk(this);
@@ -328,9 +338,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 electricityStored = Double.MAX_VALUE;
             }
 
-            if (GasOutputMachine()){
+            if (GasOutputMachine()) {
                 secondaryEnergyThisTick = Math.max(BASE_INJECT_USAGE * tier.processes, StatUtils.inversePoisson(BASE_INJECT_USAGE * tier.processes));
-            }else {
+            } else {
                 secondaryEnergyThisTick = recipeType.fuelEnergyUpgrades() ? StatUtils.inversePoisson(secondaryEnergyPerTick) : (int) Math.ceil(secondaryEnergyPerTick);
             }
             for (int process = 0; process < tier.processes; process++) {
@@ -672,6 +682,10 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         return (double) gasOutTank.getStored() * i / gasOutTank.getMaxGas();
     }
 
+    public double getScaledfluidTanklevel(int i) {
+        return (double) fluidTank.getFluidAmount() * i / fluidTank.getCapacity();
+    }
+
     public int getScaledRecipeProgress(int i) {
         return recipeTicks * i / RECIPE_TICKS_REQUIRED;
     }
@@ -821,6 +835,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             } else if (type == 1) {
                 gasTank.setGas(null);
                 gasOutTank.setGas(null);
+                fluidTank.setFluid(null);
                 infuseStored.setEmpty();
             } else if (type == 2) {
                 Factoryoldsorting = !Factoryoldsorting;
@@ -859,6 +874,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             }
             TileUtils.readTankData(dataStream, gasTank);
             TileUtils.readTankData(dataStream, gasOutTank);
+            TileUtils.readTankData(dataStream, fluidTank);
             if (upgraded) {
                 markDirty();
                 MekanismUtils.updateBlock(world, getPos());
@@ -885,6 +901,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         }
         gasTank.read(nbtTags.getCompoundTag("gasTank"));
         gasOutTank.read(nbtTags.getCompoundTag("gasOutTank"));
+        fluidTank.readFromNBT(nbtTags.getCompoundTag("fluidTank"));
         GasUtils.clearIfInvalid(gasTank, recipeType::isValidGas);
     }
 
@@ -907,6 +924,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         }
         nbtTags.setTag("gasTank", gasTank.write(new NBTTagCompound()));
         nbtTags.setTag("gasOutTank", gasOutTank.write(new NBTTagCompound()));
+        nbtTags.setTag("fluidTank", fluidTank.writeToNBT(new NBTTagCompound()));
         return nbtTags;
     }
 
@@ -929,6 +947,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         data.add(progress);
         TileUtils.addTankData(data, gasTank);
         TileUtils.addTankData(data, gasOutTank);
+        TileUtils.addTankData(data, fluidTank);
         upgraded = false;
         return data;
     }
@@ -1003,6 +1022,27 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         }
     }
 
+    @Override
+    public int fill(EnumFacing from, @Nonnull FluidStack resource, boolean doFill) {
+        return fluidTank.fill(resource, doFill);
+    }
+
+    @Override
+    public boolean canFill(EnumFacing from, @Nonnull FluidStack fluid) {
+        return configComponent.getOutput(TransmissionType.FLUID, from, facing).hasSlot(2) && FluidContainerUtils.canFill(fluidTank.getFluid(), fluid);
+    }
+
+    @Override
+    public FluidTankInfo[] getTankInfo(EnumFacing from) {
+        SideData data = configComponent.getOutput(TransmissionType.FLUID, from, facing);
+        return data.getFluidTankInfo(this);
+    }
+
+    @Override
+    public FluidTankInfo[] getAllTanks() {
+        return new FluidTankInfo[]{fluidTank.getInfo()};
+    }
+
     @Nonnull
     @Override
     public int[] getSlotsForFace(@Nonnull EnumFacing side) {
@@ -1064,8 +1104,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         if (isCapabilityDisabled(capability, side)) {
             return false;
         }
-        return capability == Capabilities.GAS_HANDLER_CAPABILITY || capability == Capabilities.CONFIG_CARD_CAPABILITY
-                || capability == Capabilities.SPECIAL_CONFIG_DATA_CAPABILITY || super.hasCapability(capability, side);
+        return capability == Capabilities.GAS_HANDLER_CAPABILITY || capability == Capabilities.CONFIG_CARD_CAPABILITY || capability == Capabilities.SPECIAL_CONFIG_DATA_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, side);
     }
 
     @Override
@@ -1076,6 +1115,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         if (capability == Capabilities.GAS_HANDLER_CAPABILITY || capability == Capabilities.CONFIG_CARD_CAPABILITY
                 || capability == Capabilities.SPECIAL_CONFIG_DATA_CAPABILITY) {
             return (T) this;
+        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new FluidHandlerWrapper(this, side));
         }
         return super.getCapability(capability, side);
     }
@@ -1118,7 +1159,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public Object[] getTanks() {
-        return new Object[]{gasTank, gasOutTank};
+        return new Object[]{gasTank, gasOutTank, fluidTank};
     }
 
     @Override
@@ -1142,6 +1183,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         infuseStored.writeSustainedData(itemStack);
         GasUtils.writeSustainedData(gasTank, itemStack);
         GasUtils.writeSustainedData(gasOutTank, itemStack);
+        if (fluidTank.getFluid() != null) {
+            ItemDataUtils.setCompound(itemStack, "fluidTank", fluidTank.getFluid().writeToNBT(new NBTTagCompound()));
+        }
     }
 
     @Override
@@ -1149,6 +1193,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         infuseStored.readSustainedData(itemStack);
         GasUtils.readSustainedData(gasTank, itemStack);
         GasUtils.readSustainedData(gasOutTank, itemStack);
+        fluidTank.setFluid(FluidStack.loadFluidStackFromNBT(ItemDataUtils.getCompound(itemStack, "fluidTank")));
     }
 
     @Override
