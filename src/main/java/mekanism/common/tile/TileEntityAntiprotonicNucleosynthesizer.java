@@ -1,8 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.Map;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
@@ -29,6 +27,9 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
+import javax.annotation.Nonnull;
+import java.util.Map;
+
 public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityBasicMachine<NucleosynthesizerInput, ItemStackOutput, NucleosynthesizerRecipe> implements IGasHandler,
         ISustainedData, ITankManager {
 
@@ -48,9 +49,7 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityBasicMach
         configComponent.setConfig(TransmissionType.ITEM, new byte[]{2, 1, 0, 0, 0, 3});
 
 
-        configComponent.addOutput(TransmissionType.GAS, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.GAS, new SideData("Gas", EnumColor.RED, new int[]{1}));
-        configComponent.setConfig(TransmissionType.GAS, new byte[]{0, 0, 0, 0, 1, 0});
+        configComponent.setInputConfig(TransmissionType.GAS);
 
         configComponent.setInputConfig(TransmissionType.ENERGY);
 
@@ -100,7 +99,7 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityBasicMach
     @Override
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
         if (slotID == 0) {
-            return RecipeHandler.isInPressurizedRecipe(itemstack);
+            return RecipeHandler.isInNucleosynthesizerRecipe(itemstack);
         } else if (slotID == 1) {
             return ChargeUtils.canBeDischarged(itemstack);
         } else if (slotID == 3) {
@@ -125,13 +124,13 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityBasicMach
 
     @Override
     public void operate(NucleosynthesizerRecipe recipe) {
-        recipe.operate(inventory, inputGasTank);
+        recipe.operate(inventory, 0, inputGasTank, 2);
         markDirty();
     }
 
     @Override
     public boolean canOperate(NucleosynthesizerRecipe recipe) {
-        return recipe != null && recipe.canOperate(inventory, inputGasTank);
+        return recipe != null && recipe.canOperate(inventory, 0, inputGasTank, 2);
     }
 
     @Override
@@ -226,7 +225,7 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityBasicMach
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && inputGasTank.canReceive(type);
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).ioState == SideData.IOState.INPUT && inputGasTank.canReceive(type);
     }
 
     @Override
@@ -265,11 +264,9 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityBasicMach
 
     @Override
     public void writeSustainedData(ItemStack itemStack) {
-
         if (inputGasTank.getGas() != null) {
             ItemDataUtils.setCompound(itemStack, "inputGasTank", inputGasTank.getGas().write(new NBTTagCompound()));
         }
-
     }
 
     @Override

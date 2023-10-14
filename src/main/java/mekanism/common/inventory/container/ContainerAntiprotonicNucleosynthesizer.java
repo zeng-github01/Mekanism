@@ -37,7 +37,7 @@ public class ContainerAntiprotonicNucleosynthesizer extends ContainerMekanism<Ti
                 } else if (!mergeItemStack(slotStack, 3, inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (RecipeHandler.isInPressurizedRecipe(slotStack)) {
+            } else if (RecipeHandler.isInNucleosynthesizerRecipe(slotStack)) {
                 if (slotID != 0) {
                     if (!mergeItemStack(slotStack, 0, 1, false)) {
                         return ItemStack.EMPTY;

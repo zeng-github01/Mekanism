@@ -1,9 +1,5 @@
 package mekanism.common.base;
 
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import javax.annotation.Nullable;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.common.InfuseStorage;
@@ -14,6 +10,7 @@ import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.inputs.*;
 import mekanism.common.recipe.machines.*;
+import mekanism.common.tile.TileEntityAntiprotonicNucleosynthesizer;
 import mekanism.common.tile.TileEntityChemicalCrystallizer;
 import mekanism.common.tile.TileEntityChemicalDissolutionChamber;
 import mekanism.common.tile.TileEntityPRC;
@@ -29,6 +26,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemHandlerHelper;
+
+import javax.annotation.Nullable;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Internal interface for managing various Factory types.
@@ -51,7 +53,8 @@ public interface IFactory {
      * @param itemStack - stack to check
      * @return RecipeType or null if it has invalid NBT
      */
-    @Nullable RecipeType getRecipeTypeOrNull(ItemStack itemStack);
+    @Nullable
+    RecipeType getRecipeTypeOrNull(ItemStack itemStack);
 
     /**
      * Sets the recipe type of this Smelting Factory to a new value.
@@ -89,9 +92,11 @@ public interface IFactory {
         SEPARATOR("Separator", "separator", MachineType.CELL_SEPARATOR, MachineFuelType.CHANCE, false, Recipe.CELL_SEPARATOR),
         FARM("Farm", "farm", MachineType.ORGANIC_FARM, MachineFuelType.FARM, true, Recipe.ORGANIC_FARM),
         RECYCLER("Recycler", "Recycler", MachineType.RECYCLER, MachineFuelType.CHANCE2, false, Recipe.RECYCLER),
-        Crystallizer("Crystallizer","crystallizer",MachineType.CHEMICAL_CRYSTALLIZER,MachineFuelType.BASIC, false, Recipe.CHEMICAL_CRYSTALLIZER),
-        Dissolution("Dissolution","dissolution",MachineType.CHEMICAL_DISSOLUTION_CHAMBER,MachineFuelType.BASIC,true,Recipe.CHEMICAL_DISSOLUTION_CHAMBER),
-        PRC("PRC","prc",MachineType.PRESSURIZED_REACTION_CHAMBER,MachineFuelType.BASIC,false,Recipe.PRESSURIZED_REACTION_CHAMBER);
+        Crystallizer("Crystallizer", "crystallizer", MachineType.CHEMICAL_CRYSTALLIZER, MachineFuelType.BASIC, false, Recipe.CHEMICAL_CRYSTALLIZER),
+        Dissolution("Dissolution", "dissolution", MachineType.CHEMICAL_DISSOLUTION_CHAMBER, MachineFuelType.BASIC, true, Recipe.CHEMICAL_DISSOLUTION_CHAMBER),
+        PRC("PRC", "prc", MachineType.PRESSURIZED_REACTION_CHAMBER, MachineFuelType.BASIC, false, Recipe.PRESSURIZED_REACTION_CHAMBER),
+        OXIDIZER("OXIDIZER", "oxidizer", MachineType.CHEMICAL_OXIDIZER, MachineFuelType.BASIC, false, Recipe.CHEMICAL_OXIDIZER),
+        NUCLEOSYNTHESIZER("NUCLEOSYNTHESIZER", "nucleosynthesizer", MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER, MachineFuelType.BASIC, false, Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER);
 
 
         private String name;
@@ -108,6 +113,7 @@ public interface IFactory {
         private TileEntityChemicalDissolutionChamber cacheTile4;
 
         private TileEntityPRC cacheTile5;
+        private TileEntityAntiprotonicNucleosynthesizer cacheTile6;
 
         RecipeType(String s, String s1, MachineType t, MachineFuelType ft, boolean speed, Recipe r) {
             name = s;
@@ -134,7 +140,8 @@ public interface IFactory {
             return type;
         }
 
-        @Nullable public static RecipeType getFromMachineType(MachineType machineType) {
+        @Nullable
+        public static RecipeType getFromMachineType(MachineType machineType) {
             for (RecipeType type : values()) {
                 if (type.type == machineType) {
                     return type;
@@ -184,28 +191,44 @@ public interface IFactory {
             return getRecipe(new InfusionInput(storage, input));
         }
 
-        public CrystallizerRecipe getCrystallizerRecipe(GasInput input){
+        public CrystallizerRecipe getCrystallizerRecipe(GasInput input) {
             return RecipeHandler.getChemicalCrystallizerRecipe(input);
         }
 
-        public CrystallizerRecipe getCrystallizerRecipe(GasStack gas){
-         return getCrystallizerRecipe(new GasInput(gas));
+        public CrystallizerRecipe getCrystallizerRecipe(GasStack gas) {
+            return getCrystallizerRecipe(new GasInput(gas));
         }
 
-        public DissolutionRecipe getDissolutionRecipe(ItemStackInput input){
+        public DissolutionRecipe getDissolutionRecipe(ItemStackInput input) {
             return (DissolutionRecipe) RecipeHandler.getRecipe(input, recipe);
         }
 
-        public DissolutionRecipe getDissolutionRecipe(ItemStack input){
+        public DissolutionRecipe getDissolutionRecipe(ItemStack input) {
             return getDissolutionRecipe(new ItemStackInput(input));
         }
 
-        public PressurizedRecipe getPressurizedRecipe(PressurizedInput input){
-            return (PressurizedRecipe) RecipeHandler.getRecipe(input,recipe);
+        public OxidationRecipe getOxidationRecipe(ItemStackInput input) {
+            return (OxidationRecipe) RecipeHandler.getRecipe(input, recipe);
         }
 
-        public PressurizedRecipe getPressurizedRecipe(ItemStack input, FluidStack fluid, GasStack gas){
-            return getPressurizedRecipe(new PressurizedInput(input,fluid,gas));
+        public OxidationRecipe getOxidationRecipe(ItemStack input) {
+            return getOxidationRecipe(new ItemStackInput(input));
+        }
+
+        public NucleosynthesizerRecipe getNucleosynthesizerRecipe(NucleosynthesizerInput input) {
+            return (NucleosynthesizerRecipe) RecipeHandler.getRecipe(input, recipe);
+        }
+
+        public NucleosynthesizerRecipe getNucleosynthesizerRecipe(ItemStack input, GasStack gas) {
+            return getNucleosynthesizerRecipe(new NucleosynthesizerInput(input, gas));
+        }
+
+        public PressurizedRecipe getPressurizedRecipe(PressurizedInput input) {
+            return (PressurizedRecipe) RecipeHandler.getRecipe(input, recipe);
+        }
+
+        public PressurizedRecipe getPressurizedRecipe(ItemStack input, FluidStack fluid, GasStack gas) {
+            return getPressurizedRecipe(new PressurizedInput(input, fluid, gas));
         }
 
         public FarmMachineRecipe getFarmRecipe(AdvancedMachineInput input) {
@@ -224,7 +247,8 @@ public interface IFactory {
             return getChance2Recipe(new ItemStackInput(input));
         }
 
-        @Nullable public MachineRecipe getAnyRecipe(ItemStack slotStack, ItemStack extraStack, Gas gasType, InfuseStorage infuse, GasStack gasStackType,FluidStack fluidStack) {
+        @Nullable
+        public MachineRecipe getAnyRecipe(ItemStack slotStack, ItemStack extraStack, Gas gasType, InfuseStorage infuse, GasStack gasStackType, FluidStack fluidStack) {
             if (fuelType == MachineFuelType.ADVANCED) {
                 return getRecipe(slotStack, gasType);
             } else if (fuelType == MachineFuelType.DOUBLE) {
@@ -235,13 +259,17 @@ public interface IFactory {
                 return getFarmRecipe(slotStack, gasType);
             } else if (fuelType == MachineFuelType.CHANCE2) {
                 return getChance2Recipe(slotStack);
-            } else if (this == Crystallizer){
+            } else if (this == Crystallizer) {
                 return getCrystallizerRecipe(gasStackType);
-            }else if (this == Dissolution){
-               return getDissolutionRecipe(slotStack);
-            }else if (this == PRC){
-                return getPressurizedRecipe(slotStack,fluidStack,gasStackType);
-            }else if (this == INFUSING) {
+            } else if (this == Dissolution) {
+                return getDissolutionRecipe(slotStack);
+            } else if (this == PRC) {
+                return getPressurizedRecipe(slotStack, fluidStack, gasStackType);
+            } else if (this == OXIDIZER) {
+                return getOxidationRecipe(slotStack);
+            } else if (this == NUCLEOSYNTHESIZER) {
+                return getNucleosynthesizerRecipe(slotStack, gasStackType);
+            } else if (this == INFUSING) {
                 if (infuse.getType() != null) {
                     return RecipeHandler.getMetallurgicInfuserRecipe(new InfusionInput(infuse, slotStack));
                 }
@@ -257,9 +285,9 @@ public interface IFactory {
         public int getSecondaryEnergyPerTick() {
             if (fuelType == MachineFuelType.ADVANCED) {
                 return getTile().BASE_SECONDARY_ENERGY_PER_TICK;
-            }else if (fuelType == MachineFuelType.FARM) {
+            } else if (fuelType == MachineFuelType.FARM) {
                 return getTile2().BASE_SECONDARY_ENERGY_PER_TICK;
-            }else if (this == Dissolution){
+            } else if (this == Dissolution) {
                 return getTile4().BASE_INJECT_USAGE;
             }
             return 0;
@@ -272,23 +300,28 @@ public interface IFactory {
             if (fuelType == MachineFuelType.FARM) {
                 return getTile2().canReceiveGas(side, type);
             }
-
-            if (this == Crystallizer){
-                return getTile3().canReceiveGas(side,type);
+            if (this == Crystallizer) {
+                return getTile3().canReceiveGas(side, type);
             }
-
-            if (this == Dissolution){
-                return getTile4().canReceiveGas(side,type);
+            if (this == Dissolution) {
+                return getTile4().canReceiveGas(side, type);
             }
-
-            if (this == PRC){
-                return getTile5().canReceiveGas(side,type);
+            if (this == PRC) {
+                return getTile5().canReceiveGas(side, type);
+            }
+            if (this == NUCLEOSYNTHESIZER) {
+                return getTile6().canReceiveGas(side, type);
             }
             return false;
         }
 
         public boolean supportsGas() {
-            return (fuelType == MachineFuelType.ADVANCED || fuelType == MachineFuelType.FARM || this == Crystallizer || this == Dissolution || this ==PRC);
+            return (fuelType == MachineFuelType.ADVANCED ||
+                    fuelType == MachineFuelType.FARM ||
+                    this == Crystallizer ||
+                    this == Dissolution ||
+                    this == PRC ||
+                    this == NUCLEOSYNTHESIZER);
         }
 
         public boolean isValidGas(Gas gas) {
@@ -298,18 +331,18 @@ public interface IFactory {
             if (fuelType == MachineFuelType.FARM) {
                 return getTile2().isValidGas(gas);
             }
-            if (this == Crystallizer){
+            if (this == Crystallizer) {
                 return Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(gas);
             }
-
-            if (this == Dissolution){
+            if (this == Dissolution) {
                 return gas == MekanismFluids.SulfuricAcid; //todo
             }
-
-            if (this == PRC){
+            if (this == PRC) {
                 return Recipe.PRESSURIZED_REACTION_CHAMBER.containsRecipe(gas);
             }
-
+            if (this == NUCLEOSYNTHESIZER) {
+                return Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER.containsRecipe(gas);
+            }
             return false;
         }
 
@@ -353,6 +386,7 @@ public interface IFactory {
             }
             return cacheTile;
         }
+
         public TileEntityFarmMachine getTile2() {
             if (cacheTile2 == null) {
                 MachineType type = MachineType.get(getStack());
@@ -368,6 +402,7 @@ public interface IFactory {
             }
             return cacheTile3;
         }
+
         public TileEntityChemicalDissolutionChamber getTile4() {
             if (cacheTile4 == null) {
                 MachineType type = MachineType.get(getStack());
@@ -376,12 +411,20 @@ public interface IFactory {
             return cacheTile4;
         }
 
-        public TileEntityPRC  getTile5() {
-            if (cacheTile5 == null){
+        public TileEntityPRC getTile5() {
+            if (cacheTile5 == null) {
                 MachineType type = MachineType.get(getStack());
                 cacheTile5 = (TileEntityPRC) type.create();
             }
             return cacheTile5;
+        }
+
+        public TileEntityAntiprotonicNucleosynthesizer getTile6() {
+            if (cacheTile6 == null) {
+                MachineType type = MachineType.get(getStack());
+                cacheTile6 = (TileEntityAntiprotonicNucleosynthesizer) type.create();
+            }
+            return cacheTile6;
         }
 
         public double getEnergyUsage() {

@@ -194,8 +194,7 @@ public class TileEntityChemicalCrystallizer extends TileEntityOperationalMachine
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(0) && inputTank.canReceive(type) &&
-                Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(type);
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).ioState == SideData.IOState.INPUT && inputTank.canReceive(type) && Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(type);
     }
 
     @Override

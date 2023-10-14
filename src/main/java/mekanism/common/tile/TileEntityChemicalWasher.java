@@ -270,8 +270,7 @@ public class TileEntityChemicalWasher extends TileEntityMachine implements IGasH
 
     @Override
     public boolean canFill(EnumFacing from, @Nonnull FluidStack fluid) {
-        SideData data = configComponent.getOutput(TransmissionType.FLUID, from, facing);
-        if (data.hasSlot(0)) {
+        if (configComponent.getOutput(TransmissionType.FLUID, from, facing).ioState == SideData.IOState.INPUT) {
             return FluidContainerUtils.canFill(fluidTank.getFluid(), fluid);
         }
         return false;

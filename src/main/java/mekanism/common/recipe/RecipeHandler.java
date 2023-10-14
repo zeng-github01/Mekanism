@@ -509,6 +509,17 @@ public final class RecipeHandler {
         return false;
     }
 
+    public static boolean isInNucleosynthesizerRecipe(@Nonnull ItemStack stack) {
+        if (!stack.isEmpty()) {
+            for (NucleosynthesizerInput key : Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER.get().keySet()) {
+                if (key.containsType(stack)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public static class Recipe<INPUT extends MachineInput<INPUT>, OUTPUT extends MachineOutput<OUTPUT>, RECIPE extends MachineRecipe<INPUT, OUTPUT, RECIPE>> {
 
         private static List<Recipe> values = new ArrayList<>();
