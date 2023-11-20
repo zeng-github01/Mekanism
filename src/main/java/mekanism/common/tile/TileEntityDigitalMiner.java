@@ -369,13 +369,15 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
             }
         }
 
-        for (Item supportStone : supportStones) {
-            if (supportStone == filter.replaceStack.getItem()) {
-                if (upgradeComponent.getUpgrades(Upgrade.STONE_GENERATOR) > 0) {
+        if (upgradeComponent.getUpgrades(Upgrade.STONE_GENERATOR) > 0) {
+            for (Item supportStone : supportStones) {
+                if (supportStone == filter.replaceStack.getItem()) {
                     return filter.replaceStack;
                 }
             }
         }
+
+
 
         if (doPull && getPullInv() != null) {
             InvStack stack = InventoryUtils.takeDefinedItem(getPullInv(), EnumFacing.UP, filter.replaceStack.copy(), 1, 1);
