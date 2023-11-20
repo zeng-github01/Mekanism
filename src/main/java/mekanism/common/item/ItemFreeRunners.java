@@ -200,7 +200,7 @@ public class ItemFreeRunners extends ItemArmor implements IEnergizedItem, ISpeci
         ItemStack stack = base.getItemStackFromSlot(EntityEquipmentSlot.FEET);
         if (!stack.isEmpty() && stack.getItem() instanceof ItemFreeRunners) {
             ItemFreeRunners boots = (ItemFreeRunners) stack.getItem();
-            if (boots.getMode(stack) == FreeRunnerMode.NORMAL && boots.getEnergy(stack) > 0
+            if (boots.getMode(stack) != FreeRunnerMode.DISABLED && boots.getEnergy(stack) > 0
                     && event.getSource() == DamageSource.FALL) {
                 boots.setEnergy(stack, boots.getEnergy(stack) - event.getAmount() * 50);
                 event.setCanceled(true);
@@ -227,6 +227,7 @@ public class ItemFreeRunners extends ItemArmor implements IEnergizedItem, ISpeci
 
     public enum FreeRunnerMode {
         NORMAL("tooltip.freerunner.regular", EnumColor.DARK_GREEN),
+        SAFETY("tooltip.freerunner.safety",EnumColor.ORANGE),
         DISABLED("tooltip.freerunner.disabled", EnumColor.DARK_RED);
 
         private String unlocalized;

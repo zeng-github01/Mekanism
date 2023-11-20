@@ -947,6 +947,7 @@ tooltip.jetpack.disabled=Disabled
 
 tooltip.freerunner.regular=Regular
 tooltip.freerunner.disabled=Disabled
+tooltip.freerunner.safety=Safety
 
 tooltip.flamethrower.combat=Combat
 tooltip.flamethrower.heat=Heat
