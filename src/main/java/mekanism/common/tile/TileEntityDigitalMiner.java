@@ -124,12 +124,14 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
     public TileComponentSecurity securityComponent = new TileComponentSecurity(this);
     public TileComponentChunkLoader chunkLoaderComponent = new TileComponentChunkLoader(this);
     public String[] methods = {"setRadius", "setMin", "setMax", "addFilter", "removeFilter", "addOreFilter", "removeOreFilter", "reset", "start", "stop", "getToMine"};
+    public Item[] supportStones = {Item.getByNameOrId("minecraft:cobblestone"),Item.getByNameOrId("minecraft:stone")};
 
     public TileEntityDigitalMiner() {
         super("DigitalMiner", MachineType.DIGITAL_MINER.getStorage());
         inventory = NonNullList.withSize(INV_SLOTS.length + 1, ItemStack.EMPTY);
         radius = 10;
         upgradeComponent.setSupported(Upgrade.ANCHOR);
+        upgradeComponent.setSupported(Upgrade.STONE_GENERATOR);
     }
 
     @Override
@@ -364,6 +366,12 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
             if (!stack.isEmpty() && stack.isItemEqual(filter.replaceStack)) {
                 stack.shrink(1);
                 return StackUtils.size(filter.replaceStack, 1);
+            }
+        }
+
+        if (Arrays.asList(supportStones).contains(filter.replaceStack.getItem())){
+            if (upgradeComponent.getUpgrades(Upgrade.STONE_GENERATOR) > 0){
+                return filter.replaceStack;
             }
         }
 
