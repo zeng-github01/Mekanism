@@ -39,6 +39,7 @@ item.BrineBucket.name=盐水桶
 item.LithiumBucket.name=锂桶
 item.HeavyWaterBucket.name=重水桶
 item.FreeRunners.name=自由助跑器
+item.ArmoredFreeRunners.name=装甲自由助跑器
 item.ArmoredJetpack.name=装甲喷气背包
 item.ConfigurationCard.name=配置卡
 item.SeismicReader.name=地震读取器
@@ -942,7 +943,7 @@ tooltip.jetpack.disabled=禁用
 
 tooltip.freerunner.regular=标准
 tooltip.freerunner.disabled=禁用
-tooltip.freerunner.safety=安全
+tooltip.freerunner.safety=安全性
 
 tooltip.flamethrower.combat=战斗
 tooltip.flamethrower.heat=热量
