@@ -372,7 +372,7 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
         if (upgradeComponent.getUpgrades(Upgrade.STONE_GENERATOR) > 0) {
             for (Item supportStone : supportStones) {
                 if (supportStone == filter.replaceStack.getItem()) {
-                    return filter.replaceStack;
+                    return StackUtils.size(filter.replaceStack, 1);
                 }
             }
         }
