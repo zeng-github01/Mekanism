@@ -50,6 +50,7 @@ public class MekanismItems {
     public static final ItemJetpack Jetpack = new ItemJetpack();
     public static final ItemJetpack ArmoredJetpack = new ItemJetpack();
     public static final ItemFreeRunners FreeRunners = new ItemFreeRunners();
+    public static final ItemFreeRunners ArmoredFreeRunners = new ItemFreeRunners();
     public static final Item Balloon = new ItemBalloon();
 
     //Multi-ID Items
@@ -140,6 +141,7 @@ public class MekanismItems {
         registry.register(init(Salt, "Salt"));
         registry.register(init(Crystal, "Crystal"));
         registry.register(init(FreeRunners, "FreeRunners"));
+        registry.register(init(ArmoredFreeRunners,"ArmoredFreeRunners"));
         registry.register(init(ArmoredJetpack, "ArmoredJetpack"));
         registry.register(init(ConfigurationCard, "ConfigurationCard"));
         registry.register(init(CraftingFormula, "CraftingFormula"));

@@ -239,6 +239,7 @@ public class ClientProxy extends CommonProxy {
         registerItemRender(MekanismItems.Salt);
         registerItemRender(MekanismItems.Crystal);
         registerItemRender(MekanismItems.FreeRunners);
+        registerItemRender(MekanismItems.ArmoredFreeRunners);
         registerItemRender(MekanismItems.ArmoredJetpack);
         registerItemRender(MekanismItems.ConfigurationCard);
         registerItemRender(MekanismItems.SeismicReader);
@@ -283,6 +284,7 @@ public class ClientProxy extends CommonProxy {
         MekanismItems.Robit.setTileEntityItemStackRenderer(new RenderItemRobit());
         MekanismItems.ScubaTank.setTileEntityItemStackRenderer(new RenderScubaTank());
         MekanismItems.FreeRunners.setTileEntityItemStackRenderer(new RenderFreeRunners());
+        MekanismItems.ArmoredFreeRunners.setTileEntityItemStackRenderer(new RenderArmoredFreeRunners());
         MekanismItems.AtomicDisassembler.setTileEntityItemStackRenderer(new RenderAtomicDisassembler());
         MekanismItems.Flamethrower.setTileEntityItemStackRenderer(new RenderFlameThrower());
         Item.getItemFromBlock(MekanismBlocks.EnergyCube).setTileEntityItemStackRenderer(new RenderEnergyCubeItem());
@@ -918,6 +920,9 @@ public class ClientProxy extends CommonProxy {
 
         ModelResourceLocation FreeRunnerRL = getInventoryMRL("FreeRunners");
         modelRegistry.putObject(FreeRunnerRL, RenderFreeRunners.model = new ItemLayerWrapper(modelRegistry.getObject(FreeRunnerRL)));
+
+        ModelResourceLocation ArmorFreeRunnerRL = getInventoryMRL("ArmoredFreeRunners");
+        modelRegistry.putObject(ArmorFreeRunnerRL,RenderArmoredFreeRunners.model = new ItemLayerWrapper(modelRegistry.getObject(FreeRunnerRL)));
 
         ModelResourceLocation AtomicDisassemblerRL = getInventoryMRL("AtomicDisassembler");
         modelRegistry.putObject(AtomicDisassemblerRL, RenderAtomicDisassembler.model = new ItemLayerWrapper(modelRegistry.getObject(AtomicDisassemblerRL)));

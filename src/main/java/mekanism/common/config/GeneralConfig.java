@@ -270,6 +270,12 @@ public class GeneralConfig extends BaseConfig {
     public final DoubleOption sawdustChanceLog = new DoubleOption(this, "general", "SawdustChanceLog", 1D,
             "Chance of producing sawdust per operation in the precision sawmill when turning logs into planks.").setRequiresGameRestart(true);
 
+    public final DoubleOption armoredFreeRunnersRatio = new DoubleOption(this,"general","ArmoredFreeRunnersDamageRatio",0.3,
+            "Damage absorb ratio of the Armored FreeRunners");
+
+    public final IntOption armoredFreeRunnersDamageMax = new IntOption(this, "general", "ArmoredFreeRunnersDamageMax",43,
+            "Max damage the Armored Free Runners can absorb.");
+
 
     /**
      * ADD START
