@@ -942,6 +942,7 @@ tooltip.jetpack.disabled=禁用
 
 tooltip.freerunner.regular=标准
 tooltip.freerunner.disabled=禁用
+tooltip.freerunner.safety=安全
 
 tooltip.flamethrower.combat=战斗
 tooltip.flamethrower.heat=热量
