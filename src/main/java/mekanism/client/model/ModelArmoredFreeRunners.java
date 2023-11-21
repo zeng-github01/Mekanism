@@ -81,11 +81,13 @@ public class ModelArmoredFreeRunners extends ModelBase {
         TopPlateL = new ModelRenderer(this,12,7);
         TopPlateL.mirror = true;
         TopPlateL.addBox(0, 0, -0.25F, 2, 2, 1);
-        setRotation(TopPlateL,0, 0, 0);
+        setOffset(TopPlateL,1, 16, -2);
+        setRotation(TopPlateL,-0.7854F, 0, 0);
 
         TopPlateR = new ModelRenderer(this,12,7);
         TopPlateR.addBox(-2, 0, -0.25F, 2, 2, 1);
-        setRotation(TopPlateR,0, 0, 0);
+        setOffset(TopPlateR,-1, 16, -2);
+        setRotation(TopPlateR,-0.7854F, 0, 0);
 
         ConnectionL = new ModelRenderer(this);
         ConnectionL.mirror = true;
@@ -131,9 +133,8 @@ public class ModelArmoredFreeRunners extends ModelBase {
         SupportR.render(size);
         PlateR.render(size);
         PlateL.render(size);
-        //TODO Fix rendering bug for this part
-//        TopPlateL.render(size);
-//        TopPlateR.render(size);
+        TopPlateL.render(size);
+        TopPlateR.render(size);
         ConnectionL.render(size);
         ConnectionR.render(size);
         ArmoredBraceL.render(size);
@@ -147,8 +148,7 @@ public class ModelArmoredFreeRunners extends ModelBase {
         BraceL.render(size);
         SupportL.render(size);
         PlateL.render(size);
-        //TODO Fix rendering bug for this part
-//        TopPlateL.render(size);
+        TopPlateL.render(size);
         ConnectionL.render(size);
         ArmoredBraceL.render(size);
         BatteryL.render(size);
@@ -159,8 +159,7 @@ public class ModelArmoredFreeRunners extends ModelBase {
         BraceR.render(size);
         SupportR.render(size);
         PlateR.render(size);
-        //TODO Fix rendering bug for this part
-//        TopPlateR.render(size);
+        TopPlateR.render(size);
         ConnectionR.render(size);
         ArmoredBraceR.render(size);
         BatteryR.render(size);
@@ -170,5 +169,11 @@ public class ModelArmoredFreeRunners extends ModelBase {
         model.rotateAngleX = x;
         model.rotateAngleY = y;
         model.rotateAngleZ = z;
+    }
+
+    private void setOffset(ModelRenderer model,float x, float y, float z) {
+        model.offsetX = x;
+        model.offsetY = y;
+        model.offsetZ = z;
     }
 }
