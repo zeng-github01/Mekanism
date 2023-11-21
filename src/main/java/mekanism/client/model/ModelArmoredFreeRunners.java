@@ -81,11 +81,11 @@ public class ModelArmoredFreeRunners extends ModelBase {
         TopPlateL = new ModelRenderer(this,12,7);
         TopPlateL.mirror = true;
         TopPlateL.addBox(0, 0, -0.25F, 2, 2, 1);
-        setRotation(TopPlateL,0, 0, 0);
+        TopPlateL.setRotationPoint(-0.7854F,0,0);
 
         TopPlateR = new ModelRenderer(this,12,7);
         TopPlateR.addBox(-2, 0, -0.25F, 2, 2, 1);
-        setRotation(TopPlateR,0, 0, 0);
+        TopPlateR.setRotationPoint(-0.7854F,0,0);
 
         ConnectionL = new ModelRenderer(this);
         ConnectionL.mirror = true;
