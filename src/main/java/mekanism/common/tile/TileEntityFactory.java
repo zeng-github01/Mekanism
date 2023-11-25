@@ -252,6 +252,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         factory.ejectorComponent.readFrom(ejectorComponent);
         factory.configComponent.readFrom(configComponent);
         factory.ejectorComponent.setOutputData(TransmissionType.ITEM, factory.configComponent.getOutputs(TransmissionType.ITEM).get(2));
+        factory.ejectorComponent.setOutputData(TransmissionType.GAS, factory.configComponent.getOutputs(TransmissionType.GAS).get(2));
         factory.setRecipeType(recipeType);
         factory.upgradeComponent.setSupported(Upgrade.GAS, recipeType.fuelEnergyUpgrades());
         factory.securityComponent.readFrom(securityComponent);
