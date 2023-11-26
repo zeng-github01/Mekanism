@@ -10,10 +10,7 @@ import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.inputs.*;
 import mekanism.common.recipe.machines.*;
-import mekanism.common.tile.TileEntityAntiprotonicNucleosynthesizer;
-import mekanism.common.tile.TileEntityChemicalCrystallizer;
-import mekanism.common.tile.TileEntityChemicalDissolutionChamber;
-import mekanism.common.tile.TileEntityPRC;
+import mekanism.common.tile.*;
 import mekanism.common.tile.prefab.TileEntityAdvancedElectricMachine;
 import mekanism.common.tile.prefab.TileEntityFarmMachine;
 import mekanism.common.util.LangUtils;
@@ -96,8 +93,8 @@ public interface IFactory {
         Dissolution("Dissolution", "dissolution", MachineType.CHEMICAL_DISSOLUTION_CHAMBER, MachineFuelType.BASIC, true, Recipe.CHEMICAL_DISSOLUTION_CHAMBER),
         PRC("PRC", "prc", MachineType.PRESSURIZED_REACTION_CHAMBER, MachineFuelType.BASIC, false, Recipe.PRESSURIZED_REACTION_CHAMBER),
         OXIDIZER("OXIDIZER", "oxidizer", MachineType.CHEMICAL_OXIDIZER, MachineFuelType.BASIC, false, Recipe.CHEMICAL_OXIDIZER),
-        NUCLEOSYNTHESIZER("NUCLEOSYNTHESIZER", "nucleosynthesizer", MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER, MachineFuelType.BASIC, false, Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER);
-
+        NUCLEOSYNTHESIZER("NUCLEOSYNTHESIZER", "nucleosynthesizer", MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER, MachineFuelType.BASIC, false, Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER),
+        WASHER("Washer","washer",MachineType.CHEMICAL_WASHER,MachineFuelType.BASIC,false,Recipe.CHEMICAL_WASHER);
 
         private String name;
         private SoundEvent sound;
@@ -105,16 +102,17 @@ public interface IFactory {
         private MachineFuelType fuelType;
         private boolean fuelSpeed;
         private Recipe recipe;
-        private TileEntityAdvancedElectricMachine cacheTile;
+        private TileEntityAdvancedElectricMachine AdvancedElectricMachineCacheTile;
 
-        private TileEntityFarmMachine cacheTile2;
+        private TileEntityFarmMachine FarmMachineCacheTile;
 
-        private TileEntityChemicalCrystallizer cacheTile3;
-        private TileEntityChemicalDissolutionChamber cacheTile4;
+        private TileEntityChemicalCrystallizer CrystallizerCacheTile;
+        private TileEntityChemicalDissolutionChamber DissolutionChamberCacheTile;
 
-        private TileEntityPRC cacheTile5;
-        private TileEntityAntiprotonicNucleosynthesizer cacheTile6;
+        private TileEntityPRC PRCCacheTile;
+        private TileEntityAntiprotonicNucleosynthesizer AntiprotonicNucleosynthesizerCacheTile;
 
+        private TileEntityChemicalWasher WasherCacheTile;
         RecipeType(String s, String s1, MachineType t, MachineFuelType ft, boolean speed, Recipe r) {
             name = s;
             sound = new SoundEvent(new ResourceLocation(Mekanism.MODID, "tile.machine." + s1));
@@ -231,6 +229,14 @@ public interface IFactory {
             return getPressurizedRecipe(new PressurizedInput(input, fluid, gas));
         }
 
+        public WasherRecipe getWasherRecipe(GasInput input){
+            return RecipeHandler.getChemicalWasherRecipe(input);
+        }
+
+        public WasherRecipe getWasherRecipe(GasStack gas) {
+            return getWasherRecipe(new GasInput(gas));
+        }
+
         public FarmMachineRecipe getFarmRecipe(AdvancedMachineInput input) {
             return (FarmMachineRecipe) RecipeHandler.getRecipe(input, recipe);
         }
@@ -269,6 +275,8 @@ public interface IFactory {
                 return getOxidationRecipe(slotStack);
             } else if (this == NUCLEOSYNTHESIZER) {
                 return getNucleosynthesizerRecipe(slotStack, gasStackType);
+            } else if(this == WASHER){
+                return getWasherRecipe(gasStackType);
             } else if (this == INFUSING) {
                 if (infuse.getType() != null) {
                     return RecipeHandler.getMetallurgicInfuserRecipe(new InfusionInput(infuse, slotStack));
@@ -309,9 +317,15 @@ public interface IFactory {
             if (this == PRC) {
                 return getTile5().canReceiveGas(side, type);
             }
+
             if (this == NUCLEOSYNTHESIZER) {
                 return getTile6().canReceiveGas(side, type);
             }
+
+            if (this == WASHER){
+                return getWasherCacheTile().canReceiveGas(side,type);
+            }
+
             return false;
         }
 
@@ -321,7 +335,9 @@ public interface IFactory {
                     this == Crystallizer ||
                     this == Dissolution ||
                     this == PRC ||
-                    this == NUCLEOSYNTHESIZER);
+                    this == NUCLEOSYNTHESIZER ||
+                    this == WASHER
+                    );
         }
 
         public boolean isValidGas(Gas gas) {
@@ -339,6 +355,9 @@ public interface IFactory {
             }
             if (this == PRC) {
                 return Recipe.PRESSURIZED_REACTION_CHAMBER.containsRecipe(gas);
+            }
+            if (this == WASHER){
+                return Recipe.CHEMICAL_WASHER.containsRecipe(gas);
             }
             if (this == NUCLEOSYNTHESIZER) {
                 return Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER.containsRecipe(gas);
@@ -380,51 +399,59 @@ public interface IFactory {
         }
 
         public TileEntityAdvancedElectricMachine getTile() {
-            if (cacheTile == null) {
+            if (AdvancedElectricMachineCacheTile == null) {
                 MachineType type = MachineType.get(getStack());
-                cacheTile = (TileEntityAdvancedElectricMachine) type.create();
+                AdvancedElectricMachineCacheTile = (TileEntityAdvancedElectricMachine) type.create();
             }
-            return cacheTile;
+            return AdvancedElectricMachineCacheTile;
         }
 
         public TileEntityFarmMachine getTile2() {
-            if (cacheTile2 == null) {
+            if (FarmMachineCacheTile == null) {
                 MachineType type = MachineType.get(getStack());
-                cacheTile2 = (TileEntityFarmMachine) type.create();
+                FarmMachineCacheTile = (TileEntityFarmMachine) type.create();
             }
-            return cacheTile2;
+            return FarmMachineCacheTile;
         }
 
         public TileEntityChemicalCrystallizer getTile3() {
-            if (cacheTile3 == null) {
+            if (CrystallizerCacheTile == null) {
                 MachineType type = MachineType.get(getStack());
-                cacheTile3 = (TileEntityChemicalCrystallizer) type.create();
+                CrystallizerCacheTile = (TileEntityChemicalCrystallizer) type.create();
             }
-            return cacheTile3;
+            return CrystallizerCacheTile;
         }
 
         public TileEntityChemicalDissolutionChamber getTile4() {
-            if (cacheTile4 == null) {
+            if (DissolutionChamberCacheTile == null) {
                 MachineType type = MachineType.get(getStack());
-                cacheTile4 = (TileEntityChemicalDissolutionChamber) type.create();
+                DissolutionChamberCacheTile = (TileEntityChemicalDissolutionChamber) type.create();
             }
-            return cacheTile4;
+            return DissolutionChamberCacheTile;
         }
 
         public TileEntityPRC getTile5() {
-            if (cacheTile5 == null) {
+            if (PRCCacheTile == null) {
                 MachineType type = MachineType.get(getStack());
-                cacheTile5 = (TileEntityPRC) type.create();
+                PRCCacheTile = (TileEntityPRC) type.create();
             }
-            return cacheTile5;
+            return PRCCacheTile;
+        }
+
+        public  TileEntityChemicalWasher getWasherCacheTile(){
+            if (WasherCacheTile == null){
+                MachineType type = MachineType.get(getStack());
+                WasherCacheTile = (TileEntityChemicalWasher) type.create();
+            }
+            return WasherCacheTile;
         }
 
         public TileEntityAntiprotonicNucleosynthesizer getTile6() {
-            if (cacheTile6 == null) {
+            if (AntiprotonicNucleosynthesizerCacheTile == null) {
                 MachineType type = MachineType.get(getStack());
-                cacheTile6 = (TileEntityAntiprotonicNucleosynthesizer) type.create();
+                AntiprotonicNucleosynthesizerCacheTile = (TileEntityAntiprotonicNucleosynthesizer) type.create();
             }
-            return cacheTile6;
+            return AntiprotonicNucleosynthesizerCacheTile;
         }
 
         public double getEnergyUsage() {

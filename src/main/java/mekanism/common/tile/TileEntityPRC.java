@@ -73,12 +73,10 @@ public class TileEntityPRC extends TileEntityBasicMachine<PressurizedInput, Pres
     @Override
     public void onUpdate() {
         super.onUpdate();
-
         if (!world.isRemote) {
             PressurizedRecipe recipe = getRecipe();
             ChargeUtils.discharge(1, this);
-            if (canOperate(recipe) && MekanismUtils.canFunction(this) &&
-                    getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy)) {
+            if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy)) {
                 boolean update = BASE_TICKS_REQUIRED != recipe.ticks;
                 BASE_TICKS_REQUIRED = recipe.ticks;
                 if (update) {
@@ -304,8 +302,10 @@ public class TileEntityPRC extends TileEntityBasicMachine<PressurizedInput, Pres
 
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
-        SideData data = configComponent.getOutput(TransmissionType.FLUID, from, facing);
-        return data.getFluidTankInfo(this);
+        if (configComponent.getOutput(TransmissionType.FLUID, from, facing).ioState != SideData.IOState.OFF){
+            return new FluidTankInfo[]{inputFluidTank.getInfo()};
+        }
+        return PipeUtils.EMPTY;
     }
 
     @Override
@@ -331,7 +331,7 @@ public class TileEntityPRC extends TileEntityBasicMachine<PressurizedInput, Pres
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && inputGasTank.canReceive(type);
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && inputGasTank.canReceive(type) ;
     }
 
     @Override
