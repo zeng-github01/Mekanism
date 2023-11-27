@@ -18,6 +18,7 @@ import mekanism.common.base.IFactory.RecipeType;
 import mekanism.common.inventory.container.ContainerFactory;
 import mekanism.common.item.ItemGaugeDropper;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
+import mekanism.common.recipe.machines.PressurizedRecipe;
 import mekanism.common.tier.FactoryTier;
 import mekanism.common.tile.TileEntityFactory;
 import mekanism.common.util.LangUtils;
@@ -104,6 +105,17 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
 
         addGuiElement(new GuiEnergyInfo(() -> {
             String multiplier = MekanismUtils.getEnergyDisplay(tileEntity.energyPerTick);
+            double extra;
+            for (int i = 0; i < tileEntity.tier.processes; i++) {
+                if (tileEntity.getRecipeType() == RecipeType.PRC) {
+                    PressurizedRecipe PRCrecipe = tileEntity.getRecipeType().getPressurizedRecipe(tileEntity.inventory.get(tileEntity.getInputSlot(i)), tileEntity.fluidTank.getFluid(), tileEntity.gasTank.getGas());
+                    extra = PRCrecipe != null ? PRCrecipe.extraEnergy : 0;
+                    if (tileEntity.progress[i] != 0) {
+                        int cacheIndex = i + 1; //Fixed 1 recipe energy missing
+                        multiplier = MekanismUtils.getEnergyDisplay(MekanismUtils.getEnergyPerTick(tileEntity, (tileEntity.BASE_ENERGY_PER_TICK + extra) * cacheIndex));
+                    }
+                }
+            }
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
                     LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
         }, this, resource));
