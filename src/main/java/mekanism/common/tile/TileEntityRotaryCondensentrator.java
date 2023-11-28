@@ -335,6 +335,7 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
 
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
+
         SideData data = configComponent.getOutput(TransmissionType.FLUID, from, facing);
         return data.getFluidTankInfo(this);
     }
