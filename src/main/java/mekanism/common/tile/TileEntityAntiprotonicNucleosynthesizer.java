@@ -66,8 +66,7 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityBasicMach
         if (!world.isRemote) {
             NucleosynthesizerRecipe recipe = getRecipe();
             ChargeUtils.discharge(1, this);
-            if (canOperate(recipe) && MekanismUtils.canFunction(this) &&
-                    getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy)) {
+            if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy)) {
                 boolean update = BASE_TICKS_REQUIRED != recipe.ticks;
                 BASE_TICKS_REQUIRED = recipe.ticks;
                 if (update) {

@@ -18,6 +18,7 @@ import mekanism.common.base.IFactory.RecipeType;
 import mekanism.common.inventory.container.ContainerFactory;
 import mekanism.common.item.ItemGaugeDropper;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
+import mekanism.common.recipe.machines.NucleosynthesizerRecipe;
 import mekanism.common.recipe.machines.PressurizedRecipe;
 import mekanism.common.tier.FactoryTier;
 import mekanism.common.tile.TileEntityFactory;
@@ -114,6 +115,13 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
                         int cacheIndex = i + 1; //Fixed 1 recipe energy missing
                         multiplier = MekanismUtils.getEnergyDisplay(MekanismUtils.getEnergyPerTick(tileEntity, (tileEntity.BASE_ENERGY_PER_TICK + extra) * cacheIndex));
                     }
+                }else if (tileEntity.getRecipeType() == RecipeType.NUCLEOSYNTHESIZER) {
+                    NucleosynthesizerRecipe NnRecipe = tileEntity.getRecipeType().getNucleosynthesizerRecipe(tileEntity.inventory.get(tileEntity.getInputSlot(i)), tileEntity.gasTank.getGas());
+                    extra = NnRecipe != null ? NnRecipe.extraEnergy : 0;
+                    if (tileEntity.progress[i] != 0) {
+                        int cacheIndex = i + 1; //Fixed 1 recipe energy missing
+                        multiplier = MekanismUtils.getEnergyDisplay(MekanismUtils.getEnergyPerTick(tileEntity, (tileEntity.BASE_ENERGY_PER_TICK + extra) * cacheIndex));
+                    }
                 }
             }
             return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
@@ -128,7 +136,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
             addGuiElement(new GuiProgress(new IProgressInfoHandler() {
                 @Override
                 public double getProgress() {
-                    return tileEntity.getScaledProgress(1, cacheIndex);
+                    return tileEntity.getScaledProgress(cacheIndex);
                 }
             }, ProgressBar.DOWN, this, resource, xPos, 33));
         }
