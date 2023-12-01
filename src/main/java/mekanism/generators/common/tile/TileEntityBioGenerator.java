@@ -40,55 +40,53 @@ public class TileEntityBioGenerator extends TileEntityGenerator implements IFlui
     private int currentRedstoneLevel;
 
     public TileEntityBioGenerator() {
-        super("bio", "BioGenerator", MekanismConfig.current().generators.bioGeneratorStorage.val(), MekanismConfig.current().generators.bioGeneration.val() * 2);
+        super("bio", "BioGenerator",  MekanismConfig.current().generators.bioGeneratorStorage.val(), MekanismConfig.current().generators.bioGeneration.val() * 2);
         inventory = NonNullList.withSize(2, ItemStack.EMPTY);
     }
 
     @Override
     public void onUpdate() {
         super.onUpdate();
-
-        if (!inventory.get(0).isEmpty()) {
+        if (!world.isRemote) {
             ChargeUtils.charge(1, this);
-            FluidStack fluid = FluidUtil.getFluidContained(inventory.get(0));
-            if (fluid != null && FluidRegistry.isFluidRegistered("bioethanol")) {
-                if (fluid.getFluid() == FluidRegistry.getFluid("bioethanol")) {
-                    IFluidHandler handler = FluidUtil.getFluidHandler(inventory.get(0));
-                    FluidStack drained = handler.drain(bioFuelSlot.MAX_FLUID - bioFuelSlot.fluidStored, true);
-                    if (drained != null) {
-                        bioFuelSlot.fluidStored += drained.amount;
+            if (!inventory.get(0).isEmpty()) {
+                FluidStack fluid = FluidUtil.getFluidContained(inventory.get(0));
+                if (fluid != null && FluidRegistry.isFluidRegistered("bioethanol")) {
+                    if (fluid.getFluid() == FluidRegistry.getFluid("bioethanol")) {
+                        IFluidHandler handler = FluidUtil.getFluidHandler(inventory.get(0));
+                        FluidStack drained = handler.drain(bioFuelSlot.MAX_FLUID - bioFuelSlot.fluidStored, true);
+                        if (drained != null) {
+                            bioFuelSlot.fluidStored += drained.amount;
+                        }
                     }
-                }
-            } else {
-                int fuel = getFuel(inventory.get(0));
-                if (fuel > 0) {
-                    int fuelNeeded = bioFuelSlot.MAX_FLUID - bioFuelSlot.fluidStored;
-                    if (fuel <= fuelNeeded) {
-                        bioFuelSlot.fluidStored += fuel;
-                        if (!inventory.get(0).getItem().getContainerItem(inventory.get(0)).isEmpty()) {
-                            inventory.set(0, inventory.get(0).getItem().getContainerItem(inventory.get(0)));
-                        } else {
-                            inventory.get(0).shrink(1);
+                } else {
+                    int fuel = getFuel(inventory.get(0));
+                    if (fuel > 0) {
+                        int fuelNeeded = bioFuelSlot.MAX_FLUID - bioFuelSlot.fluidStored;
+                        if (fuel <= fuelNeeded) {
+                            bioFuelSlot.fluidStored += fuel;
+                            if (!inventory.get(0).getItem().getContainerItem(inventory.get(0)).isEmpty()) {
+                                inventory.set(0, inventory.get(0).getItem().getContainerItem(inventory.get(0)));
+                            } else {
+                                inventory.get(0).shrink(1);
+                            }
                         }
                     }
                 }
             }
-        }
-        if (canOperate()) {
-            if (!world.isRemote) {
+            if (canOperate()) {
                 setActive(true);
+                bioFuelSlot.setFluid(bioFuelSlot.fluidStored - 1);
+                setEnergy(electricityStored + MekanismConfig.current().generators.bioGeneration.val());
+            } else  {
+                setActive(false);
             }
-            bioFuelSlot.setFluid(bioFuelSlot.fluidStored - 1);
-            setEnergy(electricityStored + MekanismConfig.current().generators.bioGeneration.val());
-        } else if (!world.isRemote) {
-            setActive(false);
-        }
-        if (!world.isRemote) {
             int newRedstoneLevel = getRedstoneLevel();
             if (newRedstoneLevel != currentRedstoneLevel) {
                 world.updateComparatorOutputLevel(pos, getBlockType());
                 currentRedstoneLevel = newRedstoneLevel;
             }
+
         }
     }
 

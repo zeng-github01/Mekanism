@@ -2,6 +2,8 @@ package mekanism.generators.client.render.item;
 
 import javax.annotation.Nonnull;
 import mekanism.client.render.MekanismRenderer;
+import mekanism.common.Mekanism;
+import mekanism.common.config.MekanismConfig;
 import mekanism.generators.client.model.ModelWindGenerator;
 import mekanism.generators.common.util.MekanismGeneratorUtils;
 import mekanism.generators.common.util.MekanismGeneratorUtils.ResourceType;
@@ -47,10 +49,15 @@ public class RenderWindGeneratorItem {
         //The best way to do this would be to add an event listener for dimension change.
         //The event is server side only so we would need to send a packet to clients to tell them if they are
         //in a blacklisted dimension or not.
-        if (lastTicksUpdated != Minecraft.getMinecraft().getRenderPartialTicks()) {
-            angle = (angle + 2) % 360;
-            lastTicksUpdated = Minecraft.getMinecraft().getRenderPartialTicks();
+        if (MekanismConfig.current().generators.windGeneratorItem.val()) {
+            if (lastTicksUpdated != Minecraft.getMinecraft().getRenderPartialTicks()) {
+                angle = (angle + 2) % 360;
+                lastTicksUpdated = Minecraft.getMinecraft().getRenderPartialTicks();
+            }
+        }else {
+            angle = 0;
         }
+
         windGenerator.render(0.016F, angle);
         GlStateManager.popMatrix();
     }

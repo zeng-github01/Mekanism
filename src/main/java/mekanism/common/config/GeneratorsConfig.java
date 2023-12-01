@@ -1,6 +1,7 @@
 package mekanism.common.config;
 
 import io.netty.buffer.ByteBuf;
+import mekanism.common.config.options.BooleanOption;
 import mekanism.common.config.options.DoubleOption;
 import mekanism.common.config.options.IntOption;
 import mekanism.common.config.options.IntSetOption;
@@ -74,6 +75,8 @@ public class GeneratorsConfig extends BaseConfig {
             "TurbineGeneratorStorage",16000000D,"How much energy per volume, default 16MJ");
     public final DoubleOption reactorGeneratorStorage = new DoubleOption(this,"generation",
             "ReactorGeneratorStorage",1000000000D,"Energy capable of being stored");
+
+    public final BooleanOption windGeneratorItem = new BooleanOption(this,"generation","WindGenerator",true,"Causes the item's wind turbine to rotate the blades");
 
     public TypeConfigManager<GeneratorType> generatorsManager = new TypeConfigManager<>(this, "generators", GeneratorType.class,
             GeneratorType::getGeneratorsForConfig, GeneratorType::getBlockName);
