@@ -12,6 +12,7 @@ import mekanism.common.Upgrade;
 import mekanism.common.base.ITileComponent;
 import mekanism.common.base.IUpgradeItem;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class TileComponentUpgrade implements ITileComponent {
@@ -82,9 +83,11 @@ public class TileComponentUpgrade implements ITileComponent {
         return upgradeSlot;
     }
 
+
     public void setUpgradeSlot(int i) {
         upgradeSlot = i;
     }
+
 
 
     public int getUpgrades(Upgrade upgrade) {
@@ -109,9 +112,12 @@ public class TileComponentUpgrade implements ITileComponent {
         return 0;
     }
 
-    public void removeUpgrade(Upgrade upgrade) {
-
-        upgrades.put(upgrade, Math.max(0, getUpgrades(upgrade) - 1));
+    public void removeUpgrade(Upgrade upgrade, boolean removeAll) {
+        int installed = getUpgrades(upgrade);
+        if (installed > 0) {
+            int toRemove = removeAll ? installed : 1;
+            upgrades.put(upgrade, Math.max(0, getUpgrades(upgrade) - toRemove));
+        }
         if (upgrades.get(upgrade) == 0) {
             upgrades.remove(upgrade);
         }

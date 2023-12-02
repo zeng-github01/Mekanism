@@ -705,6 +705,7 @@ gui.upgrades.amount=数量
 gui.upgrades.max=最大
 gui.upgrades.effect=效果
 gui.upgrades.unistall=卸载
+gui.upgrades.uninstall=卸载单个升级，按住Shift以卸载所有。
 
 gui.chemicalInfuser.short=化学灌注器
 gui.chemicalDissolutionChamber.short=化学溶解室

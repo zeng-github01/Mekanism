@@ -1,8 +1,5 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
-import java.util.Set;
-import javax.annotation.Nullable;
 import mekanism.api.Coord4D;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
@@ -24,6 +21,12 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Keyboard;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.util.Set;
+
 
 @SideOnly(Side.CLIENT)
 public class GuiUpgradeManagement extends GuiMekanism {
@@ -31,7 +34,8 @@ public class GuiUpgradeManagement extends GuiMekanism {
     private GuiButton backButton;
     private GuiButton removeButton;
     private IUpgradeTile tileEntity;
-    @Nullable private Upgrade selectedType;
+    @Nullable
+    private Upgrade selectedType;
     private boolean isDragging = false;
     private int dragOffset = 0;
     private int supportedIndex;
@@ -74,7 +78,7 @@ public class GuiUpgradeManagement extends GuiMekanism {
             Mekanism.packetHandler.sendToServer(new SimpleGuiMessage(Coord4D.get(tile), 0, guiId));
         } else if (guibutton.id == removeButton.id) {
             if (selectedType != null) {
-                Mekanism.packetHandler.sendToServer(new RemoveUpgradeMessage(Coord4D.get(tile), selectedType.ordinal()));
+                Mekanism.packetHandler.sendToServer(new RemoveUpgradeMessage(Coord4D.get(tile), selectedType.ordinal(), Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? 1 : 0));
             }
         }
     }
@@ -142,7 +146,9 @@ public class GuiUpgradeManagement extends GuiMekanism {
                 displayTooltips(MekanismUtils.splitTooltip(upgrade.getDescription(), upgrade.getStack()), xAxis, yAxis);
             }
         }
-
+        if (removeButton.isMouseOver() && removeButton.enabled) {
+            displayTooltip(LangUtils.localize("gui.upgrades.uninstall"), xAxis, yAxis);
+        }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 

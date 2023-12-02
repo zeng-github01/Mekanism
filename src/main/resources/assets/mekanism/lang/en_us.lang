@@ -706,6 +706,7 @@ gui.upgrades.amount=Amount
 gui.upgrades.max=Max
 gui.upgrades.effect=Effect
 gui.upgrades.unistall=Unistall
+gui.upgrades.uninstall=Uninstalls a single upgrade, hold shift to uninstall all
 
 gui.chemicalInfuser.short=C. Infuser
 gui.chemicalDissolutionChamber.short=C. Dissolution Chamber

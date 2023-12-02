@@ -8,6 +8,7 @@ import mekanism.common.base.IUpgradeTile;
 import mekanism.common.network.PacketRemoveUpgrade.RemoveUpgradeMessage;
 import mekanism.common.tile.prefab.TileEntityBasicBlock;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -24,8 +25,16 @@ public class PacketRemoveUpgrade implements IMessageHandler<RemoveUpgradeMessage
                 IUpgradeTile upgradeTile = (IUpgradeTile) tileEntity;
                 Upgrade upgrade = Upgrade.values()[message.upgradeType];
                 if (upgradeTile.getComponent().getUpgrades(upgrade) > 0) {
-                    if (player.inventory.addItemStackToInventory(upgrade.getStack())) {
-                        upgradeTile.getComponent().removeUpgrade(upgrade);
+                    ItemStack up = upgrade.getStack();
+                    up.setCount(upgradeTile.getComponent().getUpgrades(upgrade));
+                    if (message.removeAll == 1) {
+                        if (player.inventory.addItemStackToInventory(up)) {
+                            upgradeTile.getComponent().removeUpgrade(upgrade, true);
+                        }
+                    } else {
+                        if (player.inventory.addItemStackToInventory(upgrade.getStack())) {
+                            upgradeTile.getComponent().removeUpgrade(upgrade, false);
+                        }
                     }
                 }
             }
@@ -33,30 +42,33 @@ public class PacketRemoveUpgrade implements IMessageHandler<RemoveUpgradeMessage
         return null;
     }
 
+
     public static class RemoveUpgradeMessage implements IMessage {
-
         public Coord4D coord4D;
-
         public int upgradeType;
+        public int removeAll;
 
         public RemoveUpgradeMessage() {
         }
 
-        public RemoveUpgradeMessage(Coord4D coord, int type) {
+        public RemoveUpgradeMessage(Coord4D coord, int type, int remove) {
             coord4D = coord;
             upgradeType = type;
+            removeAll = remove;
         }
 
         @Override
         public void toBytes(ByteBuf dataStream) {
             coord4D.write(dataStream);
             dataStream.writeInt(upgradeType);
+            dataStream.writeInt(removeAll);
         }
 
         @Override
         public void fromBytes(ByteBuf dataStream) {
             coord4D = Coord4D.read(dataStream);
             upgradeType = dataStream.readInt();
+            removeAll = dataStream.readInt();
         }
     }
 }
