@@ -233,7 +233,10 @@ tile.MachineBlock4.Alloy.name=合金炉
 tile.MachineBlock4.CellExtractor.name=细胞提取机
 tile.MachineBlock4.CellSeparator.name=细胞分离机
 tile.MachineBlock4.Recycler.name=回收机
+tile.MachineBlock4.IndustrialAlarm.name=工业报警器
 tile.MachineBlock4.Void.name=虚空采掘机
+
+
 
 # Plastic
 tile.PlasticBlock.name=塑料方块
@@ -746,6 +749,12 @@ gui.factory.Alloy=合金
 gui.factory.Extractor=提取
 gui.factory.Separator=分离
 gui.factory.Recycler=回收
+gui.factory.Dissolution=溶解
+gui.factory.Crystallizer=结晶
+gui.factory.PRC=加压
+gui.factory.Oxidizer=氧化
+gui.factory.Nucleosynthesizer=反质子
+gui.factory.Washer=清洗
 
 gui.seismicReader.short=地震读取器
 gui.seismicReader.solids=固体
@@ -1027,6 +1036,9 @@ tooltip.ReactorLogicAdapter=一个可以通过红石信号来对反应堆进行�
 tooltip.OsmiumOre=一种牢固的材料，它能够在这个世界任何高度被发现。 它因经常用于机器建造而闻名。
 tooltip.CopperOre=一种常见的导电材料，能够用于线缆的产出。 它耐高温的特性也使它成为生成高级机械的重要材料。
 tooltip.TinOre=一种轻盈，但牢固的导电材料，比铜要略微稀有点。
+tooltip.FluoriteOre=一种发现于地球表面之下相对较深的矿物。这些晶体可以被加工成氢氟酸，一种铀加工所必需的化学物质。
+tooltip.LeadOre=一种有点稀有的金属，在抵抗放射性粒子方面非常出色，其生成频率略低于铁。
+tooltip.UraniumOre=一种普通的重金属，经过适当的处理可以产生大量的能量。以其自然形成的形式，它的放射性不足以造成伤害。
 
 # Add new machine block and item tooltip - start
 tooltip.IsotopicCentrifuge=一台只有一个目的的机器：非常非常快地旋转它装载的东西。

@@ -36,7 +36,7 @@ public class ItemBlockOre extends ItemBlock {
     public void addInformation(@Nonnull ItemStack itemstack, World world, @Nonnull List<String> list,
                                @Nonnull ITooltipFlag flag) {
         if (!MekKeyHandler.getIsKeyPressed(MekanismKeyHandler.sneakKey)) {
-            list.add("Hold " + EnumColor.AQUA + GameSettings.getKeyDisplayString(MekanismKeyHandler.sneakKey.getKeyCode()) + EnumColor.GREY + " " +
+            list.add(LangUtils.localize("tooltip.hold") + " " + EnumColor.AQUA + GameSettings.getKeyDisplayString(MekanismKeyHandler.sneakKey.getKeyCode()) + EnumColor.GREY + " " +
                     LangUtils.localize("tooltip.forDetails") + ".");
         } else {
             list.addAll(MekanismUtils.splitTooltip(LangUtils.localize("tooltip." + getTranslationKey(itemstack).replace("tile.OreBlock.", "")), itemstack));

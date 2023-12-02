@@ -92,8 +92,8 @@ public interface IFactory {
         Crystallizer("Crystallizer", "crystallizer", MachineType.CHEMICAL_CRYSTALLIZER, MachineFuelType.BASIC, false, Recipe.CHEMICAL_CRYSTALLIZER),
         Dissolution("Dissolution", "dissolution", MachineType.CHEMICAL_DISSOLUTION_CHAMBER, MachineFuelType.BASIC, true, Recipe.CHEMICAL_DISSOLUTION_CHAMBER),
         PRC("PRC", "prc", MachineType.PRESSURIZED_REACTION_CHAMBER, MachineFuelType.BASIC, false, Recipe.PRESSURIZED_REACTION_CHAMBER),
-        OXIDIZER("OXIDIZER", "oxidizer", MachineType.CHEMICAL_OXIDIZER, MachineFuelType.BASIC, false, Recipe.CHEMICAL_OXIDIZER),
-        NUCLEOSYNTHESIZER("NUCLEOSYNTHESIZER", "nucleosynthesizer", MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER, MachineFuelType.BASIC, false, Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER),
+        OXIDIZER("Oxidizer", "oxidizer", MachineType.CHEMICAL_OXIDIZER, MachineFuelType.BASIC, false, Recipe.CHEMICAL_OXIDIZER),
+        NUCLEOSYNTHESIZER("Nucleosynthesizer", "nucleosynthesizer", MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER, MachineFuelType.BASIC, false, Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER),
         WASHER("Washer","washer",MachineType.CHEMICAL_WASHER,MachineFuelType.BASIC,false,Recipe.CHEMICAL_WASHER);
 
         private String name;
