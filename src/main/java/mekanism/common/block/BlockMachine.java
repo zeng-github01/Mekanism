@@ -1,7 +1,5 @@
 package mekanism.common.block;
 
-import java.util.Random;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.IMekWrench;
 import mekanism.api.energy.IEnergizedItem;
@@ -55,6 +53,9 @@ import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+import java.util.Random;
+
 /**
  * Block class for handling multiple machine block IDs. 0:0: Enrichment Chamber 0:1: Osmium Compressor 0:2: Combiner 0:3: Crusher 0:4: Digital Miner 0:5: Basic Factory
  * 0:6: Advanced Factory 0:7: Elite Factory 0:8: Metallurgic Infuser 0:9: Purification Chamber 0:10: Energized Smelter 0:11: Teleporter 0:12: Electric Pump 0:13: Electric
@@ -73,6 +74,8 @@ public abstract class BlockMachine extends BlockMekanismContainer {
     private static final AxisAlignedBB LOGISTICAL_SORTER_BOUNDS = new AxisAlignedBB(0.125F, 0.0F, 0.125F, 0.875F, 1.0F, 0.875F);
 
     private static final AxisAlignedBB SUPERCHARGED_COIL = new AxisAlignedBB(0.25F, 0.0F, 0.25F, 0.75F, 1.0F, 0.75F);
+
+    private static final AxisAlignedBB IndustrialAlarmBOUNDS = new AxisAlignedBB(0.25F, 0.6875F, 0.25F, 0.75F, 1.0F, 0.75F);
 
     public BlockMachine() {
         super(Material.IRON);
@@ -636,7 +639,7 @@ public abstract class BlockMachine extends BlockMekanismContainer {
     @Override
     public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
         MachineType type = MachineType.get(getMachineBlock(), state.getBlock().getMetaFromState(state));
-        return type == MachineType.LASER_AMPLIFIER;
+        return type == MachineType.LASER_AMPLIFIER || type == MachineType.INDUSTRIAL_ALARM;
     }
 
     @Nonnull
@@ -666,6 +669,10 @@ public abstract class BlockMachine extends BlockMekanismContainer {
             case SUPERCHARGED_COIL:
                 if (tile instanceof TileEntitySuperchargedCoil) {
                     return MultipartUtils.rotate(SUPERCHARGED_COIL.offset(-0.5, -0.5, -0.5), ((TileEntitySuperchargedCoil) tile).facing).offset(0.5, 0.5, 0.5);
+                }
+            case INDUSTRIAL_ALARM:
+                if (tile instanceof TileEntityIndustrialAlarm) {
+                    return MultipartUtils.rotate(IndustrialAlarmBOUNDS.offset(-0.5, -0.5, -0.5), ((TileEntityIndustrialAlarm) tile).facing).offset(0.5, 0.5, 0.5);
                 }
             default:
                 return super.getBoundingBox(state, world, pos);
@@ -705,6 +712,7 @@ public abstract class BlockMachine extends BlockMekanismContainer {
                 case LOGISTICAL_SORTER:
                 case LASER:
                 case SUPERCHARGED_COIL:
+                case INDUSTRIAL_ALARM:
                     return BlockFaceShape.UNDEFINED;
                 case ELECTRIC_PUMP:
                 case FLUIDIC_PLENISHER:

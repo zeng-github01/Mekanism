@@ -1,50 +1,25 @@
-{"variants": {
-      "facing=south,active=false": {
-            "x": 90,
-            "y": 180,
-            "model": "mekanism:block/industrial_alarm"
-      },
-      "facing=east,active=true": {
-            "x": 90,
-            "y": 90,
-            "model": "mekanism:block/industrial_alarm_active"
-      },
-      "facing=up,active=true": {"model": "mekanism:block/industrial_alarm_active"},
-      "facing=south,active=true": {
-            "x": 90,
-            "y": 180,
-            "model": "mekanism:block/industrial_alarm_active"
-      },
-      "facing=up,active=false": {"model": "mekanism:block/industrial_alarm"},
-      "facing=down,active=true": {
-            "x": 180,
-            "model": "mekanism:block/industrial_alarm_active"
-      },
-      "facing=north,active=false": {
-            "x": 90,
-            "model": "mekanism:block/industrial_alarm"
-      },
-      "facing=north,active=true": {
-            "x": 90,
-            "model": "mekanism:block/industrial_alarm_active"
-      },
-      "facing=west,active=false": {
-            "x": 90,
-            "y": -90,
-            "model": "mekanism:block/industrial_alarm"
-      },
-      "facing=east,active=false": {
-            "x": 90,
-            "y": 90,
-            "model": "mekanism:block/industrial_alarm"
-      },
-      "facing=west,active=true": {
-            "x": 90,
-            "y": -90,
-            "model": "mekanism:block/industrial_alarm_active"
-      },
-      "facing=down,active=false": {
-            "x": 180,
-            "model": "mekanism:block/industrial_alarm"
+{
+      "forge_marker": 1,
+      "defaults": {"model": "mekanism:industrial_alarm"},
+      "variants": {
+            "normal": [{}],
+            "facing": {
+                  "east": {
+                        "x": -90,
+                        "y": -90
+                  },
+                  "south": {"x": -90},
+                  "north": {
+                        "x": -90,
+                        "y": 180
+                  },
+                  "west": {
+                        "x": -90,
+                        "y": 90
+                  },
+                  "up": {},
+                  "down": {"x": 180}
+            },
+            "inventory": [{}]
       }
-}}
+}

@@ -15,6 +15,14 @@
             "subtitle": "sound_event.mekanism.tile.machine.laser",
             "category": "block"
       },
+      "tile.machine.IndustrialAlarm": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:IndustrialAlarm"
+            }],
+            "subtitle": "sound_event.mekanism.tile.machine.industrial_alarm",
+            "category": "block"
+      },
       "tile.machine.rotarycondensentrator": {
             "sounds": [{
                   "stream": false,

@@ -724,7 +724,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
     @Override
     public boolean hasSecurity(ItemStack stack) {
         MachineType type = MachineType.get(stack);
-        return type != MachineType.LASER && type != MachineType.CHARGEPAD && type != MachineType.TELEPORTER && type != MachineType.QUANTUM_ENTANGLOPORTER;
+        return type != MachineType.LASER && type != MachineType.CHARGEPAD && type != MachineType.TELEPORTER && type != MachineType.QUANTUM_ENTANGLOPORTER &&  type != MachineType.INDUSTRIAL_ALARM;
 
     }
 

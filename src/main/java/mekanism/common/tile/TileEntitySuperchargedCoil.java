@@ -1,7 +1,6 @@
 package mekanism.common.tile;
 
 import javax.annotation.Nonnull;
-import mekanism.api.Coord4D;
 import mekanism.common.tile.prefab.TileEntityEffectsBlock;
 import mekanism.common.util.InventoryUtils;
 import net.minecraft.item.ItemStack;
@@ -11,8 +10,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 public class TileEntitySuperchargedCoil extends TileEntityEffectsBlock {
-
-    public Coord4D digging;
 
     public TileEntitySuperchargedCoil() {
         super("machine.laser", "SuperchargedCoil", 0);
