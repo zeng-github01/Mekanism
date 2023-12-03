@@ -22,7 +22,8 @@ public enum Upgrade {
     FILTER("filter", 1, 1, EnumColor.DARK_AQUA),
     GAS("gas", MekanismConfig.current().mekce.MAXGasUpgrade.val(), MekanismConfig.current().mekce.MAXGasUpgradeSize.val(), EnumColor.YELLOW),
     MUFFLING("muffling", MekanismConfig.current().mekce.MAXMufflingUpgrade.val(), MekanismConfig.current().mekce.MAXMufflingUpgradeSize.val(), EnumColor.DARK_GREY),
-    ANCHOR("anchor", 1, 1, EnumColor.DARK_GREEN);
+    ANCHOR("anchor", 1, 1, EnumColor.DARK_GREEN),
+    STONE_GENERATOR("stonegenerator",1,1,EnumColor.ORANGE);
 
     private String name;
     private int maxStack;
@@ -104,6 +105,8 @@ public enum Upgrade {
                 return new ItemStack(MekanismItems.GasUpgrade);
             case ANCHOR:
                 return new ItemStack(MekanismItems.AnchorUpgrade);
+            case STONE_GENERATOR:
+                return new ItemStack(MekanismItems.StoneGeneratorUpgrade);
         }
         return ItemStack.EMPTY;
     }

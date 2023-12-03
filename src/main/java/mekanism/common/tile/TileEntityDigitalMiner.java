@@ -39,6 +39,7 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -130,6 +131,7 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
         inventory = NonNullList.withSize(INV_SLOTS.length + 1, ItemStack.EMPTY);
         radius = 10;
         upgradeComponent.setSupported(Upgrade.ANCHOR);
+        upgradeComponent.setSupported(Upgrade.STONE_GENERATOR);
     }
 
     @Override
@@ -366,6 +368,13 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
                 return StackUtils.size(filter.replaceStack, 1);
             }
         }
+
+        if (upgradeComponent.isUpgradeInstalled(Upgrade.STONE_GENERATOR)){
+            if (filter.replaceStack.getItem() == Item.getItemFromBlock(Blocks.STONE) || filter.replaceStack.getItem() == Item.getItemFromBlock(Blocks.COBBLESTONE)){
+                return StackUtils.size(filter.replaceStack, 1);
+            }
+        }
+
 
         if (doPull && getPullInv() != null) {
             InvStack stack = InventoryUtils.takeDefinedItem(getPullInv(), EnumFacing.UP, filter.replaceStack.copy(), 1, 1);

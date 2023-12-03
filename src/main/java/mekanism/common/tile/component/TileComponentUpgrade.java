@@ -88,7 +88,9 @@ public class TileComponentUpgrade implements ITileComponent {
         upgradeSlot = i;
     }
 
-
+    public boolean isUpgradeInstalled(Upgrade upgrade) {
+        return upgrades.containsKey(upgrade);
+    }
 
     public int getUpgrades(Upgrade upgrade) {
         return upgrades.getOrDefault(upgrade, 0);
