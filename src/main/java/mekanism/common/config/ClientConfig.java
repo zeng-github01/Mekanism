@@ -43,6 +43,14 @@ public class ClientConfig extends BaseConfig {
     public final BooleanOption alignHUDLeft = new BooleanOption(this, "client", "AlignHUDLeft", true,
             "Align HUD with left (if true) or right (if false)");
 
+    public final BooleanOption enableHUD = new BooleanOption(this,"client","enableHUD",true,"Enable item information HUD during gameplay");
+
+    public final BooleanOption allowFlamethrowerModeScroll = new BooleanOption(this, "client", "FlamethrowerModeScroll", true,
+            "Allow sneak+scroll to change Flamethrower modes.");
+
+    public final BooleanOption allowAtomicDisassemblerModeScroll = new BooleanOption(this, "client", "AtomicDisassemblerModeScroll", true,
+            "Allow sneak+scroll to change Atomic Disassembler modes.");
+
     @Override
     public void write(ByteBuf config) {
         throw new UnsupportedOperationException("Client config shouldn't be synced");

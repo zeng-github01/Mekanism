@@ -515,6 +515,7 @@ mekanism.key.mode=Item Mode Switch
 mekanism.key.armorMode=Armor Mode Switch
 mekanism.key.feetMode=Feet Mode Switch
 mekanism.key.voice=Voice
+mekanism.key.enableHUD=Show HUD
 
 # Entities
 entity.Robit.name=Robit
@@ -953,11 +954,19 @@ tooltip.balloon=Balloon
 tooltip.jetpack.regular=Regular
 tooltip.jetpack.hover=Hover
 tooltip.jetpack.disabled=Disabled
+tooltip.jetpack.mode=Jetpack Mode:
+tooltip.jetpack.stored=Jetpack Fuel:
 
 tooltip.freerunner.regular=Regular
 tooltip.freerunner.disabled=Disabled
 tooltip.freerunner.safety=Safety
+tooltip.free_runners.mode=Runners Mode:
+tooltip.free_runners.stored=Runners Energy:
 
+tooltip.scuba_tank.mode=Scuba Tank:
+
+tooltip.flamethrower.mode=Flamethrower Mode：
+tooltip.flamethrower.stored=Flamethrower:
 tooltip.flamethrower.combat=Combat
 tooltip.flamethrower.heat=Heat
 tooltip.flamethrower.inferno=Inferno

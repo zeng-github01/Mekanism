@@ -514,7 +514,9 @@ upgrade.stonegenerator.desc=按需生成石头或原石
 # Key description text
 mekanism.key.mode=模式切换
 mekanism.key.armorMode=装甲模式切换
+mekanism.key.feetMode=脚部模式切换
 mekanism.key.voice=声音
+mekanism.key.enableHUD=显示 HUD
 
 # Entities
 entity.Robit.name=机器人
@@ -939,6 +941,7 @@ mekanism.tooltip.disassembler.normal=正常
 mekanism.tooltip.disassembler.slow=慢
 mekanism.tooltip.disassembler.fast=快
 mekanism.tooltip.disassembler.vein=矿脉
+mekanism.tooltip.disassembler.extended_vein=拓展矿脉
 mekanism.tooltip.disassembler.off=关
 
 tooltip.configurationCard.got=从%s恢复过滤器数据
@@ -950,11 +953,19 @@ tooltip.balloon=气球
 tooltip.jetpack.regular=标准
 tooltip.jetpack.hover=悬浮
 tooltip.jetpack.disabled=禁用
+tooltip.jetpack.mode=喷气背包模式：
+tooltip.jetpack.stored=喷气背包燃料：
 
 tooltip.freerunner.regular=标准
 tooltip.freerunner.disabled=禁用
 tooltip.freerunner.safety=安全性
+tooltip.free_runners.mode=自由助跑器模式:
+tooltip.free_runners.stored=自由助跑器能量：
 
+tooltip.scuba_tank.mode=潜水罐:
+
+tooltip.flamethrower.mode=火焰喷射器模式：
+tooltip.flamethrower.stored=火焰喷射器燃料：
 tooltip.flamethrower.combat=战斗
 tooltip.flamethrower.heat=热量
 tooltip.flamethrower.inferno=地狱

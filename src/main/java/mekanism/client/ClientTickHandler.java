@@ -1,7 +1,5 @@
 package mekanism.client;
 
-import java.util.*;
-import java.util.Map.Entry;
 import mekanism.api.IClientTicker;
 import mekanism.api.gas.GasStack;
 import mekanism.client.render.RenderTickHandler;
@@ -11,7 +9,9 @@ import mekanism.common.Mekanism;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.frequency.Frequency;
 import mekanism.common.item.*;
+import mekanism.common.item.ItemAtomicDisassembler.Mode;
 import mekanism.common.item.ItemConfigurator.ConfiguratorMode;
+import mekanism.common.item.ItemFlamethrower.FlamethrowerMode;
 import mekanism.common.item.ItemJetpack.JetpackMode;
 import mekanism.common.network.PacketFreeRunnerData;
 import mekanism.common.network.PacketItemStack.ItemStackMessage;
@@ -31,6 +31,9 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Client-side tick handler for Mekanism. Used mainly for the update check upon startup.
@@ -263,28 +266,69 @@ public class ClientTickHandler {
 
     @SubscribeEvent
     public void onMouseEvent(MouseEvent event) {
-        if (MekanismConfig.current().client.allowConfiguratorModeScroll.val() && mc.player != null && mc.player.isSneaking()) {
+        if (mc.player != null && mc.player.isSneaking()) {
             ItemStack stack = mc.player.getHeldItemMainhand();
             int delta = event.getDwheel();
+            if (MekanismConfig.current().client.allowConfiguratorModeScroll.val()) {
+                if (stack.getItem() instanceof ItemConfigurator && delta != 0) {
+                    ItemConfigurator configurator = (ItemConfigurator) stack.getItem();
+                    RenderTickHandler.modeSwitchTimer = 100;
+                    wheelStatus += event.getDwheel();
+                    int scaledDelta = wheelStatus / 120;
+                    wheelStatus = wheelStatus % 120;
+                    int newVal = configurator.getState(stack).ordinal() + (scaledDelta % ConfiguratorMode.values().length);
 
-            if (stack.getItem() instanceof ItemConfigurator && delta != 0) {
-                ItemConfigurator configurator = (ItemConfigurator) stack.getItem();
-                RenderTickHandler.modeSwitchTimer = 100;
-
-                wheelStatus += event.getDwheel();
-                int scaledDelta = wheelStatus / 120;
-                wheelStatus = wheelStatus % 120;
-                int newVal = configurator.getState(stack).ordinal() + (scaledDelta % ConfiguratorMode.values().length);
-
-                if (newVal > 0) {
-                    newVal = newVal % ConfiguratorMode.values().length;
-                } else if (newVal < 0) {
-                    newVal = ConfiguratorMode.values().length + newVal;
+                    if (newVal > 0) {
+                        newVal = newVal % ConfiguratorMode.values().length;
+                    } else if (newVal < 0) {
+                        newVal = ConfiguratorMode.values().length + newVal;
+                    }
+                    configurator.setState(stack, ConfiguratorMode.values()[newVal]);
+                    Mekanism.packetHandler.sendToServer(new ItemStackMessage(EnumHand.MAIN_HAND, Collections.singletonList(newVal)));
+                    event.setCanceled(true);
                 }
-                configurator.setState(stack, ConfiguratorMode.values()[newVal]);
-                Mekanism.packetHandler.sendToServer(new ItemStackMessage(EnumHand.MAIN_HAND, Collections.singletonList(newVal)));
-                event.setCanceled(true);
             }
+
+            if (MekanismConfig.current().client.allowFlamethrowerModeScroll.val()) {
+                if (stack.getItem() instanceof ItemFlamethrower && delta != 0) {
+                    ItemFlamethrower Flamethrower = (ItemFlamethrower) stack.getItem();
+                    RenderTickHandler.modeSwitchTimer = 100;
+                    wheelStatus += event.getDwheel();
+                    int scaledDelta = wheelStatus / 120;
+                    wheelStatus = wheelStatus % 120;
+                    int newVal = Flamethrower.getMode(stack).ordinal() + (scaledDelta % FlamethrowerMode.values().length);
+
+                    if (newVal > 0) {
+                        newVal = newVal % FlamethrowerMode.values().length;
+                    } else if (newVal < 0) {
+                        newVal = FlamethrowerMode.values().length + newVal;
+                    }
+                    Flamethrower.setMode(stack, FlamethrowerMode.values()[newVal]);
+                    Mekanism.packetHandler.sendToServer(new ItemStackMessage(EnumHand.MAIN_HAND, Collections.singletonList(newVal)));
+                    event.setCanceled(true);
+                }
+            }
+
+            if (MekanismConfig.current().client.allowAtomicDisassemblerModeScroll.val()) {
+                if (stack.getItem() instanceof ItemAtomicDisassembler && delta != 0) {
+                    ItemAtomicDisassembler AtomicDisassembler = (ItemAtomicDisassembler) stack.getItem();
+                    RenderTickHandler.modeSwitchTimer = 100;
+                    wheelStatus += event.getDwheel();
+                    int scaledDelta = wheelStatus / 120;
+                    wheelStatus = wheelStatus % 120;
+                    int newVal = AtomicDisassembler.getMode(stack).ordinal() + (scaledDelta % Mode.values().length);
+
+                    if (newVal > 0) {
+                        newVal = newVal % Mode.values().length;
+                    } else if (newVal < 0) {
+                        newVal = Mode.values().length + newVal;
+                    }
+                    AtomicDisassembler.setMode(stack, Mode.values()[newVal]);
+                    Mekanism.packetHandler.sendToServer(new ItemStackMessage(EnumHand.MAIN_HAND, Collections.singletonList(newVal)));
+                    event.setCanceled(true);
+                }
+            }
+
         }
     }
 

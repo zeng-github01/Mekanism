@@ -1,7 +1,5 @@
 package mekanism.client.render;
 
-import java.util.Random;
-import java.util.UUID;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.MekanismAPI;
@@ -13,11 +11,9 @@ import mekanism.client.render.particle.EntityScubaBubbleFX;
 import mekanism.common.ColourRGBA;
 import mekanism.common.Mekanism;
 import mekanism.common.config.MekanismConfig;
-import mekanism.common.item.ItemConfigurator;
+import mekanism.common.item.*;
 import mekanism.common.item.ItemConfigurator.ConfiguratorMode;
-import mekanism.common.item.ItemFlamethrower;
-import mekanism.common.item.ItemJetpack;
-import mekanism.common.item.ItemScubaTank;
+import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -35,6 +31,9 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Random;
+import java.util.UUID;
 
 @SideOnly(Side.CLIENT)
 public class RenderTickHandler {
@@ -96,26 +95,80 @@ public class RenderTickHandler {
                     ClientTickHandler.wheelStatus = 0;
                 }
 
-                if (mc.currentScreen == null && !mc.gameSettings.hideGUI && !player.isSpectator() && !player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).isEmpty()) {
-                    ItemStack stack = player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
+                if (mc.currentScreen == null && !mc.gameSettings.hideGUI && !player.isSpectator() &&
+                        (!player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).isEmpty() ||
+                                !player.getItemStackFromSlot(EntityEquipmentSlot.FEET).isEmpty() ||
+                                !player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).isEmpty() ||
+                                !player.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND).isEmpty()) &&
+                        MekanismConfig.current().client.enableHUD.val()
+                ) {
+
+                    ItemStack cheststack = player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
+                    ItemStack feetstack = player.getItemStackFromSlot(EntityEquipmentSlot.FEET);
+                    ItemStack mainhandstack = player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
+                    ItemStack offhandstack = player.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND);
 
                     ScaledResolution scaledresolution = new ScaledResolution(mc);
 
                     int y = scaledresolution.getScaledHeight();
                     boolean alignLeft = MekanismConfig.current().client.alignHUDLeft.val();
 
-                    if (stack.getItem() instanceof ItemJetpack) {
-                        ItemJetpack jetpack = (ItemJetpack) stack.getItem();
-                        drawString(scaledresolution, "Mode: " + jetpack.getMode(stack).getName(), alignLeft, y - 20, 0xc8c8c8);
-                        drawString(scaledresolution, "Hydrogen: " + jetpack.getStored(stack), alignLeft, y - 11, 0xc8c8c8);
-                    } else if (stack.getItem() instanceof ItemScubaTank) {
-                        ItemScubaTank scubaTank = (ItemScubaTank) stack.getItem();
-                        String state = scubaTank.getFlowing(stack) ? EnumColor.DARK_GREEN + "On" : EnumColor.DARK_RED + "Off";
-                        drawString(scaledresolution, "Mode: " + state, alignLeft, y - 20, 0xc8c8c8);
-                        drawString(scaledresolution, "Oxygen: " + scubaTank.getStored(stack), alignLeft, y - 11, 0xc8c8c8);
+                    if (feetstack.getItem() instanceof ItemFreeRunners) {
+                        ItemFreeRunners FreeRunners = (ItemFreeRunners) feetstack.getItem();
+                        drawString(scaledresolution, LangUtils.localize("tooltip.free_runners.mode") + " " + FreeRunners.getMode(feetstack).getName(), alignLeft, y - 20, 0xc8c8c8);
+                        drawString(scaledresolution, LangUtils.localize("tooltip.free_runners.stored") + " " + MekanismUtils.getEnergyDisplay(FreeRunners.getEnergy(feetstack)), alignLeft, y - 11, 0xc8c8c8);
+                        y -= 18;
+                    }
+
+                    if (cheststack.getItem() instanceof ItemJetpack) {
+                        ItemJetpack jetpack = (ItemJetpack) cheststack.getItem();
+                        drawString(scaledresolution, LangUtils.localize("tooltip.jetpack.mode") + " " + jetpack.getMode(cheststack).getName(), alignLeft, y - 20, 0xc8c8c8);
+                        drawString(scaledresolution, LangUtils.localize("tooltip.jetpack.stored") + " " + EnumColor.ORANGE + jetpack.getStored(cheststack), alignLeft, y - 11, 0xc8c8c8);
+                        y -= 18;
+                    } else if (cheststack.getItem() instanceof ItemScubaTank) {
+                        ItemScubaTank scubaTank = (ItemScubaTank) cheststack.getItem();
+                        String state = scubaTank.getFlowing(cheststack) ? EnumColor.DARK_GREEN + LangUtils.localize("gui.on") : EnumColor.DARK_RED + LangUtils.localize("gui.off");
+                        drawString(scaledresolution, LangUtils.localize("tooltip.scuba_tank.mode") + " " + state, alignLeft, y - 20, 0xc8c8c8);
+                        drawString(scaledresolution, scubaTank.getStored(cheststack) == 0 ? (LangUtils.localize("tooltip.noGas") + ".") : (scubaTank.getGas(cheststack).getGas().getLocalizedName() + ": " + scubaTank.getStored(cheststack)), alignLeft, y - 11, 0xc8c8c8);
+                        y -= 18;
+                    }
+
+                    if (mainhandstack.getItem() instanceof ItemElectricBow) {
+                        ItemElectricBow ElectricBow = (ItemElectricBow) mainhandstack.getItem();
+                        drawString(scaledresolution, EnumColor.PINK + LangUtils.localizeWithFormat("mekanism.tooltip.fireMode", LangUtils.transOnOff(ElectricBow.getFireState(mainhandstack))), alignLeft, y - 11, 0xc8c8c8);
+                        y -= 9;
+                    } else if (mainhandstack.getItem() instanceof ItemFlamethrower) {
+                        ItemFlamethrower Flamethrower = (ItemFlamethrower) mainhandstack.getItem();
+                        drawString(scaledresolution, LangUtils.localize("tooltip.flamethrower.mode") + " " + Flamethrower.getMode(mainhandstack).getName(), alignLeft, y - 20, 0xc8c8c8);
+                        drawString(scaledresolution, LangUtils.localize("tooltip.flamethrower.stored") + " " + EnumColor.ORANGE + Flamethrower.getStored(mainhandstack), alignLeft, y - 11, 0xc8c8c8);
+                        y -= 18;
+                    } else if (mainhandstack.getItem() instanceof ItemAtomicDisassembler) {
+                        ItemAtomicDisassembler AtomicDisassembler = (ItemAtomicDisassembler) mainhandstack.getItem();
+                        drawString(scaledresolution, LangUtils.localize("tooltip.mode") + ": " + EnumColor.INDIGO + AtomicDisassembler.getMode(mainhandstack).getModeName(), alignLeft, y - 20, 0xc8c8c8);
+                        drawString(scaledresolution, LangUtils.localize("tooltip.efficiency") + ": " + EnumColor.INDIGO + AtomicDisassembler.getMode(mainhandstack).getEfficiency(), alignLeft, y - 11, 0xc8c8c8);
+                        y -= 18;
+                    } else if (mainhandstack.getItem() instanceof ItemConfigurator) {
+                        ItemConfigurator Configurator = (ItemConfigurator) mainhandstack.getItem();
+                        drawString(scaledresolution, EnumColor.PINK + LangUtils.localize("tooltip.mode") + ": " + Configurator.getColor(Configurator.getState(mainhandstack)) + Configurator.getStateDisplay(Configurator.getState(mainhandstack)), alignLeft, y - 11, 0xc8c8c8);
+                        y -= 9;
+                    }
+
+                    if (offhandstack.getItem() instanceof ItemElectricBow) {
+                        ItemElectricBow ElectricBow = (ItemElectricBow) offhandstack.getItem();
+                        drawString(scaledresolution, EnumColor.PINK + LangUtils.localizeWithFormat("mekanism.tooltip.fireMode", LangUtils.transOnOff(ElectricBow.getFireState(offhandstack))), alignLeft, y - 11, 0xc8c8c8);
+                    } else if (offhandstack.getItem() instanceof ItemFlamethrower) {
+                        ItemFlamethrower Flamethrower = (ItemFlamethrower) offhandstack.getItem();
+                        drawString(scaledresolution, LangUtils.localize("tooltip.flamethrower.mode") + " " + Flamethrower.getMode(offhandstack).getName(), alignLeft, y - 20, 0xc8c8c8);
+                        drawString(scaledresolution, LangUtils.localize("tooltip.flamethrower.stored") + " " + EnumColor.ORANGE + Flamethrower.getStored(offhandstack), alignLeft, y - 11, 0xc8c8c8);
+                    } else if (offhandstack.getItem() instanceof ItemAtomicDisassembler) {
+                        ItemAtomicDisassembler AtomicDisassembler = (ItemAtomicDisassembler) offhandstack.getItem();
+                        drawString(scaledresolution, LangUtils.localize("tooltip.mode") + ": " + EnumColor.INDIGO + AtomicDisassembler.getMode(offhandstack).getModeName(), alignLeft, y - 20, 0xc8c8c8);
+                        drawString(scaledresolution, LangUtils.localize("tooltip.efficiency") + ": " + EnumColor.INDIGO + AtomicDisassembler.getMode(offhandstack).getEfficiency(), alignLeft, y - 11, 0xc8c8c8);
+                    } else if (offhandstack.getItem() instanceof ItemConfigurator) {
+                        ItemConfigurator Configurator = (ItemConfigurator) offhandstack.getItem();
+                        drawString(scaledresolution, EnumColor.PINK + LangUtils.localize("tooltip.mode") + ": " + Configurator.getColor(Configurator.getState(offhandstack)) + Configurator.getStateDisplay(Configurator.getState(offhandstack)), alignLeft, y - 11, 0xc8c8c8);
                     }
                 }
-
                 // Traverse a copy of jetpack state and do animations
                 for (UUID uuid : Mekanism.playerState.getActiveJetpacks()) {
                     EntityPlayer p = mc.world.getPlayerEntityByUUID(uuid);

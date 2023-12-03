@@ -5,6 +5,7 @@ import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismSounds;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.item.*;
 import mekanism.common.item.ItemConfigurator.ConfiguratorMode;
 import mekanism.common.item.ItemJetpack.JetpackMode;
@@ -39,8 +40,10 @@ public class MekanismKeyHandler extends MekKeyHandler {
     public static final String keybindCategory = Mekanism.MOD_NAME;
     public static KeyBinding modeSwitchKey = new KeyBinding("mekanism.key.mode", Keyboard.KEY_M, keybindCategory);
     public static KeyBinding armorModeSwitchKey = new KeyBinding("mekanism.key.armorMode", Keyboard.KEY_G, keybindCategory);
-    public static KeyBinding freeRunnerModeSwitchKey = new KeyBinding("mekanism.key.feetMode", Keyboard.KEY_H, keybindCategory);
+    public static KeyBinding freeRunnerModeSwitchKey = new KeyBinding("mekanism.key.feetMode", Keyboard.KEY_B, keybindCategory);
     public static KeyBinding voiceKey = new KeyBinding("mekanism.key.voice", Keyboard.KEY_U, keybindCategory);
+
+    public static KeyBinding enableHUDkEY = new KeyBinding("mekanism.key.enableHUD",Keyboard.KEY_H,keybindCategory);
 
     public static KeyBinding sneakKey = Minecraft.getMinecraft().gameSettings.keyBindSneak;
     public static KeyBinding jumpKey = Minecraft.getMinecraft().gameSettings.keyBindJump;
@@ -49,7 +52,8 @@ public class MekanismKeyHandler extends MekKeyHandler {
             .addBinding(modeSwitchKey, false)
             .addBinding(armorModeSwitchKey, false)
             .addBinding(freeRunnerModeSwitchKey, false)
-            .addBinding(voiceKey, true);
+            .addBinding(voiceKey, true)
+            .addBinding(enableHUDkEY,false);
 
     public MekanismKeyHandler() {
         super(BINDINGS);
@@ -58,6 +62,7 @@ public class MekanismKeyHandler extends MekKeyHandler {
         ClientRegistry.registerKeyBinding(armorModeSwitchKey);
         ClientRegistry.registerKeyBinding(freeRunnerModeSwitchKey);
         ClientRegistry.registerKeyBinding(voiceKey);
+        ClientRegistry.registerKeyBinding(enableHUDkEY);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -152,6 +157,8 @@ public class MekanismKeyHandler extends MekKeyHandler {
                 Mekanism.packetHandler.sendToServer(new FreeRunnerDataMessage(PacketFreeRunnerData.FreeRunnerPacket.MODE, null, player.isSneaking()));
                 SoundHandler.playSound(MekanismSounds.HYDRAULIC);
             }
+        }else if (kb == enableHUDkEY){
+            MekanismConfig.current().client.enableHUD.set(!MekanismConfig.current().client.enableHUD.val());
         }
     }
 

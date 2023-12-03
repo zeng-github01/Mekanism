@@ -274,6 +274,12 @@ public class ItemAtomicDisassembler extends ItemEnergized {
         ItemDataUtils.setInt(itemStack, "mode", Mode.getNextEnabledAsInt(getMode(itemStack)));
     }
 
+    public void setMode(ItemStack itemStack,Mode mode){
+        ItemDataUtils.setInt(itemStack,"mode",mode.ordinal());
+    }
+
+
+
     @Override
     public boolean canSend(ItemStack itemStack) {
         return false;
