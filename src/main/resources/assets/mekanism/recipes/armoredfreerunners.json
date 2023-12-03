@@ -1,0 +1,30 @@
+{
+  "result": {
+    "nbt": {},
+    "item": "mekanism:armoredfreerunners",
+    "type": "mekanism:item_nbt"
+  },
+  "pattern": [
+    " S ",
+    "DFD",
+    "B B"
+  ],
+  "type": "mekanism:ore_shaped",
+  "key": {
+    "B": {
+      "ore": "ingotBronze",
+      "type": "forge:ore_dict"
+    },
+    "S": {
+      "ore": "blockSteel",
+      "type": "forge:ore_dict"
+    },
+    "D": {
+      "ore": "dustDiamond",
+      "type": "forge:ore_dict"
+    },
+    "F": {
+      "item": "mekanism:freerunners"
+    }
+  }
+}

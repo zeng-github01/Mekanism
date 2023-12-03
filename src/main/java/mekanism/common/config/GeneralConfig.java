@@ -274,6 +274,13 @@ public class GeneralConfig extends BaseConfig {
     /**
      * ADD START
      */
+
+    public final DoubleOption armoredFreeRunnersRatio = new DoubleOption(this,"general","ArmoredFreeRunnersDamageRatio",0.3,
+            "Damage absorb ratio of the Armored FreeRunners");
+
+    public final IntOption armoredFreeRunnersDamageMax = new IntOption(this, "general", "ArmoredFreeRunnersDamageMax",43,
+            "Max damage the Armored Free Runners can absorb.");
+
     public final IntOption maxCanteen = new IntOption(this, "general", "MaxCanteenGas", 64000,
             "Canteen Gas Tank capacity in mB.");
 

@@ -266,6 +266,7 @@ public class ClientProxy extends CommonProxy {
         registerItemRender(MekanismItems.ScrapBox);
         registerItemRender(MekanismItems.EmptyCrystals);
         registerItemRender(MekanismItems.FluoriteClump);
+        registerItemRender(MekanismItems.ArmoredFreeRunners);
         /**
          * ADD END
          */
@@ -293,6 +294,7 @@ public class ClientProxy extends CommonProxy {
 
         Item.getItemFromBlock(MekanismBlocks.BasicBlock3).setTileEntityItemStackRenderer(new RenderBasicBlockItem());
         Item.getItemFromBlock(MekanismBlocks.MachineBlock4).setTileEntityItemStackRenderer(new RenderMachineItem());
+        MekanismItems.ArmoredFreeRunners.setTileEntityItemStackRenderer(new RenderArmoredFreeRunners());
     }
 
     private ModelResourceLocation getInventoryMRL(String type) {
@@ -942,6 +944,8 @@ public class ClientProxy extends CommonProxy {
         machineModelBake(modelRegistry, "isotopic_centrifuge", MachineType.ISOTOPIC_CENTRIFUGE);
         machineModelBake(modelRegistry, "nutritional_liquifier", MachineType.NUTRITIONAL_LIQUIFIER);
         machineModelBake(modelRegistry, "antiprotonic_nucleosynthesizer", MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER);
+        ModelResourceLocation ArmorFreeRunnerRL = getInventoryMRL("ArmoredFreeRunners");
+        modelRegistry.putObject(ArmorFreeRunnerRL,RenderArmoredFreeRunners.model = new ItemLayerWrapper(modelRegistry.getObject(FreeRunnerRL)));
         /**
          * ADD END
          */

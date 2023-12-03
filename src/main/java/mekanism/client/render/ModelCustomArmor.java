@@ -1,6 +1,5 @@
 package mekanism.client.render;
 
-import javax.annotation.Nonnull;
 import mekanism.client.model.*;
 import mekanism.client.render.MekanismRenderer.GlowInfo;
 import mekanism.common.util.MekanismUtils;
@@ -15,6 +14,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 public class ModelCustomArmor extends ModelBiped {
@@ -129,13 +130,16 @@ public class ModelCustomArmor extends ModelBiped {
         ARMOREDJETPACK(1, MekanismUtils.getResource(ResourceType.RENDER, "Jetpack.png")),
         SCUBATANK(1, MekanismUtils.getResource(ResourceType.RENDER, "ScubaSet.png")),
         GASMASK(0, MekanismUtils.getResource(ResourceType.RENDER, "ScubaSet.png")),
-        FREERUNNERS(3, MekanismUtils.getResource(ResourceType.RENDER, "FreeRunners.png"));
+        FREERUNNERS(3, MekanismUtils.getResource(ResourceType.RENDER, "FreeRunners.png")),
+        ARMOREDFREERUNNERS(3, MekanismUtils.getResource(ResourceType.RENDER, "FreeRunners.png"));
 
         public static ModelJetpack jetpackModel = new ModelJetpack();
         public static ModelArmoredJetpack armoredJetpackModel = new ModelArmoredJetpack();
         public static ModelGasMask gasMaskModel = new ModelGasMask();
         public static ModelScubaTank scubaTankModel = new ModelScubaTank();
         public static ModelFreeRunners freeRunnersModel = new ModelFreeRunners();
+
+        public static ModelArmoredFreeRunners armoredFreeRunnersModel = new ModelArmoredFreeRunners();
         public int armorSlot;
         public ResourceLocation resource;
 
@@ -201,6 +205,15 @@ public class ModelCustomArmor extends ModelBiped {
                         } else if (partRender == biped.bipedRightLeg) {
                             GlStateManager.translate(0.1375F, -0.75F, -0.0625F);
                             ArmorModel.freeRunnersModel.renderRight(0.0625F);
+                        }
+                    } else if (biped.modelType == ArmorModel.ARMOREDFREERUNNERS) {
+                        GlStateManager.scale(1.02F, 1.02F, 1.02F);
+                        if (partRender == biped.bipedLeftLeg) {
+                            GlStateManager.translate(-0.1375F, -0.75F, -0.0625F);
+                            ArmorModel.armoredFreeRunnersModel.renderLeft(0.0625F);
+                        } else if (partRender == biped.bipedRightLeg) {
+                            GlStateManager.translate(0.1375F, -0.75F, -0.0625F);
+                            ArmorModel.armoredFreeRunnersModel.renderRight(0.0625F);
                         }
                     }
                 }

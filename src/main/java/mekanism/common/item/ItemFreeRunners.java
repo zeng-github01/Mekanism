@@ -10,7 +10,9 @@ import mekanism.api.energy.IEnergizedItem;
 import mekanism.client.render.ModelCustomArmor;
 import mekanism.client.render.ModelCustomArmor.ArmorModel;
 import mekanism.common.Mekanism;
+import mekanism.common.MekanismItems;
 import mekanism.common.capabilities.ItemCapabilityWrapper;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.integration.MekanismHooks;
 import mekanism.common.integration.forgeenergy.ForgeEnergyItemWrapper;
 import mekanism.common.integration.ic2.IC2ItemManager;
@@ -24,6 +26,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
@@ -33,6 +36,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -42,13 +46,14 @@ import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import javax.annotation.Nonnull;
 
 @InterfaceList({
         @Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = MekanismHooks.IC2_MOD_ID),
         @Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = MekanismHooks.REDSTONEFLUX_MOD_ID),
         @Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = MekanismHooks.IC2_MOD_ID)
 })
-public class ItemFreeRunners extends ItemArmor implements IEnergizedItem, ISpecialElectricItem, IEnergyContainerItem {
+public class ItemFreeRunners extends ItemArmor implements IEnergizedItem, ISpecialElectricItem, IEnergyContainerItem, ISpecialArmor {
 
     /**
      * The maximum amount of energy this item can hold.
@@ -76,7 +81,11 @@ public class ItemFreeRunners extends ItemArmor implements IEnergizedItem, ISpeci
     @SideOnly(Side.CLIENT)
     public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped _default) {
         ModelCustomArmor model = ModelCustomArmor.INSTANCE;
-        model.modelType = ArmorModel.FREERUNNERS;
+        if (this == MekanismItems.FreeRunners) {
+            model.modelType = ArmorModel.FREERUNNERS;
+        } else if (this == MekanismItems.ArmoredFreeRunners) {
+            model.modelType = ArmorModel.ARMOREDFREERUNNERS;
+        }
         return model;
     }
 
@@ -200,12 +209,40 @@ public class ItemFreeRunners extends ItemArmor implements IEnergizedItem, ISpeci
         ItemStack stack = base.getItemStackFromSlot(EntityEquipmentSlot.FEET);
         if (!stack.isEmpty() && stack.getItem() instanceof ItemFreeRunners) {
             ItemFreeRunners boots = (ItemFreeRunners) stack.getItem();
-            if (boots.getMode(stack) == FreeRunnerMode.NORMAL && boots.getEnergy(stack) > 0
+            if (boots.getMode(stack) != FreeRunnerMode.DISABLED && boots.getEnergy(stack) > 0
                     && event.getSource() == DamageSource.FALL) {
                 boots.setEnergy(stack, boots.getEnergy(stack) - event.getAmount() * 50);
                 event.setCanceled(true);
             }
         }
+    }
+
+    @Override
+    public ArmorProperties getProperties(EntityLivingBase player, @Nonnull ItemStack armor, DamageSource source, double damage, int slot) {
+        ArmorProperties properties = new ArmorProperties(0, 0, 0);
+        if (this == MekanismItems.FreeRunners){
+            properties = new ArmorProperties(0, 0, 0);
+        } else if (this == MekanismItems.ArmoredFreeRunners) {
+            properties = new ArmorProperties(1, MekanismConfig.current().general.armoredFreeRunnersRatio.val(),
+                    MekanismConfig.current().general.armoredFreeRunnersDamageMax.val());
+            properties.Toughness = 2;
+        }
+        return properties;
+    }
+
+    @Override
+    public int getArmorDisplay(EntityPlayer player, @Nonnull ItemStack armor, int slot) {
+        if (armor.getItem() == MekanismItems.FreeRunners) {
+            return 0;
+        } else if (armor.getItem() == MekanismItems.ArmoredFreeRunners) {
+            return 3;
+        }
+        return 0;
+    }
+
+    @Override
+    public void damageArmor(EntityLivingBase entity, @Nonnull ItemStack stack, DamageSource source, int damage, int slot) {
+
     }
 
     @Override
@@ -227,6 +264,7 @@ public class ItemFreeRunners extends ItemArmor implements IEnergizedItem, ISpeci
 
     public enum FreeRunnerMode {
         NORMAL("tooltip.freerunner.regular", EnumColor.DARK_GREEN),
+        SAFETY("tooltip.freerunner.safety",EnumColor.ORANGE),
         DISABLED("tooltip.freerunner.disabled", EnumColor.DARK_RED);
 
         private String unlocalized;

@@ -81,7 +81,7 @@ public class MekanismItems {
     public static final Item ScrapBox = new ItemMekanism();
     public static final Item EmptyCrystals = new ItemMekanism();
     public static final Item FluoriteClump = new ItemMekanism();
-
+    public static final ItemFreeRunners ArmoredFreeRunners = new ItemFreeRunners();
     /**
      * ADD END
      */
@@ -167,6 +167,7 @@ public class MekanismItems {
         registry.register(init(ReprocessedFissileFragment, "ReprocessedFissileFragment"));
         registry.register(init(YellowCakeUranium, "YellowCakeUranium"));
         registry.register(init(PoloniumPellet, "PoloniumPellet"));
+        registry.register(init(ArmoredFreeRunners,"ArmoredFreeRunners"));
         /**
          * ADD END
          */
