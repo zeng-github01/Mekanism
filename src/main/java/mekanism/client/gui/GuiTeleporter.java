@@ -220,7 +220,7 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         super.mouseClicked(mouseX, mouseY, button);
         updateButtons();
         frequencyField.mouseClicked(mouseX, mouseY, button);
-        if (colorButton.isMouseOver() && button == 1 && tileEntity != null) {
+        if (tileEntity != null && colorButton.isMouseOver() && button == 1) {
             Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, TileNetworkList.withContents(2, 1)));
             SoundHandler.playSound(net.minecraft.init.SoundEvents.UI_BUTTON_CLICK);
         }
