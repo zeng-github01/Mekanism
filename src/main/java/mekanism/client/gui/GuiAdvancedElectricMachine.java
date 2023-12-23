@@ -1,9 +1,5 @@
 package mekanism.client.gui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import mekanism.api.gas.GasStack;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
@@ -14,17 +10,19 @@ import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
 import mekanism.client.gui.element.tab.GuiTransporterConfigTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
-import mekanism.client.render.MekanismRenderer;
 import mekanism.common.inventory.container.ContainerAdvancedElectricMachine;
 import mekanism.common.recipe.machines.AdvancedMachineRecipe;
 import mekanism.common.tile.prefab.TileEntityAdvancedElectricMachine;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 @SideOnly(Side.CLIENT)
@@ -93,10 +91,7 @@ public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<REC
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        if (tileEntity.getScaledGasLevel(12) > 0) {
-            int displayInt = tileEntity.getScaledGasLevel(12);
-            displayGauge(60, 36, 8,14, tileEntity.gasTank.getGas(),displayInt);
-        }
+        GuiUtils.drawGasBarSprite(guiLeft + 60, guiTop + 36, 8, 14, tileEntity.getScaledGasLevel(12), tileEntity.gasTank.getGas(), true);
         boolean inputgas = (tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(0).getCount() != 0);
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
         boolean outslot = tileEntity.inventory.get(2).getCount() == tileEntity.inventory.get(2).getMaxStackSize();
@@ -116,12 +111,4 @@ public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<REC
         }
     }
 
-    public void displayGauge(int xPos, int yPos, int sizeX, int sizeY, GasStack gas, int displayInt) {
-        if (gas != null) {
-            mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-            MekanismRenderer.color(gas);
-            GuiUtils.drawTiledSprite(guiLeft + xPos + 1, guiTop + yPos + 1, sizeY - 2, sizeX - 2, displayInt,  gas.getGas().getSprite(), GuiUtils.TilingDirection.DOWN_RIGHT);
-            MekanismRenderer.resetColor();
-        }
-    }
 }

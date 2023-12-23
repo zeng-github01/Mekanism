@@ -1,7 +1,6 @@
 package mekanism.client.gui;
 
 import mekanism.api.TileNetworkList;
-import mekanism.api.gas.GasStack;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -9,9 +8,7 @@ import mekanism.client.gui.element.GuiProgress.ProgressBar;
 import mekanism.client.gui.element.GuiUtils.TilingDirection;
 import mekanism.client.gui.element.bar.GuiBar;
 import mekanism.client.gui.element.tab.*;
-import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
-import mekanism.common.InfuseStorage;
 import mekanism.common.Mekanism;
 import mekanism.common.base.IFactory.MachineFuelType;
 import mekanism.common.base.IFactory.RecipeType;
@@ -33,7 +30,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -115,7 +111,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
                         int cacheIndex = i + 1; //Fixed 1 recipe energy missing
                         multiplier = MekanismUtils.getEnergyDisplay(MekanismUtils.getEnergyPerTick(tileEntity, (tileEntity.BASE_ENERGY_PER_TICK + extra) * cacheIndex));
                     }
-                }else if (tileEntity.getRecipeType() == RecipeType.NUCLEOSYNTHESIZER) {
+                } else if (tileEntity.getRecipeType() == RecipeType.NUCLEOSYNTHESIZER) {
                     NucleosynthesizerRecipe NnRecipe = tileEntity.getRecipeType().getNucleosynthesizerRecipe(tileEntity.inventory.get(tileEntity.getInputSlot(i)), tileEntity.gasTank.getGas());
                     extra = NnRecipe != null ? NnRecipe.extraEnergy : 0;
                     if (tileEntity.progress[i] != 0) {
@@ -240,137 +236,60 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
 
         //TODO:Removed duplicate code rendering
-        int xDistance = tileEntity.tier == FactoryTier.BASIC ? 38 : tileEntity.tier == FactoryTier.ADVANCED ? 26 : 19;
-        int Slotlocation = tileEntity.tier == FactoryTier.BASIC ? 54 : tileEntity.tier == FactoryTier.ADVANCED ? 34 : tileEntity.tier == FactoryTier.ELITE ? 28 : 26;
-        int xgas = tileEntity.tier == FactoryTier.CREATIVE ? 212 : tileEntity.tier == FactoryTier.ULTIMATE ? 174 : 140;
-        int Xgastank = tileEntity.tier == FactoryTier.BASIC ? 94 : tileEntity.tier == FactoryTier.ADVANCED ? 122 : tileEntity.tier == FactoryTier.ELITE ? 132 : tileEntity.tier == FactoryTier.ULTIMATE ? 170 : 208;
-        int ygas = tileEntity.getRecipeType().getFuelType() == MachineFuelType.FARM ? 98 : 77;
+        int Slot_X_Distance = tileEntity.tier == FactoryTier.BASIC ? 38 : tileEntity.tier == FactoryTier.ADVANCED ? 26 : 19;
+        int One_X_Slot_Location = tileEntity.tier == FactoryTier.BASIC ? 54 : tileEntity.tier == FactoryTier.ADVANCED ? 34 : tileEntity.tier == FactoryTier.ELITE ? 28 : 26;
+        int short_X_Tank = tileEntity.tier == FactoryTier.CREATIVE ? 212 : tileEntity.tier == FactoryTier.ULTIMATE ? 174 : 140;
+        int X_Slot_Tank = tileEntity.tier == FactoryTier.BASIC ? 94 : tileEntity.tier == FactoryTier.ADVANCED ? 122 : tileEntity.tier == FactoryTier.ELITE ? 132 : tileEntity.tier == FactoryTier.ULTIMATE ? 170 : 208;
+        int Y_Tank = tileEntity.getRecipeType().getFuelType() == MachineFuelType.FARM ? 98 : 77;
+
         if (tileEntity.GasAdvancedInputMachine()) {
-            addGuiElement(new GuiBar(() -> (tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), 7, ygas, xgas, 7));
+            addGuiElement(new GuiBar(() -> (tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), 7, Y_Tank, short_X_Tank, 7));
         } else if (tileEntity.getRecipeType() == RecipeType.INFUSING) {
-            addGuiElement(new GuiBar(() -> (tileEntity.infuseStored.getType() != null ? tileEntity.infuseStored.getType().getLocalizedName() + ": " + tileEntity.infuseStored.getAmount() : LangUtils.localize("gui.empty")), this, getGuiLocation(), 7, 77, xgas, 7));
+            addGuiElement(new GuiBar(() -> (tileEntity.infuseStored.getType() != null ? tileEntity.infuseStored.getType().getLocalizedName() + ": " + (tileEntity.infuseStored.getAmount() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.infuseStored.getAmount()) : LangUtils.localize("gui.empty")), this, getGuiLocation(), 7, 77, short_X_Tank, 7));
         } else if (tileEntity.getRecipeType() == RecipeType.Crystallizer) {
-            addGuiElement(new GuiBar(() -> (tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), Slotlocation, 12, Xgastank, 18));
+            addGuiElement(new GuiBar(() -> (tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), One_X_Slot_Location, 12, X_Slot_Tank, 18));
         } else if (tileEntity.getRecipeType() == RecipeType.Dissolution) {
-            addGuiElement(new GuiBar(() -> (tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), 7, ygas, xgas, 7));
-            addGuiElement(new GuiBar(() -> (tileEntity.gasOutTank.getGas() != null ? tileEntity.gasOutTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasOutTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasOutTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), Slotlocation, 56, Xgastank, 18));
+            addGuiElement(new GuiBar(() -> (tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), 7, Y_Tank, short_X_Tank, 7));
+            addGuiElement(new GuiBar(() -> (tileEntity.gasOutTank.getGas() != null ? tileEntity.gasOutTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasOutTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasOutTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), One_X_Slot_Location, 56, X_Slot_Tank, 18));
         } else if (tileEntity.getRecipeType() == RecipeType.PRC) {
-            addGuiElement(new GuiBar(() -> (tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), 7, ygas, xgas, 7));
-            addGuiElement(new GuiBar(() -> (tileEntity.fluidTank.getFluid() != null ? LangUtils.localizeFluidStack(tileEntity.fluidTank.getFluid()) + ": " + (tileEntity.fluidTank.getFluidAmount() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.fluidTank.getFluidAmount() + " mB") : LangUtils.localize("gui.empty")), this, getGuiLocation(), 7, ygas + 10, xgas, 7));
-            addGuiElement(new GuiBar(() -> (tileEntity.gasOutTank.getGas() != null ? tileEntity.gasOutTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasOutTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasOutTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), 7, ygas + 20, xgas, 7));
+            addGuiElement(new GuiBar(() -> (tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), 7, Y_Tank, short_X_Tank, 7));
+            addGuiElement(new GuiBar(() -> (tileEntity.fluidTank.getFluid() != null ? LangUtils.localizeFluidStack(tileEntity.fluidTank.getFluid()) + ": " + (tileEntity.fluidTank.getFluidAmount() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.fluidTank.getFluidAmount() + " mB") : LangUtils.localize("gui.empty")), this, getGuiLocation(), 7, Y_Tank + 10, short_X_Tank, 7));
+            addGuiElement(new GuiBar(() -> (tileEntity.gasOutTank.getGas() != null ? tileEntity.gasOutTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasOutTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasOutTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), 7, Y_Tank + 20, short_X_Tank, 7));
         } else if (tileEntity.getRecipeType() == RecipeType.OXIDIZER) {
-            addGuiElement(new GuiBar(() -> (tileEntity.gasOutTank.getGas() != null ? tileEntity.gasOutTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasOutTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasOutTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), Slotlocation, 56, Xgastank, 18));
+            addGuiElement(new GuiBar(() -> (tileEntity.gasOutTank.getGas() != null ? tileEntity.gasOutTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasOutTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasOutTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), One_X_Slot_Location, 56, X_Slot_Tank, 18));
         } else if (tileEntity.getRecipeType() == RecipeType.WASHER) {
-            addGuiElement(new GuiBar(() -> (tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), Slotlocation, 12, Xgastank, 18));
-            addGuiElement(new GuiBar(() -> (tileEntity.gasOutTank.getGas() != null ? tileEntity.gasOutTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasOutTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasOutTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), Slotlocation, 56, Xgastank, 18));
-            addGuiElement(new GuiBar(() -> (tileEntity.fluidTank.getFluid() != null ? LangUtils.localizeFluidStack(tileEntity.fluidTank.getFluid()) + ": " + (tileEntity.fluidTank.getFluidAmount() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.fluidTank.getFluidAmount() + " mB") : LangUtils.localize("gui.empty")), this, getGuiLocation(), 7, 77, xgas, 7));
+            addGuiElement(new GuiBar(() -> (tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), One_X_Slot_Location, 12, X_Slot_Tank, 18));
+            addGuiElement(new GuiBar(() -> (tileEntity.gasOutTank.getGas() != null ? tileEntity.gasOutTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasOutTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasOutTank.getStored() + " mB") : LangUtils.localize("gui.none")), this, getGuiLocation(), One_X_Slot_Location, 56, X_Slot_Tank, 18));
+            addGuiElement(new GuiBar(() -> (tileEntity.fluidTank.getFluid() != null ? LangUtils.localizeFluidStack(tileEntity.fluidTank.getFluid()) + ": " + (tileEntity.fluidTank.getFluidAmount() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.fluidTank.getFluidAmount() + " mB") : LangUtils.localize("gui.empty")), this, getGuiLocation(), 7, 77, short_X_Tank, 7));
         }
 
+        int X_Gas_InputTank = tileEntity.GasAdvancedInputMachine() || tileEntity.getRecipeType() == RecipeType.Dissolution || tileEntity.getRecipeType() == RecipeType.PRC ? guiLeft + 7 : tileEntity.getRecipeType() == RecipeType.Crystallizer || tileEntity.getRecipeType() == RecipeType.WASHER ? guiLeft + One_X_Slot_Location : 0;
+        int X_Gas_OutputTank = tileEntity.getRecipeType() == RecipeType.Dissolution || tileEntity.getRecipeType() == RecipeType.WASHER || tileEntity.getRecipeType() == RecipeType.OXIDIZER ? guiLeft + One_X_Slot_Location : tileEntity.getRecipeType() == RecipeType.PRC ? guiLeft + 7 : 0;
 
-        //todo：Removed duplicate code rendering
-        if (tileEntity.GasAdvancedInputMachine()) {
-            if ((int) tileEntity.getScaledGasLevel(xgas - 2) > 0) {
-                GasStack gas = tileEntity.gasTank.getGas();
-                if (gas != null) {
-                    MekanismRenderer.color(gas);
-                    displayGauge(7, ygas, xgas, 7, gas.getGas().getSprite(), (int) tileEntity.getScaledGasLevel(xgas - 2));
-                    MekanismRenderer.resetColor();
-                }
-            }
-        } else if (tileEntity.getRecipeType() == RecipeType.Crystallizer) {
-            if ((int) tileEntity.getScaledGasLevel(Xgastank - 2) > 0) {
-                GasStack gas = tileEntity.gasTank.getGas();
-                if (gas != null) {
-                    MekanismRenderer.color(gas);
-                    displayGauge(Slotlocation, 12, Xgastank, 18, gas.getGas().getSprite(), (int) tileEntity.getScaledGasLevel(Xgastank - 2));
-                    MekanismRenderer.resetColor();
-                }
-            }
-        } else if (tileEntity.getRecipeType() == RecipeType.INFUSING) {
-            if ((int) tileEntity.getScaledInfuseLevel(xgas - 2) > 0) {
-                InfuseStorage storage = tileEntity.infuseStored;
-                if (storage.getType() != null) {
-                    displayGauge(7, ygas, xgas, 7, storage.getType().sprite, (int) tileEntity.getScaledInfuseLevel(xgas - 2));
-                    MekanismRenderer.resetColor();
-                }
-            }
-        } else if (tileEntity.getRecipeType() == RecipeType.Dissolution) {
-            if ((int) tileEntity.getScaledGasLevel(Xgastank - 2) > 0) {
-                GasStack gas = tileEntity.gasTank.getGas();
-                if (gas != null) {
-                    MekanismRenderer.color(gas);
-                    displayGauge(7, ygas, xgas, 7, gas.getGas().getSprite(), (int) tileEntity.getScaledGasLevel(xgas - 2));
-                    MekanismRenderer.resetColor();
-                }
-            }
-            if ((int) tileEntity.getScaledGasOutlevel(Xgastank - 2) > 0) {
-                GasStack gas = tileEntity.gasOutTank.getGas();
-                if (gas != null) {
-                    MekanismRenderer.color(gas);
-                    displayGauge(Slotlocation, 56, Xgastank, 18, gas.getGas().getSprite(), (int) tileEntity.getScaledGasOutlevel(Xgastank - 2));
-                    MekanismRenderer.resetColor();
-                }
-            }
-        } else if (tileEntity.getRecipeType() == RecipeType.WASHER) {
-            if ((int) tileEntity.getScaledGasLevel(xgas - 2) > 0) {
-                GasStack gas = tileEntity.gasTank.getGas();
-                if (gas != null) {
-                    MekanismRenderer.color(gas);
-                    displayGauge(Slotlocation, 12, Xgastank, 18, gas.getGas().getSprite(), (int) tileEntity.getScaledGasLevel(Xgastank - 2));
-                    MekanismRenderer.resetColor();
-                }
-            }
-            if ((int) tileEntity.getScaledfluidTanklevel(xgas - 2) > 0) {
-                FluidStack fluidStack = tileEntity.fluidTank.getFluid();
-                if (fluidStack != null) {
-                    MekanismRenderer.color(fluidStack);
-                    displayGauge(7, ygas, xgas, 7, MekanismRenderer.getFluidTexture(fluidStack, MekanismRenderer.FluidType.STILL), (int) tileEntity.getScaledfluidTanklevel(xgas - 2));
-                    MekanismRenderer.resetColor();
-                }
-            }
-            if ((int) tileEntity.getScaledGasOutlevel(xgas - 2) > 0) {
-                GasStack gas = tileEntity.gasOutTank.getGas();
-                if (gas != null) {
-                    MekanismRenderer.color(gas);
-                    displayGauge(Slotlocation, 56, Xgastank, 18, gas.getGas().getSprite(), (int) tileEntity.getScaledGasOutlevel(Xgastank - 2));
-                    MekanismRenderer.resetColor();
-                }
-            }
-        } else if (tileEntity.getRecipeType() == RecipeType.PRC) {
-            if ((int) tileEntity.getScaledGasLevel(xgas - 2) > 0) {
-                GasStack gas = tileEntity.gasTank.getGas();
-                if (gas != null) {
-                    MekanismRenderer.color(gas);
-                    displayGauge(7, ygas, xgas, 7, gas.getGas().getSprite(), (int) tileEntity.getScaledGasLevel(xgas - 2));
-                    MekanismRenderer.resetColor();
-                }
-            }
-            if ((int) tileEntity.getScaledfluidTanklevel(xgas - 2) > 0) {
-                FluidStack fluidStack = tileEntity.fluidTank.getFluid();
-                if (fluidStack != null) {
+        int Y_Gas_InputTank = tileEntity.GasAdvancedInputMachine() || tileEntity.getRecipeType() == RecipeType.Dissolution || tileEntity.getRecipeType() == RecipeType.PRC ? guiTop + Y_Tank : tileEntity.getRecipeType() == RecipeType.Crystallizer || tileEntity.getRecipeType() == RecipeType.WASHER ? guiTop + 12 : 0;
+        int Y_Gas_OutputTank = tileEntity.getRecipeType() == RecipeType.Dissolution || tileEntity.getRecipeType() == RecipeType.WASHER || tileEntity.getRecipeType() == RecipeType.OXIDIZER ? guiTop + 56 : tileEntity.getRecipeType() == RecipeType.PRC ? guiTop + Y_Tank + 20 : 0;
 
-                    MekanismRenderer.color(fluidStack);
-                    displayGauge(7, ygas + 10, xgas, 7, MekanismRenderer.getFluidTexture(fluidStack, MekanismRenderer.FluidType.STILL), (int) tileEntity.getScaledfluidTanklevel(xgas - 2));
-                    MekanismRenderer.resetColor();
-                }
-            }
-            if ((int) tileEntity.getScaledGasOutlevel(xgas - 2) > 0) {
-                GasStack gas = tileEntity.gasOutTank.getGas();
-                if (gas != null) {
-                    MekanismRenderer.color(gas);
-                    displayGauge(7, ygas + 20, xgas, 7, gas.getGas().getSprite(), (int) tileEntity.getScaledGasOutlevel(xgas - 2));
-                    MekanismRenderer.resetColor();
-                }
-            }
-        } else if (tileEntity.getRecipeType() == RecipeType.OXIDIZER) {
-            if ((int) tileEntity.getScaledGasOutlevel(Xgastank - 2) > 0) {
-                GasStack gas = tileEntity.gasOutTank.getGas();
-                if (gas != null) {
-                    MekanismRenderer.color(gas);
-                    displayGauge(Slotlocation, 56, Xgastank, 18, gas.getGas().getSprite(), (int) tileEntity.getScaledGasOutlevel(Xgastank - 2));
-                    MekanismRenderer.resetColor();
-                }
-            }
+        int X_Gas_InputTank_size = tileEntity.GasAdvancedInputMachine() || tileEntity.getRecipeType() == RecipeType.Dissolution || tileEntity.getRecipeType() == RecipeType.PRC ? short_X_Tank : tileEntity.getRecipeType() == RecipeType.Crystallizer || tileEntity.getRecipeType() == RecipeType.WASHER ? X_Slot_Tank : 0;
+        int X_Gas_OutputTank_size = tileEntity.getRecipeType() == RecipeType.Dissolution || tileEntity.getRecipeType() == RecipeType.WASHER || tileEntity.getRecipeType() == RecipeType.OXIDIZER ? X_Slot_Tank : tileEntity.getRecipeType() == RecipeType.PRC ? short_X_Tank : 0;
+
+        int Y_Gas_InputTank_size = tileEntity.GasAdvancedInputMachine() || tileEntity.getRecipeType() == RecipeType.Dissolution || tileEntity.getRecipeType() == RecipeType.PRC ? 7 : tileEntity.getRecipeType() == RecipeType.Crystallizer || tileEntity.getRecipeType() == RecipeType.WASHER ? 18 : 0;
+        int Y_Gas_OutputTank_size = tileEntity.getRecipeType() == RecipeType.Dissolution || tileEntity.getRecipeType() == RecipeType.WASHER || tileEntity.getRecipeType() == RecipeType.OXIDIZER ? 18 : tileEntity.getRecipeType() == RecipeType.PRC ? 7 : 0;
+
+        if (tileEntity.GasAdvancedInputMachine() || tileEntity.getRecipeType() == RecipeType.Crystallizer || tileEntity.getRecipeType() == RecipeType.Dissolution || tileEntity.getRecipeType() == RecipeType.WASHER || tileEntity.getRecipeType() == RecipeType.PRC) {
+            GuiUtils.drawGasBarSprite(X_Gas_InputTank, Y_Gas_InputTank, X_Gas_InputTank_size, Y_Gas_InputTank_size, (int) tileEntity.getScaledGasLevel(X_Gas_InputTank_size - 2), tileEntity.gasTank.getGas(), false);
+        }
+
+        if (tileEntity.getRecipeType() == RecipeType.Dissolution || tileEntity.getRecipeType() == RecipeType.WASHER || tileEntity.getRecipeType() == RecipeType.PRC || tileEntity.getRecipeType() == RecipeType.OXIDIZER) {
+            GuiUtils.drawGasBarSprite(X_Gas_OutputTank, Y_Gas_OutputTank, X_Gas_OutputTank_size, Y_Gas_OutputTank_size, (int) tileEntity.getScaledGasOutlevel(X_Gas_OutputTank_size - 2), tileEntity.gasOutTank.getGas(), false);
+        }
+
+        if (tileEntity.getRecipeType() == RecipeType.WASHER || tileEntity.getRecipeType() == RecipeType.PRC) {
+            int PRC_Fluid_TANK = tileEntity.getRecipeType() == RecipeType.PRC ? 10 : 0;
+            GuiUtils.drawFluidBarSprite(guiLeft + 7, guiTop + Y_Tank + PRC_Fluid_TANK, short_X_Tank, 7, (int) tileEntity.getScaledfluidTanklevel(short_X_Tank - 2), tileEntity.fluidTank.getFluid(), false);
+        }
+
+        if (tileEntity.getRecipeType() == RecipeType.INFUSING) {
+            GuiUtils.drawInfuseBarSprite(guiLeft + 7, guiTop + Y_Tank, short_X_Tank, 7, (int) tileEntity.getScaledInfuseLevel(short_X_Tank - 2), tileEntity.infuseStored, false);
         }
 
 
@@ -382,15 +301,15 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
             boolean inputinfuse = (tileEntity.infuseStored.getAmount() == 0) && (tileEntity.inventory.get(5 + i).getCount() != 0) && tileEntity.getRecipeType() == RecipeType.INFUSING;
             if (outslot) {
                 mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.SLOT, "Slot_Icon.png"));
-                drawTexturedModalRect(guiLeft + (Slotlocation + (i * xDistance)), guiTop + 56, 158, 0, 18, 18);
+                drawTexturedModalRect(guiLeft + (One_X_Slot_Location + (i * Slot_X_Distance)), guiTop + 56, 158, 0, 18, 18);
             }
             if (outslot2) {
                 mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.SLOT, "Slot_Icon.png"));
-                drawTexturedModalRect(guiLeft + (Slotlocation + (i * xDistance)), guiTop + 77, 158, 0, 18, 18);
+                drawTexturedModalRect(guiLeft + (One_X_Slot_Location + (i * Slot_X_Distance)), guiTop + 77, 158, 0, 18, 18);
             }
             if (inputgas || inputinfuse) {
                 mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Warning_Background.png"));
-                drawTexturedModalRect(guiLeft + 8, guiTop + (tileEntity.getRecipeType().getFuelType() == MachineFuelType.FARM ? 78 + 21 : 78), 0, 0, xgas - 2, 5);
+                drawTexturedModalRect(guiLeft + 8, guiTop + (tileEntity.getRecipeType().getFuelType() == MachineFuelType.FARM ? 78 + 21 : 78), 0, 0, short_X_Tank - 2, 5);
             }
             if (outslot || outslot2 || energy || inputgas || inputinfuse) {
                 mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.TAB, "Warning_Info.png"));
@@ -398,6 +317,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
                 addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
             }
         }
+
         mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "State.png"));
         drawTexturedModalRect(guiLeft - 10, guiTop + 81, 6, 6, 8, 8);
         drawTexturedModalRect(guiLeft - 9, guiTop + 82, tileEntity.Factoryoldsorting ? 0 : 6, 0, 6, 6);

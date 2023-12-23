@@ -629,13 +629,21 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 }
             }
         }
-        if ((GasOutputMachine() || recipeType == RecipeType.PRC) && gasOutTank.getNeeded() >= 0 && gasTank.getNeeded() >= 0 && tier == FactoryTier.CREATIVE) {
+        if ((GasOutputMachine() || recipeType == RecipeType.PRC) && gasOutTank.getNeeded() >= 0 && tier == FactoryTier.CREATIVE) {
             if (gasOutTank.stored != null) {
                 gasOutTank.setGas(gasOutTank.getGas());
                 gasOutTank.setMaxGas(Integer.MAX_VALUE);
                 gasOutTank.stored.amount = gasTank.getMaxGas();
             }
         }
+        if ((recipeType == RecipeType.WASHER || recipeType == RecipeType.PRC) && tier == FactoryTier.CREATIVE){
+            if (fluidTank.getFluid() !=null){
+                fluidTank.setFluid(fluidTank.getFluid());
+                fluidTank.setCapacity(Integer.MAX_VALUE);
+                fluidTank.getFluid().amount = fluidTank.getCapacity();
+            }
+        }
+
     }
 
     public ItemStack getMachineStack() {

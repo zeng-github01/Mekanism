@@ -112,8 +112,8 @@ public class TileComponentConfig implements ITileComponent {
 
     public void setIOConfig(TransmissionType type) {
         addOutput(type, new SideData("None", EnumColor.GREY, IOState.OFF));
-        addOutput(type, new SideData("Input", EnumColor.BRIGHT_GREEN, IOState.INPUT));
-        addOutput(type, new SideData("Output", EnumColor.RED, IOState.OUTPUT));
+        addOutput(type, new SideData("Input", EnumColor.RED, IOState.INPUT));
+        addOutput(type, new SideData("Output", EnumColor.INDIGO, IOState.OUTPUT));
         setConfig(type, new byte[]{1, 1, 2, 1, 1, 1});
     }
 

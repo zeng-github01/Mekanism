@@ -1,15 +1,68 @@
 package mekanism.client.gui.element;
 
+import mekanism.api.gas.GasStack;
+import mekanism.client.render.MekanismRenderer;
+import mekanism.common.InfuseStorage;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import static mekanism.client.gui.element.GuiElement.mc;
 
 
 @SideOnly(Side.CLIENT)
 public class GuiUtils {
+
+    public static void drawGasBarSprite(int xPos, int yPos, int sizeX, int sizeY, int displayInt, GasStack gasStack, boolean vertical) {
+        if (displayInt > 0) {
+            if (gasStack != null) {
+                mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+                MekanismRenderer.color(gasStack);
+                if (vertical) {
+                    drawTiledSprite( xPos + 1, yPos + 1, sizeY - 2, sizeX - 2, displayInt, gasStack.getGas().getSprite(), TilingDirection.DOWN_RIGHT);
+                } else {
+                    drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, displayInt, sizeY - 2, gasStack.getGas().getSprite(), TilingDirection.DOWN_RIGHT);
+                }
+                MekanismRenderer.resetColor();
+            }
+        }
+    }
+
+    public static void drawFluidBarSprite(int xPos, int yPos, int sizeX, int sizeY, int displayInt, FluidStack fluidStack, boolean vertical) {
+        if (displayInt > 0) {
+            if (fluidStack != null) {
+                mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+                MekanismRenderer.color(fluidStack);
+                if (vertical) {
+                    drawTiledSprite( xPos + 1, yPos + 1, sizeY - 2, sizeX - 2, displayInt, MekanismRenderer.getFluidTexture(fluidStack, MekanismRenderer.FluidType.STILL), TilingDirection.DOWN_RIGHT);
+                } else {
+                    drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, displayInt, sizeY - 2, MekanismRenderer.getFluidTexture(fluidStack, MekanismRenderer.FluidType.STILL), TilingDirection.DOWN_RIGHT);
+                }
+                MekanismRenderer.resetColor();
+            }
+        }
+    }
+
+
+    public static void drawInfuseBarSprite(int xPos, int yPos, int sizeX, int sizeY, int displayInt, InfuseStorage infuseStorage, boolean vertical) {
+        if (displayInt > 0) {
+            if (infuseStorage.getType() != null) {
+                mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+                if (vertical) {
+                    drawTiledSprite( xPos + 1, yPos + 1, sizeY - 2, sizeX - 2, displayInt, infuseStorage.getType().sprite, TilingDirection.DOWN_RIGHT);
+                } else {
+                    drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, displayInt, sizeY - 2, infuseStorage.getType().sprite, TilingDirection.DOWN_RIGHT);
+                }
+                MekanismRenderer.resetColor();
+            }
+        }
+    }
+
 
     public static void drawTiledSprite(int xPosition, int yPosition, int yOffset, int desiredWidth, int desiredHeight, TextureAtlasSprite sprite, TilingDirection tilingDirection) {
         drawTiledSprite(xPosition, yPosition, yOffset, desiredWidth, desiredHeight, sprite, 16, 16, 0, tilingDirection);
