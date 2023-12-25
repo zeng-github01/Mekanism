@@ -1,21 +1,27 @@
-package mekanism.common.integration.groovyscript.machinerecipe;
+package mekanism.grs.common.integration.groovyscript.machinerecipe;
 
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.compat.mods.mekanism.recipe.VirtualizedMekanismRegistry;
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
+import com.cleanroommc.groovyscript.helper.recipe.AbstractRecipeBuilder;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.ItemStackInput;
 import mekanism.common.recipe.machines.RecyclerRecipe;
 import mekanism.common.recipe.outputs.ChanceOutput2;
+import mekanism.grs.common.integration.groovyscript.GrSMekanismAdd;
 import net.minecraft.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class Recycler extends VirtualizedMekanismRegistry<RecyclerRecipe> {
 
     public Recycler() {
-        super(RecipeHandler.Recipe.RECYCLER, "Recycler", "recycler");
+        super(RecipeHandler.Recipe.RECYCLER);
     }
 
+    public RecipeBuilder recipeBuilder() {
+        return new RecipeBuilder();
+    }
 
     public RecyclerRecipe add(IIngredient ingredient, ItemStack output) {
         return add(ingredient, output, 1.0);
@@ -62,5 +68,37 @@ public class Recycler extends VirtualizedMekanismRegistry<RecyclerRecipe> {
         return found;
     }
 
+    public static class RecipeBuilder extends AbstractRecipeBuilder<RecyclerRecipe> {
+        private double chance = 1.0;
 
+        public RecipeBuilder chance(double chance) {
+            this.chance = chance;
+            return this;
+        }
+
+        @Override
+        public String getErrorMsg() {
+            return "Error adding Mekanism Recycler recipe";
+        }
+
+        @Override
+        public void validate(GroovyLog.Msg msg) {
+            validateItems(msg, 1, 1, 1, 1);
+            validateFluids(msg);
+            msg.add(chance < 0 || chance > 1, "chance must be between 0 and 1.0, yet it was {}", chance);
+        }
+
+        @Override
+        public @Nullable RecyclerRecipe register() {
+            if (!validate()) return null;
+            ChanceOutput2 chanceOutput2 = new ChanceOutput2(output.get(0), chance);
+            RecyclerRecipe recipe = null;
+            for (ItemStack itemStack : input.get(0).getMatchingStacks()) {
+                RecyclerRecipe r = new RecyclerRecipe(new ItemStackInput(itemStack.copy()), chanceOutput2);
+                if (recipe == null) recipe = r;
+                GrSMekanismAdd.get().recycler.add(r);
+            }
+            return recipe;
+        }
+    }
 }

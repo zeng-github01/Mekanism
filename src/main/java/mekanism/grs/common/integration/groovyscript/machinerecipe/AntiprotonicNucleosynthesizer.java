@@ -1,19 +1,18 @@
-package mekanism.common.integration.groovyscript.machinerecipe;
+package mekanism.grs.common.integration.groovyscript.machinerecipe;
 
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.compat.mods.mekanism.Mekanism;
+import com.cleanroommc.groovyscript.compat.mods.mekanism.recipe.GasRecipeBuilder;
 import com.cleanroommc.groovyscript.compat.mods.mekanism.recipe.VirtualizedMekanismRegistry;
+import com.cleanroommc.groovyscript.helper.Alias;
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
-import com.cleanroommc.groovyscript.helper.recipe.AbstractRecipeBuilder;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import mekanism.api.gas.GasStack;
-import mekanism.common.integration.groovyscript.GrSMekanismAdd;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.NucleosynthesizerInput;
 import mekanism.common.recipe.machines.NucleosynthesizerRecipe;
+import mekanism.common.recipe.outputs.ItemStackOutput;
+import mekanism.grs.common.integration.groovyscript.GrSMekanismAdd;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 public class AntiprotonicNucleosynthesizer extends VirtualizedMekanismRegistry<NucleosynthesizerRecipe> {
 
     public AntiprotonicNucleosynthesizer() {
-        super(RecipeHandler.Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER, "AntiprotonicNucleosynthesizer", "antiprotonic_nucleosynthesizer");
+        super(RecipeHandler.Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER, Alias.generateOfClass(AntiprotonicNucleosynthesizer.class).and("AntiprotonicNucleosynthesizer", "antiprotonic_nucleosynthesizer"));
     }
 
     public RecipeBuilder recipeBuilder() {
@@ -63,37 +62,11 @@ public class AntiprotonicNucleosynthesizer extends VirtualizedMekanismRegistry<N
     }
 
 
-    public static class RecipeBuilder extends AbstractRecipeBuilder<NucleosynthesizerRecipe> {
-
-        private final List<GasStack> gasInput = new ArrayList<>();
+    public static class RecipeBuilder extends GasRecipeBuilder<NucleosynthesizerRecipe> {
         private int duration;
         private double energy;
 
-        public RecipeBuilder gasInput(GasStack gas) {
-            this.gasInput.add(gas);
-            return this;
-        }
-
-        public RecipeBuilder gasInput(Collection<GasStack> gases) {
-            if (gases != null && !gases.isEmpty()) {
-                for (GasStack gas : gasInput) {
-                    gasInput(gas);
-                }
-            }
-            return this;
-        }
-
-        public RecipeBuilder gasInput(GasStack... gases) {
-            if (gases != null && gases.length > 0) {
-                for (GasStack gas : gasInput) {
-                    gasInput(gas);
-                }
-            }
-            return this;
-        }
-
-
-        public RecipeBuilder durazqtion(int duration) {
+        public RecipeBuilder duration(int duration) {
             this.duration = duration;
             return this;
         }
@@ -103,24 +76,39 @@ public class AntiprotonicNucleosynthesizer extends VirtualizedMekanismRegistry<N
             return this;
         }
 
+
         @Override
         public String getErrorMsg() {
             return "Error adding Mekanism Antiprotonic Nucleosynthesizer recipe";
         }
 
+
         @Override
         public void validate(GroovyLog.Msg msg) {
-            validateItems(msg, 1, 1, 1, 1);
-            this.gasInput.removeIf(Mekanism::isEmpty);
-            msg.add(this.gasInput.size() != 1, () -> getRequiredString(1, 1, " gas input") + ", but found " + this.gasInput.size());
+            validateItems(msg, 0, 1, 0, 1);
+            validateFluids(msg);
+            validateGases(msg, 1, 1, 1, 1);
             if (duration <= 0) duration = 100;
             if (energy <= 0) energy = 8000;
         }
 
+
         @Override
         public @Nullable NucleosynthesizerRecipe register() {
             if (!validate()) return null;
-            return GrSMekanismAdd.modSupportContainer.get().antiprotonicNucleosynthesizer.add(input.get(0), gasInput.get(0), output.get(0), energy, duration);
+            ItemStackOutput itemStackOutput = new ItemStackOutput(output.getOrEmpty(0));
+            NucleosynthesizerRecipe recipe = null;
+            if (input.isEmpty()) {
+                recipe = new NucleosynthesizerRecipe(new NucleosynthesizerInput(ItemStack.EMPTY, gasInput.get(0)), itemStackOutput, energy, duration);
+                GrSMekanismAdd.get().antiprotonicNucleosynthesizer.add(recipe);
+            } else {
+                for (ItemStack itemStack : input.get(0).getMatchingStacks()) {
+                    NucleosynthesizerRecipe r = new NucleosynthesizerRecipe(new NucleosynthesizerInput(itemStack.copy(), gasInput.get(0)), itemStackOutput, energy, duration);
+                    if (recipe == null) recipe = r;
+                    GrSMekanismAdd.get().antiprotonicNucleosynthesizer.add(r);
+                }
+            }
+            return recipe;
         }
     }
 

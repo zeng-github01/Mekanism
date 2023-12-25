@@ -1,15 +1,17 @@
 package mekanism.client;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 import mekanism.api.EnumColor;
 import mekanism.common.Mekanism;
 import mekanism.common.config.MekanismConfig;
+import mekanism.common.util.LangUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public final class HolidayManager {
 
@@ -21,6 +23,7 @@ public final class HolidayManager {
 
     public static void init() {
         if (MekanismConfig.current().client.holidays.val()) {
+            holidays.add(new May4());
             holidays.add(new Christmas());
             holidays.add(new NewYear());
         }
@@ -124,10 +127,10 @@ public final class HolidayManager {
         public void onEvent(EntityPlayer player) {
             String themedLines = getThemedLines(new EnumColor[]{EnumColor.DARK_GREEN, EnumColor.DARK_RED}, 13);
             player.sendMessage(new TextComponentString(themedLines + EnumColor.DARK_BLUE + Mekanism.LOG_TAG + themedLines));
-            player.sendMessage(new TextComponentString(EnumColor.RED + "Merry Christmas, " + EnumColor.DARK_BLUE + player.getName() + EnumColor.RED + "!"));
-            player.sendMessage(new TextComponentString(EnumColor.RED + "May you have plenty of Christmas cheer"));
-            player.sendMessage(new TextComponentString(EnumColor.RED + "and have a relaxing holiday with your"));
-            player.sendMessage(new TextComponentString(EnumColor.RED + "family :)"));
+            player.sendMessage(new TextComponentString(EnumColor.RED + LangUtils.localize("holiday.mekanism.christmas.1") + " " + EnumColor.DARK_BLUE + player.getName() + " " + EnumColor.RED + LangUtils.localize("!")));
+            player.sendMessage(new TextComponentString(EnumColor.RED + LangUtils.localize("holiday.mekanism.christmas.2")));
+            player.sendMessage(new TextComponentString(EnumColor.RED + LangUtils.localize("holiday.mekanism.christmas.3")));
+            player.sendMessage(new TextComponentString(EnumColor.RED + LangUtils.localize("holiday.mekanism.christmas.4")));
             player.sendMessage(new TextComponentString(EnumColor.DARK_GREY + "-aidancbrady"));
             player.sendMessage(new TextComponentString(themedLines + EnumColor.DARK_BLUE + "[=======]" + themedLines));
         }
@@ -150,6 +153,22 @@ public final class HolidayManager {
         }
     }
 
+    private static class May4 extends Holiday {
+
+        @Override
+        public YearlyDate getDate() {
+            return new YearlyDate(5, 4);
+        }
+
+        @Override
+        public void onEvent(EntityPlayer player) {
+            String themedLines = getThemedLines(new EnumColor[]{EnumColor.BLACK, EnumColor.GREY, EnumColor.BLACK, EnumColor.YELLOW, EnumColor.BLACK}, 15);
+            player.sendMessage(new TextComponentString(themedLines + EnumColor.DARK_BLUE + Mekanism.LOG_TAG + themedLines));
+            player.sendMessage(new TextComponentString(EnumColor.GREY + LangUtils.localize("holiday.mekanism.may_4.1") + " " + EnumColor.DARK_BLUE + player.getName()));
+            player.sendMessage(new TextComponentString(themedLines + EnumColor.DARK_BLUE + "[=======]" + themedLines));
+        }
+    }
+
     private static class NewYear extends Holiday {
 
         @Override
@@ -161,9 +180,9 @@ public final class HolidayManager {
         public void onEvent(EntityPlayer player) {
             String themedLines = getThemedLines(new EnumColor[]{EnumColor.WHITE, EnumColor.YELLOW}, 13);
             player.sendMessage(new TextComponentString(themedLines + EnumColor.DARK_BLUE + Mekanism.LOG_TAG + themedLines));
-            player.sendMessage(new TextComponentString(EnumColor.AQUA + "Happy New Year, " + EnumColor.DARK_BLUE + player.getName() + EnumColor.RED + "!"));
-            player.sendMessage(new TextComponentString(EnumColor.AQUA + "Best wishes to you as we enter this"));
-            player.sendMessage(new TextComponentString(EnumColor.AQUA + "new and exciting year of " + calendar.get(Calendar.YEAR) + "! :)"));
+            player.sendMessage(new TextComponentString(EnumColor.AQUA + LangUtils.localize("holiday.mekanism.new_year.1") + " " + EnumColor.DARK_BLUE + player.getName() + EnumColor.RED + LangUtils.localize("!")));
+            player.sendMessage(new TextComponentString(EnumColor.AQUA + LangUtils.localize("holiday.mekanism.new_year.2")));
+            player.sendMessage(new TextComponentString(EnumColor.AQUA + LangUtils.localize("holiday.mekanism.new_year.3").replaceAll("%s", String.valueOf(calendar.get(Calendar.YEAR))) + LangUtils.localize("!") + " :)"));
             player.sendMessage(new TextComponentString(EnumColor.DARK_GREY + "-aidancbrady"));
             player.sendMessage(new TextComponentString(themedLines + EnumColor.DARK_BLUE + "[=======]" + themedLines));
         }

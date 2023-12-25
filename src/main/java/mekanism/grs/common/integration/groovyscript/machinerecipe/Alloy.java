@@ -1,19 +1,27 @@
-package mekanism.common.integration.groovyscript.machinerecipe;
+package mekanism.grs.common.integration.groovyscript.machinerecipe;
 
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.compat.mods.mekanism.recipe.VirtualizedMekanismRegistry;
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
+import com.cleanroommc.groovyscript.helper.recipe.AbstractRecipeBuilder;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.DoubleMachineInput;
 import mekanism.common.recipe.machines.AlloyRecipe;
+import mekanism.grs.common.integration.groovyscript.GrSMekanismAdd;
 import net.minecraft.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class Alloy extends VirtualizedMekanismRegistry<AlloyRecipe> {
 
     public Alloy() {
-        super(RecipeHandler.Recipe.ALLOY, "Alloy", "alloy");
+        super(RecipeHandler.Recipe.ALLOY);
     }
+
+    public RecipeBuilder recipeBuilder() {
+        return new RecipeBuilder();
+    }
+
 
     public AlloyRecipe add(IIngredient ingredient, ItemStack extra, ItemStack output) {
         GroovyLog.Msg msg = GroovyLog.msg("Error adding Mekanism Alloy recipe").error();
@@ -53,4 +61,37 @@ public class Alloy extends VirtualizedMekanismRegistry<AlloyRecipe> {
         }
         return found;
     }
+
+    public static class RecipeBuilder extends AbstractRecipeBuilder<AlloyRecipe> {
+        private ItemStack extra;
+
+        public RecipeBuilder extra(ItemStack extra) {
+            this.extra = extra;
+            return this;
+        }
+
+        @Override
+        public String getErrorMsg() {
+            return "Error adding Mekanism Alloy recipe";
+        }
+
+        @Override
+        public void validate(GroovyLog.Msg msg) {
+            validateItems(msg, 1, 1, 1, 1);
+            validateFluids(msg);
+        }
+
+        @Override
+        public @Nullable AlloyRecipe register() {
+            if (!validate()) return null;
+            AlloyRecipe recipe = null;
+            for (ItemStack itemStack : input.get(0).getMatchingStacks()) {
+                AlloyRecipe r = new AlloyRecipe(itemStack.copy(), extra, output.get(0));
+                if (recipe == null) recipe = r;
+                GrSMekanismAdd.get().alloy.add(r);
+            }
+            return recipe;
+        }
+    }
+
 }

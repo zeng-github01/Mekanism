@@ -31,7 +31,6 @@ import mekanism.common.frequency.Frequency;
 import mekanism.common.frequency.FrequencyManager;
 import mekanism.common.integration.IMCHandler;
 import mekanism.common.integration.MekanismHooks;
-import mekanism.common.integration.groovyscript.GrSMekanismAdd;
 import mekanism.common.integration.multipart.MultipartMekanism;
 import mekanism.common.multiblock.MultiblockManager;
 import mekanism.common.network.PacketDataRequest.DataRequestMessage;
@@ -427,10 +426,7 @@ public class Mekanism {
         hooks.hookPreInit();
     }
 
-    @EventHandler
-    public void onConstruction(FMLConstructionEvent event) {
-        GrSMekanismAdd.init();
-    }
+
 
     @EventHandler
     public void init(FMLInitializationEvent event) {

@@ -1,6 +1,7 @@
 package mekanism.common.tile.prefab;
 
 import io.netty.buffer.ByteBuf;
+import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Upgrade;
 import mekanism.common.base.IComparatorSupport;
@@ -9,8 +10,6 @@ import mekanism.common.util.MekanismUtils;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-
-import javax.annotation.Nonnull;
 
 public abstract class TileEntityOperationalMachine extends TileEntityMachine implements IComparatorSupport {
 

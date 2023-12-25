@@ -1,19 +1,26 @@
-package mekanism.common.integration.groovyscript.machinerecipe;
+package mekanism.grs.common.integration.groovyscript.machinerecipe;
 
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.compat.mods.mekanism.recipe.VirtualizedMekanismRegistry;
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
+import com.cleanroommc.groovyscript.helper.recipe.AbstractRecipeBuilder;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.ItemStackInput;
 import mekanism.common.recipe.machines.CellSeparatorRecipe;
 import mekanism.common.recipe.outputs.ChanceOutput;
+import mekanism.grs.common.integration.groovyscript.GrSMekanismAdd;
 import net.minecraft.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class CellSeparator extends VirtualizedMekanismRegistry<CellSeparatorRecipe> {
 
+    public RecipeBuilder recipeBuilder() {
+        return new RecipeBuilder();
+    }
+
     public CellSeparator() {
-        super(RecipeHandler.Recipe.CELL_SEPARATOR, "CellSeparator", "cell_separator");
+        super(RecipeHandler.Recipe.CELL_SEPARATOR);
     }
 
     public CellSeparatorRecipe add(IIngredient ingredient, ItemStack output) {
@@ -66,5 +73,47 @@ public class CellSeparator extends VirtualizedMekanismRegistry<CellSeparatorReci
             removeError("could not find recipe for %s", ingredient);
         }
         return found;
+    }
+
+    public static class RecipeBuilder extends AbstractRecipeBuilder<CellSeparatorRecipe> {
+        private ItemStack extra = ItemStack.EMPTY;
+        private double chance = 1.0;
+
+        public RecipeBuilder extra(ItemStack extra) {
+            this.extra = extra;
+            return this;
+        }
+
+        public RecipeBuilder chance(double chance) {
+            this.chance = chance;
+            return this;
+        }
+
+        @Override
+        public String getErrorMsg() {
+            return "Error adding Mekanism Cell Separator recipe";
+        }
+
+        @Override
+        public void validate(GroovyLog.Msg msg) {
+            validateItems(msg, 1, 1, 1, 1);
+            validateFluids(msg);
+            msg.add(chance < 0 || chance > 1, "chance must be between 0 and 1.0, yet it was {}", chance);
+        }
+
+        @Override
+        public @Nullable CellSeparatorRecipe register() {
+            if (!validate()) return null;
+            ChanceOutput chanceOutput = extra.isEmpty()
+                    ? new ChanceOutput(output.get(0))
+                    : new ChanceOutput(output.get(0), extra, chance);
+            CellSeparatorRecipe recipe = null;
+            for (ItemStack itemStack : input.get(0).getMatchingStacks()) {
+                CellSeparatorRecipe r = new CellSeparatorRecipe(new ItemStackInput(itemStack.copy()), chanceOutput);
+                if (recipe == null) recipe = r;
+                GrSMekanismAdd.get().cellSeparator.add(r);
+            }
+            return recipe;
+        }
     }
 }

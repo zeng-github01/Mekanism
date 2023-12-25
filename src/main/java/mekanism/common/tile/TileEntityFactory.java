@@ -1,6 +1,14 @@
 package mekanism.common.tile;
 
+import static mekanism.common.tile.TileEntityChemicalDissolutionChamber.BASE_INJECT_USAGE;
+import static mekanism.common.tile.TileEntityChemicalWasher.WATER_USAGE;
+
 import io.netty.buffer.ByteBuf;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigCardAccess.ISpecialConfigData;
 import mekanism.api.TileNetworkList;
@@ -44,15 +52,6 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import static mekanism.common.tile.TileEntityChemicalDissolutionChamber.BASE_INJECT_USAGE;
-import static mekanism.common.tile.TileEntityChemicalWasher.WATER_USAGE;
 
 public class TileEntityFactory extends TileEntityMachine implements IComputerIntegration, ISideConfiguration, IGasHandler, ISpecialConfigData, ITierUpgradeable,
         ISustainedData, IComparatorSupport, ITankManager, IFluidHandlerWrapper {
@@ -574,8 +573,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         }
     }
 
-    @Nullable
-    public GasStack getItemGas(ItemStack itemStack) {
+    @Nullable public GasStack getItemGas(ItemStack itemStack) {
         if (GasInputMachine() || GasAdvancedInputMachine()) {
             return GasConversionHandler.getItemGas(itemStack, gasTank, recipeType::isValidGas);
         }

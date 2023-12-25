@@ -1606,3 +1606,13 @@ sound_event.mekanismgenerators.tile.generator.wind=风力涡轮机的呼呼声
 sound_event.mekanismgenerators.tile.machine.fission_reactor=裂变反应堆的嗡嗡声
 sound_event.mekanismgenerators.tile.machine.fusion_reactor=聚变反应堆的嗡嗡声
 !=！
+
+#holiday
+holiday.mekanism.christmas.1=圣诞快乐，
+holiday.mekanism.christmas.2=祝你圣诞快乐
+holiday.mekanism.christmas.3=和你的家人一起度过一个
+holiday.mekanism.christmas.4=轻松的假期 :)
+holiday.mekanism.may_4.1=愿原力与你同在，
+holiday.mekanism.new_year.1=新年快乐，
+holiday.mekanism.new_year.2=在我们进入这个激动人心的
+holiday.mekanism.new_year.3=%s新年之际，向你致以最美好的祝福

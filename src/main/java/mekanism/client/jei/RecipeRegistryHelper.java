@@ -17,7 +17,6 @@ import mekanism.common.base.IFactory.RecipeType;
 import mekanism.common.block.states.BlockStateBasic.BasicBlockType;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.integration.crafttweaker.handlers.EnergizedSmelter;
-import mekanism.common.integration.groovyscript.machinerecipe.Smelter;
 import mekanism.common.inventory.container.ContainerFormulaicAssemblicator;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.inputs.ItemStackInput;
@@ -27,10 +26,13 @@ import mekanism.common.recipe.machines.SmeltingRecipe;
 import mekanism.common.recipe.outputs.MachineOutput;
 import mekanism.common.tier.FactoryTier;
 import mekanism.common.util.MekanismUtils;
+import mekanism.grs.common.MekanismGrS;
+import mekanism.grs.common.integration.groovyscript.machinerecipe.Smelter;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.recipe.IRecipeWrapperFactory;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraftforge.fml.common.Loader;
 
 public class RecipeRegistryHelper {
 
@@ -210,7 +212,7 @@ public class RecipeRegistryHelper {
             return;
         }
         registry.handleRecipes(SmeltingRecipe.class, MachineRecipeWrapper::new, Recipe.ENERGIZED_SMELTER.getJEICategory());
-        if (Mekanism.hooks.GroovyScript && Smelter.hasRemovedRecipe() || Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasRemovedRecipe()) {
+        if ((Loader.isModLoaded(MekanismGrS.MODID) && Mekanism.hooks.GroovyScript && Smelter.hasRemovedRecipe()) || Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasRemovedRecipe()) {
             // Removed / Removed + Added
             // Add all recipes
             Collection<SmeltingRecipe> recipeList = Recipe.ENERGIZED_SMELTER.get().values();
@@ -218,7 +220,7 @@ public class RecipeRegistryHelper {
                     Recipe.ENERGIZED_SMELTER.getJEICategory());
             registry.addRecipeClickArea(GuiEnergizedSmelter.class, 79, 40, 24, 7,
                     Recipe.ENERGIZED_SMELTER.getJEICategory());
-        } else if (Mekanism.hooks.GroovyScript && Smelter.hasAddedRecipe() || Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasAddedRecipe()) {
+        } else if ((Loader.isModLoaded(MekanismGrS.MODID) && Mekanism.hooks.GroovyScript && Smelter.hasRemovedRecipe()) || Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasAddedRecipe()) {
             // Added but not removed
             // Only add added recipes
             Map<ItemStackInput, SmeltingRecipe> smeltingRecipes = Recipe.ENERGIZED_SMELTER.get();

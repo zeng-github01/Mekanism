@@ -1,0 +1,38 @@
+package mekanism.grs.common.integration.groovyscript;
+
+import com.cleanroommc.groovyscript.compat.mods.ModPropertyContainer;
+import mekanism.grs.common.integration.groovyscript.machinerecipe.*;
+
+public class MekanismAdd extends ModPropertyContainer {
+    public IsotopicCentrifuge isotopicCentrifuge = new IsotopicCentrifuge();
+    public NutritionalLiquifier nutritionalLiquifier = new NutritionalLiquifier();
+    public OrganicFarm organicFarm = new OrganicFarm();
+    public AntiprotonicNucleosynthesizer antiprotonicNucleosynthesizer = new AntiprotonicNucleosynthesizer();
+    public Stamping stamping = new Stamping();
+    public Rolling rolling = new Rolling();
+    public Brushed brushed = new Brushed();
+    public Turning turning = new Turning();
+    public Alloy alloy = new Alloy();
+    public CellExtractor cellExtractor = new CellExtractor();
+    public CellSeparator cellSeparator = new CellSeparator();
+    public Recycler recycler = new Recycler();
+
+    public Smelter smelting = new Smelter();
+
+    public MekanismAdd() {
+        addRegistry(smelting);
+        addRegistry(isotopicCentrifuge);
+        addRegistry(nutritionalLiquifier);
+        addRegistry(organicFarm);
+        addRegistry(antiprotonicNucleosynthesizer);
+        addRegistry(stamping);
+        addRegistry(rolling);
+        addRegistry(brushed);
+        addRegistry(turning);
+        addRegistry(alloy);
+        addRegistry(cellExtractor);
+        addRegistry(cellSeparator);
+        addRegistry(recycler);
+    }
+
+}

@@ -78,10 +78,10 @@ dependencies {
     implementation rfg.deobf('curse.maven:ender-io-64578:3328811')
     implementation rfg.deobf('curse.maven:endercore-231868:2972849')
 
-    implementation 'curse.maven:groovyscript-687577:4487379'
+    implementation 'curse.maven:groovyscript-687577:4961595'
     implementation 'curse.maven:buildcraft-61811:3204475'
     implementation 'curse.maven:crafttweaker-239197:4534504'
-    implementation 'zone.rong:mixinbooter:7.1'
+    implementation 'curse.maven:mixin-booter-419286:4835295'
 
     runtimeOnly 'curse.maven:ftb-library-237167:2985811'
     runtimeOnly 'curse.maven:ftb-utilities-237102:3157548'

@@ -3,7 +3,6 @@ package mekanism.client.jei.machine.other;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import mekanism.client.gui.element.GuiUtils;
 import mekanism.client.jei.machine.MekanismRecipeWrapper;
 import mekanism.common.InfuseStorage;
