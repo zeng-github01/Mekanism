@@ -129,11 +129,16 @@ public final class MekanismHooks {
         }
         if (MALoaded) {
             registerMysticalAgricultureRecipes();
+            Mekanism.logger.info("Hooked into Mystical Agriculture successfully.");
+        }
+        if (GroovyScript){
+            Mekanism.logger.info("Hooked into Groovy Script successfully.");
         }
         if (CraftTweakerLoaded) {
             //CraftTweaker must be ran after all other recipe changes
             CrafttweakerIntegration.registerCommands();
             CrafttweakerIntegration.applyRecipeChanges();
+            Mekanism.logger.info("Hooked into Craft Tweaker successfully.");
         }
         Wrenches.initialise();
     }
