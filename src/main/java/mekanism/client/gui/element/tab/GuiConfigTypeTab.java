@@ -124,11 +124,11 @@ public class GuiConfigTypeTab extends GuiElement {
     }
 
     public int getLeftBound(boolean adjust) {
-        return left ? -21 + (adjust ? 1 : 0) : 179 - (adjust ? 1 : 0);
+        return left ? -21 + (adjust ? 1 : 0) : 159 - (adjust ? 1 : 0);
     }
 
     public int getRightBound(boolean adjust) {
-        return left ? -3 + (adjust ? 1 : 0) : 197 - (adjust ? 1 : 0);
+        return left ? -3 + (adjust ? 1 : 0) : 177 - (adjust ? 1 : 0);
     }
 
     @Override

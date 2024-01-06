@@ -31,6 +31,9 @@ public class GuiDisableableButton extends GuiButton {
 
     private Supplier<Integer> mod;
 
+    public GuiDisableableButton(int id, int x, int y, int size) {
+        this(id, x, y, size, size, "");
+    }
 
     public GuiDisableableButton(int id, int x, int y, int width, int height) {
         this(id, x, y, width, height, "");

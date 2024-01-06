@@ -22,7 +22,7 @@ public class GuiSideDataButton extends GuiButton {
     private final int slotPosMapIndex;
 
     public GuiSideDataButton(int id, int x, int y, int slotPosMapIndex, Supplier<SideData> sideDataSupplier, Supplier<EnumColor> colorSupplier) {
-        super(id, x, y, 14, 14, "");
+        super(id, x, y, 22, 22, "");
         this.slotPosMapIndex = slotPosMapIndex;
         this.sideDataSupplier = sideDataSupplier;
         this.colorSupplier = colorSupplier;
