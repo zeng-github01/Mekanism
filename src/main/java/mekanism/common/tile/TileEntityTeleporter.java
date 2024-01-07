@@ -110,12 +110,20 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
 
         if (side != null) {
             switch (side) {
-                case NORTH -> yaw = 180;
-                case SOUTH -> yaw = 0;
-                case WEST -> yaw = 90;
-                case EAST -> yaw = 270;
-                default -> {
-                }
+                case NORTH:
+                    yaw = 180;
+                    break;
+                case SOUTH:
+                    yaw = 0;
+                    break;
+                case WEST:
+                    yaw = 90;
+                    break;
+                case EAST:
+                    yaw = 270;
+                    break;
+                default:
+                    break;
             }
         }
         player.connection.setPlayerLocation(player.posX, player.posY, player.posZ, yaw, player.rotationPitch);
