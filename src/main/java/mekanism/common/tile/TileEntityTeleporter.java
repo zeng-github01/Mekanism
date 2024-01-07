@@ -50,9 +50,7 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
         IUpgradeTile, IComparatorSupport {
 
     private static final String[] methods = new String[]{"getEnergy", "canTeleport", "getMaxEnergy", "teleport", "setFrequency", "setDefaultColor"};
-    public static List<EnumColor> colors = Arrays.asList(EnumColor.BLACK, EnumColor.DARK_BLUE, EnumColor.DARK_GREEN, EnumColor.DARK_AQUA, EnumColor.DARK_RED,
-            EnumColor.PURPLE, EnumColor.ORANGE, EnumColor.GREY, EnumColor.DARK_GREY, EnumColor.INDIGO, EnumColor.BRIGHT_GREEN, EnumColor.AQUA, EnumColor.RED,
-            EnumColor.PINK, EnumColor.YELLOW, EnumColor.WHITE);
+    public static List<EnumColor> colors = Arrays.asList(EnumColor.values());
     public AxisAlignedBB teleportBounds = null;
     public Set<UUID> didTeleport = new HashSet<>();
 
@@ -112,20 +110,12 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
 
         if (side != null) {
             switch (side) {
-                case NORTH:
-                    yaw = 180;
-                    break;
-                case SOUTH:
-                    yaw = 0;
-                    break;
-                case WEST:
-                    yaw = 90;
-                    break;
-                case EAST:
-                    yaw = 270;
-                    break;
-                default:
-                    break;
+                case NORTH -> yaw = 180;
+                case SOUTH -> yaw = 0;
+                case WEST -> yaw = 90;
+                case EAST -> yaw = 270;
+                default -> {
+                }
             }
         }
         player.connection.setPlayerLocation(player.posX, player.posY, player.posZ, yaw, player.rotationPitch);

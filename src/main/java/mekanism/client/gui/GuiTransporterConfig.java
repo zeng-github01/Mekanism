@@ -8,11 +8,13 @@ import java.util.Map;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.transmitters.TransmissionType;
+import mekanism.client.Utils.ClientUtil;
 import mekanism.client.gui.GuiSideConfiguration.GuiPos;
 import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.button.GuiSideDataButton;
 import mekanism.client.gui.element.GuiInnerScreen;
+import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.SideData;
@@ -24,20 +26,25 @@ import mekanism.common.network.PacketSimpleGui.SimpleGuiMessage;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.util.LangUtils;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.input.Keyboard;
 
 
 @SideOnly(Side.CLIENT)
 public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlock> {
 
+    private List<Pair<Integer, Block>> blockList = new ArrayList<>();
     private Map<Integer, GuiPos> slotPosMap = new HashMap<>();
     private ISideConfiguration configurable;
     private List<GuiSideDataButton> sideDataButtons = new ArrayList<>();
@@ -45,27 +52,31 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
     private GuiButton strictInputButton;
     private GuiButton colorButton;
     private int buttonID = 0;
+    private int currentLayer;
 
     public GuiTransporterConfig(EntityPlayer player, ISideConfiguration tile) {
         super((TileEntityContainerBlock) tile, new ContainerNull(player, (TileEntityContainerBlock) tile));
-        ySize = 95;
+        xSize = 156;
+        //ySize = 95;
+        ySize = 119;
         configurable = tile;
         ResourceLocation resource = getGuiLocation();
-        slotPosMap.put(0, new GuiPos(54, 64));
-        slotPosMap.put(1, new GuiPos(54, 34));
-        slotPosMap.put(2, new GuiPos(54, 49));
-        slotPosMap.put(3, new GuiPos(39, 64));
-        slotPosMap.put(4, new GuiPos(39, 49));
-        slotPosMap.put(5, new GuiPos(69, 49));
-        addGuiElement(new GuiInnerScreen(this, resource, 51, 15, 74, 12));
+        slotPosMap.put(0, new GuiPos(41, 64 + 16));
+        slotPosMap.put(1, new GuiPos(41, 34));
+        slotPosMap.put(2, new GuiPos(41, 57));
+        slotPosMap.put(3, new GuiPos(18, 64+16));
+        slotPosMap.put(4, new GuiPos(18, 57));
+        slotPosMap.put(5, new GuiPos(64, 57));
+        addGuiElement(new GuiInnerScreen(this, resource, 41, 15, 74, 12));
+        currentLayer = Math.max(0, blockList.size() - 1);
     }
 
     @Override
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(backButton = new GuiDisableableButton(buttonID++, guiLeft + 6, guiTop + 6, 14, 14).with(GuiDisableableButton.ImageOverlay.BACK));
-        buttonList.add(strictInputButton = new GuiDisableableButton(buttonID++, guiLeft + 156, guiTop + 6, 14, 14).with(GuiDisableableButton.ImageOverlay.EXCLAMATION));
+        buttonList.add(backButton = new GuiDisableableButton(buttonID++, guiLeft + 6, guiTop + 6, 14).with(GuiDisableableButton.ImageOverlay.BACK));
+        buttonList.add(strictInputButton = new GuiDisableableButton(buttonID++, guiLeft + 136, guiTop + 6, 14).with(GuiDisableableButton.ImageOverlay.EXCLAMATION));
         buttonList.add(colorButton = new GuiColorButton(buttonID++, guiLeft + 122, guiTop + 49,  () -> configurable.getEjector().getOutputColor()));
         for (int i = 0; i < slotPosMap.size(); i++) {
             GuiPos guiPos = slotPosMap.get(i);
@@ -102,11 +113,11 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String text = LangUtils.localize("gui.configuration.transporter");
-        fontRenderer.drawString(text, (xSize / 2) - (fontRenderer.getStringWidth(text) / 2), 4, 0x404040);
+        fontRenderer.drawString(text, (xSize / 2) - (fontRenderer.getStringWidth(text) / 2), 5, 0x404040);
         text = LangUtils.localize("gui.strictInput") + " (" + LangUtils.transOnOff(configurable.getEjector().hasStrictInput()) + ")";
-        renderScaledText(text, 53, 17, 0x00CD00, 70);
-        fontRenderer.drawString(LangUtils.localize("gui.input"), 48, 81, 0x787878);
-        fontRenderer.drawString(LangUtils.localize("gui.output"), 114, 68, 0x787878);
+            renderScaledText(text, 43, 17, 0x00CD00, 70);
+        fontRenderer.drawString(LangUtils.localize("gui.input"), 51, 105, 0x787878);
+        fontRenderer.drawString(LangUtils.localize("gui.output"), 121, 68, 0x787878);
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
         for (GuiSideDataButton button : sideDataButtons) {
@@ -134,6 +145,42 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
             }
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
+        for (EnumFacing side : EnumFacing.VALUES) {
+            Coord4D coord = Coord4D.get(tileEntity).offset(side);
+            IBlockState blockstate = tileEntity.getWorld().getBlockState(coord.getPos());
+            Block block = blockstate.getBlock();
+            int metadata = block.getMetaFromState(blockstate);
+            blockList.add(Pair.of(metadata, block));
+            for (int i = 0; i < slotPosMap.size(); i++) {
+                int layer = currentLayer + (i);
+                GuiPos guiPos = slotPosMap.get(i);
+                if (0 <= layer && layer < blockList.size()) {
+                    Pair<Integer, Block> integerBlockPair = blockList.get(layer);
+                    ItemStack stack = new ItemStack(integerBlockPair.getRight(), 1, integerBlockPair.getLeft());
+                    stack.setTagCompound(tileEntity.getTileData());
+                    stack.setTagCompound(tileEntity.getUpdateTag());
+                    MekanismRenderer.resetColor();
+                    ClientUtil.renderItem(stack, guiLeft + guiPos.xPos + 3, guiTop + guiPos.yPos + 3);
+                    MekanismRenderer.resetColor();
+                }
+            }
+        }
+        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
+    }
+
+
+    @Override
+    public void updateScreen() {
+        super.updateScreen();
+        TileEntity tile = (TileEntity) configurable;
+        if (tile == null || mc.world.getTileEntity(tile.getPos()) == null) {
+            mc.displayGuiScreen(null);
+            blockList.clear();
+        }
     }
 
     @Override
