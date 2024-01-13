@@ -17,9 +17,11 @@ public class RenderAntiprotonicNucleosynthesizerItem {
     private static ModelAntiprotonicNucleosynthesizer AntiprotonicNucleosynthesizer = new ModelAntiprotonicNucleosynthesizer();
 
     public static void renderStack(@Nonnull ItemStack stack, TransformType transformType) {
+        GlStateManager.pushMatrix();
         GlStateManager.rotate(180, 0, 0, 1);
         GlStateManager.translate(0, -1, 0);
         MekanismRenderer.bindTexture(MekanismUtils.getResource(ResourceType.RENDER, "AntiprotonicNucleosynthesizer.png"));
         AntiprotonicNucleosynthesizer.render(0.0625F);
+        GlStateManager.popMatrix();
     }
 }

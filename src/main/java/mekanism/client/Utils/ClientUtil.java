@@ -17,6 +17,9 @@ import net.minecraftforge.common.ForgeModContainer;
 
 import java.awt.*;
 
+//Thanks for the code from igentuman
+//https://github.com/igentuman/BlockBooster/blob/1.12/src/main/java/igentuman/blockbooster/util/ClientUtil.java
+
 public class ClientUtil {
 
     public static Minecraft MC = Minecraft.getMinecraft();

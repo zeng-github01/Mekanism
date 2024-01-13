@@ -17,10 +17,12 @@ public class RenderIsotopicCentrifugeItem {
     private static ModelIsotopicCentrifuge isotopicCentrifuge = new ModelIsotopicCentrifuge();
 
     public static void renderStack(@Nonnull ItemStack stack, TransformType transformType) {
+        GlStateManager.pushMatrix();
         GlStateManager.rotate(180, 0, 0, 1);
         GlStateManager.scale(0.6F, 0.6F, 0.6F);
         GlStateManager.translate(0, -0.55F, 0);
         MekanismRenderer.bindTexture(MekanismUtils.getResource(ResourceType.RENDER, "IsotopicCentrifuge.png"));
         isotopicCentrifuge.render(0.0625F);
+        GlStateManager.popMatrix();
     }
 }

@@ -17,10 +17,12 @@ public class RenderNutritionalLiquifierItem {
     private static ModelNutritionalLiquifier nutritionalliquifier = new ModelNutritionalLiquifier();
 
     public static void renderStack(@Nonnull ItemStack stack, TransformType transformType) {
+        GlStateManager.pushMatrix();
         GlStateManager.rotate(180, 0, 0, 1);
         GlStateManager.scale(1.0F, 1.0F, 1.0F);
         GlStateManager.translate(0, -1.0F, 0);
         MekanismRenderer.bindTexture(MekanismUtils.getResource(ResourceType.RENDER, "NutritionalLiquifier.png"));
         nutritionalliquifier.render(0.0625F);
+        GlStateManager.popMatrix();
     }
 }

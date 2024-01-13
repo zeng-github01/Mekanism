@@ -17,9 +17,11 @@ public class RenderChemicalDissolutionChamberItem {
     private static ModelChemicalDissolutionChamber chemicalDissolutionChamber = new ModelChemicalDissolutionChamber();
 
     public static void renderStack(@Nonnull ItemStack stack, TransformType transformType) {
+        GlStateManager.pushMatrix();
         GlStateManager.rotate(180, 0, 0, 1);
         GlStateManager.translate(0.05F, -1.001F, 0.05F);
         MekanismRenderer.bindTexture(MekanismUtils.getResource(ResourceType.RENDER, "ChemicalDissolutionChamber.png"));
         chemicalDissolutionChamber.render(0.0625F);
+        GlStateManager.popMatrix();
     }
 }

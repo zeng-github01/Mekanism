@@ -23,6 +23,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -70,12 +71,12 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
         }
         currentType = getTopTransmission();
         updateTabs();
-        slotPosMap.put(0, new GuiPos(68, 92));
-        slotPosMap.put(1, new GuiPos(68, 46));
-        slotPosMap.put(2, new GuiPos(68, 69));
-        slotPosMap.put(3, new GuiPos(45, 92));
-        slotPosMap.put(4, new GuiPos(45, 69));
-        slotPosMap.put(5, new GuiPos(91, 69));
+        slotPosMap.put(0, new GuiPos(68, 92, LangUtils.localize("sideData.bottom")));
+        slotPosMap.put(1, new GuiPos(68, 46, LangUtils.localize("sideData.top")));
+        slotPosMap.put(2, new GuiPos(68, 69, LangUtils.localize("sideData.front")));
+        slotPosMap.put(3, new GuiPos(45, 92, LangUtils.localize("sideData.back")));
+        slotPosMap.put(4, new GuiPos(45, 69, LangUtils.localize("sideData.left")));
+        slotPosMap.put(5, new GuiPos(91, 69, LangUtils.localize("sideData.right")));
         addGuiElement(new GuiInnerScreen(this, resource, 41, 25, 74, 12));
         currentLayer = Math.max(0, blockList.size() - 1);
     }
@@ -153,16 +154,37 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
         fontRenderer.drawString(slots, (xSize / 2) - (fontRenderer.getStringWidth(slots) / 2), 120, 0x787878);
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
+        //todo:Optimization is needed here
         for (GuiSideDataButton button : sideDataButtons) {
             if (button.isMouseOver()) {
                 SideData data = button.getSideData();
-                if (data != TileComponentConfig.EMPTY) {
-                    String FacingName = button.getSlotPosMapIndex() == 0 ? LangUtils.localize("sideData.bottom") :
-                            button.getSlotPosMapIndex() == 1 ? LangUtils.localize("sideData.top") :
-                                    button.getSlotPosMapIndex() == 2 ? LangUtils.localize("sideData.front") :
-                                            button.getSlotPosMapIndex() == 3 ? LangUtils.localize("sideData.back") :
-                                                    button.getSlotPosMapIndex() == 4 ? LangUtils.localize("sideData.left") : LangUtils.localize("sideData.right");
-                    displayTooltip(data.color + data.localize() + " (" + data.color.getColoredName() + ")" + " (" + FacingName + ")", xAxis, yAxis);
+                if (data != TileComponentConfig.EMPTY) { //todo
+                    List<String> info = new ArrayList<>();
+                    for (int i = 0; i < slotPosMap.size(); i++) {
+                        GuiPos guiPos = slotPosMap.get(i);
+                        String FacingName = guiPos.FacingName;
+                        if (button.getSlotPosMapIndex() == i) {
+                            info.add(FacingName);
+                        }
+                    }
+                    info.add(data.color + data.localize());
+
+                    for (int i = 0; i < slotPosMap.size(); i++) {
+                        int layer = currentLayer + (i);
+                        if (0 <= layer && layer < blockList.size()) {
+                            Pair<Integer, Block> integerBlockPair = blockList.get(layer);
+                            ItemStack nameStack = new ItemStack(integerBlockPair.getRight(), 1, integerBlockPair.getLeft());
+                            if (integerBlockPair.getRight() != Blocks.AIR){ //Don't show the name of the air
+                                String renderString = nameStack.getDisplayName();
+                                if (button.getSlotPosMapIndex() == i) {
+                                    info.add(renderString);
+                                }
+                            }
+                        }
+                    }
+
+
+                    displayTooltips(info, xAxis, yAxis);
                 }
                 break;
             }
@@ -235,13 +257,14 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
 
         public final int xPos;
         public final int yPos;
+        public final String FacingName;
 
-        public GuiPos(int x, int y) {
+        public GuiPos(int x, int y, String name) {
             xPos = x;
             yPos = y;
+            FacingName = name;
         }
     }
-
 
 
 }

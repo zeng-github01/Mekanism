@@ -1,10 +1,5 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.transmitters.TransmissionType;
@@ -30,6 +25,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -39,6 +35,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @SideOnly(Side.CLIENT)
@@ -61,12 +63,12 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
         ySize = 119;
         configurable = tile;
         ResourceLocation resource = getGuiLocation();
-        slotPosMap.put(0, new GuiPos(41, 64 + 16));
-        slotPosMap.put(1, new GuiPos(41, 34));
-        slotPosMap.put(2, new GuiPos(41, 57));
-        slotPosMap.put(3, new GuiPos(18, 64+16));
-        slotPosMap.put(4, new GuiPos(18, 57));
-        slotPosMap.put(5, new GuiPos(64, 57));
+        slotPosMap.put(0, new GuiPos(41, 64 + 16, LangUtils.localize("sideData.bottom")));
+        slotPosMap.put(1, new GuiPos(41, 34, LangUtils.localize("sideData.top")));
+        slotPosMap.put(2, new GuiPos(41, 57, LangUtils.localize("sideData.front")));
+        slotPosMap.put(3, new GuiPos(18, 64 + 16, LangUtils.localize("sideData.back")));
+        slotPosMap.put(4, new GuiPos(18, 57, LangUtils.localize("sideData.left")));
+        slotPosMap.put(5, new GuiPos(64, 57, LangUtils.localize("sideData.right")));
         addGuiElement(new GuiInnerScreen(this, resource, 41, 15, 74, 12));
         currentLayer = Math.max(0, blockList.size() - 1);
     }
@@ -77,7 +79,7 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
         buttonList.clear();
         buttonList.add(backButton = new GuiDisableableButton(buttonID++, guiLeft + 6, guiTop + 6, 14).with(GuiDisableableButton.ImageOverlay.BACK));
         buttonList.add(strictInputButton = new GuiDisableableButton(buttonID++, guiLeft + 136, guiTop + 6, 14).with(GuiDisableableButton.ImageOverlay.EXCLAMATION));
-        buttonList.add(colorButton = new GuiColorButton(buttonID++, guiLeft + 122, guiTop + 49,  () -> configurable.getEjector().getOutputColor()));
+        buttonList.add(colorButton = new GuiColorButton(buttonID++, guiLeft + 122, guiTop + 49, () -> configurable.getEjector().getOutputColor()));
         for (int i = 0; i < slotPosMap.size(); i++) {
             GuiPos guiPos = slotPosMap.get(i);
             EnumFacing facing = EnumFacing.byIndex(i);
@@ -115,7 +117,7 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
         String text = LangUtils.localize("gui.configuration.transporter");
         fontRenderer.drawString(text, (xSize / 2) - (fontRenderer.getStringWidth(text) / 2), 5, 0x404040);
         text = LangUtils.localize("gui.strictInput") + " (" + LangUtils.transOnOff(configurable.getEjector().hasStrictInput()) + ")";
-            renderScaledText(text, 43, 17, 0x00CD00, 70);
+        renderScaledText(text, 43, 17, 0x00CD00, 70);
         fontRenderer.drawString(LangUtils.localize("gui.input"), 51, 105, 0x787878);
         fontRenderer.drawString(LangUtils.localize("gui.output"), 121, 68, 0x787878);
         int xAxis = mouseX - guiLeft;
@@ -125,12 +127,31 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
                 SideData data = button.getSideData();
                 if (data != TileComponentConfig.EMPTY) {
                     EnumColor color = button.getColor();
-                    String FacingName = button.getSlotPosMapIndex() == 0 ? LangUtils.localize("sideData.bottom") :
-                            button.getSlotPosMapIndex() == 1 ? LangUtils.localize("sideData.top") :
-                                    button.getSlotPosMapIndex() == 2 ? LangUtils.localize("sideData.front") :
-                                            button.getSlotPosMapIndex() == 3 ? LangUtils.localize("sideData.back") :
-                                                    button.getSlotPosMapIndex() == 4 ? LangUtils.localize("sideData.left") : LangUtils.localize("sideData.right");
-                    displayTooltip(color != null ? color.getColoredName() + EnumColor.WHITE + " (" + FacingName + ")" : LangUtils.localize("gui.none"), xAxis, yAxis);
+                    List<String> info = new ArrayList<>();
+                    for (int i = 0; i < slotPosMap.size(); i++) {
+                        GuiPos guiPos = slotPosMap.get(i);
+                        String FacingName = guiPos.FacingName;
+                        if (button.getSlotPosMapIndex() == i) {
+                            info.add(FacingName);
+                        }
+                    }
+                    info.add(color != null ? color.getColoredName() : LangUtils.localize("gui.none"));
+
+                    for (int i = 0; i < slotPosMap.size(); i++) {
+                        int layer = currentLayer + (i);
+                        if (0 <= layer && layer < blockList.size()) {
+                            Pair<Integer, Block> integerBlockPair = blockList.get(layer);
+                            ItemStack nameStack = new ItemStack(integerBlockPair.getRight(), 1, integerBlockPair.getLeft());
+                            if (integerBlockPair.getRight() != Blocks.AIR) { //Don't show the name of the air
+                                String renderString = nameStack.getDisplayName();
+                                if (button.getSlotPosMapIndex() == i) {
+                                    info.add(renderString);
+                                }
+                            }
+                        }
+                    }
+
+                    displayTooltips(info, xAxis, yAxis);
                 }
                 break;
             }

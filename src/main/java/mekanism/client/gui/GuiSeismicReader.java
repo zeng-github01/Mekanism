@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
+import mekanism.client.Utils.ClientUtil;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
@@ -189,6 +190,8 @@ public class GuiSeismicReader extends GuiScreen {
     }
 
     protected void renderItem(@Nonnull ItemStack stack, int xAxis, int yAxis) {
+        ClientUtil.renderItem(stack,xAxis,yAxis);
+       /*
         if (!stack.isEmpty()) {
             try {
                 GlStateManager.pushMatrix();
@@ -202,6 +205,8 @@ public class GuiSeismicReader extends GuiScreen {
                 Mekanism.logger.error("Failed to render stack into gui: " + stack, e);
             }
         }
+
+        */
     }
 
     protected ResourceLocation getGuiLocation() {
