@@ -1,6 +1,7 @@
 package mekanism.client.gui;
 
 import mekanism.api.Coord4D;
+import mekanism.api.RelativeSide;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.client.Utils.ClientUtil;
 import mekanism.client.gui.button.GuiDisableableButton;
@@ -71,12 +72,12 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
         }
         currentType = getTopTransmission();
         updateTabs();
-        slotPosMap.put(0, new GuiPos(68, 92, LangUtils.localize("sideData.bottom")));
-        slotPosMap.put(1, new GuiPos(68, 46, LangUtils.localize("sideData.top")));
-        slotPosMap.put(2, new GuiPos(68, 69, LangUtils.localize("sideData.front")));
-        slotPosMap.put(3, new GuiPos(45, 92, LangUtils.localize("sideData.back")));
-        slotPosMap.put(4, new GuiPos(45, 69, LangUtils.localize("sideData.left")));
-        slotPosMap.put(5, new GuiPos(91, 69, LangUtils.localize("sideData.right")));
+        slotPosMap.put(0, new GuiPos(68, 92, RelativeSide.BOTTOM));
+        slotPosMap.put(1, new GuiPos(68, 46, RelativeSide.TOP));
+        slotPosMap.put(2, new GuiPos(68, 69, RelativeSide.FRONT));
+        slotPosMap.put(3, new GuiPos(45, 92, RelativeSide.BACK));
+        slotPosMap.put(4, new GuiPos(45, 69, RelativeSide.LEFT));
+        slotPosMap.put(5, new GuiPos(91, 69, RelativeSide.RIGHT));
         addGuiElement(new GuiInnerScreen(this, resource, 41, 25, 74, 12));
         currentLayer = Math.max(0, blockList.size() - 1);
     }
@@ -154,15 +155,14 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
         fontRenderer.drawString(slots, (xSize / 2) - (fontRenderer.getStringWidth(slots) / 2), 120, 0x787878);
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
-        //todo:Optimization is needed here
         for (GuiSideDataButton button : sideDataButtons) {
             if (button.isMouseOver()) {
                 SideData data = button.getSideData();
-                if (data != TileComponentConfig.EMPTY) { //todo
+                if (data != TileComponentConfig.EMPTY) {
                     List<String> info = new ArrayList<>();
                     for (int i = 0; i < slotPosMap.size(); i++) {
                         GuiPos guiPos = slotPosMap.get(i);
-                        String FacingName = guiPos.FacingName;
+                        String FacingName = guiPos.FacingName.getTranslationKey();
                         if (button.getSlotPosMapIndex() == i) {
                             info.add(FacingName);
                         }
@@ -174,7 +174,7 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
                         if (0 <= layer && layer < blockList.size()) {
                             Pair<Integer, Block> integerBlockPair = blockList.get(layer);
                             ItemStack nameStack = new ItemStack(integerBlockPair.getRight(), 1, integerBlockPair.getLeft());
-                            if (integerBlockPair.getRight() != Blocks.AIR){ //Don't show the name of the air
+                            if (integerBlockPair.getRight() != Blocks.AIR) { //Don't show the name of the air
                                 String renderString = nameStack.getDisplayName();
                                 if (button.getSlotPosMapIndex() == i) {
                                     info.add(renderString);
@@ -200,8 +200,9 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
 
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
-        for (EnumFacing side : EnumFacing.VALUES) {
-            Coord4D coord = Coord4D.get(tileEntity).offset(side);
+        for (RelativeSide side : RelativeSide.SIDES) {
+            EnumFacing globalSide = side.getDirection(tileEntity.facing);
+            Coord4D coord = Coord4D.get(tileEntity).offset(globalSide);
             IBlockState blockstate = tileEntity.getWorld().getBlockState(coord.getPos());
             Block block = blockstate.getBlock();
             int metadata = block.getMetaFromState(blockstate);
@@ -257,9 +258,9 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
 
         public final int xPos;
         public final int yPos;
-        public final String FacingName;
+        public final RelativeSide FacingName;
 
-        public GuiPos(int x, int y, String name) {
+        public GuiPos(int x, int y, RelativeSide name) {
             xPos = x;
             yPos = y;
             FacingName = name;

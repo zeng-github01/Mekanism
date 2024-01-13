@@ -2,6 +2,7 @@ package mekanism.client.gui;
 
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
+import mekanism.api.RelativeSide;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.client.Utils.ClientUtil;
 import mekanism.client.gui.GuiSideConfiguration.GuiPos;
@@ -63,12 +64,12 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
         ySize = 119;
         configurable = tile;
         ResourceLocation resource = getGuiLocation();
-        slotPosMap.put(0, new GuiPos(41, 64 + 16, LangUtils.localize("sideData.bottom")));
-        slotPosMap.put(1, new GuiPos(41, 34, LangUtils.localize("sideData.top")));
-        slotPosMap.put(2, new GuiPos(41, 57, LangUtils.localize("sideData.front")));
-        slotPosMap.put(3, new GuiPos(18, 64 + 16, LangUtils.localize("sideData.back")));
-        slotPosMap.put(4, new GuiPos(18, 57, LangUtils.localize("sideData.left")));
-        slotPosMap.put(5, new GuiPos(64, 57, LangUtils.localize("sideData.right")));
+        slotPosMap.put(0, new GuiPos(41, 64 + 16, RelativeSide.BOTTOM));
+        slotPosMap.put(1, new GuiPos(41, 34, RelativeSide.TOP));
+        slotPosMap.put(2, new GuiPos(41, 57, RelativeSide.FRONT));
+        slotPosMap.put(3, new GuiPos(18, 64 + 16, RelativeSide.BACK));
+        slotPosMap.put(4, new GuiPos(18, 57, RelativeSide.LEFT));
+        slotPosMap.put(5, new GuiPos(64, 57, RelativeSide.RIGHT));
         addGuiElement(new GuiInnerScreen(this, resource, 41, 15, 74, 12));
         currentLayer = Math.max(0, blockList.size() - 1);
     }
@@ -130,7 +131,7 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
                     List<String> info = new ArrayList<>();
                     for (int i = 0; i < slotPosMap.size(); i++) {
                         GuiPos guiPos = slotPosMap.get(i);
-                        String FacingName = guiPos.FacingName;
+                        String FacingName = guiPos.FacingName.getTranslationKey();
                         if (button.getSlotPosMapIndex() == i) {
                             info.add(FacingName);
                         }
@@ -170,8 +171,9 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
 
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
-        for (EnumFacing side : EnumFacing.VALUES) {
-            Coord4D coord = Coord4D.get(tileEntity).offset(side);
+        for (RelativeSide side : RelativeSide.SIDES) {
+            EnumFacing globalSide = side.getDirection(tileEntity.facing);
+            Coord4D coord = Coord4D.get(tileEntity).offset(globalSide);
             IBlockState blockstate = tileEntity.getWorld().getBlockState(coord.getPos());
             Block block = blockstate.getBlock();
             int metadata = block.getMetaFromState(blockstate);
