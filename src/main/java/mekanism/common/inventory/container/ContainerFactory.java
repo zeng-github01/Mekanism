@@ -39,64 +39,32 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
             }
         });
         addSlotToContainer(new SlotOutput(tileEntity, 3, xTypeSlot, 112));
-        addSlotToContainer(new Slot(tileEntity, 4, 7, 57) {
-            @Override
-            public boolean isItemValid(ItemStack stack) {
-                return (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.DOUBLE || tileEntity.getRecipeType() == RecipeType.INFUSING || tileEntity.GasAdvancedInputMachine() || tileEntity.GasInputMachine());
-            }
-
-            @Override
-            @SideOnly(Side.CLIENT)
-            public boolean isEnabled() {
-                return (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.DOUBLE || tileEntity.getRecipeType() == RecipeType.INFUSING || tileEntity.GasAdvancedInputMachine() || tileEntity.GasInputMachine());
-            }
+        addSlotToContainer(new FactoryExtraSlot(tileEntity, 4, 7, 57) {
         });
+
         int xOffset = tileEntity.tier == FactoryTier.BASIC ? 55 : tileEntity.tier == FactoryTier.ADVANCED ? 35 : tileEntity.tier == FactoryTier.ELITE ? 29 : 27;
         int xDistance = tileEntity.tier == FactoryTier.BASIC ? 38 : tileEntity.tier == FactoryTier.ADVANCED ? 26 : 19;
 
         for (int i = 0; i < tileEntity.tier.processes; i++) {
             if (tileEntity.NoItemInputMachine()) {
-                addSlotToContainer(new FactoryInputSlot(tileEntity, getInputSlotIndex(i), 7, 35, i) {
-                    @Override
-                    public boolean isItemValid(ItemStack stack) {
-                        return false;
-                    }
-
-                    @Override
-                    @SideOnly(Side.CLIENT)
-                    public boolean isEnabled() {
-                        return false;
-                    }
-                });
+                addSlotToContainer(new FactoryInputSlot(tileEntity, getInputSlotIndex(i), 7, 35, i, false, false));
             } else {
-                addSlotToContainer(new FactoryInputSlot(tileEntity, getInputSlotIndex(i), xOffset + (i * xDistance), 13, i));
+                addSlotToContainer(new FactoryInputSlot(tileEntity, getInputSlotIndex(i), xOffset + (i * xDistance), 13, i, true, true));
             }
         }
         for (int i = 0; i < tileEntity.tier.processes; i++) {
             if (tileEntity.GasOutputMachine()) {
-                addSlotToContainer(new SlotOutput(tileEntity, getOutputSlotIndex(i), 7, 35) {
-                    @Override
-                    @SideOnly(Side.CLIENT)
-                    public boolean isEnabled() {
-                        return false;
-                    }
-
-                });
+                addSlotToContainer(new FactoryOutputSlot(tileEntity, getOutputSlotIndex(i), 7, 35, false));
             } else {
-                addSlotToContainer(new SlotOutput(tileEntity, getOutputSlotIndex(i), xOffset + (i * xDistance), 57));
+                addSlotToContainer(new FactoryOutputSlot(tileEntity, getOutputSlotIndex(i), xOffset + (i * xDistance), 57, true));
             }
         }
 
         for (int i = 0; i < tileEntity.tier.processes; i++) {
             if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.FARM || tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.CHANCE) {
-                addSlotToContainer(new SlotOutput(tileEntity, getSecondaryOutputSlotIndex(i), xOffset + (i * xDistance), 78));
+                addSlotToContainer(new FactoryOutputSlot(tileEntity, getSecondaryOutputSlotIndex(i), xOffset + (i * xDistance), 78, true));
             } else {
-                addSlotToContainer(new SlotOutput(tileEntity, getSecondaryOutputSlotIndex(i), 7, 35) {
-                    @Override
-                    @SideOnly(Side.CLIENT)
-                    public boolean isEnabled() {
-                        return false;
-                    }
+                addSlotToContainer(new FactoryOutputSlot(tileEntity, getSecondaryOutputSlotIndex(i), 7, 35, false) {
                 }); //Secondary output slots are reserved to prevent errors
             }
         }
@@ -249,15 +217,65 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
          */
         private final int processNumber;
 
-        private FactoryInputSlot(IInventory inventoryIn, int index, int xPosition, int yPosition, int processNumber) {
+        public boolean itemValid;
+
+        public boolean enabled;
+
+        private FactoryInputSlot(IInventory inventoryIn, int index, int xPosition, int yPosition, int processNumber, boolean itemValid, boolean enabled) {
             super(inventoryIn, index, xPosition, yPosition);
             this.processNumber = processNumber;
+            this.itemValid = itemValid;
+            this.enabled = enabled;
         }
 
         @Override
         public boolean isItemValid(ItemStack stack) {
             ItemStack outputSlotStack = tileEntity.inventory.get(getOutputSlotIndex(this.processNumber));
-            return tileEntity.inputProducesOutput(getInputSlotIndex(this.processNumber), stack, outputSlotStack, false) && super.isItemValid(stack);
+            return tileEntity.inputProducesOutput(getInputSlotIndex(this.processNumber), stack, outputSlotStack, false) && super.isItemValid(stack) && itemValid;
+        }
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+    }
+
+
+    private class FactoryOutputSlot extends SlotOutput {
+
+        public boolean Enabled;
+
+        public FactoryOutputSlot(IInventory inventory, int index, int x, int y, boolean enabled) {
+            super(inventory, index, x, y);
+            Enabled = enabled;
+        }
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public boolean isEnabled() {
+            return Enabled;
         }
     }
+
+    private class FactoryExtraSlot extends Slot {
+
+        public FactoryExtraSlot(IInventory inventoryIn, int index, int xPosition, int yPosition) {
+            super(inventoryIn, index, xPosition, yPosition);
+        }
+
+        @Override
+        public boolean isItemValid(ItemStack stack) {
+            return (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.DOUBLE || tileEntity.getRecipeType() == RecipeType.INFUSING || tileEntity.GasAdvancedInputMachine() || tileEntity.GasInputMachine());
+        }
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public boolean isEnabled() {
+            return (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.DOUBLE || tileEntity.getRecipeType() == RecipeType.INFUSING || tileEntity.GasAdvancedInputMachine() || tileEntity.GasInputMachine());
+        }
+
+    }
+
 }
