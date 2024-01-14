@@ -1,7 +1,5 @@
 package mekanism.client.render.transmitter;
 
-import java.util.*;
-import javax.annotation.Nullable;
 import mekanism.api.EnumColor;
 import mekanism.client.model.ModelTransporterBox;
 import mekanism.client.render.MekanismRenderer;
@@ -31,6 +29,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
 import org.lwjgl.opengl.GL11;
+
+import javax.annotation.Nullable;
+import java.util.*;
 
 public class RenderLogisticalTransporter extends RenderTransmitterBase<TileEntityLogisticalTransporter> {
 
@@ -255,7 +256,8 @@ public class RenderLogisticalTransporter extends RenderTransmitterBase<TileEntit
 
     private static class TransportInformation {
 
-        @Nullable private final EnumColor color;
+        @Nullable
+        private final EnumColor color;
         private final HashedItem item;
         private final int progress;
 

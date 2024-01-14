@@ -7,11 +7,11 @@ import com.cleanroommc.groovyscript.compat.mods.mekanism.recipe.GasRecipeBuilder
 import com.cleanroommc.groovyscript.compat.mods.mekanism.recipe.VirtualizedMekanismRegistry;
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import mekanism.api.gas.GasStack;
+import mekanism.common.integration.groovyscript.GrSMekanismAdd;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.AdvancedMachineInput;
 import mekanism.common.recipe.machines.FarmRecipe;
 import mekanism.common.recipe.outputs.ChanceOutput;
-import mekanism.common.integration.groovyscript.GrSMekanismAdd;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 

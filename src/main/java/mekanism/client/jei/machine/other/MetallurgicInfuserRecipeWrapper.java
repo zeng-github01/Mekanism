@@ -1,8 +1,5 @@
 package mekanism.client.jei.machine.other;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import mekanism.client.gui.element.GuiUtils;
 import mekanism.client.jei.machine.MekanismRecipeWrapper;
 import mekanism.common.InfuseStorage;
@@ -15,6 +12,10 @@ import mezz.jei.api.ingredients.VanillaTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class MetallurgicInfuserRecipeWrapper<RECIPE extends MetallurgicInfuserRecipe> extends MekanismRecipeWrapper<RECIPE> {
 
@@ -35,7 +36,7 @@ public class MetallurgicInfuserRecipeWrapper<RECIPE extends MetallurgicInfuserRe
     public void drawInfo(Minecraft mc, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
         if (mc.currentScreen != null) {
             mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-            GuiUtils.drawTiledSprite(2,2,52,4,52,recipe.getInput().infuse.getType().sprite,GuiUtils.TilingDirection.DOWN_RIGHT);
+            GuiUtils.drawTiledSprite(2, 2, 52, 4, 52, recipe.getInput().infuse.getType().sprite, GuiUtils.TilingDirection.DOWN_RIGHT);
         }
     }
 

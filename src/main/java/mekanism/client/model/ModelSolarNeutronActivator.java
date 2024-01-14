@@ -345,7 +345,7 @@ public class ModelSolarNeutronActivator extends ModelBase {
         setRotation(laserBeamToggle, -0.1117011F, 0F, 0F);
     }
 
-    public void render(float size,boolean renderlaser) {
+    public void render(float size, boolean renderlaser) {
         pole.render(size);
         panel3.render(size);
         port.render(size);

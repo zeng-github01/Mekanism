@@ -1,6 +1,5 @@
 package mekanism.common.block;
 
-import javax.annotation.Nonnull;
 import mekanism.common.Mekanism;
 import mekanism.common.entity.EntityObsidianTNT;
 import net.minecraft.block.Block;
@@ -17,6 +16,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+
+import javax.annotation.Nonnull;
 
 public class BlockObsidianTNT extends Block {
 
@@ -90,8 +91,7 @@ public class BlockObsidianTNT extends Block {
 
     @Override
     public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
-        if (entity instanceof EntityArrow && !world.isRemote) {
-            EntityArrow entityarrow = (EntityArrow) entity;
+        if (entity instanceof EntityArrow entityarrow && !world.isRemote) {
             if (entityarrow.isBurning()) {
                 explode(world, pos);
                 world.setBlockToAir(pos);

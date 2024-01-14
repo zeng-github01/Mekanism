@@ -1,8 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigCardAccess;
 import mekanism.api.TileNetworkList;
@@ -36,6 +34,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 public class TileEntityFormulaicAssemblicator extends TileEntityElectricBlock implements ISideConfiguration, IUpgradeTile, IRedstoneControl, IConfigCardAccess, ISecurityTile {
 
@@ -424,8 +425,7 @@ public class TileEntityFormulaicAssemblicator extends TileEntityElectricBlock im
 
     private void encodeFormula() {
         ItemStack formulaStack = inventory.get(SLOT_FORMULA);
-        if (!formulaStack.isEmpty() && formulaStack.getItem() instanceof ItemCraftingFormula) {
-            ItemCraftingFormula item = (ItemCraftingFormula) formulaStack.getItem();
+        if (!formulaStack.isEmpty() && formulaStack.getItem() instanceof ItemCraftingFormula item) {
             if (item.getInventory(formulaStack) == null) {
                 RecipeFormula formula = new RecipeFormula(world, inventory, SLOT_CRAFT_MATRIX_FIRST);
                 if (formula.isValidFormula(world)) {
@@ -629,17 +629,17 @@ public class TileEntityFormulaicAssemblicator extends TileEntityElectricBlock im
     public void recalculateUpgradables(Upgrade upgrade) {
         super.recalculateUpgradables(upgrade);
         switch (upgrade) {
-            case SPEED:
+            case SPEED -> {
                 ticksRequired = MekanismUtils.getTicks(this, BASE_TICKS_REQUIRED);
                 energyPerTick = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK);
-                break;
-            case ENERGY:
+            }
+            case ENERGY -> {
                 energyPerTick = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK);
                 maxEnergy = MekanismUtils.getMaxEnergy(this, BASE_MAX_ENERGY);
                 setEnergy(Math.min(getMaxEnergy(), getEnergy()));
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
     }
 

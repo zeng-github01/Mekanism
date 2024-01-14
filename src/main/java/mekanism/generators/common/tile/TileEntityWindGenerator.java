@@ -1,7 +1,6 @@
 package mekanism.generators.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.common.base.IBoundingBlock;
@@ -11,15 +10,16 @@ import mekanism.common.util.MekanismUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
+
+import javax.annotation.Nonnull;
 
 public class TileEntityWindGenerator extends TileEntityGenerator implements IBoundingBlock {
-
-    private static final int[] SLOTS = {0};
 
     public static final float SPEED = 32F;
     public static final float SPEED_SCALED = 256F / SPEED;
     static final String[] methods = new String[]{"getEnergy", "getOutput", "getMaxEnergy", "getEnergyNeeded", "getMultiplier"};
-
+    private static final int[] SLOTS = {0};
     private double angle;
     private float currentMultiplier;
     private boolean isBlacklistDimension = false;
@@ -86,16 +86,23 @@ public class TileEntityWindGenerator extends TileEntityGenerator implements IBou
      * Determines the current output multiplier, taking sky visibility and height into account.
      **/
     public float getMultiplier() {
-        if (world.canSeeSky(getPos().add(0, 4, 0))) {
-            final float minY = (float) MekanismConfig.current().generators.windGenerationMinY.val();
-            final float maxY = (float) MekanismConfig.current().generators.windGenerationMaxY.val();
-            final float minG = (float) MekanismConfig.current().generators.windGenerationMin.val();
-            final float maxG = (float) MekanismConfig.current().generators.windGenerationMax.val();
-            final float slope = (maxG - minG) / (maxY - minY);
-            final float intercept = minG - slope * minY;
-            final float clampedY = Math.min(maxY, Math.max(minY, (float) (getPos().getY() + 4)));
-            final float toGen = slope * clampedY + intercept;
+        BlockPos top = getPos().up(4);
+        if (world.canSeeSky(top)) {
+            int minY = Math.max(MekanismConfig.current().generators.windGenerationMinY.val(), (int) world.provider.getHorizon());//TODO:Get the horizon of this world, maybe need to be modified to be configurable nadir?
+            int maxY = Math.min(MekanismConfig.current().generators.windGenerationMaxY.val(), world.getHeight());
+            float clampedY = Math.min(maxY, Math.max(minY, top.getY()));
+            float minG = (float) MekanismConfig.current().generators.windGenerationMin.val();
+            float maxG = (float) MekanismConfig.current().generators.windGenerationMax.val();
+            float slope; //Prevents the possibility of writing opposite values; https://github.com/Thorfusion/Mekanism-Community-Edition/issues/150
+            if (maxG < minG) {
+                slope = (minG - maxG) / (maxY - minY);
+            } else {
+                slope = (maxG - minG) / (maxY - minY);
+            }
+            float toGen = minG + (slope * (clampedY - minY));
             return toGen / minG;
+
+
         }
         return 0;
     }
@@ -107,20 +114,14 @@ public class TileEntityWindGenerator extends TileEntityGenerator implements IBou
 
     @Override
     public Object[] invoke(int method, Object[] arguments) throws NoSuchMethodException {
-        switch (method) {
-            case 0:
-                return new Object[]{electricityStored};
-            case 1:
-                return new Object[]{output};
-            case 2:
-                return new Object[]{BASE_MAX_ENERGY};
-            case 3:
-                return new Object[]{BASE_MAX_ENERGY - electricityStored};
-            case 4:
-                return new Object[]{getMultiplier()};
-            default:
-                throw new NoSuchMethodException();
-        }
+        return switch (method) {
+            case 0 -> new Object[]{electricityStored};
+            case 1 -> new Object[]{output};
+            case 2 -> new Object[]{BASE_MAX_ENERGY};
+            case 3 -> new Object[]{BASE_MAX_ENERGY - electricityStored};
+            case 4 -> new Object[]{getMultiplier()};
+            default -> throw new NoSuchMethodException();
+        };
     }
 
     @Override

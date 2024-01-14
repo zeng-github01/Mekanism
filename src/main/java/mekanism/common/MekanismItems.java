@@ -161,13 +161,13 @@ public class MekanismItems {
         registry.register(init(Scrap, "Scrap"));
         registry.register(init(ScrapBox, "ScrapBox"));
         registry.register(init(EmptyCrystals, "EmptyCrystals"));
-        registry.register(init(FluoriteClump,"FluoriteClump"));
+        registry.register(init(FluoriteClump, "FluoriteClump"));
         registry.register(init(PlutoniumPellet, "PlutoniumPellet"));
         registry.register(init(AntimatterPellet, "AntimatterPellet"));
         registry.register(init(ReprocessedFissileFragment, "ReprocessedFissileFragment"));
         registry.register(init(YellowCakeUranium, "YellowCakeUranium"));
         registry.register(init(PoloniumPellet, "PoloniumPellet"));
-        registry.register(init(ArmoredFreeRunners,"ArmoredFreeRunners"));
+        registry.register(init(ArmoredFreeRunners, "ArmoredFreeRunners"));
         /**
          * ADD END
          */

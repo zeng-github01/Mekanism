@@ -1,8 +1,5 @@
 package mekanism.common;
 
-import static mekanism.common.block.states.BlockStateBasic.BasicBlock.*;
-import static mekanism.common.block.states.BlockStateMachine.MachineBlock.*;
-
 import mekanism.common.block.*;
 import mekanism.common.block.states.BlockStatePlastic.PlasticBlockType;
 import mekanism.common.item.*;
@@ -12,6 +9,9 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import net.minecraftforge.registries.IForgeRegistry;
+
+import static mekanism.common.block.states.BlockStateBasic.BasicBlock.*;
+import static mekanism.common.block.states.BlockStateMachine.MachineBlock.*;
 
 @ObjectHolder(Mekanism.MODID)
 public class MekanismBlocks {

@@ -14,7 +14,6 @@ public class GuiPlayerSlot extends GuiElement {
     private final int yLocation;
 
 
-
     public GuiPlayerSlot(IGuiWrapper gui, ResourceLocation def, int x, int y) {
         super(MekanismUtils.getResource(ResourceType.SLOT, "Slot_Icon.png"), gui, def);
         xLocation = x;
@@ -36,14 +35,14 @@ public class GuiPlayerSlot extends GuiElement {
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         mc.renderEngine.bindTexture(RESOURCE);
-        for (int y =0; y<3;y++) {
+        for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 9; x++) {
-                guiObj.drawTexturedRect(guiWidth + xLocation + x * 18, guiHeight + yLocation +  y * 18, 0, 0, 18, 18);
+                guiObj.drawTexturedRect(guiWidth + xLocation + x * 18, guiHeight + yLocation + y * 18, 0, 0, 18, 18);
             }
         }
-            for (int x = 0; x < 9; x++) {
-                guiObj.drawTexturedRect(guiWidth + xLocation + x * 18, guiHeight + yLocation + 58, 0, 0, 18, 18);
-            }
+        for (int x = 0; x < 9; x++) {
+            guiObj.drawTexturedRect(guiWidth + xLocation + x * 18, guiHeight + yLocation + 58, 0, 0, 18, 18);
+        }
         mc.renderEngine.bindTexture(defaultLocation);
     }
 

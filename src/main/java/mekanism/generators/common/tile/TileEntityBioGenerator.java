@@ -1,7 +1,6 @@
 package mekanism.generators.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
 import mekanism.common.FluidSlot;
 import mekanism.common.MekanismItems;
@@ -28,6 +27,8 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
+import javax.annotation.Nonnull;
+
 public class TileEntityBioGenerator extends TileEntityGenerator implements IFluidHandlerWrapper, ISustainedData, IComparatorSupport {
 
     private static final String[] methods = new String[]{"getEnergy", "getOutput", "getMaxEnergy", "getEnergyNeeded", "getBioFuel", "getBioFuelNeeded"};
@@ -40,7 +41,7 @@ public class TileEntityBioGenerator extends TileEntityGenerator implements IFlui
     private int currentRedstoneLevel;
 
     public TileEntityBioGenerator() {
-        super("bio", "BioGenerator",  MekanismConfig.current().generators.bioGeneratorStorage.val(), MekanismConfig.current().generators.bioGeneration.val() * 2);
+        super("bio", "BioGenerator", MekanismConfig.current().generators.bioGeneratorStorage.val(), MekanismConfig.current().generators.bioGeneration.val() * 2);
         inventory = NonNullList.withSize(2, ItemStack.EMPTY);
     }
 
@@ -78,7 +79,7 @@ public class TileEntityBioGenerator extends TileEntityGenerator implements IFlui
                 setActive(true);
                 bioFuelSlot.setFluid(bioFuelSlot.fluidStored - 1);
                 setEnergy(electricityStored + MekanismConfig.current().generators.bioGeneration.val());
-            } else  {
+            } else {
                 setActive(false);
             }
             int newRedstoneLevel = getRedstoneLevel();
@@ -149,7 +150,7 @@ public class TileEntityBioGenerator extends TileEntityGenerator implements IFlui
 
     @Override
     public boolean canSetFacing(@Nonnull EnumFacing facing) {
-        return facing != EnumFacing.DOWN && facing != EnumFacing.UP;
+        return super.canSetFacing(facing);
     }
 
     @Override
@@ -174,22 +175,15 @@ public class TileEntityBioGenerator extends TileEntityGenerator implements IFlui
 
     @Override
     public Object[] invoke(int method, Object[] arguments) throws NoSuchMethodException {
-        switch (method) {
-            case 0:
-                return new Object[]{electricityStored};
-            case 1:
-                return new Object[]{output};
-            case 2:
-                return new Object[]{BASE_MAX_ENERGY};
-            case 3:
-                return new Object[]{BASE_MAX_ENERGY - electricityStored};
-            case 4:
-                return new Object[]{bioFuelSlot.fluidStored};
-            case 5:
-                return new Object[]{bioFuelSlot.MAX_FLUID - bioFuelSlot.fluidStored};
-            default:
-                throw new NoSuchMethodException();
-        }
+        return switch (method) {
+            case 0 -> new Object[]{electricityStored};
+            case 1 -> new Object[]{output};
+            case 2 -> new Object[]{BASE_MAX_ENERGY};
+            case 3 -> new Object[]{BASE_MAX_ENERGY - electricityStored};
+            case 4 -> new Object[]{bioFuelSlot.fluidStored};
+            case 5 -> new Object[]{bioFuelSlot.MAX_FLUID - bioFuelSlot.fluidStored};
+            default -> throw new NoSuchMethodException();
+        };
     }
 
     @Override

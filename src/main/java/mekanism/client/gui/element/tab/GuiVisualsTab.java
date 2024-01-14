@@ -1,6 +1,5 @@
 package mekanism.client.gui.element.tab;
 
-import java.util.Arrays;
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.common.tile.TileEntityDigitalMiner;
 import mekanism.common.util.LangUtils;
@@ -10,6 +9,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class GuiVisualsTab extends GuiTabElement<TileEntityDigitalMiner> {
@@ -24,15 +25,15 @@ public class GuiVisualsTab extends GuiTabElement<TileEntityDigitalMiner> {
             displayTooltip(LangUtils.localize("gui.visuals") + ": " + LangUtils.transOnOff(tileEntity.clientRendering), xAxis, yAxis);
         } else {
             displayTooltips(Arrays.asList(LangUtils.localize("gui.visuals") + ": " + LangUtils.transOnOff(tileEntity.clientRendering),
-                    TextFormatting.RED.toString() + LangUtils.localize("mekanism.gui.visuals.toobig")), xAxis, yAxis);
+                    TextFormatting.RED + LangUtils.localize("mekanism.gui.visuals.toobig")), xAxis, yAxis);
         }
     }
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        super.renderBackground(xAxis,yAxis,guiWidth,guiHeight);
+        super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
         mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.BUTTON_TAB, "button_tab_icon.png"));
-        guiObj.drawTexturedRect(guiWidth -21, guiHeight + 6 + 4, 90, 18, 18, 18);
+        guiObj.drawTexturedRect(guiWidth - 21, guiHeight + 6 + 4, 90, 18, 18, 18);
     }
 
     @Override

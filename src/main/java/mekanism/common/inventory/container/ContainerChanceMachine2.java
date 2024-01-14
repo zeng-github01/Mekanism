@@ -1,6 +1,5 @@
 package mekanism.common.inventory.container;
 
-import javax.annotation.Nonnull;
 import mekanism.common.inventory.slot.SlotEnergy.SlotDischarge;
 import mekanism.common.inventory.slot.SlotOutput;
 import mekanism.common.recipe.RecipeHandler;
@@ -12,6 +11,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
+import javax.annotation.Nonnull;
 
 public class ContainerChanceMachine2<RECIPE extends Chance2MachineRecipe<RECIPE>> extends ContainerMekanism<TileEntityChanceMachine2<RECIPE>> {
 

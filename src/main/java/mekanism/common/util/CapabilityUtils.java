@@ -1,10 +1,11 @@
 package mekanism.common.util;
 
-import java.util.function.Consumer;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import org.jetbrains.annotations.Contract;
+
+import java.util.function.Consumer;
 
 public final class CapabilityUtils {
 

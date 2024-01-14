@@ -33,7 +33,7 @@ public class PacketDataRequest implements IMessageHandler<DataRequestMessage, IM
                     ((TileEntityMultiblock<?>) tileEntity).sendStructure = true;
                 }
                 if (CapabilityUtils.hasCapability(tileEntity, Capabilities.GRID_TRANSMITTER_CAPABILITY, null)) {
-                    IGridTransmitter transmitter = CapabilityUtils.getCapability(tileEntity, Capabilities.GRID_TRANSMITTER_CAPABILITY, null);
+                    IGridTransmitter<?, ?, ?> transmitter = CapabilityUtils.getCapability(tileEntity, Capabilities.GRID_TRANSMITTER_CAPABILITY, null);
                     transmitter.setRequestsUpdate();
                     if (transmitter.hasTransmitterNetwork()) {
                         transmitter.getTransmitterNetwork().addUpdate(player);

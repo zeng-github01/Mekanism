@@ -12,8 +12,7 @@ public class EnergizedItemManager {
      * @return amount of energy discharged
      */
     public static double discharge(ItemStack itemStack, double amount) {
-        if (!itemStack.isEmpty() && itemStack.getItem() instanceof IEnergizedItem) {
-            IEnergizedItem energizedItem = (IEnergizedItem) itemStack.getItem();
+        if (!itemStack.isEmpty() && itemStack.getItem() instanceof IEnergizedItem energizedItem) {
             if (energizedItem.canSend(itemStack)) {
                 double energyToUse = Math.min(energizedItem.getMaxTransfer(itemStack), Math.min(energizedItem.getEnergy(itemStack), amount));
                 energizedItem.setEnergy(itemStack, energizedItem.getEnergy(itemStack) - energyToUse);
@@ -31,8 +30,7 @@ public class EnergizedItemManager {
      * @return amount of energy charged
      */
     public static double charge(ItemStack itemStack, double amount) {
-        if (!itemStack.isEmpty() && itemStack.getItem() instanceof IEnergizedItem) {
-            IEnergizedItem energizedItem = (IEnergizedItem) itemStack.getItem();
+        if (!itemStack.isEmpty() && itemStack.getItem() instanceof IEnergizedItem energizedItem) {
             if (energizedItem.canReceive(itemStack)) {
                 double energyToSend = Math.min(energizedItem.getMaxTransfer(itemStack),
                         Math.min(energizedItem.getMaxEnergy(itemStack) - energizedItem.getEnergy(itemStack), amount));

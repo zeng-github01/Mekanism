@@ -1,4 +1,5 @@
 package mekanism.common.integration.groovyscript.machinerecipe;
+
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.compat.mods.mekanism.Mekanism;

@@ -1,9 +1,6 @@
 package mekanism.common.block;
 
 import com.google.common.cache.LoadingCache;
-import java.util.Objects;
-import java.util.UUID;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.IMekWrench;
 import mekanism.api.energy.IEnergizedItem;
@@ -74,6 +71,10 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Block class for handling multiple metal block IDs. 0:0: Osmium Block 0:1: Bronze Block 0:2: Refined Obsidian 0:3: Charcoal Block 0:4: Refined Glowstone 0:5: Steel
@@ -220,8 +221,7 @@ public abstract class BlockBasic extends BlockTileDrops {
         if (tile instanceof TileEntityInductionPort) {
             state = state.withProperty(BlockStateBasic.activeProperty, ((TileEntityInductionPort) tile).mode);
         }
-        if (tile instanceof TileEntitySuperheatingElement) {
-            TileEntitySuperheatingElement element = (TileEntitySuperheatingElement) tile;
+        if (tile instanceof TileEntitySuperheatingElement element) {
             boolean active = false;
             if (element.multiblockUUID != null && SynchronizedBoilerData.clientHotMap.get(element.multiblockUUID) != null) {
                 active = SynchronizedBoilerData.clientHotMap.get(element.multiblockUUID);
@@ -260,22 +260,13 @@ public abstract class BlockBasic extends BlockTileDrops {
         if (type == null) {
             return defaultResistance;
         }
-        switch (type) {
-            case REFINED_OBSIDIAN:
-                return 2400F;
-            case OSMIUM_BLOCK:
-                return 12F;
-            case STEEL_BLOCK:
-            case BRONZE_BLOCK:
-            case STEEL_CASING:
-            case SECURITY_DESK:
-            case THERMAL_EVAPORATION_BLOCK:
-            case THERMAL_EVAPORATION_VALVE:
-            case THERMAL_EVAPORATION_CONTROLLER:
-                return 9F;
-            default:
-                return defaultResistance;
-        }
+        return switch (type) {
+            case REFINED_OBSIDIAN -> 2400F;
+            case OSMIUM_BLOCK -> 12F;
+            case STEEL_BLOCK, BRONZE_BLOCK, STEEL_CASING, SECURITY_DESK, THERMAL_EVAPORATION_BLOCK, THERMAL_EVAPORATION_VALVE, THERMAL_EVAPORATION_CONTROLLER ->
+                    9F;
+            default -> defaultResistance;
+        };
     }
 
     @Override
@@ -300,9 +291,7 @@ public abstract class BlockBasic extends BlockTileDrops {
         for (BasicBlockType type : BasicBlockType.values()) {
             if (type.blockType == getBasicBlock()) {
                 switch (type) {
-                    case INDUCTION_CELL:
-                    case INDUCTION_PROVIDER:
-                    case BIN:
+                    case INDUCTION_CELL, INDUCTION_PROVIDER, BIN -> {
                         for (BaseTier tier : BaseTier.values()) {
                             if (type == BasicBlockType.BIN || tier.isObtainable()) {
                                 ItemStack stack = new ItemStack(this, 1, type.meta);
@@ -310,9 +299,8 @@ public abstract class BlockBasic extends BlockTileDrops {
                                 list.add(stack);
                             }
                         }
-                        break;
-                    default:
-                        list.add(new ItemStack(this, 1, type.meta));
+                    }
+                    default -> list.add(new ItemStack(this, 1, type.meta));
                 }
             }
         }
@@ -322,7 +310,7 @@ public abstract class BlockBasic extends BlockTileDrops {
     public boolean canCreatureSpawn(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, SpawnPlacementType type) {
         int meta = state.getBlock().getMetaFromState(state);
         switch (getBasicBlock()) {
-            case BASIC_BLOCK_1:
+            case BASIC_BLOCK_1 -> {
                 switch (meta) {
                     case 10:
                         return false;
@@ -341,7 +329,8 @@ public abstract class BlockBasic extends BlockTileDrops {
                     default:
                         return super.canCreatureSpawn(state, world, pos, type);
                 }
-            case BASIC_BLOCK_2:
+            }
+            case BASIC_BLOCK_2 -> {
                 switch (meta) {
                     case 1:
                     case 2:
@@ -364,8 +353,10 @@ public abstract class BlockBasic extends BlockTileDrops {
                     default:
                         return super.canCreatureSpawn(state, world, pos, type);
                 }
-            default:
+            }
+            default -> {
                 return super.canCreatureSpawn(state, world, pos, type);
+            }
         }
     }
 
@@ -422,8 +413,7 @@ public abstract class BlockBasic extends BlockTileDrops {
                 }
                 return true;
             }
-        } else if (tile instanceof TileEntityBin) {
-            TileEntityBin bin = (TileEntityBin) tile;
+        } else if (tile instanceof TileEntityBin bin) {
             IMekWrench wrenchHandler;
             if (!stack.isEmpty() && (wrenchHandler = Wrenches.getHandler(stack)) != null) {
                 RayTraceResult raytrace = new RayTraceResult(new Vec3d(hitX, hitY, hitZ), side, pos);
@@ -539,16 +529,18 @@ public abstract class BlockBasic extends BlockTileDrops {
         }
         if (getBasicBlock() == BasicBlock.BASIC_BLOCK_1) {
             switch (metadata) {
-                case 2:
+                case 2 -> {
                     return 8;
-                case 4:
+                }
+                case 4 -> {
                     return 15;
-                case 7:
+                }
+                case 7 -> {
                     return 12;
+                }
             }
         } else if (getBasicBlock() == BasicBlock.BASIC_BLOCK_2) {
-            if (metadata == 5 && tileEntity instanceof TileEntitySuperheatingElement) {
-                TileEntitySuperheatingElement element = (TileEntitySuperheatingElement) tileEntity;
+            if (metadata == 5 && tileEntity instanceof TileEntitySuperheatingElement element) {
                 if (element.multiblockUUID != null && SynchronizedBoilerData.clientHotMap.get(element.multiblockUUID) != null) {
                     return SynchronizedBoilerData.clientHotMap.get(element.multiblockUUID) ? 15 : 0;
                 }
@@ -576,8 +568,7 @@ public abstract class BlockBasic extends BlockTileDrops {
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         TileEntity te = world.getTileEntity(pos);
-        if (te instanceof TileEntityBasicBlock) {
-            TileEntityBasicBlock tileEntity = (TileEntityBasicBlock) te;
+        if (te instanceof TileEntityBasicBlock tileEntity) {
             EnumFacing change = EnumFacing.SOUTH;
             if (tileEntity.canSetFacing(EnumFacing.DOWN) && tileEntity.canSetFacing(EnumFacing.UP)) {
                 int height = Math.round(placer.rotationPitch);
@@ -589,20 +580,13 @@ public abstract class BlockBasic extends BlockTileDrops {
             }
             if (change != EnumFacing.DOWN && change != EnumFacing.UP) {
                 int side = MathHelper.floor((placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-                switch (side) {
-                    case 0:
-                        change = EnumFacing.NORTH;
-                        break;
-                    case 1:
-                        change = EnumFacing.EAST;
-                        break;
-                    case 2:
-                        change = EnumFacing.SOUTH;
-                        break;
-                    case 3:
-                        change = EnumFacing.WEST;
-                        break;
-                }
+                change = switch (side) {
+                    case 0 -> EnumFacing.NORTH;
+                    case 1 -> EnumFacing.EAST;
+                    case 2 -> EnumFacing.SOUTH;
+                    case 3 -> EnumFacing.WEST;
+                    default -> change;
+                };
             }
             tileEntity.setFacing(change);
             tileEntity.redstone = world.getRedstonePowerFromNeighbors(pos) > 0;
@@ -682,8 +666,7 @@ public abstract class BlockBasic extends BlockTileDrops {
     public EnumFacing[] getValidRotations(World world, @Nonnull BlockPos pos) {
         TileEntity tile = world.getTileEntity(pos);
         EnumFacing[] valid = new EnumFacing[6];
-        if (tile instanceof TileEntityBasicBlock) {
-            TileEntityBasicBlock basicTile = (TileEntityBasicBlock) tile;
+        if (tile instanceof TileEntityBasicBlock basicTile) {
             for (EnumFacing dir : EnumFacing.VALUES) {
                 if (basicTile.canSetFacing(dir)) {
                     valid[dir.ordinal()] = dir;
@@ -696,8 +679,7 @@ public abstract class BlockBasic extends BlockTileDrops {
     @Override
     public boolean rotateBlock(World world, @Nonnull BlockPos pos, @Nonnull EnumFacing axis) {
         TileEntity tile = world.getTileEntity(pos);
-        if (tile instanceof TileEntityBasicBlock) {
-            TileEntityBasicBlock basicTile = (TileEntityBasicBlock) tile;
+        if (tile instanceof TileEntityBasicBlock basicTile) {
             if (basicTile.canSetFacing(axis)) {
                 basicTile.setFacing(axis);
                 return true;

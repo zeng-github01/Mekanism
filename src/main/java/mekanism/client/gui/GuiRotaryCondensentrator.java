@@ -1,9 +1,5 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import mekanism.api.TileNetworkList;
 import mekanism.api.util.time.Timeticks;
 import mekanism.client.gui.button.GuiDisableableButton;
@@ -32,6 +28,11 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCondensentrator> {
@@ -92,7 +93,7 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
     public void initGui() {
         super.initGui();
         buttonList.clear();
-        buttonList.add(mode = new GuiDisableableButton(0, guiLeft + 4, guiTop + 4, 18, 18,() -> tileEntity.mode).with(GuiDisableableButton.ImageOverlay.TOGGLE));
+        buttonList.add(mode = new GuiDisableableButton(0, guiLeft + 4, guiTop + 4, 18, 18, () -> tileEntity.mode).with(GuiDisableableButton.ImageOverlay.TOGGLE));
     }
 
     @Override

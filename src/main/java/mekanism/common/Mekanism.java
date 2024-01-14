@@ -1,9 +1,6 @@
 package mekanism.common;
 
 import com.mojang.authlib.GameProfile;
-import java.io.File;
-import java.util.*;
-import java.util.Map.Entry;
 import mekanism.api.Coord4D;
 import mekanism.api.MekanismAPI;
 import mekanism.api.MekanismAPI.BoxBlacklistEvent;
@@ -89,6 +86,10 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.util.*;
+import java.util.Map.Entry;
 
 @Mod(modid = Tags.MOD_ID, useMetadata = true, guiFactory = "mekanism.client.gui.ConfigGuiFactory", acceptedMinecraftVersions = "[1.12,1.13)", version = Tags.VERSION)
 @Mod.EventBusSubscriber()
@@ -334,7 +335,7 @@ public class Mekanism {
         registerTileEntity(TileEntityCellExtractor.class, "cell_extractor");
         registerTileEntity(TileEntityCellSeparator.class, "cell_separator");
         registerTileEntity(TileEntityRecycler.class, "Recycler");
-        registerTileEntity(TileEntityIndustrialAlarm.class,"industrial_alarm");
+        registerTileEntity(TileEntityIndustrialAlarm.class, "industrial_alarm");
         /**
          * End of adding machine
          */
@@ -425,7 +426,6 @@ public class Mekanism {
 
         hooks.hookPreInit();
     }
-
 
 
     @EventHandler

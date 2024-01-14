@@ -7,10 +7,10 @@ import com.cleanroommc.groovyscript.compat.mods.mekanism.recipe.GasRecipeBuilder
 import com.cleanroommc.groovyscript.compat.mods.mekanism.recipe.VirtualizedMekanismRegistry;
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import mekanism.api.gas.GasStack;
+import mekanism.common.integration.groovyscript.GrSMekanismAdd;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.ItemStackInput;
 import mekanism.common.recipe.machines.NutritionalRecipe;
-import mekanism.common.integration.groovyscript.GrSMekanismAdd;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,6 +19,7 @@ public class NutritionalLiquifier extends VirtualizedMekanismRegistry<Nutritiona
     public NutritionalLiquifier() {
         super(RecipeHandler.Recipe.NUTRITIONAL_LIQUIFIER);
     }
+
     public RecipeBuilder recipeBuilder() {
         return new RecipeBuilder();
     }
@@ -74,12 +75,12 @@ public class NutritionalLiquifier extends VirtualizedMekanismRegistry<Nutritiona
         }
 
         @Override
-        public @Nullable NutritionalRecipe  register() {
+        public @Nullable NutritionalRecipe register() {
             if (!validate()) return null;
             NutritionalRecipe recipe = null;
             for (ItemStack itemStack : input.get(0).getMatchingStacks()) {
-                NutritionalRecipe r = new NutritionalRecipe(itemStack.copy(),gasOutput.get(0));
-                if (recipe == null)recipe =r;
+                NutritionalRecipe r = new NutritionalRecipe(itemStack.copy(), gasOutput.get(0));
+                if (recipe == null) recipe = r;
                 GrSMekanismAdd.get().nutritionalLiquifier.add(r);
             }
             return recipe;

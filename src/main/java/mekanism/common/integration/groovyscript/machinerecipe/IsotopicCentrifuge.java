@@ -6,10 +6,10 @@ import com.cleanroommc.groovyscript.compat.mods.mekanism.recipe.GasRecipeBuilder
 import com.cleanroommc.groovyscript.compat.mods.mekanism.recipe.VirtualizedMekanismRegistry;
 import com.cleanroommc.groovyscript.helper.Alias;
 import mekanism.api.gas.GasStack;
+import mekanism.common.integration.groovyscript.GrSMekanismAdd;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.GasInput;
 import mekanism.common.recipe.machines.IsotopicRecipe;
-import mekanism.common.integration.groovyscript.GrSMekanismAdd;
 import org.jetbrains.annotations.Nullable;
 
 public class IsotopicCentrifuge extends VirtualizedMekanismRegistry<IsotopicRecipe> {

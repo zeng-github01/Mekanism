@@ -99,30 +99,18 @@ public class GeneratorsCommonProxy implements IGuiProvider {
     @Override
     public Container getServerGui(int ID, EntityPlayer player, World world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
-        switch (ID) {
-            case 0:
-                return new ContainerHeatGenerator(player.inventory, (TileEntityHeatGenerator) tileEntity);
-            case 1:
-                return new ContainerSolarGenerator(player.inventory, (TileEntitySolarGenerator) tileEntity);
-            case 3:
-                return new ContainerGasGenerator(player.inventory, (TileEntityGasGenerator) tileEntity);
-            case 4:
-                return new ContainerBioGenerator(player.inventory, (TileEntityBioGenerator) tileEntity);
-            case 5:
-                return new ContainerWindGenerator(player.inventory, (TileEntityWindGenerator) tileEntity);
-            case 6:
-                return new ContainerFilter(player.inventory, (TileEntityTurbineCasing) tileEntity);
-            case 7:
-                return new ContainerNull(player, (TileEntityTurbineCasing) tileEntity);
-            case 10:
-                return new ContainerReactorController(player.inventory, (TileEntityReactorController) tileEntity);
-            case 11:
-            case 12:
-            case 13:
-            case 15:
-                return new ContainerNull(player, (TileEntityContainerBlock) tileEntity);
-        }
+        return switch (ID) {
+            case 0 -> new ContainerHeatGenerator(player.inventory, (TileEntityHeatGenerator) tileEntity);
+            case 1 -> new ContainerSolarGenerator(player.inventory, (TileEntitySolarGenerator) tileEntity);
+            case 3 -> new ContainerGasGenerator(player.inventory, (TileEntityGasGenerator) tileEntity);
+            case 4 -> new ContainerBioGenerator(player.inventory, (TileEntityBioGenerator) tileEntity);
+            case 5 -> new ContainerWindGenerator(player.inventory, (TileEntityWindGenerator) tileEntity);
+            case 6 -> new ContainerFilter(player.inventory, (TileEntityTurbineCasing) tileEntity);
+            case 7 -> new ContainerNull(player, (TileEntityTurbineCasing) tileEntity);
+            case 10 -> new ContainerReactorController(player.inventory, (TileEntityReactorController) tileEntity);
+            case 11, 12, 13, 15 -> new ContainerNull(player, (TileEntityContainerBlock) tileEntity);
+            default -> null;
+        };
 
-        return null;
     }
 }

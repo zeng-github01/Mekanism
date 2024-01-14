@@ -1,6 +1,5 @@
 package mekanism.common.transmitters.grid;
 
-import java.util.Collection;
 import mekanism.api.IHeatTransfer;
 import mekanism.api.transmitters.DynamicNetwork;
 import mekanism.api.transmitters.IGridTransmitter;
@@ -9,6 +8,8 @@ import mekanism.common.transmitters.TransmitterImpl;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.UnitDisplayUtils.TemperatureUnit;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import java.util.Collection;
 
 public class HeatNetwork extends DynamicNetwork<IHeatTransfer, HeatNetwork, Void> {
 

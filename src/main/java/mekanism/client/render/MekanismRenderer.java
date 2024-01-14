@@ -1,10 +1,5 @@
 package mekanism.client.render;
 
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.Map;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
@@ -46,6 +41,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class MekanismRenderer {
@@ -265,14 +266,14 @@ public class MekanismRenderer {
 
     public static void color(@Nullable Gas gas) {
         if (gas != null) {
-            color(gas,1.0F);
+            color(gas, 1.0F);
         }
     }
 
-    public static void color(@Nullable Gas gas,float alpha) {
+    public static void color(@Nullable Gas gas, float alpha) {
         if (gas != null) {
             int color = gas.getTint();
-            GlStateManager.color(getRed(color), getGreen(color), getBlue(color),alpha);
+            GlStateManager.color(getRed(color), getGreen(color), getBlue(color), alpha);
         }
     }
 

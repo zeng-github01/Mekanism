@@ -53,8 +53,7 @@ public final class ChargeUtils {
                     int needed = ForgeEnergyIntegration.toForge(storer.getMaxEnergy() - storer.getEnergy());
                     storer.setEnergy(storer.getEnergy() + ForgeEnergyIntegration.fromForge(storage.extractEnergy(needed, false)));
                 }
-            } else if (MekanismUtils.useRF() && stack.getItem() instanceof IEnergyContainerItem) {
-                IEnergyContainerItem item = (IEnergyContainerItem) stack.getItem();
+            } else if (MekanismUtils.useRF() && stack.getItem() instanceof IEnergyContainerItem item) {
                 int needed = RFIntegration.toRF(storer.getMaxEnergy() - storer.getEnergy());
                 storer.setEnergy(storer.getEnergy() + RFIntegration.fromRF(item.extractEnergy(stack, needed, false)));
             } else if (MekanismUtils.useIC2() && isIC2Dischargeable(stack)) {
@@ -98,8 +97,7 @@ public final class ChargeUtils {
                     int stored = ForgeEnergyIntegration.toForge(storer.getEnergy());
                     storer.setEnergy(storer.getEnergy() - ForgeEnergyIntegration.fromForge(storage.receiveEnergy(stored, false)));
                 }
-            } else if (MekanismUtils.useRF() && stack.getItem() instanceof IEnergyContainerItem) {
-                IEnergyContainerItem item = (IEnergyContainerItem) stack.getItem();
+            } else if (MekanismUtils.useRF() && stack.getItem() instanceof IEnergyContainerItem item) {
                 int toTransfer = RFIntegration.toRF(storer.getEnergy());
                 storer.setEnergy(storer.getEnergy() - RFIntegration.fromRF(item.receiveEnergy(stack, toTransfer, false)));
             } else if (MekanismUtils.useIC2() && isIC2Chargeable(stack)) {
@@ -159,8 +157,7 @@ public final class ChargeUtils {
      * @return if the ItemStack can be discharged
      */
     public static boolean canBeCharged(ItemStack itemstack) {
-        if (itemstack.getItem() instanceof IEnergizedItem) {
-            IEnergizedItem energizedItem = (IEnergizedItem) itemstack.getItem();
+        if (itemstack.getItem() instanceof IEnergizedItem energizedItem) {
             if (energizedItem.canReceive(itemstack)) {
                 if (energizedItem.getMaxEnergy(itemstack) < energizedItem.getEnergy(itemstack)) {
                     return true;
@@ -189,9 +186,7 @@ public final class ChargeUtils {
             }
         }
         if (MekanismUtils.useIC2()) {
-            if (isIC2Chargeable(itemstack)) {
-                return true;
-            }
+            return isIC2Chargeable(itemstack);
         }
         return false;
     }
@@ -205,8 +200,7 @@ public final class ChargeUtils {
      * @return if the ItemStack can be outputted
      */
     public static boolean canBeOutputted(ItemStack itemstack, boolean chargeSlot) {
-        if (itemstack.getItem() instanceof IEnergizedItem) {
-            IEnergizedItem energized = (IEnergizedItem) itemstack.getItem();
+        if (itemstack.getItem() instanceof IEnergizedItem energized) {
             if (chargeSlot) {
                 return energized.getEnergy(itemstack) == energized.getMaxEnergy(itemstack);
             }
@@ -228,8 +222,7 @@ public final class ChargeUtils {
             }
             return !storage.canExtract() || storage.extractEnergy(1, true) == 0;
         }
-        if (MekanismUtils.useRF() && itemstack.getItem() instanceof IEnergyContainerItem) {
-            IEnergyContainerItem energyContainer = (IEnergyContainerItem) itemstack.getItem();
+        if (MekanismUtils.useRF() && itemstack.getItem() instanceof IEnergyContainerItem energyContainer) {
             if (chargeSlot) {
                 return energyContainer.receiveEnergy(itemstack, 1, true) == 0;
             }

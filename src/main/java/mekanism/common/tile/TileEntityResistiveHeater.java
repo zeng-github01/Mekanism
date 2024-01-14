@@ -1,7 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.IHeatTransfer;
 import mekanism.api.TileNetworkList;
@@ -25,6 +24,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
 
 public class TileEntityResistiveHeater extends TileEntityEffectsBlock implements IHeatTransfer, IComputerIntegration, IRedstoneControl, ISecurityTile {
 
@@ -268,13 +269,16 @@ public class TileEntityResistiveHeater extends TileEntityEffectsBlock implements
     @Override
     public Object[] invoke(int method, Object[] arguments) throws NoSuchMethodException {
         switch (method) {
-            case 0:
+            case 0 -> {
                 return new Object[]{getEnergy()};
-            case 1:
+            }
+            case 1 -> {
                 return new Object[]{getMaxEnergy()};
-            case 2:
+            }
+            case 2 -> {
                 return new Object[]{temperature};
-            case 3:
+            }
+            case 3 -> {
                 if (arguments.length == 1) {
                     if (arguments[0] instanceof Double) {
                         energyUsage = (Double) arguments[0];
@@ -282,8 +286,8 @@ public class TileEntityResistiveHeater extends TileEntityEffectsBlock implements
                     }
                 }
                 return new Object[]{"Invalid parameters."};
-            default:
-                throw new NoSuchMethodException();
+            }
+            default -> throw new NoSuchMethodException();
         }
     }
 

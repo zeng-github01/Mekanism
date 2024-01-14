@@ -1,15 +1,16 @@
 package mekanism.common.config;
 
 import io.netty.buffer.ByteBuf;
+import mekanism.common.config.options.Option;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
+
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import mekanism.common.config.options.Option;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
 
 @ParametersAreNonnullByDefault
 public class TypeConfigManager<T extends Enum<T>> extends Option<TypeConfigManager<T>> {
@@ -43,7 +44,8 @@ public class TypeConfigManager<T extends Enum<T>> extends Option<TypeConfigManag
      * @param name JSON supplied name
      * @return the found enum constant or null
      */
-    @Nullable public T typeFromName(String name) {
+    @Nullable
+    public T typeFromName(String name) {
         for (T type : validValuesSupplier.get()) {
             if (nameSupplier.apply(type).equals(name)) {
                 return type;

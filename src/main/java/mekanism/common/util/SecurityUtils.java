@@ -1,6 +1,5 @@
 package mekanism.common.util;
 
-import java.util.UUID;
 import mekanism.api.EnumColor;
 import mekanism.client.MekanismClient;
 import mekanism.common.Mekanism;
@@ -14,6 +13,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.relauncher.Side;
 
+import java.util.UUID;
+
 public final class SecurityUtils {
 
     public static boolean canAccess(EntityPlayer player, ItemStack stack) {
@@ -25,10 +26,9 @@ public final class SecurityUtils {
             UUID owner = ((IOwnerItem) stack.getItem()).getOwnerUUID(stack);
             return owner == null || owner.equals(player.getUniqueID());
         }
-        if (stack.isEmpty() || !(stack.getItem() instanceof ISecurityItem)) {
+        if (stack.isEmpty() || !(stack.getItem() instanceof ISecurityItem security)) {
             return true;
         }
-        ISecurityItem security = (ISecurityItem) stack.getItem();
         if (MekanismUtils.isOp(player)) {
             return true;
         }
@@ -36,10 +36,9 @@ public final class SecurityUtils {
     }
 
     public static boolean canAccess(EntityPlayer player, TileEntity tile) {
-        if (!(tile instanceof ISecurityTile)) {
+        if (!(tile instanceof ISecurityTile security)) {
             return true;
         }
-        ISecurityTile security = (ISecurityTile) tile;
         if (MekanismUtils.isOp(player)) {
             return true;
         }

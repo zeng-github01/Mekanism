@@ -1,8 +1,9 @@
 package mekanism.tools.common;
 
-import javax.annotation.Nonnull;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+
+import javax.annotation.Nonnull;
 
 
 public class CreativeTabMekanismTools extends CreativeTabs {

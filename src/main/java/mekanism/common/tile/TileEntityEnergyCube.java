@@ -1,7 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigCardAccess;
 import mekanism.api.TileNetworkList;
@@ -28,6 +27,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
 
 public class TileEntityEnergyCube extends TileEntityElectricBlock implements IComputerIntegration, IRedstoneControl, ISideConfiguration, ISecurityTile, ITierUpgradeable,
         IConfigCardAccess, IComparatorSupport {
@@ -166,18 +167,13 @@ public class TileEntityEnergyCube extends TileEntityElectricBlock implements ICo
 
     @Override
     public Object[] invoke(int method, Object[] arguments) throws NoSuchMethodException {
-        switch (method) {
-            case 0:
-                return new Object[]{getEnergy()};
-            case 1:
-                return new Object[]{tier.getOutput()};
-            case 2:
-                return new Object[]{getMaxEnergy()};
-            case 3:
-                return new Object[]{(getMaxEnergy() - getEnergy())};
-            default:
-                throw new NoSuchMethodException();
-        }
+        return switch (method) {
+            case 0 -> new Object[]{getEnergy()};
+            case 1 -> new Object[]{tier.getOutput()};
+            case 2 -> new Object[]{getMaxEnergy()};
+            case 3 -> new Object[]{(getMaxEnergy() - getEnergy())};
+            default -> throw new NoSuchMethodException();
+        };
     }
 
     @Override

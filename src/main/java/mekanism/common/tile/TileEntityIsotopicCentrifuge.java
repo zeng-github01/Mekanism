@@ -1,8 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
@@ -28,6 +26,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements ISustainedData, IBoundingBlock, IGasHandler, IUpgradeInfoHandler, ITankManager, IComparatorSupport, ISideConfiguration {
     public static final int MAX_GAS = 10000;

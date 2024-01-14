@@ -1,7 +1,5 @@
 package mekanism.client.gui.element.tab;
 
-import java.util.ArrayList;
-import java.util.List;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.client.gui.element.GuiTileEntityElement;
@@ -16,6 +14,9 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiSortingTab extends GuiTileEntityElement<TileEntityFactory> {
@@ -41,7 +42,7 @@ public class GuiSortingTab extends GuiTileEntityElement<TileEntityFactory> {
         if (inBounds(xAxis, yAxis)) {
             List<String> info = new ArrayList<>();
             info.add(LangUtils.localize("gui.factory.autoSort") + ":" + LangUtils.transOnOff(tileEntity.sorting));
-            if (tileEntity.Factoryoldsorting){
+            if (tileEntity.Factoryoldsorting) {
                 info.add(LangUtils.localize("gui.factory.autoSort.isold"));
             }
             displayTooltips(info, xAxis, yAxis);

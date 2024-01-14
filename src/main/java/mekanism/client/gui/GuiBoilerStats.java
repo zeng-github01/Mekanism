@@ -1,6 +1,5 @@
 package mekanism.client.gui;
 
-import java.util.Collections;
 import mekanism.client.gui.element.GuiGraph;
 import mekanism.client.gui.element.GuiHeatInfo;
 import mekanism.client.gui.element.tab.GuiBoilerTab;
@@ -16,6 +15,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Collections;
 
 @SideOnly(Side.CLIENT)
 public class GuiBoilerStats extends GuiMekanismTile<TileEntityBoilerCasing> {

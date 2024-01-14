@@ -35,11 +35,11 @@ public class NucleosynthesizerRecipe extends MachineRecipe<NucleosynthesizerInpu
         return new NucleosynthesizerRecipe(getInput().copy(), getOutput().copy(), extraEnergy, ticks);
     }
 
-    public boolean canOperate(NonNullList<ItemStack> inventory,int inputIndex, GasTank inputGasTank,int outputIndex) {
+    public boolean canOperate(NonNullList<ItemStack> inventory, int inputIndex, GasTank inputGasTank, int outputIndex) {
         return getInput().use(inventory, inputIndex, inputGasTank, false) && getOutput().applyOutputs(inventory, outputIndex, false);
     }
 
-    public void operate(NonNullList<ItemStack> inventory,int inputIndex, GasTank inputGasTank,int outputIndex) {
+    public void operate(NonNullList<ItemStack> inventory, int inputIndex, GasTank inputGasTank, int outputIndex) {
         if (getInput().use(inventory, inputIndex, inputGasTank, true)) {
             getOutput().applyOutputs(inventory, outputIndex, true);
         }

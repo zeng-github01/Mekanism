@@ -27,8 +27,7 @@ public class HashedItem {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof HashedItem) {
-            HashedItem other = (HashedItem) obj;
+        if (obj instanceof HashedItem other) {
             return InventoryUtils.areItemsStackable(itemStack, other.itemStack);
         }
         return false;

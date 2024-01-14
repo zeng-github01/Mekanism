@@ -1,8 +1,6 @@
 package mekanism.common.entity;
 
 import io.netty.buffer.ByteBuf;
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.Pos3D;
 import mekanism.common.config.MekanismConfig;
@@ -29,6 +27,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.WorldEvents;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 public class EntityFlame extends Entity implements IEntityAdditionalSpawnData {
 
@@ -224,10 +225,7 @@ public class EntityFlame extends Entity implements IEntityAdditionalSpawnData {
     }
 
     private DamageSource getFlamethrowerDamage() {
-        if (owner == null) {
-            return DamageSource.causeThrownDamage(this, this);
-        }
-        return DamageSource.causeThrownDamage(this, owner);
+        return DamageSource.causeThrownDamage(this, owner == null ? this : owner);
     }
 
     private void spawnParticlesAt(Pos3D pos) {

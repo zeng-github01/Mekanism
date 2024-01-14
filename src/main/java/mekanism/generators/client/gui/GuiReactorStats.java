@@ -1,8 +1,5 @@
 package mekanism.generators.client.gui;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import mekanism.api.EnumColor;
 import mekanism.client.gui.element.GuiEnergyInfo;
 import mekanism.common.inventory.container.ContainerNull;
@@ -16,6 +13,10 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class GuiReactorStats extends GuiReactorInfo {

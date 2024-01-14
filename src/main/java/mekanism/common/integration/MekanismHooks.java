@@ -8,9 +8,6 @@ import dan200.computercraft.api.ComputerCraftAPI;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipe;
 import ic2.api.recipe.Recipes;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
 import li.cil.oc.api.Driver;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.*;
@@ -36,6 +33,10 @@ import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Hooks for Mekanism. Use to grab items or blocks out of different mods.
@@ -131,7 +132,7 @@ public final class MekanismHooks {
             registerMysticalAgricultureRecipes();
             Mekanism.logger.info("Hooked into Mystical Agriculture successfully.");
         }
-        if (GroovyScript){
+        if (GroovyScript) {
             Mekanism.logger.info("Hooked into Groovy Script successfully.");
         }
         if (CraftTweakerLoaded) {

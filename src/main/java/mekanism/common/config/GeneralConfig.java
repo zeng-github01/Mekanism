@@ -1,6 +1,5 @@
 package mekanism.common.config;
 
-import java.util.EnumMap;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.config.options.BooleanOption;
 import mekanism.common.config.options.DoubleOption;
@@ -11,6 +10,8 @@ import mekanism.common.tier.FluidTankTier;
 import mekanism.common.tier.GasTankTier;
 import mekanism.common.util.UnitDisplayUtils.EnergyType;
 import mekanism.common.util.UnitDisplayUtils.TempType;
+
+import java.util.EnumMap;
 
 /**
  * Created by Thiakil on 15/03/2019.
@@ -275,10 +276,10 @@ public class GeneralConfig extends BaseConfig {
      * ADD START
      */
 
-    public final DoubleOption armoredFreeRunnersRatio = new DoubleOption(this,"general","ArmoredFreeRunnersDamageRatio",0.3,
+    public final DoubleOption armoredFreeRunnersRatio = new DoubleOption(this, "general", "ArmoredFreeRunnersDamageRatio", 0.3,
             "Damage absorb ratio of the Armored FreeRunners");
 
-    public final IntOption armoredFreeRunnersDamageMax = new IntOption(this, "general", "ArmoredFreeRunnersDamageMax",43,
+    public final IntOption armoredFreeRunnersDamageMax = new IntOption(this, "general", "ArmoredFreeRunnersDamageMax", 43,
             "Max damage the Armored Free Runners can absorb.");
 
     public final IntOption maxCanteen = new IntOption(this, "general", "MaxCanteenGas", 64000,

@@ -1,7 +1,5 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
-import javax.annotation.Nullable;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiDisableableButton;
@@ -27,6 +25,9 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
 
 @SideOnly(Side.CLIENT)
 public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMiner, MinerFilter> {
@@ -136,7 +137,6 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
     }
 
 
-
     @Override
     public void initGui() {
         super.initGui();
@@ -211,8 +211,7 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
                 if (filter instanceof IItemStackFilter) {
                     renderItem(((IItemStackFilter) filter).getItemStack(), 59, yStart + 3);
                     fontRenderer.drawString(LangUtils.localize("gui.itemFilter"), 78, yStart + 2, 0x404040);
-                } else if (filter instanceof IOreDictFilter) {
-                    IOreDictFilter oreFilter = (IOreDictFilter) filter;
+                } else if (filter instanceof IOreDictFilter oreFilter) {
                     if (!oreDictStacks.containsKey(oreFilter)) {
                         updateStackList(oreFilter);
                     }
@@ -221,8 +220,7 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
                 } else if (filter instanceof IMaterialFilter) {
                     renderItem(((IMaterialFilter) filter).getMaterialItem(), 59, yStart + 3);
                     fontRenderer.drawString(LangUtils.localize("gui.materialFilter"), 78, yStart + 2, 0x404040);
-                } else if (filter instanceof IModIDFilter) {
-                    IModIDFilter modFilter = (IModIDFilter) filter;
+                } else if (filter instanceof IModIDFilter modFilter) {
                     if (!modIDStacks.containsKey(modFilter)) {
                         updateStackList(modFilter);
                     }

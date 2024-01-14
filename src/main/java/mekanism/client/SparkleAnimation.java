@@ -1,7 +1,5 @@
 package mekanism.client;
 
-import java.util.Iterator;
-import java.util.concurrent.ThreadLocalRandom;
 import mekanism.common.MekanismSounds;
 import mekanism.common.config.MekanismConfig;
 import net.minecraft.tileentity.TileEntity;
@@ -12,6 +10,9 @@ import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Iterator;
+import java.util.concurrent.ThreadLocalRandom;
 
 @SideOnly(Side.CLIENT)
 public class SparkleAnimation {

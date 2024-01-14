@@ -32,12 +32,12 @@ public class RemoveMekanismRecipe<INPUT extends MachineInput<INPUT>, OUTPUT exte
             if (input.isEmpty()) {
                 if (!output.isEmpty()) {
                     //It should never be the case they both are empty but just in case they are ignore it
-                    warning = String.format("output: '%s'", output.toString());
+                    warning = String.format("output: '%s'", output);
                 }
             } else if (output.isEmpty()) {
-                warning = String.format("input: '%s'", input.toString());
+                warning = String.format("input: '%s'", input);
             } else {
-                warning = String.format("input: '%s' and output: '%s'", input.toString(), output.toString());
+                warning = String.format("input: '%s' and output: '%s'", input, output);
             }
             if (!warning.isEmpty()) {
                 CraftTweakerAPI.logWarning(String.format("No %s recipe found for %s. Command ignored!", name, warning));

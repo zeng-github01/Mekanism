@@ -32,7 +32,7 @@ public class SlotArmor extends Slot {
         Item item = stack.getItem();
         if (armorType.getSlotType() == EntityEquipmentSlot.Type.ARMOR) {
             return item.isValidArmor(stack, armorType, ((InventoryPlayer) inventory).player);
-        }else {
+        } else {
             return armorType == EntityEquipmentSlot.OFFHAND;
         }
     }

@@ -1,14 +1,6 @@
 package mekanism.common.tile;
 
-import static mekanism.common.tile.TileEntityChemicalDissolutionChamber.BASE_INJECT_USAGE;
-import static mekanism.common.tile.TileEntityChemicalWasher.WATER_USAGE;
-
 import io.netty.buffer.ByteBuf;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigCardAccess.ISpecialConfigData;
 import mekanism.api.TileNetworkList;
@@ -52,6 +44,15 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import static mekanism.common.tile.TileEntityChemicalDissolutionChamber.BASE_INJECT_USAGE;
+import static mekanism.common.tile.TileEntityChemicalWasher.WATER_USAGE;
 
 public class TileEntityFactory extends TileEntityMachine implements IComputerIntegration, ISideConfiguration, IGasHandler, ISpecialConfigData, ITierUpgradeable,
         ISustainedData, IComparatorSupport, ITankManager, IFluidHandlerWrapper {
@@ -161,20 +162,15 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     public static ItemStack getRecipeInput(MachineRecipe<?, ?, ?> recipe) {
         if (recipe.recipeInput instanceof ItemStackInput) {
             return ((ItemStackInput) recipe.recipeInput).ingredient;
-        } else if (recipe.recipeInput instanceof AdvancedMachineInput) {
-            AdvancedMachineInput advancedInput = (AdvancedMachineInput) recipe.recipeInput;
+        } else if (recipe.recipeInput instanceof AdvancedMachineInput advancedInput) {
             return advancedInput.itemStack;
-        } else if (recipe.recipeInput instanceof DoubleMachineInput) {
-            DoubleMachineInput doubleMachineInput = (DoubleMachineInput) recipe.recipeInput;
+        } else if (recipe.recipeInput instanceof DoubleMachineInput doubleMachineInput) {
             return doubleMachineInput.itemStack;
-        } else if (recipe.recipeInput instanceof InfusionInput) {
-            InfusionInput infusionInput = (InfusionInput) recipe.recipeInput;
+        } else if (recipe.recipeInput instanceof InfusionInput infusionInput) {
             return infusionInput.inputStack;
-        } else if (recipe.recipeInput instanceof PressurizedInput) {
-            PressurizedInput pressurizedInput = (PressurizedInput) recipe.recipeInput;
+        } else if (recipe.recipeInput instanceof PressurizedInput pressurizedInput) {
             return pressurizedInput.getSolid();
-        } else if (recipe.recipeInput instanceof NucleosynthesizerInput) {
-            NucleosynthesizerInput input = (NucleosynthesizerInput) recipe.recipeInput;
+        } else if (recipe.recipeInput instanceof NucleosynthesizerInput input) {
             return input.getSolid();
         } else {
             return ItemStack.EMPTY;
@@ -182,20 +178,13 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
     private static int[] getSlotsWithTier(FactoryTier tier) {
-        switch (tier) {
-            case BASIC:
-                return new int[]{5, 6, 7};
-            case ADVANCED:
-                return new int[]{5, 6, 7, 8, 9};
-            case ELITE:
-                return new int[]{5, 6, 7, 8, 9, 10, 11};
-            case ULTIMATE:
-                return new int[]{5, 6, 7, 8, 9, 10, 11, 12, 13};
-            case CREATIVE:
-                return new int[]{5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-            default:
-                return null;
-        }
+        return switch (tier) {
+            case BASIC -> new int[]{5, 6, 7};
+            case ADVANCED -> new int[]{5, 6, 7, 8, 9};
+            case ELITE -> new int[]{5, 6, 7, 8, 9, 10, 11};
+            case ULTIMATE -> new int[]{5, 6, 7, 8, 9, 10, 11, 12, 13};
+            case CREATIVE -> new int[]{5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+        };
     }
 
     public static ItemStack copyStackWithSize(ItemStack stack, int amount) {
@@ -514,27 +503,21 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             boolean secondaryMatch = true;
             if (cached.recipeInput instanceof ItemStackInput) {
                 recipeInput = ((ItemStackInput) cached.recipeInput).ingredient;
-            } else if (cached.recipeInput instanceof AdvancedMachineInput) {
-                AdvancedMachineInput advancedInput = (AdvancedMachineInput) cached.recipeInput;
+            } else if (cached.recipeInput instanceof AdvancedMachineInput advancedInput) {
                 recipeInput = advancedInput.itemStack;
                 secondaryMatch = gasTank.getGasType() == null || advancedInput.gasType == gasTank.getGasType();
-            } else if (cached.recipeInput instanceof DoubleMachineInput) {
-                DoubleMachineInput doubleMachineInput = (DoubleMachineInput) cached.recipeInput;
+            } else if (cached.recipeInput instanceof DoubleMachineInput doubleMachineInput) {
                 recipeInput = doubleMachineInput.itemStack;
                 secondaryMatch = extra.isEmpty() || ItemStack.areItemsEqual(doubleMachineInput.extraStack, extra);
-            } else if (cached.recipeInput instanceof PressurizedInput) {
-                PressurizedInput pressurizedInput = (PressurizedInput) cached.recipeInput;
+            } else if (cached.recipeInput instanceof PressurizedInput pressurizedInput) {
                 recipeInput = pressurizedInput.getSolid();
                 secondaryMatch = (gasTank.getGas() == null || gasTank.getGas().isGasEqual(pressurizedInput.getGas())) && (fluidTank.getFluid() == null || fluidTank.getFluid() == pressurizedInput.getFluid());
-            } else if (cached.recipeInput instanceof InfusionInput) {
-                InfusionInput infusionInput = (InfusionInput) cached.recipeInput;
+            } else if (cached.recipeInput instanceof InfusionInput infusionInput) {
                 recipeInput = infusionInput.inputStack;
                 secondaryMatch = infuseStored.getAmount() == 0 || infuseStored.getType() == infusionInput.infuse.getType();
-            } else if (cached.recipeInput instanceof GasInput) {
-                GasInput gasInput = (GasInput) cached.recipeInput;
+            } else if (cached.recipeInput instanceof GasInput gasInput) {
                 secondaryMatch = gasTank.getGasType() == null || gasInput.ingredient.getGas() == gasTank.getGasType();
-            } else if (cached.recipeInput instanceof NucleosynthesizerInput) {
-                NucleosynthesizerInput input = (NucleosynthesizerInput) cached.recipeInput;
+            } else if (cached.recipeInput instanceof NucleosynthesizerInput input) {
                 recipeInput = input.getSolid();
                 secondaryMatch = (gasTank.getGas() == null || gasTank.getGas().isGasEqual(input.getGas()));
             }
@@ -573,7 +556,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         }
     }
 
-    @Nullable public GasStack getItemGas(ItemStack itemStack) {
+    @Nullable
+    public GasStack getItemGas(ItemStack itemStack) {
         if (GasInputMachine() || GasAdvancedInputMachine()) {
             return GasConversionHandler.getItemGas(itemStack, gasTank, recipeType::isValidGas);
         }
@@ -588,8 +572,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 if (gasStack != null) {
                     Gas gas = gasStack.getGas();
                     if (gasTank.canReceive(gas) && gasTank.getNeeded() >= gasStack.amount) {
-                        if (extra.getItem() instanceof IGasItem) {
-                            IGasItem item = (IGasItem) extra.getItem();
+                        if (extra.getItem() instanceof IGasItem item) {
                             if (tier != FactoryTier.CREATIVE) {
                                 gasTank.receive(item.removeGas(extra, gasStack.amount), true);
                             } else {
@@ -634,8 +617,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 gasOutTank.stored.amount = gasTank.getMaxGas();
             }
         }
-        if ((recipeType == RecipeType.WASHER || recipeType == RecipeType.PRC) && tier == FactoryTier.CREATIVE){
-            if (fluidTank.getFluid() !=null){
+        if ((recipeType == RecipeType.WASHER || recipeType == RecipeType.PRC) && tier == FactoryTier.CREATIVE) {
+            if (fluidTank.getFluid() != null) {
                 fluidTank.setFluid(fluidTank.getFluid());
                 fluidTank.setCapacity(Integer.MAX_VALUE);
                 fluidTank.getFluid().amount = fluidTank.getCapacity();
@@ -1130,9 +1113,10 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     @Override
     public Object[] invoke(int method, Object[] arguments) throws NoSuchMethodException {
         switch (method) {
-            case 0:
+            case 0 -> {
                 return new Object[]{electricityStored};
-            case 1:
+            }
+            case 1 -> {
                 if (arguments[0] == null) {
                     return new Object[]{"Please provide a target operation."};
                 }
@@ -1143,9 +1127,11 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                     return new Object[]{"No such operation found."};
                 }
                 return new Object[]{progress[(Integer) arguments[0]]};
-            case 2:
+            }
+            case 2 -> {
                 return new Object[]{facing};
-            case 3:
+            }
+            case 3 -> {
                 if (arguments[0] == null) {
                     return new Object[]{"Please provide a target operation."};
                 }
@@ -1156,12 +1142,14 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                     return new Object[]{"No such operation found."};
                 }
                 return new Object[]{canOperate(getInputSlot((Integer) arguments[0]), getOutputSlot((Integer) arguments[0]), getSecondaryOutputSlot((Integer) arguments[0]))};
-            case 4:
+            }
+            case 4 -> {
                 return new Object[]{getMaxEnergy()};
-            case 5:
+            }
+            case 5 -> {
                 return new Object[]{getMaxEnergy() - getEnergy()};
-            default:
-                throw new NoSuchMethodException();
+            }
+            default -> throw new NoSuchMethodException();
         }
     }
 
@@ -1277,24 +1265,22 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     public void recalculateUpgradables(Upgrade upgrade) {
         super.recalculateUpgradables(upgrade);
         switch (upgrade) {
-            case ENERGY:
+            case ENERGY -> {
                 if (tier == FactoryTier.CREATIVE) {
                     maxEnergy = BASE_MAX_ENERGY;
                 }
                 energyPerTick = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK); // incorporate speed upgrades
-                break;
-            case GAS:
-                secondaryEnergyPerTick = getSecondaryEnergyPerTick(recipeType);
-                break;
-            case SPEED:
+            }
+            case GAS -> secondaryEnergyPerTick = getSecondaryEnergyPerTick(recipeType);
+            case SPEED -> {
                 if (tier != FactoryTier.CREATIVE) {
                     energyPerTick = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK);
                 }
                 ticksRequired = MekanismUtils.getTicks(this, BASE_TICKS_REQUIRED);
                 secondaryEnergyPerTick = getSecondaryEnergyPerTick(recipeType);
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
     }
 
@@ -1357,27 +1343,21 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             boolean secondaryMatch = true;
             if (cached.recipeInput instanceof ItemStackInput) {
                 recipeInput = ((ItemStackInput) cached.recipeInput).ingredient;
-            } else if (cached.recipeInput instanceof AdvancedMachineInput) {
-                AdvancedMachineInput advancedInput = (AdvancedMachineInput) cached.recipeInput;
+            } else if (cached.recipeInput instanceof AdvancedMachineInput advancedInput) {
                 recipeInput = advancedInput.itemStack;
                 secondaryMatch = gasTank.getGasType() == null || advancedInput.gasType == gasTank.getGasType();
-            } else if (cached.recipeInput instanceof DoubleMachineInput) {
-                DoubleMachineInput doubleMachineInput = (DoubleMachineInput) cached.recipeInput;
+            } else if (cached.recipeInput instanceof DoubleMachineInput doubleMachineInput) {
                 recipeInput = doubleMachineInput.itemStack;
                 secondaryMatch = extra.isEmpty() || ItemStack.areItemsEqual(doubleMachineInput.extraStack, extra);
-            } else if (cached.recipeInput instanceof InfusionInput) {
-                InfusionInput infusionInput = (InfusionInput) cached.recipeInput;
+            } else if (cached.recipeInput instanceof InfusionInput infusionInput) {
                 recipeInput = infusionInput.inputStack;
                 secondaryMatch = infuseStored.getAmount() == 0 || infuseStored.getType() == infusionInput.infuse.getType();
-            } else if (cached.recipeInput instanceof GasInput) {
-                GasInput gasInput = (GasInput) cached.recipeInput;
+            } else if (cached.recipeInput instanceof GasInput gasInput) {
                 secondaryMatch = gasTank.getGasType() == null || gasInput.ingredient.getGas() == gasTank.getGasType();
-            } else if (cached.recipeInput instanceof PressurizedInput) {
-                PressurizedInput pressurizedInput = (PressurizedInput) cached.recipeInput;
+            } else if (cached.recipeInput instanceof PressurizedInput pressurizedInput) {
                 recipeInput = pressurizedInput.getSolid();
                 secondaryMatch = (gasTank.getGas() == null || gasTank.getGas().isGasEqual(pressurizedInput.getGas())) && (fluidTank.getFluid() == null || fluidTank.getFluid() == pressurizedInput.getFluid());
-            } else if (cached.recipeInput instanceof NucleosynthesizerInput) {
-                NucleosynthesizerInput input = (NucleosynthesizerInput) cached.recipeInput;
+            } else if (cached.recipeInput instanceof NucleosynthesizerInput input) {
                 recipeInput = input.getSolid();
                 secondaryMatch = (gasTank.getGas() == null || gasTank.getGas().isGasEqual(input.getGas()));
             }

@@ -1,7 +1,6 @@
 package mekanism.generators.common.block;
 
 import buildcraft.api.tools.IToolWrench;
-import javax.annotation.Nonnull;
 import mekanism.common.base.IActiveState;
 import mekanism.common.tile.prefab.TileEntityBasicBlock;
 import mekanism.common.tile.prefab.TileEntityElectricBlock;
@@ -32,6 +31,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
 
 public abstract class BlockReactor extends Block implements ITileEntityProvider {
 
@@ -221,14 +222,10 @@ public abstract class BlockReactor extends Block implements ITileEntityProvider 
     @Deprecated
     public boolean isSideSolid(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
         ReactorBlockType type = ReactorBlockType.get(getReactorBlock(), state.getBlock().getMetaFromState(state));
-        switch (type) {
-            case REACTOR_FRAME:
-            case REACTOR_PORT:
-            case REACTOR_LOGIC_ADAPTER:
-                return true;
-            default:
-                return false;
-        }
+        return switch (type) {
+            case REACTOR_FRAME, REACTOR_PORT, REACTOR_LOGIC_ADAPTER -> true;
+            default -> false;
+        };
     }
 
     @Override

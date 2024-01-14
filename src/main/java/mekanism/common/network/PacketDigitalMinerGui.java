@@ -96,25 +96,16 @@ public class PacketDigitalMinerGui implements IMessageHandler<DigitalMinerGuiMes
         public static void openServerGui(MinerGuiPacket t, int guiType, World world, EntityPlayerMP playerMP, Coord4D obj, int i) {
             Container container;
             playerMP.closeContainer();
-            switch (guiType) {
-                case 0:
-                    container = new ContainerNull(playerMP, (TileEntityContainerBlock) obj.getTileEntity(world));
-                    break;
-                case 4:
-                    container = new ContainerDigitalMiner(playerMP.inventory,
-                            (TileEntityDigitalMiner) obj.getTileEntity(world));
-                    break;
-                case 5:
-                    container = new ContainerNull(playerMP, (TileEntityContainerBlock) obj.getTileEntity(world));
-                    break;
-//				case 1:
+            container = switch (guiType) {
+                case 0, 5 -> new ContainerNull(playerMP, (TileEntityContainerBlock) obj.getTileEntity(world));
+                case 4 -> new ContainerDigitalMiner(playerMP.inventory,
+                        (TileEntityDigitalMiner) obj.getTileEntity(world));
+                //				case 1:
 //				case 2:
 //				case 3:
 //				case 6:
-                default:
-                    container = new ContainerFilter(playerMP.inventory, (TileEntityContainerBlock) obj.getTileEntity(world));
-                    break;
-            }
+                default -> new ContainerFilter(playerMP.inventory, (TileEntityContainerBlock) obj.getTileEntity(world));
+            };
 
             playerMP.getNextWindowId();
             int window = playerMP.currentWindowId;

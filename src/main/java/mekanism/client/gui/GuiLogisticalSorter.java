@@ -1,7 +1,5 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
-import javax.annotation.Nullable;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiColorButton;
@@ -32,6 +30,9 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
 
 @SideOnly(Side.CLIENT)
 public class GuiLogisticalSorter extends GuiFilterHolder<TileEntityLogisticalSorter, TransporterFilter> {
@@ -190,21 +191,18 @@ public class GuiLogisticalSorter extends GuiFilterHolder<TileEntityLogisticalSor
                     renderItem(itemFilter.getItemStack(), 59, yStart + 3);
                     fontRenderer.drawString(LangUtils.localize("gui.itemFilter"), 78, yStart + 2, 0x404040);
                     fontRenderer.drawString(filter.color != null ? filter.color.getColoredName() : LangUtils.localize("gui.none"), 78, yStart + 11, 0x404040);
-                } else if (filter instanceof IOreDictFilter) {
-                    IOreDictFilter oreFilter = (IOreDictFilter) filter;
+                } else if (filter instanceof IOreDictFilter oreFilter) {
                     if (!oreDictStacks.containsKey(oreFilter)) {
                         updateStackList(oreFilter);
                     }
                     renderItem(oreDictStacks.get(filter).renderStack, 59, yStart + 3);
                     fontRenderer.drawString(LangUtils.localize("gui.oredictFilter"), 78, yStart + 2, 0x404040);
                     fontRenderer.drawString(filter.color != null ? filter.color.getColoredName() : LangUtils.localize("gui.none"), 78, yStart + 11, 0x404040);
-                } else if (filter instanceof IMaterialFilter) {
-                    IMaterialFilter itemFilter = (IMaterialFilter) filter;
+                } else if (filter instanceof IMaterialFilter itemFilter) {
                     renderItem(itemFilter.getMaterialItem(), 59, yStart + 3);
                     fontRenderer.drawString(LangUtils.localize("gui.materialFilter"), 78, yStart + 2, 0x404040);
                     fontRenderer.drawString(filter.color != null ? filter.color.getColoredName() : LangUtils.localize("gui.none"), 78, yStart + 11, 0x404040);
-                } else if (filter instanceof IModIDFilter) {
-                    IModIDFilter modFilter = (IModIDFilter) filter;
+                } else if (filter instanceof IModIDFilter modFilter) {
                     if (!modIDStacks.containsKey(modFilter)) {
                         updateStackList(modFilter);
                     }

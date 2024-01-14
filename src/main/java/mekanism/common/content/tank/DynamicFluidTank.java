@@ -1,11 +1,12 @@
 package mekanism.common.content.tank;
 
-import javax.annotation.Nullable;
 import mekanism.api.Coord4D;
 import mekanism.common.base.MultiblockFluidTank;
 import mekanism.common.content.tank.SynchronizedTankData.ValveData;
 import mekanism.common.tile.TileEntityDynamicTank;
 import net.minecraftforge.fluids.FluidStack;
+
+import javax.annotation.Nullable;
 
 public class DynamicFluidTank extends MultiblockFluidTank<TileEntityDynamicTank> {
 
@@ -14,7 +15,8 @@ public class DynamicFluidTank extends MultiblockFluidTank<TileEntityDynamicTank>
     }
 
     @Override
-    @Nullable public FluidStack getFluid() {
+    @Nullable
+    public FluidStack getFluid() {
         return multiblock.structure != null ? multiblock.structure.fluidStored : null;
     }
 

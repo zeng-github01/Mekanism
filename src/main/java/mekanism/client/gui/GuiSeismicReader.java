@@ -1,15 +1,9 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.client.Utils.ClientUtil;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.render.MekanismRenderer;
-import mekanism.common.Mekanism;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
@@ -18,7 +12,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -27,6 +20,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.util.Rectangle;
+
+import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @SideOnly(Side.CLIENT)
 public class GuiSeismicReader extends GuiScreen {
@@ -190,7 +189,7 @@ public class GuiSeismicReader extends GuiScreen {
     }
 
     protected void renderItem(@Nonnull ItemStack stack, int xAxis, int yAxis) {
-        ClientUtil.renderItem(stack,xAxis,yAxis);
+        ClientUtil.renderItem(stack, xAxis, yAxis);
        /*
         if (!stack.isEmpty()) {
             try {

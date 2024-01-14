@@ -3,13 +3,6 @@ package mekanism.common.item;
 import buildcraft.api.tools.IToolWrench;
 import cofh.api.item.IToolHammer;
 import io.netty.buffer.ByteBuf;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import mcp.MethodsReturnNonnullByDefault;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigurable;
@@ -55,6 +48,14 @@ import net.minecraftforge.fml.common.Optional.InterfaceList;
 import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 @InterfaceList({
         @Interface(iface = "buildcraft.api.tools.IToolWrench", modid = MekanismHooks.BUILDCRAFT_MOD_ID),
@@ -309,7 +310,8 @@ public class ItemConfigurator extends ItemEnergized implements IMekWrench, ITool
         WRENCH("wrench", null, EnumColor.PINK, false);
 
         private String name;
-        @Nullable private final TransmissionType transmissionType;
+        @Nullable
+        private final TransmissionType transmissionType;
         private EnumColor color;
         private boolean configurating;
 
@@ -344,21 +346,16 @@ public class ItemConfigurator extends ItemEnergized implements IMekWrench, ITool
             return configurating;
         }
 
-        @Nullable public TransmissionType getTransmission() {
-            switch (this) {
-                case CONFIGURATE_ITEMS:
-                    return TransmissionType.ITEM;
-                case CONFIGURATE_FLUIDS:
-                    return TransmissionType.FLUID;
-                case CONFIGURATE_GASES:
-                    return TransmissionType.GAS;
-                case CONFIGURATE_ENERGY:
-                    return TransmissionType.ENERGY;
-                case CONFIGURATE_HEAT:
-                    return TransmissionType.HEAT;
-                default:
-                    return null;
-            }
+        @Nullable
+        public TransmissionType getTransmission() {
+            return switch (this) {
+                case CONFIGURATE_ITEMS -> TransmissionType.ITEM;
+                case CONFIGURATE_FLUIDS -> TransmissionType.FLUID;
+                case CONFIGURATE_GASES -> TransmissionType.GAS;
+                case CONFIGURATE_ENERGY -> TransmissionType.ENERGY;
+                case CONFIGURATE_HEAT -> TransmissionType.HEAT;
+                default -> null;
+            };
         }
     }
 }

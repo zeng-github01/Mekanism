@@ -1,11 +1,12 @@
 package mekanism.common.content.transporter;
 
+import mekanism.api.Coord4D;
+import net.minecraft.util.EnumFacing;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import mekanism.api.Coord4D;
-import net.minecraft.util.EnumFacing;
 
 public class PathfinderCache {
 
@@ -54,8 +55,7 @@ public class PathfinderCache {
 
         @Override
         public boolean equals(Object obj) {
-            if (obj instanceof PathData) {
-                PathData data = (PathData) obj;
+            if (obj instanceof PathData data) {
                 return data.startTransporter.equals(startTransporter) && data.end.equals(end) && data.endSide.equals(endSide);
             }
             return false;

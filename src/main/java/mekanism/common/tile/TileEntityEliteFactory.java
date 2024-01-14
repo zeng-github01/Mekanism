@@ -13,7 +13,7 @@ public class TileEntityEliteFactory extends TileEntityFactory {
 
     public TileEntityEliteFactory() {
         super(FactoryTier.ELITE, MachineType.ELITE_FACTORY);
-        configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.ENERGY, TransmissionType.GAS,TransmissionType.FLUID);
+        configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.ENERGY, TransmissionType.GAS, TransmissionType.FLUID);
 
         configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.RED, new int[]{5, 6, 7, 8, 9, 10, 11}));
@@ -25,7 +25,7 @@ public class TileEntityEliteFactory extends TileEntityFactory {
         configComponent.addOutput(TransmissionType.FLUID, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.FLUID, new SideData("Fluid", EnumColor.DARK_AQUA, new int[]{2}));
         configComponent.fillConfig(TransmissionType.FLUID, 1);
-        configComponent.setCanEject(TransmissionType.FLUID,false);
+        configComponent.setCanEject(TransmissionType.FLUID, false);
 
         configComponent.addOutput(TransmissionType.GAS, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.GAS, new SideData("Input", EnumColor.RED, new int[]{0}));

@@ -61,8 +61,7 @@ public class ClientTickHandler {
         }
         if (!player.isCreative() && !player.isSpectator()) {
             ItemStack chest = player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
-            if (!chest.isEmpty() && chest.getItem() instanceof ItemJetpack) {
-                ItemJetpack jetpack = (ItemJetpack) chest.getItem();
+            if (!chest.isEmpty() && chest.getItem() instanceof ItemJetpack jetpack) {
                 if (jetpack.getGas(chest) != null) {
                     JetpackMode mode = jetpack.getMode(chest);
                     if (mode == JetpackMode.NORMAL) {
@@ -96,8 +95,7 @@ public class ClientTickHandler {
         }
 
         ItemStack stack = player.getItemStackFromSlot(EntityEquipmentSlot.FEET);
-        if (!stack.isEmpty() && stack.getItem() instanceof ItemFreeRunners) {
-            ItemFreeRunners freeRunners = (ItemFreeRunners) stack.getItem();
+        if (!stack.isEmpty() && stack.getItem() instanceof ItemFreeRunners freeRunners) {
             /*freeRunners.getEnergy(stack) > 0 && */
             return freeRunners.getMode(stack) == ItemFreeRunners.FreeRunnerMode.NORMAL;
         }
@@ -270,8 +268,7 @@ public class ClientTickHandler {
             ItemStack stack = mc.player.getHeldItemMainhand();
             int delta = event.getDwheel();
             if (MekanismConfig.current().client.allowConfiguratorModeScroll.val()) {
-                if (stack.getItem() instanceof ItemConfigurator && delta != 0) {
-                    ItemConfigurator configurator = (ItemConfigurator) stack.getItem();
+                if (stack.getItem() instanceof ItemConfigurator configurator && delta != 0) {
                     RenderTickHandler.modeSwitchTimer = 100;
                     wheelStatus += event.getDwheel();
                     int scaledDelta = wheelStatus / 120;
@@ -290,8 +287,7 @@ public class ClientTickHandler {
             }
 
             if (MekanismConfig.current().client.allowFlamethrowerModeScroll.val()) {
-                if (stack.getItem() instanceof ItemFlamethrower && delta != 0) {
-                    ItemFlamethrower Flamethrower = (ItemFlamethrower) stack.getItem();
+                if (stack.getItem() instanceof ItemFlamethrower Flamethrower && delta != 0) {
                     RenderTickHandler.modeSwitchTimer = 100;
                     wheelStatus += event.getDwheel();
                     int scaledDelta = wheelStatus / 120;
@@ -310,8 +306,7 @@ public class ClientTickHandler {
             }
 
             if (MekanismConfig.current().client.allowAtomicDisassemblerModeScroll.val()) {
-                if (stack.getItem() instanceof ItemAtomicDisassembler && delta != 0) {
-                    ItemAtomicDisassembler AtomicDisassembler = (ItemAtomicDisassembler) stack.getItem();
+                if (stack.getItem() instanceof ItemAtomicDisassembler AtomicDisassembler && delta != 0) {
                     RenderTickHandler.modeSwitchTimer = 100;
                     wheelStatus += event.getDwheel();
                     int scaledDelta = wheelStatus / 120;

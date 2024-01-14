@@ -1,9 +1,5 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
@@ -31,6 +27,11 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgicInfuser> {
@@ -120,7 +121,7 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
         if (tileEntity.infuseStored.getType() != null) {
             mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             int displayInt = tileEntity.getScaledInfuseLevel(52);
-            GuiUtils.drawTiledSprite(guiLeft + 7,guiTop + 17,52,4,displayInt,tileEntity.infuseStored.getType().sprite ,GuiUtils.TilingDirection.DOWN_RIGHT);
+            GuiUtils.drawTiledSprite(guiLeft + 7, guiTop + 17, 52, 4, displayInt, tileEntity.infuseStored.getType().sprite, GuiUtils.TilingDirection.DOWN_RIGHT);
         }
 
         boolean input = (tileEntity.infuseStored.getAmount() == 0) && (tileEntity.inventory.get(2).getCount() != 0);

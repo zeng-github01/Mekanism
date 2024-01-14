@@ -1,7 +1,5 @@
 package mekanism.generators.client.gui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.GuiEnergyInfo;
 import mekanism.client.gui.element.GuiPlayerSlot;
@@ -18,12 +16,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 @SideOnly(Side.CLIENT)
 public class GuiReactorController extends GuiMekanismTile<TileEntityReactorController> {
 
     public GuiReactorController(InventoryPlayer inventory, final TileEntityReactorController tile) {
         super(tile, new ContainerReactorController(inventory, tile));
-        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
         if (tileEntity.isFormed()) {
             ResourceLocation resource = getGuiLocation();
             addGuiElement(new GuiEnergyInfo(() -> tileEntity.isFormed() ? Arrays.asList(

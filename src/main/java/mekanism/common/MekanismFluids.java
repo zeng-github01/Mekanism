@@ -1,12 +1,13 @@
 package mekanism.common;
 
-import java.util.Locale;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.OreGas;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+
+import java.util.Locale;
 
 public class MekanismFluids {
 
@@ -72,11 +73,14 @@ public class MekanismFluids {
     public static final Gas BLACK = new Gas("black.name", 1908001);
 
 
-    /** sddsd2332 add gas*/
+    /**
+     * sddsd2332 add gas
+     */
 
     public static final Gas NutrientSolution = new Gas("nutrientsolution", 0x1B9E7B);
     public static final Gas OxygenEnrichedWater = new Gas("oxygenenrichedwater", 0x6CE2FF);
     public static final Gas UnstableDimensional = new Gas("unstabledimensional", 0xFF9C1A);
+
     /**
      * ADD END
      */

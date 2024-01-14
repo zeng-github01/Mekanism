@@ -1,10 +1,11 @@
 package mekanism.common.recipe.outputs;
 
-import java.util.Random;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.items.ItemHandlerHelper;
+
+import java.util.Random;
 
 public class ChanceOutput2 extends MachineOutput<ChanceOutput2> {
 
@@ -39,9 +40,7 @@ public class ChanceOutput2 extends MachineOutput<ChanceOutput2> {
 
     public boolean applyOutputs(NonNullList<ItemStack> inventory, int primaryIndex, boolean doEmit) {
         if (hasPrimary() && (!doEmit || checkSecondary())) {
-            if (applyOutputs(inventory, primaryIndex, doEmit, primaryOutput)) {
-                return false;
-            }
+            return !applyOutputs(inventory, primaryIndex, doEmit, primaryOutput);
         }
         return true;
     }

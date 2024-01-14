@@ -544,8 +544,7 @@ public class ClientProxy extends CommonProxy {
 
         //Walkie Talkie dynamic texture
         ModelLoader.setCustomMeshDefinition(MekanismItems.WalkieTalkie, stack -> {
-            if (!stack.isEmpty() && stack.getItem() instanceof ItemWalkieTalkie) {
-                ItemWalkieTalkie item = (ItemWalkieTalkie) stack.getItem();
+            if (!stack.isEmpty() && stack.getItem() instanceof ItemWalkieTalkie item) {
                 if (item.getOn(stack)) {
                     return ItemWalkieTalkie.CHANNEL_MODELS.get(item.getChannel(stack));
                 }
@@ -555,8 +554,7 @@ public class ClientProxy extends CommonProxy {
 
         //Crafting Formula dynamic texture
         ModelLoader.setCustomMeshDefinition(MekanismItems.CraftingFormula, stack -> {
-            if (!stack.isEmpty() && stack.getItem() instanceof ItemCraftingFormula) {
-                ItemCraftingFormula item = (ItemCraftingFormula) stack.getItem();
+            if (!stack.isEmpty() && stack.getItem() instanceof ItemCraftingFormula item) {
                 if (item.getInventory(stack) == null) {
                     return ItemCraftingFormula.MODEL;
                 }
@@ -597,27 +595,27 @@ public class ClientProxy extends CommonProxy {
         EnumHand hand = EnumHand.values()[handOrdinal];
         int guiID = pos.getZ();
         switch (guiID) {
-            case 0:
+            case 0 -> {
                 if (stack.getItem() instanceof ItemDictionary) {
                     return new GuiDictionary(player.inventory);
                 }
-                break;
-            case 14:
+            }
+            case 14 -> {
                 if (stack.getItem() instanceof ItemPortableTeleporter) {
                     return new GuiTeleporter(player, hand, stack);
                 }
-                break;
-            case 19:
+            }
+            case 19 -> {
                 if (MachineType.get(stack) == MachineType.PERSONAL_CHEST) {
                     //Ensure the item didn't change. From testing even if it did things still seemed to work properly but better safe than sorry
                     return new GuiPersonalChest(player.inventory, new InventoryPersonalChest(stack, hand));
                 }
-                break;
-            case 38:
+            }
+            case 38 -> {
                 if (stack.getItem() instanceof ItemSeismicReader) {
                     return new GuiSeismicReader(player.world, new Coord4D(player), stack.copy());
                 }
-                break;
+            }
         }
         return null;
     }
@@ -630,31 +628,31 @@ public class ClientProxy extends CommonProxy {
         }
         int guiID = pos.getY();
         switch (guiID) {
-            case 21:
+            case 21 -> {
                 if (entity instanceof EntityRobit) {
                     return new GuiRobitMain(player.inventory, (EntityRobit) entity);
                 }
-                break;
-            case 22:
+            }
+            case 22 -> {
                 if (entity instanceof EntityRobit) {
                     return new GuiRobitCrafting(player.inventory, (EntityRobit) entity);
                 }
-                break;
-            case 23:
+            }
+            case 23 -> {
                 if (entity instanceof EntityRobit) {
                     return new GuiRobitInventory(player.inventory, (EntityRobit) entity);
                 }
-                break;
-            case 24:
+            }
+            case 24 -> {
                 if (entity instanceof EntityRobit) {
                     return new GuiRobitSmelting(player.inventory, (EntityRobit) entity);
                 }
-                break;
-            case 25:
+            }
+            case 25 -> {
                 if (entity instanceof EntityRobit) {
                     return new GuiRobitRepair(player.inventory, (EntityRobit) entity);
                 }
-                break;
+            }
         }
         return null;
     }
@@ -669,143 +667,91 @@ public class ClientProxy extends CommonProxy {
             return getClientEntityGui(player, world, pos);
         }
         TileEntity tileEntity = world.getTileEntity(pos);
-        switch (ID) {
+        return switch (ID) {
             //0, 1 USED BEFORE SWITCH
-            case 2:
-                return new GuiDigitalMiner(player.inventory, (TileEntityDigitalMiner) tileEntity);
-            case 3:
-                return new GuiEnrichmentChamber(player.inventory, (TileEntityElectricMachine<EnrichmentRecipe>) tileEntity);
-            case 4:
-                return new GuiOsmiumCompressor(player.inventory, (TileEntityAdvancedElectricMachine<OsmiumCompressorRecipe>) tileEntity);
-            case 5:
-                return new GuiCombiner(player.inventory, (TileEntityDoubleElectricMachine<CombinerRecipe>) tileEntity);
-            case 6:
-                return new GuiCrusher(player.inventory, (TileEntityElectricMachine<CrusherRecipe>) tileEntity);
-            case 7:
-                return new GuiRotaryCondensentrator(player.inventory, (TileEntityRotaryCondensentrator) tileEntity);
-            case 8:
-                return new GuiEnergyCube(player.inventory, (TileEntityEnergyCube) tileEntity);
-            case 9:
-                return new GuiSideConfiguration(player, (ISideConfiguration) tileEntity);
-            case 10:
-                return new GuiGasTank(player.inventory, (TileEntityGasTank) tileEntity);
-            case 11:
-                return new GuiFactory(player.inventory, (TileEntityFactory) tileEntity);
-            case 12:
-                return new GuiMetallurgicInfuser(player.inventory, (TileEntityMetallurgicInfuser) tileEntity);
-            case 13:
-                return new GuiTeleporter(player.inventory, (TileEntityTeleporter) tileEntity);
+            case 2 -> new GuiDigitalMiner(player.inventory, (TileEntityDigitalMiner) tileEntity);
+            case 3 ->
+                    new GuiEnrichmentChamber(player.inventory, (TileEntityElectricMachine<EnrichmentRecipe>) tileEntity);
+            case 4 ->
+                    new GuiOsmiumCompressor(player.inventory, (TileEntityAdvancedElectricMachine<OsmiumCompressorRecipe>) tileEntity);
+            case 5 -> new GuiCombiner(player.inventory, (TileEntityDoubleElectricMachine<CombinerRecipe>) tileEntity);
+            case 6 -> new GuiCrusher(player.inventory, (TileEntityElectricMachine<CrusherRecipe>) tileEntity);
+            case 7 -> new GuiRotaryCondensentrator(player.inventory, (TileEntityRotaryCondensentrator) tileEntity);
+            case 8 -> new GuiEnergyCube(player.inventory, (TileEntityEnergyCube) tileEntity);
+            case 9 -> new GuiSideConfiguration(player, (ISideConfiguration) tileEntity);
+            case 10 -> new GuiGasTank(player.inventory, (TileEntityGasTank) tileEntity);
+            case 11 -> new GuiFactory(player.inventory, (TileEntityFactory) tileEntity);
+            case 12 -> new GuiMetallurgicInfuser(player.inventory, (TileEntityMetallurgicInfuser) tileEntity);
+            case 13 -> new GuiTeleporter(player.inventory, (TileEntityTeleporter) tileEntity);
             //EMPTY 14
-            case 15:
-                return new GuiPurificationChamber(player.inventory, (TileEntityAdvancedElectricMachine<PurificationRecipe>) tileEntity);
-            case 16:
-                return new GuiEnergizedSmelter(player.inventory, (TileEntityElectricMachine<SmeltingRecipe>) tileEntity);
-            case 17:
-                return new GuiElectricPump(player.inventory, (TileEntityElectricPump) tileEntity);
-            case 18:
-                return new GuiDynamicTank(player.inventory, (TileEntityDynamicTank) tileEntity);
-            case 19:
-                return new GuiPersonalChest(player.inventory, (TileEntityPersonalChest) tileEntity);
+            case 15 ->
+                    new GuiPurificationChamber(player.inventory, (TileEntityAdvancedElectricMachine<PurificationRecipe>) tileEntity);
+            case 16 ->
+                    new GuiEnergizedSmelter(player.inventory, (TileEntityElectricMachine<SmeltingRecipe>) tileEntity);
+            case 17 -> new GuiElectricPump(player.inventory, (TileEntityElectricPump) tileEntity);
+            case 18 -> new GuiDynamicTank(player.inventory, (TileEntityDynamicTank) tileEntity);
+            case 19 -> new GuiPersonalChest(player.inventory, (TileEntityPersonalChest) tileEntity);
             //EMPTY 20, 21, 22, 23, 24, 25
-            case 29:
-                return new GuiChemicalOxidizer(player.inventory, (TileEntityChemicalOxidizer) tileEntity);
-            case 30:
-                return new GuiChemicalInfuser(player.inventory, (TileEntityChemicalInfuser) tileEntity);
-            case 31:
-                return new GuiChemicalInjectionChamber(player.inventory, (TileEntityAdvancedElectricMachine<InjectionRecipe>) tileEntity);
-            case 32:
-                return new GuiElectrolyticSeparator(player.inventory, (TileEntityElectrolyticSeparator) tileEntity);
-            case 33:
-                return new GuiThermalEvaporationController(player.inventory, (TileEntityThermalEvaporationController) tileEntity);
-            case 34:
-                return new GuiPrecisionSawmill(player.inventory, (TileEntityPrecisionSawmill) tileEntity);
-            case 35:
-                return new GuiChemicalDissolutionChamber(player.inventory, (TileEntityChemicalDissolutionChamber) tileEntity);
-            case 36:
-                return new GuiChemicalWasher(player.inventory, (TileEntityChemicalWasher) tileEntity);
-            case 37:
-                return new GuiChemicalCrystallizer(player.inventory, (TileEntityChemicalCrystallizer) tileEntity);
+            case 29 -> new GuiChemicalOxidizer(player.inventory, (TileEntityChemicalOxidizer) tileEntity);
+            case 30 -> new GuiChemicalInfuser(player.inventory, (TileEntityChemicalInfuser) tileEntity);
+            case 31 ->
+                    new GuiChemicalInjectionChamber(player.inventory, (TileEntityAdvancedElectricMachine<InjectionRecipe>) tileEntity);
+            case 32 -> new GuiElectrolyticSeparator(player.inventory, (TileEntityElectrolyticSeparator) tileEntity);
+            case 33 ->
+                    new GuiThermalEvaporationController(player.inventory, (TileEntityThermalEvaporationController) tileEntity);
+            case 34 -> new GuiPrecisionSawmill(player.inventory, (TileEntityPrecisionSawmill) tileEntity);
+            case 35 ->
+                    new GuiChemicalDissolutionChamber(player.inventory, (TileEntityChemicalDissolutionChamber) tileEntity);
+            case 36 -> new GuiChemicalWasher(player.inventory, (TileEntityChemicalWasher) tileEntity);
+            case 37 -> new GuiChemicalCrystallizer(player.inventory, (TileEntityChemicalCrystallizer) tileEntity);
             //EMPTY 38
-            case 39:
-                return new GuiSeismicVibrator(player.inventory, (TileEntitySeismicVibrator) tileEntity);
-            case 40:
-                return new GuiPRC(player.inventory, (TileEntityPRC) tileEntity);
-            case 41:
-                return new GuiFluidTank(player.inventory, (TileEntityFluidTank) tileEntity);
-            case 42:
-                return new GuiFluidicPlenisher(player.inventory, (TileEntityFluidicPlenisher) tileEntity);
-            case 43:
-                return new GuiUpgradeManagement(player.inventory, (IUpgradeTile) tileEntity);
-            case 44:
-                return new GuiLaserAmplifier(player.inventory, (TileEntityLaserAmplifier) tileEntity);
-            case 45:
-                return new GuiLaserTractorBeam(player.inventory, (TileEntityLaserTractorBeam) tileEntity);
-            case 46:
-                return new GuiQuantumEntangloporter(player.inventory, (TileEntityQuantumEntangloporter) tileEntity);
-            case 47:
-                return new GuiSolarNeutronActivator(player.inventory, (TileEntitySolarNeutronActivator) tileEntity);
-            case 48:
-                return new GuiAmbientAccumulator(player, (TileEntityAmbientAccumulator) tileEntity);
-            case 49:
-                return new GuiInductionMatrix(player.inventory, (TileEntityInductionCasing) tileEntity);
-            case 50:
-                return new GuiMatrixStats(player.inventory, (TileEntityInductionCasing) tileEntity);
-            case 51:
-                return new GuiTransporterConfig(player, (ISideConfiguration) tileEntity);
-            case 52:
-                return new GuiOredictionificator(player.inventory, (TileEntityOredictionificator) tileEntity);
-            case 53:
-                return new GuiResistiveHeater(player.inventory, (TileEntityResistiveHeater) tileEntity);
-            case 54:
-                return new GuiThermoelectricBoiler(player.inventory, (TileEntityBoilerCasing) tileEntity);
-            case 55:
-                return new GuiBoilerStats(player.inventory, (TileEntityBoilerCasing) tileEntity);
-            case 56:
-                return new GuiFormulaicAssemblicator(player.inventory, (TileEntityFormulaicAssemblicator) tileEntity);
-            case 57:
-                return new GuiSecurityDesk(player.inventory, (TileEntitySecurityDesk) tileEntity);
-            case 58:
-                return new GuiFuelwoodHeater(player.inventory, (TileEntityFuelwoodHeater) tileEntity);
-            case 59:
-                return new GuiLogisticalSorter(player, (TileEntityLogisticalSorter) tileEntity);
-            case 60:
-                return new GuiIsotopicCentrifuge(player.inventory, (TileEntityIsotopicCentrifuge) tileEntity);
-            case 61:
-                return new GuiNutritionalLiquifier(player.inventory, (TileEntityNutritionalLiquifier) tileEntity);
-            case 62:
-                return new GuiOrganicFarm(player.inventory, (TileEntityOrganicFarm) tileEntity);
-            case 63:
-                return new GuiAntiprotonicNucleosynthesizer(player.inventory, (TileEntityAntiprotonicNucleosynthesizer) tileEntity);
-            case 64:
-                return new GuiStamping(player.inventory, (TileEntityElectricMachine<StampingRecipe>) tileEntity);
-            case 65:
-                return new GuiRolling(player.inventory, (TileEntityElectricMachine<RollingRecipe>) tileEntity);
-            case 66:
-                return new GuiBrushed(player.inventory, (TileEntityElectricMachine<BrushedRecipe>) tileEntity);
-            case 67:
-                return new GuiTurning(player.inventory, (TileEntityElectricMachine<TurningRecipe>) tileEntity);
-            case 68:
-                return new GuiAlloy(player.inventory, (TileEntityDoubleElectricMachine<AlloyRecipe>) tileEntity);
+            case 39 -> new GuiSeismicVibrator(player.inventory, (TileEntitySeismicVibrator) tileEntity);
+            case 40 -> new GuiPRC(player.inventory, (TileEntityPRC) tileEntity);
+            case 41 -> new GuiFluidTank(player.inventory, (TileEntityFluidTank) tileEntity);
+            case 42 -> new GuiFluidicPlenisher(player.inventory, (TileEntityFluidicPlenisher) tileEntity);
+            case 43 -> new GuiUpgradeManagement(player.inventory, (IUpgradeTile) tileEntity);
+            case 44 -> new GuiLaserAmplifier(player.inventory, (TileEntityLaserAmplifier) tileEntity);
+            case 45 -> new GuiLaserTractorBeam(player.inventory, (TileEntityLaserTractorBeam) tileEntity);
+            case 46 -> new GuiQuantumEntangloporter(player.inventory, (TileEntityQuantumEntangloporter) tileEntity);
+            case 47 -> new GuiSolarNeutronActivator(player.inventory, (TileEntitySolarNeutronActivator) tileEntity);
+            case 48 -> new GuiAmbientAccumulator(player, (TileEntityAmbientAccumulator) tileEntity);
+            case 49 -> new GuiInductionMatrix(player.inventory, (TileEntityInductionCasing) tileEntity);
+            case 50 -> new GuiMatrixStats(player.inventory, (TileEntityInductionCasing) tileEntity);
+            case 51 -> new GuiTransporterConfig(player, (ISideConfiguration) tileEntity);
+            case 52 -> new GuiOredictionificator(player.inventory, (TileEntityOredictionificator) tileEntity);
+            case 53 -> new GuiResistiveHeater(player.inventory, (TileEntityResistiveHeater) tileEntity);
+            case 54 -> new GuiThermoelectricBoiler(player.inventory, (TileEntityBoilerCasing) tileEntity);
+            case 55 -> new GuiBoilerStats(player.inventory, (TileEntityBoilerCasing) tileEntity);
+            case 56 -> new GuiFormulaicAssemblicator(player.inventory, (TileEntityFormulaicAssemblicator) tileEntity);
+            case 57 -> new GuiSecurityDesk(player.inventory, (TileEntitySecurityDesk) tileEntity);
+            case 58 -> new GuiFuelwoodHeater(player.inventory, (TileEntityFuelwoodHeater) tileEntity);
+            case 59 -> new GuiLogisticalSorter(player, (TileEntityLogisticalSorter) tileEntity);
+            case 60 -> new GuiIsotopicCentrifuge(player.inventory, (TileEntityIsotopicCentrifuge) tileEntity);
+            case 61 -> new GuiNutritionalLiquifier(player.inventory, (TileEntityNutritionalLiquifier) tileEntity);
+            case 62 -> new GuiOrganicFarm(player.inventory, (TileEntityOrganicFarm) tileEntity);
+            case 63 ->
+                    new GuiAntiprotonicNucleosynthesizer(player.inventory, (TileEntityAntiprotonicNucleosynthesizer) tileEntity);
+            case 64 -> new GuiStamping(player.inventory, (TileEntityElectricMachine<StampingRecipe>) tileEntity);
+            case 65 -> new GuiRolling(player.inventory, (TileEntityElectricMachine<RollingRecipe>) tileEntity);
+            case 66 -> new GuiBrushed(player.inventory, (TileEntityElectricMachine<BrushedRecipe>) tileEntity);
+            case 67 -> new GuiTurning(player.inventory, (TileEntityElectricMachine<TurningRecipe>) tileEntity);
+            case 68 -> new GuiAlloy(player.inventory, (TileEntityDoubleElectricMachine<AlloyRecipe>) tileEntity);
            /*
             case 69:
                 return new GuiCellCultivate(player.inventory, (TileEntityCellCultivate) tileEntity);
             */
-            case 70:
-                return new GuiCellExtractor(player.inventory, (TileEntityChanceMachine) tileEntity);
-            case 71:
-                return new GuiCellSeparator(player.inventory, (TileEntityCellSeparator) tileEntity);
-            case 72:
-                return new GuiRecycler(player.inventory, (TileEntityRecycler) tileEntity);
-        }
-        return null;
+            case 70 -> new GuiCellExtractor(player.inventory, (TileEntityChanceMachine) tileEntity);
+            case 71 -> new GuiCellSeparator(player.inventory, (TileEntityCellSeparator) tileEntity);
+            case 72 -> new GuiRecycler(player.inventory, (TileEntityRecycler) tileEntity);
+            default -> null;
+        };
     }
 
     @Override
     public void handleTeleporterUpdate(PortableTeleporterMessage message) {
         GuiScreen screen = Minecraft.getMinecraft().currentScreen;
 
-        if (screen instanceof GuiTeleporter && !((GuiTeleporter) screen).isStackEmpty()) {
-            GuiTeleporter teleporter = (GuiTeleporter) screen;
+        if (screen instanceof GuiTeleporter teleporter && !((GuiTeleporter) screen).isStackEmpty()) {
             teleporter.setStatus(message.status);
             teleporter.setFrequency(message.frequency);
             teleporter.setPublicCache(message.publicCache);

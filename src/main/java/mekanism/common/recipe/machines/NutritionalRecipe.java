@@ -19,7 +19,7 @@ public class NutritionalRecipe extends MachineRecipe<ItemStackInput, GasOutput, 
 
     @Override
     public NutritionalRecipe copy() {
-        return new NutritionalRecipe(getInput().copy(),getOutput().copy());
+        return new NutritionalRecipe(getInput().copy(), getOutput().copy());
     }
 
     public boolean canOperate(NonNullList<ItemStack> inventory, GasTank outputTank) {

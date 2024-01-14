@@ -1,6 +1,5 @@
 package mekanism.common.block;
 
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismBlocks;
@@ -31,6 +30,8 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+
 public class BlockGlowPanel extends BlockTileDrops implements ITileEntityProvider {
 
     public static AxisAlignedBB[] bounds = new AxisAlignedBB[6];
@@ -57,8 +58,7 @@ public class BlockGlowPanel extends BlockTileDrops implements ITileEntityProvide
         }
         if (!canStay) {
             TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity instanceof TileEntityGlowPanel) {
-                TileEntityGlowPanel glowPanel = (TileEntityGlowPanel) tileEntity;
+            if (tileEntity instanceof TileEntityGlowPanel glowPanel) {
                 Coord4D adj = new Coord4D(glowPanel.getPos().offset(glowPanel.side), glowPanel.getWorld());
                 canStay = glowPanel.getWorld().isSideSolid(adj.getPos(), glowPanel.side.getOpposite());
             }

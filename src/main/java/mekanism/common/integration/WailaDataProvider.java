@@ -1,7 +1,5 @@
 package mekanism.common.integration;
 
-import java.util.List;
-import javax.annotation.Nonnull;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -18,6 +16,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional.Interface;
 import net.minecraftforge.fml.common.Optional.Method;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 @Interface(iface = "mcp.mobius.waila.api.IWailaDataProvider", modid = MekanismHooks.WAILA_MOD_ID)
 public class WailaDataProvider implements IWailaDataProvider {
@@ -64,8 +65,7 @@ public class WailaDataProvider implements IWailaDataProvider {
             currenttip.set(0, EnumColor.WHITE + ((TileEntityBin) tile).getName());
         } else if (tile instanceof TileEntityEnergyCube) {
             currenttip.set(0, EnumColor.WHITE + ((TileEntityEnergyCube) tile).getName());
-        } else if (tile instanceof TileEntityBoundingBlock) {
-            TileEntityBoundingBlock bound = (TileEntityBoundingBlock) tile;
+        } else if (tile instanceof TileEntityBoundingBlock bound) {
             Coord4D coord = new Coord4D(bound.getPos(), tile.getWorld());
             //TODO: Switch to a smarter way to get the main tile's name - i.e. block name
             if (bound.receivedCoords && coord.getTileEntity(tile.getWorld()) instanceof IInventory) {

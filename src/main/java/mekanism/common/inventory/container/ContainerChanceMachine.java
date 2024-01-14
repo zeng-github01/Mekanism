@@ -1,6 +1,5 @@
 package mekanism.common.inventory.container;
 
-import javax.annotation.Nonnull;
 import mekanism.common.inventory.slot.SlotEnergy.SlotDischarge;
 import mekanism.common.inventory.slot.SlotOutput;
 import mekanism.common.recipe.RecipeHandler;
@@ -12,6 +11,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
+import javax.annotation.Nonnull;
 
 public class ContainerChanceMachine<RECIPE extends ChanceMachineRecipe<RECIPE>> extends ContainerMekanism<TileEntityChanceMachine<RECIPE>> {
 
@@ -32,8 +33,7 @@ public class ContainerChanceMachine<RECIPE extends ChanceMachineRecipe<RECIPE>> 
                 if (!mergeItemStack(slotStack, 4, inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (ChargeUtils.canBeDischarged(slotStack)) {
+            } else if (ChargeUtils.canBeDischarged(slotStack)) {
                 if (slotID != 1) {
                     if (!mergeItemStack(slotStack, 1, 2, false)) {
                         return ItemStack.EMPTY;

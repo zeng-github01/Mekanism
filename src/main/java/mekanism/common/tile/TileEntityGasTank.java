@@ -1,7 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
@@ -32,6 +31,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
 
 public class TileEntityGasTank extends TileEntityContainerBlock implements IGasHandler, IRedstoneControl, ISideConfiguration, ISecurityTile, ITierUpgradeable,
         IComputerIntegration, IComparatorSupport {
@@ -185,9 +186,9 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
         if (tier == GasTankTier.CREATIVE) {
             return stack != null ? stack.amount : 0;
         }
-        if (stack.getGas() == MekanismFluids.NuclearWaste || stack.getGas() == MekanismFluids.Plutonium || stack.getGas() == MekanismFluids.Polonium || stack.getGas() == MekanismFluids.SpentNuclearWaste){
-            return gasTank.receive(stack,false);
-        }else {
+        if (stack.getGas() == MekanismFluids.NuclearWaste || stack.getGas() == MekanismFluids.Plutonium || stack.getGas() == MekanismFluids.Polonium || stack.getGas() == MekanismFluids.SpentNuclearWaste) {
+            return gasTank.receive(stack, false);
+        } else {
             return gasTank.receive(stack, doTransfer);
         }
     }
@@ -210,9 +211,9 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        if (tier != GasTankTier.CREATIVE && (type == MekanismFluids.NuclearWaste || type == MekanismFluids.Plutonium || type == MekanismFluids.Polonium || type == MekanismFluids.SpentNuclearWaste)){
+        if (tier != GasTankTier.CREATIVE && (type == MekanismFluids.NuclearWaste || type == MekanismFluids.Plutonium || type == MekanismFluids.Polonium || type == MekanismFluids.SpentNuclearWaste)) {
             return false;
-        }else if (configComponent.hasSideForData(TransmissionType.GAS, facing, 1, side)) {
+        } else if (configComponent.hasSideForData(TransmissionType.GAS, facing, 1, side)) {
             return gasTank.canReceive(type);
         }
         return false;
@@ -357,16 +358,12 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
 
     @Override
     public Object[] invoke(int method, Object[] arguments) throws NoSuchMethodException {
-        switch (method) {
-            case 0:
-                return new Object[]{gasTank.getMaxGas()};
-            case 1:
-                return new Object[]{gasTank.getStored()};
-            case 2:
-                return new Object[]{gasTank.getGas()};
-            default:
-                throw new NoSuchMethodException();
-        }
+        return switch (method) {
+            case 0 -> new Object[]{gasTank.getMaxGas()};
+            case 1 -> new Object[]{gasTank.getStored()};
+            case 2 -> new Object[]{gasTank.getGas()};
+            default -> throw new NoSuchMethodException();
+        };
     }
 
     public enum GasMode {
@@ -385,16 +382,11 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
         }
 
         public static <T> T chooseByMode(GasMode dumping, T idleOption, T dumpingOption, T dumpingExcessOption) {
-            switch (dumping) {
-                case IDLE:
-                    return idleOption;
-                case DUMPING:
-                    return dumpingOption;
-                case DUMPING_EXCESS:
-                    return dumpingExcessOption;
-                default://should not happen;
-                    return idleOption;
-            }
+            return switch (dumping) {
+                case IDLE -> idleOption;
+                case DUMPING -> dumpingOption;
+                case DUMPING_EXCESS -> dumpingExcessOption;
+            };
         }
     }
 }

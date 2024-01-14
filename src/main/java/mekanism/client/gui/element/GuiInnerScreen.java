@@ -42,9 +42,9 @@ public class GuiInnerScreen extends GuiElement {
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         mc.renderEngine.bindTexture(RESOURCE);
         drawBlack(guiWidth, guiHeight);
-        if (overlay){
+        if (overlay) {
             mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.SLOT, "Slot_Icon.png"));
-            guiObj.drawTexturedRect(guiWidth + xPosition + xSize - 18, guiHeight + yPosition ,0,54,18,18);
+            guiObj.drawTexturedRect(guiWidth + xPosition + xSize - 18, guiHeight + yPosition, 0, 54, 18, 18);
         }
         mc.renderEngine.bindTexture(defaultLocation);
     }
@@ -72,10 +72,10 @@ public class GuiInnerScreen extends GuiElement {
         int halfHeightTop = ySize / 2;
         int halfHeight = ySize % 2 == 0 ? halfHeightTop : halfHeightTop + 1;
         MekanismRenderer.resetColor();
-        guiObj.drawTexturedRect(guiWidth + xPosition, guiHeight + yPosition , 0, 0, halfWidthLeft, halfHeightTop);
-        guiObj.drawTexturedRect(guiWidth + xPosition, guiHeight + yPosition  + halfHeightTop, 0, 256 - halfHeight, halfWidthLeft, halfHeight);
-        guiObj.drawTexturedRect(guiWidth + xPosition + halfWidthLeft, guiHeight + yPosition , 256 - halfWidthRight, 0, halfWidthRight, halfHeightTop);
-        guiObj.drawTexturedRect(guiWidth + xPosition + halfWidthLeft, guiHeight + yPosition  + halfHeightTop, 256 - halfWidthRight, 256 - halfHeight, halfWidthRight, halfHeight);
+        guiObj.drawTexturedRect(guiWidth + xPosition, guiHeight + yPosition, 0, 0, halfWidthLeft, halfHeightTop);
+        guiObj.drawTexturedRect(guiWidth + xPosition, guiHeight + yPosition + halfHeightTop, 0, 256 - halfHeight, halfWidthLeft, halfHeight);
+        guiObj.drawTexturedRect(guiWidth + xPosition + halfWidthLeft, guiHeight + yPosition, 256 - halfWidthRight, 0, halfWidthRight, halfHeightTop);
+        guiObj.drawTexturedRect(guiWidth + xPosition + halfWidthLeft, guiHeight + yPosition + halfHeightTop, 256 - halfWidthRight, 256 - halfHeight, halfWidthRight, halfHeight);
     }
 
 

@@ -1,8 +1,5 @@
 package mekanism.common.item;
 
-import java.util.List;
-import java.util.UUID;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
@@ -45,6 +42,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.UUID;
 
 public class ItemBlockGasTank extends ItemBlock implements IGasItem, ISustainedInventory, ITierItem, ISecurityItem {
 
@@ -259,10 +260,10 @@ public class ItemBlockGasTank extends ItemBlock implements IGasItem, ISustainedI
     @Override
     public boolean canProvideGas(ItemStack itemstack, Gas type) {
         if (getBaseTier(itemstack) != BaseTier.CREATIVE
-                &&(getGas(itemstack) != null && (type == null || getGas(itemstack).getGas() == MekanismFluids.NuclearWaste
+                && (getGas(itemstack) != null && (type == null || getGas(itemstack).getGas() == MekanismFluids.NuclearWaste
                 || getGas(itemstack).getGas() == MekanismFluids.Plutonium
-                ||  getGas(itemstack).getGas() == MekanismFluids.Polonium
-                ||  getGas(itemstack).getGas() == MekanismFluids.SpentNuclearWaste))) {
+                || getGas(itemstack).getGas() == MekanismFluids.Polonium
+                || getGas(itemstack).getGas() == MekanismFluids.SpentNuclearWaste))) {
             return false;
         } else {
             return getGas(itemstack) != null && (type == null || getGas(itemstack).getGas() == type);

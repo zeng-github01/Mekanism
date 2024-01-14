@@ -1,8 +1,5 @@
 package mekanism.common.content.miner;
 
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.Map;
 import mekanism.api.Chunk3D;
 import mekanism.api.Coord4D;
 import mekanism.api.util.BlockInfo;
@@ -16,6 +13,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ChunkCache;
 import net.minecraftforge.fluids.IFluidBlock;
+
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ThreadMinerSearch extends Thread {
 

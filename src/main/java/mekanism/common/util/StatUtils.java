@@ -1,8 +1,8 @@
 package mekanism.common.util;
 
-import static java.lang.Math.*;
-
 import java.util.Random;
+
+import static java.lang.Math.*;
 
 public class StatUtils {
 

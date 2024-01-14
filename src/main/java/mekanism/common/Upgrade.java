@@ -1,11 +1,5 @@
 package mekanism.common;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import javax.annotation.Nullable;
 import mekanism.api.EnumColor;
 import mekanism.common.base.IUpgradeTile;
 import mekanism.common.config.MekanismConfig;
@@ -16,6 +10,13 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants.NBT;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 public enum Upgrade {
     SPEED("speed", MekanismConfig.current().mekce.MAXSpeedUpgrade.val(), MekanismConfig.current().mekce.MAXSpeedUpgradeSize.val(), EnumColor.RED),
     ENERGY("energy", MekanismConfig.current().mekce.MAXEnergyUpgrade.val(), MekanismConfig.current().mekce.MAXEnergyUpgradeSize.val(), EnumColor.BRIGHT_GREEN),
@@ -23,7 +24,7 @@ public enum Upgrade {
     GAS("gas", MekanismConfig.current().mekce.MAXGasUpgrade.val(), MekanismConfig.current().mekce.MAXGasUpgradeSize.val(), EnumColor.YELLOW),
     MUFFLING("muffling", MekanismConfig.current().mekce.MAXMufflingUpgrade.val(), MekanismConfig.current().mekce.MAXMufflingUpgradeSize.val(), EnumColor.DARK_GREY),
     ANCHOR("anchor", 1, 1, EnumColor.DARK_GREEN),
-    STONE_GENERATOR("stonegenerator",1,1,EnumColor.ORANGE);
+    STONE_GENERATOR("stonegenerator", 1, 1, EnumColor.ORANGE);
 
     private String name;
     private int maxStack;
@@ -92,23 +93,15 @@ public enum Upgrade {
     }
 
     public ItemStack getStack() {
-        switch (this) {
-            case SPEED:
-                return new ItemStack(MekanismItems.SpeedUpgrade);
-            case ENERGY:
-                return new ItemStack(MekanismItems.EnergyUpgrade);
-            case FILTER:
-                return new ItemStack(MekanismItems.FilterUpgrade);
-            case MUFFLING:
-                return new ItemStack(MekanismItems.MufflingUpgrade);
-            case GAS:
-                return new ItemStack(MekanismItems.GasUpgrade);
-            case ANCHOR:
-                return new ItemStack(MekanismItems.AnchorUpgrade);
-            case STONE_GENERATOR:
-                return new ItemStack(MekanismItems.StoneGeneratorUpgrade);
-        }
-        return ItemStack.EMPTY;
+        return switch (this) {
+            case SPEED -> new ItemStack(MekanismItems.SpeedUpgrade);
+            case ENERGY -> new ItemStack(MekanismItems.EnergyUpgrade);
+            case FILTER -> new ItemStack(MekanismItems.FilterUpgrade);
+            case MUFFLING -> new ItemStack(MekanismItems.MufflingUpgrade);
+            case GAS -> new ItemStack(MekanismItems.GasUpgrade);
+            case ANCHOR -> new ItemStack(MekanismItems.AnchorUpgrade);
+            case STONE_GENERATOR -> new ItemStack(MekanismItems.StoneGeneratorUpgrade);
+        };
     }
 
     public List<String> getInfo(TileEntity tile) {

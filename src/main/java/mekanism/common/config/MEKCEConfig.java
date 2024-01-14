@@ -67,9 +67,9 @@ public class MEKCEConfig extends BaseConfig {
 
     public final IntOption MAXMufflingUpgradeSize = new IntOption(this, "mekce", "MAXMufflingUpgradeSize", 4, "The maximum number of stacks that can be stacked for muffling upgrades", 1, 64).setRequiresGameRestart(true);
 
-    public final IntOption MAXspeedmachines= new IntOption(this, "mekce","Maximumspeedmultiplierforsomemachines",256,"Modify the maximum speed multiplier for some machines",1,Integer.MAX_VALUE);
+    public final IntOption MAXspeedmachines = new IntOption(this, "mekce", "Maximumspeedmultiplierforsomemachines", 256, "Modify the maximum speed multiplier for some machines", 1, Integer.MAX_VALUE);
 
-    public final BooleanOption EnableBuff = new BooleanOption(this, "mekce","EnableBuff",false,"If true, a buff effect will be added to the player each time Canteen is used");
+    public final BooleanOption EnableBuff = new BooleanOption(this, "mekce", "EnableBuff", false, "If true, a buff effect will be added to the player each time Canteen is used");
 
     public final DoubleOption seed = new DoubleOption(this, "mekce", "seed", 1D,
             "When turning seeds into crops, the chance to produce seeds for each operation in Organic Farm").setRequiresGameRestart(true);
@@ -77,5 +77,5 @@ public class MEKCEConfig extends BaseConfig {
     public final DoubleOption log = new DoubleOption(this, "mekce", "log", 1D,
             "When turning seeds into crops, the opportunity to produce log in each operation in Organic Farm.").setRequiresGameRestart(true);
 
-    public final BooleanOption EnableGlassInThermal = new BooleanOption(this,"mekce","EnableGlassInThermal",false,"Enabling Structural Glass for the Thermal Evaporation Plant may contain some issues");
+    public final BooleanOption EnableGlassInThermal = new BooleanOption(this, "mekce", "EnableGlassInThermal", false, "Enabling Structural Glass for the Thermal Evaporation Plant may contain some issues");
 }

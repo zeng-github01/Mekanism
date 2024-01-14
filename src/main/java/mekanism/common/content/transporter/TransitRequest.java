@@ -1,8 +1,5 @@
 package mekanism.common.content.transporter;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import mekanism.common.content.transporter.Finder.FirstFinder;
 import mekanism.common.util.InventoryUtils;
 import mekanism.common.util.StackUtils;
@@ -11,6 +8,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.IItemHandler;
 import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class TransitRequest {
 

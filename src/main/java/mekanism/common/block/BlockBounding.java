@@ -1,7 +1,5 @@
 package mekanism.common.block;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.common.base.IBoundingBlock;
 import mekanism.common.block.states.BlockStateBounding;
 import mekanism.common.tile.TileEntityAdvancedBoundingBlock;
@@ -24,9 +22,13 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class BlockBounding extends Block {
 
-    @Nullable private static BlockPos getMainBlockPos(IBlockAccess world, BlockPos thisPos) {
+    @Nullable
+    private static BlockPos getMainBlockPos(IBlockAccess world, BlockPos thisPos) {
         TileEntity te = world.getTileEntity(thisPos);
         if (te instanceof TileEntityBoundingBlock && !thisPos.equals(((TileEntityBoundingBlock) te).getMainPos())) {
             return ((TileEntityBoundingBlock) te).getMainPos();

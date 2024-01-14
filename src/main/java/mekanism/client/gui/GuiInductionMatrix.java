@@ -1,7 +1,9 @@
 package mekanism.client.gui;
 
-import java.util.Arrays;
-import mekanism.client.gui.element.*;
+import mekanism.client.gui.element.GuiEnergyInfo;
+import mekanism.client.gui.element.GuiInnerScreen;
+import mekanism.client.gui.element.GuiPlayerArmmorSlot;
+import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.gui.element.gauge.GuiNumberGauge;
 import mekanism.client.gui.element.tab.GuiMatrixTab;
@@ -17,6 +19,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class GuiInductionMatrix extends GuiMekanismTile<TileEntityInductionCasing> {
@@ -72,7 +76,7 @@ public class GuiInductionMatrix extends GuiMekanismTile<TileEntityInductionCasin
 
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
-        super.drawGuiContainerBackgroundLayer(xAxis,yAxis);
+        super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         mc.getTextureManager().bindTexture(MekanismUtils.getResource(ResourceType.GUI, "Other_Icon.png"));
         drawTexturedModalRect(guiLeft + 141, guiTop + 15, 0, 16, 26, 57);
     }

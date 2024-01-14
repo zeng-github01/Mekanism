@@ -1,7 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
@@ -25,6 +24,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
 
 public class TileEntityNutritionalLiquifier extends TileEntityOperationalMachine implements ISustainedData, ISideConfiguration, ITankManager, IGasHandler {
 
@@ -106,7 +107,7 @@ public class TileEntityNutritionalLiquifier extends TileEntityOperationalMachine
         return configComponent.getOutput(TransmissionType.ITEM, side, facing).availableSlots;
     }
 
-    public NutritionalRecipe  getRecipe() {
+    public NutritionalRecipe getRecipe() {
         ItemStackInput input = getInput();
         if (cachedRecipe == null || !input.testEquality(cachedRecipe.getInput())) {
             cachedRecipe = RecipeHandler.getNutritionalRecipe(getInput());

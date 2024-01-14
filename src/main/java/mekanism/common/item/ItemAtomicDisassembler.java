@@ -1,9 +1,6 @@
 package mekanism.common.item;
 
 import com.google.common.collect.Multimap;
-import java.util.*;
-import java.util.function.Supplier;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.common.Mekanism;
@@ -35,6 +32,10 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
+
+import javax.annotation.Nonnull;
+import java.util.*;
+import java.util.function.Supplier;
 
 public class ItemAtomicDisassembler extends ItemEnergized {
 
@@ -274,10 +275,9 @@ public class ItemAtomicDisassembler extends ItemEnergized {
         ItemDataUtils.setInt(itemStack, "mode", Mode.getNextEnabledAsInt(getMode(itemStack)));
     }
 
-    public void setMode(ItemStack itemStack,Mode mode){
-        ItemDataUtils.setInt(itemStack,"mode",mode.ordinal());
+    public void setMode(ItemStack itemStack, Mode mode) {
+        ItemDataUtils.setInt(itemStack, "mode", mode.ordinal());
     }
-
 
 
     @Override

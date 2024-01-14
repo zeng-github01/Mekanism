@@ -43,7 +43,7 @@ public class ClientConfig extends BaseConfig {
     public final BooleanOption alignHUDLeft = new BooleanOption(this, "client", "AlignHUDLeft", true,
             "Align HUD with left (if true) or right (if false)");
 
-    public final BooleanOption enableHUD = new BooleanOption(this,"client","enableHUD",true,"Enable item information HUD during gameplay");
+    public final BooleanOption enableHUD = new BooleanOption(this, "client", "enableHUD", true, "Enable item information HUD during gameplay");
 
     public final BooleanOption allowFlamethrowerModeScroll = new BooleanOption(this, "client", "FlamethrowerModeScroll", true,
             "Allow sneak+scroll to change Flamethrower modes.");

@@ -31,9 +31,8 @@ public class PacketConfigurationUpdate implements IMessageHandler<ConfigurationU
 
         PacketHandler.handlePacket(() -> {
             TileEntity tile = message.coord4D.getTileEntity(player.world);
-            if (tile instanceof ISideConfiguration) {
+            if (tile instanceof ISideConfiguration config) {
                 ITileNetwork network = CapabilityUtils.getCapability(tile, Capabilities.TILE_NETWORK_CAPABILITY, null);
-                ISideConfiguration config = (ISideConfiguration) tile;
 
                 if (message.packetType == ConfigurationPacket.EJECT) {
                     config.getConfig().setEjecting(message.transmission, !config.getConfig().isEjecting(message.transmission));

@@ -1,8 +1,5 @@
 package mekanism.tools.common;
 
-import java.util.Arrays;
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.tools.item.*;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -12,6 +9,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
+
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.List;
 
 public enum ToolsItem {
     WOOD_PAXEL("WoodPaxel", new ItemMekanismPaxel(ToolMaterial.WOOD)),

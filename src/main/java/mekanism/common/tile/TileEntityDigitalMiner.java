@@ -1,10 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import javax.annotation.Nonnull;
 import mekanism.api.Chunk3D;
 import mekanism.api.Coord4D;
 import mekanism.api.Range4D;
@@ -65,6 +61,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
+
+import javax.annotation.Nonnull;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class TileEntityDigitalMiner extends TileEntityElectricBlock implements IUpgradeTile, IRedstoneControl, IActiveState, ISustainedData, IChunkLoader, IAdvancedBoundingBlock {
 
@@ -369,8 +370,8 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
             }
         }
 
-        if (upgradeComponent.isUpgradeInstalled(Upgrade.STONE_GENERATOR)){
-            if (filter.replaceStack.getItem() == Item.getItemFromBlock(Blocks.STONE) || filter.replaceStack.getItem() == Item.getItemFromBlock(Blocks.COBBLESTONE)){
+        if (upgradeComponent.isUpgradeInstalled(Upgrade.STONE_GENERATOR)) {
+            if (filter.replaceStack.getItem() == Item.getItemFromBlock(Blocks.STONE) || filter.replaceStack.getItem() == Item.getItemFromBlock(Blocks.COBBLESTONE)) {
                 return StackUtils.size(filter.replaceStack, 1);
             }
         }

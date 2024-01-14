@@ -14,12 +14,12 @@ public class GuiRobitCrafting extends GuiRobit {
 
     public GuiRobitCrafting(InventoryPlayer inventory, EntityRobit entity) {
         super(entity, new ContainerRobitCrafting(inventory, entity));
-        for(int x=0;x<3;x++){
-            for (int y =0; y<3;y++){
-                addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL,this,getGuiLocation(),29 + x * 18, 16 + y * 18));
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 29 + x * 18, 16 + y * 18));
             }
         }
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL_LARGE,this,getGuiLocation(),119,30));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL_LARGE, this, getGuiLocation(), 119, 30));
         addGuiElement(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override
             public double getProgress() {

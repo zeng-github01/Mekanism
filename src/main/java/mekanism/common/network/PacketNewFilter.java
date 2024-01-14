@@ -28,20 +28,17 @@ public class PacketNewFilter implements IMessageHandler<NewFilterMessage, IMessa
         WorldServer worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(message.coord4D.dimensionId);
 
         worldServer.addScheduledTask(() -> {
-            if (message.type == 0 && message.coord4D.getTileEntity(worldServer) instanceof TileEntityLogisticalSorter) {
-                TileEntityLogisticalSorter sorter = (TileEntityLogisticalSorter) message.coord4D.getTileEntity(worldServer);
+            if (message.type == 0 && message.coord4D.getTileEntity(worldServer) instanceof TileEntityLogisticalSorter sorter) {
                 sorter.filters.add(message.tFilter);
                 for (EntityPlayer iterPlayer : sorter.playersUsing) {
                     Mekanism.packetHandler.sendTo(new TileEntityMessage(sorter, sorter.getFilterPacket(new TileNetworkList())), (EntityPlayerMP) iterPlayer);
                 }
-            } else if (message.type == 1 && message.coord4D.getTileEntity(worldServer) instanceof TileEntityDigitalMiner) {
-                TileEntityDigitalMiner miner = (TileEntityDigitalMiner) message.coord4D.getTileEntity(worldServer);
+            } else if (message.type == 1 && message.coord4D.getTileEntity(worldServer) instanceof TileEntityDigitalMiner miner) {
                 miner.filters.add(message.mFilter);
                 for (EntityPlayer iterPlayer : miner.playersUsing) {
                     Mekanism.packetHandler.sendTo(new TileEntityMessage(miner, miner.getFilterPacket(new TileNetworkList())), (EntityPlayerMP) iterPlayer);
                 }
-            } else if (message.type == 2 && message.coord4D.getTileEntity(worldServer) instanceof TileEntityOredictionificator) {
-                TileEntityOredictionificator oredictionificator = (TileEntityOredictionificator) message.coord4D.getTileEntity(worldServer);
+            } else if (message.type == 2 && message.coord4D.getTileEntity(worldServer) instanceof TileEntityOredictionificator oredictionificator) {
                 oredictionificator.filters.add(message.oFilter);
                 for (EntityPlayer iterPlayer : oredictionificator.playersUsing) {
                     Mekanism.packetHandler.sendTo(new TileEntityMessage(oredictionificator, oredictionificator.getFilterPacket(new TileNetworkList())), (EntityPlayerMP) iterPlayer);

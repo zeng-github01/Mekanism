@@ -3,12 +3,6 @@ package mekanism.common.integration.crafttweaker.commands;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.mc1120.commands.CraftTweakerCommand;
 import crafttweaker.mc1120.commands.SpecialMessagesChat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import javax.annotation.Nullable;
 import mekanism.common.integration.crafttweaker.helpers.RecipeInfoHelper;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.machines.*;
@@ -16,6 +10,13 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
+
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MekRecipesCommand extends CraftTweakerCommand {
 
@@ -70,9 +71,9 @@ public class MekRecipesCommand extends CraftTweakerCommand {
         }
         String subCommand = args[0];
         CraftTweakerAPI.logCommand(subCommand + ":");
-        Recipe type;
+        Recipe<?, ?, ?> type;
         switch (subCommand) {
-            case "crystallizer":
+            case "crystallizer" -> {
                 type = Recipe.CHEMICAL_CRYSTALLIZER;
                 for (CrystallizerRecipe recipe : Recipe.CHEMICAL_CRYSTALLIZER.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.chemical.crystallizer.addRecipe(%s, %s)",
@@ -80,8 +81,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getItemName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "dissolution":
+            }
+            case "dissolution" -> {
                 type = Recipe.CHEMICAL_DISSOLUTION_CHAMBER;
                 for (DissolutionRecipe recipe : Recipe.CHEMICAL_DISSOLUTION_CHAMBER.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.chemical.dissolution.addRecipe(%s, %s)",
@@ -89,8 +90,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getGasName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "chemicalInfuser":
+            }
+            case "chemicalInfuser" -> {
                 type = Recipe.CHEMICAL_INFUSER;
                 for (ChemicalInfuserRecipe recipe : Recipe.CHEMICAL_INFUSER.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.chemical.infuser.addRecipe(%s, %s, %s)",
@@ -99,8 +100,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getGasName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "injection":
+            }
+            case "injection" -> {
                 type = Recipe.CHEMICAL_INJECTION_CHAMBER;
                 for (InjectionRecipe recipe : Recipe.CHEMICAL_INJECTION_CHAMBER.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.chemical.injection.addRecipe(%s, %s, %s)",
@@ -109,8 +110,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getItemName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "oxidizer":
+            }
+            case "oxidizer" -> {
                 type = Recipe.CHEMICAL_OXIDIZER;
                 for (OxidationRecipe recipe : Recipe.CHEMICAL_OXIDIZER.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.chemical.oxidizer.addRecipe(%s, %s)",
@@ -118,8 +119,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getGasName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "washer":
+            }
+            case "washer" -> {
                 type = Recipe.CHEMICAL_WASHER;
                 for (WasherRecipe recipe : Recipe.CHEMICAL_WASHER.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.chemical.washer.addRecipe(%s, %s)",
@@ -127,8 +128,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getGasName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "combiner":
+            }
+            case "combiner" -> {
                 type = Recipe.COMBINER;
                 for (CombinerRecipe recipe : Recipe.COMBINER.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.combiner.addRecipe(%s, %s, %s)",
@@ -137,8 +138,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getItemName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "crusher":
+            }
+            case "crusher" -> {
                 type = Recipe.CRUSHER;
                 for (CrusherRecipe recipe : Recipe.CRUSHER.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.crusher.addRecipe(%s, %s)",
@@ -146,8 +147,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getItemName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "separator":
+            }
+            case "separator" -> {
                 type = Recipe.ELECTROLYTIC_SEPARATOR;
                 for (SeparatorRecipe recipe : Recipe.ELECTROLYTIC_SEPARATOR.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.separator.addRecipe(%s, %s, %s, %s)",
@@ -157,8 +158,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getGasName(recipe.getOutput().rightGas)
                     ));
                 }
-                break;
-            case "smelter":
+            }
+            case "smelter" -> {
                 type = Recipe.ENERGIZED_SMELTER;
                 for (SmeltingRecipe recipe : Recipe.ENERGIZED_SMELTER.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.smelter.addRecipe(%s, %s)",
@@ -166,8 +167,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getItemName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "enrichment":
+            }
+            case "enrichment" -> {
                 type = Recipe.ENRICHMENT_CHAMBER;
                 for (EnrichmentRecipe recipe : Recipe.ENRICHMENT_CHAMBER.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.enrichment.addRecipe(%s, %s)",
@@ -175,8 +176,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getItemName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "metallurgicInfuser":
+            }
+            case "metallurgicInfuser" -> {
                 type = Recipe.METALLURGIC_INFUSER;
                 for (MetallurgicInfuserRecipe recipe : Recipe.METALLURGIC_INFUSER.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.infuser.addRecipe(%s, %s, %s, %s)",
@@ -186,8 +187,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getItemName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "compressor":
+            }
+            case "compressor" -> {
                 type = Recipe.OSMIUM_COMPRESSOR;
                 for (OsmiumCompressorRecipe recipe : Recipe.OSMIUM_COMPRESSOR.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.compressor.addRecipe(%s, %s, %s)",
@@ -196,8 +197,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getItemName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "sawmill":
+            }
+            case "sawmill" -> {
                 type = Recipe.PRECISION_SAWMILL;
                 for (SawmillRecipe recipe : Recipe.PRECISION_SAWMILL.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.sawmill.addRecipe(%s, %s, %s, %s)",
@@ -207,8 +208,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             recipe.getOutput().secondaryChance
                     ));
                 }
-                break;
-            case "prc":
+            }
+            case "prc" -> {
                 type = Recipe.PRESSURIZED_REACTION_CHAMBER;
                 for (PressurizedRecipe recipe : Recipe.PRESSURIZED_REACTION_CHAMBER.get().values()) {
                     CraftTweakerAPI
@@ -222,8 +223,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                                     recipe.ticks
                             ));
                 }
-                break;
-            case "purification":
+            }
+            case "purification" -> {
                 type = Recipe.PURIFICATION_CHAMBER;
                 for (PurificationRecipe recipe : Recipe.PURIFICATION_CHAMBER.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.purification.addRecipe(%s, %s, %s)",
@@ -232,8 +233,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getItemName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "solarneutronactivator":
+            }
+            case "solarneutronactivator" -> {
                 type = Recipe.SOLAR_NEUTRON_ACTIVATOR;
                 for (SolarNeutronRecipe recipe : Recipe.SOLAR_NEUTRON_ACTIVATOR.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.solarneutronactivator.addRecipe(%s, %s)",
@@ -241,8 +242,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getGasName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "thermalevaporation":
+            }
+            case "thermalevaporation" -> {
                 type = Recipe.THERMAL_EVAPORATION_PLANT;
                 for (ThermalEvaporationRecipe recipe : Recipe.THERMAL_EVAPORATION_PLANT.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.thermalevaporation.addRecipe(%s, %s)",
@@ -250,11 +251,11 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getFluidName(recipe.getOutput().output)
                     ));
                 }
-                break;
+            }
             /**
              * ADD START
              */
-            case "isotopiccentrifuge":
+            case "isotopiccentrifuge" -> {
                 type = Recipe.ISOTOPIC_CENTRIFUGE;
                 for (IsotopicRecipe recipe : Recipe.ISOTOPIC_CENTRIFUGE.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.isotopiccentrifuge.addRecipe(%s, %s)",
@@ -262,8 +263,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getGasName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "nutritionalliquifier":
+            }
+            case "nutritionalliquifier" -> {
                 type = Recipe.NUTRITIONAL_LIQUIFIER;
                 for (NutritionalRecipe recipe : Recipe.NUTRITIONAL_LIQUIFIER.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.nutritionalliquifier.addRecipe(%s, %s)",
@@ -271,8 +272,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getGasName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "organicfarm":
+            }
+            case "organicfarm" -> {
                 type = Recipe.ORGANIC_FARM;
                 for (FarmRecipe recipe : Recipe.ORGANIC_FARM.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.organicfarm.addRecipe(%s, %s, %s, %s, %s)",
@@ -283,8 +284,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             recipe.getOutput().secondaryChance
                     ));
                 }
-                break;
-            case "antiprotonicnucleosynthesizer":
+            }
+            case "antiprotonicnucleosynthesizer" -> {
                 type = Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER;
                 for (NucleosynthesizerRecipe recipe : Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.nucleosynthesizer.addRecipe(%s, %s, %s, %s, %s)",
@@ -295,8 +296,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             recipe.ticks
                     ));
                 }
-                break;
-            case "stamping":
+            }
+            case "stamping" -> {
                 type = Recipe.STAMPING;
                 for (StampingRecipe recipe : Recipe.STAMPING.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.stamping.addRecipe(%s, %s)",
@@ -304,8 +305,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getItemName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "rolling":
+            }
+            case "rolling" -> {
                 type = Recipe.ROLLING;
                 for (RollingRecipe recipe : Recipe.ROLLING.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.rolling.addRecipe(%s, %s)",
@@ -313,8 +314,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getItemName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "brushed":
+            }
+            case "brushed" -> {
                 type = Recipe.BRUSHED;
                 for (BrushedRecipe recipe : Recipe.BRUSHED.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.brushed.addRecipe(%s, %s)",
@@ -322,8 +323,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getItemName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "turning":
+            }
+            case "turning" -> {
                 type = Recipe.TURNING;
                 for (TurningRecipe recipe : Recipe.TURNING.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.turning.addRecipe(%s, %s)",
@@ -331,8 +332,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getItemName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "alloy":
+            }
+            case "alloy" -> {
                 type = Recipe.ALLOY;
                 for (AlloyRecipe recipe : Recipe.ALLOY.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.alloy.addRecipe(%s, %s, %s)",
@@ -341,8 +342,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             RecipeInfoHelper.getItemName(recipe.getOutput().output)
                     ));
                 }
-                break;
-            case "cellextractor":
+            }
+            case "cellextractor" -> {
                 type = Recipe.CELL_EXTRACTOR;
                 for (CellExtractorRecipe recipe : Recipe.CELL_EXTRACTOR.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.cellextractor.addRecipe(%s, %s, %s, %s)",
@@ -352,8 +353,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             recipe.getOutput().secondaryChance
                     ));
                 }
-                break;
-            case "cellseparator":
+            }
+            case "cellseparator" -> {
                 type = Recipe.CELL_SEPARATOR;
                 for (CellSeparatorRecipe recipe : Recipe.CELL_SEPARATOR.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.cellseparator.addRecipe(%s, %s, %s, %s)",
@@ -363,8 +364,8 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             recipe.getOutput().secondaryChance
                     ));
                 }
-                break;
-            case "recycler":
+            }
+            case "recycler" -> {
                 type = Recipe.RECYCLER;
                 for (RecyclerRecipe recipe : Recipe.RECYCLER.get().values()) {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.recycler.addRecipe(%s, %s, %s)",
@@ -373,14 +374,15 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                             recipe.getOutput().primaryChance
                     ));
                 }
-                break;
+            }
             /**
              * ADD END
              */
 
-            default:
+            default -> {
                 sender.sendMessage(SpecialMessagesChat.getNormalMessage("Recipe Type required, pick one of the following: " + Arrays.toString(subCommands.toArray())));
                 return;
+            }
         }
 
         sender.sendMessage(SpecialMessagesChat.getLinkToCraftTweakerLog("List of " + type.get().size() + " " + subCommand + " recipes generated;", sender));

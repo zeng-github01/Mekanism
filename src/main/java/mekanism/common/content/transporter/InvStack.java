@@ -1,8 +1,5 @@
 package mekanism.common.content.transporter;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import mekanism.common.Mekanism;
 import mekanism.common.util.InventoryUtils;
 import mekanism.common.util.StackUtils;
@@ -10,6 +7,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.IItemHandler;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * An InvStack attaches to an inventory and tracks a specific homogeneous item in a variable amount of slots. An InvStack can either track the entirety of these slots or

@@ -1,7 +1,6 @@
 package mekanism.generators.common.tile.reactor;
 
 import io.netty.buffer.ByteBuf;
-import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
 import mekanism.common.integration.computer.IComputerIntegration;
 import mekanism.common.util.LangUtils;
@@ -9,6 +8,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
 
 public class TileEntityReactorLogicAdapter extends TileEntityReactorBlock implements IComputerIntegration {
 
@@ -48,19 +49,13 @@ public class TileEntityReactorLogicAdapter extends TileEntityReactorBlock implem
         if (getReactor() == null || !getReactor().isFormed()) {
             return false;
         }
-        switch (logicType) {
-            case DISABLED:
-                return false;
-            case READY:
-                return getReactor().getPlasmaTemp() >= getReactor().getIgnitionTemperature(activeCooled);
-            case CAPACITY:
-                return getReactor().getPlasmaTemp() >= getReactor().getMaxPlasmaTemperature(activeCooled);
-            case DEPLETED:
-                return (getReactor().getDeuteriumTank().getStored() < getReactor().getInjectionRate() / 2) ||
-                        (getReactor().getTritiumTank().getStored() < getReactor().getInjectionRate() / 2);
-            default:
-                return false;
-        }
+        return switch (logicType) {
+            case DISABLED -> false;
+            case READY -> getReactor().getPlasmaTemp() >= getReactor().getIgnitionTemperature(activeCooled);
+            case CAPACITY -> getReactor().getPlasmaTemp() >= getReactor().getMaxPlasmaTemperature(activeCooled);
+            case DEPLETED -> (getReactor().getDeuteriumTank().getStored() < getReactor().getInjectionRate() / 2) ||
+                    (getReactor().getTritiumTank().getStored() < getReactor().getInjectionRate() / 2);
+        };
     }
 
     @Override
@@ -120,49 +115,66 @@ public class TileEntityReactorLogicAdapter extends TileEntityReactorBlock implem
             return new Object[]{"Unformed."};
         }
         switch (method) {
-            case 0:
+            case 0 -> {
                 return new Object[]{getReactor().isBurning()};
-            case 1:
+            }
+            case 1 -> {
                 return new Object[]{getReactor().getPlasmaTemp() >= getReactor().getIgnitionTemperature(activeCooled)};
-            case 2:
+            }
+            case 2 -> {
                 return new Object[]{getReactor().getPlasmaTemp()};
-            case 3:
+            }
+            case 3 -> {
                 return new Object[]{getReactor().getMaxPlasmaTemperature(activeCooled)};
-            case 4:
+            }
+            case 4 -> {
                 return new Object[]{getReactor().getCaseTemp()};
-            case 5:
+            }
+            case 5 -> {
                 return new Object[]{getReactor().getMaxCasingTemperature(activeCooled)};
-            case 6:
+            }
+            case 6 -> {
                 return new Object[]{getReactor().getInjectionRate()};
-            case 7:
+            }
+            case 7 -> {
                 if (arguments[0] instanceof Double) {
                     getReactor().setInjectionRate(((Double) arguments[0]).intValue());
                     return new Object[]{"Injection rate set."};
                 }
                 return new Object[]{"Invalid parameters."};
-            case 8:
+            }
+            case 8 -> {
                 return new Object[]{(getReactor().getDeuteriumTank().getStored() >= getReactor().getInjectionRate() / 2) &&
                         (getReactor().getTritiumTank().getStored() >= getReactor().getInjectionRate() / 2)};
-            case 9:
+            }
+            case 9 -> {
                 return new Object[]{getReactor().getPassiveGeneration(false, true)};
-            case 10:
+            }
+            case 10 -> {
                 return new Object[]{getReactor().getIgnitionTemperature(activeCooled)};
-            case 11:
+            }
+            case 11 -> {
                 return new Object[]{getReactor().getBufferedEnergy()};
-            case 12:
+            }
+            case 12 -> {
                 return new Object[]{getReactor().getBufferSize()};
-            case 13:
+            }
+            case 13 -> {
                 return new Object[]{getReactor().getWaterTank().getFluidAmount()};
-            case 14:
+            }
+            case 14 -> {
                 return new Object[]{getReactor().getSteamTank().getFluidAmount()};
-            case 15:
+            }
+            case 15 -> {
                 return new Object[]{getReactor().getFuelTank().getStored()};
-            case 16:
+            }
+            case 16 -> {
                 return new Object[]{getReactor().getDeuteriumTank().getStored()};
-            case 17:
+            }
+            case 17 -> {
                 return new Object[]{getReactor().getTritiumTank().getStored()};
-            default:
-                throw new NoSuchMethodException();
+            }
+            default -> throw new NoSuchMethodException();
         }
     }
 

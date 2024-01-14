@@ -37,11 +37,11 @@ public class PressurizedRecipe extends MachineRecipe<PressurizedInput, Pressuriz
         return new PressurizedRecipe(getInput().copy(), getOutput().copy(), extraEnergy, ticks);
     }
 
-    public boolean canOperate(NonNullList<ItemStack> inventory,int inputIndex, FluidTank inputFluidTank, GasTank inputGasTank, GasTank outputGasTank,int outputIndex) {
+    public boolean canOperate(NonNullList<ItemStack> inventory, int inputIndex, FluidTank inputFluidTank, GasTank inputGasTank, GasTank outputGasTank, int outputIndex) {
         return getInput().use(inventory, inputIndex, inputFluidTank, inputGasTank, false) && getOutput().applyOutputs(inventory, outputIndex, outputGasTank, false);
     }
 
-    public void operate(NonNullList<ItemStack> inventory, int inputIndex,FluidTank inputFluidTank, GasTank inputGasTank, GasTank outputGasTank,int outputIndex) {
+    public void operate(NonNullList<ItemStack> inventory, int inputIndex, FluidTank inputFluidTank, GasTank inputGasTank, GasTank outputGasTank, int outputIndex) {
         if (getInput().use(inventory, inputIndex, inputFluidTank, inputGasTank, true)) {
             getOutput().applyOutputs(inventory, outputIndex, outputGasTank, true);
         }

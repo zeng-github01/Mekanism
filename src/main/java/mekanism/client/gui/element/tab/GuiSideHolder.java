@@ -17,9 +17,10 @@ public class GuiSideHolder extends GuiElement {
     private final int xSize;
     private final int ySize;
 
-    public GuiSideHolder(IGuiWrapper gui, ResourceLocation def, int x, int y, int sizeX, int sizeY){
-        this(gui,def,x,y,sizeX,sizeY,false);
+    public GuiSideHolder(IGuiWrapper gui, ResourceLocation def, int x, int y, int sizeX, int sizeY) {
+        this(gui, def, x, y, sizeX, sizeY, false);
     }
+
     public GuiSideHolder(IGuiWrapper gui, ResourceLocation def, int x, int y, int sizeX, int sizeY, boolean left) {
         super(left ? MekanismUtils.getResource(MekanismUtils.ResourceType.BUTTON_TAB, "holder_left.png") :
                 MekanismUtils.getResource(MekanismUtils.ResourceType.BUTTON_TAB, "holder_right.png"), gui, def);

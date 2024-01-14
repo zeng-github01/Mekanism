@@ -1,11 +1,5 @@
 package mekanism.common.block.states;
 
-import java.util.Locale;
-import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismBlocks;
 import mekanism.common.block.BlockBasic;
@@ -27,6 +21,13 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class BlockStateBasic extends ExtendedBlockState {
 
@@ -52,16 +53,11 @@ public class BlockStateBasic extends ExtendedBlockState {
         }
 
         public Block getBlock() {
-            switch (this) {
-                case BASIC_BLOCK_1:
-                    return MekanismBlocks.BasicBlock;
-                case BASIC_BLOCK_2:
-                    return MekanismBlocks.BasicBlock2;
-                case BASIC_BLOCK_3:
-                    return MekanismBlocks.BasicBlock3;
-                default:
-                    throw new IllegalStateException();
-            }
+            return switch (this) {
+                case BASIC_BLOCK_1 -> MekanismBlocks.BasicBlock;
+                case BASIC_BLOCK_2 -> MekanismBlocks.BasicBlock2;
+                case BASIC_BLOCK_3 -> MekanismBlocks.BasicBlock3;
+            };
         }
     }
 
@@ -156,25 +152,29 @@ public class BlockStateBasic extends ExtendedBlockState {
             isOpaqueCube = opaque;
         }
 
-        @Nullable public static BasicBlockType get(IBlockState state) {
+        @Nullable
+        public static BasicBlockType get(IBlockState state) {
             if (state.getBlock() instanceof BlockBasic) {
                 return state.getValue(((BlockBasic) state.getBlock()).getTypeProperty());
             }
             return null;
         }
 
-        @Nullable public static BasicBlockType get(ItemStack stack) {
+        @Nullable
+        public static BasicBlockType get(ItemStack stack) {
             return get(Block.getBlockFromItem(stack.getItem()), stack.getItemDamage());
         }
 
-        @Nullable public static BasicBlockType get(Block block, int meta) {
+        @Nullable
+        public static BasicBlockType get(Block block, int meta) {
             if (block instanceof BlockBasic) {
                 return get(((BlockBasic) block).getBasicBlock(), meta);
             }
             return null;
         }
 
-        @Nullable public static BasicBlockType get(BasicBlock blockType, int metadata) {
+        @Nullable
+        public static BasicBlockType get(BasicBlock blockType, int metadata) {
             int index = blockType.ordinal() << 4 | metadata;
             if (index < values().length) {
                 BasicBlockType firstTry = values()[index];

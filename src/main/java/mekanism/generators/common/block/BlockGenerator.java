@@ -1,7 +1,5 @@
 package mekanism.generators.common.block;
 
-import java.util.Random;
-import javax.annotation.Nonnull;
 import mekanism.api.IMekWrench;
 import mekanism.api.energy.IEnergizedItem;
 import mekanism.common.base.*;
@@ -46,6 +44,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import java.util.Random;
 
 /**
  * Block class for handling multiple generator block IDs. 0: Heat Generator 1: Solar Generator 3: Hydrogen Generator 4: Bio-Generator 5: Advanced Solar Generator 6: Wind
@@ -139,20 +140,13 @@ public abstract class BlockGenerator extends BlockMekanismContainer {
 
         if (change != EnumFacing.DOWN && change != EnumFacing.UP) {
             int side = MathHelper.floor((double) (entityliving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-            switch (side) {
-                case 0:
-                    change = EnumFacing.NORTH;
-                    break;
-                case 1:
-                    change = EnumFacing.EAST;
-                    break;
-                case 2:
-                    change = EnumFacing.SOUTH;
-                    break;
-                case 3:
-                    change = EnumFacing.WEST;
-                    break;
-            }
+            change = switch (side) {
+                case 0 -> EnumFacing.NORTH;
+                case 1 -> EnumFacing.EAST;
+                case 2 -> EnumFacing.SOUTH;
+                case 3 -> EnumFacing.WEST;
+                default -> change;
+            };
         }
 
         tileEntity.setFacing(change);
@@ -215,51 +209,47 @@ public abstract class BlockGenerator extends BlockMekanismContainer {
 
             if (tileEntity.facing == EnumFacing.WEST) {
                 switch (type) {
-                    case HEAT_GENERATOR:
+                    case HEAT_GENERATOR -> {
                         world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, xRandom + iRandom, yRandom, zRandom - jRandom, 0.0D, 0.0D, 0.0D);
                         world.spawnParticle(EnumParticleTypes.FLAME, xRandom + iRandom, yRandom, zRandom - jRandom, 0.0D, 0.0D, 0.0D);
-                        break;
-                    case BIO_GENERATOR:
-                        world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + .25, pos.getY() + .2, pos.getZ() + .5, 0.0D, 0.0D, 0.0D);
-                        break;
-                    default:
-                        break;
+                    }
+                    case BIO_GENERATOR ->
+                            world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + .25, pos.getY() + .2, pos.getZ() + .5, 0.0D, 0.0D, 0.0D);
+                    default -> {
+                    }
                 }
             } else if (tileEntity.facing == EnumFacing.EAST) {
                 switch (type) {
-                    case HEAT_GENERATOR:
+                    case HEAT_GENERATOR -> {
                         world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, xRandom + iRandom, yRandom + 0.5F, zRandom - jRandom, 0.0D, 0.0D, 0.0D);
                         world.spawnParticle(EnumParticleTypes.FLAME, xRandom + iRandom, yRandom + 0.5F, zRandom - jRandom, 0.0D, 0.0D, 0.0D);
-                        break;
-                    case BIO_GENERATOR:
-                        world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + .75, pos.getY() + .2, pos.getZ() + .5, 0.0D, 0.0D, 0.0D);
-                        break;
-                    default:
-                        break;
+                    }
+                    case BIO_GENERATOR ->
+                            world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + .75, pos.getY() + .2, pos.getZ() + .5, 0.0D, 0.0D, 0.0D);
+                    default -> {
+                    }
                 }
             } else if (tileEntity.facing == EnumFacing.NORTH) {
                 switch (type) {
-                    case HEAT_GENERATOR:
+                    case HEAT_GENERATOR -> {
                         world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, xRandom - jRandom, yRandom + 0.5F, zRandom - iRandom, 0.0D, 0.0D, 0.0D);
                         world.spawnParticle(EnumParticleTypes.FLAME, xRandom - jRandom, yRandom + 0.5F, zRandom - iRandom, 0.0D, 0.0D, 0.0D);
-                        break;
-                    case BIO_GENERATOR:
-                        world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + .5, pos.getY() + .2, pos.getZ() + .25, 0.0D, 0.0D, 0.0D);
-                        break;
-                    default:
-                        break;
+                    }
+                    case BIO_GENERATOR ->
+                            world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + .5, pos.getY() + .2, pos.getZ() + .25, 0.0D, 0.0D, 0.0D);
+                    default -> {
+                    }
                 }
             } else if (tileEntity.facing == EnumFacing.SOUTH) {
                 switch (type) {
-                    case HEAT_GENERATOR:
+                    case HEAT_GENERATOR -> {
                         world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, xRandom - jRandom, yRandom + 0.5F, zRandom + iRandom, 0.0D, 0.0D, 0.0D);
                         world.spawnParticle(EnumParticleTypes.FLAME, xRandom - jRandom, yRandom + 0.5F, zRandom + iRandom, 0.0D, 0.0D, 0.0D);
-                        break;
-                    case BIO_GENERATOR:
-                        world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + .5, pos.getY() + .2, pos.getZ() + .75, 0.0D, 0.0D, 0.0D);
-                        break;
-                    default:
-                        break;
+                    }
+                    case BIO_GENERATOR ->
+                            world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX() + .5, pos.getY() + .2, pos.getZ() + .75, 0.0D, 0.0D, 0.0D);
+                    default -> {
+                    }
                 }
             }
         }
@@ -401,13 +391,15 @@ public abstract class BlockGenerator extends BlockMekanismContainer {
         GeneratorType type = GeneratorType.get(state);
         if (type != null) {
             switch (type) {
-                case SOLAR_GENERATOR:
+                case SOLAR_GENERATOR -> {
                     return BlockFaceShape.UNDEFINED;
-                case ADVANCED_SOLAR_GENERATOR:
-                case WIND_GENERATOR:
+                }
+                case ADVANCED_SOLAR_GENERATOR, WIND_GENERATOR -> {
                     return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
-                case TURBINE_ROTOR:
+                }
+                case TURBINE_ROTOR -> {
                     return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.MIDDLE_POLE : BlockFaceShape.CENTER;
+                }
             }
         }
         return super.getBlockFaceShape(world, state, pos, face);
@@ -431,14 +423,11 @@ public abstract class BlockGenerator extends BlockMekanismContainer {
     @Deprecated
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
         GeneratorType type = GeneratorType.get(state);
-        switch (type) {
-            case SOLAR_GENERATOR:
-                return SOLAR_BOUNDS;
-            case TURBINE_ROTOR:
-                return ROTOR_BOUNDS;
-            default:
-                return super.getBoundingBox(state, world, pos);
-        }
+        return switch (type) {
+            case SOLAR_GENERATOR -> SOLAR_BOUNDS;
+            case TURBINE_ROTOR -> ROTOR_BOUNDS;
+            default -> super.getBoundingBox(state, world, pos);
+        };
     }
 
     @Nonnull
@@ -473,8 +462,7 @@ public abstract class BlockGenerator extends BlockMekanismContainer {
             ((ISustainedData) tileEntity).writeSustainedData(itemStack);
         }
         if (((ISustainedTank) itemStack.getItem()).hasTank(itemStack)) {
-            if (tileEntity instanceof ISustainedTank) {
-                ISustainedTank tank = (ISustainedTank) tileEntity;
+            if (tileEntity instanceof ISustainedTank tank) {
                 if (tank.getFluidStack() != null) {
                     ((ISustainedTank) itemStack.getItem()).setFluidStack(tank.getFluidStack(), itemStack);
                 }
@@ -509,8 +497,7 @@ public abstract class BlockGenerator extends BlockMekanismContainer {
     @Override
     public boolean rotateBlock(World world, @Nonnull BlockPos pos, @Nonnull EnumFacing axis) {
         TileEntity tile = world.getTileEntity(pos);
-        if (tile instanceof TileEntityBasicBlock) {
-            TileEntityBasicBlock basicTile = (TileEntityBasicBlock) tile;
+        if (tile instanceof TileEntityBasicBlock basicTile) {
             if (basicTile.canSetFacing(axis)) {
                 basicTile.setFacing(axis);
                 return true;

@@ -1,9 +1,6 @@
 package mekanism.common.network;
 
 import io.netty.buffer.ByteBuf;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
@@ -26,6 +23,10 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 public class PacketPortableTeleporter implements IMessageHandler<PortableTeleporterMessage, IMessage> {
 
     @Override
@@ -34,16 +35,12 @@ public class PacketPortableTeleporter implements IMessageHandler<PortableTelepor
         PacketHandler.handlePacket(() -> {
             ItemStack itemstack = player.getHeldItem(message.currentHand);
             World world = player.world;
-            if (!itemstack.isEmpty() && itemstack.getItem() instanceof ItemPortableTeleporter) {
-                ItemPortableTeleporter item = (ItemPortableTeleporter) itemstack.getItem();
+            if (!itemstack.isEmpty() && itemstack.getItem() instanceof ItemPortableTeleporter item) {
                 switch (message.packetType) {
-                    case DATA_REQUEST:
-                        sendDataResponse(message.frequency, world, player, item, itemstack, message.currentHand);
-                        break;
-                    case DATA_RESPONSE:
-                        Mekanism.proxy.handleTeleporterUpdate(message);
-                        break;
-                    case SET_FREQ:
+                    case DATA_REQUEST ->
+                            sendDataResponse(message.frequency, world, player, item, itemstack, message.currentHand);
+                    case DATA_RESPONSE -> Mekanism.proxy.handleTeleporterUpdate(message);
+                    case SET_FREQ -> {
                         FrequencyManager manager1 = getManager(message.frequency.isPublic() ? null : player.getUniqueID(), world);
                         Frequency toUse = null;
                         for (Frequency freq : manager1.getFrequencies()) {
@@ -58,13 +55,13 @@ public class PacketPortableTeleporter implements IMessageHandler<PortableTelepor
                         }
                         item.setFrequency(itemstack, toUse);
                         sendDataResponse(toUse, world, player, item, itemstack, message.currentHand);
-                        break;
-                    case DEL_FREQ:
+                    }
+                    case DEL_FREQ -> {
                         FrequencyManager manager = getManager(message.frequency.isPublic() ? null : player.getUniqueID(), world);
                         manager.remove(message.frequency.name, player.getUniqueID());
                         item.setFrequency(itemstack, null);
-                        break;
-                    case TELEPORT:
+                    }
+                    case TELEPORT -> {
                         FrequencyManager manager2 = getManager(message.frequency.isPublic() ? null : player.getUniqueID(), world);
                         Frequency found = null;
                         for (Frequency freq : manager2.getFrequencies()) {
@@ -100,7 +97,7 @@ public class PacketPortableTeleporter implements IMessageHandler<PortableTelepor
                                 }
                             }
                         }
-                        break;
+                    }
                 }
             }
         }, player);

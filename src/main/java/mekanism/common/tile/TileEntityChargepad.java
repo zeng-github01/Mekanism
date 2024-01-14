@@ -1,9 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.List;
-import java.util.Random;
-import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
@@ -25,6 +22,10 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.Random;
 
 public class TileEntityChargepad extends TileEntityEffectsBlock {
 
@@ -51,14 +52,12 @@ public class TileEntityChargepad extends TileEntityEffectsBlock {
                     isActive = getEnergy() > 0;
                 }
                 if (isActive) {
-                    if (entity instanceof EntityRobit) {
-                        EntityRobit robit = (EntityRobit) entity;
+                    if (entity instanceof EntityRobit robit) {
                         double canGive = Math.min(getEnergy(), 1000);
                         double toGive = Math.min(robit.MAX_ELECTRICITY - robit.getEnergy(), canGive);
                         robit.setEnergy(robit.getEnergy() + toGive);
                         setEnergy(getEnergy() - toGive);
-                    } else if (entity instanceof EntityPlayer) {
-                        EntityPlayer player = (EntityPlayer) entity;
+                    } else if (entity instanceof EntityPlayer player) {
                         double prevEnergy = getEnergy();
                         for (ItemStack itemstack : player.inventory.armorInventory) {
                             ChargeUtils.charge(itemstack, this);

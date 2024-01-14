@@ -1,7 +1,5 @@
 package mekanism.common.content.transporter;
 
-import java.util.*;
-import java.util.Map.Entry;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.common.Mekanism;
@@ -17,6 +15,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.items.IItemHandler;
 import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class TransporterManager {
 
@@ -117,8 +118,7 @@ public class TransporterManager {
     public static TransitResponse getPredictedInsert(TileEntity tileEntity, EnumColor color, TransitRequest request, EnumFacing side) {
         // If the TE in question implements the mekanism interface, check that the color matches and bail
         // fast if it doesn't
-        if (tileEntity instanceof ISideConfiguration) {
-            ISideConfiguration config = (ISideConfiguration) tileEntity;
+        if (tileEntity instanceof ISideConfiguration config) {
             if (config.getEjector().hasStrictInput()) {
                 EnumFacing tileSide = config.getOrientation();
                 EnumColor configColor = config.getEjector().getInputColor(MekanismUtils.getBaseOrientation(side, tileSide).getOpposite());

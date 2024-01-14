@@ -1,6 +1,5 @@
 package mekanism.generators.client.gui;
 
-import java.util.Arrays;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
@@ -20,6 +19,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Arrays;
+
 @SideOnly(Side.CLIENT)
 public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
 
@@ -36,7 +37,7 @@ public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
         addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 142, 34).with(SlotOverlay.POWER));
         addGuiElement(new GuiInnerScreen(this, resource, 48, 23, 80, 40));
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
-        addGuiElement(new GuiBar(() ->(tileEntity.bioFuelSlot.fluidStored > 0 ? LangUtils.localize("gui.bioGenerator.bioFuel") + ":" + tileEntity.bioFuelSlot.fluidStored : LangUtils.localize("gui.empty")), this, getGuiLocation(), 6, 16, 6, 54));
+        addGuiElement(new GuiBar(() -> (tileEntity.bioFuelSlot.fluidStored > 0 ? LangUtils.localize("gui.bioGenerator.bioFuel") + ":" + tileEntity.bioFuelSlot.fluidStored : LangUtils.localize("gui.empty")), this, getGuiLocation(), 6, 16, 6, 54));
     }
 
     @Override
@@ -61,9 +62,9 @@ public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
     }
 
     public void displayGauge2(int xPos, int yPos, int sizeX, int sizeY) {
-            mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-            MekanismRenderer.color(MekanismFluids.Biofuel);
-            drawTexturedModalRect(guiLeft + xPos, guiTop + yPos, MekanismFluids.Biofuel.getSprite(), sizeX, sizeY);
-            MekanismRenderer.resetColor();
+        mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+        MekanismRenderer.color(MekanismFluids.Biofuel);
+        drawTexturedModalRect(guiLeft + xPos, guiTop + yPos, MekanismFluids.Biofuel.getSprite(), sizeX, sizeY);
+        MekanismRenderer.resetColor();
     }
 }

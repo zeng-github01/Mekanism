@@ -1,9 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.HashSet;
-import java.util.Set;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
@@ -27,6 +24,10 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
+
+import javax.annotation.Nonnull;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TileEntityDynamicTank extends TileEntityMultiblock<SynchronizedTankData> implements IComputerIntegration, IFluidContainerManager {
 
@@ -240,15 +241,13 @@ public class TileEntityDynamicTank extends TileEntityMultiblock<SynchronizedTank
 
     @Override
     public Object[] invoke(int method, Object[] args) throws NoSuchMethodException {
-        switch (method) {
-            case 0:
-                return new Object[]{structure != null ? structure.fluidStored != null ? structure.fluidStored.amount : 0 : 0};
-            case 1:
-                return new Object[]{structure != null ? structure.volume : 0};
-            case 2:
-                return new Object[]{structure != null ? structure.fluidStored != null ? structure.fluidStored.getLocalizedName() : null : null};
-            default:
-                throw new NoSuchMethodException();
-        }
+        return switch (method) {
+            case 0 ->
+                    new Object[]{structure != null ? structure.fluidStored != null ? structure.fluidStored.amount : 0 : 0};
+            case 1 -> new Object[]{structure != null ? structure.volume : 0};
+            case 2 ->
+                    new Object[]{structure != null ? structure.fluidStored != null ? structure.fluidStored.getLocalizedName() : null : null};
+            default -> throw new NoSuchMethodException();
+        };
     }
 }

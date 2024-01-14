@@ -24,7 +24,7 @@ public class GuiUtils {
                 mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
                 MekanismRenderer.color(gasStack);
                 if (vertical) {
-                    drawTiledSprite( xPos + 1, yPos + 1, sizeY - 2, sizeX - 2, displayInt, gasStack.getGas().getSprite(), TilingDirection.DOWN_RIGHT);
+                    drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, sizeX - 2, displayInt, gasStack.getGas().getSprite(), TilingDirection.DOWN_RIGHT);
                 } else {
                     drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, displayInt, sizeY - 2, gasStack.getGas().getSprite(), TilingDirection.DOWN_RIGHT);
                 }
@@ -39,7 +39,7 @@ public class GuiUtils {
                 mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
                 MekanismRenderer.color(fluidStack);
                 if (vertical) {
-                    drawTiledSprite( xPos + 1, yPos + 1, sizeY - 2, sizeX - 2, displayInt, MekanismRenderer.getFluidTexture(fluidStack, MekanismRenderer.FluidType.STILL), TilingDirection.DOWN_RIGHT);
+                    drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, sizeX - 2, displayInt, MekanismRenderer.getFluidTexture(fluidStack, MekanismRenderer.FluidType.STILL), TilingDirection.DOWN_RIGHT);
                 } else {
                     drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, displayInt, sizeY - 2, MekanismRenderer.getFluidTexture(fluidStack, MekanismRenderer.FluidType.STILL), TilingDirection.DOWN_RIGHT);
                 }
@@ -54,7 +54,7 @@ public class GuiUtils {
             if (infuseStorage.getType() != null) {
                 mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
                 if (vertical) {
-                    drawTiledSprite( xPos + 1, yPos + 1, sizeY - 2, sizeX - 2, displayInt, infuseStorage.getType().sprite, TilingDirection.DOWN_RIGHT);
+                    drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, sizeX - 2, displayInt, infuseStorage.getType().sprite, TilingDirection.DOWN_RIGHT);
                 } else {
                     drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, displayInt, sizeY - 2, infuseStorage.getType().sprite, TilingDirection.DOWN_RIGHT);
                 }

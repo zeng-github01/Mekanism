@@ -1,7 +1,5 @@
 package mekanism.client.gui;
 
-import java.util.ArrayList;
-import java.util.List;
 import mekanism.common.Mekanism;
 import mekanism.common.util.LangUtils;
 import net.minecraft.client.gui.GuiScreen;
@@ -14,6 +12,9 @@ import net.minecraftforge.fml.client.config.GuiConfigEntries.CategoryEntry;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiMekanismConfig extends GuiConfig {

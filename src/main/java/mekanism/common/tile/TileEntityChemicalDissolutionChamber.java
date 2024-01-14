@@ -1,8 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.Objects;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
@@ -29,6 +27,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
+import java.util.Objects;
 
 public class TileEntityChemicalDissolutionChamber extends TileEntityMachine implements IGasHandler, ISustainedData, ITankManager, IComparatorSupport, ISideConfiguration, ITierUpgradeable {
 
@@ -78,9 +79,8 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityMachine impl
         if (!world.isRemote) {
             ChargeUtils.discharge(3, this);
             ItemStack itemStack = inventory.get(0);
-            if (!itemStack.isEmpty() && injectTank.getNeeded() > 0 && itemStack.getItem() instanceof IGasItem) {
+            if (!itemStack.isEmpty() && injectTank.getNeeded() > 0 && itemStack.getItem() instanceof IGasItem item) {
                 //TODO: Maybe make this use GasUtils.getItemGas. This only currently accepts IGasItems here though
-                IGasItem item = (IGasItem) itemStack.getItem();
                 GasStack gasStack = item.getGas(itemStack);
                 //Check to make sure it can provide the gas it contains
                 if (gasStack != null && item.canProvideGas(itemStack, gasStack.getGas())) {
@@ -207,11 +207,11 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityMachine impl
     }
 
     public boolean canOperate(DissolutionRecipe recipe) {
-        return recipe != null && recipe.canOperate(inventory,1, outputTank);
+        return recipe != null && recipe.canOperate(inventory, 1, outputTank);
     }
 
     public void operate(DissolutionRecipe recipe) {
-        recipe.operate(inventory,1, outputTank);
+        recipe.operate(inventory, 1, outputTank);
         markDirty();
     }
 
@@ -339,19 +339,16 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityMachine impl
     public void recalculateUpgradables(Upgrade upgrade) {
         super.recalculateUpgradables(upgrade);
         switch (upgrade) {
-            case ENERGY:
-                energyPerTick = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK); // incorporate speed upgrades
-                break;
-            case GAS:
-                injectUsage = MekanismUtils.getSecondaryEnergyPerTickMean(this, BASE_INJECT_USAGE);
-                break;
-            case SPEED:
+            case ENERGY ->
+                    energyPerTick = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK); // incorporate speed upgrades
+            case GAS -> injectUsage = MekanismUtils.getSecondaryEnergyPerTickMean(this, BASE_INJECT_USAGE);
+            case SPEED -> {
                 ticksRequired = MekanismUtils.getTicks(this, BASE_TICKS_REQUIRED);
                 energyPerTick = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_USAGE);
                 injectUsage = MekanismUtils.getSecondaryEnergyPerTickMean(this, BASE_INJECT_USAGE);
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
     }
 

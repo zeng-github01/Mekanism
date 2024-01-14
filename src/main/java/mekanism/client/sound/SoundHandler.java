@@ -1,9 +1,5 @@
 package mekanism.client.sound;
 
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.client.sound.PlayerSound.SoundType;
 import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
@@ -24,6 +20,11 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 // SoundHandler is the central point for sounds on Mek client side. There are roughly three classes of sounds to deal
 // with:
@@ -66,7 +67,7 @@ public class SoundHandler {
 
     public static void startSound(@Nonnull World world, @Nonnull UUID uuid, @Nonnull SoundType soundType) {
         switch (soundType) {
-            case JETPACK:
+            case JETPACK -> {
                 if (!jetpackSounds.contains(uuid)) {
                     EntityPlayer player = world.getPlayerEntityByUUID(uuid);
                     if (player != null) {
@@ -74,8 +75,8 @@ public class SoundHandler {
                         playSound(new JetpackSound(player));
                     }
                 }
-                break;
-            case GAS_MASK:
+            }
+            case GAS_MASK -> {
                 if (!gasmaskSounds.contains(uuid)) {
                     EntityPlayer player = world.getPlayerEntityByUUID(uuid);
                     if (player != null) {
@@ -83,8 +84,8 @@ public class SoundHandler {
                         playSound(new GasMaskSound(player));
                     }
                 }
-                break;
-            case FLAMETHROWER:
+            }
+            case FLAMETHROWER -> {
                 if (!flamethrowerSounds.contains(uuid)) {
                     EntityPlayer player = world.getPlayerEntityByUUID(uuid);
                     if (player != null) {
@@ -95,7 +96,7 @@ public class SoundHandler {
                         playSound(new FlamethrowerSound.Idle(player));
                     }
                 }
-                break;
+            }
         }
     }
 
@@ -255,7 +256,8 @@ public class SoundHandler {
             return original.getSoundLocation();
         }
 
-        @Nullable @Override
+        @Nullable
+        @Override
         public SoundEventAccessor createAccessor(@Nonnull net.minecraft.client.audio.SoundHandler handler) {
             return original.createAccessor(handler);
         }

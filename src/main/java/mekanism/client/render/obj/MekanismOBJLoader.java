@@ -2,10 +2,6 @@ package mekanism.client.render.obj;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
-import javax.annotation.Nonnull;
 import mekanism.client.render.obj.MekanismOBJModel.OBJModelType;
 import mekanism.common.Mekanism;
 import net.minecraft.client.Minecraft;
@@ -28,6 +24,11 @@ import net.minecraftforge.client.model.obj.OBJModel.OBJBakedModel;
 import net.minecraftforge.client.model.obj.OBJModel.OBJState;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 public class MekanismOBJLoader implements ICustomModelLoader {
 

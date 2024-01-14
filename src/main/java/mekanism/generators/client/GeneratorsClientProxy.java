@@ -116,34 +116,22 @@ public class GeneratorsClientProxy extends GeneratorsCommonProxy {
     public GuiScreen getClientGui(int ID, EntityPlayer player, World world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
 
-        switch (ID) {
-            case 0:
-                return new GuiHeatGenerator(player.inventory, (TileEntityHeatGenerator) tileEntity);
-            case 1:
-                return new GuiSolarGenerator(player.inventory, (TileEntitySolarGenerator) tileEntity);
-            case 3:
-                return new GuiGasGenerator(player.inventory, (TileEntityGasGenerator) tileEntity);
-            case 4:
-                return new GuiBioGenerator(player.inventory, (TileEntityBioGenerator) tileEntity);
-            case 5:
-                return new GuiWindGenerator(player.inventory, (TileEntityWindGenerator) tileEntity);
-            case 6:
-                return new GuiIndustrialTurbine(player.inventory, (TileEntityTurbineCasing) tileEntity);
-            case 7:
-                return new GuiTurbineStats(player.inventory, (TileEntityTurbineCasing) tileEntity);
-            case 10:
-                return new GuiReactorController(player.inventory, (TileEntityReactorController) tileEntity);
-            case 11:
-                return new GuiReactorHeat(player.inventory, (TileEntityReactorController) tileEntity);
-            case 12:
-                return new GuiReactorFuel(player.inventory, (TileEntityReactorController) tileEntity);
-            case 13:
-                return new GuiReactorStats(player.inventory, (TileEntityReactorController) tileEntity);
-            case 15:
-                return new GuiReactorLogicAdapter(player.inventory, (TileEntityReactorLogicAdapter) tileEntity);
-        }
+        return switch (ID) {
+            case 0 -> new GuiHeatGenerator(player.inventory, (TileEntityHeatGenerator) tileEntity);
+            case 1 -> new GuiSolarGenerator(player.inventory, (TileEntitySolarGenerator) tileEntity);
+            case 3 -> new GuiGasGenerator(player.inventory, (TileEntityGasGenerator) tileEntity);
+            case 4 -> new GuiBioGenerator(player.inventory, (TileEntityBioGenerator) tileEntity);
+            case 5 -> new GuiWindGenerator(player.inventory, (TileEntityWindGenerator) tileEntity);
+            case 6 -> new GuiIndustrialTurbine(player.inventory, (TileEntityTurbineCasing) tileEntity);
+            case 7 -> new GuiTurbineStats(player.inventory, (TileEntityTurbineCasing) tileEntity);
+            case 10 -> new GuiReactorController(player.inventory, (TileEntityReactorController) tileEntity);
+            case 11 -> new GuiReactorHeat(player.inventory, (TileEntityReactorController) tileEntity);
+            case 12 -> new GuiReactorFuel(player.inventory, (TileEntityReactorController) tileEntity);
+            case 13 -> new GuiReactorStats(player.inventory, (TileEntityReactorController) tileEntity);
+            case 15 -> new GuiReactorLogicAdapter(player.inventory, (TileEntityReactorLogicAdapter) tileEntity);
+            default -> null;
+        };
 
-        return null;
     }
 
     @SubscribeEvent

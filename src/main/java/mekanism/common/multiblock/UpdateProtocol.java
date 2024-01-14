@@ -1,12 +1,13 @@
 package mekanism.common.multiblock;
 
-import java.util.*;
 import mekanism.api.Coord4D;
 import mekanism.common.tile.TileEntityMultiblock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.*;
 
 public abstract class UpdateProtocol<T extends SynchronizedData<T>> {
 
@@ -334,9 +335,9 @@ public abstract class UpdateProtocol<T extends SynchronizedData<T>> {
             List<String> idsFound = new ArrayList<>();
             for (Coord4D obj : structureFound.locations) {
                 TileEntity tileEntity = obj.getTileEntity(pointer.getWorld());
-                if (tileEntity instanceof TileEntityMultiblock
-                        && ((TileEntityMultiblock) tileEntity).cachedID != null) {
-                    idsFound.add(((TileEntityMultiblock) tileEntity).cachedID);
+                if (tileEntity instanceof TileEntityMultiblock<?>
+                        && ((TileEntityMultiblock<?>) tileEntity).cachedID != null) {
+                    idsFound.add(((TileEntityMultiblock<?>) tileEntity).cachedID);
                 }
             }
 

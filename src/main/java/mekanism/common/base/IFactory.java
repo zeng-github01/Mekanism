@@ -1,9 +1,5 @@
 package mekanism.common.base;
 
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import javax.annotation.Nullable;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.common.InfuseStorage;
@@ -28,6 +24,11 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 
+import javax.annotation.Nullable;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+
 /**
  * Internal interface for managing various Factory types.
  *
@@ -49,7 +50,8 @@ public interface IFactory {
      * @param itemStack - stack to check
      * @return RecipeType or null if it has invalid NBT
      */
-    @Nullable RecipeType getRecipeTypeOrNull(ItemStack itemStack);
+    @Nullable
+    RecipeType getRecipeTypeOrNull(ItemStack itemStack);
 
     /**
      * Sets the recipe type of this Smelting Factory to a new value.
@@ -92,7 +94,7 @@ public interface IFactory {
         PRC("PRC", "prc", MachineType.PRESSURIZED_REACTION_CHAMBER, MachineFuelType.BASIC, false, Recipe.PRESSURIZED_REACTION_CHAMBER),
         OXIDIZER("Oxidizer", "oxidizer", MachineType.CHEMICAL_OXIDIZER, MachineFuelType.BASIC, false, Recipe.CHEMICAL_OXIDIZER),
         NUCLEOSYNTHESIZER("Nucleosynthesizer", "nucleosynthesizer", MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER, MachineFuelType.BASIC, false, Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER),
-        WASHER("Washer","washer",MachineType.CHEMICAL_WASHER,MachineFuelType.BASIC,false,Recipe.CHEMICAL_WASHER);
+        WASHER("Washer", "washer", MachineType.CHEMICAL_WASHER, MachineFuelType.BASIC, false, Recipe.CHEMICAL_WASHER);
 
         private String name;
         private SoundEvent sound;
@@ -111,6 +113,7 @@ public interface IFactory {
         private TileEntityAntiprotonicNucleosynthesizer AntiprotonicNucleosynthesizerCacheTile;
 
         private TileEntityChemicalWasher WasherCacheTile;
+
         RecipeType(String s, String s1, MachineType t, MachineFuelType ft, boolean speed, Recipe r) {
             name = s;
             sound = new SoundEvent(new ResourceLocation(Mekanism.MODID, "tile.machine." + s1));
@@ -136,7 +139,8 @@ public interface IFactory {
             return type;
         }
 
-        @Nullable public static RecipeType getFromMachineType(MachineType machineType) {
+        @Nullable
+        public static RecipeType getFromMachineType(MachineType machineType) {
             for (RecipeType type : values()) {
                 if (type.type == machineType) {
                     return type;
@@ -145,35 +149,35 @@ public interface IFactory {
             return null;
         }
 
-        public BasicMachineRecipe getRecipe(ItemStackInput input) {
-            return (BasicMachineRecipe) RecipeHandler.getRecipe(input, recipe);
+        public BasicMachineRecipe<?> getRecipe(ItemStackInput input) {
+            return (BasicMachineRecipe<?>) RecipeHandler.getRecipe(input, recipe);
         }
 
-        public BasicMachineRecipe getRecipe(ItemStack input) {
+        public BasicMachineRecipe<?> getRecipe(ItemStack input) {
             return getRecipe(new ItemStackInput(input));
         }
 
-        public AdvancedMachineRecipe getRecipe(AdvancedMachineInput input) {
-            return (AdvancedMachineRecipe) RecipeHandler.getRecipe(input, recipe);
+        public AdvancedMachineRecipe<?> getRecipe(AdvancedMachineInput input) {
+            return (AdvancedMachineRecipe<?>) RecipeHandler.getRecipe(input, recipe);
         }
 
-        public AdvancedMachineRecipe getRecipe(ItemStack input, Gas gas) {
+        public AdvancedMachineRecipe<?> getRecipe(ItemStack input, Gas gas) {
             return getRecipe(new AdvancedMachineInput(input, gas));
         }
 
-        public DoubleMachineRecipe getRecipe(DoubleMachineInput input) {
-            return (DoubleMachineRecipe) RecipeHandler.getRecipe(input, recipe);
+        public DoubleMachineRecipe<?> getRecipe(DoubleMachineInput input) {
+            return (DoubleMachineRecipe<?>) RecipeHandler.getRecipe(input, recipe);
         }
 
-        public DoubleMachineRecipe getRecipe(ItemStack input, ItemStack extra) {
+        public DoubleMachineRecipe<?> getRecipe(ItemStack input, ItemStack extra) {
             return getRecipe(new DoubleMachineInput(input, extra));
         }
 
-        public ChanceMachineRecipe getChanceRecipe(ItemStackInput input) {
-            return (ChanceMachineRecipe) RecipeHandler.getRecipe(input, recipe);
+        public ChanceMachineRecipe<?> getChanceRecipe(ItemStackInput input) {
+            return (ChanceMachineRecipe<?>) RecipeHandler.getRecipe(input, recipe);
         }
 
-        public ChanceMachineRecipe getChanceRecipe(ItemStack input) {
+        public ChanceMachineRecipe<?> getChanceRecipe(ItemStack input) {
             return getChanceRecipe(new ItemStackInput(input));
         }
 
@@ -226,7 +230,7 @@ public interface IFactory {
             return getPressurizedRecipe(new PressurizedInput(input, fluid, gas));
         }
 
-        public WasherRecipe getWasherRecipe(GasInput input){
+        public WasherRecipe getWasherRecipe(GasInput input) {
             return RecipeHandler.getChemicalWasherRecipe(input);
         }
 
@@ -234,23 +238,24 @@ public interface IFactory {
             return getWasherRecipe(new GasInput(gas));
         }
 
-        public FarmMachineRecipe getFarmRecipe(AdvancedMachineInput input) {
-            return (FarmMachineRecipe) RecipeHandler.getRecipe(input, recipe);
+        public FarmMachineRecipe<?> getFarmRecipe(AdvancedMachineInput input) {
+            return (FarmMachineRecipe<?>) RecipeHandler.getRecipe(input, recipe);
         }
 
-        public FarmMachineRecipe getFarmRecipe(ItemStack input, Gas gas) {
+        public FarmMachineRecipe<?> getFarmRecipe(ItemStack input, Gas gas) {
             return getFarmRecipe(new AdvancedMachineInput(input, gas));
         }
 
-        public Chance2MachineRecipe getChance2Recipe(ItemStackInput input) {
-            return (Chance2MachineRecipe) RecipeHandler.getRecipe(input, recipe);
+        public Chance2MachineRecipe<?> getChance2Recipe(ItemStackInput input) {
+            return (Chance2MachineRecipe<?>) RecipeHandler.getRecipe(input, recipe);
         }
 
-        public Chance2MachineRecipe getChance2Recipe(ItemStack input) {
+        public Chance2MachineRecipe<?> getChance2Recipe(ItemStack input) {
             return getChance2Recipe(new ItemStackInput(input));
         }
 
-        @Nullable public MachineRecipe getAnyRecipe(ItemStack slotStack, ItemStack extraStack, Gas gasType, InfuseStorage infuse, GasStack gasStackType, FluidStack fluidStack) {
+        @Nullable
+        public MachineRecipe getAnyRecipe(ItemStack slotStack, ItemStack extraStack, Gas gasType, InfuseStorage infuse, GasStack gasStackType, FluidStack fluidStack) {
             if (fuelType == MachineFuelType.ADVANCED) {
                 return getRecipe(slotStack, gasType);
             } else if (fuelType == MachineFuelType.DOUBLE) {
@@ -271,7 +276,7 @@ public interface IFactory {
                 return getOxidationRecipe(slotStack);
             } else if (this == NUCLEOSYNTHESIZER) {
                 return getNucleosynthesizerRecipe(slotStack, gasStackType);
-            } else if(this == WASHER){
+            } else if (this == WASHER) {
                 return getWasherRecipe(gasStackType);
             } else if (this == INFUSING) {
                 if (infuse.getType() != null) {
@@ -318,8 +323,8 @@ public interface IFactory {
                 return getTile6().canReceiveGas(side, type);
             }
 
-            if (this == WASHER){
-                return getWasherCacheTile().canReceiveGas(side,type);
+            if (this == WASHER) {
+                return getWasherCacheTile().canReceiveGas(side, type);
             }
 
             return false;
@@ -333,7 +338,7 @@ public interface IFactory {
                     this == PRC ||
                     this == NUCLEOSYNTHESIZER ||
                     this == WASHER
-                    );
+            );
         }
 
         public boolean isValidGas(Gas gas) {
@@ -352,7 +357,7 @@ public interface IFactory {
             if (this == PRC) {
                 return Recipe.PRESSURIZED_REACTION_CHAMBER.containsRecipe(gas);
             }
-            if (this == WASHER){
+            if (this == WASHER) {
                 return Recipe.CHEMICAL_WASHER.containsRecipe(gas);
             }
             if (this == NUCLEOSYNTHESIZER) {
@@ -434,8 +439,8 @@ public interface IFactory {
             return PRCCacheTile;
         }
 
-        public  TileEntityChemicalWasher getWasherCacheTile(){
-            if (WasherCacheTile == null){
+        public TileEntityChemicalWasher getWasherCacheTile() {
+            if (WasherCacheTile == null) {
                 MachineType type = MachineType.get(getStack());
                 WasherCacheTile = (TileEntityChemicalWasher) type.create();
             }

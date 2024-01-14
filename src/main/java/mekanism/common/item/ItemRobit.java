@@ -1,7 +1,5 @@
 package mekanism.common.item;
 
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.common.base.ISustainedInventory;
@@ -22,6 +20,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+import java.util.List;
+
 public class ItemRobit extends ItemEnergized implements ISustainedInventory {
 
     public ItemRobit() {
@@ -41,8 +42,7 @@ public class ItemRobit extends ItemEnergized implements ISustainedInventory {
     public EnumActionResult onItemUse(EntityPlayer entityplayer, World world, BlockPos pos, EnumHand hand, EnumFacing side, float posX, float posY, float posZ) {
         TileEntity tileEntity = world.getTileEntity(pos);
         ItemStack itemstack = entityplayer.getHeldItem(hand);
-        if (tileEntity instanceof TileEntityChargepad) {
-            TileEntityChargepad chargepad = (TileEntityChargepad) tileEntity;
+        if (tileEntity instanceof TileEntityChargepad chargepad) {
             if (!chargepad.isActive) {
                 if (!world.isRemote) {
                     EntityRobit robit = new EntityRobit(world, pos.getX() + 0.5, pos.getY() + 0.1, pos.getZ() + 0.5);

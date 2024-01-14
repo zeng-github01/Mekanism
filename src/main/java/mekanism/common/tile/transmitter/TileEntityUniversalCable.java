@@ -6,9 +6,6 @@ import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IEnergySource;
 import ic2.api.energy.tile.IEnergyTile;
 import io.netty.buffer.ByteBuf;
-import java.util.Collection;
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
 import mekanism.api.energy.EnergyStack;
 import mekanism.api.energy.IStrictEnergyAcceptor;
@@ -39,6 +36,10 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.Optional;
+
+import javax.annotation.Nonnull;
+import java.util.Collection;
+import java.util.List;
 
 @Optional.InterfaceList(
         @Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyReceiver", modid = MekanismHooks.REDSTONEFLUX_MOD_ID)
@@ -94,8 +95,7 @@ public class TileEntityUniversalCable extends TileEntityTransmitter<EnergyAccept
                         } else if (MekanismUtils.useForge() && (forgeStorage = CapabilityUtils.getCapability(outputter, CapabilityEnergy.ENERGY, side.getOpposite())) != null) {
                             double received = draw(ForgeEnergyIntegration.fromForge(forgeStorage.extractEnergy(ForgeEnergyIntegration.toForge(maxDraw), true)));
                             forgeStorage.extractEnergy(ForgeEnergyIntegration.toForge(received), false);
-                        } else if (MekanismUtils.useRF() && outputter instanceof IEnergyProvider) {
-                            IEnergyProvider rfProvider = (IEnergyProvider) outputter;
+                        } else if (MekanismUtils.useRF() && outputter instanceof IEnergyProvider rfProvider) {
                             double received = draw(RFIntegration.fromRF(rfProvider.extractEnergy(side.getOpposite(), RFIntegration.toRF(maxDraw), true)));
                             rfProvider.extractEnergy(side.getOpposite(), RFIntegration.toRF(received), false);
                         } else if (MekanismUtils.useIC2()) {

@@ -1,6 +1,5 @@
 package mekanism.common.item;
 
-import javax.annotation.Nonnull;
 import mcmultipart.api.multipart.IMultipart;
 import mekanism.api.EnumColor;
 import mekanism.common.Mekanism;
@@ -18,6 +17,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
+
+import javax.annotation.Nonnull;
 
 public class ItemBlockGlowPanel extends ItemBlockMultipartAble {
 

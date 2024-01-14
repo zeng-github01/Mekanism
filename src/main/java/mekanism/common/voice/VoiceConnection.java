@@ -1,5 +1,12 @@
 package mekanism.common.voice;
 
+import mekanism.common.Mekanism;
+import mekanism.common.item.ItemWalkieTalkie;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
@@ -9,12 +16,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import mekanism.common.Mekanism;
-import mekanism.common.item.ItemWalkieTalkie;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class VoiceConnection extends Thread {
 
@@ -126,8 +127,7 @@ public class VoiceConnection extends Thread {
     }
 
     private boolean canListen(int channel, ItemStack itemStack) {
-        if (!itemStack.isEmpty() && itemStack.getItem() instanceof ItemWalkieTalkie) {
-            ItemWalkieTalkie walkieTalkie = (ItemWalkieTalkie) itemStack.getItem();
+        if (!itemStack.isEmpty() && itemStack.getItem() instanceof ItemWalkieTalkie walkieTalkie) {
             return walkieTalkie.getOn(itemStack) && walkieTalkie.getChannel(itemStack) == channel;
         }
         return false;
@@ -135,8 +135,7 @@ public class VoiceConnection extends Thread {
 
     public int getCurrentChannel() {
         ItemStack itemStack = getPlayer().inventory.getCurrentItem();
-        if (!itemStack.isEmpty() && itemStack.getItem() instanceof ItemWalkieTalkie) {
-            ItemWalkieTalkie walkieTalkie = (ItemWalkieTalkie) itemStack.getItem();
+        if (!itemStack.isEmpty() && itemStack.getItem() instanceof ItemWalkieTalkie walkieTalkie) {
             if (walkieTalkie.getOn(itemStack)) {
                 return walkieTalkie.getChannel(itemStack);
             }

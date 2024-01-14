@@ -1,8 +1,5 @@
 package mekanism.common.util;
 
-import java.util.EnumSet;
-import java.util.Set;
-import java.util.function.Predicate;
 import mekanism.api.gas.*;
 import mekanism.common.base.target.GasHandlerTarget;
 import mekanism.common.capabilities.Capabilities;
@@ -13,6 +10,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.EnumSet;
+import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * A handy class containing several utilities for efficient gas transfer.
@@ -62,8 +63,7 @@ public final class GasUtils {
      * @return the GasStack removed by the IGasItem
      */
     public static GasStack removeGas(ItemStack itemStack, Gas type, int amount) {
-        if (!itemStack.isEmpty() && itemStack.getItem() instanceof IGasItem) {
-            IGasItem item = (IGasItem) itemStack.getItem();
+        if (!itemStack.isEmpty() && itemStack.getItem() instanceof IGasItem item) {
             if (type != null && item.getGas(itemStack) != null && item.getGas(itemStack).getGas() != type || !item.canProvideGas(itemStack, type)) {
                 return null;
             }

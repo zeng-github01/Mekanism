@@ -1,8 +1,5 @@
 package mekanism.client.gui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import mekanism.api.util.time.Timeticks;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -23,6 +20,10 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiIsotopicCentrifuge extends GuiMekanismTile<TileEntityIsotopicCentrifuge> {
@@ -55,7 +56,7 @@ public class GuiIsotopicCentrifuge extends GuiMekanismTile<TileEntityIsotopicCen
                 return tileEntity.getActive() ? (double) time.getValue() / 20F : 0;
             }
         }, ProgressBar.LARGE_RIGHT, this, resource, 62, 39));
-        addGuiElement(new GuiPlayerSlot(this,resource));
+        addGuiElement(new GuiPlayerSlot(this, resource));
     }
 
     @Override

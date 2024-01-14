@@ -1,8 +1,5 @@
 package mekanism.client.gui.chemical;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -26,6 +23,10 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiChemicalWasher extends GuiMekanismTile<TileEntityChemicalWasher> {
@@ -57,9 +58,8 @@ public class GuiChemicalWasher extends GuiMekanismTile<TileEntityChemicalWasher>
                 return tileEntity.getActive() ? 1 : 0;
             }
         }, ProgressBar.LARGE_RIGHT, this, resource, 62, 38));
-        addGuiElement(new GuiPlayerSlot(this,resource));
+        addGuiElement(new GuiPlayerSlot(this, resource));
     }
-
 
 
     @Override

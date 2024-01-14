@@ -35,7 +35,8 @@ public class TileEntityIndustrialAlarm extends TileEntityEffectsBlock {
         return true;
     }
 
-    @NotNull @Override
+    @NotNull
+    @Override
     public AxisAlignedBB getRenderBoundingBox() {
         if (getActive()) {
             return new AxisAlignedBB(this.pos, this.pos.add(1, 1, 1));
@@ -43,7 +44,8 @@ public class TileEntityIndustrialAlarm extends TileEntityEffectsBlock {
         return super.getRenderBoundingBox();
     }
 
-    @NotNull @Override
+    @NotNull
+    @Override
     public int[] getSlotsForFace(@NotNull EnumFacing side) {
         return InventoryUtils.EMPTY;
     }

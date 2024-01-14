@@ -18,15 +18,12 @@ public interface ITankManager {
         public static void useDropper(EntityPlayer player, Object tank, int button) {
             ItemStack stack = player.inventory.getItemStack();
 
-            if (stack.isEmpty() || !(stack.getItem() instanceof ItemGaugeDropper)) {
+            if (stack.isEmpty() || !(stack.getItem() instanceof ItemGaugeDropper dropper)) {
                 return;
             }
 
-            ItemGaugeDropper dropper = (ItemGaugeDropper) stack.getItem();
-
             if (!stack.isEmpty()) {
-                if (tank instanceof GasTank) {
-                    GasTank gasTank = (GasTank) tank;
+                if (tank instanceof GasTank gasTank) {
                     int dropperStored = dropper.getGas(stack) != null ? dropper.getGas(stack).amount : 0;
 
                     if (dropper.getGas(stack) != null && gasTank.getGas() != null && !dropper.getGas(stack).isGasEqual(gasTank.getGas())) {
@@ -56,8 +53,7 @@ public interface ITankManager {
                     } else if (button == 2) { //Dump the tank
                         gasTank.setGas(null);
                     }
-                } else if (tank instanceof FluidTank) {
-                    FluidTank fluidTank = (FluidTank) tank;
+                } else if (tank instanceof FluidTank fluidTank) {
                     int dropperStored = FluidUtil.getFluidContained(stack) != null ? FluidUtil.getFluidContained(stack).amount : 0;
 
                     if (FluidUtil.getFluidContained(stack) != null && fluidTank.getFluid() != null && !FluidUtil.getFluidContained(stack).isFluidEqual(fluidTank.getFluid())) {

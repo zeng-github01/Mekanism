@@ -1,7 +1,5 @@
 package mekanism.generators.client.gui;
 
-import java.io.IOException;
-import java.util.Arrays;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.button.GuiDisableableButton;
@@ -28,6 +26,9 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class GuiIndustrialTurbine extends GuiMekanismTile<TileEntityTurbineCasing> {

@@ -3,9 +3,6 @@ package mekanism.generators.common.item;
 import cofh.redstoneflux.api.IEnergyContainerItem;
 import ic2.api.item.IElectricItemManager;
 import ic2.api.item.ISpecialElectricItem;
-import java.util.List;
-import java.util.UUID;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.energy.IEnergizedItem;
 import mekanism.client.MekKeyHandler;
@@ -52,6 +49,10 @@ import net.minecraftforge.fml.common.Optional.InterfaceList;
 import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Item class for handling multiple generator block IDs. 0: Heat Generator 1: Solar Generator 3: Hydrogen Generator 4: Bio-Generator 5: Advanced Solar Generator 6: Wind
@@ -177,8 +178,7 @@ public class ItemBlockGenerator extends ItemBlock implements IEnergizedItem, ISp
 
         if (place && super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, state)) {
             TileEntityBasicBlock tileEntity = (TileEntityBasicBlock) world.getTileEntity(pos);
-            if (tileEntity instanceof ISecurityTile) {
-                ISecurityTile security = (ISecurityTile) tileEntity;
+            if (tileEntity instanceof ISecurityTile security) {
                 security.getSecurity().setOwnerUUID(getOwnerUUID(stack));
                 if (hasSecurity(stack)) {
                     security.getSecurity().setMode(getSecurity(stack));
@@ -226,8 +226,7 @@ public class ItemBlockGenerator extends ItemBlock implements IEnergizedItem, ISp
 
     @Override
     public void setFluidStack(FluidStack fluidStack, Object... data) {
-        if (data[0] instanceof ItemStack) {
-            ItemStack itemStack = (ItemStack) data[0];
+        if (data[0] instanceof ItemStack itemStack) {
             if (fluidStack == null || fluidStack.amount == 0) {
                 ItemDataUtils.removeData(itemStack, "fluidTank");
             } else {
@@ -238,8 +237,7 @@ public class ItemBlockGenerator extends ItemBlock implements IEnergizedItem, ISp
 
     @Override
     public FluidStack getFluidStack(Object... data) {
-        if (data[0] instanceof ItemStack) {
-            ItemStack itemStack = (ItemStack) data[0];
+        if (data[0] instanceof ItemStack itemStack) {
             if (!ItemDataUtils.hasData(itemStack, "fluidTank")) {
                 return null;
             }

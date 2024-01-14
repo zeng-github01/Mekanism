@@ -1,13 +1,14 @@
 package mekanism.client.jei.machine;
 
-import java.util.Arrays;
-import javax.annotation.Nonnull;
 import mekanism.common.recipe.machines.Chance2MachineRecipe;
 import mekanism.common.recipe.outputs.ChanceOutput2;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+
+import javax.annotation.Nonnull;
+import java.util.Collections;
 
 public class Chance2MachineRecipeWrapper<RECIPE extends Chance2MachineRecipe<RECIPE>> extends MekanismRecipeWrapper<RECIPE> {
 
@@ -19,7 +20,7 @@ public class Chance2MachineRecipeWrapper<RECIPE extends Chance2MachineRecipe<REC
     public void getIngredients(IIngredients ingredients) {
         ChanceOutput2 output = recipe.getOutput();
         ingredients.setInput(VanillaTypes.ITEM, recipe.getInput().ingredient);
-        ingredients.setOutputs(VanillaTypes.ITEM, Arrays.asList(output.primaryOutput));
+        ingredients.setOutputs(VanillaTypes.ITEM, Collections.singletonList(output.primaryOutput));
     }
 
     @Override

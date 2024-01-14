@@ -1,9 +1,6 @@
 package mekanism.client.gui;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import mekanism.api.gas.GasStack;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.bar.GuiBar;
@@ -22,6 +19,10 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> extends GuiMekanismTile<TileEntityFarmMachine<RECIPE>> {
@@ -90,7 +91,7 @@ public class GuiFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> extends Gu
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         if (tileEntity.getScaledGasLevel(12) > 0) {
             int displayInt = tileEntity.getScaledGasLevel(12);
-            displayGauge(60, 36, 8,14, tileEntity.gasTank.getGas(),displayInt);
+            displayGauge(60, 36, 8, 14, tileEntity.gasTank.getGas(), displayInt);
         }
         boolean inputgas = (tileEntity.gasTank.getStored() == 0) && (tileEntity.inventory.get(0).getCount() != 0);
         boolean energy = tileEntity.getEnergy() < tileEntity.energyPerTick || tileEntity.getEnergy() == 0;
@@ -117,7 +118,7 @@ public class GuiFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> extends Gu
         if (gas != null) {
             mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             MekanismRenderer.color(gas);
-            GuiUtils.drawTiledSprite(guiLeft + xPos + 1, guiTop + yPos + 1, sizeY - 2, sizeX - 2, displayInt,  gas.getGas().getSprite(), GuiUtils.TilingDirection.DOWN_RIGHT);
+            GuiUtils.drawTiledSprite(guiLeft + xPos + 1, guiTop + yPos + 1, sizeY - 2, sizeX - 2, displayInt, gas.getGas().getSprite(), GuiUtils.TilingDirection.DOWN_RIGHT);
             MekanismRenderer.resetColor();
         }
     }

@@ -5,7 +5,6 @@ import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
-import mekanism.client.gui.element.GuiUtils.TilingDirection;
 import mekanism.client.gui.element.bar.GuiBar;
 import mekanism.client.gui.element.tab.*;
 import mekanism.client.sound.SoundHandler;
@@ -24,8 +23,6 @@ import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -163,13 +160,6 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
             }
         }.with(GuiDisableableButton.ImageOverlay.DUMP));
         buttonList.add(FactoryOldSortingButton = new GuiDisableableButton(2, guiLeft - 21, guiTop + 90, 18, 18).with(GuiDisableableButton.ImageOverlay.ROUND_ROBIN));
-    }
-
-    public void displayGauge(int xPos, int yPos, int sizeX, int sizeY, TextureAtlasSprite icon, int displayInt) {
-        if (icon != null) {
-            mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-            GuiUtils.drawTiledSprite(guiLeft + xPos + 1, guiTop + yPos + 1, sizeY - 2, displayInt, sizeY - 2, icon, TilingDirection.DOWN_RIGHT);
-        }
     }
 
     @Override

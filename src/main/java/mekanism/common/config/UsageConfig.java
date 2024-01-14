@@ -87,7 +87,7 @@ public class UsageConfig extends BaseConfig {
             "Flat additional cost for interdimensional teleportation.");
 
     /**
-    * Add Start
+     * Add Start
      */
     public final DoubleOption isotopicCentrifuge = new DoubleOption(this, "usage", "isotopicCentrifuge", 200D,
             "Energy per operation tick (Joules).");

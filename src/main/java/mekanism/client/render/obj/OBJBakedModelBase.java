@@ -2,11 +2,6 @@ package mekanism.client.render.obj;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.*;
-import javax.annotation.Nonnull;
-import javax.vecmath.Matrix4f;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
 import net.minecraft.block.state.IBlockState;
@@ -23,6 +18,12 @@ import net.minecraftforge.client.model.pipeline.LightUtil;
 import net.minecraftforge.client.model.pipeline.UnpackedBakedQuad;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
+
+import javax.annotation.Nonnull;
+import javax.vecmath.Matrix4f;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.*;
 
 public abstract class OBJBakedModelBase extends OBJBakedModel {
 

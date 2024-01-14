@@ -1,9 +1,6 @@
 package mekanism.common.tile.transmitter;
 
 import io.netty.buffer.ByteBuf;
-import java.util.Collection;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
@@ -18,6 +15,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collection;
 
 public class TileEntityPressurizedTube extends TileEntityTransmitter<IGasHandler, GasNetwork, GasStack> implements IGasHandler {
 
@@ -211,7 +212,8 @@ public class TileEntityPressurizedTube extends TileEntityTransmitter<IGasHandler
         return tier.getTubeCapacity();
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public GasStack getBuffer() {
         if (buffer == null) {
             return null;

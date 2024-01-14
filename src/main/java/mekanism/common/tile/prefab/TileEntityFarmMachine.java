@@ -1,9 +1,6 @@
 package mekanism.common.tile.prefab;
 
 import io.netty.buffer.ByteBuf;
-import java.util.Map;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
@@ -31,6 +28,10 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Map;
+
 public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> extends TileEntityUpgradeableMachine<AdvancedMachineInput, ChanceOutput, RECIPE> implements IGasHandler, ISustainedData {
 
     public static final int BASE_TICKS_REQUIRED = 200;
@@ -49,7 +50,6 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
     public int secondaryEnergyThisTick;
     public GasTank gasTank;
     public Gas prevGas;
-
 
 
     public TileEntityFarmMachine(String soundPath, MachineType type, int ticksRequired, int secondaryPerTick) {
@@ -91,7 +91,8 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
         factory.inventory.set(0, inventory.get(5));
     }
 
-    @Nullable public GasStack getItemGas(ItemStack itemStack) {
+    @Nullable
+    public GasStack getItemGas(ItemStack itemStack) {
         return GasConversionHandler.getItemGas(itemStack, gasTank, this::isValidGas);
     }
 
@@ -135,8 +136,7 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
         if (!itemStack.isEmpty() && needed > 0) {
             GasStack gasStack = getItemGas(itemStack);
             if (gasStack != null && needed >= gasStack.amount) {
-                if (itemStack.getItem() instanceof IGasItem) {
-                    IGasItem item = (IGasItem) itemStack.getItem();
+                if (itemStack.getItem() instanceof IGasItem item) {
                     gasTank.receive(item.removeGas(itemStack, gasStack.amount), true);
                 } else {
                     gasTank.receive(gasStack, true);
@@ -313,26 +313,17 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
 
     @Override
     public Object[] invoke(int method, Object[] arguments) throws NoSuchMethodException {
-        switch (method) {
-            case 0:
-                return new Object[]{getEnergy()};
-            case 1:
-                return new Object[]{gasTank.getStored()};
-            case 2:
-                return new Object[]{operatingTicks};
-            case 3:
-                return new Object[]{isActive};
-            case 4:
-                return new Object[]{facing};
-            case 5:
-                return new Object[]{canOperate(getRecipe())};
-            case 6:
-                return new Object[]{maxEnergy};
-            case 7:
-                return new Object[]{maxEnergy - getEnergy()};
-            default:
-                throw new NoSuchMethodException();
-        }
+        return switch (method) {
+            case 0 -> new Object[]{getEnergy()};
+            case 1 -> new Object[]{gasTank.getStored()};
+            case 2 -> new Object[]{operatingTicks};
+            case 3 -> new Object[]{isActive};
+            case 4 -> new Object[]{facing};
+            case 5 -> new Object[]{canOperate(getRecipe())};
+            case 6 -> new Object[]{maxEnergy};
+            case 7 -> new Object[]{maxEnergy - getEnergy()};
+            default -> throw new NoSuchMethodException();
+        };
     }
 
     @Override

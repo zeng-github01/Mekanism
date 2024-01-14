@@ -48,10 +48,8 @@ public class ItemGasMask extends ItemArmor {
         EntityLivingBase base = event.getEntityLiving();
         ItemStack headStack = base.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
         ItemStack chestStack = base.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
-        if (!headStack.isEmpty() && headStack.getItem() instanceof ItemGasMask) {
-            ItemGasMask mask = (ItemGasMask) headStack.getItem();
-            if (!chestStack.isEmpty() && chestStack.getItem() instanceof ItemScubaTank) {
-                ItemScubaTank tank = (ItemScubaTank) chestStack.getItem();
+        if (!headStack.isEmpty() && headStack.getItem() instanceof ItemGasMask mask) {
+            if (!chestStack.isEmpty() && chestStack.getItem() instanceof ItemScubaTank tank) {
                 if (tank.getFlowing(chestStack) && tank.getGas(chestStack) != null) {
                     if (event.getSource() == DamageSource.MAGIC) {
                         event.setCanceled(true);

@@ -1,9 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.List;
-import java.util.Set;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
@@ -39,6 +36,10 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.Set;
 
 public class TileEntityElectrolyticSeparator extends TileEntityMachine implements IFluidHandlerWrapper, IComputerIntegration, ISustainedData, IGasHandler,
         IUpgradeInfoHandler, ITankManager, IComparatorSupport, ISideConfiguration {
@@ -332,30 +333,20 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
 
     @Override
     public Object[] invoke(int method, Object[] arguments) throws NoSuchMethodException {
-        switch (method) {
-            case 0:
-                return new Object[]{electricityStored};
-            case 1:
-                return new Object[]{output};
-            case 2:
-                return new Object[]{BASE_MAX_ENERGY};
-            case 3:
-                return new Object[]{BASE_MAX_ENERGY - electricityStored};
-            case 4:
-                return new Object[]{fluidTank.getFluid() != null ? fluidTank.getFluid().amount : 0};
-            case 5:
-                return new Object[]{fluidTank.getFluid() != null ? (fluidTank.getCapacity() - fluidTank.getFluid().amount) : 0};
-            case 6:
-                return new Object[]{leftTank.getStored()};
-            case 7:
-                return new Object[]{leftTank.getNeeded()};
-            case 8:
-                return new Object[]{rightTank.getStored()};
-            case 9:
-                return new Object[]{rightTank.getNeeded()};
-            default:
-                throw new NoSuchMethodException();
-        }
+        return switch (method) {
+            case 0 -> new Object[]{electricityStored};
+            case 1 -> new Object[]{output};
+            case 2 -> new Object[]{BASE_MAX_ENERGY};
+            case 3 -> new Object[]{BASE_MAX_ENERGY - electricityStored};
+            case 4 -> new Object[]{fluidTank.getFluid() != null ? fluidTank.getFluid().amount : 0};
+            case 5 ->
+                    new Object[]{fluidTank.getFluid() != null ? (fluidTank.getCapacity() - fluidTank.getFluid().amount) : 0};
+            case 6 -> new Object[]{leftTank.getStored()};
+            case 7 -> new Object[]{leftTank.getNeeded()};
+            case 8 -> new Object[]{rightTank.getStored()};
+            case 9 -> new Object[]{rightTank.getNeeded()};
+            default -> throw new NoSuchMethodException();
+        };
     }
 
     @Override
@@ -382,7 +373,7 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
     public boolean canFill(EnumFacing from, @Nonnull FluidStack fluid) {
         SideData data = configComponent.getOutput(TransmissionType.FLUID, from, facing);
         if (data.hasSlot(0)) {
-            return FluidContainerUtils.canFill(fluidTank.getFluid(), fluid) &&  Recipe.ELECTROLYTIC_SEPARATOR.containsRecipe(fluid.getFluid());
+            return FluidContainerUtils.canFill(fluidTank.getFluid(), fluid) && Recipe.ELECTROLYTIC_SEPARATOR.containsRecipe(fluid.getFluid());
         }
         return false;
     }
@@ -410,7 +401,7 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
     @Override
     public GasStack drawGas(EnumFacing side, int amount, boolean doTransfer) {
         if (canDrawGas(side, null)) {
-            return getTank(side).draw(amount,doTransfer);
+            return getTank(side).draw(amount, doTransfer);
         }
         return null;
     }
@@ -422,7 +413,7 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
 
     @Override
     public boolean canDrawGas(EnumFacing side, Gas type) {
-        return getTank(side) !=null && getTank(side).getGas() != null && getTank(side).stored.getGas() == type;
+        return getTank(side) != null && getTank(side).getGas() != null && getTank(side).stored.getGas() == type;
     }
 
     @Nonnull

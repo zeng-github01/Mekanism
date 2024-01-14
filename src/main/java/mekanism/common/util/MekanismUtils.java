@@ -2,9 +2,6 @@ package mekanism.common.util;
 
 import com.mojang.authlib.GameProfile;
 import ic2.api.energy.EnergyNet;
-import java.util.*;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.api.Chunk3D;
 import mekanism.api.Coord4D;
 import mekanism.api.IMekWrench;
@@ -62,6 +59,10 @@ import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
 
 /**
  * Utilities used by Mekanism. All miscellaneous methods are located here.
@@ -188,31 +189,21 @@ public final class MekanismUtils {
      */
     public static EnumFacing getBaseOrientation(EnumFacing side, EnumFacing blockFacing) {
         if (blockFacing == EnumFacing.DOWN) {
-            switch (side) {
-                case DOWN:
-                    return EnumFacing.NORTH;
-                case UP:
-                    return EnumFacing.SOUTH;
-                case NORTH:
-                    return EnumFacing.UP;
-                case SOUTH:
-                    return EnumFacing.DOWN;
-                default:
-                    return side;
-            }
+            return switch (side) {
+                case DOWN -> EnumFacing.NORTH;
+                case UP -> EnumFacing.SOUTH;
+                case NORTH -> EnumFacing.UP;
+                case SOUTH -> EnumFacing.DOWN;
+                default -> side;
+            };
         } else if (blockFacing == EnumFacing.UP) {
-            switch (side) {
-                case DOWN:
-                    return EnumFacing.SOUTH;
-                case UP:
-                    return EnumFacing.NORTH;
-                case NORTH:
-                    return EnumFacing.DOWN;
-                case SOUTH:
-                    return EnumFacing.UP;
-                default:
-                    return side;
-            }
+            return switch (side) {
+                case DOWN -> EnumFacing.SOUTH;
+                case UP -> EnumFacing.NORTH;
+                case NORTH -> EnumFacing.DOWN;
+                case SOUTH -> EnumFacing.UP;
+                default -> side;
+            };
         } else if (blockFacing == EnumFacing.SOUTH || side.getAxis() == Axis.Y) {
             if (side.getAxis() == Axis.Z) {
                 return side.getOpposite();
@@ -537,8 +528,7 @@ public final class MekanismUtils {
             return new FluidStack(MekanismFluids.HeavyWater, 10);
         } else if ((block == Blocks.LAVA || block == Blocks.FLOWING_LAVA) && state.getValue(BlockLiquid.LEVEL) == 0) {
             return new FluidStack(FluidRegistry.LAVA, Fluid.BUCKET_VOLUME);
-        } else if (block instanceof IFluidBlock) {
-            IFluidBlock fluid = (IFluidBlock) block;
+        } else if (block instanceof IFluidBlock fluid) {
             if (state.getProperties().containsKey(BlockFluidBase.LEVEL) && state.getValue(BlockFluidBase.LEVEL) == 0) {
                 return fluid.drain(world, pos.getPos(), false);
             }
@@ -631,21 +621,15 @@ public final class MekanismUtils {
      * @return if the TileEntity can function with redstone logic
      */
     public static boolean canFunction(TileEntity tileEntity) {
-        if (!(tileEntity instanceof IRedstoneControl)) {
+        if (!(tileEntity instanceof IRedstoneControl control)) {
             return true;
         }
-        IRedstoneControl control = (IRedstoneControl) tileEntity;
-        switch (control.getControlType()) {
-            case DISABLED:
-                return true;
-            case HIGH:
-                return control.isPowered();
-            case LOW:
-                return !control.isPowered();
-            case PULSE:
-                return control.isPowered() && !control.wasPowered();
-        }
-        return false;
+        return switch (control.getControlType()) {
+            case DISABLED -> true;
+            case HIGH -> control.isPowered();
+            case LOW -> !control.isPowered();
+            case PULSE -> control.isPowered() && !control.wasPowered();
+        };
     }
 
     /**
@@ -692,17 +676,12 @@ public final class MekanismUtils {
         if (energy == Double.MAX_VALUE) {
             return LangUtils.localize("gui.infinite");
         }
-        switch (MekanismConfig.current().general.energyUnit.val()) {
-            case J:
-                return UnitDisplayUtils.getDisplayShort(energy, ElectricUnit.JOULES);
-            case RF:
-                return UnitDisplayUtils.getDisplayShort(RFIntegration.toRFAsDouble(energy), ElectricUnit.REDSTONE_FLUX);
-            case EU:
-                return UnitDisplayUtils.getDisplayShort(IC2Integration.toEU(energy), ElectricUnit.ELECTRICAL_UNITS);
-            case T:
-                return UnitDisplayUtils.getDisplayShort(TeslaIntegration.toTeslaAsDouble(energy), ElectricUnit.TESLA);
-        }
-        return "error";
+        return switch (MekanismConfig.current().general.energyUnit.val()) {
+            case J -> UnitDisplayUtils.getDisplayShort(energy, ElectricUnit.JOULES);
+            case RF -> UnitDisplayUtils.getDisplayShort(RFIntegration.toRFAsDouble(energy), ElectricUnit.REDSTONE_FLUX);
+            case EU -> UnitDisplayUtils.getDisplayShort(IC2Integration.toEU(energy), ElectricUnit.ELECTRICAL_UNITS);
+            case T -> UnitDisplayUtils.getDisplayShort(TeslaIntegration.toTeslaAsDouble(energy), ElectricUnit.TESLA);
+        };
     }
 
     public static String getEnergyDisplay(double energy, double max) {
@@ -721,16 +700,12 @@ public final class MekanismUtils {
      * @return energy converted to joules
      */
     public static double convertToJoules(double energy) {
-        switch (MekanismConfig.current().general.energyUnit.val()) {
-            case RF:
-                return RFIntegration.fromRF(energy);
-            case EU:
-                return IC2Integration.fromEU(energy);
-            case T:
-                return TeslaIntegration.fromTesla(energy);
-            default:
-                return energy;
-        }
+        return switch (MekanismConfig.current().general.energyUnit.val()) {
+            case RF -> RFIntegration.fromRF(energy);
+            case EU -> IC2Integration.fromEU(energy);
+            case T -> TeslaIntegration.fromTesla(energy);
+            default -> energy;
+        };
     }
 
     /**
@@ -740,16 +715,12 @@ public final class MekanismUtils {
      * @return energy converted to configured unit
      */
     public static double convertToDisplay(double energy) {
-        switch (MekanismConfig.current().general.energyUnit.val()) {
-            case RF:
-                return RFIntegration.toRFAsDouble(energy);
-            case EU:
-                return IC2Integration.toEU(energy);
-            case T:
-                return TeslaIntegration.toTeslaAsDouble(energy);
-            default:
-                return energy;
-        }
+        return switch (MekanismConfig.current().general.energyUnit.val()) {
+            case RF -> RFIntegration.toRFAsDouble(energy);
+            case EU -> IC2Integration.toEU(energy);
+            case T -> TeslaIntegration.toTeslaAsDouble(energy);
+            default -> energy;
+        };
     }
 
     /**
@@ -760,19 +731,13 @@ public final class MekanismUtils {
      */
     public static String getTemperatureDisplay(double T, TemperatureUnit unit) {
         double TK = unit.convertToK(T, true);
-        switch (MekanismConfig.current().general.tempUnit.val()) {
-            case K:
-                return UnitDisplayUtils.getDisplayShort(TK, TemperatureUnit.KELVIN);
-            case C:
-                return UnitDisplayUtils.getDisplayShort(TK, TemperatureUnit.CELSIUS);
-            case R:
-                return UnitDisplayUtils.getDisplayShort(TK, TemperatureUnit.RANKINE);
-            case F:
-                return UnitDisplayUtils.getDisplayShort(TK, TemperatureUnit.FAHRENHEIT);
-            case STP:
-                return UnitDisplayUtils.getDisplayShort(TK, TemperatureUnit.AMBIENT);
-        }
-        return "error";
+        return switch (MekanismConfig.current().general.tempUnit.val()) {
+            case K -> UnitDisplayUtils.getDisplayShort(TK, TemperatureUnit.KELVIN);
+            case C -> UnitDisplayUtils.getDisplayShort(TK, TemperatureUnit.CELSIUS);
+            case R -> UnitDisplayUtils.getDisplayShort(TK, TemperatureUnit.RANKINE);
+            case F -> UnitDisplayUtils.getDisplayShort(TK, TemperatureUnit.FAHRENHEIT);
+            case STP -> UnitDisplayUtils.getDisplayShort(TK, TemperatureUnit.AMBIENT);
+        };
     }
 
     /**
@@ -915,10 +880,9 @@ public final class MekanismUtils {
      * @return if the player has operator privileges
      */
     public static boolean isOp(EntityPlayer p) {
-        if (!(p instanceof EntityPlayerMP)) {
+        if (!(p instanceof EntityPlayerMP player)) {
             return false;
         }
-        EntityPlayerMP player = (EntityPlayerMP) p;
         return MekanismConfig.current().general.opsBypassRestrictions.val() && player.server.getPlayerList().canSendCommands(player.getGameProfile());
     }
 
@@ -1039,7 +1003,8 @@ public final class MekanismUtils {
      * @param pos   - position
      * @return tile entity if found, null if either not found or not loaded
      */
-    @Nullable public static TileEntity getTileEntity(World world, BlockPos pos) {
+    @Nullable
+    public static TileEntity getTileEntity(World world, BlockPos pos) {
         if (world != null && world.isBlockLoaded(pos)) {
             return world.getTileEntity(pos);
         }
@@ -1066,8 +1031,7 @@ public final class MekanismUtils {
     }
 
     /**
-     * Clamp a double to int without using Math.min due to double representation issues. Primary use: power systems that use int, where Mek uses doubles internally
-     *
+     * Clamp a double to int without using Math.min due to double representation issues. Primary use: power systems that use int, where Mek uses doubles internally*
      * <code>
      * double d = 1e300; // way bigger than longs, so the long should always be what's returned by Math.min System.out.println((long)Math.min(123456781234567812L, d)); //
      * result is 123456781234567808 - 4 less than what you'd expect System.out.println((long)Math.min(123456789012345678L, d)); // result is 123456789012345680 - 2 more

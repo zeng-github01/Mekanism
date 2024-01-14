@@ -1,8 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.Objects;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigCardAccess;
 import mekanism.api.TileNetworkList;
@@ -29,6 +27,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
+import java.util.Objects;
 
 public class TileEntityChemicalCrystallizer extends TileEntityOperationalMachine implements IGasHandler, ISideConfiguration, ISustainedData, ITankManager, IConfigCardAccess, ITierUpgradeable {
 
@@ -153,11 +154,11 @@ public class TileEntityChemicalCrystallizer extends TileEntityOperationalMachine
     }
 
     public boolean canOperate(CrystallizerRecipe recipe) {
-        return recipe != null && recipe.canOperate(inputTank, inventory,1);
+        return recipe != null && recipe.canOperate(inputTank, inventory, 1);
     }
 
     public void operate(CrystallizerRecipe recipe) {
-        recipe.operate(inputTank, inventory,1);
+        recipe.operate(inputTank, inventory, 1);
         markDirty();
     }
 

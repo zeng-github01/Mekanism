@@ -1,6 +1,5 @@
 package mekanism.generators.client.gui;
 
-import java.util.Arrays;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
@@ -17,6 +16,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Arrays;
+
 @SideOnly(Side.CLIENT)
 public class GuiGasGenerator extends GuiMekanismTile<TileEntityGasGenerator> {
 
@@ -32,7 +33,7 @@ public class GuiGasGenerator extends GuiMekanismTile<TileEntityGasGenerator> {
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
         addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 16, 34).with(SlotOverlay.MINUS));
         addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 142, 34).with(SlotOverlay.POWER));
-        addGuiElement(new GuiPlayerSlot(this,getGuiLocation()));
+        addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
     }
 
     @Override

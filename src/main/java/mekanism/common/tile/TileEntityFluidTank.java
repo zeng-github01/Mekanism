@@ -1,8 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.api.Coord4D;
 import mekanism.api.IConfigurable;
 import mekanism.api.TileNetworkList;
@@ -34,6 +32,9 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class TileEntityFluidTank extends TileEntityContainerBlock implements IActiveState, IConfigurable, IFluidHandlerWrapper, ISustainedTank, IFluidContainerManager,
         ITankManager, ISecurityTile, ITierUpgradeable, ITieredTile, IComparatorSupport {
@@ -282,8 +283,7 @@ public class TileEntityFluidTank extends TileEntityContainerBlock implements IAc
         }
         Coord4D top = Coord4D.get(this).offset(EnumFacing.UP);
         TileEntity topTile = top.getTileEntity(world);
-        if (topTile instanceof TileEntityFluidTank) {
-            TileEntityFluidTank topTank = (TileEntityFluidTank) topTile;
+        if (topTile instanceof TileEntityFluidTank topTank) {
             if (fluidTank.getFluid() != null && topTank.fluidTank.getFluid() != null) {
                 if (fluidTank.getFluid().getFluid() != topTank.fluidTank.getFluid().getFluid()) {
                     return needed;
@@ -395,7 +395,8 @@ public class TileEntityFluidTank extends TileEntityContainerBlock implements IAc
     }
 
     @Override
-    @Nullable public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
+    @Nullable
+    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
         return fluidTank.drain(maxDrain, tier != FluidTankTier.CREATIVE && doDrain);
     }
 

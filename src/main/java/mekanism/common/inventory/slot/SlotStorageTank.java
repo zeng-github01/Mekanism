@@ -1,12 +1,13 @@
 package mekanism.common.inventory.slot;
 
-import java.util.Collection;
-import java.util.Collections;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.IGasItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
+import java.util.Collection;
+import java.util.Collections;
 
 public class SlotStorageTank extends Slot {
 
@@ -36,8 +37,7 @@ public class SlotStorageTank extends Slot {
         if (acceptsAllGasses) {
             return itemstack.getItem() instanceof IGasItem;
         }
-        if (itemstack.getItem() instanceof IGasItem) {
-            IGasItem gasItem = (IGasItem) itemstack.getItem();
+        if (itemstack.getItem() instanceof IGasItem gasItem) {
             return gasItem.getGas(itemstack) == null || types.contains(gasItem.getGas(itemstack).getGas());
         }
         return false;

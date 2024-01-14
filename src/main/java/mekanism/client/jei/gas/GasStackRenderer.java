@@ -1,8 +1,5 @@
 package mekanism.client.jei.gas;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Nullable;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.client.render.MekanismRenderer;
@@ -23,6 +20,10 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.Fluid;
 import org.lwjgl.opengl.GL11;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+
 public class GasStackRenderer implements IIngredientRenderer<GasStack> {
 
     private static final int TEX_WIDTH = 16;
@@ -33,7 +34,8 @@ public class GasStackRenderer implements IIngredientRenderer<GasStack> {
     private final TooltipMode tooltipMode;
     private final int width;
     private final int height;
-    @Nullable private final IDrawable overlay;
+    @Nullable
+    private final IDrawable overlay;
 
     public GasStackRenderer() {
         this(Fluid.BUCKET_VOLUME, TooltipMode.ITEM_LIST, TEX_WIDTH, TEX_HEIGHT, null);

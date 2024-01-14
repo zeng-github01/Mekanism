@@ -1,10 +1,5 @@
 package mekanism.common.tile;
 
-import java.util.Deque;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.common.integration.computer.IComputerIntegration;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
@@ -18,6 +13,12 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
+
+import javax.annotation.Nonnull;
+import java.util.Deque;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
 
 public class TileEntityThermalEvaporationBlock extends TileEntityContainerBlock implements IComputerIntegration {
 
@@ -115,20 +116,14 @@ public class TileEntityThermalEvaporationBlock extends TileEntityContainerBlock 
         if (controller == null) {
             return new Object[]{"Unformed."};
         }
-        switch (method) {
-            case 0:
-                return new Object[]{controller.temperature};
-            case 1:
-                return new Object[]{controller.height};
-            case 2:
-                return new Object[]{controller.structured};
-            case 3:
-                return new Object[]{controller.inputTank.getFluidAmount()};
-            case 4:
-                return new Object[]{controller.outputTank.getFluidAmount()};
-            default:
-                throw new NoSuchMethodException();
-        }
+        return switch (method) {
+            case 0 -> new Object[]{controller.temperature};
+            case 1 -> new Object[]{controller.height};
+            case 2 -> new Object[]{controller.structured};
+            case 3 -> new Object[]{controller.inputTank.getFluidAmount()};
+            case 4 -> new Object[]{controller.outputTank.getFluidAmount()};
+            default -> throw new NoSuchMethodException();
+        };
     }
 
     @Nonnull

@@ -9,7 +9,6 @@ import mekanism.common.integration.groovyscript.GrSMekanismAdd;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.DoubleMachineInput;
 import mekanism.common.recipe.machines.AlloyRecipe;
-
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 

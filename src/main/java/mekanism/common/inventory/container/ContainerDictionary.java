@@ -1,11 +1,12 @@
 package mekanism.common.inventory.container;
 
-import javax.annotation.Nonnull;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
+import javax.annotation.Nonnull;
 
 public class ContainerDictionary extends Container {
 
@@ -33,7 +34,7 @@ public class ContainerDictionary extends Container {
         if (currentSlot != null && currentSlot.getHasStack()) {
             ItemStack slotStack = currentSlot.getStack();
             stack = slotStack.copy();
-            if (slotID >= 0 && slotID <= 26) {
+            if (slotID <= 26) {
                 if (!mergeItemStack(slotStack, 27, inventorySlots.size(), false)) {
                     return ItemStack.EMPTY;
                 }

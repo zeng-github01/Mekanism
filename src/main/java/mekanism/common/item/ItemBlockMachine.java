@@ -4,12 +4,6 @@ import cofh.redstoneflux.api.IEnergyContainerItem;
 import ic2.api.item.IElectricItemManager;
 import ic2.api.item.ISpecialElectricItem;
 import io.netty.buffer.ByteBuf;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.energy.IEnergizedItem;
@@ -69,6 +63,13 @@ import net.minecraftforge.fml.common.Optional.InterfaceList;
 import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
 
 /**
  * Item class for handling multiple machine block IDs.
@@ -284,13 +285,11 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
 
         if (place && super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, state)) {
             TileEntityBasicBlock tileEntity = (TileEntityBasicBlock) world.getTileEntity(pos);
-            if (tileEntity instanceof TileEntityFluidTank) {
-                TileEntityFluidTank tile = (TileEntityFluidTank) tileEntity;
+            if (tileEntity instanceof TileEntityFluidTank tile) {
                 tile.tier = FluidTankTier.values()[getBaseTier(stack).ordinal()];
                 tile.fluidTank.setCapacity(tile.tier.getStorage());
             }
-            if (tileEntity instanceof ISecurityTile) {
-                ISecurityTile security = (ISecurityTile) tileEntity;
+            if (tileEntity instanceof ISecurityTile security) {
                 security.getSecurity().setOwnerUUID(getOwnerUUID(stack));
                 if (hasSecurity(stack)) {
                     security.getSecurity().setMode(getSecurity(stack));
@@ -306,8 +305,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
                 }
             }
 
-            if (tileEntity instanceof ISideConfiguration) {
-                ISideConfiguration config = (ISideConfiguration) tileEntity;
+            if (tileEntity instanceof ISideConfiguration config) {
                 if (ItemDataUtils.hasData(stack, "sideDataStored")) {
                     config.getConfig().read(ItemDataUtils.getDataMap(stack));
                     config.getEjector().read(ItemDataUtils.getDataMap(stack));
@@ -326,8 +324,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
                 }
             }
 
-            if (tileEntity instanceof TileEntityFactory) {
-                TileEntityFactory factory = (TileEntityFactory) tileEntity;
+            if (tileEntity instanceof TileEntityFactory factory) {
                 RecipeType recipeType = getRecipeTypeOrNull(stack);
                 if (recipeType != null) {
                     factory.setRecipeType(recipeType);
@@ -404,7 +401,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
             if (SecurityUtils.canAccess(entityplayer, itemstack)) {
                 RayTraceResult pos = rayTrace(world, entityplayer, !entityplayer.isSneaking());
                 //It can be null if there is nothing in range
-                if (pos != null && pos.typeOfHit == RayTraceResult.Type.BLOCK) {
+                if (pos.typeOfHit == RayTraceResult.Type.BLOCK) {
                     Coord4D coord = new Coord4D(pos.getBlockPos(), world);
                     if (!world.provider.canMineBlock(entityplayer, coord.getPos())) {
                         return new ActionResult<>(EnumActionResult.FAIL, itemstack);
@@ -461,7 +458,8 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
         return itemStack.getTagCompound().getInteger("recipeType");
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public RecipeType getRecipeTypeOrNull(ItemStack itemStack) {
         int recipeType = getRecipeType(itemStack);
         if (recipeType < RecipeType.values().length) {
@@ -495,8 +493,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
 
     @Override
     public void setFluidStack(FluidStack fluidStack, Object... data) {
-        if (data[0] instanceof ItemStack) {
-            ItemStack itemStack = (ItemStack) data[0];
+        if (data[0] instanceof ItemStack itemStack) {
             if (fluidStack == null || fluidStack.amount == 0) {
                 ItemDataUtils.removeData(itemStack, "fluidTank");
             } else {
@@ -507,8 +504,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
 
     @Override
     public FluidStack getFluidStack(Object... data) {
-        if (data[0] instanceof ItemStack) {
-            ItemStack itemStack = (ItemStack) data[0];
+        if (data[0] instanceof ItemStack itemStack) {
             if (!ItemDataUtils.hasData(itemStack, "fluidTank")) {
                 return null;
             }
@@ -724,7 +720,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
     @Override
     public boolean hasSecurity(ItemStack stack) {
         MachineType type = MachineType.get(stack);
-        return type != MachineType.LASER && type != MachineType.CHARGEPAD && type != MachineType.TELEPORTER && type != MachineType.QUANTUM_ENTANGLOPORTER &&  type != MachineType.INDUSTRIAL_ALARM;
+        return type != MachineType.LASER && type != MachineType.CHARGEPAD && type != MachineType.TELEPORTER && type != MachineType.QUANTUM_ENTANGLOPORTER && type != MachineType.INDUSTRIAL_ALARM;
 
     }
 

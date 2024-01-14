@@ -1,11 +1,12 @@
 package mekanism.common.util;
 
-import java.util.Collection;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.*;
 import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.Collection;
 
 public final class MultipartUtils {
 
@@ -16,21 +17,14 @@ public final class MultipartUtils {
     }
 
     public static Vec3d rotate(Vec3d vec, EnumFacing side) {
-        switch (side) {
-            case DOWN:
-                return new Vec3d(vec.x, vec.y, vec.z);
-            case UP:
-                return new Vec3d(vec.x, -vec.y, -vec.z);
-            case NORTH:
-                return new Vec3d(vec.x, -vec.z, vec.y);
-            case SOUTH:
-                return new Vec3d(vec.x, vec.z, -vec.y);
-            case WEST:
-                return new Vec3d(vec.y, -vec.x, vec.z);
-            case EAST:
-                return new Vec3d(-vec.y, vec.x, vec.z);
-        }
-        return null;
+        return switch (side) {
+            case DOWN -> new Vec3d(vec.x, vec.y, vec.z);
+            case UP -> new Vec3d(vec.x, -vec.y, -vec.z);
+            case NORTH -> new Vec3d(vec.x, -vec.z, vec.y);
+            case SOUTH -> new Vec3d(vec.x, vec.z, -vec.y);
+            case WEST -> new Vec3d(vec.y, -vec.x, vec.z);
+            case EAST -> new Vec3d(-vec.y, vec.x, vec.z);
+        };
     }
 
     /* taken from MCMP */

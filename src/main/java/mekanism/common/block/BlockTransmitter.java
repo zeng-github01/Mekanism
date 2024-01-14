@@ -1,9 +1,5 @@
 package mekanism.common.block;
 
-import java.util.Collections;
-import java.util.List;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.api.IMekWrench;
 import mekanism.client.render.particle.MekanismParticleHelper;
 import mekanism.common.Mekanism;
@@ -48,6 +44,11 @@ import net.minecraftforge.client.model.obj.OBJModel.OBJState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
 
 public class BlockTransmitter extends BlockTileDrops implements ITileEntityProvider {
 
@@ -347,22 +348,14 @@ public class BlockTransmitter extends BlockTileDrops implements ITileEntityProvi
     @Override
     public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
         TransmitterType type = TransmitterType.get(meta);
-        switch (type) {
-            case UNIVERSAL_CABLE:
-                return new TileEntityUniversalCable();
-            case MECHANICAL_PIPE:
-                return new TileEntityMechanicalPipe();
-            case PRESSURIZED_TUBE:
-                return new TileEntityPressurizedTube();
-            case LOGISTICAL_TRANSPORTER:
-                return new TileEntityLogisticalTransporter();
-            case DIVERSION_TRANSPORTER:
-                return new TileEntityDiversionTransporter();
-            case RESTRICTIVE_TRANSPORTER:
-                return new TileEntityRestrictiveTransporter();
-            case THERMODYNAMIC_CONDUCTOR:
-                return new TileEntityThermodynamicConductor();
-        }
-        return null;
+        return switch (type) {
+            case UNIVERSAL_CABLE -> new TileEntityUniversalCable();
+            case MECHANICAL_PIPE -> new TileEntityMechanicalPipe();
+            case PRESSURIZED_TUBE -> new TileEntityPressurizedTube();
+            case LOGISTICAL_TRANSPORTER -> new TileEntityLogisticalTransporter();
+            case DIVERSION_TRANSPORTER -> new TileEntityDiversionTransporter();
+            case RESTRICTIVE_TRANSPORTER -> new TileEntityRestrictiveTransporter();
+            case THERMODYNAMIC_CONDUCTOR -> new TileEntityThermodynamicConductor();
+        };
     }
 }

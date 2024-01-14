@@ -240,8 +240,7 @@ public class MekanismRecipe {
 
         //T4 Processing Recipes
         for (Gas gas : GasRegistry.getRegisteredGasses()) {
-            if (gas instanceof OreGas && !((OreGas) gas).isClean()) {
-                OreGas oreGas = (OreGas) gas;
+            if (gas instanceof OreGas oreGas && !((OreGas) gas).isClean()) {
                 if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.CHEMICAL_WASHER)) {
                     RecipeHandler.addChemicalWasherRecipe(new GasStack(oreGas, 1), new GasStack(oreGas.getCleanGas(), 1));
                 }

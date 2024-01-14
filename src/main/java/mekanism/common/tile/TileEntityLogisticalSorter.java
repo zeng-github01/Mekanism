@@ -1,8 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.Iterator;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigCardAccess.ISpecialConfigData;
@@ -35,6 +33,9 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
+
+import javax.annotation.Nonnull;
+import java.util.Iterator;
 
 public class TileEntityLogisticalSorter extends TileEntityEffectsBlock implements IRedstoneControl, ISpecialConfigData, ISustainedData, ISecurityTile,
         IComputerIntegration, IUpgradeTile, IComparatorSupport {
@@ -87,8 +88,7 @@ public class TileEntityLogisticalSorter extends TileEntityEffectsBlock implement
                             }
                             ItemStack itemStack = invStack.getStack();
                             if (filter.canFilter(itemStack, !singleItem)) {
-                                if (!singleItem && filter instanceof TItemStackFilter) {
-                                    TItemStackFilter itemFilter = (TItemStackFilter) filter;
+                                if (!singleItem && filter instanceof TItemStackFilter itemFilter) {
                                     if (itemFilter.sizeMode) {
                                         min = itemFilter.min;
                                     }
@@ -570,10 +570,9 @@ public class TileEntityLogisticalSorter extends TileEntityEffectsBlock implement
                 filters.add(filter);
                 return new Object[]{"Added filter."};
             } else if (method == 6) {
-                if (arguments.length != 1 || !(arguments[0] instanceof String)) {
+                if (arguments.length != 1 || !(arguments[0] instanceof String ore)) {
                     return new Object[]{"Invalid parameters."};
                 }
-                String ore = (String) arguments[0];
                 Iterator<TransporterFilter> iter = filters.iterator();
                 while (iter.hasNext()) {
                     TransporterFilter filter = iter.next();

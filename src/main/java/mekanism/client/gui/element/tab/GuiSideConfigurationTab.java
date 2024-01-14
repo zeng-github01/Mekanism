@@ -23,11 +23,12 @@ public class GuiSideConfigurationTab extends GuiTabElement<TileEntity> {
     public void displayForegroundTooltip(int xAxis, int yAxis) {
         displayTooltip(LangUtils.localize("gui.configuration.side"), xAxis, yAxis);
     }
+
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        super.renderBackground(xAxis,yAxis,guiWidth,guiHeight);
+        super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
         mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.BUTTON_TAB, "button_tab_icon.png"));
-        guiObj.drawTexturedRect(guiWidth -21, guiHeight + 6 + 4, 54, 0, 18, 18);
+        guiObj.drawTexturedRect(guiWidth - 21, guiHeight + 6 + 4, 54, 0, 18, 18);
     }
 
     @Override

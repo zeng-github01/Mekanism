@@ -20,6 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiTurbineTab extends GuiTabElementType<TileEntityTurbineCasing, TurbineTab> {
 
     private TurbineTab tab;
+
     public GuiTurbineTab(IGuiWrapper gui, TileEntityTurbineCasing tile, TurbineTab type, ResourceLocation def) {
         super(gui, tile, type, def);
         tab = type;

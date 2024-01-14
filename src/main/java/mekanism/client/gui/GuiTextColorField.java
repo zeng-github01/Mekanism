@@ -708,6 +708,7 @@ public class GuiTextColorField extends Gui {
     public void setFocusedboxbordercolor(int color) {
         Focusedboxbordercolor = color;
     }
+
     public void setInternalBackgroundColor(int color) {
         InternalBackgroundColor = color;
     }

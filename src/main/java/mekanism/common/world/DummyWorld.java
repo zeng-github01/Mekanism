@@ -1,8 +1,5 @@
 package mekanism.common.world;
 
-import java.io.File;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.profiler.Profiler;
@@ -16,6 +13,10 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
 import net.minecraft.world.storage.IPlayerFileData;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
+
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.io.File;
 
 /**
  * Dummy object for providing something to CraftingManager#findMatchingRecipe during startup, to prevent in-dev non-null assertions from breaking things
@@ -48,7 +49,8 @@ public class DummyWorld extends World {
 
     public static class DummySaveHandler implements ISaveHandler {
 
-        @Nullable @Override
+        @Nullable
+        @Override
         public WorldInfo loadWorldInfo() {
             return null;
         }

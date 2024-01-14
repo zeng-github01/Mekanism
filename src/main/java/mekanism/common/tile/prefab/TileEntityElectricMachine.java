@@ -1,6 +1,5 @@
 package mekanism.common.tile.prefab;
 
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.MekanismItems;
@@ -19,6 +18,8 @@ import mekanism.common.util.MekanismUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
+
+import javax.annotation.Nonnull;
 
 public abstract class TileEntityElectricMachine<RECIPE extends BasicMachineRecipe<RECIPE>> extends TileEntityUpgradeableMachine<ItemStackInput, ItemStackOutput, RECIPE> {
 
@@ -137,23 +138,15 @@ public abstract class TileEntityElectricMachine<RECIPE extends BasicMachineRecip
 
     @Override
     public Object[] invoke(int method, Object[] arguments) throws NoSuchMethodException {
-        switch (method) {
-            case 0:
-                return new Object[]{getEnergy()};
-            case 1:
-                return new Object[]{operatingTicks};
-            case 2:
-                return new Object[]{isActive};
-            case 3:
-                return new Object[]{facing};
-            case 4:
-                return new Object[]{canOperate(getRecipe())};
-            case 5:
-                return new Object[]{getMaxEnergy()};
-            case 6:
-                return new Object[]{getMaxEnergy() - getEnergy()};
-            default:
-                throw new NoSuchMethodException();
-        }
+        return switch (method) {
+            case 0 -> new Object[]{getEnergy()};
+            case 1 -> new Object[]{operatingTicks};
+            case 2 -> new Object[]{isActive};
+            case 3 -> new Object[]{facing};
+            case 4 -> new Object[]{canOperate(getRecipe())};
+            case 5 -> new Object[]{getMaxEnergy()};
+            case 6 -> new Object[]{getMaxEnergy() - getEnergy()};
+            default -> throw new NoSuchMethodException();
+        };
     }
 }

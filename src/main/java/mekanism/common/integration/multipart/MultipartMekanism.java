@@ -1,12 +1,5 @@
 package mekanism.common.integration.multipart;
 
-import static mekanism.common.block.states.BlockStateMachine.MachineBlock.MACHINE_BLOCK_1;
-import static mekanism.common.block.states.BlockStateMachine.MachineBlock.MACHINE_BLOCK_2;
-
-import java.util.Collection;
-import java.util.Collections;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mcmultipart.api.addon.IMCMPAddon;
 import mcmultipart.api.addon.MCMPAddon;
 import mcmultipart.api.container.IMultipartContainer;
@@ -50,6 +43,14 @@ import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.Collections;
+
+import static mekanism.common.block.states.BlockStateMachine.MachineBlock.MACHINE_BLOCK_1;
+import static mekanism.common.block.states.BlockStateMachine.MachineBlock.MACHINE_BLOCK_2;
 
 @MCMPAddon
 public class MultipartMekanism implements IMCMPAddon {
@@ -152,7 +153,8 @@ public class MultipartMekanism implements IMCMPAddon {
                 return capability == MCMPCapabilities.MULTIPART_TILE;
             }
 
-            @Nullable @Override
+            @Nullable
+            @Override
             public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
                 if (capability == MCMPCapabilities.MULTIPART_TILE) {
                     if (tile == null) {

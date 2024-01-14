@@ -1,8 +1,5 @@
 package mekanism.common.content.transporter;
 
-import java.util.*;
-import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.common.base.ILogisticalTransporter;
 import mekanism.common.capabilities.Capabilities;
@@ -19,6 +16,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.Pair;
+
+import javax.annotation.Nonnull;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public final class TransporterPathfinder {
 

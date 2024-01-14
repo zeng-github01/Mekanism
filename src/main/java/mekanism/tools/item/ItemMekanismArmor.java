@@ -1,7 +1,5 @@
 package mekanism.tools.item;
 
-import java.util.List;
-import java.util.Locale;
 import mekanism.client.render.ModelCustomArmor;
 import mekanism.common.util.LangUtils;
 import mekanism.tools.common.IHasRepairType;
@@ -17,6 +15,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
+import java.util.Locale;
 
 public class ItemMekanismArmor extends ItemArmor implements IHasRepairType {
 

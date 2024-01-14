@@ -1,9 +1,6 @@
 package mekanism.generators.common.tile.reactor;
 
 import io.netty.buffer.ByteBuf;
-import java.util.EnumSet;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.api.*;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
@@ -33,6 +30,10 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.EnumSet;
 
 public class TileEntityReactorPort extends TileEntityReactorBlock implements IFluidHandlerWrapper, IGasHandler, IHeatTransfer, IConfigurable {
 
@@ -91,7 +92,8 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
     }
 
     @Override
-    @Nullable public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
+    @Nullable
+    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
         return getReactor().getSteamTank().drain(maxDrain, doDrain);
     }
 
@@ -316,8 +318,7 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
 
     @Override
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
-        if (getReactor() != null && getReactor().isFormed() && itemstack.getItem() instanceof ItemHohlraum) {
-            ItemHohlraum hohlraum = (ItemHohlraum) itemstack.getItem();
+        if (getReactor() != null && getReactor().isFormed() && itemstack.getItem() instanceof ItemHohlraum hohlraum) {
             return hohlraum.getGas(itemstack) != null && hohlraum.getGas(itemstack).amount == hohlraum.getMaxGas(itemstack);
         }
         return false;
@@ -325,8 +326,7 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
 
     @Override
     public boolean canExtractItem(int slotID, @Nonnull ItemStack itemstack, @Nonnull EnumFacing side) {
-        if (getReactor() != null && getReactor().isFormed() && itemstack.getItem() instanceof ItemHohlraum) {
-            ItemHohlraum hohlraum = (ItemHohlraum) itemstack.getItem();
+        if (getReactor() != null && getReactor().isFormed() && itemstack.getItem() instanceof ItemHohlraum hohlraum) {
             return hohlraum.getGas(itemstack) == null;
         }
         return false;

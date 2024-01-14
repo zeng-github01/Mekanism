@@ -1,8 +1,5 @@
 package mekanism.common.inventory.container;
 
-import static mekanism.common.tile.TileEntityFormulaicAssemblicator.*;
-
-import javax.annotation.Nonnull;
 import mekanism.common.inventory.slot.SlotEnergy.SlotDischarge;
 import mekanism.common.inventory.slot.SlotOutput;
 import mekanism.common.inventory.slot.SlotSpecific;
@@ -15,6 +12,10 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+
+import static mekanism.common.tile.TileEntityFormulaicAssemblicator.*;
 
 public class ContainerFormulaicAssemblicator extends ContainerMekanism<TileEntityFormulaicAssemblicator> {
 

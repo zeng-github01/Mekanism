@@ -36,8 +36,7 @@ public class CommonPlayerTickHandler {
         ItemStack tank = player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
         ItemStack mask = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
         if (!tank.isEmpty() && !mask.isEmpty()) {
-            if (tank.getItem() instanceof ItemScubaTank && mask.getItem() instanceof ItemGasMask) {
-                ItemScubaTank scubaTank = (ItemScubaTank) tank.getItem();
+            if (tank.getItem() instanceof ItemScubaTank scubaTank && mask.getItem() instanceof ItemGasMask) {
                 if (scubaTank.getGas(tank) != null) {
                     return scubaTank.getFlowing(tank);
                 }
@@ -129,8 +128,7 @@ public class CommonPlayerTickHandler {
     public boolean isJetpackOn(EntityPlayer player) {
         if (!player.isCreative() && !player.isSpectator()) {
             ItemStack chest = player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
-            if (!chest.isEmpty() && chest.getItem() instanceof ItemJetpack) {
-                ItemJetpack jetpack = (ItemJetpack) chest.getItem();
+            if (!chest.isEmpty() && chest.getItem() instanceof ItemJetpack jetpack) {
                 if (jetpack.getGas(chest) != null) {
                     JetpackMode mode = jetpack.getMode(chest);
                     if (mode == JetpackMode.NORMAL) {

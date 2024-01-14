@@ -1,6 +1,5 @@
 package mekanism.client.gui.robit;
 
-import java.io.IOException;
 import mekanism.client.gui.GuiMekanism;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiInnerScreen;
@@ -23,6 +22,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
 
 @SideOnly(Side.CLIENT)
 public class GuiRobitMain extends GuiMekanism {
@@ -134,7 +135,7 @@ public class GuiRobitMain extends GuiMekanism {
 
         if (!displayNameChange) {
             CharSequence owner = robit.getOwnerName().length() > 14 ? robit.getOwnerName().subSequence(0, 14) : robit.getOwnerName();
-            fontRenderer.drawString(LangUtils.localize("gui.robit.greeting")  + robit.getName() + LangUtils.localize("!"), 29, 18, 0xFF3CFE9A);
+            fontRenderer.drawString(LangUtils.localize("gui.robit.greeting") + robit.getName() + LangUtils.localize("!"), 29, 18, 0xFF3CFE9A);
             fontRenderer.drawString(LangUtils.localize("gui.energy") + ": " + MekanismUtils.getEnergyDisplay(robit.getEnergy(), robit.MAX_ELECTRICITY), 29, 36 - 4, 0xFF3CFE9A);
             fontRenderer.drawString(LangUtils.localize("gui.robit.following") + " : " + robit.getFollowing(), 29, 45 - 4, 0xFF3CFE9A);
             fontRenderer.drawString(LangUtils.localize("gui.robit.dropPickup") + " : " + robit.getDropPickup(), 29, 54 - 4, 0xFF3CFE9A);

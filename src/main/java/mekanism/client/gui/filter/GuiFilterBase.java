@@ -1,6 +1,5 @@
 package mekanism.client.gui.filter;
 
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiDisableableButton;
@@ -22,6 +21,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
+
+import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiFilterBase<FILTER extends IFilter, TILE extends TileEntityContainerBlock> extends GuiFilter<TILE> {
@@ -63,8 +64,7 @@ public abstract class GuiFilterBase<FILTER extends IFilter, TILE extends TileEnt
     }
 
     protected void drawMinerForegroundLayer(int mouseX, int mouseY, ItemStack stack) {
-        if (filter instanceof MinerFilter) {
-            MinerFilter mFilter = (MinerFilter) filter;
+        if (filter instanceof MinerFilter mFilter) {
             renderItem(stack, 12, 19);
             renderItem(mFilter.replaceStack, 149, 19);
             if (replaceButton.isMouseOver()) {
@@ -74,8 +74,7 @@ public abstract class GuiFilterBase<FILTER extends IFilter, TILE extends TileEnt
     }
 
     protected void drawTransporterForegroundLayer(int mouseX, int mouseY, @Nonnull ItemStack stack) {
-        if (filter instanceof TransporterFilter) {
-            TransporterFilter tFilter = (TransporterFilter) filter;
+        if (filter instanceof TransporterFilter tFilter) {
             fontRenderer.drawString(LangUtils.transOnOff(tFilter.allowDefault), 24, 66, 0x404040);
             renderItem(stack, 12, 19);
             drawTransporterForegroundText(mouseX - guiLeft, mouseY - guiTop, tFilter);

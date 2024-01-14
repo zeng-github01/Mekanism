@@ -47,16 +47,10 @@ public class ParticleLaser extends Particle {
         GlStateManager.translate(newX, newY, newZ);
 
         switch (direction) {
-            case WEST:
-            case EAST:
-                GlStateManager.rotate(90, 0, 0, 1);
-                break;
-            case NORTH:
-            case SOUTH:
-                GlStateManager.rotate(90, 1, 0, 0);
-                break;
-            default:
-                break;
+            case WEST, EAST -> GlStateManager.rotate(90, 0, 0, 1);
+            case NORTH, SOUTH -> GlStateManager.rotate(90, 1, 0, 0);
+            default -> {
+            }
         }
         drawLaser(buffer, tessellator);
         GlStateManager.popMatrix();

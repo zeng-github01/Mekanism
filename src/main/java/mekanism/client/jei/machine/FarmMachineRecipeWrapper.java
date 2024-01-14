@@ -1,8 +1,5 @@
 package mekanism.client.jei.machine;
 
-import java.util.Arrays;
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.client.jei.MekanismJEI;
@@ -15,6 +12,10 @@ import mezz.jei.api.ingredients.VanillaTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
+
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.List;
 
 public class FarmMachineRecipeWrapper<RECIPE extends FarmMachineRecipe<RECIPE>> extends MekanismRecipeWrapper<RECIPE> {
 

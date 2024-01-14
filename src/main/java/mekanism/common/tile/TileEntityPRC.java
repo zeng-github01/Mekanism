@@ -1,9 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.Map;
-import java.util.Objects;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
@@ -34,6 +31,10 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
+import java.util.Map;
+import java.util.Objects;
 
 public class TileEntityPRC extends TileEntityBasicMachine<PressurizedInput, PressurizedOutput, PressurizedRecipe> implements IFluidHandlerWrapper, IGasHandler,
         ISustainedData, ITankManager, ITierUpgradeable {
@@ -166,7 +167,6 @@ public class TileEntityPRC extends TileEntityBasicMachine<PressurizedInput, Pres
     }
 
 
-
     @Override
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
         if (slotID == 0) {
@@ -195,13 +195,13 @@ public class TileEntityPRC extends TileEntityBasicMachine<PressurizedInput, Pres
 
     @Override
     public void operate(PressurizedRecipe recipe) {
-        recipe.operate(inventory, 0 ,inputFluidTank, inputGasTank, outputGasTank,2);
+        recipe.operate(inventory, 0, inputFluidTank, inputGasTank, outputGasTank, 2);
         markDirty();
     }
 
     @Override
     public boolean canOperate(PressurizedRecipe recipe) {
-        return recipe != null && recipe.canOperate(inventory,0, inputFluidTank, inputGasTank, outputGasTank,2);
+        return recipe != null && recipe.canOperate(inventory, 0, inputFluidTank, inputGasTank, outputGasTank, 2);
     }
 
     @Override
@@ -250,7 +250,6 @@ public class TileEntityPRC extends TileEntityBasicMachine<PressurizedInput, Pres
     }
 
 
-
     @Override
     public Map<PressurizedInput, PressurizedRecipe> getRecipes() {
         return null;
@@ -263,28 +262,18 @@ public class TileEntityPRC extends TileEntityBasicMachine<PressurizedInput, Pres
 
     @Override
     public Object[] invoke(int method, Object[] arguments) throws NoSuchMethodException {
-        switch (method) {
-            case 0:
-                return new Object[]{getEnergy()};
-            case 1:
-                return new Object[]{operatingTicks};
-            case 2:
-                return new Object[]{isActive};
-            case 3:
-                return new Object[]{facing};
-            case 4:
-                return new Object[]{canOperate(getRecipe())};
-            case 5:
-                return new Object[]{getMaxEnergy()};
-            case 6:
-                return new Object[]{getMaxEnergy() - getEnergy()};
-            case 7:
-                return new Object[]{inputFluidTank.getFluidAmount()};
-            case 8:
-                return new Object[]{inputGasTank.getStored()};
-            default:
-                throw new NoSuchMethodException();
-        }
+        return switch (method) {
+            case 0 -> new Object[]{getEnergy()};
+            case 1 -> new Object[]{operatingTicks};
+            case 2 -> new Object[]{isActive};
+            case 3 -> new Object[]{facing};
+            case 4 -> new Object[]{canOperate(getRecipe())};
+            case 5 -> new Object[]{getMaxEnergy()};
+            case 6 -> new Object[]{getMaxEnergy() - getEnergy()};
+            case 7 -> new Object[]{inputFluidTank.getFluidAmount()};
+            case 8 -> new Object[]{inputGasTank.getStored()};
+            default -> throw new NoSuchMethodException();
+        };
     }
 
     @Override
@@ -302,7 +291,7 @@ public class TileEntityPRC extends TileEntityBasicMachine<PressurizedInput, Pres
 
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
-        if (configComponent.getOutput(TransmissionType.FLUID, from, facing).ioState != SideData.IOState.OFF){
+        if (configComponent.getOutput(TransmissionType.FLUID, from, facing).ioState != SideData.IOState.OFF) {
             return new FluidTankInfo[]{inputFluidTank.getInfo()};
         }
         return PipeUtils.EMPTY;
@@ -331,7 +320,7 @@ public class TileEntityPRC extends TileEntityBasicMachine<PressurizedInput, Pres
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && inputGasTank.canReceive(type) ;
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && inputGasTank.canReceive(type);
     }
 
     @Override

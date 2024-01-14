@@ -1,6 +1,5 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.GasStack;
 import mekanism.client.gui.button.GuiDisableableButton;
@@ -20,13 +19,13 @@ import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.tile.TileEntityGasTank;
 import mekanism.common.util.LangUtils;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.io.IOException;
 
 @SideOnly(Side.CLIENT)
 public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
@@ -79,15 +78,8 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
         if (gas != null) {
             MekanismRenderer.color(gas);
             int scale = (int) (((double) tileEntity.gasTank.getStored() / tileEntity.tier.getStorage()) * 116);
-            displayGauge(42, 16, 118, 12, gas.getGas().getSprite(),scale);
+            GuiUtils.drawGasBarSprite(guiLeft + 42, guiTop + 16, 118, 12, scale, gas, false);
             MekanismRenderer.resetColor();
-        }
-    }
-
-    public void displayGauge(int xPos, int yPos, int sizeX, int sizeY, TextureAtlasSprite icon,int displayInt) {
-        if (icon != null) {
-            mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-            GuiUtils.drawTiledSprite(guiLeft + xPos + 1, guiTop + yPos + 1, sizeY - 2, displayInt, sizeY - 2, icon, GuiUtils.TilingDirection.DOWN_RIGHT);
         }
     }
 

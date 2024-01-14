@@ -1,9 +1,6 @@
 package mekanism.common.tile.transmitter;
 
 import io.netty.buffer.ByteBuf;
-import java.util.Map;
-import java.util.Set;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
@@ -17,6 +14,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextComponentString;
+
+import javax.annotation.Nonnull;
+import java.util.Map;
+import java.util.Set;
 
 public class TileEntityDiversionTransporter extends TileEntityLogisticalTransporter {
 
@@ -93,15 +94,9 @@ public class TileEntityDiversionTransporter extends TileEntityLogisticalTranspor
         String description = "ERROR";
         modes[side.ordinal()] = newMode;
         switch (newMode) {
-            case 0:
-                description = LangUtils.localize("control.disabled.desc");
-                break;
-            case 1:
-                description = LangUtils.localize("control.high.desc");
-                break;
-            case 2:
-                description = LangUtils.localize("control.low.desc");
-                break;
+            case 0 -> description = LangUtils.localize("control.disabled.desc");
+            case 1 -> description = LangUtils.localize("control.high.desc");
+            case 2 -> description = LangUtils.localize("control.low.desc");
         }
         refreshConnections();
         notifyTileChange();

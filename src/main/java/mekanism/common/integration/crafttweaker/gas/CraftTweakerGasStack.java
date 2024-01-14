@@ -3,8 +3,9 @@ package mekanism.common.integration.crafttweaker.gas;
 import crafttweaker.api.item.*;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.player.IPlayer;
-import java.util.List;
 import mekanism.api.gas.GasStack;
+
+import java.util.List;
 
 public class CraftTweakerGasStack implements IGasStack {
 

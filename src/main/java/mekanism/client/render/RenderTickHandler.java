@@ -1,7 +1,5 @@
 package mekanism.client.render;
 
-import java.util.Random;
-import java.util.UUID;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.MekanismAPI;
@@ -33,6 +31,9 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Random;
+import java.util.UUID;
 
 @SideOnly(Side.CLIENT)
 public class RenderTickHandler {

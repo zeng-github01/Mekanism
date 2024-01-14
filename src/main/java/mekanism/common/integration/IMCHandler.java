@@ -1,6 +1,5 @@
 package mekanism.common.integration;
 
-import java.util.List;
 import mekanism.common.Mekanism;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.RecipeHandler.Recipe;
@@ -8,6 +7,8 @@ import mekanism.common.recipe.inputs.MachineInput;
 import mekanism.common.recipe.machines.MachineRecipe;
 import mekanism.common.recipe.outputs.MachineOutput;
 import net.minecraftforge.fml.common.event.FMLInterModComms.IMCMessage;
+
+import java.util.List;
 
 public class IMCHandler {
 

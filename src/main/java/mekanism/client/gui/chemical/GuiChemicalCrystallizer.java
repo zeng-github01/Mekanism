@@ -1,8 +1,5 @@
 package mekanism.client.gui.chemical;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.OreGas;
 import mekanism.client.gui.GuiMekanismTile;
@@ -30,6 +27,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalCrystallizer> {
@@ -64,8 +65,8 @@ public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalC
                 return tileEntity.getScaledProgress();
             }
         }, ProgressBar.LARGE_RIGHT, this, resource, 51, 60));
-        addGuiElement(new GuiInnerScreen(this, resource,  27, 13, 121, 42).with(true));
-        addGuiElement(new GuiPlayerSlot(this,resource));
+        addGuiElement(new GuiInnerScreen(this, resource, 27, 13, 121, 42).with(true));
+        addGuiElement(new GuiPlayerSlot(this, resource));
     }
 
     @Override
@@ -119,7 +120,6 @@ public class GuiChemicalCrystallizer extends GuiMekanismTile<TileEntityChemicalC
             addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
         }
     }
-
 
 
     private Gas getInputGas() {

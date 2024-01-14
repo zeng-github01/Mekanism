@@ -1,13 +1,14 @@
 package mekanism.client.gui.element;
 
-import java.util.ArrayList;
-import java.util.List;
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiScrollList extends GuiElement {
@@ -70,7 +71,7 @@ public class GuiScrollList extends GuiElement {
         return new Rectangle4i(guiWidth + xPosition, guiHeight + yPosition, xSize, size * 10);
     }
 
-    public GuiScrollList background(boolean background){
+    public GuiScrollList background(boolean background) {
         this.background = background;
         return this;
     }

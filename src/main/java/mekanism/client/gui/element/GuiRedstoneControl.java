@@ -26,13 +26,13 @@ public class GuiRedstoneControl extends GuiTileEntityElement<TileEntity> {
     protected Timeticks time = new Timeticks(20, 20, false);
 
     public GuiRedstoneControl(IGuiWrapper gui, TileEntity tile, ResourceLocation def, int x, int y) {
-        super(gui, def, tile,176 + x,138 + y,26,26);
+        super(gui, def, tile, 176 + x, 138 + y, 26, 26);
         xLocation = x;
         yLocation = y;
     }
 
     public GuiRedstoneControl(IGuiWrapper gui, TileEntity tile, ResourceLocation def) {
-        super(gui, def, tile,176,138,26,26);
+        super(gui, def, tile, 176, 138, 26, 26);
         xLocation = 0;
         yLocation = 0;
     }
@@ -46,7 +46,7 @@ public class GuiRedstoneControl extends GuiTileEntityElement<TileEntity> {
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         MekanismRenderer.color(0xFFC9071F);
-        super.renderBackground(xAxis,yAxis,guiWidth,guiHeight);
+        super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
         MekanismRenderer.resetColor();
         mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.GUI_ELEMENT, "GuiRedstoneControl.png"));
         guiObj.drawTexturedRect(guiWidth + 176 + xLocation, guiHeight + 138 + yLocation, 0, 0, 26, 26);

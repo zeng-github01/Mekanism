@@ -22,11 +22,11 @@ public class OxidationRecipe extends MachineRecipe<ItemStackInput, GasOutput, Ox
         return new OxidationRecipe(getInput().copy(), getOutput().copy());
     }
 
-    public boolean canOperate(NonNullList<ItemStack> inventory,int inputIndex , GasTank outputTank) {
+    public boolean canOperate(NonNullList<ItemStack> inventory, int inputIndex, GasTank outputTank) {
         return getInput().useItemStackFromInventory(inventory, inputIndex, false) && getOutput().applyOutputs(outputTank, false, 1);
     }
 
-    public void operate(NonNullList<ItemStack> inventory,int inputIndex, GasTank outputTank) {
+    public void operate(NonNullList<ItemStack> inventory, int inputIndex, GasTank outputTank) {
         if (getInput().useItemStackFromInventory(inventory, inputIndex, true)) {
             getOutput().applyOutputs(outputTank, true, 1);
         }

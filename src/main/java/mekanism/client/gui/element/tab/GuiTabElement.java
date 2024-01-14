@@ -38,7 +38,7 @@ public abstract class GuiTabElement<TILE extends TileEntity> extends GuiTileEnti
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        super.renderBackground(xAxis,yAxis,guiWidth,guiHeight);
+        super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
         mc.renderEngine.bindTexture(defaultLocation);
     }
 

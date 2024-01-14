@@ -1,12 +1,5 @@
 package mekanism.common.block.states;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import javax.annotation.Nonnull;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismBlocks;
 import mekanism.common.base.IBlockType;
@@ -32,6 +25,14 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class BlockStateMachine extends ExtendedBlockState {
 
@@ -59,18 +60,12 @@ public class BlockStateMachine extends ExtendedBlockState {
         }
 
         public Block getBlock() {
-            switch (this) {
-                case MACHINE_BLOCK_1:
-                    return MekanismBlocks.MachineBlock;
-                case MACHINE_BLOCK_2:
-                    return MekanismBlocks.MachineBlock2;
-                case MACHINE_BLOCK_3:
-                    return MekanismBlocks.MachineBlock3;
-                case MACHINE_BLOCK_4:
-                    return MekanismBlocks.MachineBlock4;
-                default:
-                    return null;
-            }
+            return switch (this) {
+                case MACHINE_BLOCK_1 -> MekanismBlocks.MachineBlock;
+                case MACHINE_BLOCK_2 -> MekanismBlocks.MachineBlock2;
+                case MACHINE_BLOCK_3 -> MekanismBlocks.MachineBlock3;
+                case MACHINE_BLOCK_4 -> MekanismBlocks.MachineBlock4;
+            };
         }
     }
 
@@ -216,193 +211,106 @@ public class BlockStateMachine extends ExtendedBlockState {
         }
 
         public double getUsage() {
-            switch (this) {
-                case ENRICHMENT_CHAMBER:
-                    return MekanismConfig.current().usage.enrichmentChamber.val();
-                case OSMIUM_COMPRESSOR:
-                    return MekanismConfig.current().usage.osmiumCompressor.val();
-                case COMBINER:
-                    return MekanismConfig.current().usage.combiner.val();
-                case CRUSHER:
-                    return MekanismConfig.current().usage.crusher.val();
-                case DIGITAL_MINER:
-                    return MekanismConfig.current().usage.digitalMiner.val();
-                case METALLURGIC_INFUSER:
-                    return MekanismConfig.current().usage.metallurgicInfuser.val();
-                case PURIFICATION_CHAMBER:
-                    return MekanismConfig.current().usage.purificationChamber.val();
-                case ENERGIZED_SMELTER:
-                    return MekanismConfig.current().usage.energizedSmelter.val();
-                case TELEPORTER:
-                    return 12500;
-                case ELECTRIC_PUMP:
-                    return MekanismConfig.current().usage.electricPump.val();
-                case PERSONAL_CHEST:
-                    return 30;
-                case CHARGEPAD:
-                    return 25;
-                case LOGISTICAL_SORTER:
-                    return 0;
-                case ROTARY_CONDENSENTRATOR:
-                    return MekanismConfig.current().usage.rotaryCondensentrator.val();
-                case CHEMICAL_OXIDIZER:
-                    return MekanismConfig.current().usage.oxidationChamber.val();
-                case CHEMICAL_INFUSER:
-                    return MekanismConfig.current().usage.chemicalInfuser.val();
-                case CHEMICAL_INJECTION_CHAMBER:
-                    return MekanismConfig.current().usage.chemicalInjectionChamber.val();
-                case ELECTROLYTIC_SEPARATOR:
-                    return MekanismConfig.current().general.FROM_H2.val() * 2;
-                case PRECISION_SAWMILL:
-                    return MekanismConfig.current().usage.precisionSawmill.val();
-                case CHEMICAL_DISSOLUTION_CHAMBER:
-                    return MekanismConfig.current().usage.chemicalDissolutionChamber.val();
-                case CHEMICAL_WASHER:
-                    return MekanismConfig.current().usage.chemicalWasher.val();
-                case CHEMICAL_CRYSTALLIZER:
-                    return MekanismConfig.current().usage.chemicalCrystallizer.val();
-                case SEISMIC_VIBRATOR:
-                    return MekanismConfig.current().usage.seismicVibrator.val();
-                case PRESSURIZED_REACTION_CHAMBER:
-                    return MekanismConfig.current().usage.pressurizedReactionBase.val();
-                case FLUID_TANK:
-                    return 0;
-                case FLUIDIC_PLENISHER:
-                    return MekanismConfig.current().usage.fluidicPlenisher.val();
-                case LASER:
-                    return MekanismConfig.current().usage.laser.val();
-                case LASER_AMPLIFIER:
-                    return 0;
-                case LASER_TRACTOR_BEAM:
-                    return 0;
-                case QUANTUM_ENTANGLOPORTER:
-                    return 0;
-                case SOLAR_NEUTRON_ACTIVATOR:
-                    return 0;
-                case AMBIENT_ACCUMULATOR:
-                    return 0;
-                case RESISTIVE_HEATER:
-                    return 100;
-                case FORMULAIC_ASSEMBLICATOR:
-                    return MekanismConfig.current().usage.formulaicAssemblicator.val();
+            return switch (this) {
+                case ENRICHMENT_CHAMBER -> MekanismConfig.current().usage.enrichmentChamber.val();
+                case OSMIUM_COMPRESSOR -> MekanismConfig.current().usage.osmiumCompressor.val();
+                case COMBINER -> MekanismConfig.current().usage.combiner.val();
+                case CRUSHER -> MekanismConfig.current().usage.crusher.val();
+                case DIGITAL_MINER -> MekanismConfig.current().usage.digitalMiner.val();
+                case METALLURGIC_INFUSER -> MekanismConfig.current().usage.metallurgicInfuser.val();
+                case PURIFICATION_CHAMBER -> MekanismConfig.current().usage.purificationChamber.val();
+                case ENERGIZED_SMELTER -> MekanismConfig.current().usage.energizedSmelter.val();
+                case TELEPORTER -> 12500;
+                case ELECTRIC_PUMP -> MekanismConfig.current().usage.electricPump.val();
+                case PERSONAL_CHEST -> 30;
+                case CHARGEPAD -> 25;
+                case LOGISTICAL_SORTER -> 0;
+                case ROTARY_CONDENSENTRATOR -> MekanismConfig.current().usage.rotaryCondensentrator.val();
+                case CHEMICAL_OXIDIZER -> MekanismConfig.current().usage.oxidationChamber.val();
+                case CHEMICAL_INFUSER -> MekanismConfig.current().usage.chemicalInfuser.val();
+                case CHEMICAL_INJECTION_CHAMBER -> MekanismConfig.current().usage.chemicalInjectionChamber.val();
+                case ELECTROLYTIC_SEPARATOR -> MekanismConfig.current().general.FROM_H2.val() * 2;
+                case PRECISION_SAWMILL -> MekanismConfig.current().usage.precisionSawmill.val();
+                case CHEMICAL_DISSOLUTION_CHAMBER -> MekanismConfig.current().usage.chemicalDissolutionChamber.val();
+                case CHEMICAL_WASHER -> MekanismConfig.current().usage.chemicalWasher.val();
+                case CHEMICAL_CRYSTALLIZER -> MekanismConfig.current().usage.chemicalCrystallizer.val();
+                case SEISMIC_VIBRATOR -> MekanismConfig.current().usage.seismicVibrator.val();
+                case PRESSURIZED_REACTION_CHAMBER -> MekanismConfig.current().usage.pressurizedReactionBase.val();
+                case FLUID_TANK -> 0;
+                case FLUIDIC_PLENISHER -> MekanismConfig.current().usage.fluidicPlenisher.val();
+                case LASER -> MekanismConfig.current().usage.laser.val();
+                case LASER_AMPLIFIER -> 0;
+                case LASER_TRACTOR_BEAM -> 0;
+                case QUANTUM_ENTANGLOPORTER -> 0;
+                case SOLAR_NEUTRON_ACTIVATOR -> 0;
+                case AMBIENT_ACCUMULATOR -> 0;
+                case RESISTIVE_HEATER -> 100;
+                case FORMULAIC_ASSEMBLICATOR -> MekanismConfig.current().usage.formulaicAssemblicator.val();
                 /**
                  * Add Start
                  */
-                case ISOTOPIC_CENTRIFUGE:
-                    return MekanismConfig.current().usage.isotopicCentrifuge.val();
-                case NUTRITIONAL_LIQUIFIER:
-                    return MekanismConfig.current().usage.liquifierNutritional.val();
-                case ORGANIC_FARM:
-                    return MekanismConfig.current().usage.organicfarm.val();
-                case ANTIPROTONIC_NUCLEOSYNTHESIZER:
-                    return MekanismConfig.current().usage.nucleosynthesizer.val();
-                case STAMPING:
-                    return MekanismConfig.current().usage.stamping.val();
-                case ROLLING:
-                    return MekanismConfig.current().usage.rolling.val();
-                case BRUSHED:
-                    return MekanismConfig.current().usage.brushed.val();
-                case TURNING:
-                    return MekanismConfig.current().usage.turning.val();
-                case ALLOY:
-                    return MekanismConfig.current().usage.alloy.val();
-                case CELL_EXTRACTOR:
-                    return MekanismConfig.current().usage.cellExtractor.val();
-                case CELL_SEPARATOR:
-                    return MekanismConfig.current().usage.cellSeparator.val();
-                case RECYCLER:
-                    return MekanismConfig.current().usage.recycler.val();
-                case INDUSTRIAL_ALARM:
-                    return 0;
-                default:
-                    return 0;
-            }
+                case ISOTOPIC_CENTRIFUGE -> MekanismConfig.current().usage.isotopicCentrifuge.val();
+                case NUTRITIONAL_LIQUIFIER -> MekanismConfig.current().usage.liquifierNutritional.val();
+                case ORGANIC_FARM -> MekanismConfig.current().usage.organicfarm.val();
+                case ANTIPROTONIC_NUCLEOSYNTHESIZER -> MekanismConfig.current().usage.nucleosynthesizer.val();
+                case STAMPING -> MekanismConfig.current().usage.stamping.val();
+                case ROLLING -> MekanismConfig.current().usage.rolling.val();
+                case BRUSHED -> MekanismConfig.current().usage.brushed.val();
+                case TURNING -> MekanismConfig.current().usage.turning.val();
+                case ALLOY -> MekanismConfig.current().usage.alloy.val();
+                case CELL_EXTRACTOR -> MekanismConfig.current().usage.cellExtractor.val();
+                case CELL_SEPARATOR -> MekanismConfig.current().usage.cellSeparator.val();
+                case RECYCLER -> MekanismConfig.current().usage.recycler.val();
+                case INDUSTRIAL_ALARM -> 0;
+                default -> 0;
+            };
         }
 
         private double getConfigStorage() {
-            switch (this) {
-                case ENRICHMENT_CHAMBER:
-                    return MekanismConfig.current().storage.enrichmentChamber.val();
-                case OSMIUM_COMPRESSOR:
-                    return MekanismConfig.current().storage.osmiumCompressor.val();
-                case COMBINER:
-                    return MekanismConfig.current().storage.combiner.val();
-                case CRUSHER:
-                    return MekanismConfig.current().storage.crusher.val();
-                case DIGITAL_MINER:
-                    return MekanismConfig.current().storage.digitalMiner.val();
-                case METALLURGIC_INFUSER:
-                    return MekanismConfig.current().storage.metallurgicInfuser.val();
-                case PURIFICATION_CHAMBER:
-                    return MekanismConfig.current().storage.purificationChamber.val();
-                case ENERGIZED_SMELTER:
-                    return MekanismConfig.current().storage.energizedSmelter.val();
-                case TELEPORTER:
-                    return MekanismConfig.current().storage.teleporter.val();
-                case ELECTRIC_PUMP:
-                    return MekanismConfig.current().storage.electricPump.val();
-                case CHARGEPAD:
-                    return MekanismConfig.current().storage.chargePad.val();
-                case ROTARY_CONDENSENTRATOR:
-                    return MekanismConfig.current().storage.rotaryCondensentrator.val();
-                case CHEMICAL_OXIDIZER:
-                    return MekanismConfig.current().storage.oxidationChamber.val();
-                case CHEMICAL_INFUSER:
-                    return MekanismConfig.current().storage.chemicalInfuser.val();
-                case CHEMICAL_INJECTION_CHAMBER:
-                    return MekanismConfig.current().storage.chemicalInjectionChamber.val();
-                case ELECTROLYTIC_SEPARATOR:
-                    return MekanismConfig.current().storage.electrolyticSeparator.val();
-                case PRECISION_SAWMILL:
-                    return MekanismConfig.current().storage.precisionSawmill.val();
-                case CHEMICAL_DISSOLUTION_CHAMBER:
-                    return MekanismConfig.current().storage.chemicalDissolutionChamber.val();
-                case CHEMICAL_WASHER:
-                    return MekanismConfig.current().storage.chemicalWasher.val();
-                case CHEMICAL_CRYSTALLIZER:
-                    return MekanismConfig.current().storage.chemicalCrystallizer.val();
-                case SEISMIC_VIBRATOR:
-                    return MekanismConfig.current().storage.seismicVibrator.val();
-                case PRESSURIZED_REACTION_CHAMBER:
-                    return MekanismConfig.current().storage.pressurizedReactionBase.val();
-                case FLUIDIC_PLENISHER:
-                    return MekanismConfig.current().storage.fluidicPlenisher.val();
-                case LASER:
-                    return MekanismConfig.current().storage.laser.val();
-                case FORMULAIC_ASSEMBLICATOR:
-                    return MekanismConfig.current().storage.formulaicAssemblicator.val();
+            return switch (this) {
+                case ENRICHMENT_CHAMBER -> MekanismConfig.current().storage.enrichmentChamber.val();
+                case OSMIUM_COMPRESSOR -> MekanismConfig.current().storage.osmiumCompressor.val();
+                case COMBINER -> MekanismConfig.current().storage.combiner.val();
+                case CRUSHER -> MekanismConfig.current().storage.crusher.val();
+                case DIGITAL_MINER -> MekanismConfig.current().storage.digitalMiner.val();
+                case METALLURGIC_INFUSER -> MekanismConfig.current().storage.metallurgicInfuser.val();
+                case PURIFICATION_CHAMBER -> MekanismConfig.current().storage.purificationChamber.val();
+                case ENERGIZED_SMELTER -> MekanismConfig.current().storage.energizedSmelter.val();
+                case TELEPORTER -> MekanismConfig.current().storage.teleporter.val();
+                case ELECTRIC_PUMP -> MekanismConfig.current().storage.electricPump.val();
+                case CHARGEPAD -> MekanismConfig.current().storage.chargePad.val();
+                case ROTARY_CONDENSENTRATOR -> MekanismConfig.current().storage.rotaryCondensentrator.val();
+                case CHEMICAL_OXIDIZER -> MekanismConfig.current().storage.oxidationChamber.val();
+                case CHEMICAL_INFUSER -> MekanismConfig.current().storage.chemicalInfuser.val();
+                case CHEMICAL_INJECTION_CHAMBER -> MekanismConfig.current().storage.chemicalInjectionChamber.val();
+                case ELECTROLYTIC_SEPARATOR -> MekanismConfig.current().storage.electrolyticSeparator.val();
+                case PRECISION_SAWMILL -> MekanismConfig.current().storage.precisionSawmill.val();
+                case CHEMICAL_DISSOLUTION_CHAMBER -> MekanismConfig.current().storage.chemicalDissolutionChamber.val();
+                case CHEMICAL_WASHER -> MekanismConfig.current().storage.chemicalWasher.val();
+                case CHEMICAL_CRYSTALLIZER -> MekanismConfig.current().storage.chemicalCrystallizer.val();
+                case SEISMIC_VIBRATOR -> MekanismConfig.current().storage.seismicVibrator.val();
+                case PRESSURIZED_REACTION_CHAMBER -> MekanismConfig.current().storage.pressurizedReactionBase.val();
+                case FLUIDIC_PLENISHER -> MekanismConfig.current().storage.fluidicPlenisher.val();
+                case LASER -> MekanismConfig.current().storage.laser.val();
+                case FORMULAIC_ASSEMBLICATOR -> MekanismConfig.current().storage.formulaicAssemblicator.val();
                 /**
                  * Add Start
                  */
-                case ISOTOPIC_CENTRIFUGE:
-                    return MekanismConfig.current().storage.isotopicCentrifuge.val();
-                case NUTRITIONAL_LIQUIFIER:
-                    return MekanismConfig.current().storage.liquifierNutritional.val();
-                case ORGANIC_FARM:
-                    return MekanismConfig.current().storage.organicfarm.val();
-                case ANTIPROTONIC_NUCLEOSYNTHESIZER:
-                    return MekanismConfig.current().storage.nucleosynthesizer.val();
-                case STAMPING:
-                    return MekanismConfig.current().storage.stamping.val();
-                case ROLLING:
-                    return MekanismConfig.current().storage.rolling.val();
-                case BRUSHED:
-                    return MekanismConfig.current().storage.brushed.val();
-                case TURNING:
-                    return MekanismConfig.current().storage.turning.val();
-                case ALLOY:
-                    return MekanismConfig.current().storage.alloy.val();
-                case CELL_EXTRACTOR:
-                    return MekanismConfig.current().storage.cellExtractor.val();
-                case CELL_SEPARATOR:
-                    return MekanismConfig.current().storage.cellSeparator.val();
-                case RECYCLER:
-                    return MekanismConfig.current().storage.recycler.val();
-                case INDUSTRIAL_ALARM:
-                    return 0;
-                default:
-                    return 400 * getUsage();
-            }
+                case ISOTOPIC_CENTRIFUGE -> MekanismConfig.current().storage.isotopicCentrifuge.val();
+                case NUTRITIONAL_LIQUIFIER -> MekanismConfig.current().storage.liquifierNutritional.val();
+                case ORGANIC_FARM -> MekanismConfig.current().storage.organicfarm.val();
+                case ANTIPROTONIC_NUCLEOSYNTHESIZER -> MekanismConfig.current().storage.nucleosynthesizer.val();
+                case STAMPING -> MekanismConfig.current().storage.stamping.val();
+                case ROLLING -> MekanismConfig.current().storage.rolling.val();
+                case BRUSHED -> MekanismConfig.current().storage.brushed.val();
+                case TURNING -> MekanismConfig.current().storage.turning.val();
+                case ALLOY -> MekanismConfig.current().storage.alloy.val();
+                case CELL_EXTRACTOR -> MekanismConfig.current().storage.cellExtractor.val();
+                case CELL_SEPARATOR -> MekanismConfig.current().storage.cellSeparator.val();
+                case RECYCLER -> MekanismConfig.current().storage.recycler.val();
+                case INDUSTRIAL_ALARM -> 0;
+                default -> 400 * getUsage();
+            };
         }
 
         public double getStorage() {

@@ -1,6 +1,5 @@
 package mekanism.common.inventory.container;
 
-import javax.annotation.Nonnull;
 import mekanism.api.gas.IGasItem;
 import mekanism.common.inventory.slot.SlotEnergy.SlotDischarge;
 import mekanism.common.inventory.slot.SlotStorageTank;
@@ -10,6 +9,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
+import javax.annotation.Nonnull;
 
 public class ContainerChemicalInfuser extends ContainerMekanism<TileEntityChemicalInfuser> {
 
@@ -76,9 +77,9 @@ public class ContainerChemicalInfuser extends ContainerMekanism<TileEntityChemic
 
     @Override
     protected void addSlots() {
-        addSlotToContainer(new SlotStorageTank(tileEntity, 0, 5, 56  + 11));
-        addSlotToContainer(new SlotStorageTank(tileEntity, 1, 155, 56  + 11));
-        addSlotToContainer(new SlotStorageTank(tileEntity, 2, 80, 65  + 11));
-        addSlotToContainer(new SlotDischarge(tileEntity, 3, 155, 5  + 11));
+        addSlotToContainer(new SlotStorageTank(tileEntity, 0, 5, 56 + 11));
+        addSlotToContainer(new SlotStorageTank(tileEntity, 1, 155, 56 + 11));
+        addSlotToContainer(new SlotStorageTank(tileEntity, 2, 80, 65 + 11));
+        addSlotToContainer(new SlotDischarge(tileEntity, 3, 155, 5 + 11));
     }
 }

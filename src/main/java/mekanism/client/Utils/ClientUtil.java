@@ -55,7 +55,7 @@ public class ClientUtil {
                 MC.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
                 MC.getTextureManager().getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).restoreLastBlurMipmap();
                 MC.getRenderItem().zLevel -= 50F;
-            }catch (Exception e) {
+            } catch (Exception e) {
                 Mekanism.logger.error("Failed to render stack into gui: " + stack, e);
             }
         }
@@ -69,8 +69,7 @@ public class ClientUtil {
             GlStateManager.color(1F, 1F, 1F, 1F);
             GlStateManager.enableRescaleNormal();
             itemStack.getItem().getTileEntityItemStackRenderer().renderByItem(itemStack);
-        }
-        else {
+        } else {
             renderModel(model, new Color(1F, 1F, 1F, 1F).getRGB(), itemStack);
             if (itemStack.hasEffect()) {
                 renderEffect(model);

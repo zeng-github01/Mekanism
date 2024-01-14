@@ -1,7 +1,5 @@
 package mekanism.client.render;
 
-import java.util.HashMap;
-import java.util.Map;
 import mekanism.api.Coord4D;
 import mekanism.client.render.MekanismRenderer.DisplayInteger;
 import mekanism.client.render.MekanismRenderer.FluidType;
@@ -13,6 +11,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public final class FluidRenderer {
 

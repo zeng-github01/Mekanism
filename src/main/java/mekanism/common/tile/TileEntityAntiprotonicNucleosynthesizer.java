@@ -1,8 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.Map;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
@@ -28,6 +26,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
+import java.util.Map;
 
 public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityBasicMachine<NucleosynthesizerInput, ItemStackOutput, NucleosynthesizerRecipe> implements IGasHandler,
         ISustainedData, ITankManager {
@@ -186,26 +187,17 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityBasicMach
 
     @Override
     public Object[] invoke(int method, Object[] arguments) throws NoSuchMethodException {
-        switch (method) {
-            case 0:
-                return new Object[]{getEnergy()};
-            case 1:
-                return new Object[]{operatingTicks};
-            case 2:
-                return new Object[]{isActive};
-            case 3:
-                return new Object[]{facing};
-            case 4:
-                return new Object[]{canOperate(getRecipe())};
-            case 5:
-                return new Object[]{getMaxEnergy()};
-            case 6:
-                return new Object[]{getMaxEnergy() - getEnergy()};
-            case 7:
-                return new Object[]{inputGasTank.getStored()};
-            default:
-                throw new NoSuchMethodException();
-        }
+        return switch (method) {
+            case 0 -> new Object[]{getEnergy()};
+            case 1 -> new Object[]{operatingTicks};
+            case 2 -> new Object[]{isActive};
+            case 3 -> new Object[]{facing};
+            case 4 -> new Object[]{canOperate(getRecipe())};
+            case 5 -> new Object[]{getMaxEnergy()};
+            case 6 -> new Object[]{getMaxEnergy() - getEnergy()};
+            case 7 -> new Object[]{inputGasTank.getStored()};
+            default -> throw new NoSuchMethodException();
+        };
     }
 
     @Override

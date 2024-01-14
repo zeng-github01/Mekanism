@@ -1,9 +1,5 @@
 package mekanism.client.gui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
@@ -31,6 +27,11 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrolyticSeparator> {
@@ -65,7 +66,7 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
                 return tileEntity.getActive() ? 1 : 0;
             }
         }, ProgressBar.BI, this, resource, 78, 29));
-        addGuiElement(new GuiPlayerSlot(this,resource));
+        addGuiElement(new GuiPlayerSlot(this, resource));
     }
 
     @Override
@@ -83,14 +84,12 @@ public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrol
             TileNetworkList data = TileNetworkList.withContents((byte) 0);
             Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
             SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
-        }else if (guibutton.id == RightMode.id){
+        } else if (guibutton.id == RightMode.id) {
             TileNetworkList data = TileNetworkList.withContents((byte) 1);
             Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
             SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
         }
     }
-
-
 
 
     @Override

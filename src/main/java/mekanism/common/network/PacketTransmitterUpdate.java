@@ -1,8 +1,6 @@
 package mekanism.common.network;
 
 import io.netty.buffer.ByteBuf;
-import java.util.Collection;
-import java.util.HashSet;
 import mekanism.api.Coord4D;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
@@ -26,6 +24,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 public class PacketTransmitterUpdate implements IMessageHandler<TransmitterUpdateMessage, IMessage> {
 
@@ -129,23 +130,21 @@ public class PacketTransmitterUpdate implements IMessageHandler<TransmitterUpdat
             coord4D = coord;
 
             switch (packetType) {
-                case UPDATE:
+                case UPDATE -> {
                     newNetwork = (Boolean) data[0];
                     transmittersAdded = (Collection<IGridTransmitter>) data[1];
-                    break;
-                case ENERGY:
-                    power = (Double) data[0];
-                    break;
-                case GAS:
+                }
+                case ENERGY -> power = (Double) data[0];
+                case GAS -> {
                     gasStack = (GasStack) data[0];
                     didGasTransfer = (Boolean) data[1];
-                    break;
-                case FLUID:
+                }
+                case FLUID -> {
                     fluidStack = (FluidStack) data[0];
                     didFluidTransfer = (Boolean) data[1];
-                    break;
-                default:
-                    break;
+                }
+                default -> {
+                }
             }
         }
 
@@ -155,22 +154,20 @@ public class PacketTransmitterUpdate implements IMessageHandler<TransmitterUpdat
             coord4D.write(dataStream);
             PacketHandler.log("Sending '" + packetType + "' update message from coordinate " + coord4D);
             switch (packetType) {
-                case UPDATE:
+                case UPDATE -> {
                     dataStream.writeBoolean(newNetwork);
                     dataStream.writeInt(transmittersAdded.size());
                     for (IGridTransmitter transmitter : transmittersAdded) {
                         transmitter.coord().write(dataStream);
                     }
-                    break;
-                case ENERGY:
-                    dataStream.writeDouble(power);
-                    break;
-                case GAS:
+                }
+                case ENERGY -> dataStream.writeDouble(power);
+                case GAS -> {
                     dataStream.writeInt(gasStack != null ? gasStack.getGas().getID() : -1);
                     dataStream.writeInt(gasStack != null ? gasStack.amount : 0);
                     dataStream.writeBoolean(didGasTransfer);
-                    break;
-                case FLUID:
+                }
+                case FLUID -> {
                     if (fluidStack != null) {
                         dataStream.writeBoolean(true);
                         PacketHandler.writeNBT(dataStream, fluidStack.writeToNBT(new NBTTagCompound()));
@@ -178,9 +175,9 @@ public class PacketTransmitterUpdate implements IMessageHandler<TransmitterUpdat
                         dataStream.writeBoolean(false);
                     }
                     dataStream.writeBoolean(didFluidTransfer);
-                    break;
-                default:
-                    break;
+                }
+                default -> {
+                }
             }
         }
 

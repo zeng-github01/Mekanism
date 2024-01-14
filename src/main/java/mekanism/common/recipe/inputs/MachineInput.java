@@ -1,12 +1,13 @@
 package mekanism.common.recipe.inputs;
 
-import java.util.HashMap;
-import java.util.Map;
 import mekanism.common.OreDictCache;
 import mekanism.common.util.StackUtils;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class MachineInput<INPUT extends MachineInput<INPUT>> {
 

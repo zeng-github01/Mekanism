@@ -70,7 +70,7 @@ public class GuiDynamicTank extends GuiMekanismTile<TileEntityDynamicTank> {
             fontRenderer.drawString(fluidStored.amount + "mB", 53, 35, 0xFF3CFE9A);
         }
         fontRenderer.drawString(LangUtils.localize("gui.capacity") + ": ", 53, 44, 0xFF3CFE9A);
-        fontRenderer.drawString(tileEntity.clientCapacity  + "mB",53,53,0xFF3CFE9A);
+        fontRenderer.drawString(tileEntity.clientCapacity + "mB", 53, 53, 0xFF3CFE9A);
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 

@@ -1,7 +1,5 @@
 package mekanism.common.item;
 
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.Pos3D;
@@ -21,6 +19,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 public class ItemBalloon extends ItemMekanismAddition implements IMetaItem {
 
@@ -177,26 +178,14 @@ public class ItemBalloon extends ItemMekanismAddition implements IMetaItem {
             if (!latched) {
                 Pos3D pos = new Pos3D(coord).translate(0, -0.5, 0);
                 switch (side) {
-                    case DOWN:
-                        pos = pos.translate(0, -2.5, 0);
-                        break;
-                    case UP:
-                        pos = pos.translate(0, 0, 0);
-                        break;
-                    case NORTH:
-                        pos = pos.translate(0, -1, -0.5);
-                        break;
-                    case SOUTH:
-                        pos = pos.translate(0, -1, 0.5);
-                        break;
-                    case WEST:
-                        pos = pos.translate(-0.5, -1, 0);
-                        break;
-                    case EAST:
-                        pos = pos.translate(0.5, -1, 0);
-                        break;
-                    default:
-                        break;
+                    case DOWN -> pos = pos.translate(0, -2.5, 0);
+                    case UP -> pos = pos.translate(0, 0, 0);
+                    case NORTH -> pos = pos.translate(0, -1, -0.5);
+                    case SOUTH -> pos = pos.translate(0, -1, 0.5);
+                    case WEST -> pos = pos.translate(-0.5, -1, 0);
+                    case EAST -> pos = pos.translate(0.5, -1, 0);
+                    default -> {
+                    }
                 }
                 if (!source.getWorld().isRemote) {
                     source.getWorld().spawnEntity(new EntityBalloon(source.getWorld(), pos.x, pos.y, pos.z, getColor(stack)));

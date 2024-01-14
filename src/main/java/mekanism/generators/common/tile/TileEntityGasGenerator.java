@@ -1,7 +1,6 @@
 package mekanism.generators.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import javax.annotation.Nonnull;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.common.FuelHandler;
@@ -17,6 +16,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import javax.annotation.Nonnull;
 
 public class TileEntityGasGenerator extends TileEntityGenerator implements IGasHandler, ISustainedData, IComparatorSupport {
 
@@ -168,22 +169,15 @@ public class TileEntityGasGenerator extends TileEntityGenerator implements IGasH
 
     @Override
     public Object[] invoke(int method, Object[] arguments) throws NoSuchMethodException {
-        switch (method) {
-            case 0:
-                return new Object[]{getEnergy()};
-            case 1:
-                return new Object[]{output};
-            case 2:
-                return new Object[]{getMaxEnergy()};
-            case 3:
-                return new Object[]{getMaxEnergy() - getEnergy()};
-            case 4:
-                return new Object[]{fuelTank.getStored()};
-            case 5:
-                return new Object[]{fuelTank.getNeeded()};
-            default:
-                throw new NoSuchMethodException();
-        }
+        return switch (method) {
+            case 0 -> new Object[]{getEnergy()};
+            case 1 -> new Object[]{output};
+            case 2 -> new Object[]{getMaxEnergy()};
+            case 3 -> new Object[]{getMaxEnergy() - getEnergy()};
+            case 4 -> new Object[]{fuelTank.getStored()};
+            case 5 -> new Object[]{fuelTank.getNeeded()};
+            default -> throw new NoSuchMethodException();
+        };
     }
 
     @Override

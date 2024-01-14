@@ -1,8 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
@@ -32,8 +30,11 @@ import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
+import javax.annotation.Nonnull;
+import java.util.List;
+
 public class TileEntityChemicalWasher extends TileEntityMachine implements IGasHandler, IFluidHandlerWrapper, ISustainedData, IUpgradeInfoHandler, ITankManager,
-        IComparatorSupport,ISideConfiguration {
+        IComparatorSupport, ISideConfiguration {
 
     public static final int MAX_GAS = 10000;
     public static final int MAX_FLUID = 10000;
@@ -53,7 +54,7 @@ public class TileEntityChemicalWasher extends TileEntityMachine implements IGasH
 
     public TileEntityChemicalWasher() {
         super("machine.washer", MachineType.CHEMICAL_WASHER, 4);
-        configComponent = new TileComponentConfig(this, TransmissionType.ITEM,  TransmissionType.FLUID, TransmissionType.GAS,TransmissionType.ENERGY);
+        configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.FLUID, TransmissionType.GAS, TransmissionType.ENERGY);
 
         configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.RED, new int[]{0}));
@@ -181,7 +182,7 @@ public class TileEntityChemicalWasher extends TileEntityMachine implements IGasH
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && inputTank.canReceive(type) &&  Recipe.CHEMICAL_WASHER.containsRecipe(type);
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && inputTank.canReceive(type) && Recipe.CHEMICAL_WASHER.containsRecipe(type);
     }
 
 

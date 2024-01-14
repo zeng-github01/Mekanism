@@ -1,6 +1,5 @@
 package mekanism.common.block;
 
-import javax.annotation.Nonnull;
 import mekanism.api.IMekWrench;
 import mekanism.api.gas.IGasItem;
 import mekanism.common.Mekanism;
@@ -34,6 +33,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.*;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import javax.annotation.Nonnull;
 
 public class BlockGasTank extends BlockMekanismContainer {
 
@@ -69,8 +70,7 @@ public class BlockGasTank extends BlockMekanismContainer {
     @Deprecated
     public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntity tile = MekanismUtils.getTileEntitySafe(worldIn, pos);
-        if (tile instanceof TileEntityGasTank) {
-            TileEntityGasTank tank = (TileEntityGasTank) tile;
+        if (tile instanceof TileEntityGasTank tank) {
             if (tank.facing != null) {
                 state = state.withProperty(BlockStateFacing.facingProperty, tank.facing);
             }
@@ -87,18 +87,10 @@ public class BlockGasTank extends BlockMekanismContainer {
         EnumFacing change = EnumFacing.SOUTH;
         int side = MathHelper.floor((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
         switch (side) {
-            case 0:
-                change = EnumFacing.NORTH;
-                break;
-            case 1:
-                change = EnumFacing.EAST;
-                break;
-            case 2:
-                change = EnumFacing.SOUTH;
-                break;
-            case 3:
-                change = EnumFacing.WEST;
-                break;
+            case 0 -> change = EnumFacing.NORTH;
+            case 1 -> change = EnumFacing.EAST;
+            case 2 -> change = EnumFacing.SOUTH;
+            case 3 -> change = EnumFacing.WEST;
         }
         tileEntity.setFacing(change);
         tileEntity.redstone = world.getRedstonePowerFromNeighbors(pos) > 0;
@@ -234,8 +226,7 @@ public class BlockGasTank extends BlockMekanismContainer {
     public EnumFacing[] getValidRotations(World world, @Nonnull BlockPos pos) {
         TileEntity tile = world.getTileEntity(pos);
         EnumFacing[] valid = new EnumFacing[6];
-        if (tile instanceof TileEntityBasicBlock) {
-            TileEntityBasicBlock basicTile = (TileEntityBasicBlock) tile;
+        if (tile instanceof TileEntityBasicBlock basicTile) {
 
             for (EnumFacing dir : EnumFacing.VALUES) {
                 if (basicTile.canSetFacing(dir)) {
@@ -249,8 +240,7 @@ public class BlockGasTank extends BlockMekanismContainer {
     @Override
     public boolean rotateBlock(World world, @Nonnull BlockPos pos, @Nonnull EnumFacing axis) {
         TileEntity tile = world.getTileEntity(pos);
-        if (tile instanceof TileEntityBasicBlock) {
-            TileEntityBasicBlock basicTile = (TileEntityBasicBlock) tile;
+        if (tile instanceof TileEntityBasicBlock basicTile) {
 
             if (basicTile.canSetFacing(axis)) {
                 basicTile.setFacing(axis);

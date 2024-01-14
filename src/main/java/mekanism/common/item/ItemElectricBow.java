@@ -1,8 +1,6 @@
 package mekanism.common.item;
 
 import io.netty.buffer.ByteBuf;
-import java.util.List;
-import javax.annotation.Nonnull;
 import mekanism.api.EnumColor;
 import mekanism.common.base.IItemNetwork;
 import mekanism.common.util.ItemDataUtils;
@@ -29,6 +27,9 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+import java.util.List;
+
 public class ItemElectricBow extends ItemEnergized implements IItemNetwork {
 
     public ItemElectricBow() {
@@ -45,8 +46,7 @@ public class ItemElectricBow extends ItemEnergized implements IItemNetwork {
 
     @Override
     public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityLivingBase entityLiving, int itemUseCount) {
-        if (entityLiving instanceof EntityPlayer && getEnergy(itemstack) > 0) {
-            EntityPlayer player = (EntityPlayer) entityLiving;
+        if (entityLiving instanceof EntityPlayer player && getEnergy(itemstack) > 0) {
             boolean flag = player.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, itemstack) > 0;
             ItemStack ammo = findAmmo(player);
 

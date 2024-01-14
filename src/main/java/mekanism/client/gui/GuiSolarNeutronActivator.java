@@ -1,7 +1,5 @@
 package mekanism.client.gui;
 
-import java.util.ArrayList;
-import java.util.List;
 import mekanism.api.util.time.Timeticks;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -23,10 +21,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiSolarNeutronActivator extends GuiMekanismTile<TileEntitySolarNeutronActivator> {
 
     protected Timeticks time;
+
     public GuiSolarNeutronActivator(InventoryPlayer inventory, TileEntitySolarNeutronActivator tile) {
         super(tile, new ContainerSolarNeutronActivator(inventory, tile));
         time = new Timeticks(20, 20, false);
@@ -46,7 +48,7 @@ public class GuiSolarNeutronActivator extends GuiMekanismTile<TileEntitySolarNeu
                 return tileEntity.getActive() ? (double) time.getValue() / 20F : 0;
             }
         }, ProgressBar.LARGE_RIGHT, this, resource, 62, 38));
-        addGuiElement(new GuiPlayerSlot(this,resource));
+        addGuiElement(new GuiPlayerSlot(this, resource));
     }
 
     @Override

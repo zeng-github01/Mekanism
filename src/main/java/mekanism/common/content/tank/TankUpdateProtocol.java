@@ -1,6 +1,5 @@
 package mekanism.common.content.tank;
 
-import java.util.List;
 import mekanism.api.Coord4D;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismBlocks;
@@ -16,6 +15,8 @@ import mekanism.common.util.StackUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.List;
 
 public class TankUpdateProtocol extends UpdateProtocol<SynchronizedTankData> {
 

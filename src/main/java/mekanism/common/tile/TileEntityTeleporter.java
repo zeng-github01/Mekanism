@@ -1,8 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.*;
-import javax.annotation.Nonnull;
 import mekanism.api.Chunk3D;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
@@ -45,6 +43,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import java.util.*;
 
 public class TileEntityTeleporter extends TileEntityElectricBlock implements IComputerIntegration, IChunkLoader, IFrequencyHandler, IRedstoneControl, ISecurityTile,
         IUpgradeTile, IComparatorSupport {
@@ -434,7 +435,7 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
                     color = increment(color);
                 } else if (clickType == 1) {
                     color = decrement(color);
-                }else if (clickType == 2) {
+                } else if (clickType == 2) {
                     color = EnumColor.PURPLE;
                 }
 
@@ -514,16 +515,20 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
     @Override
     public Object[] invoke(int method, Object[] arguments) throws NoSuchMethodException {
         switch (method) {
-            case 0:
+            case 0 -> {
                 return new Object[]{getEnergy()};
-            case 1:
+            }
+            case 1 -> {
                 return new Object[]{canTeleport()};
-            case 2:
+            }
+            case 2 -> {
                 return new Object[]{getMaxEnergy()};
-            case 3:
+            }
+            case 3 -> {
                 teleport();
                 return new Object[]{"Attempted to teleport."};
-            case 4:
+            }
+            case 4 -> {
                 if (!(arguments[0] instanceof String) || !(arguments[1] instanceof Boolean)) {
                     return new Object[]{"Invalid parameters."};
                 }
@@ -531,8 +536,8 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
                 boolean isPublic = (Boolean) arguments[1];
                 setFrequency(freq, isPublic);
                 return new Object[]{"Frequency set."};
-            default:
-                throw new NoSuchMethodException();
+            }
+            default -> throw new NoSuchMethodException();
         }
     }
 

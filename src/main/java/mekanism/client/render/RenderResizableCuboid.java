@@ -1,7 +1,6 @@
 package mekanism.client.render;
 
 import com.google.common.collect.ImmutableSet;
-import java.util.*;
 import mekanism.client.render.MekanismRenderer.Model3D;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -23,6 +22,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import org.lwjgl.opengl.GL11;
+
+import java.util.*;
 
 /*
  * Adapted from BuildCraft

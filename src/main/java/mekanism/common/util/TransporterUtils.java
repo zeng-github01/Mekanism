@@ -1,7 +1,5 @@
 package mekanism.common.util;
 
-import java.util.Arrays;
-import java.util.List;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.common.base.ILogisticalTransporter;
@@ -15,6 +13,9 @@ import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.Arrays;
+import java.util.List;
 
 public final class TransporterUtils {
 

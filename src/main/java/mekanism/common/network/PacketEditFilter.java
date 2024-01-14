@@ -28,8 +28,7 @@ public class PacketEditFilter implements IMessageHandler<EditFilterMessage, IMes
         WorldServer worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(message.coord4D.dimensionId);
 
         worldServer.addScheduledTask(() -> {
-            if (message.type == 0 && message.coord4D.getTileEntity(worldServer) instanceof TileEntityLogisticalSorter) {
-                TileEntityLogisticalSorter sorter = (TileEntityLogisticalSorter) message.coord4D.getTileEntity(worldServer);
+            if (message.type == 0 && message.coord4D.getTileEntity(worldServer) instanceof TileEntityLogisticalSorter sorter) {
 
                 if (!sorter.filters.contains(message.tFilter)) {
                     return;
@@ -42,8 +41,7 @@ public class PacketEditFilter implements IMessageHandler<EditFilterMessage, IMes
                 for (EntityPlayer iterPlayer : sorter.playersUsing) {
                     Mekanism.packetHandler.sendTo(new TileEntityMessage(sorter, sorter.getFilterPacket(new TileNetworkList())), (EntityPlayerMP) iterPlayer);
                 }
-            } else if (message.type == 1 && message.coord4D.getTileEntity(worldServer) instanceof TileEntityDigitalMiner) {
-                TileEntityDigitalMiner miner = (TileEntityDigitalMiner) message.coord4D.getTileEntity(worldServer);
+            } else if (message.type == 1 && message.coord4D.getTileEntity(worldServer) instanceof TileEntityDigitalMiner miner) {
 
                 if (!miner.filters.contains(message.mFilter)) {
                     return;
@@ -56,8 +54,7 @@ public class PacketEditFilter implements IMessageHandler<EditFilterMessage, IMes
                 for (EntityPlayer iterPlayer : miner.playersUsing) {
                     Mekanism.packetHandler.sendTo(new TileEntityMessage(miner, miner.getFilterPacket(new TileNetworkList())), (EntityPlayerMP) iterPlayer);
                 }
-            } else if (message.type == 2 && message.coord4D.getTileEntity(worldServer) instanceof TileEntityOredictionificator) {
-                TileEntityOredictionificator oredictionificator = (TileEntityOredictionificator) message.coord4D.getTileEntity(worldServer);
+            } else if (message.type == 2 && message.coord4D.getTileEntity(worldServer) instanceof TileEntityOredictionificator oredictionificator) {
                 if (!oredictionificator.filters.contains(message.oFilter)) {
                     return;
                 }

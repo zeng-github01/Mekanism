@@ -25,7 +25,7 @@ public class GuiPlayerArmmorSlot extends GuiSideHolder {
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        super.renderBackground(xAxis,yAxis,guiWidth,guiHeight);
+        super.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
         mc.renderEngine.bindTexture(MekanismUtils.getResource(ResourceType.SLOT, "Slot_Icon.png"));
         for (int y = 0; y < 5; y++) {
             guiObj.drawTexturedRect(guiWidth + xLocation + (left ? 5 : 3), guiHeight + yLocation + y * 18 + 4, 0, 0, 18, 18);

@@ -35,10 +35,9 @@ public class MultipartGlowPanel implements IMultipart {
     @Override
     public void onPartPlacedBy(IPartInfo part, EntityLivingBase placer, ItemStack stack) {
         TileEntity tile = part.getTile().getTileEntity();
-        if (tile instanceof TileEntityGlowPanel) {
+        if (tile instanceof TileEntityGlowPanel glowPanel) {
             EnumFacing facing = EnumFacing.VALUES[((EnumFaceSlot) part.getSlot()).ordinal()];
             EnumColor col = EnumColor.DYES[stack.getItemDamage()];
-            TileEntityGlowPanel glowPanel = (TileEntityGlowPanel) tile;
             glowPanel.setOrientation(facing);
             glowPanel.setColour(col);
         }
@@ -47,9 +46,8 @@ public class MultipartGlowPanel implements IMultipart {
     @Override
     public void onPartRemoved(IPartInfo part, IPartInfo otherPart) {
         TileEntity tile = part.getTile().getTileEntity();
-        if (tile instanceof TileEntityGlowPanel && !BlockGlowPanel.canStay(part.getPartWorld(), part.getPartPos())) {
+        if (tile instanceof TileEntityGlowPanel glowPanel && !BlockGlowPanel.canStay(part.getPartWorld(), part.getPartPos())) {
             BlockPos pos = part.getPartPos();
-            TileEntityGlowPanel glowPanel = (TileEntityGlowPanel) tile;
             ItemStack stack = new ItemStack(MekanismBlocks.GlowPanel, 1, glowPanel.colour.getMetaValue());
             Block.spawnAsEntity(part.getActualWorld(), pos, stack);
             part.remove();

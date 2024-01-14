@@ -1,12 +1,6 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import mekanism.api.*;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
@@ -45,6 +39,13 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock implements ISideConfiguration, ITankManager, IFluidHandlerWrapper, IFrequencyHandler,
         IGasHandler, IHeatTransfer, IComputerIntegration, ISecurityTile, IChunkLoader, IUpgradeTile {
 
@@ -72,8 +73,8 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
             } else {
                 configComponent.addOutput(TransmissionType.HEAT, new SideData("None", EnumColor.GREY, IOState.OFF));
                 configComponent.addOutput(TransmissionType.HEAT, new SideData("Input_Output", EnumColor.PURPLE, IOState.INPUT));
-                configComponent.fillConfig(TransmissionType.HEAT,1);
-                configComponent.setCanEject(TransmissionType.HEAT,false);
+                configComponent.fillConfig(TransmissionType.HEAT, 1);
+                configComponent.setCanEject(TransmissionType.HEAT, false);
             }
         }
 
@@ -356,7 +357,8 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
     }
 
     @Override
-    @Nullable public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
+    @Nullable
+    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
         return frequency.storedFluid.drain(maxDrain, doDrain);
     }
 
