@@ -77,5 +77,8 @@ public class MEKCEConfig extends BaseConfig {
     public final DoubleOption log = new DoubleOption(this, "mekce", "log", 1D,
             "When turning seeds into crops, the opportunity to produce log in each operation in Organic Farm.").setRequiresGameRestart(true);
 
-    public final BooleanOption EnableGlassInThermal = new BooleanOption(this, "mekce", "EnableGlassInThermal", false, "Enabling Structural Glass for the Thermal Evaporation Plant may contain some issues");
+    public final BooleanOption EnableGlassInThermal = new BooleanOption(this, "mekce", "EnableGlassInThermal", false,
+            "Enabling Structural Glass for the Thermal Evaporation Plant may contain some issues");
+
+    public final BooleanOption EnableConfiguratorWrench = new BooleanOption(this,"mekce","EnableConfiguratorWrench",true);
 }

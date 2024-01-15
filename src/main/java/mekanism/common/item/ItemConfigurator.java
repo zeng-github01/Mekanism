@@ -209,7 +209,7 @@ public class ItemConfigurator extends ItemEnergized implements IMekWrench, ITool
                     }
                 }
                 return EnumActionResult.SUCCESS;
-            } else if (getState(stack) == ConfiguratorMode.WRENCH) { //Wrench
+            } else if (getState(stack) == ConfiguratorMode.WRENCH && MekanismConfig.current().mekce.EnableConfiguratorWrench.val()) { //Wrench
                 return EnumActionResult.PASS;
             }
         }
@@ -260,23 +260,23 @@ public class ItemConfigurator extends ItemEnergized implements IMekWrench, ITool
 
     @Override
     public boolean canUseWrench(ItemStack stack, EntityPlayer player, BlockPos pos) {
-        return getState(stack) == ConfiguratorMode.WRENCH;
+        return getState(stack) == ConfiguratorMode.WRENCH && MekanismConfig.current().mekce.EnableConfiguratorWrench.val();
     }
 
     @Override
     public boolean doesSneakBypassUse(ItemStack stack, IBlockAccess world, BlockPos pos, EntityPlayer player) {
-        return getState(stack) == ConfiguratorMode.WRENCH;
+        return getState(stack) == ConfiguratorMode.WRENCH && MekanismConfig.current().mekce.EnableConfiguratorWrench.val();
     }
 
     /*cofh IToolHammer */
     @Override
     public boolean isUsable(ItemStack stack, EntityLivingBase user, BlockPos pos) {
-        return getState(stack) == ConfiguratorMode.WRENCH;
+        return getState(stack) == ConfiguratorMode.WRENCH && MekanismConfig.current().mekce.EnableConfiguratorWrench.val();
     }
 
     @Override
     public boolean isUsable(ItemStack stack, EntityLivingBase user, Entity entity) {
-        return getState(stack) == ConfiguratorMode.WRENCH;
+        return getState(stack) == ConfiguratorMode.WRENCH && MekanismConfig.current().mekce.EnableConfiguratorWrench.val();
     }
 
     @Override
