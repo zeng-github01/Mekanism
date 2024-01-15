@@ -5,10 +5,13 @@ import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
+import mekanism.common.MekanismBlocks;
 import mekanism.common.SideData;
 import mekanism.common.Upgrade;
+import mekanism.common.base.IFactory;
 import mekanism.common.base.ISustainedData;
 import mekanism.common.base.ITankManager;
+import mekanism.common.base.ITierUpgradeable;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.item.ItemUpgrade;
@@ -16,6 +19,7 @@ import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.NucleosynthesizerInput;
 import mekanism.common.recipe.machines.NucleosynthesizerRecipe;
 import mekanism.common.recipe.outputs.ItemStackOutput;
+import mekanism.common.tier.BaseTier;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
 import mekanism.common.tile.prefab.TileEntityBasicMachine;
@@ -29,9 +33,10 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
+import java.util.Objects;
 
 public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityBasicMachine<NucleosynthesizerInput, ItemStackOutput, NucleosynthesizerRecipe> implements IGasHandler,
-        ISustainedData, ITankManager {
+        ISustainedData, ITankManager, ITierUpgradeable {
 
     private static final String[] methods = new String[]{"getEnergy", "getProgress", "isActive", "facing", "canOperate", "getMaxEnergy", "getEnergyNeeded",
             "getGasStored"};
@@ -48,11 +53,8 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityBasicMach
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.INDIGO, new int[]{2}));
         configComponent.setConfig(TransmissionType.ITEM, new byte[]{2, 1, 0, 0, 0, 3});
 
-
         configComponent.setInputConfig(TransmissionType.GAS);
-
         configComponent.setInputConfig(TransmissionType.ENERGY);
-
         inventory = NonNullList.withSize(4, ItemStack.EMPTY);
 
         ejectorComponent = new TileComponentEjector(this);
@@ -93,6 +95,62 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityBasicMach
             }
             prevEnergy = getEnergy();
         }
+    }
+
+    @Override
+    public boolean upgrade(BaseTier upgradeTier) {
+        if (upgradeTier != BaseTier.BASIC) {
+            return false;
+        }
+        world.setBlockToAir(getPos());
+        world.setBlockState(getPos(), MekanismBlocks.MachineBlock.getStateFromMeta(5), 3);
+
+        TileEntityFactory factory = Objects.requireNonNull((TileEntityFactory) world.getTileEntity(getPos()));
+        IFactory.RecipeType type = IFactory.RecipeType.NUCLEOSYNTHESIZER;
+
+        //Basic
+        factory.facing = facing;
+        factory.clientFacing = clientFacing;
+        factory.ticker = ticker;
+        factory.redstone = redstone;
+        factory.redstoneLastTick = redstoneLastTick;
+        factory.doAutoSync = doAutoSync;
+
+        //Electric
+        factory.electricityStored = electricityStored;
+
+        //Machine
+        factory.progress[0] = operatingTicks;
+        factory.setActive(isActive);
+        factory.setControlType(getControlType());
+        factory.prevEnergy = prevEnergy;
+        factory.upgradeComponent.readFrom(upgradeComponent);
+        factory.upgradeComponent.setUpgradeSlot(0);
+        factory.ejectorComponent.readFrom(ejectorComponent);
+
+        factory.ejectorComponent.setOutputData(TransmissionType.ITEM, factory.configComponent.getOutputs(TransmissionType.ITEM).get(3));
+        factory.setRecipeType(type);
+        factory.upgradeComponent.setSupported(Upgrade.GAS, type.fuelEnergyUpgrades());
+        factory.securityComponent.readFrom(securityComponent);
+
+        for (TransmissionType transmission : configComponent.getTransmissions()) {
+            factory.configComponent.setConfig(transmission, configComponent.getConfig(transmission).asByteArray());
+            factory.configComponent.setEjecting(transmission, configComponent.isEjecting(transmission));
+        }
+
+        factory.gasTank.setGas(inputGasTank.getGas());
+
+        factory.inventory.set(5, inventory.get(0));
+        factory.inventory.set(1, inventory.get(1));
+        factory.inventory.set(5 + 3, inventory.get(2));
+        factory.inventory.set(0, inventory.get(3));
+
+        for (Upgrade upgrade : factory.upgradeComponent.getSupportedTypes()) {
+            factory.recalculateUpgradables(upgrade);
+        }
+        factory.upgraded = true;
+        factory.markDirty();
+        return true;
     }
 
     @Override

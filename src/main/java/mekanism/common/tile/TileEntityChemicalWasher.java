@@ -5,6 +5,7 @@ import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
+import mekanism.common.MekanismBlocks;
 import mekanism.common.SideData;
 import mekanism.common.Upgrade;
 import mekanism.common.Upgrade.IUpgradeInfoHandler;
@@ -16,6 +17,7 @@ import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.inputs.GasInput;
 import mekanism.common.recipe.machines.WasherRecipe;
+import mekanism.common.tier.BaseTier;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
 import mekanism.common.tile.prefab.TileEntityMachine;
@@ -32,9 +34,10 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Objects;
 
 public class TileEntityChemicalWasher extends TileEntityMachine implements IGasHandler, IFluidHandlerWrapper, ISustainedData, IUpgradeInfoHandler, ITankManager,
-        IComparatorSupport, ISideConfiguration {
+        IComparatorSupport, ISideConfiguration ,ITierUpgradeable{
 
     public static final int MAX_GAS = 10000;
     public static final int MAX_FLUID = 10000;
@@ -78,6 +81,60 @@ public class TileEntityChemicalWasher extends TileEntityMachine implements IGasH
         ejectorComponent = new TileComponentEjector(this);
         ejectorComponent.setOutputData(TransmissionType.GAS, configComponent.getOutputs(TransmissionType.GAS).get(2));
     }
+
+    @Override
+    public boolean upgrade(BaseTier upgradeTier) {
+        if (upgradeTier != BaseTier.BASIC) {
+            return false;
+        }
+        world.setBlockToAir(getPos());
+        world.setBlockState(getPos(), MekanismBlocks.MachineBlock.getStateFromMeta(5), 3);
+        TileEntityFactory factory = Objects.requireNonNull((TileEntityFactory) world.getTileEntity(getPos()));
+        IFactory.RecipeType type = IFactory.RecipeType.WASHER;
+
+        //Basic
+        factory.facing = facing;
+        factory.clientFacing = clientFacing;
+        factory.ticker = ticker;
+        factory.redstone = redstone;
+        factory.redstoneLastTick = redstoneLastTick;
+        factory.doAutoSync = doAutoSync;
+
+        //Electric
+        factory.electricityStored = electricityStored;
+
+        //Machine
+        factory.progress[0] = 1;
+        factory.setActive(isActive);
+        factory.setControlType(getControlType());
+        factory.prevEnergy = prevEnergy;
+        factory.upgradeComponent.readFrom(upgradeComponent);
+        factory.upgradeComponent.setUpgradeSlot(0);
+        factory.ejectorComponent.readFrom(ejectorComponent);
+        factory.ejectorComponent.setOutputData(TransmissionType.GAS, configComponent.getOutputs(TransmissionType.GAS).get(2));
+        factory.setRecipeType(type);
+        factory.securityComponent.readFrom(securityComponent);
+
+        for (TransmissionType transmission : configComponent.getTransmissions()) {
+            factory.configComponent.setConfig(transmission, configComponent.getConfig(transmission).asByteArray());
+            factory.configComponent.setEjecting(transmission, configComponent.isEjecting(transmission));
+        }
+
+        factory.gasTank.setGas(inputTank.getGas());
+        factory.gasOutTank.setGas(outputTank.getGas());
+        factory.fluidTank.setFluid(fluidTank.getFluid());
+
+        factory.inventory.set(1, inventory.get(3));
+        factory.inventory.set(0, inventory.get(4));
+
+        for (Upgrade upgrade : factory.upgradeComponent.getSupportedTypes()) {
+            factory.recalculateUpgradables(upgrade);
+        }
+        factory.upgraded = true;
+        factory.markDirty();
+        return true;
+    }
+
 
     @Override
     public void onUpdate() {

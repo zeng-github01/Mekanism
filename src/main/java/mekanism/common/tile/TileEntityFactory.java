@@ -326,6 +326,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                                 recalculateUpgradables(Upgrade.SPEED);
                             }
                         }
+                        if (recipeType == RecipeType.WASHER) {
+                            BASE_TICKS_REQUIRED = 1;
+                        }
                     }
 
                     if ((progress[process] + 1) < ticksRequired) {
