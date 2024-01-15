@@ -88,21 +88,17 @@ public class TileEntityWindGenerator extends TileEntityGenerator implements IBou
     public float getMultiplier() {
         BlockPos top = getPos().up(4);
         if (world.canSeeSky(top)) {
-            int minY = Math.max(MekanismConfig.current().generators.windGenerationMinY.val(), (int) world.provider.getHorizon());//TODO:Get the horizon of this world, maybe need to be modified to be configurable nadir?
-            int maxY = Math.min(MekanismConfig.current().generators.windGenerationMaxY.val(), world.getHeight());
+            int minY = MekanismConfig.current().generators.windGenerationMinY.val();
+            int maxY = MekanismConfig.current().generators.windGenerationMaxY.val();
             float clampedY = Math.min(maxY, Math.max(minY, top.getY()));
             float minG = (float) MekanismConfig.current().generators.windGenerationMin.val();
             float maxG = (float) MekanismConfig.current().generators.windGenerationMax.val();
-            float slope; //Prevents the possibility of writing opposite values; https://github.com/Thorfusion/Mekanism-Community-Edition/issues/150
-            if (maxG < minG) {
-                slope = (minG - maxG) / (maxY - minY);
-            } else {
-                slope = (maxG - minG) / (maxY - minY);
-            }
+            //Prevents the possibility of writing opposite values; https://github.com/Thorfusion/Mekanism-Community-Edition/issues/150
+            int rangeY = maxY < minY ? minY - maxY : maxY - minY;
+            float rangG = maxG < minG ? minG - maxG : maxG - minG;
+            float slope = rangG / rangeY;
             float toGen = minG + (slope * (clampedY - minY));
             return toGen / minG;
-
-
         }
         return 0;
     }
