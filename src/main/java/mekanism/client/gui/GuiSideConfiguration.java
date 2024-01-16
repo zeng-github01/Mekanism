@@ -27,6 +27,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -175,6 +176,9 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
                             Pair<Integer, Block> integerBlockPair = blockList.get(layer);
                             ItemStack nameStack = new ItemStack(integerBlockPair.getRight(), 1, integerBlockPair.getLeft());
                             if (integerBlockPair.getRight() != Blocks.AIR) { //Don't show the name of the air
+                                NBTTagCompound tag = new NBTTagCompound();
+                                tileEntity.writeToNBT(tag);
+                                nameStack.setTagCompound(tag);
                                 String renderString = nameStack.getDisplayName();
                                 if (button.getSlotPosMapIndex() == i) {
                                     info.add(renderString);
@@ -182,8 +186,6 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
                             }
                         }
                     }
-
-
                     displayTooltips(info, xAxis, yAxis);
                 }
                 break;
@@ -213,8 +215,9 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
                 if (0 <= layer && layer < blockList.size()) {
                     Pair<Integer, Block> integerBlockPair = blockList.get(layer);
                     ItemStack stack = new ItemStack(integerBlockPair.getRight(), 1, integerBlockPair.getLeft());
-                    stack.setTagCompound(tileEntity.getTileData());
-                    stack.setTagCompound(tileEntity.getUpdateTag());
+                    NBTTagCompound tag = new NBTTagCompound();
+                    tileEntity.writeToNBT(tag);
+                    stack.setTagCompound(tag);
                     MekanismRenderer.resetColor();
                     ClientUtil.renderItem(stack, guiLeft + guiPos.xPos + 3, guiTop + guiPos.yPos + 3);
                     MekanismRenderer.resetColor();
