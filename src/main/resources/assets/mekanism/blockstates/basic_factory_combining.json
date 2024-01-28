@@ -8,7 +8,7 @@
                   "sides": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryRight",
                   "front": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryFront",
                   "up": "mekanism:blocks/factory/basic/combining/BasicCombiningFactoryTop",
-                  "down": "mekanism:blocks/factory/basic/BasicFactoryBottom"
+                  "down": "mekanism:blocks/factory/factory_bottom"
             },
             "model": "mekanism:machine"
       },

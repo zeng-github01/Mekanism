@@ -303,6 +303,32 @@ public class GeneralConfig extends BaseConfig {
     public final IntOption uraniumMaxVeinSize = new IntOption(this, "general", "UraniumVeinSize", 8,
             "Max number of blocks in a uranium vein.", 1, Integer.MAX_VALUE);
 
+    public final DoubleOption toolBatteryCapacity = new DoubleOption(this, "general", "toolBatteryCapacity", 10000000,
+            "Maximum amount (joules) of energy the Atomic Disassembler can contain", 0, Double.MAX_VALUE).setRequiresGameRestart(true);
+
+    public final IntOption toolEnergyUsageWeapon = new IntOption(this, "general", "toolEnergyUsageWeapon", 2000,
+            "Cost in Joules of using the mektool as a weapon.");
+
+    public final IntOption toolDamageMin = new IntOption(this, "general", "toolDamageMin", 20,
+            "The amount of damage the mektool does when it is out of power. (Value is in number of half hearts)");
+
+    public final IntOption toolDamageMax = new IntOption(this, "general", "toolDamageMax", 256,
+            "The amount of damage the mektool does when it has at least DisassemblerEnergyUsageWeapon power stored. (Value is in number of half hearts)");
+
+    public final IntOption toolMiningRange = new IntOption(this, "general", "toolMiningRange", 20,
+            "The Range of the mektool Extended Vein Mining.");
+
+    public final IntOption toolEnergyUsageHoe = new IntOption(this, "general", "toolEnergyUsageHoe", 10,
+            "Cost in Joules of using the mektool as a hoe.");
+
+    public final IntOption toolEnergyUsage = new IntOption(this, "general", "toolEnergyUsage", 10,
+            "Base Energy (Joules) usage of the mektool. (Gets multiplied by speed factor)");
+
+    public final BooleanOption toolVeryFastMode = new BooleanOption(this, "general", "toolveryFastMode", true,
+            "Enable the 'Fast' mode for the Atomic Disassembler.");
+
+    public final IntOption toolMiningCount = new IntOption(this, "general", "toolMiningCount", 256,
+            "The max Atomic Disassembler Vein Mining Block Count.");
     public final TypeConfigManager<MachineType> machinesManager = new TypeConfigManager<>(this, "machines", MachineType.class, MachineType::getValidMachines, MachineType::getBlockName);
 
     public final EnumMap<BaseTier, TierConfig> tiers = TierConfig.create(this);

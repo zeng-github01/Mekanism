@@ -8,7 +8,7 @@
                   "sides": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryRight",
                   "front": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryFront",
                   "up": "mekanism:blocks/factory/ultimate/purifying/UltimatePurifyingFactoryTop",
-                  "down": "mekanism:blocks/factory/ultimate/UltimateFactoryBottom"
+                  "down": "mekanism:blocks/factory/factory_bottom"
             },
             "model": "mekanism:machine"
       },

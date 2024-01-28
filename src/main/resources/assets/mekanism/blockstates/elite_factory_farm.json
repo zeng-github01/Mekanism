@@ -8,7 +8,7 @@
                   "sides": "mekanism:blocks/factory/elite/organicfarm/OrganicFarmRight",
                   "front": "mekanism:blocks/factory/elite/organicfarm/OrganicFarmFront",
                   "up": "mekanism:blocks/factory/elite/organicfarm/OrganicFarmTop",
-                  "down": "mekanism:blocks/factory/elite/EliteFactoryBottom"
+                  "down": "mekanism:blocks/factory/factory_bottom"
             },
             "model": "mekanism:machine"
       },

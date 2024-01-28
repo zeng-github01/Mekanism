@@ -200,4 +200,6 @@ public interface MekanismRecipeHelper {
     void addCellSeparatorRecipe(ItemStack input, ItemStack primaryOutput);
 
     void addRecyclerRecipe(ItemStack input, ItemStack primaryOutput, double chance);
+
+    void addAmbientGas(int dimensionID, GasStack outputGas, double chance);
 }

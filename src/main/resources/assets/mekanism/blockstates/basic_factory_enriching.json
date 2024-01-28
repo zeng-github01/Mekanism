@@ -8,7 +8,7 @@
                   "sides": "mekanism:blocks/factory/basic/enriching/BasicEnrichingFactoryRight",
                   "front": "mekanism:blocks/factory/basic/enriching/BasicEnrichingFactoryFront",
                   "up": "mekanism:blocks/factory/basic/enriching/BasicEnrichingFactoryTop",
-                  "down": "mekanism:blocks/factory/basic/BasicFactoryBottom"
+                  "down": "mekanism:blocks/factory/factory_bottom"
             },
             "model": "mekanism:machine"
       },

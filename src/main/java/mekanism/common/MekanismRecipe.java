@@ -30,12 +30,16 @@ public class MekanismRecipe {
         GameRegistry.addSmelting(new ItemStack(MekanismBlocks.OreBlock, 1, 0), new ItemStack(MekanismItems.Ingot, 1, 1), 1.0F);
         GameRegistry.addSmelting(new ItemStack(MekanismBlocks.OreBlock, 1, 1), new ItemStack(MekanismItems.Ingot, 1, 5), 1.0F);
         GameRegistry.addSmelting(new ItemStack(MekanismBlocks.OreBlock, 1, 2), new ItemStack(MekanismItems.Ingot, 1, 6), 1.0F);
+        GameRegistry.addSmelting(new ItemStack(MekanismBlocks.OreBlock, 1, 4), new ItemStack(MekanismItems.Ingot, 1, 7), 1.0F);
+        GameRegistry.addSmelting(new ItemStack(MekanismBlocks.OreBlock, 1, 5), new ItemStack(MekanismItems.Ingot, 1, 8), 1.0F);
         GameRegistry.addSmelting(new ItemStack(MekanismItems.Dust, 1, Resource.OSMIUM.ordinal()), new ItemStack(MekanismItems.Ingot, 1, 1), 0.0F);
         GameRegistry.addSmelting(new ItemStack(MekanismItems.Dust, 1, Resource.IRON.ordinal()), new ItemStack(Items.IRON_INGOT), 0.0F);
         GameRegistry.addSmelting(new ItemStack(MekanismItems.Dust, 1, Resource.GOLD.ordinal()), new ItemStack(Items.GOLD_INGOT), 0.0F);
         GameRegistry.addSmelting(new ItemStack(MekanismItems.OtherDust, 1, 1), new ItemStack(MekanismItems.Ingot, 1, 4), 0.0F);
         GameRegistry.addSmelting(new ItemStack(MekanismItems.Dust, 1, Resource.COPPER.ordinal()), new ItemStack(MekanismItems.Ingot, 1, 5), 0.0F);
         GameRegistry.addSmelting(new ItemStack(MekanismItems.Dust, 1, Resource.TIN.ordinal()), new ItemStack(MekanismItems.Ingot, 1, 6), 0.0F);
+        GameRegistry.addSmelting(new ItemStack(MekanismItems.Dust, 1, Resource.LEAD.ordinal()), new ItemStack(MekanismItems.Ingot, 1, 7), 0.0F);
+        GameRegistry.addSmelting(new ItemStack(MekanismItems.Dust, 1, Resource.URANIUM.ordinal()), new ItemStack(MekanismItems.Ingot, 1, 8), 0.0F);
 
         //Enrichment Chamber Recipes
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.ENRICHMENT_CHAMBER)) {
@@ -387,6 +391,11 @@ public class MekanismRecipe {
 
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.RECYCLER)) {
             RecipeHandler.addRecyclerRecipe(new ItemStack(Blocks.DIRT), new ItemStack(MekanismItems.Scrap, 1), 1F / 6F);
+        }
+
+        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.AMBIENT_ACCUMULATOR) || MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.AMBIENT_ACCUMULATOR_ENERGY)) {
+            RecipeHandler.addAmbientGas(0, new GasStack(MekanismFluids.UnstableDimensional, 1),1F / 5F);
+            RecipeHandler.addAmbientGas(-1,new GasStack(MekanismFluids.Water, 1),1F / 5F);
         }
 
         /**

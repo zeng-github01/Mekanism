@@ -68,6 +68,8 @@ public class MekanismItems {
     /**
      * ADD START
      */
+
+    public static final ItemMekTool MekTool = new ItemMekTool();
     public static final ItemCanteen Canteen = new ItemCanteen();
     public static final Item CosmicAlloy = new ItemAlloy();
     public static final Item PlutoniumPellet = new ItemMekanism();
@@ -168,6 +170,7 @@ public class MekanismItems {
         registry.register(init(YellowCakeUranium, "YellowCakeUranium"));
         registry.register(init(PoloniumPellet, "PoloniumPellet"));
         registry.register(init(ArmoredFreeRunners, "ArmoredFreeRunners"));
+        registry.register(init(MekTool, "MekTool"));
         /**
          * ADD END
          */

@@ -1,8 +1,8 @@
 package mekanism.api;
 
 import mekanism.api.math.MathUtils;
-import mekanism.common.util.LangUtils;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.text.translation.I18n;
 
 public enum RelativeSide {
     BOTTOM("sideData.bottom"),
@@ -25,7 +25,7 @@ public enum RelativeSide {
     }
 
     public String getTranslationKey() {
-        return LangUtils.localize(facingname);
+        return I18n.translateToLocal(facingname);
     }
 
     /**

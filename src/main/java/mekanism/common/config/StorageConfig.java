@@ -117,4 +117,7 @@ public class StorageConfig extends BaseConfig {
 
     public final DoubleOption recycler = new DoubleOption(this, "storage", "RecyclerStorage", 20000D,
             "Base energy storage (Joules).");
+
+    public final DoubleOption AmbientAccumulatorEnergy = new DoubleOption(this, "storage", "AmbientAccumulatorEnergyStorage", 80000D,
+            "Base energy storage (Joules).");
 }

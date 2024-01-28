@@ -8,7 +8,7 @@
                   "sides": "mekanism:blocks/factory/basic/crushing/BasicCrushingFactoryRight",
                   "front": "mekanism:blocks/factory/basic/crushing/BasicCrushingFactoryFront",
                   "up": "mekanism:blocks/factory/basic/crushing/BasicCrushingFactoryTop",
-                  "down": "mekanism:blocks/factory/basic/BasicFactoryBottom"
+                  "down": "mekanism:blocks/factory/factory_bottom"
             },
             "model": "mekanism:machine"
       },

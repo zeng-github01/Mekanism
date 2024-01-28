@@ -133,7 +133,7 @@ public class TransporterImpl extends TransmitterImpl<TileEntity, InventoryNetwor
                         } else if (stack.getPathType() != Path.NONE) {
                             TileEntity tile = next.getTileEntity(world());
                             if (tile != null) {
-                                TransitResponse response = InventoryUtils.putStackInInventory(tile, TransitRequest.getFromTransport(stack), stack.getSide(this),
+                                        TransitResponse response = InventoryUtils.putStackInInventory(tile, TransitRequest.getFromTransport(stack), stack.getSide(this),
                                         stack.getPathType() == Path.HOME);
                                 // Nothing was rejected; remove the stack from the prediction tracker and
                                 // schedule this stack for deletion. Continue the loop thereafter

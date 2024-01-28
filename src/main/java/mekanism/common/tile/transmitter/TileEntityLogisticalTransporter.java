@@ -50,7 +50,7 @@ public class TileEntityLogisticalTransporter extends TileEntityTransmitter<TileE
 
     private int delay = 0;
     private int delayCount = 0;
-
+    private int Removetick = 0;
     public TileEntityLogisticalTransporter() {
         transmitterDelegate = new TransporterImpl(this);
     }
@@ -129,10 +129,9 @@ public class TileEntityLogisticalTransporter extends TileEntityTransmitter<TileE
             final TileEntity tile = MekanismUtils.getTileEntity(world, getPos().offset(side));
             if (tile != null) {
                 TransitRequest request = TransitRequest.buildInventoryMap(tile, side, tier.getPullAmount());
-
                 // There's a stack available to insert into the network...
                 if (!request.isEmpty()) {
-                    TransitResponse response = TransporterUtils.insert(tile, getTransmitter(), request, getTransmitter().getColor(), true, 0);
+                    TransitResponse response = TransporterUtils.insert(tile, getTransmitter(), request , getTransmitter().getColor(), true, 0);
 
                     // If the insert succeeded, remove the inserted count and try again for another 10 ticks
                     if (!response.isEmpty()) {
@@ -328,6 +327,7 @@ public class TileEntityLogisticalTransporter extends TileEntityTransmitter<TileE
             }
         }
     }
+
 
     @Override
     public int getCapacity() {

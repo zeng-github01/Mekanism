@@ -238,8 +238,9 @@ public final class RecipeHandler {
         addRecipe(Recipe.SOLAR_NEUTRON_ACTIVATOR, new SolarNeutronRecipe(inputGas, outputGas));
     }
 
-    public static void addAmbientGas(int dimensionID, String ambientGasName) {
-        addRecipe(Recipe.AMBIENT_ACCUMULATOR, new AmbientGasRecipe(dimensionID, ambientGasName));
+    public static void addAmbientGas(int dimensionID, GasStack outputGas, double chance) {
+        addRecipe(Recipe.AMBIENT_ACCUMULATOR, new AmbientGasRecipe(dimensionID, outputGas,chance));
+        addRecipe(Recipe.AMBIENT_ACCUMULATOR_ENERGY, new AmbientGasRecipe(dimensionID, outputGas,chance));
     }
 
 
@@ -591,8 +592,13 @@ public final class RecipeHandler {
         public static final Recipe<PressurizedInput, PressurizedOutput, PressurizedRecipe> PRESSURIZED_REACTION_CHAMBER = new Recipe<>(
                 MachineType.PRESSURIZED_REACTION_CHAMBER, PressurizedInput.class, PressurizedOutput.class, PressurizedRecipe.class);
 
-        public static final Recipe<IntegerInput, GasOutput, AmbientGasRecipe> AMBIENT_ACCUMULATOR = new Recipe<>(
-                MachineType.AMBIENT_ACCUMULATOR, IntegerInput.class, GasOutput.class, AmbientGasRecipe.class);
+        public static final Recipe<IntegerInput, ChanceGasOutput, AmbientGasRecipe> AMBIENT_ACCUMULATOR = new Recipe<>(
+                MachineType.AMBIENT_ACCUMULATOR, IntegerInput.class, ChanceGasOutput.class, AmbientGasRecipe.class);
+
+
+        public static final Recipe<IntegerInput, ChanceGasOutput, AmbientGasRecipe> AMBIENT_ACCUMULATOR_ENERGY = new Recipe<>(
+                MachineType.AMBIENT_ACCUMULATOR_ENERGY, IntegerInput.class, ChanceGasOutput.class, AmbientGasRecipe.class);
+
 
         public static final Recipe<FluidInput, FluidOutput, ThermalEvaporationRecipe> THERMAL_EVAPORATION_PLANT = new Recipe<>(
                 "ThermalEvaporationPlant", FluidInput.class, FluidOutput.class, ThermalEvaporationRecipe.class);

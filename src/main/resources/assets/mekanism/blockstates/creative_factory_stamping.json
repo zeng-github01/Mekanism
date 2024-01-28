@@ -8,7 +8,7 @@
                   "sides": "mekanism:blocks/factory/creative/crushing/CreativeCrushingFactoryRight",
                   "front": "mekanism:blocks/factory/creative/crushing/CreativeCrushingFactoryFront",
                   "up": "mekanism:blocks/factory/creative/crushing/CreativeCrushingFactoryTop",
-                  "down": "mekanism:blocks/factory/creative/CreativeFactoryBottom"
+                  "down": "mekanism:blocks/factory/factory_bottom"
             },
             "model": "mekanism:machine"
       },

@@ -8,7 +8,7 @@
                   "sides": "mekanism:blocks/factory/elite/injecting/EliteInjectingFactoryRight",
                   "front": "mekanism:blocks/factory/elite/injecting/EliteInjectingFactoryFront",
                   "up": "mekanism:blocks/factory/elite/injecting/EliteInjectingFactoryTop",
-                  "down": "mekanism:blocks/factory/elite/EliteFactoryBottom"
+                  "down": "mekanism:blocks/factory/factory_bottom"
             },
             "model": "mekanism:machine"
       },

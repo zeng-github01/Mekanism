@@ -195,6 +195,8 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCellExtractor.class, new RenderConfigurableMachine<>());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCellSeparator.class, new RenderConfigurableMachine<>());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRecycler.class, new RenderConfigurableMachine<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAmbientAccumulator.class, new RenderConfigurableMachine<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAmbientAccumulatorEnergy.class, new RenderConfigurableMachine<>());
     }
 
     @Override
@@ -268,6 +270,7 @@ public class ClientProxy extends CommonProxy {
         registerItemRender(MekanismItems.EmptyCrystals);
         registerItemRender(MekanismItems.FluoriteClump);
         registerItemRender(MekanismItems.ArmoredFreeRunners);
+        registerItemRender(MekanismItems.MekTool);
         /**
          * ADD END
          */
@@ -296,6 +299,7 @@ public class ClientProxy extends CommonProxy {
         Item.getItemFromBlock(MekanismBlocks.BasicBlock3).setTileEntityItemStackRenderer(new RenderBasicBlockItem());
         Item.getItemFromBlock(MekanismBlocks.MachineBlock4).setTileEntityItemStackRenderer(new RenderMachineItem());
         MekanismItems.ArmoredFreeRunners.setTileEntityItemStackRenderer(new RenderArmoredFreeRunners());
+        MekanismItems.MekTool.setTileEntityItemStackRenderer(new RenderMekTool());
     }
 
     private ModelResourceLocation getInventoryMRL(String type) {
@@ -714,7 +718,7 @@ public class ClientProxy extends CommonProxy {
             case 45 -> new GuiLaserTractorBeam(player.inventory, (TileEntityLaserTractorBeam) tileEntity);
             case 46 -> new GuiQuantumEntangloporter(player.inventory, (TileEntityQuantumEntangloporter) tileEntity);
             case 47 -> new GuiSolarNeutronActivator(player.inventory, (TileEntitySolarNeutronActivator) tileEntity);
-            case 48 -> new GuiAmbientAccumulator(player, (TileEntityAmbientAccumulator) tileEntity);
+            case 48 -> new GuiAmbientAccumulator(player.inventory, (TileEntityAmbientAccumulator) tileEntity);
             case 49 -> new GuiInductionMatrix(player.inventory, (TileEntityInductionCasing) tileEntity);
             case 50 -> new GuiMatrixStats(player.inventory, (TileEntityInductionCasing) tileEntity);
             case 51 -> new GuiTransporterConfig(player, (ISideConfiguration) tileEntity);
@@ -743,6 +747,7 @@ public class ClientProxy extends CommonProxy {
             case 70 -> new GuiCellExtractor(player.inventory, (TileEntityChanceMachine) tileEntity);
             case 71 -> new GuiCellSeparator(player.inventory, (TileEntityCellSeparator) tileEntity);
             case 72 -> new GuiRecycler(player.inventory, (TileEntityRecycler) tileEntity);
+            case 73 -> new GuiAmbientAccumulatorEnergy(player.inventory, (TileEntityAmbientAccumulatorEnergy) tileEntity);
             default -> null;
         };
     }
@@ -893,6 +898,8 @@ public class ClientProxy extends CommonProxy {
         machineModelBake(modelRegistry, "antiprotonic_nucleosynthesizer", MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER);
         ModelResourceLocation ArmorFreeRunnerRL = getInventoryMRL("ArmoredFreeRunners");
         modelRegistry.putObject(ArmorFreeRunnerRL, RenderArmoredFreeRunners.model = new ItemLayerWrapper(modelRegistry.getObject(FreeRunnerRL)));
+        ModelResourceLocation MekToolRL = getInventoryMRL("MekTool");
+        modelRegistry.putObject(MekToolRL, RenderMekTool.model = new ItemLayerWrapper(modelRegistry.getObject(MekToolRL)));
         /**
          * ADD END
          */

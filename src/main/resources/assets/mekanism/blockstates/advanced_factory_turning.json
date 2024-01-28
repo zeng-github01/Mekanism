@@ -8,7 +8,7 @@
                   "sides": "mekanism:blocks/factory/advanced/enriching/AdvancedEnrichingFactoryRight",
                   "front": "mekanism:blocks/factory/advanced/enriching/AdvancedEnrichingFactoryFront",
                   "up": "mekanism:blocks/factory/advanced/enriching/AdvancedEnrichingFactoryTop",
-                  "down": "mekanism:blocks/factory/advanced/AdvancedFactoryBottom"
+                  "down": "mekanism:blocks/factory/factory_bottom"
             },
             "model": "mekanism:machine"
       },

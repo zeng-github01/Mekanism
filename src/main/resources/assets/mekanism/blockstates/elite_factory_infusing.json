@@ -8,7 +8,7 @@
                   "sides": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryRight",
                   "front": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryFront",
                   "up": "mekanism:blocks/factory/elite/infusing/EliteInfusingFactoryTop",
-                  "down": "mekanism:blocks/factory/elite/EliteFactoryBottom"
+                  "down": "mekanism:blocks/factory/factory_bottom"
             },
             "model": "mekanism:machine"
       },

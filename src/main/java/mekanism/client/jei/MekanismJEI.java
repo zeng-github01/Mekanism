@@ -145,6 +145,7 @@ public class MekanismJEI implements IModPlugin {
         addRecipeCategory(registry, MachineType.RECYCLER, new Chance2MachineRecipeCategory(guiHelper, Recipe.RECYCLER.getJEICategory(), "tile.MachineBlock4.Recycler.name",
                 ProgressBar.BAR));
 
+        addRecipeCategory(registry, MachineType.AMBIENT_ACCUMULATOR, new AmbientGasCategory(guiHelper));
         /**
          * ADD END
          */
@@ -206,6 +207,7 @@ public class MekanismJEI implements IModPlugin {
         RecipeRegistryHelper.registerCellExtractor(registry);
         RecipeRegistryHelper.registerCellSeparator(registry);
         RecipeRegistryHelper.registerRecycler(registry);
+        RecipeRegistryHelper.registerAmbientAccumulator(registry);
         /**
          * ADD END
          */

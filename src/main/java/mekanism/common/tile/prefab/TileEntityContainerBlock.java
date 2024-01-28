@@ -3,6 +3,7 @@ package mekanism.common.tile.prefab;
 import mekanism.common.Upgrade;
 import mekanism.common.base.ISustainedInventory;
 import mekanism.common.base.ItemHandlerWrapper;
+import mekanism.common.block.BlockCardboardBox;
 import mekanism.common.capabilities.CapabilityWrapperManager;
 import mekanism.common.capabilities.IToggleableCapability;
 import mekanism.common.util.LangUtils;
@@ -98,7 +99,6 @@ public abstract class TileEntityContainerBlock extends TileEntityBasicBlock impl
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
         super.writeToNBT(nbtTags);
-
         if (handleInventory()) {
             NBTTagList tagList = new NBTTagList();
             for (int slotCount = 0; slotCount < getSizeInventory(); slotCount++) {
@@ -288,4 +288,6 @@ public abstract class TileEntityContainerBlock extends TileEntityBasicBlock impl
     protected IItemHandler getItemHandler(EnumFacing side) {
         return side == null ? nullHandler : itemManager.getWrapper(this, side);
     }
+
+
 }

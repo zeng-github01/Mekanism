@@ -336,6 +336,7 @@ public class Mekanism {
         registerTileEntity(TileEntityCellSeparator.class, "cell_separator");
         registerTileEntity(TileEntityRecycler.class, "Recycler");
         registerTileEntity(TileEntityIndustrialAlarm.class, "industrial_alarm");
+        registerTileEntity(TileEntityAmbientAccumulatorEnergy.class, "ambient_accumulator_energy");
         /**
          * End of adding machine
          */

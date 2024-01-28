@@ -226,6 +226,12 @@ public class APIHandler implements MekanismRecipeHelper {
         RecipeHandler.addRecyclerRecipe(input, primaryOutput, chance);
     }
 
+
+    @Override
+    public void addAmbientGas(int dimensionID, GasStack outputGas,double chance) {
+        checkPhase();
+        RecipeHandler.addAmbientGas(dimensionID, outputGas,chance);
+    }
     /**
      * ADD END
      */

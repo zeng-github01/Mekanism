@@ -386,6 +386,20 @@ public class RecipeRegistryHelper {
         registry.addRecipeClickArea(GuiRecycler.class, 79, 40, 24, 7, Recipe.RECYCLER.getJEICategory());
         registerRecipeItem(registry, MachineType.RECYCLER, Recipe.RECYCLER);
     }
+
+    public static void registerAmbientAccumulator(IModRegistry registry) {
+        if (!MachineType.AMBIENT_ACCUMULATOR.isEnabled() || !MachineType.AMBIENT_ACCUMULATOR_ENERGY.isEnabled()) {
+            return;
+        }
+        addRecipes(registry, Recipe.AMBIENT_ACCUMULATOR, AmbientGasRecipeWrapper::new);
+        registry.addRecipeClickArea(GuiAmbientAccumulator.class, 7, 13, 80, 65, Recipe.AMBIENT_ACCUMULATOR.getJEICategory());
+        registerRecipeItem(registry, MachineType.AMBIENT_ACCUMULATOR, Recipe.AMBIENT_ACCUMULATOR);
+        registry.addRecipeClickArea(GuiAmbientAccumulatorEnergy.class, 7, 18, 80, 65, Recipe.AMBIENT_ACCUMULATOR.getJEICategory());
+        registerRecipeItem(registry, MachineType.AMBIENT_ACCUMULATOR_ENERGY, Recipe.AMBIENT_ACCUMULATOR);
+
+    }
+
+
     /**
      * ADD END
      */

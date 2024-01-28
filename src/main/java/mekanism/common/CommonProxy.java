@@ -222,7 +222,7 @@ public class CommonProxy implements IGuiProvider {
             case 7 ->
                     new ContainerRotaryCondensentrator(player.inventory, (TileEntityRotaryCondensentrator) tileEntity);
             case 8 -> new ContainerEnergyCube(player.inventory, (TileEntityEnergyCube) tileEntity);
-            case 9, 48, 50, 51, 55, 59 -> new ContainerNull(player, (TileEntityContainerBlock) tileEntity);
+            case 9, 50, 51, 55, 59 -> new ContainerNull(player, (TileEntityContainerBlock) tileEntity);
             case 10 -> new ContainerGasTank(player.inventory, (TileEntityGasTank) tileEntity);
             case 11 -> new ContainerFactory(player.inventory, (TileEntityFactory) tileEntity);
             case 12 -> new ContainerMetallurgicInfuser(player.inventory, (TileEntityMetallurgicInfuser) tileEntity);
@@ -255,28 +255,26 @@ public class CommonProxy implements IGuiProvider {
             case 43 -> new ContainerUpgradeManagement(player.inventory, (IUpgradeTile) tileEntity);
             case 44 -> new ContainerLaserAmplifier(player.inventory, (TileEntityLaserAmplifier) tileEntity);
             case 45 -> new ContainerLaserTractorBeam(player.inventory, (TileEntityLaserTractorBeam) tileEntity);
-            case 46 ->
-                    new ContainerQuantumEntangloporter(player.inventory, (TileEntityQuantumEntangloporter) tileEntity);
-            case 47 ->
-                    new ContainerSolarNeutronActivator(player.inventory, (TileEntitySolarNeutronActivator) tileEntity);
+            case 46 -> new ContainerQuantumEntangloporter(player.inventory, (TileEntityQuantumEntangloporter) tileEntity);
+            case 47 -> new ContainerSolarNeutronActivator(player.inventory, (TileEntitySolarNeutronActivator) tileEntity);
+            case 48 -> new ContainerAmbientAccumulator(player.inventory,(TileEntityAmbientAccumulator) tileEntity);
             case 49 -> new ContainerInductionMatrix(player.inventory, (TileEntityInductionCasing) tileEntity);
             case 52 -> new ContainerOredictionificator(player.inventory, (TileEntityOredictionificator) tileEntity);
             case 53 -> new ContainerResistiveHeater(player.inventory, (TileEntityResistiveHeater) tileEntity);
-            case 56 ->
-                    new ContainerFormulaicAssemblicator(player.inventory, (TileEntityFormulaicAssemblicator) tileEntity);
+            case 56 -> new ContainerFormulaicAssemblicator(player.inventory, (TileEntityFormulaicAssemblicator) tileEntity);
             case 57 -> new ContainerSecurityDesk(player.inventory, (TileEntitySecurityDesk) tileEntity);
             case 58 -> new ContainerFuelwoodHeater(player.inventory, (TileEntityFuelwoodHeater) tileEntity);
             case 60 -> new ContainerIsotopicCentrifuge(player.inventory, (TileEntityIsotopicCentrifuge) tileEntity);
             case 61 -> new ContainerNutritionalLiquifier(player.inventory, (TileEntityNutritionalLiquifier) tileEntity);
             case 62 -> new ContainerFarmMachine(player.inventory, (TileEntityFarmMachine) tileEntity);
-            case 63 ->
-                    new ContainerAntiprotonicNucleosynthesizer(player.inventory, (TileEntityAntiprotonicNucleosynthesizer) tileEntity);
+            case 63 -> new ContainerAntiprotonicNucleosynthesizer(player.inventory, (TileEntityAntiprotonicNucleosynthesizer) tileEntity);
             /*
             case 69:
                 return new ContainerCultivateElectricMachine<>(player.inventory, (TileEntityCultivateElectricMachine) tileEntity);
             */
             case 70 -> new ContainerChanceMachine<>(player.inventory, (TileEntityChanceMachine) tileEntity);
             case 72 -> new ContainerChanceMachine2(player.inventory, (TileEntityChanceMachine2) tileEntity);
+            case 73 -> new ContainerAmbientAccumulatorEnergy(player.inventory, (TileEntityAmbientAccumulatorEnergy) tileEntity);
             default -> null;
         };
     }
