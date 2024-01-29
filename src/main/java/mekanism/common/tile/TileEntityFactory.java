@@ -1230,7 +1230,11 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     @Nonnull
     @Override
     public GasTankInfo[] getTankInfo() {
-        return new GasTankInfo[]{gasTank, gasOutTank};
+        if (recipeType == RecipeType.Dissolution || recipeType == RecipeType.WASHER || recipeType == RecipeType.PRC || recipeType == RecipeType.OXIDIZER){ //Only these plants show two gas storages
+            return new GasTankInfo[]{gasTank, gasOutTank};
+        }else {
+            return new GasTankInfo[]{gasTank};
+        }
     }
 
     @Override

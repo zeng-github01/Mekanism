@@ -108,6 +108,9 @@ public class GeneralConfig extends BaseConfig {
     public final DoubleOption ENERGY_PER_REDSTONE = new DoubleOption(this, "general", "EnergyPerRedstone", 10000D,
             "How much energy (Joules) a piece of redstone gives in machines.");
 
+    public final DoubleOption ENERGY_PER_REDSTONE_BLOCK = new DoubleOption(this, "general", "EnergyPerRedstoneBlock", 90000D,
+            "How much energy (Joules) a piece of redstone block gives in machines.");
+
     public final IntOption disassemblerEnergyUsage = new IntOption(this, "general", "DisassemblerEnergyUsage", 10,
             "Base Energy (Joules) usage of the Atomic Disassembler. (Gets multiplied by speed factor)");
 

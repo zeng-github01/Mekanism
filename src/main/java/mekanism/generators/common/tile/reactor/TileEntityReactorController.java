@@ -204,9 +204,15 @@ public class TileEntityReactorController extends TileEntityReactorBlock implemen
             data.add(getReactor().getCaseTemp());
             data.add(getReactor().getInjectionRate());
             data.add(getReactor().isBurning());
+
             data.add(fuelTank.getStored());
             data.add(deuteriumTank.getStored());
             data.add(tritiumTank.getStored());
+            /*
+            TileUtils.addTankData(data,fuelTank);
+            TileUtils.addTankData(data,deuteriumTank);
+            TileUtils.addTankData(data,tritiumTank);
+            */
             TileUtils.addTankData(data, waterTank);
             TileUtils.addTankData(data, steamTank);
         }
@@ -244,9 +250,15 @@ public class TileEntityReactorController extends TileEntityReactorBlock implemen
                 getReactor().setCaseTemp(dataStream.readDouble());
                 getReactor().setInjectionRate(dataStream.readInt());
                 getReactor().setBurning(dataStream.readBoolean());
+
                 fuelTank.setGas(new GasStack(MekanismFluids.FusionFuel, dataStream.readInt()));
                 deuteriumTank.setGas(new GasStack(MekanismFluids.Deuterium, dataStream.readInt()));
                 tritiumTank.setGas(new GasStack(MekanismFluids.Tritium, dataStream.readInt()));
+               /*
+                TileUtils.readTankData(dataStream,fuelTank);
+                TileUtils.readTankData(dataStream,deuteriumTank);
+                TileUtils.readTankData(dataStream,tritiumTank);
+                */
                 TileUtils.readTankData(dataStream, waterTank);
                 TileUtils.readTankData(dataStream, steamTank);
             } else if (getReactor() != null) {

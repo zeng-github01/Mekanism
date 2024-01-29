@@ -197,15 +197,16 @@ public class BlockGasTank extends BlockMekanismContainer {
             }
             ((ISideConfiguration) tileEntity).getConfig().write(ItemDataUtils.getDataMap(itemStack));
             ((ISideConfiguration) tileEntity).getEjector().write(ItemDataUtils.getDataMap(itemStack));
+
+            ITierItem tierItem = (ITierItem) itemStack.getItem();
+            tierItem.setBaseTier(itemStack, tileEntity.tier.getBaseTier());
+
+            IGasItem storageTank = (IGasItem) itemStack.getItem();
+            storageTank.setGas(itemStack, tileEntity.gasTank.getGas());
+
+            ISustainedInventory inventory = (ISustainedInventory) itemStack.getItem();
+            inventory.setInventory(tileEntity.getInventory(), itemStack);
         }
-        ITierItem tierItem = (ITierItem) itemStack.getItem();
-        tierItem.setBaseTier(itemStack, tileEntity.tier.getBaseTier());
-
-        IGasItem storageTank = (IGasItem) itemStack.getItem();
-        storageTank.setGas(itemStack, tileEntity.gasTank.getGas());
-
-        ISustainedInventory inventory = (ISustainedInventory) itemStack.getItem();
-        inventory.setInventory(tileEntity.getInventory(), itemStack);
         return itemStack;
     }
 

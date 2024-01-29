@@ -1652,6 +1652,7 @@ sound_event.mekanismgenerators.tile.generator.wind=Wind generator wooshes
 sound_event.mekanismgenerators.tile.machine.fission_reactor=Fission reactor hums
 sound_event.mekanismgenerators.tile.machine.fusion_reactor=Fusion reactor hums
 !=!
+gui.gas:=Gas:
 
 #holiday
 holiday.mekanism.christmas.1=Merry Christmas,

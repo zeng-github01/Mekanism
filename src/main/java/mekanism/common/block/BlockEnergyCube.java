@@ -229,16 +229,18 @@ public class BlockEnergyCube extends BlockMekanismContainer {
             }
             ((ISideConfiguration) tileEntity).getConfig().write(ItemDataUtils.getDataMap(itemStack));
             ((ISideConfiguration) tileEntity).getEjector().write(ItemDataUtils.getDataMap(itemStack));
+
+            ITierItem tierItem = (ITierItem) itemStack.getItem();
+            tierItem.setBaseTier(itemStack, tileEntity.tier.getBaseTier());
+
+            IEnergizedItem energizedItem = (IEnergizedItem) itemStack.getItem();
+            energizedItem.setEnergy(itemStack, tileEntity.electricityStored);
+
+            ISustainedInventory inventory = (ISustainedInventory) itemStack.getItem();
+            inventory.setInventory(tileEntity.getInventory(), itemStack);
         }
 
-        ITierItem tierItem = (ITierItem) itemStack.getItem();
-        tierItem.setBaseTier(itemStack, tileEntity.tier.getBaseTier());
 
-        IEnergizedItem energizedItem = (IEnergizedItem) itemStack.getItem();
-        energizedItem.setEnergy(itemStack, tileEntity.electricityStored);
-
-        ISustainedInventory inventory = (ISustainedInventory) itemStack.getItem();
-        inventory.setInventory(tileEntity.getInventory(), itemStack);
         return itemStack;
     }
 

@@ -629,19 +629,25 @@ public abstract class BlockBasic extends BlockTileDrops {
         ItemStack ret = new ItemStack(this, 1, state.getBlock().getMetaFromState(state));
 
         if (type == BasicBlockType.BIN) {
-            TileEntityBin tileEntity = (TileEntityBin) world.getTileEntity(pos);
-            InventoryBin inv = new InventoryBin(ret);
-            ((ITierItem) ret.getItem()).setBaseTier(ret, tileEntity.tier.getBaseTier());
-            inv.setItemCount(tileEntity.getItemCount());
-            if (tileEntity.getItemCount() > 0) {
-                inv.setItemType(tileEntity.itemType);
+            TileEntity tileEntity = world.getTileEntity(pos);
+            if (tileEntity instanceof TileEntityBin tile){
+                InventoryBin inv = new InventoryBin(ret);
+                ((ITierItem) ret.getItem()).setBaseTier(ret, tile.tier.getBaseTier());
+                inv.setItemCount(tile.getItemCount());
+                if (tile.getItemCount() > 0) {
+                    inv.setItemType(tile.itemType);
+                }
             }
         } else if (type == BasicBlockType.INDUCTION_CELL) {
-            TileEntityInductionCell tileEntity = (TileEntityInductionCell) world.getTileEntity(pos);
-            ((ItemBlockBasic) ret.getItem()).setBaseTier(ret, tileEntity.tier.getBaseTier());
+            TileEntity tileEntity = world.getTileEntity(pos);
+            if (tileEntity instanceof TileEntityInductionCell tile){
+                ((ItemBlockBasic) ret.getItem()).setBaseTier(ret, tile.tier.getBaseTier());
+            }
         } else if (type == BasicBlockType.INDUCTION_PROVIDER) {
-            TileEntityInductionProvider tileEntity = (TileEntityInductionProvider) world.getTileEntity(pos);
-            ((ItemBlockBasic) ret.getItem()).setBaseTier(ret, tileEntity.tier.getBaseTier());
+            TileEntity tileEntity = world.getTileEntity(pos);
+            if (tileEntity instanceof TileEntityInductionProvider tile){
+                ((ItemBlockBasic) ret.getItem()).setBaseTier(ret, tile.tier.getBaseTier());
+            }
         }
 
         TileEntity tileEntity = world.getTileEntity(pos);
