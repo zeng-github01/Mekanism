@@ -22,10 +22,14 @@ import mekanism.common.recipe.machines.SmeltingRecipe;
 import mekanism.common.recipe.outputs.MachineOutput;
 import mekanism.common.tier.FactoryTier;
 import mekanism.common.util.MekanismUtils;
+import mekanism.generators.client.gui.GuiReactorHeat;
+import mekanism.generators.common.MekanismGenerators;
+import mekanism.generators.common.block.states.BlockStateReactor;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.recipe.IRecipeWrapperFactory;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraftforge.fml.common.Loader;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -252,28 +256,6 @@ public class RecipeRegistryHelper {
         FactoryTier.forEnabled(tier -> registry.addRecipeCatalyst(MekanismUtils.getFactory(tier, RecipeType.SMELTING), VanillaRecipeCategoryUid.SMELTING));
     }
 
-    private static <INPUT extends MachineInput<INPUT>, OUTPUT extends MachineOutput<OUTPUT>, RECIPE extends MachineRecipe<INPUT, OUTPUT, RECIPE>>
-    void addRecipes(IModRegistry registry, Recipe<INPUT, OUTPUT, RECIPE> type, IRecipeWrapperFactory<RECIPE> factory) {
-        String recipeCategoryUid = type.getJEICategory();
-        registry.handleRecipes(type.getRecipeClass(), factory, recipeCategoryUid);
-        registry.addRecipes(type.get().values().stream().map(factory::getRecipeWrapper).collect(Collectors.toList()), recipeCategoryUid);
-    }
-
-    private static void registerRecipeItem(IModRegistry registry, MachineType type, Recipe recipe) {
-        registry.addRecipeCatalyst(type.getStack(), recipe.getJEICategory());
-        RecipeType factoryType = null;
-        for (RecipeType t : RecipeType.values()) {
-            if (t.getType() == type) {
-                factoryType = t;
-                break;
-            }
-        }
-        if (factoryType != null) {
-            RecipeType finalFactoryType = factoryType;
-            FactoryTier.forEnabled(tier -> registry.addRecipeCatalyst(MekanismUtils.getFactory(tier, finalFactoryType), recipe.getJEICategory()));
-        }
-    }
-
 
     /**
      * ADD START
@@ -399,10 +381,41 @@ public class RecipeRegistryHelper {
 
     }
 
-
+    public static void registerFusionCooling(IModRegistry registry) {
+        if (Loader.isModLoaded(MekanismGenerators.MODID)) {
+            addRecipes(registry, Recipe.FUSION_COOLING, FusionCoolingRecipeWrapper::new);
+            registry.addRecipeClickArea(GuiReactorHeat.class, 133, 84, 18, 30, Recipe.FUSION_COOLING.getJEICategory());
+            registry.addRecipeCatalyst(BlockStateReactor.ReactorBlockType.REACTOR_CONTROLLER.getStack(1), Recipe.FUSION_COOLING.getJEICategory());
+            registry.addRecipeCatalyst(BlockStateReactor.ReactorBlockType.REACTOR_PORT.getStack(1), Recipe.FUSION_COOLING.getJEICategory());
+        }
+    }
     /**
      * ADD END
      */
+
+
+
+    private static <INPUT extends MachineInput<INPUT>, OUTPUT extends MachineOutput<OUTPUT>, RECIPE extends MachineRecipe<INPUT, OUTPUT, RECIPE>>
+    void addRecipes(IModRegistry registry, Recipe<INPUT, OUTPUT, RECIPE> type, IRecipeWrapperFactory<RECIPE> factory) {
+        String recipeCategoryUid = type.getJEICategory();
+        registry.handleRecipes(type.getRecipeClass(), factory, recipeCategoryUid);
+        registry.addRecipes(type.get().values().stream().map(factory::getRecipeWrapper).collect(Collectors.toList()), recipeCategoryUid);
+    }
+
+    private static void registerRecipeItem(IModRegistry registry, MachineType type, Recipe recipe) {
+        registry.addRecipeCatalyst(type.getStack(), recipe.getJEICategory());
+        RecipeType factoryType = null;
+        for (RecipeType t : RecipeType.values()) {
+            if (t.getType() == type) {
+                factoryType = t;
+                break;
+            }
+        }
+        if (factoryType != null) {
+            RecipeType finalFactoryType = factoryType;
+            FactoryTier.forEnabled(tier -> registry.addRecipeCatalyst(MekanismUtils.getFactory(tier, finalFactoryType), recipe.getJEICategory()));
+        }
+    }
 
 
 }

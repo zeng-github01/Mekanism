@@ -111,7 +111,7 @@ public class MekanismFluids {
         GasRegistry.register(HydrofluoricAcid);
         GasRegistry.register(Antimatter);
         GasRegistry.register(FissileFuel);
-        GasRegistry.register(SuperheatedSodium);
+        GasRegistry.register(SuperheatedSodium).registerFluid("liquidsuperheatedsodium");
         GasRegistry.register(UraniumHexafluoride);
         GasRegistry.register(Uraniumoxide);
         GasRegistry.register(NutritionalPaste);

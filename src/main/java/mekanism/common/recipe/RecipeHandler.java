@@ -316,6 +316,14 @@ public final class RecipeHandler {
         addRecipe(Recipe.RECYCLER, new RecyclerRecipe(input, primaryOutput, chance));
     }
 
+    public static void addSmeltingRecipe(ItemStack input, ItemStack output) {
+        addRecipe(Recipe.ENERGIZED_SMELTER, new SmeltingRecipe(input, output));
+    }
+
+    public static void addFusionCoolingRecipe(FluidStack inputFluid, FluidStack outputFluid) {
+        addRecipe(Recipe.FUSION_COOLING, new FusionCoolingRecipe(inputFluid, outputFluid));
+    }
+
     /**
      * Add End
      */
@@ -492,6 +500,11 @@ public final class RecipeHandler {
     }
 
     @Nullable
+    public static FusionCoolingRecipe getFusionCoolingRecipe(@Nonnull FluidInput input) {
+        return getRecipe(input, Recipe.FUSION_COOLING);
+    }
+
+    @Nullable
     public static <RECIPE extends Chance2MachineRecipe<RECIPE>> RECIPE getChance2Recipe(@Nonnull ItemStackInput input, @Nonnull Map<ItemStackInput, RECIPE> recipes) {
         return getRecipe(input, recipes);
     }
@@ -646,6 +659,8 @@ public final class RecipeHandler {
         public static final Recipe<ItemStackInput, ChanceOutput2, RecyclerRecipe> RECYCLER = new Recipe<>(
                 MachineType.RECYCLER, ItemStackInput.class, ChanceOutput2.class, RecyclerRecipe.class);
 
+        public static final Recipe<FluidInput, FluidOutput, FusionCoolingRecipe> FUSION_COOLING = new Recipe<>(
+                "FusionCooling", FluidInput.class, FluidOutput.class, FusionCoolingRecipe.class);
         /**
          * ADD END
          */

@@ -18,6 +18,7 @@ import mekanism.common.inventory.container.robit.ContainerRobitInventory;
 import mekanism.common.item.ItemBlockEnergyCube;
 import mekanism.common.item.ItemBlockGasTank;
 import mekanism.common.recipe.RecipeHandler.Recipe;
+import mekanism.generators.common.MekanismGenerators;
 import mezz.jei.api.*;
 import mezz.jei.api.ISubtypeRegistry.ISubtypeInterpreter;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
@@ -28,6 +29,7 @@ import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fml.common.Loader;
 
 import java.util.List;
 import java.util.Locale;
@@ -126,6 +128,9 @@ public class MekanismJEI implements IModPlugin {
         addRecipeCategory(registry, MachineType.ENERGIZED_SMELTER, new MachineRecipeCategory(guiHelper, Recipe.ENERGIZED_SMELTER.getJEICategory(),
                 "tile.MachineBlock.EnergizedSmelter.name", ProgressBar.BAR));
 
+        //There is no config option to disable the thermal evaporation plant
+        registry.addRecipeCategories(new ThermalEvaporationRecipeCategory(guiHelper));
+
         /**
          * ADD START
          */
@@ -144,14 +149,15 @@ public class MekanismJEI implements IModPlugin {
                 "tile.MachineBlock4.CellSeparator.name", ProgressBar.BAR));
         addRecipeCategory(registry, MachineType.RECYCLER, new Chance2MachineRecipeCategory(guiHelper, Recipe.RECYCLER.getJEICategory(), "tile.MachineBlock4.Recycler.name",
                 ProgressBar.BAR));
-
         addRecipeCategory(registry, MachineType.AMBIENT_ACCUMULATOR, new AmbientGasCategory(guiHelper));
+
+
+        registry.addRecipeCategories(new FusionCoolingRecipeCategory(guiHelper));
         /**
          * ADD END
          */
 
-        //There is no config option to disable the thermal evaporation plant
-        registry.addRecipeCategories(new ThermalEvaporationRecipeCategory(guiHelper));
+
     }
 
     private void addRecipeCategory(IRecipeCategoryRegistration registry, MachineType type, BaseRecipeCategory category) {
@@ -208,6 +214,11 @@ public class MekanismJEI implements IModPlugin {
         RecipeRegistryHelper.registerCellSeparator(registry);
         RecipeRegistryHelper.registerRecycler(registry);
         RecipeRegistryHelper.registerAmbientAccumulator(registry);
+
+        if (Loader.isModLoaded(MekanismGenerators.MODID)) {
+            RecipeRegistryHelper.registerFusionCooling(registry);
+        }
+
         /**
          * ADD END
          */

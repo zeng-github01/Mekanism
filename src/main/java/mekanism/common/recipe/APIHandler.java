@@ -232,6 +232,19 @@ public class APIHandler implements MekanismRecipeHelper {
         checkPhase();
         RecipeHandler.addAmbientGas(dimensionID, outputGas,chance);
     }
+
+    @Override
+    public void addSmeltingRecipe(ItemStack input, ItemStack output) {
+        checkPhase();
+        RecipeHandler.addSmeltingRecipe(input, output);
+    }
+
+
+    @Override
+    public void addFusionCoolingRecipe(FluidStack inputFluid, FluidStack outputFluid) {
+        checkPhase();
+        RecipeHandler.addFusionCoolingRecipe(inputFluid, outputFluid);
+    }
     /**
      * ADD END
      */

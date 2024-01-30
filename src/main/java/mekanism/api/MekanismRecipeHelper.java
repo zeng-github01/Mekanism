@@ -202,4 +202,9 @@ public interface MekanismRecipeHelper {
     void addRecyclerRecipe(ItemStack input, ItemStack primaryOutput, double chance);
 
     void addAmbientGas(int dimensionID, GasStack outputGas, double chance);
+
+    void addSmeltingRecipe(ItemStack input, ItemStack output);
+
+    void addFusionCoolingRecipe(FluidStack inputFluid, FluidStack outputFluid);
+
 }
