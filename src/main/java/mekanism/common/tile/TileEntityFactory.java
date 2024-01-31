@@ -704,7 +704,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
     public double getScaledProgress(int process) {
-        if (recipeType == RecipeType.PRC || recipeType == RecipeType.NUCLEOSYNTHESIZER) {
+        if (recipeType == RecipeType.PRC || recipeType == RecipeType.NUCLEOSYNTHESIZER ) {
             PressurizedRecipe PRCrecipe = recipeType.getPressurizedRecipe(inventory.get(getInputSlot(process)), fluidTank.getFluid(), gasTank.getGas());
             NucleosynthesizerRecipe NnRecipe = recipeType.getNucleosynthesizerRecipe(inventory.get(getInputSlot(process)), gasTank.getGas());
             if (PRCrecipe != null && recipeType == RecipeType.PRC) {
@@ -713,8 +713,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 if (update) {
                     recalculateUpgradables(Upgrade.SPEED);
                 }
-            }
-            if (NnRecipe != null && recipeType == RecipeType.NUCLEOSYNTHESIZER) {
+            } else if (NnRecipe != null && recipeType == RecipeType.NUCLEOSYNTHESIZER) {
                 boolean update = BASE_TICKS_REQUIRED != NnRecipe.ticks;
                 BASE_TICKS_REQUIRED = NnRecipe.ticks;
                 if (update) {
@@ -722,6 +721,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 }
             }
             return Math.min((double) progress[process] / ticksRequired, 1F);
+        }else if (recipeType == RecipeType.WASHER){
+            return  getActive() ? 1 : 0;
         }
         return (double) progress[process] / ticksRequired;
     }
