@@ -15,6 +15,7 @@ import mekanism.common.block.states.BlockStateTransmitter.TransmitterType;
 import mekanism.common.integration.computer.CCPeripheral;
 import mekanism.common.integration.computer.OCDriver;
 import mekanism.common.integration.crafttweaker.CrafttweakerIntegration;
+import mekanism.common.integration.fluxnetworks.FluxNetworksIntegration;
 import mekanism.common.integration.wrenches.Wrenches;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.RecipeHandler.Recipe;
@@ -63,6 +64,8 @@ public final class MekanismHooks {
     public static final String CRAFTTWEAKER_MOD_ID = "crafttweaker";
     public static final String GROOVYSCRIPT_MOD_ID = "groovyscript";
 
+    public static final String FLUX_NETWORKS_MOD_ID = "fluxnetworks";
+
     public boolean AE2Loaded = false;
     public boolean BuildCraftLoaded = false;
     public boolean CCLoaded = false;
@@ -75,7 +78,8 @@ public final class MekanismHooks {
     public boolean OCLoaded = false;
     public boolean RFLoaded = false;
     public boolean TeslaLoaded = false;
-    public boolean GroovyScript = false;
+    public boolean GroovyScriptLoaded = false;
+    public boolean FluxNetWorksLoaded = false;
 
     public void hookPreInit() {
         AE2Loaded = Loader.isModLoaded(APPLIED_ENERGISTICS_2_MOD_ID);
@@ -90,7 +94,14 @@ public final class MekanismHooks {
         OCLoaded = Loader.isModLoaded(OPENCOMPUTERS_MOD_ID);
         RFLoaded = Loader.isModLoaded(REDSTONEFLUX_MOD_ID);
         TeslaLoaded = Loader.isModLoaded(TESLA_MOD_ID);
-        GroovyScript = Loader.isModLoaded(GROOVYSCRIPT_MOD_ID);
+        GroovyScriptLoaded = Loader.isModLoaded(GROOVYSCRIPT_MOD_ID);
+        FluxNetWorksLoaded = Loader.isModLoaded(FLUX_NETWORKS_MOD_ID);
+
+        if (FluxNetWorksLoaded){
+            FluxNetworksIntegration.preInit();
+            Mekanism.logger.info("Hooked into Flux Networks successfully.");
+        }
+
     }
 
     public void hookInit() {
@@ -132,7 +143,7 @@ public final class MekanismHooks {
             registerMysticalAgricultureRecipes();
             Mekanism.logger.info("Hooked into Mystical Agriculture successfully.");
         }
-        if (GroovyScript) {
+        if (GroovyScriptLoaded) {
             Mekanism.logger.info("Hooked into Groovy Script successfully.");
         }
         if (CraftTweakerLoaded) {

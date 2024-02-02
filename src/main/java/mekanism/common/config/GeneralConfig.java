@@ -332,6 +332,9 @@ public class GeneralConfig extends BaseConfig {
 
     public final IntOption toolMiningCount = new IntOption(this, "general", "toolMiningCount", 256,
             "The max Atomic Disassembler Vein Mining Block Count.");
+
+    public final BooleanOption blacklistFlux = new BooleanOption(this, "general", "BlacklistFluxPower", false,
+            "Disables Flux Networks power integration. Requires world restart (server-side option in SMP).");
     public final TypeConfigManager<MachineType> machinesManager = new TypeConfigManager<>(this, "machines", MachineType.class, MachineType::getValidMachines, MachineType::getBlockName);
 
     public final EnumMap<BaseTier, TierConfig> tiers = TierConfig.create(this);

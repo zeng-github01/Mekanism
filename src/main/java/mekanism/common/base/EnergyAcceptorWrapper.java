@@ -7,6 +7,7 @@ import ic2.api.energy.tile.IEnergyTile;
 import mekanism.api.Coord4D;
 import mekanism.api.energy.IStrictEnergyAcceptor;
 import mekanism.common.capabilities.Capabilities;
+import mekanism.common.integration.fluxnetworks.FluxPlugAcceptor;
 import mekanism.common.integration.forgeenergy.ForgeEnergyIntegration;
 import mekanism.common.integration.ic2.IC2Integration;
 import mekanism.common.integration.redstoneflux.RFIntegration;
@@ -21,6 +22,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sonar.fluxnetworks.common.tileentity.TileFluxPlug;
 
 import java.util.function.Function;
 
@@ -48,9 +50,14 @@ public abstract class EnergyAcceptorWrapper implements IStrictEnergyAcceptor {
                 wrapper = new IC2Acceptor((IEnergySink) tile);
             }
         }
+        if (MekanismUtils.useFlux() && tileEntity instanceof TileFluxPlug plug) {
+            wrapper = new FluxPlugAcceptor(plug, side);
+        }
+
         if (wrapper != null) {
             wrapper.coord = Coord4D.get(tileEntity);
         }
+
         return wrapper;
     }
 
@@ -194,4 +201,6 @@ public abstract class EnergyAcceptorWrapper implements IStrictEnergyAcceptor {
             return acceptor.receiveEnergy(1, true) > 0;
         }
     }
+
+
 }

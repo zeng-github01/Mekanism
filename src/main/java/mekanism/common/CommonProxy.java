@@ -280,6 +280,7 @@ public class CommonProxy implements IGuiProvider {
     }
 
     public void preInit() {
+
     }
 
     public double getReach(EntityPlayer player) {

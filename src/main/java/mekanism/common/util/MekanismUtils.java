@@ -758,6 +758,9 @@ public final class MekanismUtils {
         return Mekanism.hooks.RFLoaded && !MekanismConfig.current().general.blacklistRF.val();
     }
 
+    public static boolean useFlux(){
+        return Mekanism.hooks.FluxNetWorksLoaded && !MekanismConfig.current().general.blacklistFlux.val();
+    }
     /**
      * Whether or not Tesla power should be used.
      *

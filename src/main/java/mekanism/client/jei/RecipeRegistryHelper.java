@@ -215,7 +215,7 @@ public class RecipeRegistryHelper {
             return;
         }
         registry.handleRecipes(SmeltingRecipe.class, MachineRecipeWrapper::new, Recipe.ENERGIZED_SMELTER.getJEICategory());
-        if (Mekanism.hooks.GroovyScript && Smelter.hasRemovedRecipe() || Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasRemovedRecipe()) {
+        if (Mekanism.hooks.GroovyScriptLoaded && Smelter.hasRemovedRecipe() || Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasRemovedRecipe()) {
             // Removed / Removed + Added
             // Add all recipes
             Collection<SmeltingRecipe> recipeList = Recipe.ENERGIZED_SMELTER.get().values();
@@ -223,7 +223,7 @@ public class RecipeRegistryHelper {
                     Recipe.ENERGIZED_SMELTER.getJEICategory());
             registry.addRecipeClickArea(GuiEnergizedSmelter.class, 79, 40, 24, 7,
                     Recipe.ENERGIZED_SMELTER.getJEICategory());
-        } else if (Mekanism.hooks.GroovyScript && Smelter.hasAddedRecipe() || Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasAddedRecipe()) {
+        } else if (Mekanism.hooks.GroovyScriptLoaded && Smelter.hasAddedRecipe() || Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasAddedRecipe()) {
             // Added but not removed
             // Only add added recipes
             Map<ItemStackInput, SmeltingRecipe> smeltingRecipes = Recipe.ENERGIZED_SMELTER.get();
