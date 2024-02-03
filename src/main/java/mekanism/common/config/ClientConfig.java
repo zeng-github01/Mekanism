@@ -51,6 +51,9 @@ public class ClientConfig extends BaseConfig {
     public final BooleanOption allowAtomicDisassemblerModeScroll = new BooleanOption(this, "client", "AtomicDisassemblerModeScroll", true,
             "Allow sneak+scroll to change Atomic Disassembler modes.");
 
+    public final BooleanOption allowMekToolModeScroll = new BooleanOption(this, "client", "AtomicDisassemblerModeScroll", true,
+            "Allow sneak+scroll to change MekTool modes.");
+
     @Override
     public void write(ByteBuf config) {
         throw new UnsupportedOperationException("Client config shouldn't be synced");

@@ -292,8 +292,7 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         fontRenderer.drawString(getName(), (xSize / 2) - (fontRenderer.getStringWidth(getName()) / 2), 4, 0x404040);
 
         fontRenderer.drawString(LangUtils.localize("gui.freq") + ":", 27, yStart + 67, 0x404040);
-        fontRenderer.drawString(" " + (getFrequency() != null ? getFrequency().name : EnumColor.DARK_RED + LangUtils.localize("gui.none")),
-                27 + fontRenderer.getStringWidth(LangUtils.localize("gui.freq") + ":"), yStart + 67, 0x797979);
+        fontRenderer.drawString(" " + (getFrequency() != null ? getFrequency().name : EnumColor.DARK_RED + LangUtils.localize("gui.none")), 27 + fontRenderer.getStringWidth(LangUtils.localize("gui.freq") + ":"), yStart + 67, 0x797979);
 
         fontRenderer.drawString((isPortable ? LangUtils.localize("gui.itemowner") : LangUtils.localize("gui.owner")) + ": " + (getFrequency() != null ? getOwnerUsername() : EnumColor.DARK_RED + LangUtils.localize("gui.none")), 27, yStart + 77, 0x404040);
 

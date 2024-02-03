@@ -1,11 +1,13 @@
 package mekanism.common.item;
 
+import io.netty.buffer.ByteBuf;
 import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.api.gas.IGasItem;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.MekanismFluids;
+import mekanism.common.base.IItemNetwork;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.ItemDataUtils;
 import mekanism.common.util.LangUtils;
@@ -17,13 +19,14 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class ItemFlamethrower extends ItemMekanism implements IGasItem {
+public class ItemFlamethrower extends ItemMekanism implements IGasItem, IItemNetwork {
 
     public int TRANSFER_RATE = 16;
 
@@ -160,6 +163,14 @@ public class ItemFlamethrower extends ItemMekanism implements IGasItem {
 
     public void setMode(ItemStack stack, FlamethrowerMode mode) {
         ItemDataUtils.setInt(stack, "mode", mode.ordinal());
+    }
+
+    @Override
+    public void handlePacketData(ItemStack stack, ByteBuf dataStream) {
+        if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+            int state = dataStream.readInt();
+            setMode(stack,FlamethrowerMode.values()[state]);
+        }
     }
 
     public enum FlamethrowerMode {

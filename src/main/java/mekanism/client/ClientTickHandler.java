@@ -13,6 +13,7 @@ import mekanism.common.item.ItemAtomicDisassembler.Mode;
 import mekanism.common.item.ItemConfigurator.ConfiguratorMode;
 import mekanism.common.item.ItemFlamethrower.FlamethrowerMode;
 import mekanism.common.item.ItemJetpack.JetpackMode;
+import mekanism.common.item.ItemMekTool.MekToolMode;
 import mekanism.common.network.PacketFreeRunnerData;
 import mekanism.common.network.PacketItemStack.ItemStackMessage;
 import mekanism.common.network.PacketPortableTeleporter.PortableTeleporterMessage;
@@ -285,7 +286,6 @@ public class ClientTickHandler {
                     event.setCanceled(true);
                 }
             }
-
             if (MekanismConfig.current().client.allowFlamethrowerModeScroll.val()) {
                 if (stack.getItem() instanceof ItemFlamethrower Flamethrower && delta != 0) {
                     RenderTickHandler.modeSwitchTimer = 100;
@@ -304,7 +304,6 @@ public class ClientTickHandler {
                     event.setCanceled(true);
                 }
             }
-
             if (MekanismConfig.current().client.allowAtomicDisassemblerModeScroll.val()) {
                 if (stack.getItem() instanceof ItemAtomicDisassembler AtomicDisassembler && delta != 0) {
                     RenderTickHandler.modeSwitchTimer = 100;
@@ -323,7 +322,35 @@ public class ClientTickHandler {
                     event.setCanceled(true);
                 }
             }
-
+            if (MekanismConfig.current().client.allowMekToolModeScroll.val()){
+                if (stack.getItem() instanceof ItemMekTool MekTool && delta != 0) {
+                    RenderTickHandler.modeSwitchTimer = 100;
+                    wheelStatus += event.getDwheel();
+                    int scaledDelta = wheelStatus / 120;
+                    wheelStatus = wheelStatus % 120;
+                    int newVal = MekTool.getMode(stack).ordinal() + (scaledDelta % MekToolMode.values().length);
+                    if (newVal > 0) {
+                        newVal = newVal % MekToolMode.values().length;
+                    } else if (newVal < 0) {
+                        newVal = MekToolMode.values().length + newVal;
+                    }
+                    MekTool.setMode(stack,MekToolMode.values()[newVal]);
+                    Mekanism.packetHandler.sendToServer(new ItemStackMessage(EnumHand.MAIN_HAND, Collections.singletonList(newVal)));
+                    event.setCanceled(true);
+                }
+            }
+            if (stack.getItem() instanceof ItemElectricBow Bow && delta !=0){
+                RenderTickHandler.modeSwitchTimer = 100;
+                wheelStatus += event.getDwheel();
+                int scaledDelta = wheelStatus / 120;
+                wheelStatus = wheelStatus % 120;
+                if (Math.abs(scaledDelta) % 2 == 1) {
+                    boolean newState = !Bow.getFireState(stack);
+                    Bow.setFireState(stack, newState);
+                    Mekanism.packetHandler.sendToServer(new ItemStackMessage(EnumHand.MAIN_HAND, Collections.singletonList(newState)));
+                    event.setCanceled(true);
+                }
+            }
         }
     }
 

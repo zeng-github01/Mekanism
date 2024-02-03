@@ -337,7 +337,8 @@ public interface IFactory {
                     this == Dissolution ||
                     this == PRC ||
                     this == NUCLEOSYNTHESIZER ||
-                    this == WASHER
+                    this == WASHER ||
+                    this == OXIDIZER
             );
         }
 

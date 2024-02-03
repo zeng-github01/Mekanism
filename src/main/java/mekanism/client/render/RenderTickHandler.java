@@ -113,20 +113,17 @@ public class RenderTickHandler {
                     int y = scaledresolution.getScaledHeight();
                     boolean alignLeft = MekanismConfig.current().client.alignHUDLeft.val();
 
-                    if (feetstack.getItem() instanceof ItemFreeRunners) {
-                        ItemFreeRunners FreeRunners = (ItemFreeRunners) feetstack.getItem();
+                    if (feetstack.getItem() instanceof ItemFreeRunners FreeRunners) {
                         drawString(scaledresolution, LangUtils.localize("tooltip.free_runners.mode") + " " + FreeRunners.getMode(feetstack).getName(), alignLeft, y - 20, 0xc8c8c8);
                         drawString(scaledresolution, LangUtils.localize("tooltip.free_runners.stored") + " " + MekanismUtils.getEnergyDisplay(FreeRunners.getEnergy(feetstack)), alignLeft, y - 11, 0xc8c8c8);
                         y -= 18;
                     }
 
-                    if (cheststack.getItem() instanceof ItemJetpack) {
-                        ItemJetpack jetpack = (ItemJetpack) cheststack.getItem();
+                    if (cheststack.getItem() instanceof ItemJetpack jetpack) {
                         drawString(scaledresolution, LangUtils.localize("tooltip.jetpack.mode") + " " + jetpack.getMode(cheststack).getName(), alignLeft, y - 20, 0xc8c8c8);
                         drawString(scaledresolution, LangUtils.localize("tooltip.jetpack.stored") + " " + EnumColor.ORANGE + jetpack.getStored(cheststack), alignLeft, y - 11, 0xc8c8c8);
                         y -= 18;
-                    } else if (cheststack.getItem() instanceof ItemScubaTank) {
-                        ItemScubaTank scubaTank = (ItemScubaTank) cheststack.getItem();
+                    } else if (cheststack.getItem() instanceof ItemScubaTank scubaTank) {
                         String state = scubaTank.getFlowing(cheststack) ? EnumColor.DARK_GREEN + LangUtils.localize("gui.on") : EnumColor.DARK_RED + LangUtils.localize("gui.off");
                         drawString(scaledresolution, LangUtils.localize("tooltip.scuba_tank.mode") + " " + state, alignLeft, y - 20, 0xc8c8c8);
                         drawString(scaledresolution, scubaTank.getStored(cheststack) == 0 ? (LangUtils.localize("tooltip.noGas") + ".") : (scubaTank.getGas(cheststack).getGas().getLocalizedName() + ": " + scubaTank.getStored(cheststack)), alignLeft, y - 11, 0xc8c8c8);
@@ -137,18 +134,15 @@ public class RenderTickHandler {
                         ItemElectricBow ElectricBow = (ItemElectricBow) mainhandstack.getItem();
                         drawString(scaledresolution, EnumColor.PINK + LangUtils.localizeWithFormat("mekanism.tooltip.fireMode", LangUtils.transOnOff(ElectricBow.getFireState(mainhandstack))), alignLeft, y - 11, 0xc8c8c8);
                         y -= 9;
-                    } else if (mainhandstack.getItem() instanceof ItemFlamethrower) {
-                        ItemFlamethrower Flamethrower = (ItemFlamethrower) mainhandstack.getItem();
+                    } else if (mainhandstack.getItem() instanceof ItemFlamethrower Flamethrower) {
                         drawString(scaledresolution, LangUtils.localize("tooltip.flamethrower.mode") + " " + Flamethrower.getMode(mainhandstack).getName(), alignLeft, y - 20, 0xc8c8c8);
                         drawString(scaledresolution, LangUtils.localize("tooltip.flamethrower.stored") + " " + EnumColor.ORANGE + Flamethrower.getStored(mainhandstack), alignLeft, y - 11, 0xc8c8c8);
                         y -= 18;
-                    } else if (mainhandstack.getItem() instanceof ItemAtomicDisassembler) {
-                        ItemAtomicDisassembler AtomicDisassembler = (ItemAtomicDisassembler) mainhandstack.getItem();
+                    } else if (mainhandstack.getItem() instanceof ItemAtomicDisassembler AtomicDisassembler) {
                         drawString(scaledresolution, LangUtils.localize("tooltip.mode") + ": " + EnumColor.INDIGO + AtomicDisassembler.getMode(mainhandstack).getModeName(), alignLeft, y - 20, 0xc8c8c8);
                         drawString(scaledresolution, LangUtils.localize("tooltip.efficiency") + ": " + EnumColor.INDIGO + AtomicDisassembler.getMode(mainhandstack).getEfficiency(), alignLeft, y - 11, 0xc8c8c8);
                         y -= 18;
-                    } else if (mainhandstack.getItem() instanceof ItemConfigurator) {
-                        ItemConfigurator Configurator = (ItemConfigurator) mainhandstack.getItem();
+                    } else if (mainhandstack.getItem() instanceof ItemConfigurator Configurator) {
                         drawString(scaledresolution, EnumColor.PINK + LangUtils.localize("tooltip.mode") + ": " + Configurator.getColor(Configurator.getState(mainhandstack)) + Configurator.getStateDisplay(Configurator.getState(mainhandstack)), alignLeft, y - 11, 0xc8c8c8);
                         y -= 9;
                     }
@@ -156,16 +150,13 @@ public class RenderTickHandler {
                     if (offhandstack.getItem() instanceof ItemElectricBow) {
                         ItemElectricBow ElectricBow = (ItemElectricBow) offhandstack.getItem();
                         drawString(scaledresolution, EnumColor.PINK + LangUtils.localizeWithFormat("mekanism.tooltip.fireMode", LangUtils.transOnOff(ElectricBow.getFireState(offhandstack))), alignLeft, y - 11, 0xc8c8c8);
-                    } else if (offhandstack.getItem() instanceof ItemFlamethrower) {
-                        ItemFlamethrower Flamethrower = (ItemFlamethrower) offhandstack.getItem();
+                    } else if (offhandstack.getItem() instanceof ItemFlamethrower Flamethrower) {
                         drawString(scaledresolution, LangUtils.localize("tooltip.flamethrower.mode") + " " + Flamethrower.getMode(offhandstack).getName(), alignLeft, y - 20, 0xc8c8c8);
                         drawString(scaledresolution, LangUtils.localize("tooltip.flamethrower.stored") + " " + EnumColor.ORANGE + Flamethrower.getStored(offhandstack), alignLeft, y - 11, 0xc8c8c8);
-                    } else if (offhandstack.getItem() instanceof ItemAtomicDisassembler) {
-                        ItemAtomicDisassembler AtomicDisassembler = (ItemAtomicDisassembler) offhandstack.getItem();
+                    } else if (offhandstack.getItem() instanceof ItemAtomicDisassembler AtomicDisassembler) {
                         drawString(scaledresolution, LangUtils.localize("tooltip.mode") + ": " + EnumColor.INDIGO + AtomicDisassembler.getMode(offhandstack).getModeName(), alignLeft, y - 20, 0xc8c8c8);
                         drawString(scaledresolution, LangUtils.localize("tooltip.efficiency") + ": " + EnumColor.INDIGO + AtomicDisassembler.getMode(offhandstack).getEfficiency(), alignLeft, y - 11, 0xc8c8c8);
-                    } else if (offhandstack.getItem() instanceof ItemConfigurator) {
-                        ItemConfigurator Configurator = (ItemConfigurator) offhandstack.getItem();
+                    } else if (offhandstack.getItem() instanceof ItemConfigurator Configurator) {
                         drawString(scaledresolution, EnumColor.PINK + LangUtils.localize("tooltip.mode") + ": " + Configurator.getColor(Configurator.getState(offhandstack)) + Configurator.getStateDisplay(Configurator.getState(offhandstack)), alignLeft, y - 11, 0xc8c8c8);
                     }
                 }

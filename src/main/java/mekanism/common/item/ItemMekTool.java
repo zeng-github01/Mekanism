@@ -1,10 +1,12 @@
 package mekanism.common.item;
 
 import com.google.common.collect.Multimap;
+import io.netty.buffer.ByteBuf;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.common.Mekanism;
 import mekanism.common.OreDictCache;
+import mekanism.common.base.IItemNetwork;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.ItemDataUtils;
 import mekanism.common.util.LangUtils;
@@ -30,6 +32,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.WorldEvents;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -38,7 +41,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Supplier;
 
-public class ItemMekTool extends ItemEnergized {
+public class ItemMekTool extends ItemEnergized implements IItemNetwork {
 
     public ItemMekTool() {
         super(MekanismConfig.current().general.toolBatteryCapacity.val());
@@ -60,7 +63,7 @@ public class ItemMekTool extends ItemEnergized {
     @Override
     public void addInformation(ItemStack itemstack, World world, List<String> list, ITooltipFlag flag) {
         super.addInformation(itemstack, world, list, flag);
-        Mode mode = getMode(itemstack);
+        MekToolMode mode = getMode(itemstack);
         list.add(LangUtils.localize("tooltip.mode") + ": " + EnumColor.INDIGO + mode.getModeName());
         list.add(LangUtils.localize("tooltip.efficiency") + ": " + EnumColor.INDIGO + mode.getEfficiency());
         list.addAll(MekanismUtils.splitTooltip(LangUtils.localize("tooltip.MekTool1"), itemstack));
@@ -141,9 +144,9 @@ public class ItemMekTool extends ItemEnergized {
     public boolean onBlockStartBreak(ItemStack itemstack, BlockPos pos, EntityPlayer player) {
         super.onBlockStartBreak(itemstack, pos, player);
         if (!player.world.isRemote && !player.capabilities.isCreativeMode) {
-            Mode mode = getMode(itemstack);
-            boolean extended = mode == Mode.EXTENDED_VEIN;
-            if (extended || mode == Mode.VEIN) {
+            MekToolMode mode = getMode(itemstack);
+            boolean extended = mode == MekToolMode.EXTENDED_VEIN;
+            if (extended || mode == MekToolMode.VEIN) {
                 IBlockState state = player.world.getBlockState(pos);
                 Block block = state.getBlock();
                 if (block == Blocks.LIT_REDSTONE_ORE) {
@@ -173,9 +176,8 @@ public class ItemMekTool extends ItemEnergized {
                         Block block2 = coord.getBlock(player.world);
                         block2.onBlockHarvested(player.world, coord.getPos(), state, player);
                         player.world.playEvent(WorldEvents.BREAK_BLOCK_EFFECTS, coord.getPos(), Block.getStateId(state));
-                        player.world.setBlockToAir(coord.getPos());
-                        block2.breakBlock(player.world, coord.getPos(), state);
                         block2.dropBlockAsItem(player.world, coord.getPos(), state, 0);
+                        player.world.setBlockToAir(coord.getPos());
                         setEnergy(itemstack, getEnergy(itemstack) - destroyEnergy);
                     }
                 }
@@ -196,7 +198,7 @@ public class ItemMekTool extends ItemEnergized {
         if (entityplayer.isSneaking()) {
             if (!world.isRemote) {
                 toggleMode(itemstack);
-                Mode mode = getMode(itemstack);
+                MekToolMode mode = getMode(itemstack);
                 entityplayer.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + Mekanism.LOG_TAG + " " + EnumColor.GREY + LangUtils.localize("tooltip.modeToggle")
                         + " " + EnumColor.INDIGO + mode.getModeName() + EnumColor.AQUA + " (" + mode.getEfficiency() + ")"));
             }
@@ -303,12 +305,16 @@ public class ItemMekTool extends ItemEnergized {
         return hardness == 0 ? destroyEnergy / 2 : destroyEnergy;
     }
 
-    public Mode getMode(ItemStack itemStack) {
-        return Mode.getFromInt(ItemDataUtils.getInt(itemStack, "mode"));
+    public MekToolMode getMode(ItemStack itemStack) {
+        return MekToolMode.getFromInt(ItemDataUtils.getInt(itemStack, "mode"));
     }
 
     public void toggleMode(ItemStack itemStack) {
-        ItemDataUtils.setInt(itemStack, "mode", Mode.getNextEnabledAsInt(getMode(itemStack)));
+        ItemDataUtils.setInt(itemStack, "mode", MekToolMode.getNextEnabledAsInt(getMode(itemStack)));
+    }
+
+    public void setMode(ItemStack itemStack, MekToolMode mode) {
+        ItemDataUtils.setInt(itemStack, "mode", mode.ordinal());
     }
 
     @Override
@@ -327,7 +333,15 @@ public class ItemMekTool extends ItemEnergized {
         return multiMap;
     }
 
-    public enum Mode {
+    @Override
+    public void handlePacketData(ItemStack stack, ByteBuf dataStream) {
+        if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+            int state = dataStream.readInt();
+            setMode(stack, MekToolMode.values()[state]);
+        }
+    }
+
+    public enum MekToolMode {
         NORMAL("normal", 20, 3, () -> true),
         SLOW("slow", 8, 1, () -> MekanismConfig.current().general.disassemblerSlowMode.val()),
         FAST("fast", 128, 5, () -> MekanismConfig.current().general.disassemblerFastMode.val()),
@@ -342,7 +356,7 @@ public class ItemMekTool extends ItemEnergized {
         //Must be odd, or zero
         private final int diameter;
 
-        Mode(String mode, int efficiency, int diameter, Supplier<Boolean> checkEnabled) {
+        MekToolMode(String mode, int efficiency, int diameter, Supplier<Boolean> checkEnabled) {
             this.mode = mode;
             this.efficiency = efficiency;
             this.diameter = diameter;
@@ -352,16 +366,16 @@ public class ItemMekTool extends ItemEnergized {
         /**
          * Gets a Mode from its ordinal. NOTE: if this mode is not enabled then it will reset to NORMAL
          */
-        public static Mode getFromInt(int ordinal) {
-            Mode[] values = values();
+        public static MekToolMode getFromInt(int ordinal) {
+            MekToolMode[] values = values();
             //If it is out of bounds just shift it as if it had gone around that many times
-            Mode mode = values[ordinal % values.length];
+            MekToolMode mode = values[ordinal % values.length];
             return mode.isEnabled() ? mode : NORMAL;
         }
 
-        public static int getNextEnabledAsInt(Mode mode) {
+        public static int getNextEnabledAsInt(MekToolMode mode) {
             //Get the next mode
-            Mode next = mode.getNext();
+            MekToolMode next = mode.getNext();
             //keep going until we find one that is enabled (we know at the very least NORMAL and OFF are enabled
             while (!next.isEnabled()) {
                 next = next.getNext();
@@ -369,8 +383,8 @@ public class ItemMekTool extends ItemEnergized {
             return next.ordinal();
         }
 
-        private Mode getNext() {
-            Mode[] values = values();
+        private MekToolMode getNext() {
+            MekToolMode[] values = values();
             return values[(ordinal() + 1) % values.length];
         }
 

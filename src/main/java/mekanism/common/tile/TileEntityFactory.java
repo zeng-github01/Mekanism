@@ -704,7 +704,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
     public double getScaledProgress(int process) {
-        if (recipeType == RecipeType.PRC || recipeType == RecipeType.NUCLEOSYNTHESIZER ) {
+        if (recipeType == RecipeType.PRC || recipeType == RecipeType.NUCLEOSYNTHESIZER) {
             PressurizedRecipe PRCrecipe = recipeType.getPressurizedRecipe(inventory.get(getInputSlot(process)), fluidTank.getFluid(), gasTank.getGas());
             NucleosynthesizerRecipe NnRecipe = recipeType.getNucleosynthesizerRecipe(inventory.get(getInputSlot(process)), gasTank.getGas());
             if (PRCrecipe != null && recipeType == RecipeType.PRC) {
@@ -721,8 +721,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 }
             }
             return Math.min((double) progress[process] / ticksRequired, 1F);
-        }else if (recipeType == RecipeType.WASHER){
-            return  getActive() ? 1 : 0;
+        } else if (recipeType == RecipeType.WASHER) {
+            return getActive() ? 1 : 0;
         }
         return (double) progress[process] / ticksRequired;
     }
@@ -1169,13 +1169,21 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
-        SideData data = configComponent.getOutput(TransmissionType.FLUID, from, facing);
-        return data.getFluidTankInfo(this);
+        if (recipeType == RecipeType.PRC || recipeType == RecipeType.WASHER) {
+            SideData data = configComponent.getOutput(TransmissionType.FLUID, from, facing);
+            return data.getFluidTankInfo(this);
+        }else {
+            return PipeUtils.EMPTY;
+        }
     }
 
     @Override
     public FluidTankInfo[] getAllTanks() {
-        return new FluidTankInfo[]{fluidTank.getInfo()};
+        if (recipeType == RecipeType.PRC || recipeType == RecipeType.WASHER) {
+            return new FluidTankInfo[]{fluidTank.getInfo()};
+        } else {
+            return getTankInfo(null);
+        }
     }
 
     @Nonnull
@@ -1231,8 +1239,10 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     @Nonnull
     @Override
     public GasTankInfo[] getTankInfo() {
-        if (recipeType == RecipeType.Dissolution || recipeType == RecipeType.WASHER || recipeType == RecipeType.PRC || recipeType == RecipeType.OXIDIZER){ //Only these plants show two gas storages
+        if (recipeType == RecipeType.Dissolution || recipeType == RecipeType.WASHER || recipeType == RecipeType.PRC) { //Only these plants show two gas storages
             return new GasTankInfo[]{gasTank, gasOutTank};
+        } else if (recipeType == RecipeType.OXIDIZER){
+            return new GasTankInfo[]{gasOutTank};
         }else {
             return new GasTankInfo[]{gasTank};
         }

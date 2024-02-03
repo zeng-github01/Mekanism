@@ -1,10 +1,12 @@
 package mekanism.common.item;
 
 import com.google.common.collect.Multimap;
+import io.netty.buffer.ByteBuf;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.common.Mekanism;
 import mekanism.common.OreDictCache;
+import mekanism.common.base.IItemNetwork;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.ItemDataUtils;
 import mekanism.common.util.LangUtils;
@@ -29,6 +31,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.WorldEvents;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -37,7 +40,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Supplier;
 
-public class ItemAtomicDisassembler extends ItemEnergized {
+public class ItemAtomicDisassembler extends ItemEnergized implements IItemNetwork {
 
     public ItemAtomicDisassembler() {
         super(MekanismConfig.current().general.disassemblerBatteryCapacity.val());
@@ -137,9 +140,9 @@ public class ItemAtomicDisassembler extends ItemEnergized {
                         Block block2 = coord.getBlock(player.world);
                         block2.onBlockHarvested(player.world, coord.getPos(), state, player);
                         player.world.playEvent(WorldEvents.BREAK_BLOCK_EFFECTS, coord.getPos(), Block.getStateId(state));
-                        player.world.setBlockToAir(coord.getPos());
-                        block2.breakBlock(player.world, coord.getPos(), state);
                         block2.dropBlockAsItem(player.world, coord.getPos(), state, 0);
+                        player.world.setBlockToAir(coord.getPos());;
+                       // block2.breakBlock(player.world, coord.getPos(),state);
                         setEnergy(itemstack, getEnergy(itemstack) - destroyEnergy);
                     }
                 }
@@ -294,6 +297,14 @@ public class ItemAtomicDisassembler extends ItemEnergized {
             multiMap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.4000000953674316D, 0));
         }
         return multiMap;
+    }
+
+    @Override
+    public void handlePacketData(ItemStack stack, ByteBuf dataStream) {
+        if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+            int state = dataStream.readInt();
+            setMode(stack, Mode.values()[state]);
+        }
     }
 
     public enum Mode {
