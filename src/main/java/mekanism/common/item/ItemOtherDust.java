@@ -1,5 +1,6 @@
 package mekanism.common.item;
 
+import mekanism.common.Resource;
 import mekanism.common.base.IMetaItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -44,6 +45,9 @@ public class ItemOtherDust extends ItemMekanism implements IMetaItem {
     @Nonnull
     @Override
     public String getTranslationKey(ItemStack item) {
-        return "item." + subtypes[item.getItemDamage()].toLowerCase(Locale.ROOT) + "Dust";
+        if (item.getItemDamage() <= subtypes.length - 1) {
+            return "item." + subtypes[item.getItemDamage()].toLowerCase(Locale.ROOT) + "Dust";
+        }
+        return "Invalid";
     }
 }
