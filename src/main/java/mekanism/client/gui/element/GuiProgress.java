@@ -80,7 +80,10 @@ public class GuiProgress extends GuiElement {
         BI(20, 8, 128, 50, false),
         DOWN(12, 22, 128, 58, true),
         TALL_RIGHT(26, 17, 128, 80, false),
-        INSTALLING(14, 16, 128, 97, true);
+        INSTALLING(14, 16, 128, 97, true),
+        BI_RIGHT(20, 8, 128, 130, false),;
+
+
 
         public final int width;
         public final int height;

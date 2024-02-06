@@ -1,5 +1,6 @@
 package mekanism.generators.client.gui;
 
+import mekanism.api.util.time.Timeticks;
 import mekanism.client.gui.element.GuiEnergyInfo;
 import mekanism.client.gui.element.GuiProgress;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -31,8 +32,11 @@ import java.util.Arrays;
 @SideOnly(Side.CLIENT)
 public class GuiReactorHeat extends GuiReactorInfo {
 
+    protected Timeticks time;
+
     public GuiReactorHeat(InventoryPlayer inventory, TileEntityReactorController tile) {
         super(tile, new ContainerNull(inventory.player, tile));
+        time = new Timeticks(20, 20, false);
         ResourceLocation resource = getGuiLocation();
         addGuiElement(new GuiEnergyInfo(() -> tileEntity.isFormed() ? Arrays.asList(
                 LangUtils.localize("gui.storing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()),
@@ -95,9 +99,15 @@ public class GuiReactorHeat extends GuiReactorInfo {
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
-                return (tileEntity.getCaseTemp() > 0 && tileEntity.waterTank.getFluidAmount() > 0 && tileEntity.steamTank.getFluidAmount() < tileEntity.steamTank.getCapacity()) ? 1 : 0;
+                return (tileEntity.getCaseTemp() > 0 && tileEntity.waterTank.getFluidAmount() > 0 && tileEntity.steamTank.getFluidAmount() < tileEntity.steamTank.getCapacity()) ? (double) time.getValue() / 20F : 0;
             }
         }, ProgressBar.SMALL_RIGHT, this, resource, 81, 90));
+        addGuiElement(new GuiProgress(new IProgressInfoHandler() {
+            @Override
+            public double getProgress() {
+                return (tileEntity.getCaseTemp() > 0 && tileEntity.waterTank.getFluidAmount() > 0 && tileEntity.steamTank.getFluidAmount() < tileEntity.steamTank.getCapacity()) ? (double) time.getValue() / 20F : 0;
+            }
+        }, ProgressBar.BI_RIGHT, this, resource, 132, 95));
         addGuiElement(new GuiFluidGauge(() -> tileEntity.waterTank, Type.SMALL, this, resource, 115, 84));
         addGuiElement(new GuiFluidGauge(() -> tileEntity.steamTank, Type.SMALL, this, resource, 151, 84));
         addGuiElement(new GuiEnergyGauge(() -> tileEntity, Type.SMALL, this, resource, 115, 46));

@@ -41,7 +41,8 @@ public class GuiFluidGauge extends GuiTankGauge<FluidStack, FluidTank> {
         if (infoHandler.getTank().getFluidAmount() == Integer.MAX_VALUE) {
             return height - 2;
         }
-        return infoHandler.getTank().getFluidAmount() * (height - 2) / infoHandler.getTank().getCapacity();
+        float scale = (float) infoHandler.getTank().getFluidAmount() / (float) infoHandler.getTank().getCapacity();
+        return Math.round(scale * (height - 2));
     }
 
     @Override

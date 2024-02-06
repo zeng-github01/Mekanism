@@ -35,7 +35,7 @@ import java.util.Set;
 
 public class FusionReactor {
 
-    public static final int MAX_INJECTION = 98;//this is the effective cap in the GUI, as text field is limited to 2 chars
+    public static final int MAX_INJECTION = 100;//this is the effective cap in the GUI, as text field is limited to 3 chars
     //Reaction characteristics
     public static double burnTemperature = TemperatureUnit.AMBIENT.convertFromK(1E8, true);
     public static double burnRatio = 1;

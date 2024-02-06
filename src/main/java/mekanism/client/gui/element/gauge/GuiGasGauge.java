@@ -2,6 +2,7 @@ package mekanism.client.gui.element.gauge;
 
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasTank;
+import mekanism.api.math.MathUtils;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.client.render.MekanismRenderer;
@@ -37,7 +38,8 @@ public class GuiGasGauge extends GuiTankGauge<Gas, GasTank> {
         if (infoHandler.getTank().getGas() == null || infoHandler.getTank().getMaxGas() == 0) {
             return 0;
         }
-        return infoHandler.getTank().getStored() * (height - 2) / infoHandler.getTank().getMaxGas();
+        double scale = infoHandler.getTank().getStored() / (double) infoHandler.getTank().getMaxGas();
+        return MathUtils.clampToInt(Math.round(scale * (height - 2)));
     }
 
     @Override

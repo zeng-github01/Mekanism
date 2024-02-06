@@ -48,7 +48,6 @@ public class ItemEnergized extends ItemMekanism implements IEnergizedItem, ISpec
         super();
         MAX_ELECTRICITY = maxElectricity;
         setMaxStackSize(1);
-        setCreativeTab(Mekanism.tabMekanism);
     }
 
     @Override

@@ -142,6 +142,10 @@ public class RenderTickHandler {
                         drawString(scaledresolution, LangUtils.localize("tooltip.mode") + ": " + EnumColor.INDIGO + AtomicDisassembler.getMode(mainhandstack).getModeName(), alignLeft, y - 20, 0xc8c8c8);
                         drawString(scaledresolution, LangUtils.localize("tooltip.efficiency") + ": " + EnumColor.INDIGO + AtomicDisassembler.getMode(mainhandstack).getEfficiency(), alignLeft, y - 11, 0xc8c8c8);
                         y -= 18;
+                    }  else if (mainhandstack.getItem() instanceof ItemMekTool MekTool) {
+                        drawString(scaledresolution, LangUtils.localize("tooltip.mode") + ": " + EnumColor.INDIGO + MekTool.getMode(mainhandstack).getModeName(), alignLeft, y - 20, 0xc8c8c8);
+                        drawString(scaledresolution, LangUtils.localize("tooltip.efficiency") + ": " + EnumColor.INDIGO + MekTool.getMode(mainhandstack).getEfficiency(), alignLeft, y - 11, 0xc8c8c8);
+                        y -= 18;
                     } else if (mainhandstack.getItem() instanceof ItemConfigurator Configurator) {
                         drawString(scaledresolution, EnumColor.PINK + LangUtils.localize("tooltip.mode") + ": " + Configurator.getColor(Configurator.getState(mainhandstack)) + Configurator.getStateDisplay(Configurator.getState(mainhandstack)), alignLeft, y - 11, 0xc8c8c8);
                         y -= 9;
@@ -156,6 +160,9 @@ public class RenderTickHandler {
                     } else if (offhandstack.getItem() instanceof ItemAtomicDisassembler AtomicDisassembler) {
                         drawString(scaledresolution, LangUtils.localize("tooltip.mode") + ": " + EnumColor.INDIGO + AtomicDisassembler.getMode(offhandstack).getModeName(), alignLeft, y - 20, 0xc8c8c8);
                         drawString(scaledresolution, LangUtils.localize("tooltip.efficiency") + ": " + EnumColor.INDIGO + AtomicDisassembler.getMode(offhandstack).getEfficiency(), alignLeft, y - 11, 0xc8c8c8);
+                    } else if (offhandstack.getItem() instanceof ItemMekTool MekTool) {
+                        drawString(scaledresolution, LangUtils.localize("tooltip.mode") + ": " + EnumColor.INDIGO + MekTool.getMode(offhandstack).getModeName(), alignLeft, y - 20, 0xc8c8c8);
+                        drawString(scaledresolution, LangUtils.localize("tooltip.efficiency") + ": " + EnumColor.INDIGO + MekTool.getMode(offhandstack).getEfficiency(), alignLeft, y - 11, 0xc8c8c8);
                     } else if (offhandstack.getItem() instanceof ItemConfigurator Configurator) {
                         drawString(scaledresolution, EnumColor.PINK + LangUtils.localize("tooltip.mode") + ": " + Configurator.getColor(Configurator.getState(offhandstack)) + Configurator.getStateDisplay(Configurator.getState(offhandstack)), alignLeft, y - 11, 0xc8c8c8);
                     }
