@@ -10,6 +10,7 @@ import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge.Type;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.inventory.container.ContainerNull;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.util.LangUtils;
@@ -104,7 +105,7 @@ public class GuiReactorFuel extends GuiReactorInfo {
 
     private void setInjection() {
         if (!injectionRateField.getText().isEmpty()) {
-            int toUse = Math.max(0, Math.min(Integer.parseInt(injectionRateField.getText()), 100));
+            int toUse = Math.max(0, Math.min(Integer.parseInt(injectionRateField.getText()), MekanismConfig.current().generators.reactorGeneratorInjectionRate.val()));
             toUse -= toUse % 2;
             Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, TileNetworkList.withContents(0, toUse)));
             injectionRateField.setText("");
@@ -116,7 +117,7 @@ public class GuiReactorFuel extends GuiReactorInfo {
         super.initGui();
         String prevRad = injectionRateField != null ? injectionRateField.getText() : "";
         injectionRateField = new GuiTextField(0, fontRenderer, guiLeft + 98, guiTop + 115, 26, 11);
-        injectionRateField.setMaxStringLength(3);
+        injectionRateField.setMaxStringLength(Integer.toString(MekanismConfig.current().generators.reactorGeneratorInjectionRate.val()).length());
         injectionRateField.setText(prevRad);
     }
 }

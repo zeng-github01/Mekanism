@@ -37,17 +37,16 @@ import javax.annotation.Nonnull;
 
 public class TileEntityReactorController extends TileEntityReactorBlock implements IActiveState {
 
-    public static final int MAX_WATER = 100 * Fluid.BUCKET_VOLUME;
-    public static final int MAX_STEAM = MAX_WATER * 100;
-    public static final int MAX_FUEL = Fluid.BUCKET_VOLUME;
+    public static final int MAX_FLUID = 100 * Fluid.BUCKET_VOLUME;
+    public static final int MAX_FUEL = MAX_FLUID * 100;
 
-    public FluidTank waterTank = new FluidTank(MAX_WATER);
-    public FluidTank steamTank = new FluidTank(MAX_STEAM);
+    public FluidTank waterTank = new FluidTank(MAX_FLUID);
+    public FluidTank steamTank = new FluidTank(MAX_FLUID);
 
     public GasTank deuteriumTank = new GasTank(MAX_FUEL);
     public GasTank tritiumTank = new GasTank(MAX_FUEL);
 
-    public GasTank fuelTank = new GasTank(MAX_FUEL);
+    public GasTank fuelTank = new GasTank(MAX_FUEL * 2);
 
     public AxisAlignedBB box;
     public double clientTemp = 0;
@@ -90,6 +89,10 @@ public class TileEntityReactorController extends TileEntityReactorBlock implemen
             return 0;
         }
         return getReactor().getCaseTemp();
+    }
+
+    public boolean getactivelyCooled() {
+        return steamTank.getFluidAmount() < steamTank.getCapacity() && steamTank.getFluidAmount() != steamTank.getCapacity();
     }
 
     @Override

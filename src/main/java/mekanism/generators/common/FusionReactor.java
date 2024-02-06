@@ -35,7 +35,6 @@ import java.util.Set;
 
 public class FusionReactor {
 
-    public static final int MAX_INJECTION = 100;//this is the effective cap in the GUI, as text field is limited to 3 chars
     //Reaction characteristics
     public static double burnTemperature = TemperatureUnit.AMBIENT.convertFromK(1E8, true);
     public static double burnRatio = 1;
@@ -162,13 +161,13 @@ public class FusionReactor {
         FusionCoolingRecipe recipe = getRecipe();
 
         //Transfer from casing to water if necessary
-        if (activelyCooled) {
+        if (activelyCooled && getWaterTank().getFluidAmount() != 0) {
             double caseWaterHeat = caseWaterConductivity * lastCaseTemperature;
             int waterToVaporize = (int) (steamTransferEfficiency * caseWaterHeat / enthalpyOfVaporization);
             waterToVaporize = Math.min(waterToVaporize, Math.min(getWaterTank().getFluidAmount(), getSteamTank().getCapacity() - getSteamTank().getFluidAmount()));
             if (waterToVaporize > 0) {
                 getWaterTank().drain(waterToVaporize, true);
-                getSteamTank().fill(new FluidStack(recipe.getOutput().output.getFluid(), recipe.getOutput().output.amount > 1 ?  recipe.getOutput().output.amount * waterToVaporize : waterToVaporize), true);
+                getSteamTank().fill(new FluidStack(recipe.getOutput().output.getFluid(), recipe.getOutput().output.amount > 1 ? recipe.getOutput().output.amount * waterToVaporize : waterToVaporize), true);
             }
             caseWaterHeat = waterToVaporize * enthalpyOfVaporization / steamTransferEfficiency;
             caseTemperature -= caseWaterHeat / caseHeatCapacity;
@@ -243,7 +242,7 @@ public class FusionReactor {
         List<Entity> entitiesToDie = controller.getWorld().getEntitiesWithinAABB(Entity.class, death_zone);
 
         for (Entity entity : entitiesToDie) {
-            entity.attackEntityFrom(DamageSource.MAGIC, 50000F);
+            entity.attackEntityFrom(DamageSource.MAGIC, Float.MAX_VALUE);
         }
     }
 
@@ -357,11 +356,10 @@ public class FusionReactor {
 
     public void setInjectionRate(int rate) {
         injectionRate = rate;
-        int capRate = Math.min(Math.max(1, rate), MAX_INJECTION);
+        int capRate = Math.min(Math.min(Math.max(1, rate), MekanismConfig.current().generators.reactorGeneratorInjectionRate.val()), 1000);
         capRate -= capRate % 2;
-
-        controller.waterTank.setCapacity(TileEntityReactorController.MAX_WATER * capRate);
-        controller.steamTank.setCapacity(TileEntityReactorController.MAX_STEAM * capRate);
+        controller.waterTank.setCapacity(TileEntityReactorController.MAX_FLUID * capRate);
+        controller.steamTank.setCapacity(TileEntityReactorController.MAX_FLUID * capRate);
 
         if (controller.waterTank.getFluid() != null) {
             controller.waterTank.getFluid().amount = Math.min(controller.waterTank.getFluid().amount, controller.waterTank.getCapacity());

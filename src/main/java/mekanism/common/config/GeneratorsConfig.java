@@ -76,6 +76,8 @@ public class GeneratorsConfig extends BaseConfig {
     public final DoubleOption reactorGeneratorStorage = new DoubleOption(this, "generation",
             "ReactorGeneratorStorage", 1000000000D, "Energy capable of being stored");
 
+    public final IntOption reactorGeneratorInjectionRate = new IntOption(this, "generation",
+            "reactorGeneratorInjectionRate", 100, "The maximum injection rate of the fusion reactor needs to be set to a multiple of 2");
     public final BooleanOption windGeneratorItem = new BooleanOption(this, "generation", "WindGenerator", true, "Causes the item's wind turbine to rotate the blades");
 
     public TypeConfigManager<GeneratorType> generatorsManager = new TypeConfigManager<>(this, "generators", GeneratorType.class,
@@ -96,5 +98,8 @@ public class GeneratorsConfig extends BaseConfig {
     private void validate() {
         //ensure windGenerationMaxY is > windGenerationMinY
         windGenerationMaxY.set(Math.max(windGenerationMinY.val() + 1, windGenerationMaxY.val()));
+        int toUse = reactorGeneratorInjectionRate.val();
+        toUse -= toUse % 2;
+        reactorGeneratorInjectionRate.set(toUse);
     }
 }
