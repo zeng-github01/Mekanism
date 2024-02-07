@@ -90,6 +90,14 @@ public class ItemConfigurationCard extends ItemMekanism {
                     SecurityUtils.displayNoAccess(player);
                 }
             }
+        }else {
+            ItemStack stack = player.getHeldItem(hand);
+            if (player.isSneaking()) {
+                if (stack.getTagCompound() != null) {
+                    stack.getTagCompound().removeTag(ItemDataUtils.DATA_ID);
+                }
+                return EnumActionResult.SUCCESS;
+            }
         }
         return EnumActionResult.PASS;
     }
@@ -128,7 +136,7 @@ public class ItemConfigurationCard extends ItemMekanism {
     private String getNameFromTile(TileEntity tile, EnumFacing side) {
         String ret = Integer.toString(tile.hashCode());
         if (tile instanceof TileEntityContainerBlock) {
-            ret = tile.getBlockType().getTranslationKey() + "." + ((TileEntityContainerBlock) tile).fullName + ".name";
+            ret = ((TileEntityContainerBlock) tile).getName();
         }
         if (CapabilityUtils.hasCapability(tile, Capabilities.SPECIAL_CONFIG_DATA_CAPABILITY, side)) {
             ISpecialConfigData special = CapabilityUtils.getCapability(tile, Capabilities.SPECIAL_CONFIG_DATA_CAPABILITY, side);

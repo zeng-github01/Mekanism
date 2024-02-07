@@ -63,7 +63,6 @@ public final class MekanismHooks {
     public static final String MYSTICALAGRICULTURE_MOD_ID = "mysticalagriculture";
     public static final String CRAFTTWEAKER_MOD_ID = "crafttweaker";
     public static final String GROOVYSCRIPT_MOD_ID = "groovyscript";
-
     public static final String FLUX_NETWORKS_MOD_ID = "fluxnetworks";
 
     public boolean AE2Loaded = false;

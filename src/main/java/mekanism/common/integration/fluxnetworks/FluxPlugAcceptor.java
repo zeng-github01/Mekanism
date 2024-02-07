@@ -1,6 +1,6 @@
 package mekanism.common.integration.fluxnetworks;
 
-import mekanism.common.base.EnergyAcceptorWrapper.*;
+import mekanism.common.base.EnergyAcceptorWrapper.ForgeAcceptor;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.energy.CapabilityEnergy;
 import sonar.fluxnetworks.common.tileentity.TileFluxPlug;

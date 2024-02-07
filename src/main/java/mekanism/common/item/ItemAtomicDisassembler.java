@@ -142,7 +142,6 @@ public class ItemAtomicDisassembler extends ItemEnergized implements IItemNetwor
                         player.world.playEvent(WorldEvents.BREAK_BLOCK_EFFECTS, coord.getPos(), Block.getStateId(state));
                         block2.dropBlockAsItem(player.world, coord.getPos(), state, 0);
                         player.world.setBlockToAir(coord.getPos());;
-                       // block2.breakBlock(player.world, coord.getPos(),state);
                         setEnergy(itemstack, getEnergy(itemstack) - destroyEnergy);
                     }
                 }

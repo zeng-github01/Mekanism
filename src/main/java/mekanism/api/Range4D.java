@@ -1,10 +1,11 @@
 package mekanism.api;
 
-import java.util.HashSet;
-import java.util.Set;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class Range4D {
 

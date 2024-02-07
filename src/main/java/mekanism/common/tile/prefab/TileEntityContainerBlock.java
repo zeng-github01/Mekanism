@@ -3,7 +3,6 @@ package mekanism.common.tile.prefab;
 import mekanism.common.Upgrade;
 import mekanism.common.base.ISustainedInventory;
 import mekanism.common.base.ItemHandlerWrapper;
-import mekanism.common.block.BlockCardboardBox;
 import mekanism.common.capabilities.CapabilityWrapperManager;
 import mekanism.common.capabilities.IToggleableCapability;
 import mekanism.common.util.LangUtils;

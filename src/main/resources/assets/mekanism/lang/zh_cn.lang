@@ -963,9 +963,9 @@ mekanism.tooltip.mektool.vein=矿脉
 mekanism.tooltip.mektool.extended_vein=扩展静脉开采
 mekanism.tooltip.mektool.off=关
 
-tooltip.configurationCard.got=从%s恢复过滤器数据
-tooltip.configurationCard.set=导入类型%s的过滤器数据
-tooltip.configurationCard.unequal=过滤器数据格式不符规则
+tooltip.configurationCard.got=已从%s获取配置数据
+tooltip.configurationCard.set=已导入%s的配置数据
+tooltip.configurationCard.unequal=配置格式不符规则
 
 tooltip.balloon=气球
 

@@ -4,13 +4,11 @@ import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.RelativeSide;
 import mekanism.api.transmitters.TransmissionType;
-import mekanism.client.Utils.ClientUtil;
 import mekanism.client.gui.GuiSideConfiguration.GuiPos;
 import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.button.GuiSideDataButton;
 import mekanism.client.gui.element.GuiInnerScreen;
-import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.SideData;
@@ -22,20 +20,16 @@ import mekanism.common.network.PacketSimpleGui.SimpleGuiMessage;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.util.LangUtils;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;
@@ -47,8 +41,6 @@ import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlock> {
-
-    private List<Pair<Integer, Block>> blockList = new ArrayList<>();
     private Map<Integer, GuiPos> slotPosMap = new HashMap<>();
     private ISideConfiguration configurable;
     private List<GuiSideDataButton> sideDataButtons = new ArrayList<>();
@@ -56,7 +48,6 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
     private GuiButton strictInputButton;
     private GuiButton colorButton;
     private int buttonID = 0;
-    private int currentLayer;
 
     public GuiTransporterConfig(EntityPlayer player, ISideConfiguration tile) {
         super((TileEntityContainerBlock) tile, new ContainerNull(player, (TileEntityContainerBlock) tile));
@@ -72,7 +63,6 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
         slotPosMap.put(4, new GuiPos(18, 57, RelativeSide.LEFT));
         slotPosMap.put(5, new GuiPos(64, 57, RelativeSide.RIGHT));
         addGuiElement(new GuiInnerScreen(this, resource, 41, 15, 74, 12));
-        currentLayer = Math.max(0, blockList.size() - 1);
     }
 
     @Override
@@ -85,8 +75,8 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
         for (int i = 0; i < slotPosMap.size(); i++) {
             GuiPos guiPos = slotPosMap.get(i);
             EnumFacing facing = EnumFacing.byIndex(i);
-            GuiSideDataButton button = new GuiSideDataButton(buttonID++, guiLeft + guiPos.xPos, guiTop + guiPos.yPos, i,
-                    () -> configurable.getConfig().getOutput(TransmissionType.ITEM, facing), () -> configurable.getEjector().getInputColor(facing));
+            RelativeSide side = RelativeSide.bydex(i);
+            GuiSideDataButton button = new GuiSideDataButton(buttonID++, guiLeft + guiPos.xPos, guiTop + guiPos.yPos, i, () -> configurable.getConfig().getOutput(TransmissionType.ITEM, facing), () -> configurable.getEjector().getInputColor(facing), tileEntity, side);
             buttonList.add(button);
             sideDataButtons.add(button);
         }
@@ -138,24 +128,9 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
                         }
                     }
                     info.add(color != null ? color.getColoredName() : LangUtils.localize("gui.none"));
-
-                    for (int i = 0; i < slotPosMap.size(); i++) {
-                        int layer = currentLayer + (i);
-                        if (0 <= layer && layer < blockList.size()) {
-                            Pair<Integer, Block> integerBlockPair = blockList.get(layer);
-                            ItemStack nameStack = new ItemStack(integerBlockPair.getRight(), 1, integerBlockPair.getLeft());
-                            if (integerBlockPair.getRight() != Blocks.AIR) { //Don't show the name of the air
-                                NBTTagCompound tag = new NBTTagCompound();
-                                tileEntity.writeToNBT(tag);
-                                nameStack.setTagCompound(tag);
-                                String renderString = nameStack.getDisplayName();
-                                if (button.getSlotPosMapIndex() == i) {
-                                    info.add(renderString);
-                                }
-                            }
-                        }
+                    if (button.getItem().getItem() != Items.AIR) {
+                        info.add(button.getItem().getItem().getItemStackDisplayName(button.getItem()));
                     }
-
                     displayTooltips(info, xAxis, yAxis);
                 }
                 break;
@@ -175,31 +150,14 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
 
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
-        for (RelativeSide side : RelativeSide.SIDES) {
-            EnumFacing globalSide = side.getDirection(tileEntity.facing);
-            Coord4D coord = Coord4D.get(tileEntity).offset(globalSide);
-            IBlockState blockstate = tileEntity.getWorld().getBlockState(coord.getPos());
-            Block block = blockstate.getBlock();
-            int metadata = block.getMetaFromState(blockstate);
-            blockList.add(Pair.of(metadata, block));
-            for (int i = 0; i < slotPosMap.size(); i++) {
-                int layer = currentLayer + (i);
-                GuiPos guiPos = slotPosMap.get(i);
-                if (0 <= layer && layer < blockList.size()) {
-                    Pair<Integer, Block> integerBlockPair = blockList.get(layer);
-                    ItemStack stack = new ItemStack(integerBlockPair.getRight(), 1, integerBlockPair.getLeft());
-                    NBTTagCompound tag = new NBTTagCompound();
-                    tileEntity.writeToNBT(tag);
-                    stack.setTagCompound(tag);
-                    MekanismRenderer.resetColor();
-                    ClientUtil.renderItem(stack, guiLeft + guiPos.xPos + 3, guiTop + guiPos.yPos + 3);
-                    MekanismRenderer.resetColor();
-                }
+        for (int i = 0; i < slotPosMap.size(); i++) {
+            GuiPos guiPos = slotPosMap.get(i);
+            if (sideDataButtons.get(i).getItem() != ItemStack.EMPTY) {
+                renderItem(sideDataButtons.get(i).getItem(), guiLeft + guiPos.xPos + 3, guiTop + guiPos.yPos + 3);
             }
         }
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
     }
-
 
     @Override
     public void updateScreen() {
@@ -207,7 +165,6 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
         TileEntity tile = (TileEntity) configurable;
         if (tile == null || mc.world.getTileEntity(tile.getPos()) == null) {
             mc.displayGuiScreen(null);
-            blockList.clear();
         }
     }
 

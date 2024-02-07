@@ -50,7 +50,7 @@ import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public class BlockTransmitter extends BlockTileDrops implements ITileEntityProvider {
+public class    BlockTransmitter extends BlockTileDrops implements ITileEntityProvider {
 
     public static AxisAlignedBB[] smallSides = new AxisAlignedBB[7];
     public static AxisAlignedBB[] largeSides = new AxisAlignedBB[7];

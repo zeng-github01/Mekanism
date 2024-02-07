@@ -140,7 +140,6 @@ public class TileComponentEjector implements ITileComponent {
             } else {
                 response = TransporterUtils.insert(tileEntity, capability, ejectMap, outputColor, true, 0);
             }
-
             if (!response.isEmpty()) {
                 response.getInvStack(tileEntity, side).use();
                 //Set map to null so next loop recalculates the eject map so that all sides get a chance to be ejected to

@@ -3,6 +3,7 @@ package mekanism.common.tile;
 import io.netty.buffer.ByteBuf;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
+import mekanism.api.IConfigCardAccess;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
@@ -30,7 +31,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements ISustainedData, IBoundingBlock, IGasHandler, IUpgradeInfoHandler, ITankManager, IComparatorSupport, ISideConfiguration {
+public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements ISustainedData, IBoundingBlock, IGasHandler, IUpgradeInfoHandler, ITankManager, IComparatorSupport, ISideConfiguration, IConfigCardAccess {
     public static final int MAX_GAS = 10000;
     public GasTank inputTank = new GasTank(MAX_GAS);
     public GasTank outputTank = new GasTank(MAX_GAS);

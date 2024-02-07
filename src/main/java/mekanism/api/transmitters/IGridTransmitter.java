@@ -1,10 +1,11 @@
 package mekanism.api.transmitters;
 
-import java.util.Collection;
-import javax.annotation.Nullable;
 import mekanism.api.Coord4D;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
 
 public interface IGridTransmitter<ACCEPTOR, NETWORK extends DynamicNetwork<ACCEPTOR, NETWORK, BUFFER>, BUFFER> extends ITransmitter {
 

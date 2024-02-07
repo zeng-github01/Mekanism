@@ -1,13 +1,23 @@
 package mekanism.client.gui.button;
 
 import mekanism.api.EnumColor;
+import mekanism.api.RelativeSide;
 import mekanism.client.render.MekanismRenderer;
+import mekanism.common.MekanismBlocks;
 import mekanism.common.SideData;
 import mekanism.common.tile.component.TileComponentConfig;
+import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.util.MekanismUtils;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -22,11 +32,35 @@ public class GuiSideDataButton extends GuiButton {
     private final ResourceLocation Button = MekanismUtils.getResource(MekanismUtils.ResourceType.BUTTON, "Button.png");
     private final int slotPosMapIndex;
 
-    public GuiSideDataButton(int id, int x, int y, int slotPosMapIndex, Supplier<SideData> sideDataSupplier, Supplier<EnumColor> colorSupplier) {
+    private final ItemStack otherBlockItem;
+
+    public GuiSideDataButton(int id, int x, int y, int slotPosMapIndex, Supplier<SideData> sideDataSupplier, Supplier<EnumColor> colorSupplier, TileEntityContainerBlock tile, RelativeSide side) {
         super(id, x, y, 22, 22, "");
         this.slotPosMapIndex = slotPosMapIndex;
         this.sideDataSupplier = sideDataSupplier;
         this.colorSupplier = colorSupplier;
+        World tileWorld = tile.getWorld();
+        if (tileWorld != null) {
+            EnumFacing globalSide = side.getDirection(tile.facing);
+            BlockPos otherBlockPos = tile.getPos().offset(globalSide);
+            IBlockState blockOnSide = tileWorld.getBlockState(otherBlockPos);
+            if (blockOnSide.getBlock() != Blocks.AIR) {
+                if (blockOnSide.getBlock() != MekanismBlocks.BoundingBlock){
+                    otherBlockItem = blockOnSide.getBlock().getItem(tileWorld, otherBlockPos, blockOnSide);
+                    NBTTagCompound tag = new NBTTagCompound();
+                    if (tileWorld.getTileEntity(otherBlockPos) instanceof TileEntityContainerBlock tileEntityContainerBlock) {
+                        tileEntityContainerBlock.writeToNBT(tag);
+                    }
+                    otherBlockItem.setTagCompound(tag);
+                }else {
+                    otherBlockItem = ItemStack.EMPTY;
+                }
+            } else {
+                otherBlockItem = ItemStack.EMPTY;
+            }
+        } else {
+            otherBlockItem = ItemStack.EMPTY;
+        }
     }
 
     @Override
@@ -72,5 +106,9 @@ public class GuiSideDataButton extends GuiButton {
 
     public EnumColor getColor() {
         return this.colorSupplier.get();
+    }
+
+    public ItemStack getItem() {
+        return otherBlockItem;
     }
 }

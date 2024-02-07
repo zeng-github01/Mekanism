@@ -1,7 +1,8 @@
 package mekanism.api.gas;
 
-import javax.annotation.Nullable;
 import net.minecraft.nbt.NBTTagCompound;
+
+import javax.annotation.Nullable;
 
 /**
  * GasStack - a specified amount of a defined Gas with certain properties.

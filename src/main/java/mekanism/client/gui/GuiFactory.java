@@ -144,9 +144,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         this.buttonList.add(infuserDumpButton = new GuiDisableableButton(1, guiLeft + left, guiTop + yoffset, 21, 10) {
             @Override
             public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-                if (tileEntity.getRecipeType() == RecipeType.INFUSING ||
-                        tileEntity.GasAdvancedInputMachine() ||
-                        tileEntity.GasInputMachine()) {
+                if (tileEntity.getRecipeType() == RecipeType.INFUSING || tileEntity.GasAdvancedInputMachine() || tileEntity.GasInputMachine()) {
                     super.drawButton(mc, mouseX, mouseY, partialTicks);
                 }
             }

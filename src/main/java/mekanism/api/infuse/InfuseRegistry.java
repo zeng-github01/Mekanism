@@ -1,10 +1,11 @@
 package mekanism.api.infuse;
 
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.ItemHandlerHelper;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.ItemHandlerHelper;
 
 /**
  * Use this class to add a new object that registers as an infuse object.
