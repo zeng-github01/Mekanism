@@ -53,7 +53,9 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                 "alloy",
                 "cellextractor",
                 "cellseparator",
-                "recycler"
+                "recycler",
+                "fusioncooling",
+                "ambientaccumulator"
         ).collect(Collectors.toList());
     }
 
@@ -371,6 +373,25 @@ public class MekRecipesCommand extends CraftTweakerCommand {
                     CraftTweakerAPI.logCommand(String.format("mods.mekanism.recycler.addRecipe(%s, %s, %s)",
                             RecipeInfoHelper.getItemName(recipe.getInput().ingredient),
                             RecipeInfoHelper.getItemName(recipe.getOutput().primaryOutput),
+                            recipe.getOutput().primaryChance
+                    ));
+                }
+            }
+            case "fusioncooling" -> {
+                type = Recipe.FUSION_COOLING;
+                for (FusionCoolingRecipe recipe : Recipe.FUSION_COOLING.get().values()) {
+                    CraftTweakerAPI.logCommand(String.format("mods.mekanism.fusioncooling.addRecipe(%s, %s)",
+                            RecipeInfoHelper.getFluidName(recipe.getInput().ingredient),
+                            RecipeInfoHelper.getFluidName(recipe.getOutput().output)
+                    ));
+                }
+            }
+            case "ambientaccumulator" -> {
+                type = Recipe.AMBIENT_ACCUMULATOR;
+                for (AmbientGasRecipe recipe : Recipe.AMBIENT_ACCUMULATOR.get().values()) {
+                    CraftTweakerAPI.logCommand(String.format("mods.mekanism.ambientaccumulator.addRecipe(%s, %s, %s)",
+                            recipe.recipeInput.ingredient,
+                            RecipeInfoHelper.getGasName(recipe.getOutput().output),
                             recipe.getOutput().primaryChance
                     ));
                 }

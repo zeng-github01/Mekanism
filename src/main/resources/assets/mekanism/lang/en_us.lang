@@ -191,6 +191,7 @@ tile.BasicBlock3.EliteEnergyCubeFrame.name=Elite Energy Cube Frame
 tile.BasicBlock3.UltimateEnergyCubeFrame.name=Ultimate Energy Cube Frame
 tile.BasicBlock3.CreativeEnergyCubeFrame.name=Creative Energy Cube Frame
 tile.MachineBlock3.antiprotonicnucleosynthesizer.name=Antiprotonic Nucleosynthesizer(WIP)
+gui.FusionCooling=Fusion reactor cooling formula
 
 tile.OreBlock.UraniumOre.name=Uranium Ore
 tile.OreBlock.LeadOre.name=Lead Ore
@@ -223,6 +224,8 @@ item.EmptyCrystals.name=Empty Crystals
 item.MekTool.name=Meka-Tool
 gas.uranium=Uranium Slurry
 gas.Biofuel=Biofuel
+fluid.liquidsuperheatedsodium=Superheated Sodium
+fluid.liquidhydrofluricacid=Liquid Hydrofluric Acid
 tile.MachineBlock3.OrganicFarm.name=Organic Farm
 tile.MachineBlock3.SuperchargedCoil.name=Supercharged Coil(WIP)
 gas.nutrientsolution=Nutrient solution

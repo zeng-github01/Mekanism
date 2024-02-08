@@ -2,6 +2,8 @@ package mekanism.common.integration.groovyscript;
 
 import com.cleanroommc.groovyscript.compat.mods.mekanism.Mekanism;
 import mekanism.common.integration.groovyscript.machinerecipe.*;
+import mekanism.generators.common.MekanismGenerators;
+import net.minecraftforge.fml.common.Loader;
 
 public class MekanismAdd extends Mekanism {
     public IsotopicCentrifuge isotopicCentrifuge = new IsotopicCentrifuge();
@@ -18,6 +20,8 @@ public class MekanismAdd extends Mekanism {
     public Recycler recycler = new Recycler();
 
     public Smelter smelting = new Smelter();
+    public AmbientAccumulator ambient = new AmbientAccumulator();
+    public FusionCooling fusionCooling = new FusionCooling();
 
     public MekanismAdd() {
         addRegistry(smelting);
@@ -33,6 +37,10 @@ public class MekanismAdd extends Mekanism {
         addRegistry(cellExtractor);
         addRegistry(cellSeparator);
         addRegistry(recycler);
+        addRegistry(ambient);
+        if (Loader.isModLoaded(MekanismGenerators.MODID)){
+            addRegistry(fusionCooling);
+        }
     }
 
 }

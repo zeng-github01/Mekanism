@@ -288,6 +288,7 @@ public class MekanismRecipe {
 
         //Nutritional Liquifier Recipes
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.NUTRITIONAL_LIQUIFIER)) {
+
             RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.APPLE, 1), new GasStack(MekanismFluids.NutritionalPaste, 100));
             RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.BAKED_POTATO, 1), new GasStack(MekanismFluids.NutritionalPaste, 125));
             RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.BEEF, 1), new GasStack(MekanismFluids.NutritionalPaste, 75));
@@ -323,7 +324,6 @@ public class MekanismRecipe {
             RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.RABBIT_STEW, 1), new GasStack(MekanismFluids.NutritionalPaste, 250));
             RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.ROTTEN_FLESH, 1), new GasStack(MekanismFluids.NutritionalPaste, 10));
             RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.SPIDER_EYE, 1), new GasStack(MekanismFluids.NutritionalPaste, 10));
-
         }
 
 
@@ -394,8 +394,7 @@ public class MekanismRecipe {
         }
 
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.AMBIENT_ACCUMULATOR) || MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.AMBIENT_ACCUMULATOR_ENERGY)) {
-            RecipeHandler.addAmbientGas(0, new GasStack(MekanismFluids.UnstableDimensional, 1),1F / 5F);
-            RecipeHandler.addAmbientGas(-1,new GasStack(MekanismFluids.Water, 1),1F / 5F);
+            RecipeHandler.addAmbientGas(0, new GasStack(MekanismFluids.UnstableDimensional, 1), 1F / 5F);
         }
 
         /**

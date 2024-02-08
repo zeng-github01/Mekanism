@@ -108,7 +108,7 @@ public class MekanismFluids {
         /**
          * ADD START
          */
-        GasRegistry.register(HydrofluoricAcid);
+        GasRegistry.register(HydrofluoricAcid).registerFluid("liquidhydrofluricacid");
         GasRegistry.register(Antimatter);
         GasRegistry.register(FissileFuel);
         GasRegistry.register(SuperheatedSodium).registerFluid("liquidsuperheatedsodium");

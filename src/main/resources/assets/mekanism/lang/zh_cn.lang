@@ -193,6 +193,7 @@ tile.BasicBlock3.UltimateEnergyCubeFrame.name=终极能量立方框架
 tile.BasicBlock3.CreativeEnergyCubeFrame.name=创造能量立方框架
 tile.MachineBlock3.antiprotonicnucleosynthesizer.name=反质子核合成器(WIP)
 
+gui.FusionCooling=聚变反应堆冷却配方
 tile.OreBlock.UraniumOre.name=铀矿石
 tile.OreBlock.LeadOre.name=铅矿石
 tile.OreBlock.FluoriteOre.name=氟石矿石
@@ -227,6 +228,8 @@ gas.Biofuel=生物燃料
 gas.nutrientsolution=营养液
 gas.oxygenenrichedwater=富氧水
 gas.unstabledimensional=不稳定维度气体
+fluid.liquidsuperheatedsodium=液态的过热钠蒸汽
+fluid.liquidhydrofluricacid=液态氢氟酸
 
 
 tile.MachineBlock3.AmbientAccumulator.name=环境气体收集器
