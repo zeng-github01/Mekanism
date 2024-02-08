@@ -18,17 +18,25 @@ import static mekanism.client.gui.element.GuiElement.mc;
 @SideOnly(Side.CLIENT)
 public class GuiUtils {
 
+    public static void drawBarSprite(int xPos, int yPos, int sizeX, int sizeY, int displayInt, TextureAtlasSprite textureSprite, boolean vertical) {
+        if (displayInt > 0) {
+            if (textureSprite != null) {
+                mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+                if (vertical) {
+                    drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, sizeX - 2, displayInt, textureSprite, TilingDirection.DOWN_RIGHT);
+                } else {
+                    drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, displayInt, sizeY - 2, textureSprite, TilingDirection.DOWN_RIGHT);
+                }
+                MekanismRenderer.resetColor();
+            }
+        }
+    }
+
     public static void drawGasBarSprite(int xPos, int yPos, int sizeX, int sizeY, int displayInt, GasStack gasStack, boolean vertical) {
         if (displayInt > 0) {
             if (gasStack != null) {
-                mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
                 MekanismRenderer.color(gasStack);
-                if (vertical) {
-                    drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, sizeX - 2, displayInt, gasStack.getGas().getSprite(), TilingDirection.DOWN_RIGHT);
-                } else {
-                    drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, displayInt, sizeY - 2, gasStack.getGas().getSprite(), TilingDirection.DOWN_RIGHT);
-                }
-                MekanismRenderer.resetColor();
+                drawBarSprite(xPos, yPos, sizeX, sizeY, displayInt, gasStack.getGas().getSprite(), vertical);
             }
         }
     }
@@ -36,14 +44,8 @@ public class GuiUtils {
     public static void drawFluidBarSprite(int xPos, int yPos, int sizeX, int sizeY, int displayInt, FluidStack fluidStack, boolean vertical) {
         if (displayInt > 0) {
             if (fluidStack != null) {
-                mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
                 MekanismRenderer.color(fluidStack);
-                if (vertical) {
-                    drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, sizeX - 2, displayInt, MekanismRenderer.getFluidTexture(fluidStack, MekanismRenderer.FluidType.STILL), TilingDirection.DOWN_RIGHT);
-                } else {
-                    drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, displayInt, sizeY - 2, MekanismRenderer.getFluidTexture(fluidStack, MekanismRenderer.FluidType.STILL), TilingDirection.DOWN_RIGHT);
-                }
-                MekanismRenderer.resetColor();
+                drawBarSprite(xPos, yPos, sizeX, sizeY, displayInt, MekanismRenderer.getFluidTexture(fluidStack, MekanismRenderer.FluidType.STILL), vertical);
             }
         }
     }
@@ -52,13 +54,7 @@ public class GuiUtils {
     public static void drawInfuseBarSprite(int xPos, int yPos, int sizeX, int sizeY, int displayInt, InfuseStorage infuseStorage, boolean vertical) {
         if (displayInt > 0) {
             if (infuseStorage.getType() != null) {
-                mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-                if (vertical) {
-                    drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, sizeX - 2, displayInt, infuseStorage.getType().sprite, TilingDirection.DOWN_RIGHT);
-                } else {
-                    drawTiledSprite(xPos + 1, yPos + 1, sizeY - 2, displayInt, sizeY - 2, infuseStorage.getType().sprite, TilingDirection.DOWN_RIGHT);
-                }
-                MekanismRenderer.resetColor();
+                drawBarSprite(xPos, yPos, sizeX, sizeY, displayInt, infuseStorage.getType().sprite, vertical);
             }
         }
     }

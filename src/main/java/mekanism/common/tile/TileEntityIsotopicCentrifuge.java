@@ -52,13 +52,15 @@ public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements I
         configComponent.setConfig(TransmissionType.ITEM, new byte[]{1, -1, 2, 3, 1, 1});
         configComponent.setCanEject(TransmissionType.ITEM, false);
 
-
         configComponent.addOutput(TransmissionType.GAS, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.GAS, new SideData("Input", EnumColor.RED, new int[]{0}));
         configComponent.addOutput(TransmissionType.GAS, new SideData("Output", EnumColor.INDIGO, new int[]{1}));
         configComponent.setConfig(TransmissionType.GAS, new byte[]{1, -1, 2, 1, 1, 1});
 
-        configComponent.setInputConfig(TransmissionType.ENERGY);
+        configComponent.addOutput(TransmissionType.ENERGY, new SideData("None", EnumColor.GREY, SideData.IOState.OFF));
+        configComponent.addOutput(TransmissionType.ENERGY, new SideData("Input", EnumColor.RED, SideData.IOState.INPUT));
+        configComponent.setConfig(TransmissionType.ENERGY, new byte[]{1, -1, 1, 1, 1, 1});
+        configComponent.setCanEject(TransmissionType.ENERGY, false);
 
         ejectorComponent = new TileComponentEjector(this);
         ejectorComponent.setOutputData(TransmissionType.GAS, configComponent.getOutputs(TransmissionType.GAS).get(2));

@@ -13,7 +13,6 @@ import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.generators.common.inventory.container.ContainerBioGenerator;
 import mekanism.generators.common.tile.TileEntityBioGenerator;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -54,17 +53,8 @@ public class GuiBioGenerator extends GuiMekanismTile<TileEntityBioGenerator> {
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
-        if (tileEntity.getScaledFuelLevel(52) > 0) {
-            int displayInt = tileEntity.getScaledFuelLevel(52);
-            displayGauge2(7, 17 + 52 - displayInt, 4, displayInt);
-            MekanismRenderer.resetColor();
-        }
+        MekanismRenderer.color(MekanismFluids.Biofuel);
+        GuiUtils.drawBarSprite(guiLeft + 6, guiTop + 16, 6, 54,tileEntity.getScaledFuelLevel(52),MekanismFluids.Biofuel.getSprite(),true);
     }
 
-    public void displayGauge2(int xPos, int yPos, int sizeX, int sizeY) {
-        mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-        MekanismRenderer.color(MekanismFluids.Biofuel);
-        drawTexturedModalRect(guiLeft + xPos, guiTop + yPos, MekanismFluids.Biofuel.getSprite(), sizeX, sizeY);
-        MekanismRenderer.resetColor();
-    }
 }

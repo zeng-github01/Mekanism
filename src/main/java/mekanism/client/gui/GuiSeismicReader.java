@@ -4,6 +4,7 @@ import mekanism.api.Coord4D;
 import mekanism.client.Utils.ClientUtil;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.render.MekanismRenderer;
+import mekanism.common.Mekanism;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
@@ -12,6 +13,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -106,7 +108,7 @@ public class GuiSeismicReader extends GuiScreen {
                     GlStateManager.translate(1.5F, 0, 0);
                     GlStateManager.scale(0.8F, 0.8F, 0.8F);
                 }
-                renderItem(stack, 0, 0);
+                ClientUtil.renderItem(stack, 0, 0);
                 GlStateManager.popMatrix();
             }
         }
@@ -188,25 +190,6 @@ public class GuiSeismicReader extends GuiScreen {
         return false;
     }
 
-    protected void renderItem(@Nonnull ItemStack stack, int xAxis, int yAxis) {
-        ClientUtil.renderItem(stack, xAxis, yAxis);
-       /*
-        if (!stack.isEmpty()) {
-            try {
-                GlStateManager.pushMatrix();
-                GlStateManager.enableDepth();
-                RenderHelper.enableGUIStandardItemLighting();
-                itemRender.renderItemAndEffectIntoGUI(stack, xAxis, yAxis);
-                RenderHelper.disableStandardItemLighting();
-                GlStateManager.disableDepth();
-                GlStateManager.popMatrix();
-            } catch (Exception e) {
-                Mekanism.logger.error("Failed to render stack into gui: " + stack, e);
-            }
-        }
-
-        */
-    }
 
     protected ResourceLocation getGuiLocation() {
         return MekanismUtils.getResource(ResourceType.GUI, "GuiSeismicReader.png");

@@ -239,15 +239,17 @@ public final class MekanismUtils {
         ArrayList<SideData> outputs = config.getConfig().getOutputs(type);
         SideConfig sideConfig = config.getConfig().getConfig(type);
         int max = outputs.size() - 1;
-        int current = outputs.indexOf(outputs.get(sideConfig.get(direction)));
-        if (current < max) {
-            sideConfig.set(direction, (byte) (current + 1));
-        } else if (current == max) {
-            sideConfig.set(direction, (byte) 0);
+        if (sideConfig.get(direction) != -1){
+            int current = outputs.indexOf(outputs.get(sideConfig.get(direction)));
+            if (current < max) {
+                sideConfig.set(direction, (byte) (current + 1));
+            } else if (current == max) {
+                sideConfig.set(direction, (byte) 0);
+            }
+            assert config instanceof TileEntity;
+            TileEntity tile = (TileEntity) config;
+            tile.markDirty();
         }
-        assert config instanceof TileEntity;
-        TileEntity tile = (TileEntity) config;
-        tile.markDirty();
     }
 
     /**
@@ -261,15 +263,17 @@ public final class MekanismUtils {
         ArrayList<SideData> outputs = config.getConfig().getOutputs(type);
         SideConfig sideConfig = config.getConfig().getConfig(type);
         int max = outputs.size() - 1;
-        int current = outputs.indexOf(outputs.get(sideConfig.get(direction)));
-        if (current > 0) {
-            sideConfig.set(direction, (byte) (current - 1));
-        } else if (current == 0) {
-            sideConfig.set(direction, (byte) max);
+        if (sideConfig.get(direction) != -1){
+            int current = outputs.indexOf(outputs.get(sideConfig.get(direction)));
+            if (current > 0) {
+                sideConfig.set(direction, (byte) (current - 1));
+            } else if (current == 0) {
+                sideConfig.set(direction, (byte) max);
+            }
+            assert config instanceof TileEntity;
+            TileEntity tile = (TileEntity) config;
+            tile.markDirty();
         }
-        assert config instanceof TileEntity;
-        TileEntity tile = (TileEntity) config;
-        tile.markDirty();
     }
 
     public static float fractionUpgrades(IUpgradeTile mgmt, Upgrade type) {

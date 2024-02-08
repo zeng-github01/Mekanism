@@ -3,6 +3,7 @@ package mekanism.client.gui;
 import mekanism.api.Coord4D;
 import mekanism.api.RelativeSide;
 import mekanism.api.transmitters.TransmissionType;
+import mekanism.client.Utils.ClientUtil;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.button.GuiSideDataButton;
 import mekanism.client.gui.element.GuiInnerScreen;
@@ -15,11 +16,13 @@ import mekanism.common.inventory.container.ContainerNull;
 import mekanism.common.network.PacketConfigurationUpdate.ConfigurationPacket;
 import mekanism.common.network.PacketConfigurationUpdate.ConfigurationUpdateMessage;
 import mekanism.common.network.PacketSimpleGui.SimpleGuiMessage;
+import mekanism.common.tile.component.SideConfig;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.util.LangUtils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -159,7 +162,9 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
                     }
                     info.add(data.color + data.localize());
                     if (button.getItem() != ItemStack.EMPTY) {
-                        info.add(button.getItem().getItem().getItemStackDisplayName(button.getItem()));
+                        if (button.getItem().getItem() != Items.AIR){
+                            info.add(button.getItem().getItem().getItemStackDisplayName(button.getItem()));
+                        }
                     }
 
                     displayTooltips(info, xAxis, yAxis);
@@ -181,7 +186,7 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
         for (int i = 0; i < slotPosMap.size(); i++) {
             GuiPos guiPos = slotPosMap.get(i);
             if (sideDataButtons.get(i).getItem() != ItemStack.EMPTY) {
-                renderItem(sideDataButtons.get(i).getItem(), guiLeft + guiPos.xPos + 3, guiTop + guiPos.yPos + 3);
+                ClientUtil.renderItem(sideDataButtons.get(i).getItem(), guiLeft + guiPos.xPos + 3, guiTop + guiPos.yPos + 3);
             }
         }
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
@@ -199,6 +204,13 @@ public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlo
 
     private void updateEnabledButtons() {
         autoEjectButton.enabled = configurable.getConfig().canEject(currentType);
+        for (GuiSideDataButton sideDataButton : sideDataButtons) {
+            SideConfig sideConfig = configurable.getConfig().getConfig(currentType);
+            for (EnumFacing facing : EnumFacing.values()){
+                sideDataButton.enabled = (sideConfig.get(facing) != -1);
+                break;
+            }
+        }
     }
 
     @Override

@@ -5,12 +5,16 @@ import mekanism.api.RelativeSide;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.MekanismBlocks;
 import mekanism.common.SideData;
+import mekanism.common.block.states.BlockStateTransmitter.TransmitterType;
+import mekanism.common.tile.TileEntityGlowPanel;
 import mekanism.common.tile.component.TileComponentConfig;
-import mekanism.common.tile.prefab.TileEntityContainerBlock;
+import mekanism.common.tile.prefab.TileEntityBasicBlock;
+import mekanism.common.tile.transmitter.TileEntitySidedPipe;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -33,8 +37,9 @@ public class GuiSideDataButton extends GuiButton {
     private final int slotPosMapIndex;
 
     private final ItemStack otherBlockItem;
+    protected RenderItem itemRender;
 
-    public GuiSideDataButton(int id, int x, int y, int slotPosMapIndex, Supplier<SideData> sideDataSupplier, Supplier<EnumColor> colorSupplier, TileEntityContainerBlock tile, RelativeSide side) {
+    public GuiSideDataButton(int id, int x, int y, int slotPosMapIndex, Supplier<SideData> sideDataSupplier, Supplier<EnumColor> colorSupplier, TileEntityBasicBlock tile, RelativeSide side) {
         super(id, x, y, 22, 22, "");
         this.slotPosMapIndex = slotPosMapIndex;
         this.sideDataSupplier = sideDataSupplier;
@@ -45,14 +50,29 @@ public class GuiSideDataButton extends GuiButton {
             BlockPos otherBlockPos = tile.getPos().offset(globalSide);
             IBlockState blockOnSide = tileWorld.getBlockState(otherBlockPos);
             if (blockOnSide.getBlock() != Blocks.AIR) {
-                if (blockOnSide.getBlock() != MekanismBlocks.BoundingBlock){
+                if (blockOnSide.getBlock() != MekanismBlocks.BoundingBlock) {
                     otherBlockItem = blockOnSide.getBlock().getItem(tileWorld, otherBlockPos, blockOnSide);
                     NBTTagCompound tag = new NBTTagCompound();
-                    if (tileWorld.getTileEntity(otherBlockPos) instanceof TileEntityContainerBlock tileEntityContainerBlock) {
-                        tileEntityContainerBlock.writeToNBT(tag);
+                    if (tileWorld.getTileEntity(otherBlockPos) instanceof TileEntityBasicBlock BasicBlock) {
+                        BasicBlock.writeToNBT(tag);
+                    }
+                    if (tileWorld.getTileEntity(otherBlockPos) instanceof TileEntitySidedPipe sidedPipe){
+                        for (TransmitterType type : TransmitterType.values()) {
+                            if (type.getTransmission().equals(sidedPipe.getTransmitterType().getTransmission())){
+                                sidedPipe.writeToNBT(tag);
+                                otherBlockItem.setItemDamage(sidedPipe.getTransmitterType().ordinal());
+                            }
+                        }
+                    }
+                    if (tileWorld.getTileEntity(otherBlockPos) instanceof TileEntityGlowPanel glowPanel){
+                        for (EnumColor color : EnumColor.DYES){
+                            if (color.getMetaValue() == glowPanel.colour.getMetaValue()){
+                                otherBlockItem.setItemDamage(glowPanel.colour.getMetaValue());
+                            }
+                        }
                     }
                     otherBlockItem.setTagCompound(tag);
-                }else {
+                } else {
                     otherBlockItem = ItemStack.EMPTY;
                 }
             } else {
@@ -96,6 +116,8 @@ public class GuiSideDataButton extends GuiButton {
         }
     }
 
+
+
     public int getSlotPosMapIndex() {
         return this.slotPosMapIndex;
     }
@@ -111,4 +133,6 @@ public class GuiSideDataButton extends GuiButton {
     public ItemStack getItem() {
         return otherBlockItem;
     }
+
+
 }

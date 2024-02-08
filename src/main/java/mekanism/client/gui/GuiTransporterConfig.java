@@ -4,6 +4,7 @@ import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.RelativeSide;
 import mekanism.api.transmitters.TransmissionType;
+import mekanism.client.Utils.ClientUtil;
 import mekanism.client.gui.GuiSideConfiguration.GuiPos;
 import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiDisableableButton;
@@ -128,8 +129,10 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
                         }
                     }
                     info.add(color != null ? color.getColoredName() : LangUtils.localize("gui.none"));
-                    if (button.getItem().getItem() != Items.AIR) {
-                        info.add(button.getItem().getItem().getItemStackDisplayName(button.getItem()));
+                    if (button.getItem() != ItemStack.EMPTY) {
+                        if (button.getItem().getItem() != Items.AIR){
+                            info.add(button.getItem().getItem().getItemStackDisplayName(button.getItem()));
+                        }
                     }
                     displayTooltips(info, xAxis, yAxis);
                 }
@@ -153,7 +156,7 @@ public class GuiTransporterConfig extends GuiMekanismTile<TileEntityContainerBlo
         for (int i = 0; i < slotPosMap.size(); i++) {
             GuiPos guiPos = slotPosMap.get(i);
             if (sideDataButtons.get(i).getItem() != ItemStack.EMPTY) {
-                renderItem(sideDataButtons.get(i).getItem(), guiLeft + guiPos.xPos + 3, guiTop + guiPos.yPos + 3);
+                ClientUtil.renderItem(sideDataButtons.get(i).getItem(), guiLeft + guiPos.xPos + 3, guiTop + guiPos.yPos + 3);
             }
         }
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
