@@ -52,6 +52,8 @@ public class MekanismOreDict {
         OreDictionary.registerOre("nuggetSteel", new ItemStack(MekanismItems.Nugget, 1, 4));
         OreDictionary.registerOre("nuggetCopper", new ItemStack(MekanismItems.Nugget, 1, 5));
         OreDictionary.registerOre("nuggetTin", new ItemStack(MekanismItems.Nugget, 1, 6));
+        OreDictionary.registerOre("nuggetLead", new ItemStack(MekanismItems.Nugget, 1, 7));
+        OreDictionary.registerOre("nuggetUranium", new ItemStack(MekanismItems.Nugget, 1, 8));
 
         OreDictionary.registerOre("blockOsmium", new ItemStack(MekanismBlocks.BasicBlock, 1, 0));
         OreDictionary.registerOre("blockBronze", new ItemStack(MekanismBlocks.BasicBlock, 1, 1));
@@ -100,5 +102,9 @@ public class MekanismOreDict {
         OreDictionary.registerOre("Fluorite", new ItemStack(MekanismItems.OtherDust, 1, 7));
         OreDictionary.registerOre("FluoriteDust", new ItemStack(MekanismItems.OtherDust, 1, 8));
         OreDictionary.registerOre("CharCoalDust", new ItemStack(MekanismItems.OtherDust, 1, 9));
+        OreDictionary.registerOre("PlutoniumPellet", new ItemStack(MekanismItems.PlutoniumPellet, 1));
+        OreDictionary.registerOre("AntimatterPellet", new ItemStack(MekanismItems.AntimatterPellet, 1));
+        OreDictionary.registerOre("ReprocessedFissileFragment", new ItemStack(MekanismItems.ReprocessedFissileFragment, 1));
+        OreDictionary.registerOre("PoloniumPellet", new ItemStack(MekanismItems.PoloniumPellet, 1));
     }
 }
