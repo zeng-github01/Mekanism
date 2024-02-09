@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "mekanism:basicblock3",
+    "data": 1
+  },
+  "pattern": [
+    " B ",
+    "BCB",
+    " B "
+  ],
+  "type": "mekanism:ore_shaped",
+  "key": {
+    "B": {
+      "ore": "ingotLead",
+      "type": "forge:ore_dict"
+    },
+    "C": {
+      "item": "mekanism:basicblock",
+      "data": 8
+    }
+  }
+}

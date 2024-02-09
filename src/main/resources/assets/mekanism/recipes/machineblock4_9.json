@@ -1,0 +1,30 @@
+{
+  "result": {
+    "item": "mekanism:machineblock4",
+    "data": 9
+  },
+  "pattern": [
+    "RRR",
+    "COC",
+    "RRR"
+  ],
+  "type": "mekanism:ore_shaped",
+  "conditions": [
+    {
+      "type": "mekanism:recipe_enabled",
+      "machineType": "IndustrialAlarm"
+    }
+  ],
+  "key": {
+    "R": {
+      "ore": "ingotLead",
+      "type": "forge:ore_dict"
+    },
+    "C": {
+      "item": "#CIRCUITBASIC"
+    },
+    "O": {
+      "item": "minecraft:redstone_lamp"
+    }
+  }
+}

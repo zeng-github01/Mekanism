@@ -1,0 +1,35 @@
+{
+  "result": {
+    "item": "mekanism:machineblock3",
+    "data": 11
+  },
+  "pattern": [
+    "RRR",
+    "LIL",
+    "CCC"
+  ],
+  "type": "mekanism:ore_shaped",
+  "conditions": [
+    {
+      "type": "mekanism:recipe_enabled",
+      "machineType": "SuperchargedCoil"
+    }
+  ],
+  "key": {
+    "R": {
+      "ore": "ingotCopper",
+      "type": "forge:ore_dict"
+    },
+    "C": {
+      "ore": "PoloniumPellet",
+      "type": "forge:ore_dict"
+    },
+    "I": {
+      "item": "mekanism:machineblock2",
+      "data": 13
+    },
+    "L": {
+      "item": "#CIRCUITULTIMATE"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "result": {
+    "item": "mekanism:basicblock3",
+    "data": 0
+  },
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "type": "mekanism:ore_shaped",
+  "key": {
+    "A": {
+      "item": "mekanism:polyethene",
+      "data": 2
+    },
+    "B": {
+      "ore": "PoloniumPellet",
+      "type": "forge:ore_dict"
+    },
+    "C": {
+      "ore": "PlutoniumPellet",
+      "type": "forge:ore_dict"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+      "result": {
+            "item": "mekanism:machineblock3",
+            "data": 13
+      },
+      "pattern": [
+            "RCR",
+            "iOi",
+            "RCR"
+      ],
+      "type": "mekanism:ore_shaped",
+      "conditions": [{
+            "type": "mekanism:recipe_enabled",
+            "machineType": "antiprotonicnucleosynthesizer"
+      }],
+      "key": {
+            "R": {
+                  "ore": "alloyUltimate",
+                  "type": "forge:ore_dict"
+            },
+            "C": {"item": "#CIRCUITULTIMATE"},
+            "i": {
+                  "ore": "AntimatterPellet",
+                  "type": "forge:ore_dict"
+            },
+            "O": {
+                  "item": "mekanism:basicblock",
+                  "data": 8
+            }
+      }
+}
