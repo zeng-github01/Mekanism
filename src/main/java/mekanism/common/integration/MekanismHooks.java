@@ -16,6 +16,7 @@ import mekanism.common.integration.computer.CCPeripheral;
 import mekanism.common.integration.computer.OCDriver;
 import mekanism.common.integration.crafttweaker.CrafttweakerIntegration;
 import mekanism.common.integration.fluxnetworks.FluxNetworksIntegration;
+import mekanism.common.integration.mysticalagriculture.MysticalAgricultureSeed;
 import mekanism.common.integration.wrenches.Wrenches;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.RecipeHandler.Recipe;
@@ -140,6 +141,7 @@ public final class MekanismHooks {
         }
         if (MALoaded) {
             registerMysticalAgricultureRecipes();
+            MysticalAgricultureSeed.seed();
             Mekanism.logger.info("Hooked into Mystical Agriculture successfully.");
         }
         if (GroovyScriptLoaded) {

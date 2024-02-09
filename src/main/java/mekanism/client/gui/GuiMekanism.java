@@ -4,6 +4,7 @@ import mekanism.api.EnumColor;
 import mekanism.client.gui.element.GuiElement;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -114,10 +115,14 @@ public abstract class GuiMekanism extends GuiContainer implements IGuiWrapper {
         int halfHeightTop = GuiHeight / 2;
         int halfHeight = GuiHeight % 2 == 0 ? halfHeightTop : halfHeightTop + 1;
         MekanismRenderer.resetColor();
+        if (MekanismConfig.current().client.AllMekGuiBg.val() != 0xFFFFFFFF){
+            MekanismRenderer.color(MekanismConfig.current().client.AllMekGuiBg.val());
+        }
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, halfWidthLeft, halfHeightTop);
         drawTexturedModalRect(guiLeft, guiTop + halfHeightTop, 0, 256 - halfHeight, halfWidthLeft, halfHeight);
         drawTexturedModalRect(guiLeft + halfWidthLeft, guiTop, 256 - halfWidthRight, 0, halfWidthRight, halfHeightTop);
         drawTexturedModalRect(guiLeft + halfWidthLeft, guiTop + halfHeightTop, 256 - halfWidthRight, 256 - halfHeight, halfWidthRight, halfHeight);
+        MekanismRenderer.resetColor();
     }
 
     @Override

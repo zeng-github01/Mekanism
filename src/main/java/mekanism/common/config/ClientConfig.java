@@ -54,6 +54,8 @@ public class ClientConfig extends BaseConfig {
     public final BooleanOption allowMekToolModeScroll = new BooleanOption(this, "client", "AtomicDisassemblerModeScroll", true,
             "Allow sneak+scroll to change MekTool modes.");
 
+    public final IntOption AllMekGuiBg = new IntOption(this,"client","AllMekGuiBg",0xFFFFFFFF,"All mekanism GUI background colors");
+
     @Override
     public void write(ByteBuf config) {
         throw new UnsupportedOperationException("Client config shouldn't be synced");
