@@ -336,8 +336,10 @@ public class TileEntityChemicalWasher extends TileEntityMachine implements IGasH
 
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
-        SideData data = configComponent.getOutput(TransmissionType.FLUID, from, facing);
-        return data.getFluidTankInfo(this);
+        if (configComponent.getOutput(TransmissionType.FLUID, from, facing).ioState != SideData.IOState.OFF) {
+            return new FluidTankInfo[]{fluidTank.getInfo()};
+        }
+        return PipeUtils.EMPTY;
     }
 
     @Override
