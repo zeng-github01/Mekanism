@@ -1114,6 +1114,7 @@ sideData.Output=Output
 sideData.Output1=Output(1)
 sideData.Output2=Output(2)
 sideData.Input_Output=Input/Output
+sideData.Input_Extra=Extra-Input
 sideData.Energy=Energy
 sideData.Gas=Gas
 sideData.Extra=Extra
