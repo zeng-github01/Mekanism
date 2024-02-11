@@ -64,7 +64,7 @@ public class TileEntityMetallurgicInfuser extends TileEntityOperationalMachine i
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.INDIGO, new int[]{3}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Energy", EnumColor.BRIGHT_GREEN, new int[]{4}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Extra", EnumColor.ORANGE, new int[]{1}));
-
+        configComponent.addOutput(TransmissionType.ITEM, new SideData("Input_Extra", EnumColor.ORANGE, new int[]{1, 2}));
         configComponent.setConfig(TransmissionType.ITEM, new byte[]{4, 1, 1, 3, 1, 2});
 
         inventory = NonNullList.withSize(5, ItemStack.EMPTY);
