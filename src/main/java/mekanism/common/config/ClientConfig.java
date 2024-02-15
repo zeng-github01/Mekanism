@@ -43,7 +43,8 @@ public class ClientConfig extends BaseConfig {
     public final BooleanOption alignHUDLeft = new BooleanOption(this, "client", "AlignHUDLeft", true,
             "Align HUD with left (if true) or right (if false)");
 
-    public final BooleanOption enableHUD = new BooleanOption(this, "client", "enableHUD", true, "Enable item information HUD during gameplay");
+    public final BooleanOption enableHUD = new BooleanOption(this, "client", "enableHUD", true,
+            "Enable item information HUD during gameplay");
 
     public final BooleanOption allowFlamethrowerModeScroll = new BooleanOption(this, "client", "FlamethrowerModeScroll", true,
             "Allow sneak+scroll to change Flamethrower modes.");
@@ -51,10 +52,11 @@ public class ClientConfig extends BaseConfig {
     public final BooleanOption allowAtomicDisassemblerModeScroll = new BooleanOption(this, "client", "AtomicDisassemblerModeScroll", true,
             "Allow sneak+scroll to change Atomic Disassembler modes.");
 
-    public final BooleanOption allowMekToolModeScroll = new BooleanOption(this, "client", "AtomicDisassemblerModeScroll", true,
+    public final BooleanOption allowMekToolModeScroll = new BooleanOption(this, "client", "allowMekToolModeScroll", true,
             "Allow sneak+scroll to change MekTool modes.");
 
-    public final IntOption AllMekGuiBg = new IntOption(this,"client","AllMekGuiBg",0xFFFFFFFF,"All mekanism GUI background colors");
+    public final IntOption AllMekGuiBg = new IntOption(this,"client","AllMekGuiBg",0xFFFFFFFF,
+            "All mekanism GUI background colors");
 
     @Override
     public void write(ByteBuf config) {

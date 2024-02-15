@@ -144,7 +144,8 @@ public class GeneralConfig extends BaseConfig {
     public final IntOption disassemblerDamageMax = new IntOption(this, "general", "DisassemblerDamageMax", 20,
             "The amount of damage the Atomic Disassembler does when it has at least DisassemblerEnergyUsageWeapon power stored. (Value is in number of half hearts)");
 
-    public final DoubleOption disassemblerBatteryCapacity = new DoubleOption(this, "general", "DisassemblerBatteryCapacity", 1000000, "Maximum amount (joules) of energy the Atomic Disassembler can contain", 0, Double.MAX_VALUE).setRequiresGameRestart(true);
+    public final DoubleOption disassemblerBatteryCapacity = new DoubleOption(this, "general", "DisassemblerBatteryCapacity", 1000000,
+            "Maximum amount (joules) of energy the Atomic Disassembler can contain", 0, Double.MAX_VALUE).setRequiresGameRestart(true);
 
     public final IntOption VOICE_PORT = new IntOption(this, "general", "VoicePort", 36123,
             "TCP port for the Voice server to listen on.", 1, 65535);
@@ -232,7 +233,7 @@ public class GeneralConfig extends BaseConfig {
             "Maximum fluid buffer (mb) of an Entangoloporter frequency - i.e. the maximum transfer per tick per frequency. Default is ultimate tier tank capacity.", 0, Integer.MAX_VALUE).setRequiresWorldRestart(true);
 
     public final IntOption quantumEntangloporterGasBuffer = new IntOption(this, "general", "quantumEntangloporterGasBuffer", GasTankTier.ULTIMATE.getBaseStorage(),
-            "Maximum fluid buffer (mb) of an Entangoloporter frequency - i.e. the maximum transfer per tick per frequency. Default is ultimate tier tank capacity.", 0, Integer.MAX_VALUE).setRequiresWorldRestart(true);
+            "Maximum gas buffer (mb) of an Entangoloporter frequency - i.e. the maximum transfer per tick per frequency. Default is ultimate tier tank capacity.", 0, Integer.MAX_VALUE).setRequiresWorldRestart(true);
 
     public final BooleanOption blacklistIC2 = new BooleanOption(this, "general", "BlacklistIC2Power", false,
             "Disables IC2 power integration. Requires world restart (server-side option in SMP).");
@@ -249,7 +250,7 @@ public class GeneralConfig extends BaseConfig {
     public EnumOption<EnergyType> energyUnit = new EnumOption<>(this, "general", "EnergyType", EnergyType.RF,
             "Displayed energy type in Mekanism GUIs.");
 
-    public EnumOption<TempType> tempUnit = new EnumOption<>(this, "general", "Temperature Units", TempType.K,
+    public EnumOption<TempType> tempUnit = new EnumOption<>(this, "general", "TemperatureUnits", TempType.K,
             "Displayed temperature unit in Mekanism GUIs.");
 
     public final IntOption laserRange = new IntOption(this, "general", "LaserRange", 64,

@@ -1305,7 +1305,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public Object[] getTanks() {
-        return new Object[]{gasTank, gasOutTank, fluidTank};
+        return new Object[]{fluidTank,gasTank, gasOutTank};
     }
 
     @Override

@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class TileEntityChemicalWasher extends TileEntityMachine implements IGasHandler, IFluidHandlerWrapper, ISustainedData, IUpgradeInfoHandler, ITankManager,
-        IComparatorSupport, ISideConfiguration ,ITierUpgradeable{
+        IComparatorSupport, ISideConfiguration, ITierUpgradeable {
 
     public static final int MAX_GAS = 10000;
     public static final int MAX_FLUID = 10000;
@@ -51,13 +51,12 @@ public class TileEntityChemicalWasher extends TileEntityMachine implements IGasH
 
     public TileComponentEjector ejectorComponent;
     public TileComponentConfig configComponent;
-
-    private int currentRedstoneLevel;
     public double clientEnergyUsed;
+    private int currentRedstoneLevel;
 
     public TileEntityChemicalWasher() {
         super("machine.washer", MachineType.CHEMICAL_WASHER, 4);
-        configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.FLUID, TransmissionType.GAS, TransmissionType.ENERGY);
+        configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.ENERGY, TransmissionType.FLUID, TransmissionType.GAS);
 
         configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.RED, new int[]{0}));
