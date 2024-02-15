@@ -2,6 +2,7 @@ package mekanism.common.item;
 
 import mekanism.common.base.IMetaItem;
 import mekanism.common.base.ITierUpgradeable;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.tier.BaseTier;
 import mekanism.common.tile.prefab.TileEntityBasicBlock;
 import net.minecraft.creativetab.CreativeTabs;
@@ -22,7 +23,7 @@ public class ItemTierInstaller extends ItemMekanism implements IMetaItem {
 
     public ItemTierInstaller() {
         super();
-        setMaxStackSize(1);
+        setMaxStackSize( MekanismConfig.current().mekce.MAXTierSize.val());
         setHasSubtypes(true);
     }
 
