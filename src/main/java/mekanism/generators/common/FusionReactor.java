@@ -161,7 +161,8 @@ public class FusionReactor {
         FusionCoolingRecipe recipe = getRecipe();
 
         //Transfer from casing to water if necessary
-        if (activelyCooled && getWaterTank().getFluidAmount() != 0) {
+        //TODO：Rewrite this
+        if (activelyCooled) {
             double caseWaterHeat = caseWaterConductivity * lastCaseTemperature;
             int waterToVaporize = (int) (steamTransferEfficiency * caseWaterHeat / enthalpyOfVaporization);
             waterToVaporize = Math.min(waterToVaporize, Math.min(getWaterTank().getFluidAmount(), getSteamTank().getCapacity() - getSteamTank().getFluidAmount()));
