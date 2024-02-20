@@ -174,12 +174,7 @@ public class ItemBlockGasTank extends ItemBlock implements IGasItem, ISustainedI
         }
         if (MekanismConfig.current().general.prefilledGasTanks.val()) {
             for (Gas type : GasRegistry.getRegisteredGasses()) {
-                if (type.isVisible()) {
-                    ItemStack filled = new ItemStack(this);
-                    setBaseTier(filled, BaseTier.CREATIVE);
-                    setGas(filled, new GasStack(type, ((IGasItem) filled.getItem()).getMaxGas(filled)));
-                    list.add(filled);
-                } else if (MekanismConfig.current().mekce.ShowHiddenGas.val()) {
+                if (type.isVisible() || MekanismConfig.current().mekce.ShowHiddenGas.val() ) {
                     ItemStack filled = new ItemStack(this);
                     setBaseTier(filled, BaseTier.CREATIVE);
                     setGas(filled, new GasStack(type, ((IGasItem) filled.getItem()).getMaxGas(filled)));

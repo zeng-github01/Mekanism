@@ -7,6 +7,7 @@ import io.netty.buffer.ByteBuf;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.energy.IEnergizedItem;
+import mekanism.api.transmitters.TransmissionType;
 import mekanism.client.MekKeyHandler;
 import mekanism.client.MekanismClient;
 import mekanism.client.MekanismKeyHandler;
@@ -328,6 +329,16 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
                 RecipeType recipeType = getRecipeTypeOrNull(stack);
                 if (recipeType != null) {
                     factory.setRecipeType(recipeType);
+                }
+
+                if (!factory.GasMachine()){
+                    factory.configComponent.fillConfig(TransmissionType.GAS,-1);
+                }
+                if (!factory.GasOutputMachines()){
+                    factory.configComponent.setCanEject(TransmissionType.GAS,false);
+                }
+                if (!factory.inputFluidMachine()){
+                    factory.configComponent.fillConfig(TransmissionType.FLUID,-1);
                 }
                 world.notifyNeighborsOfStateChange(pos, tileEntity.getBlockType(), true);
                 Mekanism.packetHandler.sendUpdatePacket(tileEntity);

@@ -186,6 +186,7 @@ public class TileComponentConfig implements ITileComponent {
                 if (nbtTags.getByteArray("config" + type.ordinal()).length > 0) {
                     sideConfigs.put(type, new SideConfig(nbtTags.getByteArray("config" + type.ordinal())));
                     ejecting.put(type, nbtTags.getBoolean("ejecting" + type.ordinal()));
+              //      canEject.put(type,nbtTags.getBoolean("canEject" + type.ordinal()));
                 }
             }
         }
@@ -206,6 +207,7 @@ public class TileComponentConfig implements ITileComponent {
             dataStream.readBytes(array);
             sideConfigs.put(type, new SideConfig(array));
             ejecting.put(type, dataStream.readBoolean());
+          //  canEject.put(type,dataStream.readBoolean());
         }
     }
 
@@ -214,6 +216,7 @@ public class TileComponentConfig implements ITileComponent {
         for (TransmissionType type : transmissions) {
             nbtTags.setByteArray("config" + type.ordinal(), sideConfigs.get(type).asByteArray());
             nbtTags.setBoolean("ejecting" + type.ordinal(), ejecting.get(type));
+         //   nbtTags.setBoolean("canEject" + type.ordinal(),canEject.get(type));
         }
         nbtTags.setBoolean("sideDataStored", true);
     }
@@ -228,6 +231,7 @@ public class TileComponentConfig implements ITileComponent {
         for (TransmissionType type : transmissions) {
             data.add(sideConfigs.get(type).asByteArray());
             data.add(ejecting.get(type));
+          //  data.add(canEject.get(type));
         }
     }
 

@@ -10,7 +10,6 @@ import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.inputs.*;
 import mekanism.common.recipe.machines.*;
-import mekanism.common.tile.*;
 import mekanism.common.tile.prefab.TileEntityAdvancedElectricMachine;
 import mekanism.common.tile.prefab.TileEntityFarmMachine;
 import mekanism.common.util.LangUtils;
@@ -70,6 +69,7 @@ public interface IFactory {
         CHANCE2
     }
 
+
     enum RecipeType implements IStringSerializable {
         SMELTING("Smelting", "smelter", MachineType.ENERGIZED_SMELTER, MachineFuelType.BASIC, false, Recipe.ENERGIZED_SMELTER),
         ENRICHING("Enriching", "enrichment", MachineType.ENRICHMENT_CHAMBER, MachineFuelType.BASIC, false, Recipe.ENRICHMENT_CHAMBER),
@@ -106,13 +106,6 @@ public interface IFactory {
 
         private TileEntityFarmMachine FarmMachineCacheTile;
 
-        private TileEntityChemicalCrystallizer CrystallizerCacheTile;
-        private TileEntityChemicalDissolutionChamber DissolutionChamberCacheTile;
-
-        private TileEntityPRC PRCCacheTile;
-        private TileEntityAntiprotonicNucleosynthesizer AntiprotonicNucleosynthesizerCacheTile;
-
-        private TileEntityChemicalWasher WasherCacheTile;
 
         RecipeType(String s, String s1, MachineType t, MachineFuelType ft, boolean speed, Recipe r) {
             name = s;
@@ -296,8 +289,6 @@ public interface IFactory {
                 return getTile().BASE_SECONDARY_ENERGY_PER_TICK;
             } else if (fuelType == MachineFuelType.FARM) {
                 return getTile2().BASE_SECONDARY_ENERGY_PER_TICK;
-            } else if (this == Dissolution) {
-                return getTile4().BASE_INJECT_USAGE;
             }
             return 0;
         }
@@ -305,68 +296,30 @@ public interface IFactory {
         public boolean canReceiveGas(EnumFacing side, Gas type) {
             if (fuelType == MachineFuelType.ADVANCED) {
                 return getTile().canReceiveGas(side, type);
-            }
-            if (fuelType == MachineFuelType.FARM) {
+            } else if (fuelType == MachineFuelType.FARM) {
                 return getTile2().canReceiveGas(side, type);
             }
-            if (this == Crystallizer) {
-                return getTile3().canReceiveGas(side, type);
-            }
-            if (this == Dissolution) {
-                return getTile4().canReceiveGas(side, type);
-            }
-            if (this == PRC) {
-                return getTile5().canReceiveGas(side, type);
-            }
-
-            if (this == NUCLEOSYNTHESIZER) {
-                return getTile6().canReceiveGas(side, type);
-            }
-
-            if (this == WASHER) {
-                return getWasherCacheTile().canReceiveGas(side, type);
-            }
-
             return false;
-        }
-
-        public boolean supportsGas() {
-            return (fuelType == MachineFuelType.ADVANCED ||
-                    fuelType == MachineFuelType.FARM ||
-                    this == Crystallizer ||
-                    this == Dissolution ||
-                    this == PRC ||
-                    this == NUCLEOSYNTHESIZER ||
-                    this == WASHER ||
-                    this == OXIDIZER
-            );
         }
 
         public boolean isValidGas(Gas gas) {
             if (fuelType == MachineFuelType.ADVANCED) {
                 return getTile().isValidGas(gas);
-            }
-            if (fuelType == MachineFuelType.FARM) {
+            } else if (fuelType == MachineFuelType.FARM) {
                 return getTile2().isValidGas(gas);
-            }
-            if (this == Crystallizer) {
+            } else if (this == Crystallizer) {
                 return Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(gas);
-            }
-            if (this == Dissolution) {
+            } else if (this == Dissolution) {
                 return gas == MekanismFluids.SulfuricAcid; //todo
-            }
-            if (this == PRC) {
+            } else if (this == PRC) {
                 return Recipe.PRESSURIZED_REACTION_CHAMBER.containsRecipe(gas);
-            }
-            if (this == WASHER) {
+            } else if (this == WASHER) {
                 return Recipe.CHEMICAL_WASHER.containsRecipe(gas);
-            }
-            if (this == NUCLEOSYNTHESIZER) {
+            } else if (this == NUCLEOSYNTHESIZER) {
                 return Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER.containsRecipe(gas);
             }
             return false;
         }
-
 
         public boolean hasRecipe(ItemStack itemStack) {
             if (itemStack.isEmpty()) {
@@ -414,46 +367,6 @@ public interface IFactory {
                 FarmMachineCacheTile = (TileEntityFarmMachine) type.create();
             }
             return FarmMachineCacheTile;
-        }
-
-        public TileEntityChemicalCrystallizer getTile3() {
-            if (CrystallizerCacheTile == null) {
-                MachineType type = MachineType.get(getStack());
-                CrystallizerCacheTile = (TileEntityChemicalCrystallizer) type.create();
-            }
-            return CrystallizerCacheTile;
-        }
-
-        public TileEntityChemicalDissolutionChamber getTile4() {
-            if (DissolutionChamberCacheTile == null) {
-                MachineType type = MachineType.get(getStack());
-                DissolutionChamberCacheTile = (TileEntityChemicalDissolutionChamber) type.create();
-            }
-            return DissolutionChamberCacheTile;
-        }
-
-        public TileEntityPRC getTile5() {
-            if (PRCCacheTile == null) {
-                MachineType type = MachineType.get(getStack());
-                PRCCacheTile = (TileEntityPRC) type.create();
-            }
-            return PRCCacheTile;
-        }
-
-        public TileEntityChemicalWasher getWasherCacheTile() {
-            if (WasherCacheTile == null) {
-                MachineType type = MachineType.get(getStack());
-                WasherCacheTile = (TileEntityChemicalWasher) type.create();
-            }
-            return WasherCacheTile;
-        }
-
-        public TileEntityAntiprotonicNucleosynthesizer getTile6() {
-            if (AntiprotonicNucleosynthesizerCacheTile == null) {
-                MachineType type = MachineType.get(getStack());
-                AntiprotonicNucleosynthesizerCacheTile = (TileEntityAntiprotonicNucleosynthesizer) type.create();
-            }
-            return AntiprotonicNucleosynthesizerCacheTile;
         }
 
         public double getEnergyUsage() {

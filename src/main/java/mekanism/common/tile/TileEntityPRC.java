@@ -137,8 +137,6 @@ public class TileEntityPRC extends TileEntityBasicMachine<PressurizedInput, Pres
         factory.upgradeComponent.setUpgradeSlot(0);
         factory.ejectorComponent.readFrom(ejectorComponent);
         factory.ejectorComponent.setOutputData(TransmissionType.ITEM, factory.configComponent.getOutputs(TransmissionType.ITEM).get(3));
-        factory.ejectorComponent.setOutputData(TransmissionType.GAS, configComponent.getOutputs(TransmissionType.GAS).get(2));
-
         factory.setRecipeType(type);
         factory.upgradeComponent.setSupported(Upgrade.GAS, type.fuelEnergyUpgrades());
         factory.securityComponent.readFrom(securityComponent);

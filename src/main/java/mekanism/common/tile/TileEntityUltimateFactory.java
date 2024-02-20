@@ -24,15 +24,12 @@ public class TileEntityUltimateFactory extends TileEntityFactory {
         configComponent.addOutput(TransmissionType.ITEM, new SideData("Extra", EnumColor.ORANGE, new int[]{4}));
         configComponent.setConfig(TransmissionType.ITEM, new byte[]{4, 1, 1, 3, 1, 2});
 
-        configComponent.addOutput(TransmissionType.FLUID, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.FLUID, new SideData("Fluid", EnumColor.DARK_AQUA, new int[]{2}));
-        configComponent.fillConfig(TransmissionType.FLUID, 1);
-        configComponent.setCanEject(TransmissionType.FLUID, false);
+        configComponent.setInputConfig(TransmissionType.FLUID);
 
         configComponent.addOutput(TransmissionType.GAS, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.GAS, new SideData("Input", EnumColor.RED, new int[]{0}));
-        configComponent.addOutput(TransmissionType.GAS, new SideData("Output", EnumColor.AQUA, new int[]{1}));
-        configComponent.fillConfig(TransmissionType.GAS, 1);
+        configComponent.addOutput(TransmissionType.GAS, new SideData("Input", EnumColor.RED, new int[]{1}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData("Output", EnumColor.INDIGO, new int[]{2}));
+        configComponent.setConfig(TransmissionType.GAS, new byte[]{1, 1, 1, 1, 1, 2});
 
         configComponent.setInputConfig(TransmissionType.ENERGY);
 
