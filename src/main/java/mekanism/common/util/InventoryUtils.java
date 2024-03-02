@@ -19,6 +19,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
 
 public final class InventoryUtils {
 
@@ -163,4 +164,35 @@ public final class InventoryUtils {
                 stack1.getItem() == stack2.getItem() && (!stack2.getHasSubtypes() || stack2.getItemDamage() == stack1.getItemDamage())
                         && ItemStack.areItemStackTagsEqual(stack2, stack1) && stack1.isStackable();
     }
+
+    public static void dropStack(ItemStack stack, Consumer<ItemStack> dropper) {
+        int count = stack.getCount();
+        int max = stack.getMaxStackSize();
+        if (count > max) {
+            //If we have more than a stack of the item (such as we are a bin) or some other thing that allows for compressing
+            // stack counts, drop as many stacks as we need at their max size
+            while (count > max) {
+                dropper.accept(copyWithCount(stack,max));
+                count -= max;
+            }
+            if (count > 0) {
+                //If we have anything left to drop afterward, do so
+                dropper.accept(copyWithCount(stack,count));
+            }
+        } else {
+            //If we have a valid stack, we can just directly drop that instead without requiring any copies
+            dropper.accept(stack);
+        }
+    }
+
+    public static ItemStack copyWithCount(ItemStack stack, int pCount) {
+        if (stack.isEmpty()) {
+            return ItemStack.EMPTY;
+        }else {
+            ItemStack itemstack = stack.copy();
+            itemstack.setCount(pCount);
+            return itemstack;
+        }
+    }
+
 }

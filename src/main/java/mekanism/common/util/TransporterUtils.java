@@ -64,7 +64,7 @@ public final class TransporterUtils {
         }
         TransporterManager.remove(stack);
         BlockPos blockPos = new BlockPos(tileEntity.coord().x + pos[0], tileEntity.coord().y + pos[1], tileEntity.coord().z + pos[2]);
-        Block.spawnAsEntity(tileEntity.world(), blockPos, stack.itemStack);
+        InventoryUtils.dropStack(stack.itemStack,itemStack -> Block.spawnAsEntity(tileEntity.world(), blockPos,itemStack));
     }
 
     public static float[] getStackPosition(ILogisticalTransporter tileEntity, TransporterStack stack, float partial) {
