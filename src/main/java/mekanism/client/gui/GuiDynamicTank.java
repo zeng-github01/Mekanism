@@ -8,7 +8,7 @@ import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.gui.element.gauge.GuiNumberGauge;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.inventory.container.ContainerDynamicTank;
-import mekanism.common.tile.TileEntityDynamicTank;
+import mekanism.common.tile.multiblock.TileEntityDynamicTank;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
@@ -57,7 +57,41 @@ public class GuiDynamicTank extends GuiMekanismTile<TileEntityDynamicTank> {
             public String getText(double level) {
                 return tileEntity.structure != null ? (tileEntity.structure.fluidStored != null ? LangUtils.localizeFluidStack(tileEntity.structure.fluidStored) + ": " + tileEntity.structure.fluidStored.amount + "mB" : LangUtils.localize("gui.empty")) : "";
             }
-        }, GuiGauge.Type.MEDIUM, this, resource, 7, 13));
+        }, GuiGauge.Type.STANDARD, this, resource, 7, 13).withColor(GuiGauge.TypeColor.BLUE));
+
+        addGuiElement(new GuiNumberGauge(new GuiNumberGauge.INumberInfoHandler() {
+            @Override
+            public TextureAtlasSprite getIcon() {
+                if (tileEntity.structure != null){
+                    MekanismRenderer.color(tileEntity.structure.gasstored.getGas());
+                    return tileEntity.structure.gasstored.getGas().getSprite();
+                }
+                return  null;
+            }
+
+            @Override
+            public double getLevel() {
+                if (tileEntity.structure != null && tileEntity.structure.gasstored != null) {
+                    return tileEntity.structure.gasstored.amount;
+                } else {
+                    return 0;
+                }
+            }
+
+            @Override
+            public double getMaxLevel() {
+                if (tileEntity.structure != null && tileEntity.structure.gasstored != null) {
+                    return tileEntity.clientCapacity;
+                } else {
+                    return 0;
+                }
+            }
+
+            @Override
+            public String getText(double level) {
+                return tileEntity.structure != null ? (tileEntity.structure.gasstored != null ? tileEntity.structure.gasstored.getGas().getLocalizedName() + ": " + tileEntity.structure.gasstored.amount + "mB" : LangUtils.localize("gui.empty")) : "";
+            }
+        }, GuiGauge.Type.STANDARD, this, resource, 25, 13).withColor(GuiGauge.TypeColor.ORANGE));
     }
 
     @Override

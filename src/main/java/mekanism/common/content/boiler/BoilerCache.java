@@ -1,5 +1,6 @@
 package mekanism.common.content.boiler;
 
+import mekanism.api.gas.GasStack;
 import mekanism.common.multiblock.MultiblockCache;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
@@ -8,12 +9,16 @@ public class BoilerCache extends MultiblockCache<SynchronizedBoilerData> {
 
     public FluidStack water;
     public FluidStack steam;
+    public GasStack input;
+    public GasStack output;
     public double temperature;
 
     @Override
     public void apply(SynchronizedBoilerData data) {
         data.waterStored = water;
         data.steamStored = steam;
+        data.InputGas = input;
+        data.OutputGas = output;
         data.temperature = temperature;
     }
 
@@ -21,6 +26,8 @@ public class BoilerCache extends MultiblockCache<SynchronizedBoilerData> {
     public void sync(SynchronizedBoilerData data) {
         water = data.waterStored;
         steam = data.steamStored;
+        input = data.InputGas;
+        output = data.OutputGas;
         temperature = data.temperature;
     }
 
@@ -32,6 +39,12 @@ public class BoilerCache extends MultiblockCache<SynchronizedBoilerData> {
         if (nbtTags.hasKey("cachedSteam")) {
             steam = FluidStack.loadFluidStackFromNBT(nbtTags.getCompoundTag("cachedSteam"));
         }
+        if (nbtTags.hasKey("cachedInputGas")){
+            input = GasStack.readFromNBT(nbtTags.getCompoundTag("cachedInputGas"));
+        }
+        if (nbtTags.hasKey("cachedOutputGas")){
+            output = GasStack.readFromNBT(nbtTags.getCompoundTag("cachedOutputGas"));
+        }
         temperature = nbtTags.getDouble("temperature");
     }
 
@@ -42,6 +55,12 @@ public class BoilerCache extends MultiblockCache<SynchronizedBoilerData> {
         }
         if (steam != null) {
             nbtTags.setTag("cachedSteam", steam.writeToNBT(new NBTTagCompound()));
+        }
+        if (input != null){
+            nbtTags.setTag("cachedInputGas",input.write(new NBTTagCompound()));
+        }
+        if (output != null){
+            nbtTags.setTag("cachedOutputGas",output.write(new NBTTagCompound()));
         }
         nbtTags.setDouble("temperature", temperature);
     }

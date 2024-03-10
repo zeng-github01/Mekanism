@@ -5,7 +5,7 @@ import mekanism.client.gui.IGuiWrapper;
 import mekanism.client.gui.element.tab.GuiMatrixTab.MatrixTab;
 import mekanism.common.Mekanism;
 import mekanism.common.network.PacketSimpleGui.SimpleGuiMessage;
-import mekanism.common.tile.TileEntityInductionCasing;
+import mekanism.common.tile.multiblock.TileEntityInductionCasing;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.tileentity.TileEntity;

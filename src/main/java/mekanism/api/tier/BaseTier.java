@@ -1,4 +1,4 @@
-package mekanism.common.tier;
+package mekanism.api.tier;
 
 import mekanism.api.EnumColor;
 import mekanism.common.util.LangUtils;

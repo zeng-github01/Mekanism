@@ -1,16 +1,19 @@
-package mekanism.common.tile;
+package mekanism.common.tile.multiblock;
 
 import io.netty.buffer.ByteBuf;
 import mekanism.api.Coord4D;
 import mekanism.api.IHeatTransfer;
 import mekanism.api.TileNetworkList;
+import mekanism.api.gas.GasStack;
 import mekanism.common.Mekanism;
+import mekanism.common.MekanismFluids;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.content.boiler.BoilerCache;
 import mekanism.common.content.boiler.BoilerUpdateProtocol;
 import mekanism.common.content.boiler.SynchronizedBoilerData;
 import mekanism.common.content.tank.SynchronizedTankData.ValveData;
 import mekanism.common.multiblock.MultiblockManager;
+import mekanism.common.tile.TileEntityMultiblock;
 import mekanism.common.util.InventoryUtils;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
@@ -66,6 +69,12 @@ public class TileEntityBoilerCasing extends TileEntityMultiblock<SynchronizedBoi
                     prevWaterScale = (9 * prevWaterScale + targetScale) / 10;
                 }
             }
+            if (structure != null && clientHasStructure && isRendering) {
+                float targetScale = (float) (structure.InputGas != null ? structure.InputGas.amount : 0) / clientWaterCapacity;
+                if (Math.abs(prevWaterScale - targetScale) > 0.01) {
+                    prevWaterScale = (9 * prevWaterScale + targetScale) / 10;
+                }
+            }
             if (!clientHasStructure || !isRendering) {
                 for (ValveData data : valveViewing) {
                     TileEntityBoilerCasing tileEntity = (TileEntityBoilerCasing) data.location.getTileEntity(world);
@@ -87,6 +96,15 @@ public class TileEntityBoilerCasing extends TileEntityMultiblock<SynchronizedBoi
                     structure.steamStored = null;
                     markDirty();
                 }
+                if (structure.InputGas != null && structure.InputGas.amount <= 0) {
+                    structure.InputGas = null;
+                    markDirty();
+                }
+                if (structure.OutputGas != null && structure.OutputGas.amount <= 0) {
+                    structure.OutputGas = null;
+                    markDirty();
+                }
+
                 if (isRendering) {
                     boolean needsValveUpdate = false;
                     for (ValveData data : structure.valves) {
@@ -109,12 +127,28 @@ public class TileEntityBoilerCasing extends TileEntityMultiblock<SynchronizedBoi
                     double[] d = structure.simulateHeat();
                     structure.applyTemperatureChange();
                     structure.lastEnvironmentLoss = d[1];
+                    if (structure.InputGas != null) {
+                        int OutputAmount = structure.OutputGas != null ? structure.OutputGas.amount : 0;
+                        double heatAvailable = structure.getTemp();
+                        structure.lastMaxBoil = (int) Math.floor(heatAvailable / SynchronizedBoilerData.getHeatEnthalpy());
+                        int amountToBoil = Math.min(structure.lastMaxBoil, structure.InputGas.amount);
+                        amountToBoil = Math.min(amountToBoil, (structure.steamVolume * BoilerUpdateProtocol.STEAM_PER_TANK) - OutputAmount);
+                        structure.InputGas.amount -= amountToBoil;
+                        if (structure.OutputGas == null) {
+                            structure.OutputGas = new GasStack(MekanismFluids.Sodium, amountToBoil);
+                        } else {
+                            structure.OutputGas.amount += amountToBoil;
+                        }
+                        if (structure.OutputGas.amount != structure.steamVolume * BoilerUpdateProtocol.STEAM_PER_TANK) {
+                            structure.temperature += (amountToBoil * SynchronizedBoilerData.getHeatEnthalpy()) / structure.locations.size();
+                            structure.lastBoilRate = amountToBoil;
+                        }
+                    }
+
                     if (structure.temperature >= SynchronizedBoilerData.BASE_BOIL_TEMP && structure.waterStored != null) {
                         int steamAmount = structure.steamStored != null ? structure.steamStored.amount : 0;
                         double heatAvailable = structure.getHeatAvailable();
-
                         structure.lastMaxBoil = (int) Math.floor(heatAvailable / SynchronizedBoilerData.getHeatEnthalpy());
-
                         int amountToBoil = Math.min(structure.lastMaxBoil, structure.waterStored.amount);
                         amountToBoil = Math.min(amountToBoil, (structure.steamVolume * BoilerUpdateProtocol.STEAM_PER_TANK) - steamAmount);
                         structure.waterStored.amount -= amountToBoil;
@@ -130,11 +164,15 @@ public class TileEntityBoilerCasing extends TileEntityMultiblock<SynchronizedBoi
                         structure.lastBoilRate = 0;
                         structure.lastMaxBoil = 0;
                     }
+
+
                     if (needsValveUpdate || structure.needsRenderUpdate() || needsHotUpdate) {
                         sendPacketToRenderer();
                     }
                     structure.prevWater = structure.waterStored != null ? structure.waterStored.copy() : null;
                     structure.prevSteam = structure.steamStored != null ? structure.steamStored.copy() : null;
+                    structure.prevInputGas = structure.InputGas != null ? structure.InputGas.copy() : null;
+                    structure.prevOutputGas = structure.OutputGas != null ? structure.OutputGas.copy() : null;
                     MekanismUtils.saveChunk(this);
                 }
             }
@@ -186,7 +224,8 @@ public class TileEntityBoilerCasing extends TileEntityMultiblock<SynchronizedBoi
 
             TileUtils.addFluidStack(data, structure.waterStored);
             TileUtils.addFluidStack(data, structure.steamStored);
-
+            TileUtils.addGasStack(data, structure.InputGas);
+            TileUtils.addGasStack(data, structure.OutputGas);
             structure.upperRenderLocation.write(data);
 
             if (isRendering) {
@@ -207,19 +246,6 @@ public class TileEntityBoilerCasing extends TileEntityMultiblock<SynchronizedBoi
         return data;
     }
 
-    public int getScaledWaterLevel(int i) {
-        if (clientWaterCapacity == 0 || structure.waterStored == null) {
-            return 0;
-        }
-        return structure.waterStored.amount * i / clientWaterCapacity;
-    }
-
-    public int getScaledSteamLevel(int i) {
-        if (clientSteamCapacity == 0 || structure.steamStored == null) {
-            return 0;
-        }
-        return structure.steamStored.amount * i / clientSteamCapacity;
-    }
 
     public double getLastEnvironmentLoss() {
         return structure != null ? structure.lastEnvironmentLoss : 0;
@@ -257,7 +283,8 @@ public class TileEntityBoilerCasing extends TileEntityMultiblock<SynchronizedBoi
 
                 structure.waterStored = TileUtils.readFluidStack(dataStream);
                 structure.steamStored = TileUtils.readFluidStack(dataStream);
-
+                structure.InputGas = TileUtils.readGasStack(dataStream);
+                structure.OutputGas = TileUtils.readGasStack(dataStream);
                 structure.upperRenderLocation = Coord4D.read(dataStream);
 
                 if (isRendering) {

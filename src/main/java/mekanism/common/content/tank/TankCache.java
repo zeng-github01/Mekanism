@@ -1,5 +1,6 @@
 package mekanism.common.content.tank;
 
+import mekanism.api.gas.GasStack;
 import mekanism.common.multiblock.MultiblockCache;
 import mekanism.common.util.FluidContainerUtils.ContainerEditMode;
 import net.minecraft.item.ItemStack;
@@ -15,12 +16,15 @@ public class TankCache extends MultiblockCache<SynchronizedTankData> {
 
     public FluidStack fluid;
 
+    public GasStack gas;
+
     public ContainerEditMode editMode = ContainerEditMode.BOTH;
 
     @Override
     public void apply(SynchronizedTankData data) {
         data.inventory = inventory;
         data.fluidStored = fluid;
+        data.gasstored = gas;
         data.editMode = editMode;
     }
 
@@ -28,6 +32,7 @@ public class TankCache extends MultiblockCache<SynchronizedTankData> {
     public void sync(SynchronizedTankData data) {
         inventory = data.inventory;
         fluid = data.fluidStored;
+        gas = data.gasstored;
         editMode = data.editMode;
     }
 
@@ -47,6 +52,9 @@ public class TankCache extends MultiblockCache<SynchronizedTankData> {
         if (nbtTags.hasKey("cachedFluid")) {
             fluid = FluidStack.loadFluidStackFromNBT(nbtTags.getCompoundTag("cachedFluid"));
         }
+        if (nbtTags.hasKey("cachedGas")){
+            gas = GasStack.readFromNBT(nbtTags.getCompoundTag("cachedGas"));
+        }
     }
 
     @Override
@@ -64,6 +72,9 @@ public class TankCache extends MultiblockCache<SynchronizedTankData> {
         nbtTags.setTag("Items", tagList);
         if (fluid != null) {
             nbtTags.setTag("cachedFluid", fluid.writeToNBT(new NBTTagCompound()));
+        }
+        if (gas !=null){
+            nbtTags.setTag("cachedGas",gas.write(new NBTTagCompound()));
         }
     }
 }

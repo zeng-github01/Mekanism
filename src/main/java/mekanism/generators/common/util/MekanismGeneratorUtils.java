@@ -1,4 +1,4 @@
-    package mekanism.generators.common.util;
+package mekanism.generators.common.util;
 
 import mekanism.generators.common.MekanismGenerators;
 import net.minecraft.util.ResourceLocation;

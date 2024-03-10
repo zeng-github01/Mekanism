@@ -4,6 +4,8 @@ import io.netty.buffer.ByteBuf;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
+import mekanism.api.tier.AlloyTier;
+import mekanism.api.tier.BaseTier;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.Mekanism;
 import mekanism.common.base.ILogisticalTransporter;
@@ -15,7 +17,6 @@ import mekanism.common.content.transporter.TransitRequest;
 import mekanism.common.content.transporter.TransitRequest.TransitResponse;
 import mekanism.common.content.transporter.TransporterStack;
 import mekanism.common.integration.multipart.MultipartTileNetworkJoiner;
-import mekanism.common.tier.BaseTier;
 import mekanism.common.tier.TransporterTier;
 import mekanism.common.transmitters.TransporterImpl;
 import mekanism.common.transmitters.grid.InventoryNetwork;
@@ -51,6 +52,7 @@ public class TileEntityLogisticalTransporter extends TileEntityTransmitter<TileE
     private int delay = 0;
     private int delayCount = 0;
     private int Removetick = 0;
+
     public TileEntityLogisticalTransporter() {
         transmitterDelegate = new TransporterImpl(this);
     }
@@ -131,7 +133,7 @@ public class TileEntityLogisticalTransporter extends TileEntityTransmitter<TileE
                 TransitRequest request = TransitRequest.buildInventoryMap(tile, side, tier.getPullAmount());
                 // There's a stack available to insert into the network...
                 if (!request.isEmpty()) {
-                    TransitResponse response = TransporterUtils.insert(tile, getTransmitter(), request , getTransmitter().getColor(), true, 0);
+                    TransitResponse response = TransporterUtils.insert(tile, getTransmitter(), request, getTransmitter().getColor(), true, 0);
 
                     // If the insert succeeded, remove the inserted count and try again for another 10 ticks
                     if (!response.isEmpty()) {
@@ -357,8 +359,8 @@ public class TileEntityLogisticalTransporter extends TileEntityTransmitter<TileE
     }
 
     @Override
-    public boolean upgrade(int tierOrdinal) {
-        if (tier.ordinal() < BaseTier.ULTIMATE.ordinal() && tierOrdinal == tier.ordinal() + 1) {
+    public boolean upgrade(AlloyTier tierOrdinal) {
+        if (tier.ordinal() < BaseTier.ULTIMATE.ordinal() && tierOrdinal.ordinal() == tier.ordinal()) {
             tier = TransporterTier.values()[tier.ordinal() + 1];
             markDirtyTransmitters();
             sendDesc = true;

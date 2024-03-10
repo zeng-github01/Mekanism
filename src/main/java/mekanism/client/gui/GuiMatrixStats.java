@@ -7,7 +7,7 @@ import mekanism.client.gui.element.gauge.GuiEnergyGauge;
 import mekanism.client.gui.element.tab.GuiMatrixTab;
 import mekanism.client.gui.element.tab.GuiMatrixTab.MatrixTab;
 import mekanism.common.inventory.container.ContainerNull;
-import mekanism.common.tile.TileEntityInductionCasing;
+import mekanism.common.tile.multiblock.TileEntityInductionCasing;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.entity.player.InventoryPlayer;

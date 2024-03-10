@@ -2,6 +2,7 @@ package mekanism.common.tile.transmitter;
 
 import mekanism.api.Coord4D;
 import mekanism.api.IAlloyInteraction;
+import mekanism.api.tier.AlloyTier;
 import mekanism.api.transmitters.DynamicNetwork;
 import mekanism.api.transmitters.DynamicNetwork.NetworkClientRequest;
 import mekanism.api.transmitters.IGridTransmitter;
@@ -13,9 +14,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -220,7 +221,7 @@ public abstract class TileEntityTransmitter<A, N extends DynamicNetwork<A, N, BU
     }
 
     @Override
-    public void onAlloyInteraction(EntityPlayer player, EnumHand hand, ItemStack stack, int tierOrdinal) {
+    public void onAlloyInteraction(EntityPlayer player, ItemStack stack, @NotNull AlloyTier tierOrdinal) {
         if (getTransmitter().hasTransmitterNetwork()) {
             int upgraded = 0;
             List<IGridTransmitter<A, N, BUFFER>> list = new ArrayList<>(getTransmitter().getTransmitterNetwork().getTransmitters());
@@ -250,15 +251,12 @@ public abstract class TileEntityTransmitter<A, N extends DynamicNetwork<A, N, BU
             if (upgraded > 0) {
                 if (!player.capabilities.isCreativeMode) {
                     stack.shrink(1);
-                    if (stack.getCount() == 0) {
-                        player.setHeldItem(hand, ItemStack.EMPTY);
-                    }
                 }
             }
         }
     }
 
-    public boolean upgrade(int tierOrdinal) {
+    public boolean upgrade(AlloyTier tierOrdinal) {
         return false;
     }
 

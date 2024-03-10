@@ -1,11 +1,8 @@
 package mekanism.common.config;
 
+import mekanism.api.tier.BaseTier;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
-import mekanism.common.config.options.BooleanOption;
-import mekanism.common.config.options.DoubleOption;
-import mekanism.common.config.options.EnumOption;
-import mekanism.common.config.options.IntOption;
-import mekanism.common.tier.BaseTier;
+import mekanism.common.config.options.*;
 import mekanism.common.tier.FluidTankTier;
 import mekanism.common.tier.GasTankTier;
 import mekanism.common.util.UnitDisplayUtils.EnergyType;
@@ -333,9 +330,12 @@ public class GeneralConfig extends BaseConfig {
 
     public final IntOption toolMiningCount = new IntOption(this, "general", "toolMiningCount", 256,
             "The max Atomic Disassembler Vein Mining Block Count.");
-
     public final BooleanOption blacklistFlux = new BooleanOption(this, "general", "BlacklistFluxPower", false,
             "Disables Flux Networks power integration. Requires world restart (server-side option in SMP).");
+
+    int maxVolume = 18 * 18 * 18;
+    public final IntOption dynamicTankFluidPerTank = new IntOption(this,"general","DynamicTankFluidPerTank",300_000,"Amount of fluid (mB) that each block of the dynamic tank contributes to the volume. Max = volume * fluidPerTank",1,Integer.MAX_VALUE / maxVolume);
+
     public final TypeConfigManager<MachineType> machinesManager = new TypeConfigManager<>(this, "machines", MachineType.class, MachineType::getValidMachines, MachineType::getBlockName);
 
     public final EnumMap<BaseTier, TierConfig> tiers = TierConfig.create(this);

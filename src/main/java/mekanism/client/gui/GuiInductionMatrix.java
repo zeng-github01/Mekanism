@@ -10,7 +10,7 @@ import mekanism.client.gui.element.tab.GuiMatrixTab;
 import mekanism.client.gui.element.tab.GuiMatrixTab.MatrixTab;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.inventory.container.ContainerInductionMatrix;
-import mekanism.common.tile.TileEntityInductionCasing;
+import mekanism.common.tile.multiblock.TileEntityInductionCasing;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;

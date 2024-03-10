@@ -7,8 +7,8 @@ import mekanism.common.content.tank.SynchronizedTankData.ValveData;
 import mekanism.common.multiblock.MultiblockCache;
 import mekanism.common.multiblock.MultiblockManager;
 import mekanism.common.multiblock.UpdateProtocol;
-import mekanism.common.tile.TileEntityBoilerCasing;
-import mekanism.common.tile.TileEntityBoilerValve;
+import mekanism.common.tile.multiblock.TileEntityBoilerCasing;
+import mekanism.common.tile.multiblock.TileEntityBoilerValve;
 import mekanism.common.tile.TileEntityPressureDisperser;
 import mekanism.common.tile.TileEntitySuperheatingElement;
 import net.minecraft.item.ItemStack;
@@ -166,11 +166,25 @@ public class BoilerUpdateProtocol extends UpdateProtocol<SynchronizedBoilerData>
         } else if (mergeCache.water != null && boilerCache.water.isFluidEqual(mergeCache.water)) {
             boilerCache.water.amount += mergeCache.water.amount;
         }
+
         if (boilerCache.steam == null) {
             boilerCache.steam = mergeCache.steam;
         } else if (mergeCache.steam != null && boilerCache.steam.isFluidEqual(mergeCache.steam)) {
             boilerCache.steam.amount += mergeCache.steam.amount;
         }
+
+        if (boilerCache.input == null){
+            boilerCache.input = mergeCache.input;
+        }else if (mergeCache.input != null && boilerCache.input.isGasEqual(mergeCache.input)) {
+            boilerCache.input.amount += mergeCache.input.amount;
+        }
+
+        if (boilerCache.output == null){
+            boilerCache.output = mergeCache.output;
+        }else if (mergeCache.output != null && boilerCache.output.isGasEqual(mergeCache.output)) {
+            boilerCache.output.amount += mergeCache.output.amount;
+        }
+
         boilerCache.temperature = Math.max(boilerCache.temperature, mergeCache.temperature);
     }
 
@@ -182,6 +196,12 @@ public class BoilerUpdateProtocol extends UpdateProtocol<SynchronizedBoilerData>
         }
         if (structureFound.steamStored != null) {
             structureFound.steamStored.amount = Math.min(structureFound.steamStored.amount, structureFound.steamVolume * STEAM_PER_TANK);
+        }
+        if (structureFound.InputGas != null) {
+            structureFound.InputGas.amount = Math.min(structureFound.InputGas.amount, structureFound.waterVolume * WATER_PER_TANK);
+        }
+        if (structureFound.OutputGas != null) {
+            structureFound.OutputGas.amount = Math.min(structureFound.OutputGas.amount, structureFound.steamVolume * STEAM_PER_TANK);
         }
     }
 

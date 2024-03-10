@@ -3,7 +3,7 @@ package mekanism.common.content.boiler;
 import mekanism.api.Coord4D;
 import mekanism.common.base.MultiblockFluidTank;
 import mekanism.common.content.tank.SynchronizedTankData.ValveData;
-import mekanism.common.tile.TileEntityBoilerCasing;
+import mekanism.common.tile.multiblock.TileEntityBoilerCasing;
 
 public abstract class BoilerTank extends MultiblockFluidTank<TileEntityBoilerCasing> {
 

@@ -3,12 +3,13 @@ package mekanism.common.tile.transmitter;
 import io.netty.buffer.ByteBuf;
 import mekanism.api.IHeatTransfer;
 import mekanism.api.TileNetworkList;
+import mekanism.api.tier.AlloyTier;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.ColourRGBA;
 import mekanism.common.Mekanism;
 import mekanism.common.block.states.BlockStateTransmitter.TransmitterType;
 import mekanism.common.capabilities.Capabilities;
-import mekanism.common.tier.BaseTier;
+import mekanism.api.tier.BaseTier;
 import mekanism.common.tier.ConductorTier;
 import mekanism.common.transmitters.grid.HeatNetwork;
 import mekanism.common.util.CapabilityUtils;
@@ -201,8 +202,8 @@ public class TileEntityThermodynamicConductor extends TileEntityTransmitter<IHea
     }
 
     @Override
-    public boolean upgrade(int tierOrdinal) {
-        if (tier.ordinal() < BaseTier.ULTIMATE.ordinal() && tierOrdinal == tier.ordinal() + 1) {
+    public boolean upgrade(AlloyTier tierOrdinal) {
+        if (tier.ordinal() < BaseTier.ULTIMATE.ordinal() && tierOrdinal.ordinal() == tier.ordinal()) {
             tier = ConductorTier.values()[tier.ordinal() + 1];
             markDirtyTransmitters();
             sendDesc = true;

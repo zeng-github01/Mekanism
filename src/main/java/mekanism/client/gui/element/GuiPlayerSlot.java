@@ -21,6 +21,13 @@ public class GuiPlayerSlot extends GuiElement {
 
     }
 
+    public GuiPlayerSlot(IGuiWrapper gui, ResourceLocation def, int x) {
+        super(MekanismUtils.getResource(ResourceType.SLOT, "Slot_Icon.png"), gui, def);
+        xLocation = x;
+        yLocation = 83;
+
+    }
+
     public GuiPlayerSlot(IGuiWrapper gui, ResourceLocation def) {
         super(MekanismUtils.getResource(ResourceType.SLOT, "Slot_Icon.png"), gui, def);
         xLocation = 7;

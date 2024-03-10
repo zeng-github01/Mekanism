@@ -6,6 +6,9 @@
       },
       "variants": {
             "normal": [{}],
+            "active": {
+                  "true": {"textures": {"all": "mekanism:blocks/boiler_valve_output"}},
+                  "false": {}},
             "inventory": [{}]
       }
 }

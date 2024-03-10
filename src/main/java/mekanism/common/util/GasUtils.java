@@ -11,6 +11,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -141,5 +142,9 @@ public final class GasUtils {
         } else {
             gasTank.stored = null;
         }
+    }
+
+    public static boolean canDrain(@Nullable GasStack tankGas, @Nullable Gas outGas) {
+        return tankGas != null && (outGas == null || tankGas.isGasEqual(outGas));
     }
 }

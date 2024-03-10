@@ -5,6 +5,7 @@ import mekanism.api.Coord4D;
 import mekanism.api.IMekWrench;
 import mekanism.api.energy.IEnergizedItem;
 import mekanism.api.energy.IStrictEnergyStorage;
+import mekanism.api.tier.BaseTier;
 import mekanism.common.Mekanism;
 import mekanism.common.base.IActiveState;
 import mekanism.common.base.IBoundingBlock;
@@ -21,8 +22,8 @@ import mekanism.common.inventory.InventoryBin;
 import mekanism.common.item.ItemBlockBasic;
 import mekanism.common.multiblock.IMultiblock;
 import mekanism.common.multiblock.IStructuralMultiblock;
-import mekanism.common.tier.BaseTier;
 import mekanism.common.tile.*;
+import mekanism.common.tile.multiblock.*;
 import mekanism.common.tile.prefab.TileEntityBasicBlock;
 import mekanism.common.util.FluidContainerUtils;
 import mekanism.common.util.MekanismUtils;
@@ -203,23 +204,23 @@ public abstract class BlockBasic extends BlockTileDrops {
     @Deprecated
     public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         TileEntity tile = MekanismUtils.getTileEntitySafe(worldIn, pos);
-        if (tile instanceof TileEntityBasicBlock && ((TileEntityBasicBlock) tile).facing != null) {
-            state = state.withProperty(BlockStateFacing.facingProperty, ((TileEntityBasicBlock) tile).facing);
+        if (tile instanceof TileEntityBasicBlock basicBlock && basicBlock.facing != null) {
+            state = state.withProperty(BlockStateFacing.facingProperty, basicBlock.facing);
         }
-        if (tile instanceof IActiveState) {
-            state = state.withProperty(BlockStateBasic.activeProperty, ((IActiveState) tile).getActive());
+        if (tile instanceof IActiveState as) {
+            state = state.withProperty(BlockStateBasic.activeProperty, as.getActive());
         }
-        if (tile instanceof TileEntityInductionCell) {
-            state = state.withProperty(BlockStateBasic.tierProperty, ((TileEntityInductionCell) tile).tier.getBaseTier());
+        if (tile instanceof TileEntityInductionCell cell) {
+            state = state.withProperty(BlockStateBasic.tierProperty, cell.tier.getBaseTier());
         }
-        if (tile instanceof TileEntityInductionProvider) {
-            state = state.withProperty(BlockStateBasic.tierProperty, ((TileEntityInductionProvider) tile).tier.getBaseTier());
+        if (tile instanceof TileEntityInductionProvider provider) {
+            state = state.withProperty(BlockStateBasic.tierProperty, provider.tier.getBaseTier());
         }
-        if (tile instanceof TileEntityBin) {
-            state = state.withProperty(BlockStateBasic.tierProperty, ((TileEntityBin) tile).tier.getBaseTier());
+        if (tile instanceof TileEntityBin bin) {
+            state = state.withProperty(BlockStateBasic.tierProperty, bin.tier.getBaseTier());
         }
-        if (tile instanceof TileEntityInductionPort) {
-            state = state.withProperty(BlockStateBasic.activeProperty, ((TileEntityInductionPort) tile).mode);
+        if (tile instanceof TileEntityInductionPort port) {
+            state = state.withProperty(BlockStateBasic.activeProperty, port.mode);
         }
         if (tile instanceof TileEntitySuperheatingElement element) {
             boolean active = false;
@@ -227,6 +228,12 @@ public abstract class BlockBasic extends BlockTileDrops {
                 active = SynchronizedBoilerData.clientHotMap.get(element.multiblockUUID);
             }
             state = state.withProperty(BlockStateBasic.activeProperty, active);
+        }
+        if (tile instanceof TileEntityDynamicValve Valve) {
+            state = state.withProperty(BlockStateBasic.activeProperty, Valve.eject);
+        }
+        if (tile instanceof TileEntityBoilerValve Valve) {
+            state = state.withProperty(BlockStateBasic.activeProperty, Valve.Eject);
         }
         return state;
     }

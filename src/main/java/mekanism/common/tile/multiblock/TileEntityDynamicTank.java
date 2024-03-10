@@ -1,4 +1,4 @@
-package mekanism.common.tile;
+package mekanism.common.tile.multiblock;
 
 import io.netty.buffer.ByteBuf;
 import mekanism.api.Coord4D;
@@ -12,6 +12,7 @@ import mekanism.common.content.tank.TankCache;
 import mekanism.common.content.tank.TankUpdateProtocol;
 import mekanism.common.integration.computer.IComputerIntegration;
 import mekanism.common.multiblock.MultiblockManager;
+import mekanism.common.tile.TileEntityMultiblock;
 import mekanism.common.util.FluidContainerUtils;
 import mekanism.common.util.FluidContainerUtils.ContainerEditMode;
 import mekanism.common.util.InventoryUtils;
@@ -62,7 +63,7 @@ public class TileEntityDynamicTank extends TileEntityMultiblock<SynchronizedTank
         if (world.isRemote) {
             if (clientHasStructure && isRendering) {
                 if (structure != null) {
-                    float targetScale = (float) (structure.fluidStored != null ? structure.fluidStored.amount : 0) / clientCapacity;
+                    float targetScale = (float) (structure.fluidStored != null ? structure.fluidStored.amount :structure.gasstored != null ? structure.gasstored.amount : 0) / clientCapacity;
                     if (Math.abs(prevScale - targetScale) > 0.01) {
                         prevScale = (9 * prevScale + targetScale) / 10;
                     }
@@ -80,6 +81,9 @@ public class TileEntityDynamicTank extends TileEntityMultiblock<SynchronizedTank
             if (structure.fluidStored != null && structure.fluidStored.amount <= 0) {
                 structure.fluidStored = null;
                 markDirty();
+            } else if (structure.gasstored != null && structure.gasstored.amount <= 0) {
+                structure.gasstored = null;
+                markDirty();
             }
             if (isRendering) {
                 boolean needsValveUpdate = false;
@@ -96,15 +100,17 @@ public class TileEntityDynamicTank extends TileEntityMultiblock<SynchronizedTank
                     sendPacketToRenderer();
                 }
                 structure.prevFluid = structure.fluidStored != null ? structure.fluidStored.copy() : null;
+                structure.prevGas = structure.gasstored != null ? structure.gasstored.copy() : null;
                 manageInventory();
             }
         }
     }
 
+    //todo
     public void manageInventory() {
-        int needed = (structure.volume * TankUpdateProtocol.FLUID_PER_TANK) - (structure.fluidStored != null ? structure.fluidStored.amount : 0);
+        int neededFluid = (structure.volume * TankUpdateProtocol.FLUID_PER_TANK) - (structure.fluidStored != null ? structure.fluidStored.amount : 0);
         if (FluidContainerUtils.isFluidContainer(structure.inventory.get(0))) {
-            structure.fluidStored = FluidContainerUtils.handleContainerItem(this, structure.inventory, structure.editMode, structure.fluidStored, needed, 0, 1, null);
+            structure.fluidStored = FluidContainerUtils.handleContainerItem(this, structure.inventory, structure.editMode, structure.fluidStored, neededFluid, 0, 1, null);
             Mekanism.packetHandler.sendUpdatePacket(this);
         }
     }
@@ -151,7 +157,7 @@ public class TileEntityDynamicTank extends TileEntityMultiblock<SynchronizedTank
             data.add(structure.volume * TankUpdateProtocol.FLUID_PER_TANK);
             data.add(structure.editMode.ordinal());
             TileUtils.addFluidStack(data, structure.fluidStored);
-
+            TileUtils.addGasStack(data, structure.gasstored);
             if (isRendering) {
                 Set<ValveData> toSend = new HashSet<>();
 
@@ -178,7 +184,7 @@ public class TileEntityDynamicTank extends TileEntityMultiblock<SynchronizedTank
                 clientCapacity = dataStream.readInt();
                 structure.editMode = ContainerEditMode.values()[dataStream.readInt()];
                 structure.fluidStored = TileUtils.readFluidStack(dataStream);
-
+                structure.gasstored = TileUtils.readGasStack(dataStream);
                 if (isRendering) {
                     int size = dataStream.readInt();
                     valveViewing.clear();
@@ -243,10 +249,10 @@ public class TileEntityDynamicTank extends TileEntityMultiblock<SynchronizedTank
     public Object[] invoke(int method, Object[] args) throws NoSuchMethodException {
         return switch (method) {
             case 0 ->
-                    new Object[]{structure != null ? structure.fluidStored != null ? structure.fluidStored.amount : 0 : 0};
+                    new Object[]{structure != null ? structure.fluidStored != null ? structure.fluidStored.amount : structure.gasstored != null ? structure.gasstored.amount : 0 : 0};
             case 1 -> new Object[]{structure != null ? structure.volume : 0};
             case 2 ->
-                    new Object[]{structure != null ? structure.fluidStored != null ? structure.fluidStored.getLocalizedName() : null : null};
+                    new Object[]{structure != null ? structure.fluidStored != null ? structure.fluidStored.getLocalizedName() : structure.gasstored != null ? structure.gasstored.getGas().getLocalizedName() : null : null};
             default -> throw new NoSuchMethodException();
         };
     }

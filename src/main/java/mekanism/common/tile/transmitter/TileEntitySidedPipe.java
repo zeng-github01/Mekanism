@@ -18,7 +18,7 @@ import mekanism.common.block.states.BlockStateTransmitter.TransmitterType.Size;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.integration.multipart.MultipartMekanism;
 import mekanism.common.integration.multipart.MultipartTileNetworkJoiner;
-import mekanism.common.tier.BaseTier;
+import mekanism.api.tier.BaseTier;
 import mekanism.common.util.CapabilityUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MultipartUtils;

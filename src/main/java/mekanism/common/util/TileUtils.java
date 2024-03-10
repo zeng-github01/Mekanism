@@ -42,6 +42,14 @@ public class TileUtils {
         }
     }
 
+    public static void addGasStack(TileNetworkList data, GasStack stack){
+        if (stack != null) {
+            data.add(stack.write(new NBTTagCompound()));
+        }else {
+            data.add(EMPTY_TAG_COMPOUND);
+        }
+    }
+
     public static void readTankData(ByteBuf dataStream, GasTank tank) {
         tank.setGas(GasStack.readFromNBT(PacketHandler.readNBT(dataStream)));
     }
@@ -54,6 +62,9 @@ public class TileUtils {
         return FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream));
     }
 
+    public static GasStack readGasStack(ByteBuf dataStream) {
+        return GasStack.readFromNBT(PacketHandler.readNBT(dataStream));
+    }
 
     //Returns true if it entered the if statement, basically for use by TileEntityGasTank
     public static boolean receiveGas(ItemStack stack, GasTank tank) {

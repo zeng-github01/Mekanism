@@ -1,4 +1,4 @@
-package mekanism.common.tile;
+package mekanism.common.tile.multiblock;
 
 import io.netty.buffer.ByteBuf;
 import mekanism.api.TileNetworkList;

@@ -6,6 +6,9 @@
       },
       "variants": {
             "normal": [{}],
+            "active": {
+                  "true": {"textures": {"all": "mekanism:blocks/dynamic_valve_output"}},
+                  "false": {}},
             "inventory": [{}]
       }
 }

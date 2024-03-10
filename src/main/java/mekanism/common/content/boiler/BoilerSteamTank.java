@@ -1,6 +1,6 @@
 package mekanism.common.content.boiler;
 
-import mekanism.common.tile.TileEntityBoilerCasing;
+import mekanism.common.tile.multiblock.TileEntityBoilerCasing;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;

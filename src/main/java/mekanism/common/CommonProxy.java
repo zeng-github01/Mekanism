@@ -17,6 +17,8 @@ import mekanism.common.item.ItemPortableTeleporter;
 import mekanism.common.item.ItemSeismicReader;
 import mekanism.common.network.PacketPortableTeleporter.PortableTeleporterMessage;
 import mekanism.common.tile.*;
+import mekanism.common.tile.multiblock.TileEntityDynamicTank;
+import mekanism.common.tile.multiblock.TileEntityInductionCasing;
 import mekanism.common.tile.prefab.*;
 import mekanism.common.voice.VoiceServerManager;
 import net.minecraft.block.Block;
@@ -235,7 +237,7 @@ public class CommonProxy implements IGuiProvider {
             case 19 -> new ContainerPersonalChest(player.inventory, (TileEntityPersonalChest) tileEntity);
             //EMPTY 20, 21, 22, 23, 24, 25
             case 26 -> new ContainerNull(player, (TileEntityContainerBlock) tileEntity);
-            case 27, 28, 54 -> new ContainerFilter(player.inventory, (TileEntityContainerBlock) tileEntity);
+            case 27, 28 -> new ContainerFilter(player.inventory, (TileEntityContainerBlock) tileEntity);
             case 29 -> new ContainerChemicalOxidizer(player.inventory, (TileEntityChemicalOxidizer) tileEntity);
             case 30 -> new ContainerChemicalInfuser(player.inventory, (TileEntityChemicalInfuser) tileEntity);
             case 32 ->
@@ -261,6 +263,7 @@ public class CommonProxy implements IGuiProvider {
             case 49 -> new ContainerInductionMatrix(player.inventory, (TileEntityInductionCasing) tileEntity);
             case 52 -> new ContainerOredictionificator(player.inventory, (TileEntityOredictionificator) tileEntity);
             case 53 -> new ContainerResistiveHeater(player.inventory, (TileEntityResistiveHeater) tileEntity);
+            case 54 -> new ContainerThermoelectricBoiler(player.inventory, (TileEntityContainerBlock) tileEntity);
             case 56 -> new ContainerFormulaicAssemblicator(player.inventory, (TileEntityFormulaicAssemblicator) tileEntity);
             case 57 -> new ContainerSecurityDesk(player.inventory, (TileEntitySecurityDesk) tileEntity);
             case 58 -> new ContainerFuelwoodHeater(player.inventory, (TileEntityFuelwoodHeater) tileEntity);

@@ -10,6 +10,7 @@ import mekanism.api.TileNetworkList;
 import mekanism.api.energy.EnergyStack;
 import mekanism.api.energy.IStrictEnergyAcceptor;
 import mekanism.api.energy.IStrictEnergyStorage;
+import mekanism.api.tier.AlloyTier;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.base.EnergyAcceptorWrapper;
 import mekanism.common.block.states.BlockStateTransmitter.TransmitterType;
@@ -22,7 +23,7 @@ import mekanism.common.integration.ic2.IC2Integration;
 import mekanism.common.integration.redstoneflux.RFIntegration;
 import mekanism.common.integration.tesla.TeslaCableIntegration;
 import mekanism.common.integration.tesla.TeslaIntegration;
-import mekanism.common.tier.BaseTier;
+import mekanism.api.tier.BaseTier;
 import mekanism.common.tier.CableTier;
 import mekanism.common.transmitters.grid.EnergyNetwork;
 import mekanism.common.util.CableUtils;
@@ -297,8 +298,8 @@ public class TileEntityUniversalCable extends TileEntityTransmitter<EnergyAccept
     }
 
     @Override
-    public boolean upgrade(int tierOrdinal) {
-        if (tier.ordinal() < BaseTier.ULTIMATE.ordinal() && tierOrdinal == tier.ordinal() + 1) {
+    public boolean upgrade(AlloyTier tierOrdinal) {
+        if (tier.ordinal() < BaseTier.ULTIMATE.ordinal() && tierOrdinal.ordinal() == tier.ordinal()) {
             tier = CableTier.values()[tier.ordinal() + 1];
             markDirtyTransmitters();
             sendDesc = true;

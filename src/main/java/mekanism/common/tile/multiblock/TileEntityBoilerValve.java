@@ -1,36 +1,70 @@
-package mekanism.common.tile;
+package mekanism.common.tile.multiblock;
 
+import io.netty.buffer.ByteBuf;
+import mekanism.api.EnumColor;
+import mekanism.api.IConfigurable;
+import mekanism.api.TileNetworkList;
+import mekanism.api.gas.Gas;
+import mekanism.api.gas.GasStack;
+import mekanism.api.gas.GasTankInfo;
+import mekanism.api.gas.IGasHandler;
+import mekanism.common.Mekanism;
+import mekanism.common.MekanismFluids;
 import mekanism.common.base.FluidHandlerWrapper;
 import mekanism.common.base.IComparatorSupport;
 import mekanism.common.base.IFluidHandlerWrapper;
-import mekanism.common.content.boiler.BoilerSteamTank;
-import mekanism.common.content.boiler.BoilerTank;
-import mekanism.common.content.boiler.BoilerWaterTank;
+import mekanism.common.capabilities.Capabilities;
+import mekanism.common.content.boiler.*;
 import mekanism.common.integration.computer.IComputerIntegration;
 import mekanism.common.util.*;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 
-public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFluidHandlerWrapper, IComputerIntegration, IComparatorSupport {
+public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFluidHandlerWrapper, IComputerIntegration, IComparatorSupport, IGasHandler, IConfigurable {
 
     private static final String[] methods = new String[]{"isFormed", "getSteam", "getWater", "getBoilRate", "getMaxBoilRate", "getTemp"};
     public BoilerTank waterTank;
     public BoilerTank steamTank;
+    public BoilerGasTank inputTank;
+    public BoilerGasTank outputTank;
     private int currentRedstoneLevel;
+
+    public boolean Eject;
 
     public TileEntityBoilerValve() {
         super("BoilerValve");
         waterTank = new BoilerWaterTank(this);
         steamTank = new BoilerSteamTank(this);
+        inputTank = new BoilerInputGasTank(this);
+        outputTank = new BoilerOutputGasTank(this);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbtTags) {
+        super.readFromNBT(nbtTags);
+        Eject = nbtTags.getBoolean("Eject");
+    }
+
+    @Nonnull
+    @Override
+    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
+        super.writeToNBT(nbtTags);
+        nbtTags.setBoolean("Eject", Eject);
+        return nbtTags;
     }
 
     @Override
@@ -38,7 +72,7 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
         super.onUpdate();
         if (!world.isRemote) {
             if (structure != null && structure.upperRenderLocation != null && getPos().getY() >= structure.upperRenderLocation.y - 1) {
-                if (structure.steamStored != null && structure.steamStored.amount > 0) {
+                if (structure.steamStored != null && structure.steamStored.amount > 0 && Eject) {
                     EmitUtils.forEachSide(getWorld(), getPos(), EnumSet.allOf(EnumFacing.class), (tile, side) -> {
                         if (!(tile instanceof TileEntityBoilerValve)) {
                             IFluidHandler handler = CapabilityUtils.getCapability(tile, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
@@ -51,6 +85,11 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
                         }
                     });
                 }
+                if (outputTank.getGas() != null && outputTank.getGas().getGas() != null && Eject) {
+                    GasStack toSend = new GasStack(outputTank.getGas().getGas(), (int) Math.min(outputTank.getMaxGas(), outputTank.getGasAmount()));
+                    outputTank.output(GasUtils.emit(toSend, this, EnumSet.allOf(EnumFacing.class)), true);
+                }
+
                 int newRedstoneLevel = getRedstoneLevel();
                 if (newRedstoneLevel != currentRedstoneLevel) {
                     world.updateComparatorOutputLevel(pos, getBlockType());
@@ -89,7 +128,7 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
 
     @Override
     public boolean canFill(EnumFacing from, @Nonnull FluidStack fluid) {
-        if ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) {
+        if (((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) && !Eject) {
             return structure.upperRenderLocation != null && getPos().getY() < structure.upperRenderLocation.y - 1 && fluid.getFluid() == FluidRegistry.WATER;
         }
         return false;
@@ -97,7 +136,7 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
 
     @Override
     public boolean canDrain(EnumFacing from, @Nullable FluidStack fluid) {
-        if ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) {
+        if (((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) && Eject) {
             return structure.upperRenderLocation != null && getPos().getY() >= structure.upperRenderLocation.y - 1 && FluidContainerUtils.canDrain(structure.steamStored, fluid);
         }
         return false;
@@ -140,7 +179,7 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing side) {
         if ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) {
-            if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == Capabilities.GAS_HANDLER_CAPABILITY || capability == Capabilities.CONFIGURABLE_CAPABILITY) {
                 return true;
             }
         }
@@ -150,6 +189,9 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
     @Override
     public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing side) {
         if ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) {
+            if (capability == Capabilities.CONFIGURABLE_CAPABILITY || capability == Capabilities.GAS_HANDLER_CAPABILITY) {
+                return (T) this;
+            }
             if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
                 return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new FluidHandlerWrapper(this, side));
             }
@@ -160,5 +202,75 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
     @Override
     public int getRedstoneLevel() {
         return MekanismUtils.redstoneLevelFromContents(waterTank.getFluidAmount(), waterTank.getCapacity());
+    }
+
+    @Override
+    public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
+        return (int) inputTank.input(stack, doTransfer);
+    }
+
+    @Override
+    public GasStack drawGas(EnumFacing side, int amount, boolean doTransfer) {
+        return outputTank.output(amount, doTransfer);
+    }
+
+    @Override
+    public boolean canReceiveGas(EnumFacing side, Gas type) {
+        if (((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) && !Eject) {
+            return structure.upperRenderLocation != null && getPos().getY() < structure.upperRenderLocation.y - 1 && type == MekanismFluids.SuperheatedSodium;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean canDrawGas(EnumFacing side, Gas type) {
+        if (((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) && Eject) {
+            return structure.upperRenderLocation != null && getPos().getY() >= structure.upperRenderLocation.y - 1 && GasUtils.canDrain(structure.OutputGas, type);
+        }
+        return false;
+    }
+
+    @Nonnull
+    @Override
+    public GasTankInfo[] getTankInfo() {
+        return ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) ? new GasTankInfo[]{inputTank.getInfo(), outputTank.getInfo()} : IGasHandler.NONE;
+    }
+
+
+    @Override
+    public void handlePacketData(ByteBuf dataStream) {
+        super.handlePacketData(dataStream);
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+            boolean prevEject = Eject;
+            Eject = dataStream.readBoolean();
+            if (prevEject != Eject) {
+                MekanismUtils.updateBlock(world, getPos());
+            }
+        }
+    }
+
+    @Override
+    public TileNetworkList getNetworkedData(TileNetworkList data) {
+        super.getNetworkedData(data);
+        data.add(Eject);
+        return data;
+    }
+
+    @Override
+    public EnumActionResult onSneakRightClick(EntityPlayer player, EnumFacing side) {
+        if (!world.isRemote) {
+            Eject =! Eject;
+            String modeText = " " + (Eject ? EnumColor.DARK_RED : EnumColor.DARK_GREEN) + LangUtils.transOutputInput(Eject) + ".";
+            player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + Mekanism.LOG_TAG + " " + EnumColor.GREY +
+                    LangUtils.localize("tooltip.configurator.reactorPortEject") + modeText));
+            Mekanism.packetHandler.sendUpdatePacket(this);
+            markDirty();
+        }
+        return EnumActionResult.SUCCESS;
+    }
+
+    @Override
+    public EnumActionResult onRightClick(EntityPlayer player, EnumFacing side) {
+        return EnumActionResult.PASS;
     }
 }

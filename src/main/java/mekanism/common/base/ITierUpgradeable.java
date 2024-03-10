@@ -1,8 +1,9 @@
 package mekanism.common.base;
 
-import mekanism.common.tier.BaseTier;
+import mekanism.api.ITierOptionalUpgradeable;
+import mekanism.api.tier.BaseTier;
 
-public interface ITierUpgradeable {
+public interface ITierUpgradeable extends ITierOptionalUpgradeable<BaseTier> {
 
-    boolean upgrade(BaseTier upgradeTier);
+
 }

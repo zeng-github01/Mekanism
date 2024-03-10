@@ -1,6 +1,7 @@
 package mekanism.common.content.tank;
 
 import mekanism.api.Coord4D;
+import mekanism.api.gas.GasStack;
 import mekanism.common.multiblock.SynchronizedData;
 import mekanism.common.util.FluidContainerUtils.ContainerEditMode;
 import net.minecraft.item.ItemStack;
@@ -15,12 +16,15 @@ public class SynchronizedTankData extends SynchronizedData<SynchronizedTankData>
 
     public FluidStack fluidStored;
 
+    public GasStack gasstored;
+
     /**
      * For use by rendering segment
      */
     public FluidStack prevFluid;
+    public GasStack prevGas;
     public int prevFluidStage = 0;
-
+    public int prevGasStage = 0;
     public ContainerEditMode editMode = ContainerEditMode.BOTH;
 
     public NonNullList<ItemStack> inventory = NonNullList.withSize(2, ItemStack.EMPTY);
@@ -30,6 +34,8 @@ public class SynchronizedTankData extends SynchronizedData<SynchronizedTankData>
     public boolean needsRenderUpdate() {
         if ((fluidStored == null && prevFluid != null) || (fluidStored != null && prevFluid == null)) {
             return true;
+        } else if ((gasstored == null && prevGas != null) || (gasstored != null && prevGas == null)){
+            return true;
         }
         if (fluidStored != null) {
             int totalStage = (volHeight - 2) * (TankUpdateProtocol.FLUID_PER_TANK / 100);
@@ -37,6 +43,12 @@ public class SynchronizedTankData extends SynchronizedData<SynchronizedTankData>
             boolean stageChanged = currentStage != prevFluidStage;
             prevFluidStage = currentStage;
             return (fluidStored.getFluid() != prevFluid.getFluid()) || stageChanged;
+        } else if (gasstored != null){
+            int totalStage = (volHeight - 2) * (TankUpdateProtocol.FLUID_PER_TANK / 100);
+            int currentStage = (int) ((gasstored.amount / (float) (volume * TankUpdateProtocol.FLUID_PER_TANK)) * totalStage);
+            boolean stageChanged = currentStage != prevGasStage;
+            prevGasStage = currentStage;
+            return (gasstored.getGas() != prevGas.getGas()) || stageChanged;
         }
         return false;
     }

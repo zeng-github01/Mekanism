@@ -5,12 +5,13 @@ import mekanism.common.Mekanism;
 import mekanism.common.MekanismBlocks;
 import mekanism.common.block.BlockBasic;
 import mekanism.common.block.states.BlockStateBasic.BasicBlockType;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.content.tank.SynchronizedTankData.ValveData;
 import mekanism.common.multiblock.MultiblockCache;
 import mekanism.common.multiblock.MultiblockManager;
 import mekanism.common.multiblock.UpdateProtocol;
-import mekanism.common.tile.TileEntityDynamicTank;
-import mekanism.common.tile.TileEntityDynamicValve;
+import mekanism.common.tile.multiblock.TileEntityDynamicTank;
+import mekanism.common.tile.multiblock.TileEntityDynamicValve;
 import mekanism.common.util.StackUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,8 @@ import java.util.List;
 
 public class TankUpdateProtocol extends UpdateProtocol<SynchronizedTankData> {
 
-    public static final int FLUID_PER_TANK = 64000;
+    public static final int FLUID_PER_TANK = MekanismConfig.current().general.dynamicTankFluidPerTank.val();
+
 
     public TankUpdateProtocol(TileEntityDynamicTank tileEntity) {
         super(tileEntity);
@@ -56,6 +58,11 @@ public class TankUpdateProtocol extends UpdateProtocol<SynchronizedTankData> {
         } else if (mergeCache.fluid != null && tankCache.fluid.isFluidEqual(mergeCache.fluid)) {
             tankCache.fluid.amount += mergeCache.fluid.amount;
         }
+        if (tankCache.gas == null) {
+            tankCache.gas = mergeCache.gas;
+        } else if (mergeCache.gas != null && tankCache.gas.isGasEqual(mergeCache.gas)) {
+            tankCache.gas.amount += mergeCache.gas.amount;
+        }
         tankCache.editMode = mergeCache.editMode;
         List<ItemStack> rejects = StackUtils.getMergeRejects(tankCache.inventory, mergeCache.inventory);
         if (!rejects.isEmpty()) {
@@ -69,6 +76,9 @@ public class TankUpdateProtocol extends UpdateProtocol<SynchronizedTankData> {
         super.onFormed();
         if (structureFound.fluidStored != null) {
             structureFound.fluidStored.amount = Math.min(structureFound.fluidStored.amount, structureFound.volume * FLUID_PER_TANK);
+        }
+        if (structureFound.gasstored != null) {
+            structureFound.gasstored.amount = Math.min(structureFound.gasstored.amount, structureFound.volume * FLUID_PER_TANK);
         }
     }
 

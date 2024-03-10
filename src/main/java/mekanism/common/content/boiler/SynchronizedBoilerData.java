@@ -2,6 +2,7 @@ package mekanism.common.content.boiler;
 
 import mekanism.api.Coord4D;
 import mekanism.api.IHeatTransfer;
+import mekanism.api.gas.GasStack;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.content.tank.SynchronizedTankData.ValveData;
 import mekanism.common.multiblock.SynchronizedData;
@@ -26,9 +27,12 @@ public class SynchronizedBoilerData extends SynchronizedData<SynchronizedBoilerD
 
     public FluidStack waterStored;
     public FluidStack prevWater;
-
     public FluidStack steamStored;
     public FluidStack prevSteam;
+    public GasStack InputGas;
+    public GasStack prevInputGas;
+    public GasStack OutputGas;
+    public GasStack prevOutputGas;
 
     public double lastEnvironmentLoss;
     public int lastBoilRate;
@@ -71,15 +75,27 @@ public class SynchronizedBoilerData extends SynchronizedData<SynchronizedBoilerD
             return true;
         }
         if (waterStored != null) {
-            if ((waterStored.getFluid() != prevWater.getFluid()) || (waterStored.amount != prevWater.amount)) {
-                return true;
-            }
+            return ((waterStored.getFluid() != prevWater.getFluid()) || (waterStored.amount != prevWater.amount));
         }
         if ((steamStored == null && prevSteam != null) || (steamStored != null && prevSteam == null)) {
             return true;
         }
         if (steamStored != null) {
             return (steamStored.getFluid() != prevSteam.getFluid()) || (steamStored.amount != prevSteam.amount);
+        }
+
+        if ((InputGas == null && prevInputGas != null) || (InputGas != null && prevInputGas == null)) {
+            return true;
+        }
+        if (InputGas != null) {
+            return ((InputGas.getGas() != prevInputGas.getGas()) || (InputGas.amount != prevInputGas.amount));
+        }
+
+        if ((OutputGas== null && prevOutputGas != null) || (OutputGas != null && prevOutputGas == null)) {
+            return true;
+        }
+        if (OutputGas != null) {
+            return ((OutputGas.getGas() != prevOutputGas.getGas()) || (OutputGas.amount != prevOutputGas.amount));
         }
         return false;
     }
@@ -93,6 +109,8 @@ public class SynchronizedBoilerData extends SynchronizedData<SynchronizedBoilerD
     public double getTemp() {
         return temperature;
     }
+
+
 
     @Override
     public double getInverseConductionCoefficient() {

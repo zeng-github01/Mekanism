@@ -578,53 +578,31 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
         if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
             int type = dataStream.readInt();
             switch (type) {
-                case 0:
-                    doEject = !doEject;
-                    break;
-                case 1:
-                    doPull = !doPull;
-                    break;
-                case 3:
-                    start();
-                    break;
-                case 4:
-                    stop();
-                    break;
-                case 5:
-                    reset();
-                    break;
-                case 6:
-                    setRadius(Math.min(dataStream.readInt(), MekanismConfig.current().general.digitalMinerMaxRadius.val()));
-                    break;
-                case 7:
-                    minY = dataStream.readInt();
-                    break;
-                case 8:
-                    maxY = dataStream.readInt();
-                    break;
-                case 9:
-                    silkTouch = !silkTouch;
-                    break;
-                case 10:
-                    inverse = !inverse;
-                    break;
-                case 11: {
+                case 0 -> doEject = !doEject;
+                case 1 -> doPull = !doPull;
+                case 3 -> start();
+                case 4 -> stop();
+                case 5 -> reset();
+                case 6 -> setRadius(Math.min(dataStream.readInt(), MekanismConfig.current().general.digitalMinerMaxRadius.val()));
+                case 7 -> minY = dataStream.readInt();
+                case 8 -> maxY = dataStream.readInt();
+                case 9 -> silkTouch = !silkTouch;
+                case 10 -> inverse = !inverse;
+                case 11 -> {
                     // Move filter up
                     int filterIndex = dataStream.readInt();
                     filters.swap(filterIndex, filterIndex - 1);
                     for (EntityPlayer player : playersUsing) {
                         openInventory(player);
                     }
-                    break;
                 }
-                case 12: {
+                case 12 -> {
                     // Move filter down
                     int filterIndex = dataStream.readInt();
                     filters.swap(filterIndex, filterIndex + 1);
                     for (EntityPlayer player : playersUsing) {
                         openInventory(player);
                     }
-                    break;
                 }
             }
 

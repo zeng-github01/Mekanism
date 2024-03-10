@@ -13,7 +13,7 @@ import mekanism.common.base.IEnergyWrapper;
 import mekanism.common.base.target.EnergyAcceptorTarget;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.integration.ic2.IC2Integration;
-import mekanism.common.tile.TileEntityInductionPort;
+import mekanism.common.tile.multiblock.TileEntityInductionPort;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;

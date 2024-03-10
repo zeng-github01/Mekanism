@@ -116,6 +116,10 @@ public class GasStack {
         return stack != null && getGas() == stack.getGas();
     }
 
+    public boolean isGasEqual(Gas stack) {
+        return stack != null && getGas() == stack;
+    }
+
     @Override
     public String toString() {
         return "[" + type + ", " + amount + "]";
