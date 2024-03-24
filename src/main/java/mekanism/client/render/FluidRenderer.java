@@ -1,5 +1,6 @@
 package mekanism.client.render;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.Coord4D;
 import mekanism.client.render.MekanismRenderer.DisplayInteger;
 import mekanism.client.render.MekanismRenderer.FluidType;
@@ -12,15 +13,14 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public final class FluidRenderer {
 
     private static final int BLOCK_STAGES = 1000;
 
-    private static Map<RenderData, DisplayInteger[]> cachedCenterFluids = new HashMap<>();
-    private static Map<ValveRenderData, DisplayInteger> cachedValveFluids = new HashMap<>();
+    private static Map<RenderData, DisplayInteger[]> cachedCenterFluids = new Object2ObjectOpenHashMap<>();
+    private static Map<ValveRenderData, DisplayInteger> cachedValveFluids = new Object2ObjectOpenHashMap<>();
 
     public static void translateToOrigin(Coord4D origin) {
         GlStateManager.translate((float) getX(origin.x), (float) getY(origin.y), (float) getZ(origin.z));

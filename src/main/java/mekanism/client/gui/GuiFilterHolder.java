@@ -1,5 +1,7 @@
 package mekanism.client.gui;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.client.render.MekanismRenderer;
@@ -18,8 +20,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiFilterHolder<TILE extends TileEntityContainerBlock, FILTER extends IFilter> extends GuiMekanismTile<TILE> {
@@ -30,8 +34,8 @@ public abstract class GuiFilterHolder<TILE extends TileEntityContainerBlock, FIL
     protected final int filterW = 96;
     protected final int filterH = 29;
 
-    protected Map<IOreDictFilter, StackData> oreDictStacks = new HashMap<>();
-    protected Map<IModIDFilter, StackData> modIDStacks = new HashMap<>();
+    protected Map<IOreDictFilter, StackData> oreDictStacks = new Object2ObjectOpenHashMap<>();
+    protected Map<IModIDFilter, StackData> modIDStacks = new Object2ObjectOpenHashMap<>();
     /**
      * True if the scrollbar is being dragged
      */
@@ -98,8 +102,8 @@ public abstract class GuiFilterHolder<TILE extends TileEntityContainerBlock, FIL
             }
         }
 
-        Set<IOreDictFilter> oreDictFilters = new HashSet<>();
-        Set<IModIDFilter> modIDFilters = new HashSet<>();
+        Set<IOreDictFilter> oreDictFilters = new ObjectOpenHashSet<>();
+        Set<IModIDFilter> modIDFilters = new ObjectOpenHashSet<>();
 
         HashList<FILTER> filters = getFilters();
 

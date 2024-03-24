@@ -1,5 +1,6 @@
 package mekanism.common.content.transporter;
 
+import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import mekanism.common.Mekanism;
 import mekanism.common.util.InventoryUtils;
 import mekanism.common.util.StackUtils;
@@ -8,8 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.IItemHandler;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 
 /**
@@ -34,7 +33,7 @@ public final class InvStack {
      * A map associating the slot IDs in consideration to the amount of items in those slots we care about. Note that the associated item counts may not be the full count
      * of items in the actual inventory slots.
      */
-    private Map<Integer, Integer> itemMap = new HashMap<>();
+    private Int2IntOpenHashMap itemMap;
 
     /**
      * The item type of this InvStack. Will be null until we have an insertion via appendStack.
@@ -55,7 +54,7 @@ public final class InvStack {
         this(inv, stack, getMap(slotID, stack), facing);
     }
 
-    public InvStack(TileEntity inv, ItemStack stack, Map<Integer, Integer> idMap, EnumFacing facing) {
+    public InvStack(TileEntity inv, ItemStack stack, Int2IntOpenHashMap idMap, EnumFacing facing) {
         tileEntity = inv;
         side = facing;
         itemMap = idMap;
@@ -124,8 +123,8 @@ public final class InvStack {
         use(getStack().getCount());
     }
 
-    private static Map<Integer, Integer> getMap(int slotID, ItemStack stack) {
-        Map<Integer, Integer> map = new HashMap<>();
+    private static Int2IntOpenHashMap getMap(int slotID, ItemStack stack) {
+        Int2IntOpenHashMap map = new Int2IntOpenHashMap();
         map.put(slotID, stack.getCount());
         return map;
     }

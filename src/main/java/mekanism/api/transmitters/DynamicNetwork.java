@@ -1,5 +1,7 @@
 package mekanism.api.transmitters;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.api.Coord4D;
 import mekanism.api.IClientTicker;
 import mekanism.api.Range4D;
@@ -17,13 +19,13 @@ import java.util.Map.Entry;
 
 public abstract class DynamicNetwork<ACCEPTOR, NETWORK extends DynamicNetwork<ACCEPTOR, NETWORK, BUFFER>, BUFFER> implements IClientTicker, INetworkDataHandler {
 
-    protected Set<IGridTransmitter<ACCEPTOR, NETWORK, BUFFER>> transmitters = new HashSet<>();
-    protected Set<IGridTransmitter<ACCEPTOR, NETWORK, BUFFER>> transmittersToAdd = new HashSet<>();
-    protected Set<IGridTransmitter<ACCEPTOR, NETWORK, BUFFER>> transmittersAdded = new HashSet<>();
+    protected Set<IGridTransmitter<ACCEPTOR, NETWORK, BUFFER>> transmitters = new ObjectOpenHashSet<>();
+    protected Set<IGridTransmitter<ACCEPTOR, NETWORK, BUFFER>> transmittersToAdd = new ObjectOpenHashSet<>();
+    protected Set<IGridTransmitter<ACCEPTOR, NETWORK, BUFFER>> transmittersAdded = new ObjectOpenHashSet<>();
 
-    protected Set<Coord4D> possibleAcceptors = new HashSet<>();
-    protected Map<Coord4D, EnumSet<EnumFacing>> acceptorDirections = new HashMap<>();
-    protected Map<IGridTransmitter<ACCEPTOR, NETWORK, BUFFER>, EnumSet<EnumFacing>> changedAcceptors = new HashMap<>();
+    protected Set<Coord4D> possibleAcceptors = new ObjectOpenHashSet<>();
+    protected Map<Coord4D, EnumSet<EnumFacing>> acceptorDirections = new Object2ObjectOpenHashMap<>();
+    protected Map<IGridTransmitter<ACCEPTOR, NETWORK, BUFFER>, EnumSet<EnumFacing>> changedAcceptors = new Object2ObjectOpenHashMap<>();
     protected Range4D packetRange = null;
     protected int capacity = 0;
     protected double doubleCapacity = 0;

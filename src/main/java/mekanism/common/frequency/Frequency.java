@@ -8,7 +8,7 @@ import mekanism.common.util.MekanismUtils;
 import net.minecraft.nbt.NBTTagCompound;
 
 import javax.annotation.Nullable;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,7 +24,7 @@ public class Frequency {
 
     public boolean publicFreq;
 
-    public Set<Coord4D> activeCoords = new HashSet<>();
+    public Set<Coord4D> activeCoords = new ObjectOpenHashSet<>();
 
     public Frequency(String n, UUID uuid) {
         name = n;

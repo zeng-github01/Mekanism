@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -111,7 +111,7 @@ public class PacketFlamethrowerData implements IMessageHandler<FlamethrowerDataM
             } else if (packetType == FlamethrowerPacket.MODE) {
                 currentHand = EnumHand.values()[dataStream.readInt()];
             } else if (packetType == FlamethrowerPacket.FULL) {
-                activeFlamethrowers = new HashSet<>();
+                activeFlamethrowers = new ObjectOpenHashSet<>();
 
                 int amount = dataStream.readInt();
                 for (int i = 0; i < amount; i++) {

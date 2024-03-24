@@ -1,5 +1,6 @@
 package mekanism.common.recipe;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.api.gas.GasTank;
@@ -15,7 +16,10 @@ import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
@@ -23,8 +27,8 @@ import java.util.function.Predicate;
 public class GasConversionHandler {
 
     //TODO: Show uses in JEI for fuels that can be turned to gas??
-    private static final Map<Gas, List<IMekanismIngredient<ItemStack>>> gasToIngredients = new HashMap<>();
-    private static final Map<IMekanismIngredient<ItemStack>, GasStack> ingredientToGas = new HashMap<>();
+    private static final Map<Gas, List<IMekanismIngredient<ItemStack>>> gasToIngredients = new Object2ObjectOpenHashMap<>();
+    private static final Map<IMekanismIngredient<ItemStack>, GasStack> ingredientToGas = new Object2ObjectOpenHashMap<>();
 
     public static void addDefaultGasMappings() {
         addGasMapping(new ItemStack(Items.FLINT), MekanismFluids.Oxygen, 10);

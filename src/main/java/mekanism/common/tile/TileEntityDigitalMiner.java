@@ -1,6 +1,7 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.Chunk3D;
 import mekanism.api.Coord4D;
 import mekanism.api.Range4D;
@@ -71,8 +72,8 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
 
     private static final int[] INV_SLOTS = IntStream.range(0, 28).toArray();
 
-    public Map<Chunk3D, BitSet> oresToMine = new HashMap<>();
-    public Map<Integer, MinerFilter> replaceMap = new HashMap<>();
+    public Map<Chunk3D, BitSet> oresToMine = new Object2ObjectOpenHashMap<>();
+    public Map<Integer, MinerFilter> replaceMap = new Object2ObjectOpenHashMap<>();
     public HashList<MinerFilter> filters = new HashList<>();
     public ThreadMinerSearch searcher = new ThreadMinerSearch(this);
     public final double BASE_ENERGY_USAGE = MachineType.DIGITAL_MINER.getUsage();

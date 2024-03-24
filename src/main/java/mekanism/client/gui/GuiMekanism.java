@@ -22,7 +22,7 @@ import org.lwjgl.input.Mouse;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -30,7 +30,7 @@ import java.util.Set;
 public abstract class GuiMekanism extends GuiContainer implements IGuiWrapper {
 
     private final ResourceLocation Base = MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Base.png");
-    private Set<GuiElement> guiElements = new HashSet<>();
+    private Set<GuiElement> guiElements = new ObjectOpenHashSet<>();
 
     public GuiMekanism(Container container) {
         super(container);

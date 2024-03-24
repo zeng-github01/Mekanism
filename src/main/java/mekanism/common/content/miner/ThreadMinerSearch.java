@@ -1,5 +1,6 @@
 package mekanism.common.content.miner;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.Chunk3D;
 import mekanism.api.Coord4D;
 import mekanism.api.util.BlockInfo;
@@ -15,7 +16,6 @@ import net.minecraft.world.ChunkCache;
 import net.minecraftforge.fluids.IFluidBlock;
 
 import java.util.BitSet;
-import java.util.HashMap;
 import java.util.Map;
 
 public class ThreadMinerSearch extends Thread {
@@ -24,9 +24,9 @@ public class ThreadMinerSearch extends Thread {
 
     public State state = State.IDLE;
 
-    private Map<Chunk3D, BitSet> oresToMine = new HashMap<>();
-    private Map<Integer, MinerFilter> replaceMap = new HashMap<>();
-    private Map<BlockInfo, MinerFilter> acceptedItems = new HashMap<>();
+    private Map<Chunk3D, BitSet> oresToMine = new Object2ObjectOpenHashMap<>();
+    private Map<Integer, MinerFilter> replaceMap = new Object2ObjectOpenHashMap<>();
+    private Map<BlockInfo, MinerFilter> acceptedItems = new Object2ObjectOpenHashMap<>();
     private ChunkCache chunkCache;
 
     public int found = 0;

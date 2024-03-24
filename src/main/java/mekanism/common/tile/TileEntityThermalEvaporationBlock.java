@@ -16,7 +16,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
 import java.util.Deque;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
@@ -144,7 +144,7 @@ public class TileEntityThermalEvaporationBlock extends TileEntityContainerBlock 
 
         public TileEntityThermalEvaporationController found;
 
-        public Set<BlockPos> iterated = new HashSet<>();
+        public Set<BlockPos> iterated = new ObjectOpenHashSet<>();
 
         private Deque<BlockPos> checkQueue = new LinkedList<>();
 

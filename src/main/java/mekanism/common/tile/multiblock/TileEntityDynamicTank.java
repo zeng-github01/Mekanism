@@ -27,7 +27,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 
 public class TileEntityDynamicTank extends TileEntityMultiblock<SynchronizedTankData> implements IComputerIntegration, IFluidContainerManager {
@@ -39,7 +39,7 @@ public class TileEntityDynamicTank extends TileEntityMultiblock<SynchronizedTank
     /**
      * A client-sided set of valves on this tank's structure that are currently active, used on the client for rendering fluids.
      */
-    public Set<ValveData> valveViewing = new HashSet<>();
+    public Set<ValveData> valveViewing = new ObjectOpenHashSet<>();
 
     /**
      * The capacity this tank has on the client-side.
@@ -159,7 +159,7 @@ public class TileEntityDynamicTank extends TileEntityMultiblock<SynchronizedTank
             TileUtils.addFluidStack(data, structure.fluidStored);
             TileUtils.addGasStack(data, structure.gasstored);
             if (isRendering) {
-                Set<ValveData> toSend = new HashSet<>();
+                Set<ValveData> toSend = new ObjectOpenHashSet<>();
 
                 for (ValveData valveData : structure.valves) {
                     if (valveData.activeTicks > 0) {

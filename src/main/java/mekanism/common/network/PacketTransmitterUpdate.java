@@ -26,7 +26,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import java.util.Collection;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 public class PacketTransmitterUpdate implements IMessageHandler<TransmitterUpdateMessage, IMessage> {
 
@@ -187,7 +187,7 @@ public class PacketTransmitterUpdate implements IMessageHandler<TransmitterUpdat
             coord4D = Coord4D.read(dataStream);
             if (packetType == PacketType.UPDATE) {
                 newNetwork = dataStream.readBoolean();
-                transmitterCoords = new HashSet<>();
+                transmitterCoords = new ObjectOpenHashSet<>();
                 int numTransmitters = dataStream.readInt();
 
                 for (int i = 0; i < numTransmitters; i++) {

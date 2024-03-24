@@ -1,6 +1,7 @@
 package mekanism.common.item;
 
 import io.netty.buffer.ByteBuf;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.EnumColor;
 import mekanism.common.Mekanism;
 import mekanism.common.base.IItemNetwork;
@@ -21,7 +22,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +29,7 @@ public class ItemWalkieTalkie extends ItemMekanismAddition implements IItemNetwo
 
     public static ModelResourceLocation OFF_MODEL = new ModelResourceLocation(new ResourceLocation(Mekanism.MODID, "WalkieTalkie"), "inventory");
 
-    public static Map<Integer, ModelResourceLocation> CHANNEL_MODELS = new HashMap<>();
+    public static Map<Integer, ModelResourceLocation> CHANNEL_MODELS = new Object2ObjectOpenHashMap<>();
 
     public ItemWalkieTalkie() {
         super();

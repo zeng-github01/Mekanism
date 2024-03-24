@@ -1,6 +1,7 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.api.Chunk3D;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
@@ -53,7 +54,7 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
     private static final String[] methods = new String[]{"getEnergy", "canTeleport", "getMaxEnergy", "teleport", "setFrequency", "setDefaultColor"};
     public static List<EnumColor> colors = Arrays.asList(EnumColor.values());
     public AxisAlignedBB teleportBounds = null;
-    public Set<UUID> didTeleport = new HashSet<>();
+    public Set<UUID> didTeleport = new ObjectOpenHashSet<>();
 
     public int teleDelay = 0;
 
@@ -575,7 +576,7 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
 
     @Override
     public Set<ChunkPos> getChunkSet() {
-        Set<ChunkPos> ret = new HashSet<>();
+        Set<ChunkPos> ret = new ObjectOpenHashSet<>();
         ret.add(new Chunk3D(Coord4D.get(this)).getPos());
         return ret;
     }

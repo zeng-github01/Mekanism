@@ -1,16 +1,16 @@
 package mekanism.common.fixers;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.common.Mekanism;
 import mekanism.common.fixers.MekanismDataFixers.MekFixers;
 import net.minecraft.nbt.NBTTagCompound;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
 import java.util.Map;
 
 public class TEFixer extends BaseMekanismFixer {
 
-    private final Map<String, String> tileEntityNames = new HashMap<>();
+    private final Map<String, String> tileEntityNames = new Object2ObjectOpenHashMap<>();
     private final String modid;
 
     protected TEFixer(String modid, MekFixers fixer) {

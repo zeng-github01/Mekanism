@@ -1,9 +1,9 @@
 package mekanism.api.infuse;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -17,12 +17,12 @@ public class InfuseRegistry {
     /**
      * The (private) map of ItemStacks and their related InfuseObjects.
      */
-    private static Map<ItemStack, InfuseObject> infuseObjects = new HashMap<>();
+    private static Map<ItemStack, InfuseObject> infuseObjects = new Object2ObjectOpenHashMap<>();
 
     /**
      * The (private) map of infuse names and their corresponding InfuseTypes.
      */
-    private static Map<String, InfuseType> infuseTypes = new HashMap<>();
+    private static Map<String, InfuseType> infuseTypes = new Object2ObjectOpenHashMap<>();
 
     /**
      * Registers an InfuseType into the registry. Call this in PreInit!

@@ -1,16 +1,16 @@
 package mekanism.common.content.transporter;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.Coord4D;
 import net.minecraft.util.EnumFacing;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class PathfinderCache {
 
-    private static Map<PathData, List<Coord4D>> cachedPaths = new HashMap<>();
+    private static Map<PathData, List<Coord4D>> cachedPaths = new Object2ObjectOpenHashMap<>();
 
     public static void onChanged(Coord4D location) {
         reset();

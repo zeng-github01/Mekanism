@@ -1,6 +1,7 @@
 package mekanism.common.command;
 
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.MekanismAPI;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.command.CommandBase;
@@ -16,14 +17,13 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.server.command.CommandTreeBase;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 import java.util.UUID;
 
 public class CommandMek extends CommandTreeBase {
 
-    private Map<UUID, Stack<BlockPos>> tpStack = new HashMap<>();
+    private Map<UUID, Stack<BlockPos>> tpStack = new Object2ObjectOpenHashMap<>();
 
     public CommandMek() {
         addSubcommand(new Cmd("debug", "cmd.mek.debug", this::toggleDebug));

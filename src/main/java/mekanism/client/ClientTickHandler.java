@@ -1,5 +1,7 @@
 package mekanism.client;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.api.IClientTicker;
 import mekanism.api.gas.GasStack;
 import mekanism.client.render.RenderTickHandler;
@@ -46,8 +48,8 @@ public class ClientTickHandler {
 
     public static Minecraft mc = FMLClientHandler.instance().getClient();
     public static Random rand = new Random();
-    public static Set<IClientTicker> tickingSet = new HashSet<>();
-    public static Map<EntityPlayer, TeleportData> portableTeleports = new HashMap<>();
+    public static Set<IClientTicker> tickingSet = new ObjectOpenHashSet<>();
+    public static Map<EntityPlayer, TeleportData> portableTeleports = new Object2ObjectOpenHashMap<>();
     public static int wheelStatus = 0;
     public boolean initHoliday = false;
     public boolean shouldReset = false;

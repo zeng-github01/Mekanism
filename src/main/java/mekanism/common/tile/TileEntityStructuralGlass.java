@@ -9,7 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 
 public class TileEntityStructuralGlass extends TileEntity implements IStructuralMultiblock {
@@ -59,7 +59,7 @@ public class TileEntityStructuralGlass extends TileEntity implements IStructural
 
         public IMultiblock<?> found;
 
-        public Set<Coord4D> iterated = new HashSet<>();
+        public Set<Coord4D> iterated = new ObjectOpenHashSet<>();
 
         public void loop(Coord4D pos) {
             if (iterated.size() > 2048 || found != null) {

@@ -13,12 +13,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.server.command.CommandTreeBase;
 
 import javax.annotation.Nonnull;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 
 public class CommandChunk extends CommandTreeBase {
 
-    private Set<Long> chunkWatchers = new HashSet<>();
+    private Set<Long> chunkWatchers = new ObjectOpenHashSet<>();
 
     public CommandChunk() {
         addSubcommand(new Cmd("watch", "cmd.mek.chunk.watch", this::addWatcher));

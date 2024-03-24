@@ -1,5 +1,6 @@
 package mekanism.client.gui;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.client.gui.button.GuiDisableableButton;
@@ -30,14 +31,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class GuiOredictionificator extends GuiMekanismTile<TileEntityOredictionificator> {
 
-    private Map<OredictionificatorFilter, ItemStack> renderStacks = new HashMap<>();
+    private Map<OredictionificatorFilter, ItemStack> renderStacks = new Object2ObjectOpenHashMap<>();
     private boolean isDragging = false;
     private int dragOffset = 0;
     private float scroll;

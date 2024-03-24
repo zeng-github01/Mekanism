@@ -2,13 +2,13 @@ package mekanism.common.integration.crafttweaker.util;
 
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.common.integration.crafttweaker.helpers.RecipeInfoHelper;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.inputs.MachineInput;
 import mekanism.common.recipe.machines.MachineRecipe;
 
 import java.util.AbstractMap;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -25,7 +25,7 @@ public abstract class RecipeMapModification<INPUT extends MachineInput<INPUT>, R
         this.name = name;
         this.map = recipeType.get();
         this.add = add;
-        this.recipes = new HashMap<>();
+        this.recipes = new Object2ObjectOpenHashMap<>();
     }
 
     @Override

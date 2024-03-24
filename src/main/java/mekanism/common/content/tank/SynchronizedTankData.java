@@ -9,7 +9,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fluids.FluidStack;
 
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 
 public class SynchronizedTankData extends SynchronizedData<SynchronizedTankData> {
@@ -29,7 +29,7 @@ public class SynchronizedTankData extends SynchronizedData<SynchronizedTankData>
 
     public NonNullList<ItemStack> inventory = NonNullList.withSize(2, ItemStack.EMPTY);
 
-    public Set<ValveData> valves = new HashSet<>();
+    public Set<ValveData> valves = new ObjectOpenHashSet<>();
 
     public boolean needsRenderUpdate() {
         if ((fluidStored == null && prevFluid != null) || (fluidStored != null && prevFluid == null)) {

@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 
 /**
@@ -122,7 +122,7 @@ public class GasNetwork extends DynamicNetwork<IGasHandler, GasNetwork, GasStack
     }
 
     private int tickEmit(GasStack stack) {
-        Set<GasHandlerTarget> availableAcceptors = new HashSet<>();
+        Set<GasHandlerTarget> availableAcceptors = new ObjectOpenHashSet<>();
         int totalHandlers = 0;
         Gas type = stack.getGas();
         for (Coord4D coord : possibleAcceptors) {

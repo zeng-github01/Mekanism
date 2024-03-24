@@ -3,6 +3,7 @@ package mekanism.common;
 import buildcraft.api.fuels.BuildcraftFuelRegistry;
 import buildcraft.api.fuels.IFuel;
 import buildcraft.api.mj.MjAPI;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.gas.Gas;
 import mekanism.common.integration.redstoneflux.RFIntegration;
 import mekanism.common.util.MekanismUtils;
@@ -10,12 +11,11 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.ModAPIManager;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class FuelHandler {
 
-    public static Map<String, FuelGas> fuels = new HashMap<>();
+    public static Map<String, FuelGas> fuels = new Object2ObjectOpenHashMap<>();
 
     public static void addGas(Gas gas, int burnTicks, double energyPerMilliBucket) {
         fuels.put(gas.getName(), new FuelGas(burnTicks, energyPerMilliBucket));

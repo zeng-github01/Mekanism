@@ -42,7 +42,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -592,7 +592,7 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
 
     @Override
     public Set<ChunkPos> getChunkSet() {
-        Set<ChunkPos> ret = new HashSet<>();
+        Set<ChunkPos> ret = new ObjectOpenHashSet<>();
         ret.add(new Chunk3D(Coord4D.get(this)).getPos());
         return ret;
     }

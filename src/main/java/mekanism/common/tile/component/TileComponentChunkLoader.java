@@ -20,7 +20,7 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.util.Constants.NBT;
 
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 
 public class TileComponentChunkLoader implements ITileComponent {
@@ -32,7 +32,7 @@ public class TileComponentChunkLoader implements ITileComponent {
 
     public Ticket chunkTicket;
 
-    public Set<ChunkPos> chunkSet = new HashSet<>();
+    public Set<ChunkPos> chunkSet = new ObjectOpenHashSet<>();
 
     public Coord4D prevCoord;
 

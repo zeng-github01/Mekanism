@@ -1,5 +1,6 @@
 package mekanism.client;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.MekanismAPI;
 import mekanism.api.MekanismAPI.BoxBlacklistEvent;
 import mekanism.client.render.obj.TransmitterModel;
@@ -14,14 +15,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class MekanismClient extends Mekanism {
 
-    public static Map<UUID, SecurityData> clientSecurityMap = new HashMap<>();
-    public static Map<UUID, String> clientUUIDMap = new HashMap<>();
+    public static Map<UUID, SecurityData> clientSecurityMap = new Object2ObjectOpenHashMap<>();
+    public static Map<UUID, String> clientUUIDMap = new Object2ObjectOpenHashMap<>();
 
     public static VoiceClient voiceClient;
     public static long ticksPassed = 0;

@@ -22,7 +22,7 @@ import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -39,7 +39,7 @@ public abstract class BaseRecipeCategory<WRAPPER extends IRecipeWrapper> impleme
     protected int yOffset;
     protected IDrawable fluidOverlayLarge;
     protected IDrawable fluidOverlaySmall;
-    protected Set<GuiElement> guiElements = new HashSet<>();
+    protected Set<GuiElement> guiElements = new ObjectOpenHashSet<>();
     private String recipeName;
     private String unlocalizedName;
 

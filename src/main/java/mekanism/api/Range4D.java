@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 
 public class Range4D {
@@ -63,7 +63,7 @@ public class Range4D {
     }
 
     public Set<Chunk3D> getIntersectingChunks() {
-        Set<Chunk3D> set = new HashSet<>();
+        Set<Chunk3D> set = new ObjectOpenHashSet<>();
         for (int chunkX = xMin >> 4; chunkX <= xMax - 1 >> 4; chunkX++) {
             for (int chunkZ = zMin >> 4; chunkZ <= zMax - 1 >> 4; chunkZ++) {
                 set.add(new Chunk3D(chunkX, chunkZ, dimensionId));

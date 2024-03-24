@@ -1,6 +1,7 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigurable;
@@ -36,7 +37,10 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 public class TileEntityElectricPump extends TileEntityElectricBlock implements IFluidHandlerWrapper, ISustainedTank, IConfigurable, IRedstoneControl, IUpgradeTile,
         ITankManager, IComputerIntegration, ISecurityTile, IComparatorSupport {
@@ -72,7 +76,7 @@ public class TileEntityElectricPump extends TileEntityElectricBlock implements I
     /**
      * The nodes that have full sources near them or in them
      */
-    public Set<Coord4D> recurringNodes = new HashSet<>();
+    public Set<Coord4D> recurringNodes = new ObjectOpenHashSet<>();
     /**
      * This machine's current RedstoneControl type.
      */

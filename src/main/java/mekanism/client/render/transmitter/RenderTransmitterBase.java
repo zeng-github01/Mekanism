@@ -1,5 +1,6 @@
 package mekanism.client.render.transmitter;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.ColourRGBA;
 import mekanism.common.tile.transmitter.TileEntityTransmitter;
@@ -21,7 +22,10 @@ import net.minecraftforge.client.model.obj.OBJModel.OBJState;
 import net.minecraftforge.client.model.pipeline.LightUtil;
 import org.lwjgl.opengl.GL11;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 public abstract class RenderTransmitterBase<T extends TileEntityTransmitter> extends TileEntitySpecialRenderer<T> {
@@ -29,7 +33,7 @@ public abstract class RenderTransmitterBase<T extends TileEntityTransmitter> ext
     /* Credit to Eternal Energy */
     public static Function<ResourceLocation, TextureAtlasSprite> textureGetterFlipV = location -> DummyAtlasTextureFlipV.instance;
     private static OBJModel contentsModel;
-    private static Map<String, IBakedModel> contentsMap = new HashMap<>();
+    private static Map<String, IBakedModel> contentsMap = new Object2ObjectOpenHashMap<>();
     protected Minecraft mc = Minecraft.getMinecraft();
 
     public RenderTransmitterBase() {
@@ -44,7 +48,7 @@ public abstract class RenderTransmitterBase<T extends TileEntityTransmitter> ext
     }
 
     public static Map<String, IBakedModel> buildModelMap(OBJModel objModel) {
-        Map<String, IBakedModel> modelParts = new HashMap<>();
+        Map<String, IBakedModel> modelParts = new Object2ObjectOpenHashMap<>();
         Set<String> keys = objModel.getMatLib().getGroups().keySet();
         if (!keys.isEmpty()) {
             for (String key : keys) {

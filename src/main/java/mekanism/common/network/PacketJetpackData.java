@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -117,7 +117,7 @@ public class PacketJetpackData implements IMessageHandler<JetpackDataMessage, IM
                 uuid = PacketHandler.readUUID(dataStream);
                 value = dataStream.readBoolean();
             } else if (packetType == JetpackPacket.FULL) {
-                activeJetpacks = new HashSet<>();
+                activeJetpacks = new ObjectOpenHashSet<>();
 
                 int amount = dataStream.readInt();
                 for (int i = 0; i < amount; i++) {

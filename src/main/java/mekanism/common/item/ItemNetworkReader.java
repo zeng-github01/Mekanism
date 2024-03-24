@@ -21,7 +21,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 
 public class ItemNetworkReader extends ItemEnergized {
@@ -75,7 +75,7 @@ public class ItemNetworkReader extends ItemEnergized {
                     if (drain) {
                         setEnergy(stack, getEnergy(stack) - ENERGY_PER_USE);
                     }
-                    Set<DynamicNetwork> iteratedNetworks = new HashSet<>();
+                    Set<DynamicNetwork> iteratedNetworks = new ObjectOpenHashSet<>();
 
                     for (EnumFacing iterSide : EnumFacing.VALUES) {
                         Coord4D coord = Coord4D.get(tileEntity).offset(iterSide);

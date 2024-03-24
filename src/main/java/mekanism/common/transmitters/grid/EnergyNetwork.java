@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 
 public class EnergyNetwork extends DynamicNetwork<EnergyAcceptorWrapper, EnergyNetwork, EnergyStack> {
@@ -88,7 +88,7 @@ public class EnergyNetwork extends DynamicNetwork<EnergyAcceptorWrapper, EnergyN
     }
 
     private double tickEmit(double energyToSend) {
-        Set<EnergyAcceptorTarget> targets = new HashSet<>();
+        Set<EnergyAcceptorTarget> targets = new ObjectOpenHashSet<>();
         int totalHandlers = 0;
         for (Coord4D coord : possibleAcceptors) {
             EnumSet<EnumFacing> sides = acceptorDirections.get(coord);

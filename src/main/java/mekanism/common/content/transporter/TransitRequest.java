@@ -1,5 +1,7 @@
 package mekanism.common.content.transporter;
 
+import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.common.content.transporter.Finder.FirstFinder;
 import mekanism.common.util.InventoryUtils;
 import mekanism.common.util.StackUtils;
@@ -9,7 +11,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.IItemHandler;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -18,7 +19,7 @@ public class TransitRequest {
     /**
      * Complicated map- associates item types with both total available item count and slot IDs and available item amounts for each slot.
      */
-    private Map<HashedItem, Pair<Integer, Map<Integer, Integer>>> itemMap = new HashMap<>();
+    private Map<HashedItem, Pair<Integer, Int2IntOpenHashMap>> itemMap = new Object2ObjectOpenHashMap<>();
 
     public static TransitRequest getFromTransport(TransporterStack stack) {
         return getFromStack(stack.itemStack);
@@ -43,7 +44,7 @@ public class TransitRequest {
     public static TransitRequest buildInventoryMap(TileEntity tile, EnumFacing side, int amount, Finder finder) {
         TransitRequest ret = new TransitRequest();
         // so we can keep track of how many of each item type we have in this inventory mapping
-        Map<HashedItem, Integer> itemCountMap = new HashMap<>();
+        Map<HashedItem, Integer> itemCountMap = new Object2ObjectOpenHashMap<>();
 
         if (!InventoryUtils.assertItemHandler("TransitRequest", tile, side.getOpposite())) {
             return ret;
@@ -75,7 +76,7 @@ public class TransitRequest {
         return ret;
     }
 
-    public Map<HashedItem, Pair<Integer, Map<Integer, Integer>>> getItemMap() {
+    public Map<HashedItem, Pair<Integer, Int2IntOpenHashMap>> getItemMap() {
         return itemMap;
     }
 
@@ -86,13 +87,13 @@ public class TransitRequest {
     public void addItem(ItemStack stack, int slot) {
         HashedItem hashed = new HashedItem(stack);
         if (!itemMap.containsKey(hashed)) {
-            Map<Integer, Integer> slotMap = new HashMap<>();
+            Int2IntOpenHashMap slotMap = new Int2IntOpenHashMap();
             slotMap.put(slot, stack.getCount());
             itemMap.put(hashed, Pair.of(stack.getCount(), slotMap));
         } else {
-            Pair<Integer, Map<Integer, Integer>> itemInfo = itemMap.get(hashed);
+            Pair<Integer, Int2IntOpenHashMap> itemInfo = itemMap.get(hashed);
             int count = itemInfo.getLeft() + stack.getCount();
-            Map<Integer, Integer> slotMap = itemInfo.getRight();
+            Int2IntOpenHashMap slotMap = itemInfo.getRight();
             slotMap.put(slot, stack.getCount());
             itemMap.put(hashed, Pair.of(count, slotMap));
         }
@@ -119,20 +120,20 @@ public class TransitRequest {
         /**
          * slot ID to item count map - this details how many items we will be pulling from each slot
          */
-        private Map<Integer, Integer> idMap = new HashMap<>();
+        private Int2IntOpenHashMap idMap = new Int2IntOpenHashMap();
         private ItemStack toSend = ItemStack.EMPTY;
 
         private TransitResponse() {
         }
 
-        public TransitResponse(ItemStack i, Map<Integer, Integer> slots) {
+        public TransitResponse(ItemStack i, Int2IntOpenHashMap slots) {
             toSend = i;
 
             // generate our ID/ItemStack map based on the amount of items we're sending
             int amount = getSendingAmount();
             for (Entry<Integer, Integer> entry : slots.entrySet()) {
                 int toUse = Math.min(amount, entry.getValue());
-                idMap.put(entry.getKey(), toUse);
+                idMap.put(entry.getKey().intValue(), toUse);
                 amount -= toUse;
                 if (amount == 0) {
                     break;

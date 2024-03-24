@@ -1,6 +1,7 @@
 package mekanism.common.recipe;
 
 import com.google.common.collect.ImmutableList;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.api.infuse.InfuseType;
@@ -672,7 +673,7 @@ public final class RecipeHandler {
             return values;
         }
 
-        private final HashMap<INPUT, RECIPE> recipes = new HashMap<>();
+        private final Object2ObjectOpenHashMap<INPUT, RECIPE> recipes = new Object2ObjectOpenHashMap<>();
         private final String recipeName;
         @Nonnull
         private final String jeiCategory;
@@ -798,7 +799,7 @@ public final class RecipeHandler {
 
         // N.B. Must return a HashMap, not Map as Unidict expects the stronger type
         @Nonnull
-        public HashMap<INPUT, RECIPE> get() {
+        public Object2ObjectOpenHashMap<INPUT, RECIPE> get() {
             return recipes;
         }
     }

@@ -2,6 +2,8 @@ package mekanism.common.item;
 
 import com.google.common.collect.Multimap;
 import io.netty.buffer.ByteBuf;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.common.Mekanism;
@@ -38,7 +40,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class ItemMekTool extends ItemEnergized implements IItemNetwork {
@@ -414,7 +419,7 @@ public class ItemMekTool extends ItemEnergized implements IItemNetwork {
 
     public static class Finder {
 
-        public static Map<Block, List<Block>> ignoreBlocks = new HashMap<>();
+        public static Map<Block, List<Block>> ignoreBlocks = new Object2ObjectOpenHashMap<>();
 
         static {
             ignoreBlocks.put(Blocks.REDSTONE_ORE, Arrays.asList(Blocks.REDSTONE_ORE, Blocks.LIT_REDSTONE_ORE));
@@ -424,7 +429,7 @@ public class ItemMekTool extends ItemEnergized implements IItemNetwork {
         public final World world;
         public final ItemStack stack;
         public final Coord4D location;
-        public final Set<Coord4D> found = new HashSet<>();
+        public final Set<Coord4D> found = new ObjectOpenHashSet<>();
         private final EntityPlayer player;
         private final RayTraceResult rayTraceResult;
         private final Block startBlock;

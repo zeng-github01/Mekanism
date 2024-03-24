@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 
 public class FluidNetwork extends DynamicNetwork<IFluidHandler, FluidNetwork, FluidStack> {
@@ -106,7 +106,7 @@ public class FluidNetwork extends DynamicNetwork<IFluidHandler, FluidNetwork, Fl
     }
 
     private int tickEmit(FluidStack fluidToSend) {
-        Set<FluidHandlerTarget> availableAcceptors = new HashSet<>();
+        Set<FluidHandlerTarget> availableAcceptors = new ObjectOpenHashSet<>();
         int totalHandlers = 0;
         for (Coord4D coord : possibleAcceptors) {
             EnumSet<EnumFacing> sides = acceptorDirections.get(coord);

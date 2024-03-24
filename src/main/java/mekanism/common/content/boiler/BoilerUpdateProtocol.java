@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -47,8 +47,8 @@ public class BoilerUpdateProtocol extends UpdateProtocol<SynchronizedBoilerData>
         if (structure.volHeight < 3) {
             return false;
         }
-        Set<Coord4D> dispersers = new HashSet<>();
-        Set<Coord4D> elements = new HashSet<>();
+        Set<Coord4D> dispersers = new ObjectOpenHashSet<>();
+        Set<Coord4D> elements = new ObjectOpenHashSet<>();
         for (Coord4D coord : innerNodes) {
             TileEntity tile = coord.getTileEntity(pointer.getWorld());
             if (tile instanceof TileEntityPressureDisperser) {

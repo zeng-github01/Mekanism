@@ -1,5 +1,6 @@
 package mekanism.client.gui;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.Coord4D;
 import mekanism.api.RelativeSide;
 import mekanism.api.transmitters.TransmissionType;
@@ -34,14 +35,13 @@ import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class GuiSideConfiguration extends GuiMekanismTile<TileEntityContainerBlock> {
 
-    private Map<Integer, GuiPos> slotPosMap = new HashMap<>();
+    private Map<Integer, GuiPos> slotPosMap = new Object2ObjectOpenHashMap<>();
     private ISideConfiguration configurable;
     private TransmissionType currentType;
     private List<GuiConfigTypeTab> configTabs = new ArrayList<>();

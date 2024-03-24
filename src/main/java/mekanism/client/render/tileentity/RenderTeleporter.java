@@ -1,5 +1,6 @@
 package mekanism.client.render.tileentity;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.Coord4D;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.render.MekanismRenderer.DisplayInteger;
@@ -18,12 +19,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import org.lwjgl.opengl.GL11;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class RenderTeleporter extends TileEntitySpecialRenderer<TileEntityTeleporter> {
 
-    private Map<Integer, DisplayInteger> cachedOverlays = new HashMap<>();
+    private Map<Integer, DisplayInteger> cachedOverlays = new Object2ObjectOpenHashMap<>();
 
     @Override
     public void render(TileEntityTeleporter tileEntity, double x, double y, double z, float partialTick, int destroyStage, float alpha) {

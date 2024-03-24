@@ -119,13 +119,7 @@ public final class GasUtils {
 
         int curHandlers = target.getHandlers().size();
         if (curHandlers > 0) {
-            // Firestarter start :: optimize emit
-            /*
-            Set<GasHandlerTarget> targets = new HashSet<>();
-            targets.add(target);
-             */
             return EmitUtils.sendToAcceptors(java.util.Collections.singleton(target), curHandlers, stack.amount, stack);
-            // Firestarter end
         }
         return 0;
     }

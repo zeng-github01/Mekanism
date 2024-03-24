@@ -1,8 +1,10 @@
 package mekanism.client;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.Pos3D;
+import mekanism.api.tier.BaseTier;
 import mekanism.client.SparkleAnimation.INodeChecker;
 import mekanism.client.entity.ParticleLaser;
 import mekanism.client.gui.*;
@@ -48,7 +50,6 @@ import mekanism.common.inventory.InventoryPersonalChest;
 import mekanism.common.item.*;
 import mekanism.common.network.PacketPortableTeleporter.PortableTeleporterMessage;
 import mekanism.common.recipe.machines.*;
-import mekanism.api.tier.BaseTier;
 import mekanism.common.tier.GasTankTier;
 import mekanism.common.tile.*;
 import mekanism.common.tile.multiblock.*;
@@ -99,7 +100,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -119,9 +119,9 @@ public class ClientProxy extends CommonProxy {
     private static final IStateMapper fenceMapper = new PlasticFenceStateMapper();
     private static final IStateMapper boxMapper = new CardboardBoxStateMapper();
     private static final IStateMapper transmitterMapper = new TransmitterStateMapper();
-    public static Map<String, ModelResourceLocation> machineResources = new HashMap<>();
-    public static Map<String, ModelResourceLocation> basicResources = new HashMap<>();
-    public static Map<String, ModelResourceLocation> transmitterResources = new HashMap<>();
+    public static Map<String, ModelResourceLocation> machineResources = new Object2ObjectOpenHashMap<>();
+    public static Map<String, ModelResourceLocation> basicResources = new Object2ObjectOpenHashMap<>();
+    public static Map<String, ModelResourceLocation> transmitterResources = new Object2ObjectOpenHashMap<>();
 
     @Override
     public void loadConfiguration() {

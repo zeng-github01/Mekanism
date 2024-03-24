@@ -1,5 +1,6 @@
 package mekanism.client.render;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.client.render.MekanismRenderer.DisplayInteger;
 import mekanism.client.render.MekanismRenderer.GlowInfo;
 import mekanism.client.render.MekanismRenderer.Model3D;
@@ -13,14 +14,13 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.init.Blocks;
 import org.lwjgl.opengl.GL11;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public final class MinerVisualRenderer {
 
     private static final double offset = 0.01;
     private static Minecraft mc = Minecraft.getMinecraft();
-    private static Map<MinerRenderData, DisplayInteger> cachedVisuals = new HashMap<>();
+    private static Map<MinerRenderData, DisplayInteger> cachedVisuals = new Object2ObjectOpenHashMap<>();
 
     public static void render(TileEntityDigitalMiner miner) {
         GlStateManager.pushMatrix();

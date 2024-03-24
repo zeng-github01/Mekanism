@@ -30,7 +30,7 @@ import net.minecraftforge.fml.common.Optional.Interface;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -47,7 +47,7 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITileNe
     /**
      * The players currently using this block.
      */
-    public Set<EntityPlayer> playersUsing = new HashSet<>();
+    public Set<EntityPlayer> playersUsing = new ObjectOpenHashSet<>();
 
     /**
      * A timer used to send packets to clients.

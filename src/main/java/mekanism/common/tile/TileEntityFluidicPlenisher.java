@@ -34,7 +34,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -44,7 +44,7 @@ public class TileEntityFluidicPlenisher extends TileEntityElectricBlock implemen
     private static final String[] methods = new String[]{"reset"};
     private static EnumSet<EnumFacing> dirs = EnumSet.complementOf(EnumSet.of(EnumFacing.UP));
     public Set<Coord4D> activeNodes = new LinkedHashSet<>();
-    public Set<Coord4D> usedNodes = new HashSet<>();
+    public Set<Coord4D> usedNodes = new ObjectOpenHashSet<>();
     public boolean finishedCalc = false;
     public FluidTank fluidTank = new FluidTank(10000);
     /**
@@ -136,7 +136,7 @@ public class TileEntityFluidicPlenisher extends TileEntityElectricBlock implemen
             }
         }
 
-        Set<Coord4D> toRemove = new HashSet<>();
+        Set<Coord4D> toRemove = new ObjectOpenHashSet<>();
         for (Coord4D coord : activeNodes) {
             if (coord.exists(world)) {
                 FluidStack fluid = fluidTank.getFluid();

@@ -1,5 +1,6 @@
 package mekanism.common.multiblock;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.api.Coord4D;
 import mekanism.common.tile.TileEntityMultiblock;
 import net.minecraft.item.ItemStack;
@@ -14,9 +15,9 @@ public abstract class UpdateProtocol<T extends SynchronizedData<T>> {
     /**
      * The multiblock nodes that have already been iterated over.
      */
-    public Set<Coord4D> iteratedNodes = new HashSet<>();
+    public Set<Coord4D> iteratedNodes = new ObjectOpenHashSet<>();
 
-    public Set<Coord4D> innerNodes = new HashSet<>();
+    public Set<Coord4D> innerNodes = new ObjectOpenHashSet<>();
 
     /**
      * The structures found, all connected by some nodes to the pointer.
@@ -58,7 +59,7 @@ public abstract class UpdateProtocol<T extends SynchronizedData<T>> {
                 zmin = findViableNode(coord, 0, 0, -1);
             }
 
-            Set<Coord4D> locations = new HashSet<>();
+            Set<Coord4D> locations = new ObjectOpenHashSet<>();
             boolean isValid = true;
 
             int minX = origX + xmin;
@@ -418,7 +419,7 @@ public abstract class UpdateProtocol<T extends SynchronizedData<T>> {
 
     public static class NodeCounter {
 
-        public Set<Coord4D> iterated = new HashSet<>();
+        public Set<Coord4D> iterated = new ObjectOpenHashSet<>();
 
         public NodeChecker checker;
 

@@ -1,18 +1,18 @@
 package mekanism.common.recipe.inputs;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.common.OreDictCache;
 import mekanism.common.util.StackUtils;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public abstract class MachineInput<INPUT extends MachineInput<INPUT>> {
 
     public static final ItemStackIngredientMatcher DEFAULT_MATCHER = MachineInput::inputItemMatchesDefault;
-    private static final Map<Class<? extends Item>, ItemStackIngredientMatcher> ITEM_MATCHER_OVERRIDES = new HashMap<>();
+    private static final Map<Class<? extends Item>, ItemStackIngredientMatcher> ITEM_MATCHER_OVERRIDES = new Object2ObjectOpenHashMap<>();
 
     public static void addCustomItemMatcher(Class<? extends Item> clazz, ItemStackIngredientMatcher matcher) {
         ITEM_MATCHER_OVERRIDES.put(clazz, matcher);

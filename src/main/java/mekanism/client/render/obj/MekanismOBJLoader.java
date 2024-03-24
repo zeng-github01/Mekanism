@@ -2,6 +2,7 @@ package mekanism.client.render.obj;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.client.render.obj.MekanismOBJModel.OBJModelType;
 import mekanism.common.Mekanism;
 import net.minecraft.client.Minecraft;
@@ -26,7 +27,6 @@ import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -35,7 +35,7 @@ public class MekanismOBJLoader implements ICustomModelLoader {
     public static final MekanismOBJLoader INSTANCE = new MekanismOBJLoader();
     public static final ImmutableMap<String, String> flipData = ImmutableMap.of("flip-v", String.valueOf(true));
     public static final String[] OBJ_RENDERS = new String[]{"glow_panel"};
-    private final Map<ResourceLocation, MekanismOBJModel> modelCache = new HashMap<>();
+    private final Map<ResourceLocation, MekanismOBJModel> modelCache = new Object2ObjectOpenHashMap<>();
 
     @SubscribeEvent
     public void onModelBake(ModelBakeEvent event) {
@@ -72,7 +72,7 @@ public class MekanismOBJLoader implements ICustomModelLoader {
             }
 
             builder.put("missingno", missing);
-            return new GlowPanelModel(existingModel, objModel, state, format, builder.build(), new HashMap<>());
+            return new GlowPanelModel(existingModel, objModel, state, format, builder.build(), new Object2ObjectOpenHashMap<>());
         } catch (Exception e) {
             Mekanism.logger.error("Failed to load OBJ", e);
         }

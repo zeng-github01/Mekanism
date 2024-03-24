@@ -9,7 +9,6 @@ import mekanism.common.base.IActiveState;
 import mekanism.common.base.ITankManager;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.config.MekanismConfig;
-import mekanism.common.content.tank.TankUpdateProtocol;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.inputs.FluidInput;
@@ -35,20 +34,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 
 public class TileEntityThermalEvaporationController extends TileEntityThermalEvaporationBlock implements IActiveState, ITankManager {
 
     public static final int MAX_OUTPUT = 10000;
-    public static final int MAX_SOLARS = 4;
     public static final int MAX_HEIGHT = 18;
     private static final int[] SLOTS = {0, 1, 2, 3};
 
     public FluidTank inputTank = new FluidTank(0);
     public FluidTank outputTank = new FluidTank(MAX_OUTPUT);
 
-    public Set<Coord4D> tankParts = new HashSet<>();
+    public Set<Coord4D> tankParts = new ObjectOpenHashSet<>();
     public IEvaporationSolar[] solars = new IEvaporationSolar[4];
 
     public boolean temperatureSet = false;
@@ -327,7 +325,7 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
     }
 
     public int getMaxFluid() {
-        return height * 4 * TankUpdateProtocol.FLUID_PER_TANK;
+        return height * 4 * 64000;
     }
 
     public int getCorner(int x, int z) {

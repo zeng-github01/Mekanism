@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -111,7 +111,7 @@ public class PacketScubaTankData implements IMessageHandler<ScubaTankDataMessage
                 uuid = PacketHandler.readUUID(dataStream);
                 value = dataStream.readBoolean();
             } else if (packetType == ScubaTankPacket.FULL) {
-                activeGasmasks = new HashSet<>();
+                activeGasmasks = new ObjectOpenHashSet<>();
 
                 int amount = dataStream.readInt();
                 for (int i = 0; i < amount; i++) {

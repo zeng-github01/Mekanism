@@ -12,15 +12,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 
 //TODO: Do something better for purposes of double precision such as BigInt
 public class SynchronizedMatrixData extends SynchronizedData<SynchronizedMatrixData> {
 
     private NonNullList<ItemStack> inventory = NonNullList.withSize(2, ItemStack.EMPTY);
-    private Set<Coord4D> providers = new HashSet<>();
-    private Set<Coord4D> cells = new HashSet<>();
+    private Set<Coord4D> providers = new ObjectOpenHashSet<>();
+    private Set<Coord4D> cells = new ObjectOpenHashSet<>();
     private double queuedOutput;
     private double queuedInput;
     private double lastOutput;

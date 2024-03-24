@@ -11,7 +11,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 
 public abstract class TileEntityReactorBlock extends TileEntityElectricBlock {
@@ -121,7 +121,7 @@ public abstract class TileEntityReactorBlock extends TileEntityElectricBlock {
 
         public TileEntityReactorController found;
 
-        public Set<Coord4D> iterated = new HashSet<>();
+        public Set<Coord4D> iterated = new ObjectOpenHashSet<>();
 
         public void loop(Coord4D pos) {
             if (iterated.size() > 512 || found != null) {

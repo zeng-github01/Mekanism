@@ -1,5 +1,7 @@
 package mekanism.client.sound;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.client.sound.PlayerSound.SoundType;
 import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
@@ -23,7 +25,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 // SoundHandler is the central point for sounds on Mek client side. There are roughly three classes of sounds to deal
@@ -46,11 +50,11 @@ import java.util.concurrent.ThreadLocalRandom;
 @SideOnly(Side.CLIENT)
 public class SoundHandler {
 
-    private static Set<UUID> jetpackSounds = new HashSet<>();
-    private static Set<UUID> gasmaskSounds = new HashSet<>();
-    private static Set<UUID> flamethrowerSounds = new HashSet<>();
+    private static Set<UUID> jetpackSounds = new ObjectOpenHashSet<>();
+    private static Set<UUID> gasmaskSounds = new ObjectOpenHashSet<>();
+    private static Set<UUID> flamethrowerSounds = new ObjectOpenHashSet<>();
 
-    private static Map<Long, ISound> soundMap = new HashMap<>();
+    private static Map<Long, ISound> soundMap = new Object2ObjectOpenHashMap<>();
     private static boolean IN_MUFFLED_CHECK = false;
 
     public static void clearPlayerSounds() {

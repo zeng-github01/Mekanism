@@ -1,5 +1,7 @@
 package mekanism.common.content.transporter;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.api.Coord4D;
 import mekanism.common.base.ILogisticalTransporter;
 import mekanism.common.capabilities.Capabilities;
@@ -76,7 +78,7 @@ public final class TransporterPathfinder {
 
     public static Destination getNewRRPath(ILogisticalTransporter start, TransporterStack stack, TransitRequest request, TileEntityLogisticalSorter outputter, int min) {
         List<Destination> paths = getPaths(start, stack, request, min);
-        Map<Coord4D, Destination> destPaths = new HashMap<>();
+        Map<Coord4D, Destination> destPaths = new Object2ObjectOpenHashMap<>();
         for (Destination d : paths) {
             Coord4D dest = d.getPath().get(0);
             Destination destination = destPaths.get(dest);
@@ -302,13 +304,13 @@ public final class TransporterPathfinder {
 
             transportStack = stack;
 
-            openSet = new HashSet<>();
-            closedSet = new HashSet<>();
+            openSet = new ObjectOpenHashSet<>();
+            closedSet = new ObjectOpenHashSet<>();
 
-            navMap = new HashMap<>();
+            navMap = new Object2ObjectOpenHashMap<>();
 
-            gScore = new HashMap<>();
-            fScore = new HashMap<>();
+            gScore = new Object2ObjectOpenHashMap<>();
+            fScore = new Object2ObjectOpenHashMap<>();
 
             results = new ArrayList<>();
 

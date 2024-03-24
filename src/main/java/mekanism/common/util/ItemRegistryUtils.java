@@ -1,5 +1,6 @@
 package mekanism.common.util;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -7,14 +8,13 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import org.apache.commons.lang3.text.WordUtils;
 
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
 public final class ItemRegistryUtils {
 
-    private static final Map<String, String> modIDMap = new HashMap<>();
+    private static final Map<String, String> modIDMap = new Object2ObjectOpenHashMap<>();
 
     private static void populateMap() {
         for (Entry<String, ModContainer> entry : Loader.instance().getIndexedModList().entrySet()) {

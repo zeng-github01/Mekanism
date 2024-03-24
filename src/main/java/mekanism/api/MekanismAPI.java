@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -26,9 +26,9 @@ public class MekanismAPI {
      */
     public static boolean debug = false;
     //Add a BlockInfo value here if you don't want a certain block to be picked up by cardboard boxes
-    private static Set<BlockInfo> cardboardBoxIgnore = new HashSet<>();
+    private static Set<BlockInfo> cardboardBoxIgnore = new ObjectOpenHashSet<>();
     //Ignore all mod blocks
-    private static Set<String> cardboardBoxModIgnore = new HashSet<>();
+    private static Set<String> cardboardBoxModIgnore = new ObjectOpenHashSet<>();
     private static MekanismRecipeHelper helper = null;
 
     public static boolean isBlockCompatible(@Nonnull Block block, int meta) {

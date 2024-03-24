@@ -2,6 +2,7 @@ package mekanism.client.render.obj;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
 import net.minecraft.block.state.IBlockState;
@@ -117,7 +118,7 @@ public abstract class OBJBakedModelBase extends OBJBakedModel {
 
         Set<Face> faces = Collections.synchronizedSet(new LinkedHashSet<>());
         Optional<TRSRTransformation> transform = Optional.empty();
-        Map<Face, String> groupNameMap = new HashMap<>();
+        Map<Face, String> groupNameMap = new Object2ObjectOpenHashMap<>();
 
         for (Group g : getModel().getMatLib().getGroups().values()) {
             if (getState() instanceof OBJState) {

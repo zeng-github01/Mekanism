@@ -1,6 +1,8 @@
 package mekanism.common.transmitters;
 
 import io.netty.buffer.ByteBuf;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
@@ -29,18 +31,21 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.Constants.NBT;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 public class TransporterImpl extends TransmitterImpl<TileEntity, InventoryNetwork, Void> implements ILogisticalTransporter {
 
-    private Map<Integer, TransporterStack> transit = new HashMap<>();
+    private Map<Integer, TransporterStack> transit = new Object2ObjectOpenHashMap<>();
 
     private int nextId = 0;
 
     private EnumColor color;
 
-    private Map<Integer, TransporterStack> needsSync = new HashMap<>();
+    private Map<Integer, TransporterStack> needsSync = new Object2ObjectOpenHashMap<>();
 
     public TransporterImpl(TileEntityLogisticalTransporter multiPart) {
         super(multiPart);
@@ -95,7 +100,7 @@ public class TransporterImpl extends TransmitterImpl<TileEntity, InventoryNetwor
                 stack.progress = Math.min(100, stack.progress + getTileEntity().tier.getSpeed());
             }
         } else if (getTransmitterNetwork() != null) {
-            Set<Integer> deletes = new HashSet<>();
+            Set<Integer> deletes = new ObjectOpenHashSet<>();
             getTileEntity().pullItems();
             Coord4D coord = coord();
             for (Entry<Integer, TransporterStack> entry : transit.entrySet()) {

@@ -1,5 +1,7 @@
 package mekanism.client.render.transmitter;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.api.EnumColor;
 import mekanism.client.model.ModelTransporterBox;
 import mekanism.client.render.MekanismRenderer;
@@ -148,7 +150,7 @@ public class RenderLogisticalTransporter extends RenderTransmitterBase<TileEntit
      */
     private Collection<TransporterStack> getReducedTransit(Collection<TransporterStack> inTransit) {
         Collection<TransporterStack> reducedTransit = new ArrayList<>();
-        Set<TransportInformation> information = new HashSet<>();
+        Set<TransportInformation> information = new ObjectOpenHashSet<>();
         for (TransporterStack stack : inTransit) {
             if (stack != null && !stack.itemStack.isEmpty() && information.add(new TransportInformation(stack))) {
                 //Ensure the stack is valid AND we did not already have information matching the stack
@@ -186,68 +188,62 @@ public class RenderLogisticalTransporter extends RenderTransmitterBase<TileEntit
         if (cachedOverlays.containsKey(side)) {
             cachedOverlays.get(side).put(mode, display);
         } else {
-            Map<Integer, DisplayInteger> map = new HashMap<>();
+            Map<Integer, DisplayInteger> map = new Object2ObjectOpenHashMap<>();
             map.put(mode, display);
             cachedOverlays.put(side, map);
         }
 
         switch (side) {
-            case DOWN:
+            case DOWN -> {
                 toReturn.minY = -0.01;
                 toReturn.maxY = 0;
-
                 toReturn.minX = 0;
                 toReturn.minZ = 0;
                 toReturn.maxX = 1;
                 toReturn.maxZ = 1;
-                break;
-            case UP:
+            }
+            case UP -> {
                 toReturn.minY = 1;
                 toReturn.maxY = 1.01;
-
                 toReturn.minX = 0;
                 toReturn.minZ = 0;
                 toReturn.maxX = 1;
                 toReturn.maxZ = 1;
-                break;
-            case NORTH:
+            }
+            case NORTH -> {
                 toReturn.minZ = -0.01;
                 toReturn.maxZ = 0;
-
                 toReturn.minX = 0;
                 toReturn.minY = 0;
                 toReturn.maxX = 1;
                 toReturn.maxY = 1;
-                break;
-            case SOUTH:
+            }
+            case SOUTH -> {
                 toReturn.minZ = 1;
                 toReturn.maxZ = 1.01;
-
                 toReturn.minX = 0;
                 toReturn.minY = 0;
                 toReturn.maxX = 1;
                 toReturn.maxY = 1;
-                break;
-            case WEST:
+            }
+            case WEST -> {
                 toReturn.minX = -0.01;
                 toReturn.maxX = 0;
-
                 toReturn.minY = 0;
                 toReturn.minZ = 0;
                 toReturn.maxY = 1;
                 toReturn.maxZ = 1;
-                break;
-            case EAST:
+            }
+            case EAST -> {
                 toReturn.minX = 1;
                 toReturn.maxX = 1.01;
-
                 toReturn.minY = 0;
                 toReturn.minZ = 0;
                 toReturn.maxY = 1;
                 toReturn.maxZ = 1;
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
         MekanismRenderer.renderObject(toReturn);
         DisplayInteger.endList();

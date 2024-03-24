@@ -5,12 +5,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
 import javax.annotation.Nullable;
-import java.util.HashSet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 
 public abstract class SynchronizedData<T extends SynchronizedData<T>> {
 
-    public Set<Coord4D> locations = new HashSet<>();
+    public Set<Coord4D> locations = new ObjectOpenHashSet<>();
 
     public int volLength;
 
@@ -34,7 +34,7 @@ public abstract class SynchronizedData<T extends SynchronizedData<T>> {
 
     public boolean destroyed;
 
-    public Set<Coord4D> internalLocations = new HashSet<>();
+    public Set<Coord4D> internalLocations = new ObjectOpenHashSet<>();
 
     public NonNullList<ItemStack> getInventory() {
         return null;

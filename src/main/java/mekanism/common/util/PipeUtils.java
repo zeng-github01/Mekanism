@@ -12,8 +12,8 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
+import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
 
 public final class PipeUtils {
@@ -68,28 +68,23 @@ public final class PipeUtils {
         }
         //Fake that we have one target given we know that no sides will overlap
         // This allows us to have slightly better performance
-        final FluidHandlerTarget target = new FluidHandlerTarget(stack);
+        FluidHandlerTarget target = new FluidHandlerTarget(stack);
         EmitUtils.forEachSide(from.getWorld(), from.getPos(), sides, (acceptor, side) -> {
-
             //Insert to access side
-            final EnumFacing accessSide = side.getOpposite();
-
+            EnumFacing accessSide = side.getOpposite();
             //Collect cap
-            CapabilityUtils.runIfCap(acceptor, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, accessSide,
-                    (handler) -> {
-                        if (canFill(handler, stack)) {
-                            target.addHandler(accessSide, handler);
-                        }
-                    });
+            CapabilityUtils.runIfCap(acceptor, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, accessSide, (handler) -> {
+                if (canFill(handler, stack)) {
+                    target.addHandler(accessSide, handler);
+                }
+            });
         });
 
         int curHandlers = target.getHandlers().size();
-        if (curHandlers > 0) {
-            Set<FluidHandlerTarget> targets = new HashSet<>();
-            targets.add(target);
-            return EmitUtils.sendToAcceptors(targets, curHandlers, stack.amount, stack);
+        if (curHandlers == 0) {
+            return 0;
         }
-        return 0;
+        return EmitUtils.sendToAcceptors(Collections.singleton(target), curHandlers, stack.amount, stack);
     }
 
     public static FluidStack copy(FluidStack fluid, int amount) {

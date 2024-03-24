@@ -4,6 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.common.Mekanism;
 import mekanism.common.util.RecipeUtils;
 import net.minecraft.block.Block;
@@ -24,8 +26,6 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -90,7 +90,7 @@ public class ShapedMekanismRecipe extends ShapedOreRecipe {
         //if (!group.isEmpty() && group.indexOf(':') == -1)
         //    group = context.getModId() + ":" + group;
 
-        Map<Character, Ingredient> ingMap = new HashMap<>();
+        Map<Character, Ingredient> ingMap = new Object2ObjectOpenHashMap<>();
         for (Entry<String, JsonElement> entry : JsonUtils.getJsonObject(json, "key").entrySet()) {
             if (entry.getKey().length() != 1) {
                 throw new JsonSyntaxException("Invalid key entry: '" + entry.getKey() + "' is an invalid symbol (must be 1 character only).");
@@ -123,7 +123,7 @@ public class ShapedMekanismRecipe extends ShapedOreRecipe {
         primer.mirrored = JsonUtils.getBoolean(json, "mirrored", true);
         primer.input = NonNullList.withSize(primer.width * primer.height, Ingredient.EMPTY);
 
-        Set<Character> keys = new HashSet<>(ingMap.keySet());
+        Set<Character> keys = new ObjectOpenHashSet<>(ingMap.keySet());
         keys.remove(' ');
 
         int x = 0;

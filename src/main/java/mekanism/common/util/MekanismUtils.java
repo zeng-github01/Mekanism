@@ -2,11 +2,13 @@ package mekanism.common.util;
 
 import com.mojang.authlib.GameProfile;
 import ic2.api.energy.EnergyNet;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.Chunk3D;
 import mekanism.api.Coord4D;
 import mekanism.api.IMekWrench;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
+import mekanism.api.tier.BaseTier;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.*;
 import mekanism.common.base.*;
@@ -19,7 +21,6 @@ import mekanism.common.integration.redstoneflux.RFIntegration;
 import mekanism.common.integration.tesla.TeslaIntegration;
 import mekanism.common.item.ItemBlockGasTank;
 import mekanism.common.item.ItemBlockTransmitter;
-import mekanism.api.tier.BaseTier;
 import mekanism.common.tier.FactoryTier;
 import mekanism.common.tier.GasTankTier;
 import mekanism.common.tile.TileEntityAdvancedBoundingBlock;
@@ -73,7 +74,7 @@ public final class MekanismUtils {
 
     public static final EnumFacing[] SIDE_DIRS = new EnumFacing[]{EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST};
 
-    public static final Map<String, Class<?>> classesFound = new HashMap<>();
+    public static final Map<String, Class<?>> classesFound = new Object2ObjectOpenHashMap<>();
 
     private static final List<UUID> warnedFails = new ArrayList<>();
     /**

@@ -1,5 +1,6 @@
 package mekanism.generators.common.content.turbine;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.Coord4D;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.multiblock.SynchronizedData;
@@ -7,13 +8,12 @@ import mekanism.common.tile.TileEntityGasTank.GasMode;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
 import java.util.Map;
 
 public class SynchronizedTurbineData extends SynchronizedData<SynchronizedTurbineData> {
 
     public static final float ROTATION_THRESHOLD = 0.001F;
-    public static Map<String, Float> clientRotationMap = new HashMap<>();
+    public static Map<String, Float> clientRotationMap = new Object2ObjectOpenHashMap<>();
 
     @Nullable
     public FluidStack fluidStored;

@@ -3,6 +3,7 @@ package mekanism.common.frequency;
 import io.netty.buffer.ByteBuf;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
@@ -24,7 +25,7 @@ public class FrequencyManager {
 
     public static boolean loaded;
 
-    private static Set<FrequencyManager> managers = new HashSet<>();
+    private static Set<FrequencyManager> managers = new ObjectOpenHashSet<>();
 
     private Int2ObjectMap<Frequency> frequencies = new Int2ObjectOpenHashMap<>();
 
@@ -191,7 +192,7 @@ public class FrequencyManager {
     }
 
     public Set<Frequency> readFrequencies(ByteBuf dataStream) {
-        Set<Frequency> ret = new HashSet<>();
+        Set<Frequency> ret = new ObjectOpenHashSet<>();
         int size = dataStream.readInt();
         try {
             for (int i = 0; i < size; i++) {
@@ -239,7 +240,7 @@ public class FrequencyManager {
                     loadedOwner = UUID.fromString(nbtTags.getString("ownerUUID"));
                 }
                 NBTTagList list = nbtTags.getTagList("freqList", NBT.TAG_COMPOUND);
-                loadedFrequencies = new HashSet<>();
+                loadedFrequencies = new ObjectOpenHashSet<>();
                 for (int i = 0; i < list.tagCount(); i++) {
                     NBTTagCompound compound = list.getCompoundTagAt(i);
                     Constructor<?> c = Class.forName(frequencyClass).getConstructor(NBTTagCompound.class);

@@ -1,5 +1,6 @@
 package mekanism.tools.item;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.common.util.LangUtils;
 import mekanism.tools.common.IHasRepairType;
 import mekanism.tools.common.Materials;
@@ -15,7 +16,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
-import java.util.HashSet;
 import java.util.List;
 
 public class ItemMekanismPaxel extends ItemTool implements IHasRepairType {
@@ -25,7 +25,7 @@ public class ItemMekanismPaxel extends ItemTool implements IHasRepairType {
     }
 
     public ItemMekanismPaxel(ToolMaterial material) {
-        super(4, -2.4F, material, new HashSet<>());
+        super(4, -2.4F, material, new ObjectOpenHashSet<>());
         setHarvestLevel("pickaxe", material.getHarvestLevel());
         setHarvestLevel("shovel", material.getHarvestLevel());
         setHarvestLevel("axe", material.getHarvestLevel());
