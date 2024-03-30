@@ -134,10 +134,7 @@ public class TileEntityEnergyCube extends TileEntityElectricBlock implements ICo
         return configComponent.hasSideForData(TransmissionType.ENERGY, facing, 2, side);
     }
 
-    @Override
-    public boolean canSetFacing(@Nonnull EnumFacing facing) {
-        return true;
-    }
+
 
     @Override
     public double getMaxEnergy() {
@@ -198,19 +195,18 @@ public class TileEntityEnergyCube extends TileEntityElectricBlock implements ICo
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         tier = EnergyCubeTier.values()[nbtTags.getInteger("tier")];
         controlType = RedstoneControl.values()[nbtTags.getInteger("controlType")];
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("tier", tier.ordinal());
         nbtTags.setInteger("controlType", controlType.ordinal());
-        return nbtTags;
+
     }
 
     @Override

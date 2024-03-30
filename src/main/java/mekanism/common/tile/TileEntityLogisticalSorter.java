@@ -145,10 +145,10 @@ public class TileEntityLogisticalSorter extends TileEntityEffectsBlock implement
         return InventoryUtils.putStackInInventory(front, request, facing, false);
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("controlType", controlType.ordinal());
 
         if (color != null) {
@@ -171,12 +171,11 @@ public class TileEntityLogisticalSorter extends TileEntityEffectsBlock implement
         if (filterTags.tagCount() != 0) {
             nbtTags.setTag("filters", filterTags);
         }
-        return nbtTags;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         controlType = RedstoneControl.values()[nbtTags.getInteger("controlType")];
         if (nbtTags.hasKey("color")) {
             color = TransporterUtils.colors.get(nbtTags.getInteger("color"));

@@ -220,8 +220,8 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         mode = nbtTags.getInteger("mode");
         gasTank.read(nbtTags.getCompoundTag("gasTank"));
         if (nbtTags.hasKey("fluidTank")) {
@@ -229,16 +229,16 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
         }
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("mode", mode);
         nbtTags.setTag("gasTank", gasTank.write(new NBTTagCompound()));
         if (fluidTank.getFluid() != null) {
             nbtTags.setTag("fluidTank", fluidTank.writeToNBT(new NBTTagCompound()));
         }
-        return nbtTags;
+
     }
 
     @Override

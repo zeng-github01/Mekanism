@@ -1,6 +1,7 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.api.*;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
@@ -42,7 +43,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -195,8 +195,8 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         if (nbtTags.hasKey("frequency")) {
             frequency = new InventoryFrequency(nbtTags.getCompoundTag("frequency"));
             frequency.valid = false;
@@ -214,10 +214,10 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
 
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         if (frequency != null) {
             NBTTagCompound frequencyTag = new NBTTagCompound();
             frequency.write(frequencyTag);
@@ -236,7 +236,6 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
             }
         }
         nbtTags.setTag("upgradesInv", tagList);
-        return nbtTags;
     }
 
     @Override

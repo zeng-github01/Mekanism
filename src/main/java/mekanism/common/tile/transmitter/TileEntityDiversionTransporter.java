@@ -15,7 +15,6 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextComponentString;
 
-import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,19 +33,17 @@ public class TileEntityDiversionTransporter extends TileEntityLogisticalTranspor
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         if (nbtTags.hasKey("modes")) {
             modes = nbtTags.getIntArray("modes");
         }
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setIntArray("modes", modes);
-        return nbtTags;
     }
 
     @Override

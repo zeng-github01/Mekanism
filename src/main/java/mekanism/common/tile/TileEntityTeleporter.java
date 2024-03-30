@@ -390,8 +390,8 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         controlType = RedstoneControl.values()[nbtTags.getInteger("controlType")];
         color = colors.get(nbtTags.getInteger("color"));
         if (nbtTags.hasKey("frequency")) {
@@ -400,10 +400,10 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
         }
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("controlType", controlType.ordinal());
         nbtTags.setInteger("color", colors.indexOf(color));
         if (frequency != null) {
@@ -412,7 +412,6 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
             nbtTags.setTag("frequency", frequencyTag);
 
         }
-        return nbtTags;
     }
 
     @Override

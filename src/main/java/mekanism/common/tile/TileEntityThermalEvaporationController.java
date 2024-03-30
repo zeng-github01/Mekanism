@@ -1,6 +1,7 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.api.Coord4D;
 import mekanism.api.IEvaporationSolar;
 import mekanism.api.TileNetworkList;
@@ -34,7 +35,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 
 public class TileEntityThermalEvaporationController extends TileEntityThermalEvaporationBlock implements IActiveState, ITankManager {
@@ -477,8 +477,8 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         inputTank.readFromNBT(nbtTags.getCompoundTag("waterTank"));
         outputTank.readFromNBT(nbtTags.getCompoundTag("brineTank"));
 
@@ -488,10 +488,9 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
         partialOutput = nbtTags.getDouble("partialBrine");
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setTag("waterTank", inputTank.writeToNBT(new NBTTagCompound()));
         nbtTags.setTag("brineTank", outputTank.writeToNBT(new NBTTagCompound()));
 
@@ -499,7 +498,6 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
 
         nbtTags.setDouble("partialWater", partialInput);
         nbtTags.setDouble("partialBrine", partialOutput);
-        return nbtTags;
     }
 
     @Override

@@ -19,12 +19,12 @@ public class MekanismAdd extends Mekanism {
     public CellSeparator cellSeparator = new CellSeparator();
     public Recycler recycler = new Recycler();
 
-    public Smelter smelting = new Smelter();
+    public Smelter smelter = new Smelter();
     public AmbientAccumulator ambient = new AmbientAccumulator();
     public FusionCooling fusionCooling = new FusionCooling();
 
     public MekanismAdd() {
-        addRegistry(smelting);
+        addRegistry(smelter);
         addRegistry(isotopicCentrifuge);
         addRegistry(nutritionalLiquifier);
         addRegistry(organicFarm);

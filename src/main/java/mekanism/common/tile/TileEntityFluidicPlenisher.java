@@ -1,6 +1,7 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigurable;
@@ -34,7 +35,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -193,10 +193,9 @@ public class TileEntityFluidicPlenisher extends TileEntityElectricBlock implemen
         return data;
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("operatingTicks", operatingTicks);
         nbtTags.setBoolean("finishedCalc", finishedCalc);
         nbtTags.setInteger("controlType", controlType.ordinal());
@@ -222,12 +221,12 @@ public class TileEntityFluidicPlenisher extends TileEntityElectricBlock implemen
         if (activeList.tagCount() != 0) {
             nbtTags.setTag("usedNodes", usedList);
         }
-        return nbtTags;
+
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         operatingTicks = nbtTags.getInteger("operatingTicks");
         finishedCalc = nbtTags.getBoolean("finishedCalc");
         controlType = RedstoneControl.values()[nbtTags.getInteger("controlType")];

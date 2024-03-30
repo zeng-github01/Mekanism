@@ -10,8 +10,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-import javax.annotation.Nonnull;
-
 public abstract class TileEntityOperationalMachine extends TileEntityMachine implements IComparatorSupport {
 
     public int operatingTicks;
@@ -47,17 +45,15 @@ public abstract class TileEntityOperationalMachine extends TileEntityMachine imp
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         operatingTicks = nbtTags.getInteger("operatingTicks");
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("operatingTicks", operatingTicks);
-        return nbtTags;
     }
 
     @Override

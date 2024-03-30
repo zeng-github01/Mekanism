@@ -218,21 +218,19 @@ public class TileEntityChemicalWasher extends TileEntityMachine implements IGasH
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         fluidTank.readFromNBT(nbtTags.getCompoundTag("leftTank"));
         inputTank.read(nbtTags.getCompoundTag("rightTank"));
         outputTank.read(nbtTags.getCompoundTag("centerTank"));
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setTag("leftTank", fluidTank.writeToNBT(new NBTTagCompound()));
         nbtTags.setTag("rightTank", inputTank.write(new NBTTagCompound()));
         nbtTags.setTag("centerTank", outputTank.write(new NBTTagCompound()));
-        return nbtTags;
     }
 
 

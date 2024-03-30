@@ -54,17 +54,16 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         Eject = nbtTags.getBoolean("Eject");
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setBoolean("Eject", Eject);
-        return nbtTags;
+
     }
 
     @Override
@@ -86,7 +85,7 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
                     });
                 }
                 if (outputTank.getGas() != null && outputTank.getGas().getGas() != null && Eject) {
-                    GasStack toSend = new GasStack(outputTank.getGas().getGas(), (int) Math.min(outputTank.getMaxGas(), outputTank.getGasAmount()));
+                    GasStack toSend = new GasStack(outputTank.getGas().getGas(), Math.min(outputTank.getMaxGas(), outputTank.getGasAmount()));
                     outputTank.output(GasUtils.emit(toSend, this, EnumSet.allOf(EnumFacing.class)), true);
                 }
 
@@ -206,7 +205,7 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
 
     @Override
     public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
-        return (int) inputTank.input(stack, doTransfer);
+        return inputTank.input(stack, doTransfer);
     }
 
     @Override

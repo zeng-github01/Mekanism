@@ -232,8 +232,8 @@ public class TileEntityLaserAmplifier extends TileEntityContainerBlock implement
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         on = nbtTags.getBoolean("on");
         minThreshold = nbtTags.getDouble("minThreshold");
         maxThreshold = nbtTags.getDouble("maxThreshold");
@@ -244,10 +244,10 @@ public class TileEntityLaserAmplifier extends TileEntityContainerBlock implement
         outputMode = RedstoneOutput.values()[nbtTags.getInteger("outputMode")];
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setBoolean("on", on);
         nbtTags.setDouble("minThreshold", minThreshold);
         nbtTags.setDouble("maxThreshold", maxThreshold);
@@ -256,7 +256,6 @@ public class TileEntityLaserAmplifier extends TileEntityContainerBlock implement
         nbtTags.setDouble("lastFired", lastFired);
         nbtTags.setInteger("controlType", controlType.ordinal());
         nbtTags.setInteger("outputMode", outputMode.ordinal());
-        return nbtTags;
     }
 
     @Override

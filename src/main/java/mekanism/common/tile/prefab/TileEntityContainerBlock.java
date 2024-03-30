@@ -79,8 +79,8 @@ public abstract class TileEntityContainerBlock extends TileEntityBasicBlock impl
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         if (handleInventory()) {
             NBTTagList tagList = nbtTags.getTagList("Items", NBT.TAG_COMPOUND);
             inventory = NonNullList.withSize(getSizeInventory(), ItemStack.EMPTY);
@@ -94,10 +94,9 @@ public abstract class TileEntityContainerBlock extends TileEntityBasicBlock impl
         }
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         if (handleInventory()) {
             NBTTagList tagList = new NBTTagList();
             for (int slotCount = 0; slotCount < getSizeInventory(); slotCount++) {
@@ -111,7 +110,6 @@ public abstract class TileEntityContainerBlock extends TileEntityBasicBlock impl
             }
             nbtTags.setTag("Items", tagList);
         }
-        return nbtTags;
     }
 
     protected NonNullList<ItemStack> getInventory() {

@@ -51,19 +51,18 @@ public class TileEntityInductionCell extends TileEntityBasicBlock implements ISt
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         tier = InductionCellTier.values()[nbtTags.getInteger("tier")];
         electricityStored = nbtTags.getDouble("electricityStored");
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("tier", tier.ordinal());
         nbtTags.setDouble("electricityStored", electricityStored);
-        return nbtTags;
     }
 
     @Override

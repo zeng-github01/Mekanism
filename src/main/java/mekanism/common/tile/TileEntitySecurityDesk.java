@@ -167,8 +167,8 @@ public class TileEntitySecurityDesk extends TileEntityContainerBlock implements 
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         if (nbtTags.hasKey("ownerUUID")) {
             ownerUUID = UUID.fromString(nbtTags.getString("ownerUUID"));
         }
@@ -178,10 +178,10 @@ public class TileEntitySecurityDesk extends TileEntityContainerBlock implements 
         }
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         if (ownerUUID != null) {
             nbtTags.setString("ownerUUID", ownerUUID.toString());
         }
@@ -190,7 +190,6 @@ public class TileEntitySecurityDesk extends TileEntityContainerBlock implements 
             frequency.write(frequencyTag);
             nbtTags.setTag("frequency", frequencyTag);
         }
-        return nbtTags;
     }
 
     @Override

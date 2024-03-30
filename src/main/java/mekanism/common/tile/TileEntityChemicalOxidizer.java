@@ -201,17 +201,15 @@ public class TileEntityChemicalOxidizer extends TileEntityOperationalMachine imp
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         gasTank.read(nbtTags.getCompoundTag("gasTank"));
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setTag("gasTank", gasTank.write(new NBTTagCompound()));
-        return nbtTags;
     }
 
 

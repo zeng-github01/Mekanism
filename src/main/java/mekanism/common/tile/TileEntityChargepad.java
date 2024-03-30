@@ -111,17 +111,17 @@ public class TileEntityChargepad extends TileEntityEffectsBlock {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         clientActive = isActive = nbtTags.getBoolean("isActive");
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setBoolean("isActive", isActive);
-        return nbtTags;
+
     }
 
     @Override

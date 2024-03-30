@@ -105,7 +105,7 @@ public class TileComponentUpgrade implements ITileComponent {
                 tileEntity.recalculateUpgradables(upgrade);
                 if (upgrade == Upgrade.MUFFLING) {
                     //Send an update packet to the client to update the number of muffling upgrades installed
-                    tileEntity.update();
+                    tileEntity.doRestrictedTick();
                 }
                 tileEntity.markDirty();
                 return toAdd;

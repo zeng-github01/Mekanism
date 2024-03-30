@@ -277,23 +277,21 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         tier = GasTankTier.values()[nbtTags.getInteger("tier")];
         gasTank.read(nbtTags.getCompoundTag("gasTank"));
         dumping = GasMode.values()[nbtTags.getInteger("dumping")];
         controlType = RedstoneControl.values()[nbtTags.getInteger("controlType")];
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("tier", tier.ordinal());
         nbtTags.setTag("gasTank", gasTank.write(new NBTTagCompound()));
         nbtTags.setInteger("dumping", dumping.ordinal());
         nbtTags.setInteger("controlType", controlType.ordinal());
-        return nbtTags;
     }
 
     @Override

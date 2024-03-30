@@ -17,6 +17,7 @@ import mekanism.common.base.IModule;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.chunkloading.ChunkManager;
 import mekanism.common.command.CommandMek;
+import mekanism.common.concurrent.TaskExecutor;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.content.boiler.SynchronizedBoilerData;
 import mekanism.common.content.entangloporter.InventoryFrequency;
@@ -182,6 +183,8 @@ public class Mekanism {
     public static GameProfile gameProfile = new GameProfile(UUID.nameUUIDFromBytes("mekanism.common".getBytes()), Mekanism.LOG_TAG);
     public static KeySync keyMap = new KeySync();
     public static Set<Coord4D> activeVibrators = new ObjectOpenHashSet<>();
+
+    public static final TaskExecutor EXECUTE_MANAGER = new TaskExecutor();
 
     static {
         MekanismFluids.register();
@@ -429,6 +432,10 @@ public class Mekanism {
         Capabilities.registerCapabilities();
 
         hooks.hookPreInit();
+        MinecraftForge.EVENT_BUS.register(Mekanism.EXECUTE_MANAGER);
+        Mekanism.EXECUTE_MANAGER.init();
+        Mekanism.logger.info(String.format("Parallel executor is ready (%s Threads), Let's get started!!!", TaskExecutor.THREAD_COUNT));
+
     }
 
 

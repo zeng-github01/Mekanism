@@ -173,23 +173,22 @@ public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock im
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         isActive = nbtTags.getBoolean("isActive");
         controlType = RedstoneControl.values()[nbtTags.getInteger("controlType")];
         inputTank.read(nbtTags.getCompoundTag("inputTank"));
         outputTank.read(nbtTags.getCompoundTag("outputTank"));
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setBoolean("isActive", isActive);
         nbtTags.setInteger("controlType", controlType.ordinal());
         nbtTags.setTag("inputTank", inputTank.write(new NBTTagCompound()));
         nbtTags.setTag("outputTank", outputTank.write(new NBTTagCompound()));
-        return nbtTags;
     }
 
     @Override

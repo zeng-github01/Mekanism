@@ -76,17 +76,16 @@ public abstract class TileEntityMachine extends TileEntityEffectsBlock implement
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         controlType = RedstoneControl.values()[nbtTags.getInteger("controlType")];
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("controlType", controlType.ordinal());
-        return nbtTags;
     }
 
     @Override

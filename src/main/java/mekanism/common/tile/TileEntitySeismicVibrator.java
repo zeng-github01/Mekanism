@@ -93,18 +93,17 @@ public class TileEntitySeismicVibrator extends TileEntityElectricBlock implement
         Mekanism.activeVibrators.remove(Coord4D.get(this));
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setBoolean("isActive", isActive);
         nbtTags.setInteger("controlType", controlType.ordinal());
-        return nbtTags;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         clientActive = isActive = nbtTags.getBoolean("isActive");
         controlType = RedstoneControl.values()[nbtTags.getInteger("controlType")];
     }

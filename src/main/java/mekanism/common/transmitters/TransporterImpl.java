@@ -81,7 +81,7 @@ public class TransporterImpl extends TransmitterImpl<TileEntity, InventoryNetwor
         }
     }
 
-    public void readFromNBT(NBTTagCompound nbtTags) {
+    public void readCustomNBT(NBTTagCompound nbtTags) {
         if (nbtTags.hasKey("color")) {
             setColor(TransporterUtils.colors.get(nbtTags.getInteger("color")));
         }

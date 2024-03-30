@@ -165,17 +165,15 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         electricityStored = nbtTags.getDouble("electricityStored");
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setDouble("electricityStored", getEnergy());
-        return nbtTags;
     }
 
     /**

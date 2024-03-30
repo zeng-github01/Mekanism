@@ -85,9 +85,9 @@ public class AntiprotonicNucleosynthesizer extends VirtualizedMekanismRegistry<N
 
         @Override
         public void validate(GroovyLog.Msg msg) {
-            validateItems(msg, 0, 1, 0, 1);
+            validateItems(msg, 0, 1, 1, 1);
             validateFluids(msg);
-            validateGases(msg, 1, 1, 1, 1);
+            validateGases(msg, 1, 1, 0, 0);
             if (duration <= 0) duration = 100;
             if (energy <= 0) energy = 8000;
         }

@@ -44,17 +44,16 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         fluidEject = nbtTags.getBoolean("fluidEject");
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setBoolean("fluidEject", fluidEject);
-        return nbtTags;
     }
 
     @Override

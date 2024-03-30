@@ -9,8 +9,6 @@ import mekanism.common.util.MekanismUtils;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-import javax.annotation.Nonnull;
-
 public class TileEntityInductionProvider extends TileEntityBasicBlock {
 
     public InductionProviderTier tier = InductionProviderTier.BASIC;
@@ -43,16 +41,14 @@ public class TileEntityInductionProvider extends TileEntityBasicBlock {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         tier = InductionProviderTier.values()[nbtTags.getInteger("tier")];
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("tier", tier.ordinal());
-        return nbtTags;
     }
 }

@@ -301,8 +301,8 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         if (nbtTags.hasKey("fluidTank")) {
             fluidTank.readFromNBT(nbtTags.getCompoundTag("fluidTank"));
         }
@@ -312,10 +312,9 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
         dumpRight = GasMode.values()[nbtTags.getInteger("dumpRight")];
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         if (fluidTank.getFluid() != null) {
             nbtTags.setTag("fluidTank", fluidTank.writeToNBT(new NBTTagCompound()));
         }
@@ -323,7 +322,7 @@ public class TileEntityElectrolyticSeparator extends TileEntityMachine implement
         nbtTags.setTag("rightTank", rightTank.write(new NBTTagCompound()));
         nbtTags.setInteger("dumpLeft", dumpLeft.ordinal());
         nbtTags.setInteger("dumpRight", dumpRight.ordinal());
-        return nbtTags;
+
     }
 
     @Override

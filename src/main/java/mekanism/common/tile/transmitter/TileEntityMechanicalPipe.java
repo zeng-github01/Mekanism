@@ -51,7 +51,7 @@ public class TileEntityMechanicalPipe extends TileEntityTransmitter<IFluidHandle
     }
 
     @Override
-    public void update() {
+    public void doRestrictedTick() {
         if (!getWorld().isRemote) {
             updateShare();
             IFluidHandler[] connectedAcceptors = PipeUtils.getConnectedAcceptors(getPos(), getWorld());
@@ -65,7 +65,7 @@ public class TileEntityMechanicalPipe extends TileEntityTransmitter<IFluidHandle
                 }
             }
         }
-        super.update();
+        super.doRestrictedTick();
     }
 
     @Override
@@ -107,8 +107,8 @@ public class TileEntityMechanicalPipe extends TileEntityTransmitter<IFluidHandle
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         if (nbtTags.hasKey("tier")) {
             tier = PipeTier.values()[nbtTags.getInteger("tier")];
         }
@@ -120,17 +120,16 @@ public class TileEntityMechanicalPipe extends TileEntityTransmitter<IFluidHandle
         }
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         if (lastWrite != null && lastWrite.amount > 0) {
             nbtTags.setTag("cacheFluid", lastWrite.writeToNBT(new NBTTagCompound()));
         } else {
             nbtTags.removeTag("cacheFluid");
         }
         nbtTags.setInteger("tier", tier.ordinal());
-        return nbtTags;
     }
 
     @Override

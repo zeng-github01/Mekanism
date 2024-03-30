@@ -110,8 +110,8 @@ public class TileEntityLogisticalTransporter extends TileEntityTransmitter<TileE
     }
 
     @Override
-    public void update() {
-        super.update();
+    public void doRestrictedTick() {
+        super.doRestrictedTick();
         getTransmitter().update();
     }
 
@@ -254,18 +254,17 @@ public class TileEntityLogisticalTransporter extends TileEntityTransmitter<TileE
 
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         if (nbtTags.hasKey("tier")) {
             tier = TransporterTier.values()[nbtTags.getInteger("tier")];
         }
-        getTransmitter().readFromNBT(nbtTags);
+        getTransmitter().readCustomNBT(nbtTags);
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("tier", tier.ordinal());
         if (getTransmitter().getColor() != null) {
             nbtTags.setInteger("color", TransporterUtils.colors.indexOf(getTransmitter().getColor()));
@@ -279,7 +278,6 @@ public class TileEntityLogisticalTransporter extends TileEntityTransmitter<TileE
         if (stacks.tagCount() != 0) {
             nbtTags.setTag("stacks", stacks);
         }
-        return nbtTags;
     }
 
     @Override

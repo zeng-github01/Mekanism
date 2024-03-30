@@ -151,10 +151,10 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
 
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("controlType", controlType.ordinal());
         NBTTagList filterTags = new NBTTagList();
         for (OredictionificatorFilter filter : filters) {
@@ -165,12 +165,12 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
         if (filterTags.tagCount() != 0) {
             nbtTags.setTag("filters", filterTags);
         }
-        return nbtTags;
+
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         controlType = RedstoneControl.values()[nbtTags.getInteger("controlType")];
         if (nbtTags.hasKey("filters")) {
             NBTTagList tagList = nbtTags.getTagList("filters", NBT.TAG_COMPOUND);

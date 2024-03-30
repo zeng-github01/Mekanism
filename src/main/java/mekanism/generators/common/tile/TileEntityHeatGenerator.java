@@ -117,21 +117,19 @@ public class TileEntityHeatGenerator extends TileEntityGenerator implements IFlu
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         if (nbtTags.hasKey("lavaTank")) {
             lavaTank.readFromNBT(nbtTags.getCompoundTag("lavaTank"));
         }
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         if (lavaTank.getFluid() != null) {
             nbtTags.setTag("lavaTank", lavaTank.writeToNBT(new NBTTagCompound()));
         }
-        return nbtTags;
     }
 
     @Override

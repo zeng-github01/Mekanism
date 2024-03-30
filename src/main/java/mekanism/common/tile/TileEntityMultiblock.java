@@ -214,8 +214,8 @@ public abstract class TileEntityMultiblock<T extends SynchronizedData<T>> extend
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         if (structure == null) {
             if (nbtTags.hasKey("cachedID")) {
                 cachedID = nbtTags.getString("cachedID");
@@ -224,15 +224,14 @@ public abstract class TileEntityMultiblock<T extends SynchronizedData<T>> extend
         }
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         if (cachedID != null) {
             nbtTags.setString("cachedID", cachedID);
             cachedData.save(nbtTags);
         }
-        return nbtTags;
     }
 
     @Override

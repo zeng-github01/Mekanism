@@ -89,21 +89,20 @@ public class TileEntityThermodynamicConductor extends TileEntityTransmitter<IHea
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         temperature = nbtTags.getDouble("temperature");
         if (nbtTags.hasKey("tier")) {
             tier = ConductorTier.values()[nbtTags.getInteger("tier")];
         }
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+    public  void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setDouble("temperature", temperature);
         nbtTags.setInteger("tier", tier.ordinal());
-        return nbtTags;
     }
 
     public void sendTemp() {

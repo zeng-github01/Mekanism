@@ -75,8 +75,8 @@ public class AmbientAccumulator extends VirtualizedMekanismRegistry<AmbientGasRe
 
         @Override
         public void validate(GroovyLog.Msg msg) {
-            this.validateItems(msg);
-            this.validateGases(msg, 0, 0, 1, 1);
+            validateItems(msg);
+            validateGases(msg, 0, 0, 1, 1);
             msg.add(this.chance <= Integer.MIN_VALUE || this.chance >= Integer.MAX_VALUE, "dim must be between -2147483648 and 2147483647, yet it was {}", new Object[]{this.chance});
             msg.add(this.chance <= 0.0 || this.chance >= 1.0, "chance must be between 0 and 1.0, yet it was {}", new Object[]{this.chance});
         }

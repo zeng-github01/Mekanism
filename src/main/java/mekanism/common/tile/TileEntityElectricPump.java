@@ -236,10 +236,9 @@ public class TileEntityElectricPump extends TileEntityElectricBlock implements I
         return data;
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("operatingTicks", operatingTicks);
         nbtTags.setBoolean("suckedLastOperation", suckedLastOperation);
 
@@ -262,12 +261,11 @@ public class TileEntityElectricPump extends TileEntityElectricBlock implements I
         if (recurringList.tagCount() != 0) {
             nbtTags.setTag("recurringNodes", recurringList);
         }
-        return nbtTags;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         operatingTicks = nbtTags.getInteger("operatingTicks");
         suckedLastOperation = nbtTags.getBoolean("suckedLastOperation");
         if (nbtTags.hasKey("activeType")) {

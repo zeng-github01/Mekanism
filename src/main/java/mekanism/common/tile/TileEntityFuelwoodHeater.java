@@ -103,23 +103,22 @@ public class TileEntityFuelwoodHeater extends TileEntityContainerBlock implement
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         temperature = nbtTags.getDouble("temperature");
         clientActive = isActive = nbtTags.getBoolean("isActive");
         burnTime = nbtTags.getInteger("burnTime");
         maxBurnTime = nbtTags.getInteger("maxBurnTime");
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setDouble("temperature", temperature);
         nbtTags.setBoolean("isActive", isActive);
         nbtTags.setInteger("burnTime", burnTime);
         nbtTags.setInteger("maxBurnTime", maxBurnTime);
-        return nbtTags;
+
     }
 
     @Override

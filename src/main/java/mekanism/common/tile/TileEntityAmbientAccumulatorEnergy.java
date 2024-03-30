@@ -142,17 +142,15 @@ public class TileEntityAmbientAccumulatorEnergy extends TileEntityMachine implem
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         outputTank.read(nbtTags.getCompoundTag("outputTank"));
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setTag("outputTank", outputTank.write(new NBTTagCompound()));
-        return nbtTags;
     }
 
 

@@ -155,10 +155,9 @@ public class TileEntityReactorController extends TileEntityReactorBlock implemen
         formMultiblock(false);
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        super.writeToNBT(tag);
+    public void writeCustomNBT(NBTTagCompound tag) {
+        super.writeCustomNBT(tag);
         tag.setBoolean("formed", isFormed());
         if (isFormed()) {
             tag.setDouble("plasmaTemp", getReactor().getPlasmaTemp());
@@ -176,12 +175,11 @@ public class TileEntityReactorController extends TileEntityReactorBlock implemen
         tag.setTag("tritiumTank", tritiumTank.write(new NBTTagCompound()));
         tag.setTag("waterTank", waterTank.writeToNBT(new NBTTagCompound()));
         tag.setTag("steamTank", steamTank.writeToNBT(new NBTTagCompound()));
-        return tag;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
+    public void readCustomNBT(NBTTagCompound tag) {
+        super.readCustomNBT(tag);
         boolean formed = tag.getBoolean("formed");
         if (formed) {
             setReactor(new FusionReactor(this));

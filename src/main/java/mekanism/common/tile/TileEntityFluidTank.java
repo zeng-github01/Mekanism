@@ -219,22 +219,20 @@ public class TileEntityFluidTank extends TileEntityContainerBlock implements IAc
         return InventoryUtils.EMPTY;
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("tier", tier.ordinal());
         nbtTags.setBoolean("isActive", isActive);
         nbtTags.setInteger("editMode", editMode.ordinal());
         if (fluidTank.getFluid() != null) {
             nbtTags.setTag("fluidTank", fluidTank.writeToNBT(new NBTTagCompound()));
         }
-        return nbtTags;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         tier = FluidTankTier.values()[nbtTags.getInteger("tier")];
         clientActive = isActive = nbtTags.getBoolean("isActive");
         editMode = ContainerEditMode.values()[nbtTags.getInteger("editMode")];

@@ -1,6 +1,7 @@
 package mekanism.common.tile.prefab;
 
 import io.netty.buffer.ByteBuf;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
@@ -21,21 +22,18 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Optional.Interface;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.List;
 import java.util.Set;
 
 @Interface(iface = "ic2.api.tile.IWrenchable", modid = MekanismHooks.IC2_MOD_ID)
-public abstract class TileEntityBasicBlock extends TileEntity implements ITileNetwork, IFrequencyHandler, ITickable {
+    public abstract class TileEntityBasicBlock extends TileEntityRestrictedTick implements ITileNetwork, IFrequencyHandler {
 
     /**
      * The direction this block is facing.
@@ -70,7 +68,7 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITileNe
     }
 
     @Override
-    public void update() {
+    public void doRestrictedTick() {
         if (!world.isRemote && MekanismConfig.current().general.destroyDisabledBlocks.val()) {
             MachineType type = MachineType.get(getBlockType(), getBlockMetadata());
             if (type != null && !type.isEnabled()) {
@@ -158,8 +156,8 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITileNe
     public abstract void onUpdate();
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         if (nbtTags.hasKey("facing")) {
             facing = EnumFacing.byIndex(nbtTags.getInteger("facing"));
         }
@@ -169,10 +167,9 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITileNe
         }
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         if (facing != null) {
             nbtTags.setInteger("facing", facing.ordinal());
         }
@@ -180,7 +177,6 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITileNe
         for (ITileComponent component : components) {
             component.write(nbtTags);
         }
-        return nbtTags;
     }
 
     @Override
@@ -258,20 +254,5 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITileNe
         return null;
     }
 
-    @Nonnull
-    @Override
-    public NBTTagCompound getUpdateTag() {
-        // Forge writes only x/y/z/id info to a new NBT Tag Compound. This is fine, we have a custom network system
-        // to send other data so we don't use this one (yet).
-        return super.getUpdateTag();
-    }
 
-    @Override
-    public void handleUpdateTag(@Nonnull NBTTagCompound tag) {
-        // The super implementation of handleUpdateTag is to call this readFromNBT. But, the given TagCompound
-        // only has x/y/z/id data, so our readFromNBT will set a bunch of default values which are wrong.
-        // So simply call the super's readFromNBT, to let Forge do whatever it wants, but don't treat this like
-        // a full NBT object, don't pass it to our custom read methods.
-        super.readFromNBT(tag);
-    }
 }

@@ -72,7 +72,7 @@ public class TileEntityPressurizedTube extends TileEntityTransmitter<IGasHandler
     }
 
     @Override
-    public void update() {
+    public void doRestrictedTick() {
         if (!getWorld().isRemote) {
             updateShare();
             IGasHandler[] connectedAcceptors = GasUtils.getConnectedAcceptors(getPos(), getWorld());
@@ -91,7 +91,7 @@ public class TileEntityPressurizedTube extends TileEntityTransmitter<IGasHandler
                 currentScale = (9 * currentScale + targetScale) / 10;
             }
         }
-        super.update();
+        super.doRestrictedTick();
     }
 
     public int getAvailablePull() {
@@ -139,8 +139,8 @@ public class TileEntityPressurizedTube extends TileEntityTransmitter<IGasHandler
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         if (nbtTags.hasKey("tier")) {
             tier = TubeTier.values()[nbtTags.getInteger("tier")];
         }
@@ -152,17 +152,16 @@ public class TileEntityPressurizedTube extends TileEntityTransmitter<IGasHandler
         }
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         if (lastWrite != null && lastWrite.amount > 0) {
             nbtTags.setTag("cacheGas", lastWrite.write(new NBTTagCompound()));
         } else {
             nbtTags.removeTag("cacheGas");
         }
         nbtTags.setInteger("tier", tier.ordinal());
-        return nbtTags;
     }
 
     @Override

@@ -140,20 +140,14 @@ public class TileEntitySolarGenerator extends TileEntityGenerator {
 
     @Override
     public Object[] invoke(int method, Object[] arguments) throws NoSuchMethodException {
-        switch (method) {
-            case 0:
-                return new Object[]{electricityStored};
-            case 1:
-                return new Object[]{output};
-            case 2:
-                return new Object[]{BASE_MAX_ENERGY};
-            case 3:
-                return new Object[]{BASE_MAX_ENERGY - electricityStored};
-            case 4:
-                return new Object[]{seesSun};
-            default:
-                throw new NoSuchMethodException();
-        }
+        return switch (method) {
+            case 0 -> new Object[]{electricityStored};
+            case 1 -> new Object[]{output};
+            case 2 -> new Object[]{BASE_MAX_ENERGY};
+            case 3 -> new Object[]{BASE_MAX_ENERGY - electricityStored};
+            case 4 -> new Object[]{seesSun};
+            default -> throw new NoSuchMethodException();
+        };
     }
 
     @Override

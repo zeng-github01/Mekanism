@@ -178,18 +178,16 @@ public class TileEntityChemicalCrystallizer extends TileEntityOperationalMachine
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         inputTank.read(nbtTags.getCompoundTag("rightTank"));
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setTag("rightTank", inputTank.write(new NBTTagCompound()));
         nbtTags.setBoolean("sideDataStored", true);
-        return nbtTags;
     }
 
     @Override

@@ -11,8 +11,8 @@ public class TileEntitySuperheatingElement extends TileEntityInternalMultiblock 
     public boolean prevHot;
 
     @Override
-    public void update() {
-        super.update();
+    public void doRestrictedTick() {
+        super.doRestrictedTick();
     }
 
     @Override

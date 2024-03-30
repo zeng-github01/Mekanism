@@ -214,24 +214,17 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityBasicMach
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         inputGasTank.read(nbtTags.getCompoundTag("inputGasTank"));
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setTag("inputGasTank", inputGasTank.write(new NBTTagCompound()));
-        return nbtTags;
     }
 
-    @Nonnull
-    @Override
-    public String getName() {
-        return LangUtils.localize(getBlockType().getTranslationKey() + "." + fullName + ".name");
-    }
 
     @Override
     public Map<NucleosynthesizerInput, NucleosynthesizerRecipe> getRecipes() {

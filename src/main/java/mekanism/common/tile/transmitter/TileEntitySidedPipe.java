@@ -6,6 +6,7 @@ import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigurable;
 import mekanism.api.TileNetworkList;
+import mekanism.api.tier.BaseTier;
 import mekanism.api.transmitters.IBlockableConnection;
 import mekanism.api.transmitters.ITransmitter;
 import mekanism.api.transmitters.TransmissionType;
@@ -18,7 +19,7 @@ import mekanism.common.block.states.BlockStateTransmitter.TransmitterType.Size;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.integration.multipart.MultipartMekanism;
 import mekanism.common.integration.multipart.MultipartTileNetworkJoiner;
-import mekanism.api.tier.BaseTier;
+import mekanism.common.tile.prefab.TileEntityRestrictedTick;
 import mekanism.common.util.CapabilityUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MultipartUtils;
@@ -31,7 +32,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -50,7 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public abstract class TileEntitySidedPipe extends TileEntity implements ITileNetwork, IBlockableConnection, IConfigurable, ITransmitter, ITickable {
+public abstract class TileEntitySidedPipe extends TileEntityRestrictedTick implements ITileNetwork, IBlockableConnection, IConfigurable, ITransmitter {
 
     public int delayTicks;
 
@@ -89,7 +89,7 @@ public abstract class TileEntitySidedPipe extends TileEntity implements ITileNet
     }
 
     @Override
-    public void update() {
+    public void doRestrictedTick() {
         if (getWorld().isRemote) {
             if (delayTicks == 5) {
                 delayTicks = 6; /* don't refresh again */
@@ -320,23 +320,21 @@ public abstract class TileEntitySidedPipe extends TileEntity implements ITileNet
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         redstoneReactive = nbtTags.getBoolean("redstoneReactive");
         for (int i = 0; i < 6; i++) {
             connectionTypes[i] = ConnectionType.values()[nbtTags.getInteger("connection" + i)];
         }
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setBoolean("redstoneReactive", redstoneReactive);
         for (int i = 0; i < 6; i++) {
             nbtTags.setInteger("connection" + i, connectionTypes[i].ordinal());
         }
-        return nbtTags;
     }
 
     @Nonnull

@@ -145,19 +145,17 @@ public class TileEntityIsotopicCentrifuge extends TileEntityMachine implements I
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         inputTank.read(nbtTags.getCompoundTag("inputTank"));
         outputTank.read(nbtTags.getCompoundTag("outputTank"));
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setTag("inputTank", inputTank.write(new NBTTagCompound()));
         nbtTags.setTag("outputTank", outputTank.write(new NBTTagCompound()));
-        return nbtTags;
     }
 
 

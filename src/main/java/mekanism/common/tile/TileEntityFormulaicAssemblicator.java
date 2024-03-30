@@ -485,8 +485,8 @@ public class TileEntityFormulaicAssemblicator extends TileEntityElectricBlock im
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         autoMode = nbtTags.getBoolean("autoMode");
         operatingTicks = nbtTags.getInteger("operatingTicks");
         controlType = RedstoneControl.values()[nbtTags.getInteger("controlType")];
@@ -494,16 +494,15 @@ public class TileEntityFormulaicAssemblicator extends TileEntityElectricBlock im
         stockControl = nbtTags.getBoolean("stockControl");
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setBoolean("autoMode", autoMode);
         nbtTags.setInteger("operatingTicks", operatingTicks);
         nbtTags.setInteger("controlType", controlType.ordinal());
         nbtTags.setInteger("pulseOperations", pulseOperations);
         nbtTags.setBoolean("stockControl", stockControl);
-        return nbtTags;
+
     }
 
     @Override

@@ -526,8 +526,8 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         clientActive = isActive = nbtTags.getBoolean("isActive");
         running = nbtTags.getBoolean("running");
         delay = nbtTags.getInteger("delay");
@@ -537,10 +537,9 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
         setConfigurationData(nbtTags);
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         if (searcher.state == State.SEARCHING) {
             reset();
         }
@@ -550,7 +549,6 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
         nbtTags.setInteger("numPowering", numPowering);
         nbtTags.setInteger("state", searcher.state.ordinal());
         nbtTags.setInteger("controlType", controlType.ordinal());
-        return getConfigurationData(nbtTags);
     }
 
     private void readBasicData(ByteBuf dataStream) {
@@ -946,19 +944,17 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
             }
             return new Object[]{"Couldn't find filter."};
         } else if (method == 5) {
-            if (arguments.length < 1 || !(arguments[0] instanceof String)) {
+            if (arguments.length < 1 || !(arguments[0] instanceof String ore)) {
                 return new Object[]{"Invalid parameters."};
             }
-            String ore = (String) arguments[0];
             MOreDictFilter filter = new MOreDictFilter();
             filter.setOreDictName(ore);
             filters.add(filter);
             return new Object[]{"Added filter."};
         } else if (method == 6) {
-            if (arguments.length < 1 || !(arguments[0] instanceof String)) {
+            if (arguments.length < 1 || !(arguments[0] instanceof String ore)) {
                 return new Object[]{"Invalid parameters."};
             }
-            String ore = (String) arguments[0];
             Iterator<MinerFilter> iter = filters.iterator();
             while (iter.hasNext()) {
                 MinerFilter filter = iter.next();

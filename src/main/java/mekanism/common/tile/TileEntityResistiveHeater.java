@@ -112,8 +112,8 @@ public class TileEntityResistiveHeater extends TileEntityEffectsBlock implements
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         energyUsage = nbtTags.getDouble("energyUsage");
         temperature = nbtTags.getDouble("temperature");
         clientActive = isActive = nbtTags.getBoolean("isActive");
@@ -121,15 +121,14 @@ public class TileEntityResistiveHeater extends TileEntityEffectsBlock implements
         maxEnergy = energyUsage * 400;
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setDouble("energyUsage", energyUsage);
         nbtTags.setDouble("temperature", temperature);
         nbtTags.setBoolean("isActive", isActive);
         nbtTags.setInteger("controlType", controlType.ordinal());
-        return nbtTags;
     }
 
     @Override

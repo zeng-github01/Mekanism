@@ -39,18 +39,17 @@ public class RenderEnergyCube extends TileEntitySpecialRenderer<TileEntityEnergy
 
         GlStateManager.pushMatrix();
         switch (tileEntity.facing) {
-            case DOWN:
+            case DOWN -> {
                 GlStateManager.rotate(90, -1, 0, 0);
                 GlStateManager.translate(0, 1.0F, -1.0F);
-                break;
-            case UP:
+            }
+            case UP -> {
                 GlStateManager.rotate(90, 1, 0, 0);
                 GlStateManager.translate(0, 1.0F, 1.0F);
-                break;
-            default:
+            }
+            default ->
                 //Otherwise use the helper method for handling different face options because it is one of them
-                MekanismRenderer.rotate(tileEntity.facing, 0, 180, 90, 270);
-                break;
+                    MekanismRenderer.rotate(tileEntity.facing, 0, 180, 90, 270);
         }
 
         GlStateManager.rotate(180, 0, 0, 1);

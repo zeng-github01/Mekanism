@@ -168,20 +168,14 @@ public class TileEntityInductionCasing extends TileEntityMultiblock<Synchronized
         if (structure == null) {
             return new Object[]{"Unformed."};
         }
-        switch (method) {
-            case 0:
-                return new Object[]{getEnergy()};
-            case 1:
-                return new Object[]{getMaxEnergy()};
-            case 2:
-                return new Object[]{structure.getLastInput()};
-            case 3:
-                return new Object[]{structure.getLastOutput()};
-            case 4:
-                return new Object[]{structure.getTransferCap()};
-            default:
-                throw new NoSuchMethodException();
-        }
+        return switch (method) {
+            case 0 -> new Object[]{getEnergy()};
+            case 1 -> new Object[]{getMaxEnergy()};
+            case 2 -> new Object[]{structure.getLastInput()};
+            case 3 -> new Object[]{structure.getLastOutput()};
+            case 4 -> new Object[]{structure.getTransferCap()};
+            default -> throw new NoSuchMethodException();
+        };
     }
 
     @Override

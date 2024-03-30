@@ -1025,8 +1025,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         setRecipeType(RecipeType.values()[nbtTags.getInteger("recipeType")]);
         upgradeComponent.setSupported(Upgrade.GAS, recipeType.fuelEnergyUpgrades());
         recipeTicks = nbtTags.getInteger("recipeTicks");
@@ -1046,10 +1046,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         GasUtils.clearIfInvalid(gasTank, recipeType::isValidGas);
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("recipeType", recipeType.ordinal());
         nbtTags.setInteger("recipeTicks", recipeTicks);
         nbtTags.setBoolean("sorting", sorting);
@@ -1066,7 +1065,6 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         nbtTags.setTag("fluidTank", fluidTank.writeToNBT(new NBTTagCompound()));
         nbtTags.setTag("gasTank", gasTank.write(new NBTTagCompound()));
         nbtTags.setTag("gasOutTank", gasOutTank.write(new NBTTagCompound()));
-        return nbtTags;
     }
 
     @Override

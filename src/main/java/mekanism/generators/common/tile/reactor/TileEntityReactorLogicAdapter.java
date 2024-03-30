@@ -9,8 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-import javax.annotation.Nonnull;
-
 public class TileEntityReactorLogicAdapter extends TileEntityReactorBlock implements IComputerIntegration {
 
     private static final String[] methods = new String[]{"isIgnited", "canIgnite", "getPlasmaHeat", "getMaxPlasmaHeat", "getCaseHeat", "getMaxCaseHeat",
@@ -59,19 +57,18 @@ public class TileEntityReactorLogicAdapter extends TileEntityReactorBlock implem
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTags) {
-        super.readFromNBT(nbtTags);
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
         logicType = ReactorLogic.values()[nbtTags.getInteger("logicType")];
         activeCooled = nbtTags.getBoolean("activeCooled");
     }
 
-    @Nonnull
+
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-        super.writeToNBT(nbtTags);
+   public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("logicType", logicType.ordinal());
         nbtTags.setBoolean("activeCooled", activeCooled);
-        return nbtTags;
     }
 
     @Override
