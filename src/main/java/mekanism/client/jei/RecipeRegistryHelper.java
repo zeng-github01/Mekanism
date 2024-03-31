@@ -12,7 +12,6 @@ import mekanism.common.base.IFactory.RecipeType;
 import mekanism.common.block.states.BlockStateBasic.BasicBlockType;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.integration.crafttweaker.handlers.EnergizedSmelter;
-import mekanism.common.integration.groovyscript.machinerecipe.Smelter;
 import mekanism.common.inventory.container.ContainerFormulaicAssemblicator;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.inputs.ItemStackInput;
@@ -215,7 +214,7 @@ public class RecipeRegistryHelper {
             return;
         }
         registry.handleRecipes(SmeltingRecipe.class, MachineRecipeWrapper::new, Recipe.ENERGIZED_SMELTER.getJEICategory());
-        if (Mekanism.hooks.GroovyScriptLoaded && Smelter.hasRemovedRecipe() || Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasRemovedRecipe()) {
+        if ( /* Mekanism.hooks.GroovyScriptLoaded && Smelter.hasRemovedRecipe() || */ Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasRemovedRecipe()) {
             // Removed / Removed + Added
             // Add all recipes
             Collection<SmeltingRecipe> recipeList = Recipe.ENERGIZED_SMELTER.get().values();
@@ -223,7 +222,7 @@ public class RecipeRegistryHelper {
                     Recipe.ENERGIZED_SMELTER.getJEICategory());
             registry.addRecipeClickArea(GuiEnergizedSmelter.class, 79, 40, 24, 7,
                     Recipe.ENERGIZED_SMELTER.getJEICategory());
-        } else if (Mekanism.hooks.GroovyScriptLoaded && Smelter.hasAddedRecipe() || Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasAddedRecipe()) {
+        } else if ( /* Mekanism.hooks.GroovyScriptLoaded && Smelter.hasAddedRecipe() || */ Mekanism.hooks.CraftTweakerLoaded && EnergizedSmelter.hasAddedRecipe()) {
             // Added but not removed
             // Only add added recipes
             Map<ItemStackInput, SmeltingRecipe> smeltingRecipes = Recipe.ENERGIZED_SMELTER.get();
@@ -389,10 +388,10 @@ public class RecipeRegistryHelper {
             registry.addRecipeCatalyst(BlockStateReactor.ReactorBlockType.REACTOR_PORT.getStack(1), Recipe.FUSION_COOLING.getJEICategory());
         }
     }
+
     /**
      * ADD END
      */
-
 
 
     private static <INPUT extends MachineInput<INPUT>, OUTPUT extends MachineOutput<OUTPUT>, RECIPE extends MachineRecipe<INPUT, OUTPUT, RECIPE>>
