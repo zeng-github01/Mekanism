@@ -9,7 +9,7 @@ import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.ItemStackInput;
 import mekanism.common.recipe.machines.Chance2MachineRecipe;
 import mekanism.common.recipe.outputs.ChanceOutput2;
-import mekanism.common.tile.TileEntityFactory;
+import mekanism.common.tile.factory.TileEntityFactory;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
 import mekanism.common.util.ChargeUtils;
@@ -21,6 +21,11 @@ import net.minecraft.util.NonNullList;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
+
+/**
+ * 单输出概率类型机器方块
+ * @param <RECIPE> 用于机器的配方
+ */
 
 public abstract class TileEntityChanceMachine2<RECIPE extends Chance2MachineRecipe<RECIPE>>
         extends TileEntityUpgradeableMachine<ItemStackInput, ChanceOutput2, RECIPE> {

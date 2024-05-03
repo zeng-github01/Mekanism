@@ -52,8 +52,15 @@ import mekanism.common.network.PacketPortableTeleporter.PortableTeleporterMessag
 import mekanism.common.recipe.machines.*;
 import mekanism.common.tier.GasTankTier;
 import mekanism.common.tile.*;
+import mekanism.common.tile.factory.TileEntityAdvancedFactory;
+import mekanism.common.tile.factory.TileEntityEliteFactory;
+import mekanism.common.tile.factory.TileEntityFactory;
+import mekanism.common.tile.laser.TileEntityLaserAmplifier;
+import mekanism.common.tile.laser.TileEntityLaserTractorBeam;
+import mekanism.common.tile.machine.*;
 import mekanism.common.tile.multiblock.*;
 import mekanism.common.tile.prefab.TileEntityAdvancedElectricMachine;
+import mekanism.common.tile.prefab.TileEntityChanceMachine;
 import mekanism.common.tile.prefab.TileEntityDoubleElectricMachine;
 import mekanism.common.tile.prefab.TileEntityElectricMachine;
 import mekanism.common.tile.transmitter.*;

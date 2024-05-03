@@ -14,11 +14,12 @@ import mekanism.common.capabilities.Capabilities;
 import mekanism.common.recipe.GasConversionHandler;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.AdvancedMachineInput;
+import mekanism.common.recipe.inputs.ItemStackInput;
 import mekanism.common.recipe.machines.AdvancedMachineRecipe;
 import mekanism.common.recipe.outputs.ItemStackOutput;
-import mekanism.common.tile.TileEntityFactory;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
+import mekanism.common.tile.factory.TileEntityFactory;
 import mekanism.common.util.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -30,6 +31,12 @@ import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Map;
+
+/**
+ * 带用气体类型的用电机器
+ * @param <RECIPE> 为机器配方类型
+ */
 
 public abstract class TileEntityAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<RECIPE>> extends
         TileEntityUpgradeableMachine<AdvancedMachineInput, ItemStackOutput, RECIPE> implements IGasHandler, ISustainedData {
@@ -203,6 +210,11 @@ public abstract class TileEntityAdvancedElectricMachine<RECIPE extends AdvancedM
             cachedRecipe = RecipeHandler.getRecipe(input, getRecipes());
         }
         return cachedRecipe;
+    }
+
+    @Override
+    public Map<AdvancedMachineInput, RECIPE> getRecipes() {
+        return null;
     }
 
     @Override

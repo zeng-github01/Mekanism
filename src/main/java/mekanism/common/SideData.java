@@ -32,6 +32,7 @@ public class SideData {
      */
     public IOState ioState;
 
+
     public SideData(String n, EnumColor colour, int[] slots) {
         name = n;
         color = colour;
@@ -58,6 +59,7 @@ public class SideData {
         }
         return false;
     }
+
 
     public FluidTankInfo[] getFluidTankInfo(ITankManager manager) {
         Object[] tanks = manager.getTanks();

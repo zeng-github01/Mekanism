@@ -1,7 +1,7 @@
 package mekanism.client.gui.element.tab;
 
 import mekanism.client.gui.IGuiWrapper;
-import mekanism.common.tile.TileEntityDigitalMiner;
+import mekanism.common.tile.machine.TileEntityDigitalMiner;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;

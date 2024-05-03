@@ -6,7 +6,7 @@ import io.netty.util.internal.shaded.org.jctools.queues.atomic.MpscLinkedAtomicQ
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import mekanism.common.Mekanism;
-import mekanism.common.tile.prefab.TileEntitySynchronized;
+import mekanism.common.tile.base.TileEntitySynchronized;
 import mekanism.common.util.concurrent.*;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
