@@ -44,8 +44,7 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
         addGuiElement(new GuiInnerScreen(this, resource, 42, 37, 118, 27));
         addGuiElement(new GuiPlayerSlot(this, resource));
         addGuiElement(new GuiPlayerArmmorSlot(this, resource, -26, 62, true));
-        addGuiElement(new GuiBar(() -> ((tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored()) : LangUtils.localize("gui.none"))),
-                this, getGuiLocation(), 42, 16, 118, 12));
+        addGuiElement(new GuiBar(this, getGuiLocation(), 42, 16, 118, 12));
     }
 
     @Override
@@ -60,6 +59,11 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, ySize - 96 + 2, 0x404040);
         String name = LangUtils.localize(tileEntity.dumping.getLangKey());
         fontRenderer.drawString(name, 156 - fontRenderer.getStringWidth(name), 73, 0x404040);
+        int xAxis = mouseX - guiLeft;
+        int yAxis = mouseY - guiTop;
+        if (xAxis >= 42 && xAxis <= 42 + 118 && yAxis >= 16 && yAxis <= 16 + 12) {
+            displayTooltip(tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored()) : LangUtils.localize("gui.none"), xAxis, yAxis);
+        }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 

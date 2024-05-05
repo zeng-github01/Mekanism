@@ -1,7 +1,6 @@
 package mekanism.common.tile.machine;
 
 import io.netty.buffer.ByteBuf;
-import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
@@ -16,6 +15,7 @@ import mekanism.common.recipe.machines.NutritionalRecipe;
 import mekanism.common.recipe.outputs.GasOutput;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
+import mekanism.common.tile.component.config.DataType;
 import mekanism.common.tile.prefab.TileEntityBasicMachine;
 import mekanism.common.util.*;
 import net.minecraft.item.ItemStack;
@@ -38,15 +38,15 @@ public class TileEntityNutritionalLiquifier extends TileEntityBasicMachine<ItemS
         super("oxidizer", MachineType.NUTRITIONAL_LIQUIFIER, 3, 100);
         configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.GAS, TransmissionType.ENERGY);
 
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.RED, new int[]{0}));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Energy", EnumColor.BRIGHT_GREEN, new int[]{1}));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Gas", EnumColor.YELLOW, new int[]{2}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.NONE, InventoryUtils.EMPTY));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT, new int[]{0}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.ENERGY, new int[]{1}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.GAS, new int[]{2}));
         configComponent.setConfig(TransmissionType.ITEM, new byte[]{2, 2, 1, 2, 4, 3});
         configComponent.setCanEject(TransmissionType.ITEM, false);
 
-        configComponent.addOutput(TransmissionType.GAS, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.GAS, new SideData("Output", EnumColor.INDIGO, new int[]{0}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.NONE, InventoryUtils.EMPTY));
+        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.OUTPUT, new int[]{0}));
         configComponent.setConfig(TransmissionType.GAS, new byte[]{0, 0, 0, 0, 0, 1});
 
         configComponent.setInputConfig(TransmissionType.ENERGY);

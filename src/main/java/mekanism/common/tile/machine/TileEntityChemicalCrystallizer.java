@@ -1,27 +1,23 @@
 package mekanism.common.tile.machine;
 
 import io.netty.buffer.ByteBuf;
-import mekanism.api.EnumColor;
-import mekanism.api.IConfigCardAccess;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
-import mekanism.common.MekanismBlocks;
 import mekanism.common.SideData;
-import mekanism.common.Upgrade;
-import mekanism.common.base.*;
+import mekanism.common.base.ISustainedData;
+import mekanism.common.base.ITankManager;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.inputs.GasInput;
 import mekanism.common.recipe.machines.CrystallizerRecipe;
-import mekanism.api.tier.BaseTier;
 import mekanism.common.recipe.outputs.ItemStackOutput;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
+import mekanism.common.tile.component.config.DataType;
 import mekanism.common.tile.factory.TileEntityFactory;
-import mekanism.common.tile.prefab.TileEntityOperationalMachine;
 import mekanism.common.tile.prefab.TileEntityUpgradeableMachine;
 import mekanism.common.util.*;
 import net.minecraft.item.ItemStack;
@@ -33,7 +29,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
-import java.util.Objects;
 
 public class TileEntityChemicalCrystallizer extends TileEntityUpgradeableMachine<GasInput, ItemStackOutput, CrystallizerRecipe> implements IGasHandler, ISustainedData, ITankManager {
 
@@ -47,10 +42,11 @@ public class TileEntityChemicalCrystallizer extends TileEntityUpgradeableMachine
         super("crystallizer", MachineType.CHEMICAL_CRYSTALLIZER, 3, 200);
         configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.ENERGY, TransmissionType.GAS);
 
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.RED, new int[]{0}));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.INDIGO, new int[]{1}));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Energy", EnumColor.BRIGHT_GREEN, new int[]{2}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.NONE, InventoryUtils.EMPTY));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT, new int[]{0}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.OUTPUT, new int[]{1}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.ENERGY, new int[]{2}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(new int[]{0, 1}, new boolean[]{false, true}));
         configComponent.setConfig(TransmissionType.ITEM, new byte[]{1, 1, 1, 3, 1, 2});
 
         configComponent.setInputConfig(TransmissionType.GAS);
@@ -61,6 +57,7 @@ public class TileEntityChemicalCrystallizer extends TileEntityUpgradeableMachine
 
         ejectorComponent = new TileComponentEjector(this);
         ejectorComponent.setOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(2));
+        ejectorComponent.setItemInputOutputData(configComponent.getOutputs(TransmissionType.ITEM).get(4));
     }
 
     @Override
@@ -94,6 +91,7 @@ public class TileEntityChemicalCrystallizer extends TileEntityUpgradeableMachine
 
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
+        factory.ejectorComponent.setItemInputOutputData(configComponent.getOutputs(TransmissionType.ITEM).get(4));
         factory.gasTank.setGas(inputTank.getGas());
         factory.inventory.set(1, inventory.get(2));
         factory.inventory.set(5 + 3, inventory.get(1));
@@ -150,7 +148,7 @@ public class TileEntityChemicalCrystallizer extends TileEntityUpgradeableMachine
     }
 
     @Override
-   public void writeCustomNBT(NBTTagCompound nbtTags) {
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setTag("rightTank", inputTank.write(new NBTTagCompound()));
         nbtTags.setBoolean("sideDataStored", true);

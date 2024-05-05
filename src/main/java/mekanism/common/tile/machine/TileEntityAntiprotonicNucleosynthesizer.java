@@ -1,17 +1,12 @@
 package mekanism.common.tile.machine;
 
 import io.netty.buffer.ByteBuf;
-import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
-import mekanism.common.MekanismBlocks;
 import mekanism.common.SideData;
 import mekanism.common.Upgrade;
-import mekanism.common.base.IFactory;
 import mekanism.common.base.ISustainedData;
-import mekanism.common.base.ITankManager;
-import mekanism.common.base.ITierUpgradeable;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.item.ItemUpgrade;
@@ -19,11 +14,10 @@ import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.NucleosynthesizerInput;
 import mekanism.common.recipe.machines.NucleosynthesizerRecipe;
 import mekanism.common.recipe.outputs.ItemStackOutput;
-import mekanism.api.tier.BaseTier;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
+import mekanism.common.tile.component.config.DataType;
 import mekanism.common.tile.factory.TileEntityFactory;
-import mekanism.common.tile.prefab.TileEntityBasicMachine;
 import mekanism.common.tile.prefab.TileEntityUpgradeableMachine;
 import mekanism.common.util.*;
 import net.minecraft.item.ItemStack;
@@ -35,7 +29,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
-import java.util.Objects;
 
 public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityUpgradeableMachine<NucleosynthesizerInput, ItemStackOutput, NucleosynthesizerRecipe> implements IGasHandler, ISustainedData {
 
@@ -48,10 +41,11 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityUpgradeab
         super("prc", MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER, 3, 100);
         configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.ENERGY, TransmissionType.GAS);
 
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.RED, new int[]{0}));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Energy", EnumColor.BRIGHT_GREEN, new int[]{1}));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.INDIGO, new int[]{2}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.NONE, InventoryUtils.EMPTY));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT, new int[]{0}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.ENERGY, new int[]{1}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.OUTPUT, new int[]{2}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData( new int[]{0, 2}, new boolean[]{false, true}));
         configComponent.setConfig(TransmissionType.ITEM, new byte[]{2, 1, 0, 0, 0, 3});
 
         configComponent.setInputConfig(TransmissionType.GAS);
@@ -60,6 +54,7 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityUpgradeab
 
         ejectorComponent = new TileComponentEjector(this);
         ejectorComponent.setOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(3));
+        ejectorComponent.setItemInputOutputData(configComponent.getOutputs(TransmissionType.ITEM).get(4));
     }
 
     @Override
@@ -100,6 +95,7 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityUpgradeab
 
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
+        factory.ejectorComponent.setItemInputOutputData(configComponent.getOutputs(TransmissionType.ITEM).get(4));
         factory.gasTank.setGas(inputGasTank.getGas());
         factory.inventory.set(5, inventory.get(0));
         factory.inventory.set(1, inventory.get(1));

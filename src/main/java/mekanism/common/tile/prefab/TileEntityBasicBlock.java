@@ -246,6 +246,4 @@ import java.util.Set;
         updatePower();
     }
 
-
-
 }

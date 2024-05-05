@@ -33,12 +33,14 @@ public class TileComponentEjector implements ITileComponent {
 
     private static final int FAILURE_DELAY = MekanismConfig.current().mekce.EjectionFailureDelay.val();
     private TileEntityContainerBlock tileEntity;
+
     private boolean strictInput;
     private EnumColor outputColor;
     private EnumColor[] inputColors = new EnumColor[]{null, null, null, null, null, null};
     private int tickDelay = 0;
     private int ejectTickDelay = 0;
     private Map<TransmissionType, SideData> sideData = new EnumMap<>(TransmissionType.class);
+    private Map<TransmissionType, SideData> sideData2 = new EnumMap<>(TransmissionType.class);
 
     public TileComponentEjector(TileEntityContainerBlock tile) {
         tileEntity = tile;
@@ -50,6 +52,12 @@ public class TileComponentEjector implements ITileComponent {
         return this;
     }
 
+    public TileComponentEjector setItemInputOutputData(SideData data) {
+        sideData2.put(TransmissionType.ITEM, data);
+        return this;
+    }
+
+
     public void readFrom(TileComponentEjector ejector) {
         strictInput = ejector.strictInput;
         outputColor = ejector.outputColor;
@@ -57,6 +65,7 @@ public class TileComponentEjector implements ITileComponent {
         tickDelay = ejector.tickDelay;
         ejectTickDelay = ejector.ejectTickDelay;
         sideData = ejector.sideData;
+        sideData2 = ejector.sideData2;
     }
 
     @Override
@@ -67,6 +76,10 @@ public class TileComponentEjector implements ITileComponent {
 
         if (tickDelay == 0 || MekanismConfig.current().mekce.ItemsEjectWithoutDelay.val()) {
             outputItems();
+            outputItems2();
+            if (!MekanismConfig.current().mekce.ItemsEjectWithoutDelay.val()) {
+                tickDelay = MekanismConfig.current().mekce.ItemEjectionDelay.val();
+            }
         } else {
             tickDelay--;
         }
@@ -87,11 +100,10 @@ public class TileComponentEjector implements ITileComponent {
 
     /**
      * Eject something.
+     *
      * @param type Type
      * @return return false if ejection is failed.
      */
-
-
     private boolean eject(TransmissionType type) {
         SideData data = sideData.get(type);
         if (data == null || !getEjecting(type)) {
@@ -111,6 +123,7 @@ public class TileComponentEjector implements ITileComponent {
 
     /**
      * Eject gas.
+     *
      * @return return false if ejection is failed.
      */
     private boolean ejectGas(Set<EnumFacing> outputSides, GasTank tank) {
@@ -128,6 +141,7 @@ public class TileComponentEjector implements ITileComponent {
 
     /**
      * Eject fluid.
+     *
      * @return return false if ejection is failed.
      */
     private boolean ejectFluid(Set<EnumFacing> outputSides, FluidTank tank) {
@@ -167,7 +181,7 @@ public class TileComponentEjector implements ITileComponent {
         TransitRequest ejectMap = null;
         for (EnumFacing side : outputs) {
             if (ejectMap == null) {
-                ejectMap = getEjectItemMap(data);
+                    ejectMap = getEjectItemMap(data);
                 if (ejectMap.isEmpty()) {
                     break;
                 }
@@ -192,10 +206,44 @@ public class TileComponentEjector implements ITileComponent {
                 ejectMap = null;
             }
         }
-        if (!MekanismConfig.current().mekce.ItemsEjectWithoutDelay.val()) {
-            tickDelay = MekanismConfig.current().mekce.ItemEjectionDelay.val();
+    }
+
+    private void outputItems2() {
+        SideData data = sideData2.get(TransmissionType.ITEM);
+        if (data == null || !getEjecting(TransmissionType.ITEM)) {
+            return;
+        }
+        Set<EnumFacing> outputs = getOutputSides(TransmissionType.ITEM, data);
+        TransitRequest ejectMap = null;
+        for (EnumFacing side : outputs) {
+            if (ejectMap == null) {
+                ejectMap = getEjectItemMap2(data);
+                if (ejectMap.isEmpty()) {
+                    break;
+                }
+            }
+            TileEntity tile = MekanismUtils.getTileEntity(tileEntity.getWorld(), tileEntity.getPos().offset(side));
+            if (tile == null) {
+                //If the spot is not loaded just skip trying to eject to it
+                continue;
+            }
+            ILogisticalTransporter capability = CapabilityUtils.getCapability(tile, Capabilities.LOGISTICAL_TRANSPORTER_CAPABILITY, side.getOpposite());
+            TransitResponse response;
+            if (capability == null) {
+                response = InventoryUtils.putStackInInventory(tile, ejectMap, side, false);
+            } else {
+                response = TransporterUtils.insert(tileEntity, capability, ejectMap, outputColor, true, 0);
+            }
+            if (!response.isEmpty()) {
+                response.getInvStack(tileEntity, side).use();
+                //Set map to null so next loop recalculates the eject map so that all sides get a chance to be ejected to
+                // assuming that there is still any left
+                //TODO: Eventually make some way to just directly update the TransitRequest with remaining parts
+                ejectMap = null;
+            }
         }
     }
+
 
     private TransitRequest getEjectItemMap(SideData data) {
         TransitRequest request = new TransitRequest();
@@ -205,6 +253,21 @@ public class TileComponentEjector implements ITileComponent {
             if (!stack.isEmpty()) {
                 request.addItem(stack, index);
             }
+        }
+        return request;
+    }
+
+    private TransitRequest getEjectItemMap2(SideData data) {
+        TransitRequest request = new TransitRequest();
+        for (int index = 0; index < data.availableSlots.length; index++) {
+            int slotID = data.availableSlots[index];
+            if (data.allowExtractionSlot[index]) {
+                ItemStack stack = tileEntity.getStackInSlot(slotID);
+                if (!stack.isEmpty()) {
+                    request.addItem(stack, index);
+                }
+            }
+
         }
         return request;
     }

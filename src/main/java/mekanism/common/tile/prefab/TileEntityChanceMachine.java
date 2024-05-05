@@ -1,6 +1,5 @@
 package mekanism.common.tile.prefab;
 
-import mekanism.api.EnumColor;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.MekanismItems;
 import mekanism.common.SideData;
@@ -11,6 +10,7 @@ import mekanism.common.recipe.machines.ChanceMachineRecipe;
 import mekanism.common.recipe.outputs.ChanceOutput;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
+import mekanism.common.tile.component.config.DataType;
 import mekanism.common.tile.factory.TileEntityFactory;
 import mekanism.common.util.ChargeUtils;
 import mekanism.common.util.InventoryUtils;
@@ -24,6 +24,7 @@ import java.util.Map;
 
 /**
  * 双输出概率类型机器方块
+ *
  * @param <RECIPE> 用于机器的配方
  */
 
@@ -35,11 +36,11 @@ public abstract class TileEntityChanceMachine<RECIPE extends ChanceMachineRecipe
         super(soundPath, type, 3, ticksRequired);
         configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.ENERGY);
 
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("None", EnumColor.GREY, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Input", EnumColor.RED, new int[]{0}));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Energy", EnumColor.BRIGHT_GREEN, new int[]{1}));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData("Output", EnumColor.INDIGO, new int[]{2, 4}));
-
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.NONE, InventoryUtils.EMPTY));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT, new int[]{0}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.ENERGY, new int[]{1}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.OUTPUT, new int[]{2, 4}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(new int[]{0, 2, 4}, new boolean[]{false, true, true}));
         configComponent.setConfig(TransmissionType.ITEM, new byte[]{1, 1, 1, 2, 1, 3});
         configComponent.setInputConfig(TransmissionType.ENERGY);
 
@@ -47,16 +48,17 @@ public abstract class TileEntityChanceMachine<RECIPE extends ChanceMachineRecipe
 
         ejectorComponent = new TileComponentEjector(this);
         ejectorComponent.setOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(3));
+        ejectorComponent.setItemInputOutputData(configComponent.getOutputs(TransmissionType.ITEM).get(4));
     }
 
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
         //Chance Machine
-        factory.configComponent.getOutputs(TransmissionType.ITEM).get(2).availableSlots = new int[]{4, 8, 9, 10};
-
+        factory.ejectorComponent.setItemInputOutputData(configComponent.getOutputs(TransmissionType.ITEM).get(4));
         factory.inventory.set(5, inventory.get(0));
         factory.inventory.set(1, inventory.get(1));
         factory.inventory.set(5 + 3, inventory.get(2));
+        factory.inventory.set(11, inventory.get(4));
         factory.inventory.set(0, inventory.get(3));
     }
 
