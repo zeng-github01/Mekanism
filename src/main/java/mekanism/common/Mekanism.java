@@ -136,6 +136,8 @@ public class Mekanism {
     public static Configuration configurationce;
     public static Configuration configurationgenerators;
     public static Configuration configurationtools;
+
+    public static Configuration configurationMultiblockMachine;
     /**
      * Mekanism version number
      */
@@ -406,6 +408,7 @@ public class Mekanism {
         configurationce = new Configuration(new File("config/mekanism/MekanismCE.cfg"));
         configurationgenerators = new Configuration(new File("config/mekanism/MekanismGenerators.cfg"));
         configurationtools = new Configuration(new File("config/mekanism/MekanismTools.cfg"));
+        configurationMultiblockMachine = new Configuration(new File("config/mekanism/MekanismMultiblockMachine"));
 
         //Load configuration
         proxy.loadConfiguration();
