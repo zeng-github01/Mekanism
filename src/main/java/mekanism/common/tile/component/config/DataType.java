@@ -26,11 +26,9 @@ public enum DataType {
         this.color = color;
         this.name = langEntry;
     }
-
     public EnumColor getColor() {
         return color;
     }
-
     public String getName() {
         return name;
     }
