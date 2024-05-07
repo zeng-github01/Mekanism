@@ -123,15 +123,15 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
     @Override
     public void onPlace() {
         Coord4D current = Coord4D.get(this);
-        for (int x = -3; x <= 3; x++) {
-            for (int z = -3; z <= 3; z++) {
-                MekanismUtils.makeBoundingBlock(world, getPos().add(x, 0, z), current);
-            }
-        }
-        for (int y = 1; y < 50; y++) {
+        for (int y = 0; y < 50; y++) {
             for (int x = -3; x <= 3; x++) {
                 for (int z = -3; z <= 3; z++) {
-                    MekanismUtils.makeBoundingBlock(world, getPos().add(x, y, z), current);
+                    if (x == 0 && y == 0 && z == 0) {
+                        continue;
+                    }
+                    BlockPos pos1 = getPos().add(x, y, z);
+                    MekanismUtils.makeBoundingBlock(world, pos1, current);
+                    world.notifyNeighborsOfStateChange(pos1, getBlockType(), true);
                 }
             }
         }
@@ -143,16 +143,14 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
 
     @Override
     public void onBreak() {
-        for (int y = 1; y < 50; y++) {
+        for (int y = 0; y < 50; y++) {
             for (int x = -3; x <= 3; x++) {
                 for (int z = -3; z <= 3; z++) {
+                    if (x == 0 && y == 0 && z == 0) {
+                        continue;
+                    }
                     world.setBlockToAir(getPos().add(x, y, z));
                 }
-            }
-        }
-        for (int x = -3; x <= 3; x++) {
-            for (int z = -3; z <= 3; z++) {
-                world.setBlockToAir(getPos().add(x, 0, z));
             }
         }
         invalidate();

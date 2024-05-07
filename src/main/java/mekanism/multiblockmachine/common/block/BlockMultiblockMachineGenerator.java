@@ -16,7 +16,6 @@ import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.tile.prefab.TileEntityElectricBlock;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.SecurityUtils;
-import mekanism.generators.common.MekanismGenerators;
 import mekanism.multiblockmachine.common.MekanismMultiblockMachine;
 import mekanism.multiblockmachine.common.MultiblockMachineBlocks;
 import mekanism.multiblockmachine.common.block.states.BlockStateMultiblockMachineGenerator;
@@ -53,7 +52,7 @@ public abstract class BlockMultiblockMachineGenerator extends BlockMekanismConta
         super(Material.IRON);
         setHardness(3.5F);
         setResistance(8F);
-        setCreativeTab(MekanismGenerators.tabMekanismGenerators);
+        setCreativeTab(MekanismMultiblockMachine.tabMekanismMultiblockMachine);
     }
 
     public static BlockMultiblockMachineGenerator getGeneratorBlock(MultiblockMachineGeneratorBlock block) {

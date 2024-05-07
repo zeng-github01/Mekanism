@@ -145,22 +145,16 @@ public class ItemBlockMultiblockGenerator extends ItemBlock implements IEnergize
                 return false;
             }
             outer:
-            for (int yPos = 0; yPos <= 49; yPos++) {
+            for (int yPos = 0; yPos <= 50; yPos++) {
                 for (int xPos = -3; xPos <= 3; xPos++) {
                     for (int zPos = -3; zPos <= 3; zPos++) {
-                        if (!world.isAirBlock(pos.add(xPos, yPos, zPos)) || pos.getY() + yPos > 255) {
-                            place = false;
-                            break outer;
+                        if (xPos != 0 && yPos != 0 && zPos != 0) {
+                            if (!world.isAirBlock(pos.add(xPos, yPos, zPos)) || pos.getY() + yPos > 255) {
+                                place = false;
+                                break outer;
+                            }
                         }
-                    }
-                }
-            }
-            outer2:
-            for (int xPos = -3; xPos <= 3; xPos++) {
-                for (int zPos = -3; zPos <= 3; zPos++) {
-                    if (!world.isAirBlock(pos.add(xPos, 0, zPos))) {
-                        place = false;
-                        break outer2;
+
                     }
                 }
             }

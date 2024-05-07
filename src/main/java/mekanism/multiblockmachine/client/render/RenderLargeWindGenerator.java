@@ -22,7 +22,9 @@ public class RenderLargeWindGenerator extends TileEntitySpecialRenderer<TileEnti
         if (tileEntity.getActive()) {
             angle = (tileEntity.getAngle() + ((tileEntity.getPos().getY() + 4F) / TileEntityLargeWindGenerator.SPEED_SCALED) * partialTick) % 360;
         }
+        MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
         model.render(0.0625F, angle);
+        MekanismRenderer.disableGlow(glowInfo);
         GlStateManager.popMatrix();
     }
 }
