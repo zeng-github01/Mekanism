@@ -43,10 +43,9 @@ setDefaultProperty 'change_minecraft_sources', false, false
 
 version = propertyString('mod_version')
 group = propertyString('root_package')
-archivesBaseName = project.property('mod_name') + "-All"
 
 base {
-    archivesName.set(propertyString('mod_id'))
+    archivesName.set(propertyString('mod_name') + "-All")
 }
 
 tasks.decompressDecompiledSources.enabled !propertyBool('change_minecraft_sources')
@@ -74,10 +73,8 @@ configurations {
 
 minecraft {
     mcVersion.set('1.12.2')
-
     mcpMappingChannel.set(propertyString('mapping_channel'))
     mcpMappingVersion.set(propertyString('mapping_version'))
-    
     useDependencyAccessTransformers.set(propertyBool('use_dependency_at_files'))
 
     username.set(propertyString('minecraft_username'))
@@ -211,6 +208,7 @@ jar {
     }
     // Add all embedded dependencies into the jar
     from(provider{ configurations.embed.collect {it.isDirectory() ? it : zipTree(it)} })
+
 }
 
 idea {
@@ -369,7 +367,7 @@ task coreJar(type: Jar) {
     }
 
     from zipTree(jar.outputs.getFiles().getSingleFile()).matching {
-        exclude 'mekanism/tools/**', 'mekanism/generators/**', 'assets/mekanismtools/**', 'assets/mekanismgenerators/**', 'mcmod.info'
+        exclude 'mekanism/tools/**', 'mekanism/generators/**', 'mekanism/multiblockmachine/**','assets/mekanismtools/**', 'assets/mekanismmultiblockmachine/**','assets/mekanismgenerators/**', 'mcmod.info'
     }
 
     //manifest(setMainManifestProps)
@@ -433,6 +431,30 @@ task apiJar(type: Jar) {
     from sourceSets.main.output
 }
 
+task multiblockmachineJar(type: Jar) {
+    archiveFileName = "Mekanism-CE-Unofficial-Multiblock-Machine-${project.version}.jar"
+    dependsOn 'reobfJar'
+    archiveClassifier = "multiblockmachine"
+
+    from('etc/multiblockmachine') {
+        include '*.info'
+        expand 'mod_id': project.property('mod_id'),
+                'mod_name': project.property('mod_name'),
+                'mod_version': project.property('mod_version'),
+                'mod_description': project.property('mod_description'),
+                'mod_authors': project.property('mod_authors'),
+                'mod_credits': project.property('mod_credits'),
+                'mod_url': project.property('mod_url'),
+                'mod_update_json': project.property('mod_update_json'),
+                'mod_logo_path': project.property('mod_logo_path'),
+                'mcmp_version': project.property('mcmp_version')
+    }
+
+    from zipTree(jar.outputs.getFiles().getSingleFile()).matching {
+        include 'mekanism/multiblockmachine/**', 'assets/mekanismmultiblockmachine/**'
+    }
+}
+
 task fullBuild(type: Delete) {
     delete jar
     dependsOn("build")
@@ -444,4 +466,5 @@ artifacts {
     archives coreJar
     archives toolsJar
     archives generatorsJar
+    archives multiblockmachineJar
 }
