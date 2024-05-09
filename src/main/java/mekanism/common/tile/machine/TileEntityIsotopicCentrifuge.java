@@ -81,6 +81,11 @@ public class TileEntityIsotopicCentrifuge extends TileEntityBasicMachine<GasInpu
             IsotopicRecipe recipe = getRecipe();
             if (canOperate(recipe) && getEnergy() >= energyPerTick && MekanismUtils.canFunction(this)) {
                 setActive(true);
+                operatingTicks++;
+                if (operatingTicks >= ticksRequired) {
+                    operate(recipe);
+                    operatingTicks = 0;
+                }
                 double prev = getEnergy();
                 setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(recipe));
                 clientEnergyUsed = prev - getEnergy();

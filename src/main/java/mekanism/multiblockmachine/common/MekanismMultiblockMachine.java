@@ -69,7 +69,7 @@ public class MekanismMultiblockMachine implements IModule {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         Mekanism.modulesLoaded.add(this);
-        PacketSimpleGui.handlers.add(2, proxy);
+        PacketSimpleGui.handlers.add(proxy);
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new MultiblockMachineGuiHandler());
         MinecraftForge.EVENT_BUS.register(this);
         proxy.registerTileEntities();

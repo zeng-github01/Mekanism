@@ -140,6 +140,11 @@ public class TileEntityElectrolyticSeparator extends TileEntityBasicMachine<Flui
                 if (update) {
                     recalculateUpgradables(Upgrade.ENERGY);
                 }
+                operatingTicks++;
+                if (operatingTicks >= ticksRequired) {
+                    operate(recipe);
+                    operatingTicks = 0;
+                }
                 double prev = getEnergy();
                 setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(recipe));
                 clientEnergyUsed = prev - getEnergy();

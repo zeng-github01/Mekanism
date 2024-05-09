@@ -80,7 +80,7 @@ minecraft {
     useDependencyAccessTransformers.set(propertyBool('use_dependency_at_files'))
 
     username.set(propertyString('minecraft_username'))
-    
+
     // Add any additional tweaker classes here
     extraTweakClasses.addAll(propertyStringList('extra_tweak_classes'))
 
@@ -96,7 +96,7 @@ minecraft {
 
     if (propertyBool('use_tags')) {
         if (file('tags.properties').exists()) {
-            Properties props = new Properties().tap {  it.load(file('tags.properties').newInputStream()); it }
+            Properties props = new Properties().tap { it.load(file('tags.properties').newInputStream()); it }
             if (!props.isEmpty()) {
                 injectedTags.set(props.collectEntries { k, v -> [(k): interpolate(v)] })
             }
@@ -116,7 +116,7 @@ dependencies {
         annotationProcessor 'com.github.bsideup.jabel:jabel-javac-plugin:1.0.0'
         // Workaround for https://github.com/bsideup/jabel/issues/174
         annotationProcessor 'net.java.dev.jna:jna-platform:5.13.0'
-        compileOnly ('com.github.bsideup.jabel:jabel-javac-plugin:1.0.0') {
+        compileOnly('com.github.bsideup.jabel:jabel-javac-plugin:1.0.0') {
             transitive = false
         }
         // Allow jdk.unsupported classes like sun.misc.Unsafe, workaround for JDK-8206937 and fixes crashes in tests
@@ -132,13 +132,13 @@ dependencies {
     }
     if (propertyBool('use_mixins')) {
         String mixin = modUtils.enableMixins("zone.rong:mixinbooter:${propertyString('mixin_booter_version')}", propertyString('mixin_refmap'))
-        api (mixin) {
+        api(mixin) {
             transitive = false
         }
         annotationProcessor 'org.ow2.asm:asm-debug-all:5.2'
         annotationProcessor 'com.google.guava:guava:24.1.1-jre'
         annotationProcessor 'com.google.code.gson:gson:2.8.6'
-        annotationProcessor (mixin) {
+        annotationProcessor(mixin) {
             transitive = false
         }
     }
@@ -183,7 +183,7 @@ processResources {
                 'mixin_package': propertyString('mixin_package')
         )
     }
-    
+
     if (propertyBool('use_access_transformer')) {
         rename '(.+_at.cfg)', 'META-INF/$1'
     }
@@ -209,7 +209,7 @@ jar {
         attributes(attribute_map)
     }
     // Add all embedded dependencies into the jar
-    from(provider{ configurations.embed.collect {it.isDirectory() ? it : zipTree(it)} })
+    from(provider { configurations.embed.collect { it.isDirectory() ? it : zipTree(it) } })
 
 }
 
@@ -231,6 +231,9 @@ idea {
                 }
                 "4. Run Obfuscated Server"(Gradle) {
                     taskNames = ["runObfServer"]
+                }
+                "5. Build"(Gradle) {
+                    taskNames = ["build"]
                 }
             }
             compiler.javac {
@@ -348,7 +351,7 @@ idea.project.settings {
 apply from: 'gradle/scripts/publishing.gradle'
 apply from: 'gradle/scripts/extra.gradle'
 
-task coreJar(type: Jar) {
+tasks.register('coreJar', Jar) {
     archiveFileName = "Mekanism-CE-Unofficial-${project.version}.jar"
     dependsOn 'reobfJar'
     archiveClassifier = "core"
@@ -368,14 +371,13 @@ task coreJar(type: Jar) {
 
     }
 
-    from zipTree(jar.outputs.getFiles().getSingleFile()).matching {
+    from zipTree(reobfJar.outputs.getFiles().getSingleFile()).matching {
         exclude 'mekanism/tools/**', 'mekanism/generators/**', 'mekanism/multiblockmachine/**','assets/mekanismtools/**', 'assets/mekanismmultiblockmachine/**','assets/mekanismgenerators/**', 'mcmod.info'
     }
 
-    //manifest(setMainManifestProps)
 }
 
-task toolsJar(type: Jar) {
+tasks.register('toolsJar', Jar) {
     archiveFileName = "Mekanism-CE-Unofficial-Tools-${project.version}.jar"
     dependsOn 'reobfJar'
     archiveClassifier = "tools"
@@ -394,12 +396,12 @@ task toolsJar(type: Jar) {
                 'mcmp_version': project.property('mcmp_version')
     }
 
-    from zipTree(jar.outputs.getFiles().getSingleFile()).matching {
+    from zipTree(reobfJar.outputs.getFiles().getSingleFile()).matching {
         include 'mekanism/tools/**', 'assets/mekanismtools/**'
     }
 }
 
-task generatorsJar(type: Jar) {
+tasks.register('generatorsJar', Jar) {
     archiveFileName = "Mekanism-CE-Unofficial-Generators-${project.version}.jar"
     dependsOn 'reobfJar'
     archiveClassifier = "generators"
@@ -418,13 +420,13 @@ task generatorsJar(type: Jar) {
                 'mcmp_version': project.property('mcmp_version')
     }
 
-    from zipTree(jar.outputs.getFiles().getSingleFile()).matching {
+    from zipTree(reobfJar.outputs.getFiles().getSingleFile()).matching {
         include 'mekanism/generators/**', 'assets/mekanismgenerators/**'
     }
 }
 
 
-task apiJar(type: Jar) {
+tasks.register('apiJar', Jar) {
     archiveClassifier = "api"
     archiveBaseName = "Mekanism-CE-Unofficial"
     dependsOn "sourcesJar"
@@ -433,7 +435,7 @@ task apiJar(type: Jar) {
     from sourceSets.main.output
 }
 
-task multiblockmachineJar(type: Jar) {
+tasks.register('multiblockmachineJar', Jar) {
     archiveFileName = "Mekanism-CE-Unofficial-Multiblock-Machine-${project.version}.jar"
     dependsOn 'reobfJar'
     archiveClassifier = "multiblockmachine"
@@ -452,12 +454,12 @@ task multiblockmachineJar(type: Jar) {
                 'mcmp_version': project.property('mcmp_version')
     }
 
-    from zipTree(jar.outputs.getFiles().getSingleFile()).matching {
+    from zipTree(reobfJar.outputs.getFiles().getSingleFile()).matching {
         include 'mekanism/multiblockmachine/**', 'assets/mekanismmultiblockmachine/**'
     }
 }
 
-task fullBuild(type: Delete) {
+tasks.register('fullBuild', Delete) {
     delete jar
     dependsOn("build")
 }

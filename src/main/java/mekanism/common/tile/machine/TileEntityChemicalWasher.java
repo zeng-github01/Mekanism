@@ -100,6 +100,11 @@ public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasIn
             WasherRecipe recipe = getRecipe();
             if (canOperate(recipe) && getEnergy() >= energyPerTick && MekanismUtils.canFunction(this)) {
                 setActive(true);
+                operatingTicks++;
+                if (operatingTicks >= ticksRequired) {
+                    operate(recipe);
+                    operatingTicks = 0;
+                }
                 double prev = getEnergy();
                 setEnergy(getEnergy() - energyPerTick * getUpgradedUsage());
                 clientEnergyUsed = prev - getEnergy();
