@@ -5,6 +5,7 @@ import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.common.base.IAdvancedBoundingBlock;
 import mekanism.common.config.MekanismConfig;
+import mekanism.common.util.CableUtils;
 import mekanism.common.util.ChargeUtils;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.item.ItemStack;
@@ -64,6 +65,9 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
             }
             if (getActive()) {
                 setEnergy(electricityStored + (MekanismConfig.current().multiblock.largewindGenerationMin.val() * currentMultiplier));
+            }
+            if (MekanismUtils.canFunction(this)) {
+                CableUtils.emit(this, 4);
             }
         } else if (getActive()) {
             angle = (angle + (getPos().getY() + 4F) / SPEED_SCALED) % 360;
@@ -139,6 +143,7 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
                     }
                     BlockPos pos1 = getPos().add(x, y, z);
                     MekanismUtils.makeAdvancedBoundingBlock(world, pos1, Coord4D.get(this));
+                    world.notifyNeighborsOfStateChange(pos1, getBlockType(), true);
                 }
             }
         }
@@ -223,10 +228,12 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
     public boolean canBoundOutPutEnergy(BlockPos coord, EnumFacing side) {
         EnumFacing left = MekanismUtils.getLeft(facing);
         EnumFacing right = MekanismUtils.getRight(facing);
-        if (coord.equals(getPos().offset(left,3))) {
+        if (coord.equals(getPos().offset(left, 3))) {
             return side == left;
-        } else if (coord.equals(getPos().offset(right,3))) {
+        } else if (coord.equals(getPos().offset(right, 3))) {
             return side == right;
+        }else if (coord.equals(getPos().offset(facing, 3))) {
+            return side == facing;
         }
         return false;
     }
@@ -291,13 +298,13 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
         if (isStrictEnergy(capability) || capability == CapabilityEnergy.ENERGY || isTesla(capability, side)) {
             EnumFacing left = MekanismUtils.getLeft(facing);
             EnumFacing right = MekanismUtils.getRight(facing);
-            if (offset.equals(new Vec3i(left.getXOffset() * 4, 0, left.getZOffset() * 4))) {
+            if (offset.equals(new Vec3i(left.getXOffset() * 3, 0, left.getZOffset() * 3))) {
                 //Disable if left power port but wrong side of the port
                 return side != left;
-            } else if (offset.equals(new Vec3i(right.getXOffset() * 4, 0, right.getZOffset() * 4))) {
+            } else if (offset.equals(new Vec3i(right.getXOffset() * 3, 0, right.getZOffset() * 3))) {
                 //Disable if right power port but wrong side of the port
                 return side != right;
-            }else if (offset.equals(new Vec3i(facing.getXOffset() * 4, 0, facing.getZOffset() * 4))) {
+            } else if (offset.equals(new Vec3i(facing.getXOffset() * 3, 0, facing.getZOffset() * 3))) {
                 //Disable if right power port but wrong side of the port
                 return side != facing;
             }

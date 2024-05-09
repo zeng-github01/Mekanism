@@ -118,7 +118,11 @@ public final class CableUtils {
         return MekanismUtils.useIC2() && IC2Integration.isAcceptor(tileEntity, side);
     }
 
-    public static void emit(IEnergyWrapper emitter) {
+    public static void emit(IEnergyWrapper emitter){
+        emit(emitter , 1);
+    }
+
+    public static void emit(IEnergyWrapper emitter, int i) {
         TileEntity tileEntity = (TileEntity) emitter;
         if (!tileEntity.getWorld().isRemote && MekanismUtils.canFunction(tileEntity)) {
             double energyToSend = Math.min(emitter.getEnergy(), emitter.getMaxOutput());
@@ -129,7 +133,7 @@ public final class CableUtils {
                 EnergyAcceptorTarget target = new EnergyAcceptorTarget();
                 for (EnumFacing side : EnumFacing.VALUES) {
                     if (emitter.sideIsOutput(side)) {
-                        TileEntity tile = coord.offset(side).getTileEntity(tileEntity.getWorld());
+                        TileEntity tile = coord.offset(side,i).getTileEntity(tileEntity.getWorld());
                         //If it can accept energy or it is a cable
                         if (tile != null && (isValidAcceptorOnSide(tileEntity, tile, side) || isCable(tile))) {
                             //Get the opposite side as the current side is relative to us
