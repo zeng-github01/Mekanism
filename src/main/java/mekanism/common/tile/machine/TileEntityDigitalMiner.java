@@ -1100,6 +1100,11 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
     }
 
     @Override
+    public boolean canBoundOutPutEnergy(BlockPos location, EnumFacing side) {
+        return false;
+    }
+
+    @Override
     public boolean sideIsConsumer(EnumFacing side) {
         return side == MekanismUtils.getLeft(facing) || side == MekanismUtils.getRight(facing) || side == EnumFacing.DOWN;
     }

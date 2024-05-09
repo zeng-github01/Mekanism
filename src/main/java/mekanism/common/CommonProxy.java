@@ -308,7 +308,9 @@ public class CommonProxy implements IGuiProvider {
 
     public void onConfigSync(boolean fromPacket) {
         if (MekanismConfig.current().general.cardboardSpawners.val()) {
-            MekanismAPI.removeBoxBlacklist(Blocks.MOB_SPAWNER, OreDictionary.WILDCARD_VALUE);
+            if (Blocks.MOB_SPAWNER != null) { //There may be mods that will remove this and cause a crash
+                MekanismAPI.removeBoxBlacklist(Blocks.MOB_SPAWNER, OreDictionary.WILDCARD_VALUE);
+            }
         } else {
             MekanismAPI.addBoxBlacklist(Blocks.MOB_SPAWNER, OreDictionary.WILDCARD_VALUE);
         }

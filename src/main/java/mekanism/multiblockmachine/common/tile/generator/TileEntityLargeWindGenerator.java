@@ -3,23 +3,30 @@ package mekanism.multiblockmachine.common.tile.generator;
 import io.netty.buffer.ByteBuf;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
-import mekanism.common.base.IBoundingBlock;
+import mekanism.common.base.IAdvancedBoundingBlock;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.ChargeUtils;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 
-public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator implements IBoundingBlock {
+public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator implements IAdvancedBoundingBlock {
 
     public static final float SPEED = 32F;
     public static final float SPEED_SCALED = 256F / SPEED;
     static final String[] methods = new String[]{"getEnergy", "getOutput", "getMaxEnergy", "getEnergyNeeded", "getMultiplier"};
     private static final int[] SLOTS = {0};
+    public int numPowering;
     private double angle;
     private float currentMultiplier;
     private boolean isBlacklistDimension = false;
@@ -69,6 +76,7 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
         if (world.isRemote) {
             currentMultiplier = dataStream.readFloat();
             isBlacklistDimension = dataStream.readBoolean();
+            numPowering = dataStream.readInt();
         }
     }
 
@@ -77,6 +85,7 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
         super.getNetworkedData(data);
         data.add(currentMultiplier);
         data.add(isBlacklistDimension);
+        data.add(numPowering);
         return data;
     }
 
@@ -122,7 +131,6 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
 
     @Override
     public void onPlace() {
-        Coord4D current = Coord4D.get(this);
         for (int y = 0; y < 50; y++) {
             for (int x = -3; x <= 3; x++) {
                 for (int z = -3; z <= 3; z++) {
@@ -130,8 +138,7 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
                         continue;
                     }
                     BlockPos pos1 = getPos().add(x, y, z);
-                    MekanismUtils.makeBoundingBlock(world, pos1, current);
-                    world.notifyNeighborsOfStateChange(pos1, getBlockType(), true);
+                    MekanismUtils.makeAdvancedBoundingBlock(world, pos1, Coord4D.get(this));
                 }
             }
         }
@@ -140,6 +147,10 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
         isBlacklistDimension = MekanismConfig.current().generators.windGenerationDimBlacklist.val().contains(world.provider.getDimension());
     }
 
+    @Override
+    public boolean sideIsOutput(EnumFacing side) {
+        return side == MekanismUtils.getLeft(facing) || side == MekanismUtils.getRight(facing) || side == facing;
+    }
 
     @Override
     public void onBreak() {
@@ -156,6 +167,19 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
         invalidate();
         world.setBlockToAir(getPos());
     }
+
+    @Override
+    public void readCustomNBT(NBTTagCompound nbtTags) {
+        super.readCustomNBT(nbtTags);
+        numPowering = nbtTags.getInteger("numPowering");
+    }
+
+    @Override
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
+        super.writeCustomNBT(nbtTags);
+        nbtTags.setInteger("numPowering", numPowering);
+    }
+
 
     @Override
     public boolean renderUpdate() {
@@ -189,4 +213,105 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
     public boolean isItemValidForSlot(int slot, @Nonnull ItemStack stack) {
         return ChargeUtils.canBeCharged(stack);
     }
+
+    @Override
+    public boolean canBoundReceiveEnergy(BlockPos location, EnumFacing side) {
+        return false;
+    }
+
+    @Override
+    public boolean canBoundOutPutEnergy(BlockPos coord, EnumFacing side) {
+        EnumFacing left = MekanismUtils.getLeft(facing);
+        EnumFacing right = MekanismUtils.getRight(facing);
+        if (coord.equals(getPos().offset(left,3))) {
+            return side == left;
+        } else if (coord.equals(getPos().offset(right,3))) {
+            return side == right;
+        }
+        return false;
+    }
+
+    @Override
+    public void onPower() {
+        numPowering++;
+    }
+
+    @Override
+    public void onNoPower() {
+        numPowering--;
+    }
+
+    @Override
+    public boolean isPowered() {
+        return redstone || numPowering > 0;
+    }
+
+    @Override
+    public NBTTagCompound getConfigurationData(NBTTagCompound nbtTags) {
+        return nbtTags;
+    }
+
+    @Override
+    public void setConfigurationData(NBTTagCompound nbtTags) {
+
+    }
+
+    @Override
+    public String getDataType() {
+        return getBlockType().getTranslationKey() + "." + fullName + ".name";
+    }
+
+    @Override
+    public boolean hasOffsetCapability(@NotNull Capability<?> capability, @Nullable EnumFacing side, @NotNull Vec3i offset) {
+        if (isOffsetCapabilityDisabled(capability, side, offset)) {
+            return false;
+        }
+        if (isStrictEnergy(capability) || capability == CapabilityEnergy.ENERGY || isTesla(capability, side)) {
+            return true;
+        }
+        return hasCapability(capability, side);
+    }
+
+    @Override
+    public <T> T getOffsetCapability(@Nonnull Capability<T> capability, EnumFacing side, @Nonnull Vec3i offset) {
+        if (isOffsetCapabilityDisabled(capability, side, offset)) {
+            return null;
+        } else if (isStrictEnergy(capability)) {
+            return (T) this;
+        } else if (isTesla(capability, side)) {
+            return (T) getTeslaEnergyWrapper(side);
+        } else if (capability == CapabilityEnergy.ENERGY) {
+            return CapabilityEnergy.ENERGY.cast(getForgeEnergyWrapper(side));
+        }
+        return getCapability(capability, side);
+    }
+
+    @Override
+    public boolean isOffsetCapabilityDisabled(@Nonnull Capability<?> capability, EnumFacing side, @Nonnull Vec3i offset) {
+        if (isStrictEnergy(capability) || capability == CapabilityEnergy.ENERGY || isTesla(capability, side)) {
+            EnumFacing left = MekanismUtils.getLeft(facing);
+            EnumFacing right = MekanismUtils.getRight(facing);
+            if (offset.equals(new Vec3i(left.getXOffset() * 4, 0, left.getZOffset() * 4))) {
+                //Disable if left power port but wrong side of the port
+                return side != left;
+            } else if (offset.equals(new Vec3i(right.getXOffset() * 4, 0, right.getZOffset() * 4))) {
+                //Disable if right power port but wrong side of the port
+                return side != right;
+            }else if (offset.equals(new Vec3i(facing.getXOffset() * 4, 0, facing.getZOffset() * 4))) {
+                //Disable if right power port but wrong side of the port
+                return side != facing;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isCapabilityDisabled(@Nonnull Capability<?> capability, EnumFacing side) {
+        if (isStrictEnergy(capability) || capability == CapabilityEnergy.ENERGY || isTesla(capability, side)) {
+            return true;
+        }
+        return super.isCapabilityDisabled(capability, side);
+    }
+
 }

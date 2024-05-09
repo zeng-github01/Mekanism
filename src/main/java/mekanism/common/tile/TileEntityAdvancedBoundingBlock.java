@@ -6,6 +6,7 @@ import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
 import mekanism.api.IConfigCardAccess.ISpecialConfigData;
 import mekanism.api.energy.IStrictEnergyAcceptor;
+import mekanism.api.energy.IStrictEnergyOutputter;
 import mekanism.common.Mekanism;
 import mekanism.common.base.IAdvancedBoundingBlock;
 import mekanism.common.capabilities.Capabilities;
@@ -32,7 +33,7 @@ import javax.annotation.Nonnull;
         @Interface(iface = "cofh.redstoneflux.api.IEnergyReceiver", modid = MekanismHooks.REDSTONEFLUX_MOD_ID),
         @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = MekanismHooks.IC2_MOD_ID)
 })
-public class TileEntityAdvancedBoundingBlock extends TileEntityBoundingBlock implements ISidedInventory, IEnergySink, IStrictEnergyAcceptor, IEnergyReceiver,
+public class TileEntityAdvancedBoundingBlock extends TileEntityBoundingBlock implements ISidedInventory, IEnergySink, IStrictEnergyAcceptor, IStrictEnergyOutputter, IEnergyReceiver,
         IEnergyProvider, IComputerIntegration, ISpecialConfigData {
 
     @Override
@@ -411,5 +412,23 @@ public class TileEntityAdvancedBoundingBlock extends TileEntityBoundingBlock imp
             return super.getCapability(capability, facing);
         }
         return inv.getOffsetCapability(capability, facing, pos.subtract(getMainPos()));
+    }
+
+    @Override
+    public double pullEnergy(EnumFacing side, double amount, boolean simulate) {
+        IAdvancedBoundingBlock inv = getInv();
+        if (inv == null || !canReceiveEnergy(side)) {
+            return 0;
+        }
+        return inv.pullEnergy(side, amount, simulate);
+    }
+
+    @Override
+    public boolean canOutputEnergy(EnumFacing side) {
+        IAdvancedBoundingBlock inv = getInv();
+        if (inv == null) {
+            return false;
+        }
+        return inv.canBoundOutPutEnergy(getPos(), side);
     }
 }
