@@ -80,10 +80,12 @@
   "logoFile": "${mod_logo_path}",
   "useDependencyInformation": true,
   "dependencies": [
-  "mekanism@[${mod_version}]"
+  "mekanism@[${mod_version}]",
+  "mekanismgenerators@[${mod_version}]"
     ],
   "requiredMods": [
-  "mekanism@[${mod_version}]"
+  "mekanism@[${mod_version}]",
+  "mekanismgenerators@[${mod_version}]"
     ]
   }
 ]

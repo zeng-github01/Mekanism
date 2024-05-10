@@ -233,7 +233,7 @@ idea {
                     taskNames = ["runObfServer"]
                 }
                 "5. Build"(Gradle) {
-                    taskNames = ["build"]
+                    taskNames = ["build --info"]
                 }
             }
             compiler.javac {
@@ -356,6 +356,20 @@ tasks.register('coreJar', Jar) {
     dependsOn 'reobfJar'
     archiveClassifier = "core"
 
+    manifest {
+        def attribute_map = [:]
+        if (propertyBool('is_coremod')) {
+            attribute_map['FMLCorePlugin'] = propertyString('coremod_plugin_class_name')
+            if (propertyBool('coremod_includes_mod')) {
+                attribute_map['FMLCorePluginContainsFMLMod'] = true
+            }
+        }
+        if (propertyBool('use_access_transformer')) {
+            attribute_map['FMLAT'] = propertyString('access_transformer_locations')
+        }
+        attributes(attribute_map)
+    }
+
     from('etc/core') {
         include '*.info'
         expand 'mod_id': project.property('mod_id'),
@@ -366,13 +380,13 @@ tasks.register('coreJar', Jar) {
                 'mod_credits': project.property('mod_credits'),
                 'mod_url': project.property('mod_url'),
                 'mod_update_json': project.property('mod_update_json'),
-                'mod_logo_path': project.property('mod_logo_path'),
-                'mcmp_version': project.property('mcmp_version')
+                'mod_logo_path': project.property('mod_logo_path')
+
 
     }
 
     from zipTree(reobfJar.outputs.getFiles().getSingleFile()).matching {
-        exclude 'mekanism/tools/**', 'mekanism/generators/**', 'mekanism/multiblockmachine/**','assets/mekanismtools/**', 'assets/mekanismmultiblockmachine/**','assets/mekanismgenerators/**', 'mcmod.info'
+        exclude 'mekanism/tools/**', 'mekanism/generators/**', 'mekanism/multiblockmachine/**', 'assets/mekanismtools/**', 'assets/mekanismmultiblockmachine/**', 'assets/mekanismgenerators/**','mcmod.info'
     }
 
 }
@@ -392,8 +406,8 @@ tasks.register('toolsJar', Jar) {
                 'mod_credits': project.property('mod_credits'),
                 'mod_url': project.property('mod_url'),
                 'mod_update_json': project.property('mod_update_json'),
-                'mod_logo_path': project.property('mod_logo_path'),
-                'mcmp_version': project.property('mcmp_version')
+                'mod_logo_path': project.property('mod_logo_path')
+
     }
 
     from zipTree(reobfJar.outputs.getFiles().getSingleFile()).matching {
@@ -416,8 +430,8 @@ tasks.register('generatorsJar', Jar) {
                 'mod_credits': project.property('mod_credits'),
                 'mod_url': project.property('mod_url'),
                 'mod_update_json': project.property('mod_update_json'),
-                'mod_logo_path': project.property('mod_logo_path'),
-                'mcmp_version': project.property('mcmp_version')
+                'mod_logo_path': project.property('mod_logo_path')
+
     }
 
     from zipTree(reobfJar.outputs.getFiles().getSingleFile()).matching {
@@ -450,8 +464,8 @@ tasks.register('multiblockmachineJar', Jar) {
                 'mod_credits': project.property('mod_credits'),
                 'mod_url': project.property('mod_url'),
                 'mod_update_json': project.property('mod_update_json'),
-                'mod_logo_path': project.property('mod_logo_path'),
-                'mcmp_version': project.property('mcmp_version')
+                'mod_logo_path': project.property('mod_logo_path')
+
     }
 
     from zipTree(reobfJar.outputs.getFiles().getSingleFile()).matching {
