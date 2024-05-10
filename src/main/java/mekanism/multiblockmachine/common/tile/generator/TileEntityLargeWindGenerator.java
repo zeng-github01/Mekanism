@@ -70,7 +70,7 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
                 CableUtils.emit(this, 4);
             }
         } else if (getActive()) {
-            angle = (angle + (getPos().getY() + 4F) / SPEED_SCALED) % 360;
+            angle = (angle + (getPos().getY() + 46F) / SPEED_SCALED) % 360;
         }
     }
 
@@ -135,22 +135,109 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
 
     @Override
     public void onPlace() {
-        for (int y = 0; y < 50; y++) {
-            for (int x = -3; x <= 3; x++) {
-                for (int z = -3; z <= 3; z++) {
-                    if (x == 0 && y == 0 && z == 0) {
-                        continue;
-                    }
-                    BlockPos pos1 = getPos().add(x, y, z);
-                    MekanismUtils.makeAdvancedBoundingBlock(world, pos1, Coord4D.get(this));
-                    world.notifyNeighborsOfStateChange(pos1, getBlockType(), true);
+
+        //bottom
+        for (int x = -3; x <= 3; x++) {
+            for (int z = -3; z <= 3; z++) {
+                if (x == 0 && z == 0) {
+                    continue;
+                }
+                MekanismUtils.makeAdvancedBoundingBlock(world, getPos().add(x, 0, z), Coord4D.get(this));
+                world.notifyNeighborsOfStateChange(getPos().add(x, 0, z), getBlockType(), true);
+            }
+        }
+        //Second floor
+        for (int x = -2; x <= 2; x++) {
+            for (int z = -2; z <= 2; z++) {
+                MekanismUtils.makeBoundingBlock(world, getPos().add(x, 1, z), Coord4D.get(this));
+                world.notifyNeighborsOfStateChange(getPos().add(x, 1, z), getBlockType(), true);
+            }
+        }
+        if (facing == EnumFacing.WEST) {
+            for (int z = -1; z <= 1; z++) {
+                MekanismUtils.makeBoundingBlock(world, getPos().add(3, 1, z), Coord4D.get(this));
+                world.notifyNeighborsOfStateChange(getPos().add(3, 1, z), getBlockType(), true);
+            }
+        } else if (facing == EnumFacing.EAST) {
+            for (int z = -1; z <= 1; z++) {
+                MekanismUtils.makeBoundingBlock(world, getPos().add(-3, 1, z), Coord4D.get(this));
+                world.notifyNeighborsOfStateChange(getPos().add(-3, 1, z), getBlockType(), true);
+            }
+        } else if (facing == EnumFacing.NORTH) {
+            for (int x = -1; x <= 1; x++) {
+                MekanismUtils.makeBoundingBlock(world, getPos().add(x, 1, 3), Coord4D.get(this));
+                world.notifyNeighborsOfStateChange(getPos().add(x, 1, 3), getBlockType(), true);
+            }
+        } else if (facing == EnumFacing.SOUTH) {
+            for (int x = -1; x <= 1; x++) {
+                MekanismUtils.makeBoundingBlock(world, getPos().add(x, 1, -3), Coord4D.get(this));
+                world.notifyNeighborsOfStateChange(getPos().add(x, 1, -3), getBlockType(), true);
+            }
+        }
+        //Wind turbine tower height (including head)
+        for (int y = 2; y <= 47; y++) {
+            for (int x = -2; x <= 2; x++) {
+                for (int z = -2; z <= 2; z++) {
+                    MekanismUtils.makeBoundingBlock(world, getPos().add(x, y, z), Coord4D.get(this));
+                    world.notifyNeighborsOfStateChange(getPos().add(x, y, z), getBlockType(), true);
                 }
             }
         }
 
+        //Wind turbine head and tail
+        for (int y = 43; y <= 47; y++) {
+            if (facing == EnumFacing.SOUTH) {
+                for (int x = -2; x <= 2; x++) {
+                    for (int z = -5; z <= -3; z++) {
+                        MekanismUtils.makeBoundingBlock(world, getPos().add(x, y, z), Coord4D.get(this));
+                        world.notifyNeighborsOfStateChange(getPos().add(x, y, z), getBlockType(), true);
+                    }
+                    for (int z = 3; z <= 4; z++) {
+                        MekanismUtils.makeBoundingBlock(world, getPos().add(x, y, z), Coord4D.get(this));
+                        world.notifyNeighborsOfStateChange(getPos().add(x, y, z), getBlockType(), true);
+                    }
+                }
+            } else if (facing == EnumFacing.NORTH) {
+                for (int x = -2; x <= 2; x++) {
+                    for (int z = 3; z <= 5; z++) {
+                        MekanismUtils.makeBoundingBlock(world, getPos().add(x, y, z), Coord4D.get(this));
+                        world.notifyNeighborsOfStateChange(getPos().add(x, y, z), getBlockType(), true);
+                    }
+                    for (int z = -4; z <= -3; z++) {
+                        MekanismUtils.makeBoundingBlock(world, getPos().add(x, y, z), Coord4D.get(this));
+                        world.notifyNeighborsOfStateChange(getPos().add(x, y, z), getBlockType(), true);
+                    }
+                }
+            } else if (facing == EnumFacing.EAST) {
+                for (int z = -2; z <= 2; z++) {
+                    for (int x = -5; x <= -3; x++) {
+                        MekanismUtils.makeBoundingBlock(world, getPos().add(x, y, z), Coord4D.get(this));
+                        world.notifyNeighborsOfStateChange(getPos().add(x, y, z), getBlockType(), true);
+                    }
+                    for (int x = 3; x <= 4; x++) {
+                        MekanismUtils.makeBoundingBlock(world, getPos().add(x, y, z), Coord4D.get(this));
+                        world.notifyNeighborsOfStateChange(getPos().add(x, y, z), getBlockType(), true);
+                    }
+                }
+            } else if (facing == EnumFacing.WEST) {
+                for (int z = -2; z <= 2; z++) {
+                    for (int x = 3; x <= 5; x++) {
+                        MekanismUtils.makeBoundingBlock(world, getPos().add(x, y, z), Coord4D.get(this));
+                        world.notifyNeighborsOfStateChange(getPos().add(x, y, z), getBlockType(), true);
+                    }
+                    for (int x = -4; x <= -3; x++) {
+                        MekanismUtils.makeBoundingBlock(world, getPos().add(x, y, z), Coord4D.get(this));
+                        world.notifyNeighborsOfStateChange(getPos().add(x, y, z), getBlockType(), true);
+                    }
+                }
+            }
+        }
+
+
         // Check to see if the placement is happening in a blacklisted dimension
         isBlacklistDimension = MekanismConfig.current().generators.windGenerationDimBlacklist.val().contains(world.provider.getDimension());
     }
+
 
     @Override
     public boolean sideIsOutput(EnumFacing side) {
@@ -159,16 +246,88 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
 
     @Override
     public void onBreak() {
-        for (int y = 0; y < 50; y++) {
-            for (int x = -3; x <= 3; x++) {
-                for (int z = -3; z <= 3; z++) {
-                    if (x == 0 && y == 0 && z == 0) {
-                        continue;
-                    }
+
+        for (int x = -3; x <= 3; x++) {
+            for (int z = -3; z <= 3; z++) {
+                if (x == 0 && z == 0) {
+                    continue;
+                }
+                world.setBlockToAir(getPos().add(x, 0, z));
+            }
+        }
+
+        for (int x = -2; x <= 2; x++) {
+            for (int z = -2; z <= 2; z++) {
+                world.setBlockToAir(getPos().add(x, 1, z));
+            }
+        }
+        if (facing == EnumFacing.WEST) {
+            for (int z = -1; z <= 1; z++) {
+                world.setBlockToAir(getPos().add(3, 1, z));
+            }
+        } else if (facing == EnumFacing.EAST) {
+            for (int z = -1; z <= 1; z++) {
+                world.setBlockToAir(getPos().add(-3, 1, z));
+            }
+        } else if (facing == EnumFacing.NORTH) {
+            for (int x = -1; x <= 1; x++) {
+                world.setBlockToAir(getPos().add(x, 1, 3));
+            }
+        } else if (facing == EnumFacing.SOUTH) {
+            for (int x = -1; x <= 1; x++) {
+                world.setBlockToAir(getPos().add(x, 1, -3));
+            }
+        }
+
+        for (int y = 2; y <= 47; y++) {
+            for (int x = -2; x <= 2; x++) {
+                for (int z = -2; z <= 2; z++) {
                     world.setBlockToAir(getPos().add(x, y, z));
                 }
             }
         }
+
+        for (int y = 43; y <= 47; y++) {
+            if (facing == EnumFacing.SOUTH) {
+                for (int x = -2; x <= 2; x++) {
+                    for (int z = -5; z <= -3; z++) {
+                        world.setBlockToAir(getPos().add(x, y, z));
+                    }
+                    for (int z = 3; z <= 4; z++) {
+                        world.setBlockToAir(getPos().add(x, y, z));
+                    }
+                }
+            } else if (facing == EnumFacing.NORTH) {
+                for (int x = -2; x <= 2; x++) {
+                    for (int z = 3; z <= 5; z++) {
+                        world.setBlockToAir(getPos().add(x, y, z));
+                    }
+                    for (int z = -4; z <= -3; z++) {
+                        world.setBlockToAir(getPos().add(x, y, z));
+                    }
+                }
+            } else if (facing == EnumFacing.EAST) {
+                for (int z = -2; z <= 2; z++) {
+                    for (int x = -5; x <= -3; x++) {
+                        world.setBlockToAir(getPos().add(x, y, z));
+                    }
+                    for (int x = 3; x <= 4; x++) {
+                        world.setBlockToAir(getPos().add(x, y, z));
+                    }
+                }
+            } else if (facing == EnumFacing.WEST) {
+                for (int z = -2; z <= 2; z++) {
+                    for (int x = 3; x <= 5; x++) {
+                        world.setBlockToAir(getPos().add(x, y, z));
+                    }
+                    for (int x = -4; x <= -3; x++) {
+                        world.setBlockToAir(getPos().add(x, y, z));
+                    }
+                }
+            }
+        }
+
+
         invalidate();
         world.setBlockToAir(getPos());
     }
@@ -232,7 +391,7 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
             return side == left;
         } else if (coord.equals(getPos().offset(right, 3))) {
             return side == right;
-        }else if (coord.equals(getPos().offset(facing, 3))) {
+        } else if (coord.equals(getPos().offset(facing, 3))) {
             return side == facing;
         }
         return false;
