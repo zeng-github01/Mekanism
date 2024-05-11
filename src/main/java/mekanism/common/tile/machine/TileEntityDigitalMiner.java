@@ -70,7 +70,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class TileEntityDigitalMiner extends TileEntityElectricBlock implements IUpgradeTile, IRedstoneControl, IActiveState, ISustainedData, IChunkLoader, IAdvancedBoundingBlock {
+public class TileEntityDigitalMiner extends TileEntityElectricBlock implements IUpgradeTile, IRedstoneControl, IActiveState, ISustainedData, IChunkLoader, IAdvancedBoundingBlock, IHasVisualization {
 
     private static final int[] INV_SLOTS = IntStream.range(0, 28).toArray();
 
@@ -542,7 +542,7 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
     }
 
     @Override
-   public void writeCustomNBT(NBTTagCompound nbtTags) {
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         if (searcher.state == State.SEARCHING) {
             reset();
@@ -586,7 +586,8 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
                 case 3 -> start();
                 case 4 -> stop();
                 case 5 -> reset();
-                case 6 -> setRadius(Math.min(dataStream.readInt(), MekanismConfig.current().general.digitalMinerMaxRadius.val()));
+                case 6 ->
+                        setRadius(Math.min(dataStream.readInt(), MekanismConfig.current().general.digitalMinerMaxRadius.val()));
                 case 7 -> minY = dataStream.readInt();
                 case 8 -> maxY = dataStream.readInt();
                 case 9 -> silkTouch = !silkTouch;
@@ -1227,5 +1228,20 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
             return BlockFaceShape.SOLID;
         }
         return BlockFaceShape.UNDEFINED;
+    }
+
+    @Override
+    public boolean isClientRendering() {
+        return clientRendering;
+    }
+
+    @Override
+    public void toggleClientRendering() {
+        clientRendering = !clientRendering;
+    }
+
+    @Override
+    public boolean canDisplayVisuals() {
+        return this.getRadius() <= 64;
     }
 }

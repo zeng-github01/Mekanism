@@ -54,7 +54,7 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
         addGuiElement(new GuiPowerBarshort(this, tileEntity, resource, 157, 38));
-        addGuiElement(new GuiVisualsTab(this, tileEntity, resource));
+        addGuiElement(new GuiVisualsTab<>(this, tileEntity, resource));
         addGuiElement(new GuiEnergyInfo(() -> {
             double perTick = tileEntity.getPerTick();
             String multiplier = MekanismUtils.getEnergyDisplay(perTick);
