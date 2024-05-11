@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.common.capabilities.Capability;
@@ -66,6 +67,7 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
             if (getActive()) {
                 setEnergy(electricityStored + (MekanismConfig.current().multiblock.largewindGenerationMin.val() * currentMultiplier));
             }
+
             if (MekanismUtils.canFunction(this)) {
                 CableUtils.emit(this, 4);
             }
@@ -94,11 +96,28 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
     }
 
     public float getMultiplier() {
-        BlockPos top = getPos().up(49);
-        if (world.canSeeSky(top)) {
+        //Wind turbine head and tail
+        BlockPos head = getPos().up(46);
+        BlockPos head2 = getPos().up(46);
+        if (facing == EnumFacing.NORTH) {
+            head = getPos().up(46).north(3);
+            head2 = getPos().up(46).north(4);
+        } else if (facing == EnumFacing.SOUTH) {
+            head = getPos().up(46).south(3);
+            head2 = getPos().up(46).north(4);
+        } else if (facing == EnumFacing.WEST) {
+            head = getPos().up(46).west(3);
+            head2 = getPos().up(46).north(4);
+        } else if (facing == EnumFacing.EAST) {
+            head = getPos().up(46).east(3);
+            head2 = getPos().up(46).north(4);
+        }
+
+
+        if (world.canSeeSky(head) && world.canSeeSky(head2)) {
             int minY = MekanismConfig.current().multiblock.largewindGenerationMinY.val();
             int maxY = MekanismConfig.current().multiblock.largewindGenerationMaxY.val();
-            float clampedY = Math.min(maxY, Math.max(minY, top.getY()));
+            float clampedY = Math.min(maxY, Math.max(minY, head.getY()));
             float minG = (float) MekanismConfig.current().multiblock.largewindGenerationMin.val();
             float maxG = (float) MekanismConfig.current().multiblock.largewindGenerationMax.val();
             int rangeY = maxY < minY ? minY - maxY : maxY - minY;
@@ -246,7 +265,6 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
 
     @Override
     public void onBreak() {
-
         for (int x = -3; x <= 3; x++) {
             for (int z = -3; z <= 3; z++) {
                 if (x == 0 && z == 0) {
@@ -255,7 +273,6 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
                 world.setBlockToAir(getPos().add(x, 0, z));
             }
         }
-
         for (int x = -2; x <= 2; x++) {
             for (int z = -2; z <= 2; z++) {
                 world.setBlockToAir(getPos().add(x, 1, z));
@@ -278,7 +295,6 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
                 world.setBlockToAir(getPos().add(x, 1, -3));
             }
         }
-
         for (int y = 2; y <= 47; y++) {
             for (int x = -2; x <= 2; x++) {
                 for (int z = -2; z <= 2; z++) {
@@ -286,7 +302,6 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
                 }
             }
         }
-
         for (int y = 43; y <= 47; y++) {
             if (facing == EnumFacing.SOUTH) {
                 for (int x = -2; x <= 2; x++) {
@@ -381,6 +396,12 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
     @Override
     public boolean canBoundReceiveEnergy(BlockPos location, EnumFacing side) {
         return false;
+    }
+
+    public void kill() {
+        //TODO:Deals damage within range of blades,And set the generator to stop working
+       // AxisAlignedBB death_zone = new AxisAlignedBB(getPos().up(46).getX(),getPos().up(46).getY(),getPos().up(46),
+
     }
 
     @Override
