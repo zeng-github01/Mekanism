@@ -9,6 +9,7 @@ import mekanism.common.config.MekanismConfig;
 import mekanism.api.tier.BaseTier;
 import mekanism.common.tier.FactoryTier;
 import mekanism.common.tile.*;
+import mekanism.common.tile.machine.TileEntityDimensionalStabilizer;
 import mekanism.common.tile.factory.*;
 import mekanism.common.tile.laser.*;
 import mekanism.common.tile.machine.*;
@@ -28,6 +29,7 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -132,7 +134,9 @@ public class BlockStateMachine extends ExtendedBlockState {
         CELL_EXTRACTOR(MachineBlock.MACHINE_BLOCK_4, 6, "CellExtractor", 70, TileEntityCellExtractor::new, true, false, true, Plane.HORIZONTAL, true),
         CELL_SEPARATOR(MachineBlock.MACHINE_BLOCK_4, 7, "CellSeparator", 71, TileEntityCellSeparator::new, true, false, true, Plane.HORIZONTAL, true),
         RECYCLER(MachineBlock.MACHINE_BLOCK_4, 8, "Recycler", 72, TileEntityRecycler::new, true, false, true, Plane.HORIZONTAL, true),
-        INDUSTRIAL_ALARM(MachineBlock.MACHINE_BLOCK_4, 9, "IndustrialAlarm", -1, TileEntityIndustrialAlarm::new, false, true, false, BlockStateUtils.ALL_FACINGS, false);
+        INDUSTRIAL_ALARM(MachineBlock.MACHINE_BLOCK_4, 9, "IndustrialAlarm", -1, TileEntityIndustrialAlarm::new, false, true, false, BlockStateUtils.ALL_FACINGS, false),
+        DIMENSIONAL_STABILIZER(MachineBlock.MACHINE_BLOCK_4, 11 ,"DimensionalStabilizer", 74,TileEntityDimensionalStabilizer::new, true,false,true,Plane.HORIZONTAL,true);
+
 
         public MachineBlock typeBlock;
         public int meta;
@@ -211,7 +215,7 @@ public class BlockStateMachine extends ExtendedBlockState {
             return true;
         }
 
-        public TileEntity create() {
+        public @Nullable TileEntity create() {
             return this.tileEntitySupplier != null ? this.tileEntitySupplier.get() : null;
         }
 
@@ -268,6 +272,7 @@ public class BlockStateMachine extends ExtendedBlockState {
                 case RECYCLER -> MekanismConfig.current().usage.recycler.val();
                 case INDUSTRIAL_ALARM -> 0;
                 case AMBIENT_ACCUMULATOR_ENERGY -> MekanismConfig.current().usage.AmbientAccumulatorEnergy.val();
+                case DIMENSIONAL_STABILIZER -> MekanismConfig.current().usage.dimensionStabilizer.val();
                 default -> 0;
             };
         }
@@ -316,6 +321,7 @@ public class BlockStateMachine extends ExtendedBlockState {
                 case RECYCLER -> MekanismConfig.current().storage.recycler.val();
                 case INDUSTRIAL_ALARM -> 0;
                 case AMBIENT_ACCUMULATOR_ENERGY -> MekanismConfig.current().storage.AmbientAccumulatorEnergy.val();
+                case DIMENSIONAL_STABILIZER -> MekanismConfig.current().storage.dimensionStabilizer.val();
                 default -> 400 * getUsage();
             };
         }

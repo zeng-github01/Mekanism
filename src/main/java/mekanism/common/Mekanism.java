@@ -45,6 +45,7 @@ import mekanism.common.recipe.machines.SmeltingRecipe;
 import mekanism.common.recipe.outputs.ItemStackOutput;
 import mekanism.common.security.SecurityFrequency;
 import mekanism.common.tile.*;
+import mekanism.common.tile.machine.TileEntityDimensionalStabilizer;
 import mekanism.common.tile.factory.*;
 import mekanism.common.tile.laser.*;
 import mekanism.common.tile.machine.*;
@@ -348,6 +349,7 @@ public class Mekanism {
         registerTileEntity(TileEntityRecycler.class, "Recycler");
         registerTileEntity(TileEntityIndustrialAlarm.class, "industrial_alarm");
         registerTileEntity(TileEntityAmbientAccumulatorEnergy.class, "ambient_accumulator_energy");
+        registerTileEntity(TileEntityDimensionalStabilizer.class, "dimensional_stabilizer");
         /**
          * End of adding machine
          */

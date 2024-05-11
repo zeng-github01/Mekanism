@@ -1,0 +1,24 @@
+{
+  "variants": {
+    "facing": {
+      "east": {
+        "y": 90
+      },
+      "south": {
+        "y": 180
+      },
+      "north": {},
+      "west": {
+        "y": -90
+      }
+    },
+    "active": {
+      "true": {
+        "model": "mekanism:block/dimensional_stabilizer"
+      },
+      "false": {
+        "model": "mekanism:block/dimensional_stabilizer_active"
+      }
+    }
+  }
+}

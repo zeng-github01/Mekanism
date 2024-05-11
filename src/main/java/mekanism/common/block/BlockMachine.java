@@ -577,7 +577,7 @@ public abstract class BlockMachine extends BlockMekanismContainer {
         if (tileEntity instanceof IRedstoneControl control) {
             ItemDataUtils.setInt(itemStack, "controlType", control.getControlType().ordinal());
         }
-        if (tileEntity instanceof TileEntityContainerBlock && ((TileEntityContainerBlock) tileEntity).inventory.size() > 0) {
+        if (tileEntity instanceof TileEntityContainerBlock && !((TileEntityContainerBlock) tileEntity).inventory.isEmpty()) {
             ISustainedInventory inventory = (ISustainedInventory) itemStack.getItem();
             inventory.setInventory(((ISustainedInventory) tileEntity).getInventory(), itemStack);
         }
