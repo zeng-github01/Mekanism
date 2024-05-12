@@ -97,4 +97,6 @@ public class MEKCEConfig extends BaseConfig {
     public final BooleanOption EnableUpgradeConfigure  = new BooleanOption(this,"mekce","EnableUpgradeConfigure",false,"Enable an upgrade similar to IC2");
 
     public final IntOption EjectionFailureDelay = new IntOption(this, "mekce", "EjectionFailureDelay", 20, "How long to wait and retry if the machine is unable to export its own gas or fluid. Helps optimize performance.", 0, 100);
+
+    public final BooleanOption VirtualErrors= new BooleanOption(this,"mekce","VirtualErrors",false,"Close the virtual block error and remove the virtual block prompt");
 }

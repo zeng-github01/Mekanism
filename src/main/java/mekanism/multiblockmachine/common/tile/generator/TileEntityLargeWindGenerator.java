@@ -8,19 +8,25 @@ import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.CableUtils;
 import mekanism.common.util.ChargeUtils;
 import mekanism.common.util.MekanismUtils;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator implements IAdvancedBoundingBlock {
 
@@ -32,7 +38,9 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
     private double angle;
     private float currentMultiplier;
     private boolean isBlacklistDimension = false;
-
+    private int explode;
+    private boolean machineStop;
+    private boolean bladeDamage;
     public TileEntityLargeWindGenerator() {
         super("wind", "LargeWindGenerator", MekanismConfig.current().multiblock.largewindGeneratorStorage.val(), MekanismConfig.current().multiblock.largewindGenerationMax.val() * 2);
         inventory = NonNullList.withSize(SLOTS.length, ItemStack.EMPTY);
@@ -62,12 +70,23 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
 
             if (ticker % 20 == 0) {
                 currentMultiplier = getMultiplier();
-                setActive(MekanismUtils.canFunction(this) && currentMultiplier > 0);
+                setActive(MekanismUtils.canFunction(this) && currentMultiplier > 0 && !machineStop);
+                if(getControlType() == RedstoneControl.HIGH){ //ToDo: Add a forced run
+                    machineStop = false;
+                }
             }
             if (getActive()) {
                 setEnergy(electricityStored + (MekanismConfig.current().multiblock.largewindGenerationMin.val() * currentMultiplier));
+                if (MekanismConfig.current().multiblock.largewindGenerationDamage.val()){
+                    kill();
+                }
             }
-
+            if (explode != 0){
+                bladeDamage = true;
+            }
+            if (explode >= MekanismConfig.current().multiblock.largewindGenerationExplodeCount.val() && MekanismConfig.current().multiblock.largewindGenerationExplode.val()) {
+                explode();
+            }
             if (MekanismUtils.canFunction(this)) {
                 CableUtils.emit(this, 4);
             }
@@ -83,6 +102,8 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
             currentMultiplier = dataStream.readFloat();
             isBlacklistDimension = dataStream.readBoolean();
             numPowering = dataStream.readInt();
+            explode = dataStream.readInt();
+            bladeDamage = dataStream.readBoolean();
         }
     }
 
@@ -92,6 +113,8 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
         data.add(currentMultiplier);
         data.add(isBlacklistDimension);
         data.add(numPowering);
+        data.add(explode);
+        data.add(bladeDamage);
         return data;
     }
 
@@ -104,13 +127,13 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
             head2 = getPos().up(46).north(4);
         } else if (facing == EnumFacing.SOUTH) {
             head = getPos().up(46).south(3);
-            head2 = getPos().up(46).north(4);
+            head2 = getPos().up(46).south(4);
         } else if (facing == EnumFacing.WEST) {
             head = getPos().up(46).west(3);
-            head2 = getPos().up(46).north(4);
+            head2 = getPos().up(46).west(4);
         } else if (facing == EnumFacing.EAST) {
             head = getPos().up(46).east(3);
-            head2 = getPos().up(46).north(4);
+            head2 = getPos().up(46).east(4);
         }
 
 
@@ -351,12 +374,16 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
     public void readCustomNBT(NBTTagCompound nbtTags) {
         super.readCustomNBT(nbtTags);
         numPowering = nbtTags.getInteger("numPowering");
+        explode = nbtTags.getInteger("explode");
+        bladeDamage = nbtTags.getBoolean("bladeDamage");
     }
 
     @Override
     public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("numPowering", numPowering);
+        nbtTags.setInteger("explode", explode);
+        nbtTags.setBoolean("bladeDamage",bladeDamage);
     }
 
 
@@ -376,6 +403,14 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
 
     public double getAngle() {
         return angle;
+    }
+
+    public boolean getBladeDamage() {
+        return bladeDamage;
+    }
+
+    public int getBladeDamageNumber(){
+        return explode;
     }
 
     public boolean isBlacklistDimension() {
@@ -399,10 +434,54 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
     }
 
     public void kill() {
-        //TODO:Deals damage within range of blades,And set the generator to stop working
-       // AxisAlignedBB death_zone = new AxisAlignedBB(getPos().up(46).getX(),getPos().up(46).getY(),getPos().up(46),
+        AxisAlignedBB death_zone = new AxisAlignedBB(getPos());
+        if (facing == EnumFacing.NORTH) {
+            death_zone = new AxisAlignedBB(
+                    getPos().up(46).north(3).getX() + 22, getPos().up(46).north(3).getY() + 22, getPos().up(46).north(3).getZ(),
+                    getPos().up(46).north(4).getX() - 22, getPos().up(46).north(4).getY() - 22, getPos().up(46).north(4).getZ());
+        } else if (facing == EnumFacing.SOUTH) {
+            death_zone = new AxisAlignedBB(
+                    getPos().up(46).south(3).getX() + 22, getPos().up(46).south(3).getY() + 22, getPos().up(46).south(3).getZ(),
+                    getPos().up(46).south(4).getX() - 22, getPos().up(46).south(4).getY() - 22, getPos().up(46).south(4).getZ());
+        } else if (facing == EnumFacing.WEST) {
+            death_zone = new AxisAlignedBB(
+                    getPos().up(46).west(3).getX(), getPos().up(46).west(3).getY() + 22, getPos().up(46).west(3).getZ() + 22,
+                    getPos().up(46).west(4).getX(), getPos().up(46).west(4).getY() - 22, getPos().up(46).west(4).getZ() - 22);
+        } else if (facing == EnumFacing.EAST) {
+            death_zone = new AxisAlignedBB(
+                    getPos().up(46).east(3).getX(), getPos().up(46).east(3).getY() + 22, getPos().up(46).east(3).getZ() + 22,
+                    getPos().up(46).east(4).getX(), getPos().up(46).east(4).getY() - 22, getPos().up(46).east(4).getZ() - 22);
+        }
 
+        List<Entity> entitiesToDie = getWorld().getEntitiesWithinAABB(Entity.class, death_zone);
+
+        for (Entity entity : entitiesToDie) {
+            if (entity instanceof EntityPlayer player && player.capabilities.isCreativeMode) {
+                return;
+            }
+            entity.attackEntityFrom(DamageSource.FLY_INTO_WALL, Float.MAX_VALUE);
+            machineStop = true;
+            explode += 1;
+        }
     }
+
+
+    private void explode() {
+        if (facing == EnumFacing.NORTH) {
+            world.createExplosion(null, getPos().up(46).north(4).getX(), getPos().up(46).north(4).getY(), getPos().up(46).north(4).getZ(), MekanismConfig.current().multiblock.largewindGenerationBlastRadius.val(), true);
+            world.spawnParticle(EnumParticleTypes.LAVA, getPos().up(46).north(3).getX(), getPos().up(46).north(3).getY(), getPos().up(46).north(3).getZ(), 0, 0, 0);
+        } else if (facing == EnumFacing.SOUTH) {
+            world.createExplosion(null, getPos().up(46).south(4).getX(), getPos().up(46).south(4).getY(), getPos().up(46).south(4).getZ(), MekanismConfig.current().multiblock.largewindGenerationBlastRadius.val(), true);
+            world.spawnParticle(EnumParticleTypes.LAVA, getPos().up(46).south(3).getX(), getPos().up(46).south(3).getY(), getPos().up(46).south(3).getZ(), 0, 0, 0);
+        } else if (facing == EnumFacing.WEST) {
+            world.createExplosion(null, getPos().up(46).west(4).getX(), getPos().up(46).west(4).getY(), getPos().up(46).west(4).getZ(), MekanismConfig.current().multiblock.largewindGenerationBlastRadius.val(), true);
+            world.spawnParticle(EnumParticleTypes.LAVA, getPos().up(46).west(3).getX(), getPos().up(46).west(3).getY(), getPos().up(46).west(3).getZ(), 0, 0, 0);
+        } else if (facing == EnumFacing.EAST) {
+            world.createExplosion(null, getPos().up(46).east(4).getX(), getPos().up(46).east(4).getY(), getPos().up(46).east(4).getZ(), MekanismConfig.current().multiblock.largewindGenerationBlastRadius.val(), true);
+            world.spawnParticle(EnumParticleTypes.LAVA, getPos().up(46).east(3).getX(), getPos().up(46).east(3).getY(), getPos().up(46).east(3).getZ(), 0, 0, 0);
+        }
+    }
+
 
     @Override
     public boolean canBoundOutPutEnergy(BlockPos coord, EnumFacing side) {
@@ -447,6 +526,7 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
     public String getDataType() {
         return getBlockType().getTranslationKey() + "." + fullName + ".name";
     }
+
 
     @Override
     public boolean hasOffsetCapability(@NotNull Capability<?> capability, @Nullable EnumFacing side, @NotNull Vec3i offset) {

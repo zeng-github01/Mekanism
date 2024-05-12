@@ -15,7 +15,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiLargeWindGenerator extends GuiMekanismTile<TileEntityLargeWindGenerator> {
@@ -59,7 +61,25 @@ public class GuiLargeWindGenerator extends GuiMekanismTile<TileEntityLargeWindGe
                 info = "control.low.desc";
             }
             fontRenderer.drawString(EnumColor.DARK_RED + LangUtils.localize(info), 51, size, 0x00CD00);
+
         }
+        if (tileEntity.getBladeDamage()) {
+            size += 9;
+            fontRenderer.drawString(EnumColor.DARK_RED + LangUtils.localize("gui.Blades_damaged"), 51, size, 0x00CD00);
+            size += 9;
+            fontRenderer.drawString(EnumColor.DARK_RED + LangUtils.localize("gui.Blades_damaged_number") + tileEntity.getBladeDamageNumber(), 51, size, 0x00CD00);
+        }
+        int xAxis = mouseX - guiLeft;
+        int yAxis = mouseY - guiTop;
+        if (xAxis >= -21 && xAxis <= -3 && yAxis >= 116 && yAxis <= 134) {
+            if (tileEntity.getBladeDamage()) {
+                List<String> info = new ArrayList<>();
+                info.add(LangUtils.localize("gui.Blades_damaged"));
+                info.add(LangUtils.localize("gui.Blades_damaged_number") +": "+ tileEntity.getBladeDamageNumber());
+                displayTooltips(info, xAxis, yAxis);
+            }
+        }
+
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
@@ -68,5 +88,11 @@ public class GuiLargeWindGenerator extends GuiMekanismTile<TileEntityLargeWindGe
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.SLOT, "Slot_Icon.png"));
         drawTexturedModalRect(guiLeft + 20, guiTop + 37, tileEntity.getActive() ? 12 : 0, 88, 12, 12);
+        if (tileEntity.getBladeDamage()) {
+            mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.TAB, "Warning_Info.png"));
+            drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
+            addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
+        }
+
     }
 }
