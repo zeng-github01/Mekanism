@@ -420,7 +420,6 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
 
-
     @Nonnull
     public RecipeType getRecipeType() {
         return recipeType;
@@ -1324,6 +1323,13 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public Object[] getTanks() {
+        if (recipeType == RecipeType.PRC || recipeType == RecipeType.WASHER) {
+            return new Object[]{fluidTank, gasTank, gasOutTank};
+        } else if (recipeType == RecipeType.Dissolution) {
+            return new Object[]{gasTank, gasOutTank};
+        } else if (recipeType == RecipeType.OXIDIZER) {
+            return new Object[]{gasOutTank};
+        }
         return new Object[]{fluidTank, gasTank, gasOutTank};
     }
 
@@ -1367,7 +1373,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
 
-    public MachineRecipe<?, ?, ?> getSlotRecipe(int slotID, ItemStack fallbackInput, ItemStack output,boolean updateCache) {
+    public MachineRecipe<?, ?, ?> getSlotRecipe(int slotID, ItemStack fallbackInput, ItemStack output, boolean updateCache) {
         int process = getOperation(slotID);
         //cached recipe may be invalid
         MachineRecipe<?, ?, ?> cached = cachedRecipe[process];
@@ -1681,7 +1687,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                     continue;
                 }
                 ItemStack outStack = factory.inventory.get(slotId + factory.tier.processes);
-                MachineRecipe<?, ?, ?> recipe = factory.getSlotRecipe(slotId, invStack, outStack,true);
+                MachineRecipe<?, ?, ?> recipe = factory.getSlotRecipe(slotId, invStack, outStack, true);
                 if (recipe != null) {
                     vaildRecipeItemStackList.add(new Tuple<>(recipe, invStack));
                 } else {
