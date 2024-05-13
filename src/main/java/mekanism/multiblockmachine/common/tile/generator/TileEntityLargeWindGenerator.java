@@ -41,6 +41,7 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
     private int explode;
     private boolean machineStop;
     private boolean bladeDamage;
+
     public TileEntityLargeWindGenerator() {
         super("wind", "LargeWindGenerator", MekanismConfig.current().multiblock.largewindGeneratorStorage.val(), MekanismConfig.current().multiblock.largewindGenerationMax.val() * 2);
         inventory = NonNullList.withSize(SLOTS.length, ItemStack.EMPTY);
@@ -71,17 +72,14 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
             if (ticker % 20 == 0) {
                 currentMultiplier = getMultiplier();
                 setActive(MekanismUtils.canFunction(this) && currentMultiplier > 0 && !machineStop);
-                if(getControlType() == RedstoneControl.HIGH){ //ToDo: Add a forced run
-                    machineStop = false;
-                }
             }
             if (getActive()) {
                 setEnergy(electricityStored + (MekanismConfig.current().multiblock.largewindGenerationMin.val() * currentMultiplier));
-                if (MekanismConfig.current().multiblock.largewindGenerationDamage.val()){
+                if (MekanismConfig.current().multiblock.largewindGenerationDamage.val()) {
                     kill();
                 }
             }
-            if (explode != 0){
+            if (explode != 0) {
                 bladeDamage = true;
             }
             if (explode >= MekanismConfig.current().multiblock.largewindGenerationExplodeCount.val() && MekanismConfig.current().multiblock.largewindGenerationExplode.val()) {
@@ -97,11 +95,18 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
 
     @Override
     public void handlePacketData(ByteBuf dataStream) {
+        if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+            int type = dataStream.readInt();
+            if (type == 1) {
+                machineStop = !machineStop;
+            }
+        }
         super.handlePacketData(dataStream);
-        if (world.isRemote) {
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
             currentMultiplier = dataStream.readFloat();
             isBlacklistDimension = dataStream.readBoolean();
             numPowering = dataStream.readInt();
+            machineStop = dataStream.readBoolean();
             explode = dataStream.readInt();
             bladeDamage = dataStream.readBoolean();
         }
@@ -113,6 +118,7 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
         data.add(currentMultiplier);
         data.add(isBlacklistDimension);
         data.add(numPowering);
+        data.add(machineStop);
         data.add(explode);
         data.add(bladeDamage);
         return data;
@@ -375,6 +381,7 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
         super.readCustomNBT(nbtTags);
         numPowering = nbtTags.getInteger("numPowering");
         explode = nbtTags.getInteger("explode");
+        machineStop = nbtTags.getBoolean("machineStop");
         bladeDamage = nbtTags.getBoolean("bladeDamage");
     }
 
@@ -383,7 +390,8 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
         super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("numPowering", numPowering);
         nbtTags.setInteger("explode", explode);
-        nbtTags.setBoolean("bladeDamage",bladeDamage);
+        nbtTags.setBoolean("machineStop",machineStop);
+        nbtTags.setBoolean("bladeDamage", bladeDamage);
     }
 
 
@@ -405,11 +413,15 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
         return angle;
     }
 
+    public boolean getMachineStop(){
+        return machineStop;
+    }
+
     public boolean getBladeDamage() {
         return bladeDamage;
     }
 
-    public int getBladeDamageNumber(){
+    public int getBladeDamageNumber() {
         return explode;
     }
 

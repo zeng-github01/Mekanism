@@ -1,26 +1,38 @@
 package mekanism.multiblockmachine.client.gui;
 
 import mekanism.api.EnumColor;
+import mekanism.api.TileNetworkList;
 import mekanism.client.gui.GuiMekanismTile;
+import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
+import mekanism.client.gui.element.tab.GuiSideHolder;
+import mekanism.client.sound.SoundHandler;
+import mekanism.common.Mekanism;
 import mekanism.common.base.IRedstoneControl;
 import mekanism.common.config.MekanismConfig;
+import mekanism.common.network.PacketTileEntity;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.multiblockmachine.common.inventory.container.ContainerLargeWindGenerator;
 import mekanism.multiblockmachine.common.tile.generator.TileEntityLargeWindGenerator;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiLargeWindGenerator extends GuiMekanismTile<TileEntityLargeWindGenerator> {
+
+    private GuiButton ForcedRun;
 
     public GuiLargeWindGenerator(InventoryPlayer inventory, TileEntityLargeWindGenerator tile) {
         super(tile, new ContainerLargeWindGenerator(inventory, tile));
@@ -39,6 +51,25 @@ public class GuiLargeWindGenerator extends GuiMekanismTile<TileEntityLargeWindGe
     }
 
     @Override
+    public void initGui() {
+        super.initGui();
+        buttonList.add(ForcedRun = new GuiDisableableButton(1, guiLeft - 21, guiTop + 90, 18, 18) {
+            @Override
+            public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+                if (tileEntity.getBladeDamage()) {
+                    super.drawButton(mc, mouseX, mouseY, partialTicks);
+
+                }
+            }
+
+            @Override
+            public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
+                return tileEntity.getBladeDamage() && super.mousePressed(mc, mouseX, mouseY);
+            }
+        }.with(GuiDisableableButton.ImageOverlay.FORCE_RUN));
+    }
+
+    @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
@@ -54,10 +85,13 @@ public class GuiLargeWindGenerator extends GuiMekanismTile<TileEntityLargeWindGe
             if (isblacklist) {
                 info = "gui.noWind";
             }
-            if (tileEntity.controlType == IRedstoneControl.RedstoneControl.HIGH && !tileEntity.redstone && !isblacklist) {
+            if (tileEntity.getMachineStop() && !isblacklist){
+                info = "gui.protection";
+            }
+            if (tileEntity.controlType == IRedstoneControl.RedstoneControl.HIGH && !tileEntity.redstone && !isblacklist && !tileEntity.getMachineStop()) {
                 info = "control.high.desc";
             }
-            if (tileEntity.controlType == IRedstoneControl.RedstoneControl.LOW && tileEntity.redstone && !isblacklist) {
+            if (tileEntity.controlType == IRedstoneControl.RedstoneControl.LOW && tileEntity.redstone && !isblacklist && !tileEntity.getMachineStop()) {
                 info = "control.low.desc";
             }
             fontRenderer.drawString(EnumColor.DARK_RED + LangUtils.localize(info), 51, size, 0x00CD00);
@@ -75,9 +109,11 @@ public class GuiLargeWindGenerator extends GuiMekanismTile<TileEntityLargeWindGe
             if (tileEntity.getBladeDamage()) {
                 List<String> info = new ArrayList<>();
                 info.add(LangUtils.localize("gui.Blades_damaged"));
-                info.add(LangUtils.localize("gui.Blades_damaged_number") +": "+ tileEntity.getBladeDamageNumber());
+                info.add(LangUtils.localize("gui.Blades_damaged_number") + ": " + tileEntity.getBladeDamageNumber());
                 displayTooltips(info, xAxis, yAxis);
             }
+        } else if (ForcedRun.isMouseOver()) {
+            displayTooltip(LangUtils.localize("gui.forced_run"), xAxis, yAxis);
         }
 
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
@@ -92,7 +128,18 @@ public class GuiLargeWindGenerator extends GuiMekanismTile<TileEntityLargeWindGe
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.TAB, "Warning_Info.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);
             addGuiElement(new GuiWarningInfo(this, getGuiLocation(), false));
+            addGuiElement(new GuiSideHolder(this, getGuiLocation(), -26, 86, 26, 26, true));
         }
 
+    }
+
+    @Override
+    protected void actionPerformed(GuiButton button) throws IOException {
+        super.actionPerformed(button);
+        if (button == ForcedRun) {
+            TileNetworkList data = TileNetworkList.withContents(1);
+            Mekanism.packetHandler.sendToServer(new PacketTileEntity.TileEntityMessage(tileEntity, data));
+            SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
+        }
     }
 }
