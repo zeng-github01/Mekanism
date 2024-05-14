@@ -294,6 +294,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             }
             ChargeUtils.discharge(1, this);
             handleSecondaryFuel();
+            CheckTheFaceSettings();
             if (!NoItemInputMachine()) {
                 if (Factoryoldsorting) {
                     sortInventory(); //Keeping the old sort prevents some problems
@@ -547,7 +548,6 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         }
         return true;
     }
-
 
     public double getSecondaryEnergyPerTick(RecipeType type) {
         if (tier == FactoryTier.CREATIVE) {
@@ -1326,9 +1326,11 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         if (recipeType == RecipeType.PRC || recipeType == RecipeType.WASHER) {
             return new Object[]{fluidTank, gasTank, gasOutTank};
         } else if (recipeType == RecipeType.Dissolution) {
-            return new Object[]{gasTank, gasOutTank};
+            return new Object[]{gasTank, gasOutTank, fluidTank};
         } else if (recipeType == RecipeType.OXIDIZER) {
-            return new Object[]{gasOutTank};
+            return new Object[]{gasOutTank, gasTank, fluidTank};
+        } else if (recipeType.getFuelType() == MachineFuelType.ADVANCED || recipeType.getFuelType() == MachineFuelType.FARM || recipeType == RecipeType.Crystallizer || recipeType == RecipeType.NUCLEOSYNTHESIZER) {
+            return new Object[]{gasTank, gasOutTank, fluidTank};
         }
         return new Object[]{fluidTank, gasTank, gasOutTank};
     }
@@ -1433,6 +1435,25 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         }
         return cached;
     }
+
+    private void CheckTheFaceSettings() {
+        if (!GasMachine()) {
+            configComponent.fillConfig(TransmissionType.GAS, -1);
+        } else {
+            configComponent.setConfig(TransmissionType.GAS, new byte[]{1, 1, 1, 1, 1, 2});
+        }
+
+        if (!GasOutputMachines()){
+            configComponent.setEjecting(TransmissionType.GAS, false);
+            configComponent.setCanEject(TransmissionType.GAS, false);
+        }else {
+            configComponent.setCanEject(TransmissionType.GAS,true);
+        }
+
+
+        configComponent.fillConfig(TransmissionType.FLUID, !inputFluidMachine() ? -1 : 1);
+    }
+
 
     public void sortInventory() { //old
         if (sorting) {

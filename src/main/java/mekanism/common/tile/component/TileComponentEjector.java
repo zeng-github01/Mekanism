@@ -112,10 +112,10 @@ public class TileComponentEjector implements ITileComponent {
         ITankManager tankManager = (ITankManager) this.tileEntity;
         if (tankManager.getTanks() != null) {
             Set<EnumFacing> outputSides = getOutputSides(type, data);
-            if (type == TransmissionType.GAS) {
-                return ejectGas(outputSides, (GasTank) tankManager.getTanks()[data.availableSlots[0]]);
-            } else if (type == TransmissionType.FLUID) {
-                return ejectFluid(outputSides, (FluidTank) tankManager.getTanks()[data.availableSlots[0]]);
+            if (type == TransmissionType.GAS && tankManager.getTanks()[data.availableSlots[0]] instanceof GasTank gasTank) {
+                return ejectGas(outputSides, gasTank);
+            } else if (type == TransmissionType.FLUID && tankManager.getTanks()[data.availableSlots[0]] instanceof FluidTank fluidTank) {
+                return ejectFluid(outputSides, fluidTank);
             }
         }
         return true;
