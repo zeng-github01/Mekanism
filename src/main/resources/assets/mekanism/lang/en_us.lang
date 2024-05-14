@@ -1108,11 +1108,11 @@ tooltip.IndustrialAlarm=Not just your everyday alarm... this is an 'industrial' 
 # Side data
 sideData.None=None
 sideData.Input=Input
-sideData.Input1=Input(1)
-sideData.Input2=Input(2)
+sideData.Input_1=Input(1)
+sideData.Input_2=Input(2)
 sideData.Output=Output
-sideData.Output1=Output(1)
-sideData.Output2=Output(2)
+sideData.Output_1=Output(1)
+sideData.Output_2=Output(2)
 sideData.Input_Output=Input/Output
 sideData.Input_Extra=Extra-Input
 sideData.Energy=Energy

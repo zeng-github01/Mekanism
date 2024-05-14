@@ -43,11 +43,12 @@ public class GuiLargeWindGenerator extends GuiMekanismTile<TileEntityLargeWindGe
                 LangUtils.localize("gui.producing") + ": " +
                         MekanismUtils.getEnergyDisplay(tileEntity.getActive() ? MekanismConfig.current().generators.windGenerationMin.val() * tileEntity.getCurrentMultiplier() : 0) + "/t",
                 LangUtils.localize("gui.maxOutput") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t"), this, resource));
-        addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER, this, resource, 142, 34).with(GuiSlot.SlotOverlay.POWER));
-        addGuiElement(new GuiPlayerSlot(this, resource));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.STATE_HOLDER, this, resource, 18, 35));
-        addGuiElement(new GuiInnerScreen(this, resource, 48, 21, 80, 44));
+        addGuiElement(new GuiPowerBarLong(this, tileEntity, resource, 164, 9));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER, this, resource, 142, 34 + 2).with(GuiSlot.SlotOverlay.POWER));
+        addGuiElement(new GuiPlayerSlot(this, resource, 7, 83 + 9));
+        addGuiElement(new GuiSlot(GuiSlot.SlotType.STATE_HOLDER, this, resource, 18, 35 + 2));
+        addGuiElement(new GuiInnerScreen(this, resource, 48, 21, 80, 62));
+        ySize += 9;
     }
 
     @Override
@@ -58,7 +59,6 @@ public class GuiLargeWindGenerator extends GuiMekanismTile<TileEntityLargeWindGe
             public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
                 if (tileEntity.getBladeDamage()) {
                     super.drawButton(mc, mouseX, mouseY, partialTicks);
-
                 }
             }
 
@@ -85,8 +85,11 @@ public class GuiLargeWindGenerator extends GuiMekanismTile<TileEntityLargeWindGe
             if (isblacklist) {
                 info = "gui.noWind";
             }
-            if (tileEntity.getMachineStop() && !isblacklist){
+            if (tileEntity.getMachineStop() && !isblacklist) {
                 info = "gui.protection";
+            }
+            if (!tileEntity.getMachineStop() && !isblacklist && tileEntity.getBladeDamage() && tileEntity.getActive()) {
+                info = "gui.protection.off";
             }
             if (tileEntity.controlType == IRedstoneControl.RedstoneControl.HIGH && !tileEntity.redstone && !isblacklist && !tileEntity.getMachineStop()) {
                 info = "control.high.desc";
@@ -96,12 +99,15 @@ public class GuiLargeWindGenerator extends GuiMekanismTile<TileEntityLargeWindGe
             }
             fontRenderer.drawString(EnumColor.DARK_RED + LangUtils.localize(info), 51, size, 0x00CD00);
 
+        } else if (!tileEntity.getMachineStop() && !isblacklist && tileEntity.getBladeDamage() && tileEntity.getActive()) {
+            size += 9;
+            fontRenderer.drawString(EnumColor.DARK_RED + LangUtils.localize("gui.protection.off"), 51, size, 0x00CD00);
         }
         if (tileEntity.getBladeDamage()) {
             size += 9;
             fontRenderer.drawString(EnumColor.DARK_RED + LangUtils.localize("gui.Blades_damaged"), 51, size, 0x00CD00);
             size += 9;
-            fontRenderer.drawString(EnumColor.DARK_RED + LangUtils.localize("gui.Blades_damaged_number") + tileEntity.getBladeDamageNumber(), 51, size, 0x00CD00);
+            fontRenderer.drawString(EnumColor.DARK_RED + LangUtils.localize("gui.Blades_damaged_number") + ": " + tileEntity.getBladeDamageNumber(), 51, size, 0x00CD00);
         }
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
@@ -113,7 +119,7 @@ public class GuiLargeWindGenerator extends GuiMekanismTile<TileEntityLargeWindGe
                 displayTooltips(info, xAxis, yAxis);
             }
         } else if (ForcedRun.isMouseOver()) {
-            displayTooltip(LangUtils.localize("gui.forced_run"), xAxis, yAxis);
+            displayTooltip(tileEntity.getMachineStop() ? LangUtils.localize("gui.forced_run") : LangUtils.localize("gui.forced_run_off"), xAxis, yAxis);
         }
 
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
@@ -123,7 +129,7 @@ public class GuiLargeWindGenerator extends GuiMekanismTile<TileEntityLargeWindGe
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.SLOT, "Slot_Icon.png"));
-        drawTexturedModalRect(guiLeft + 20, guiTop + 37, tileEntity.getActive() ? 12 : 0, 88, 12, 12);
+        drawTexturedModalRect(guiLeft + 20, guiTop + 37 + 2, tileEntity.getActive() ? 12 : 0, 88, 12, 12);
         if (tileEntity.getBladeDamage()) {
             mc.getTextureManager().bindTexture(MekanismUtils.getResource(MekanismUtils.ResourceType.TAB, "Warning_Info.png"));
             drawTexturedModalRect(guiLeft - 26, guiTop + 112, 0, 0, 26, 26);

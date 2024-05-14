@@ -235,10 +235,6 @@ public class ModelLargeWindGenerator extends ModelBase {
 	ModelRenderer north_io;
 	ModelRenderer cube_r79;
 	ModelRenderer down;
-	ModelRenderer bb_main;
-	ModelRenderer cube_r80;
-	ModelRenderer cube_r81;
-	ModelRenderer cube_r82;
 
 	public ModelLargeWindGenerator() {
 		textureWidth = 1024;
@@ -1903,81 +1899,6 @@ public class ModelLargeWindGenerator extends ModelBase {
 		down.setRotationPoint(0.0F, 24.0F, 0.0F);
 		down.cubeList.add(new ModelBox(down, 0, 927, -40.0F, -24.0F, -40.0F, 80, 16, 80, 0.0F, false));
 		down.cubeList.add(new ModelBox(down, 0, 823, -48.0F, -8.0F, -48.0F, 96, 8, 96, 0.0F, false));
-
-		bb_main = new ModelRenderer(this);
-		bb_main.setRotationPoint(0.0F, 24.0F, 0.0F);
-		bb_main.cubeList.add(new ModelBox(bb_main, 288, 967, 8.0F, -792.0F, -8.0F, 28, 24, 16, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 315, 966, 36.0F, -769.0F, -8.0F, 1, 1, 16, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 315, 966, 36.0F, -792.0F, -8.0F, 1, 1, 16, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 330, 961, 36.0F, -791.0F, -8.0F, 1, 22, 1, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 330, 961, 36.0F, -791.0F, 7.0F, 1, 22, 1, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 240, 989, 35.25F, -789.0F, -5.0F, 1, 8, 10, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 255, 724, -37.0F, -780.0F, -5.0F, 74, 9, 1, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 255, 724, -37.0F, -780.0F, 4.0F, 74, 9, 1, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 248, 717, -37.0F, -772.0F, -4.0F, 74, 1, 8, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 248, 717, -37.0F, -780.0F, -4.0F, 74, 1, 8, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 0, 800, -36.5F, -789.0F, -5.0F, 73, 8, 10, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 426, 881, 8.0F, -797.0F, 8.0F, 29, 29, 16, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 376, 926, 8.0F, -784.0F, 24.0F, 29, 16, 16, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 288, 848, -7.0F, -784.0F, -7.0F, 14, 16, 55, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 134, 860, -6.0F, -783.0F, -8.0F, 12, 15, 1, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 122, 848, -8.0F, -783.0F, -6.0F, 16, 15, 13, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 122, 848, 7.0F, -783.0F, 10.0F, 1, 15, 13, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 132, 858, -4.0F, -789.0F, -4.0F, 3, 6, 3, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 127, 853, 1.0F, -774.0F, 47.0F, 3, 3, 8, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 132, 858, 1.0F, -771.0F, 52.0F, 3, 6, 3, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 127, 853, -4.0F, -774.0F, 47.0F, 3, 3, 8, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 132, 858, 1.0F, -778.0F, 57.0F, 3, 11, 3, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 122, 848, 1.0F, -781.0F, 47.0F, 3, 3, 13, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 132, 858, -4.0F, -778.0F, 57.0F, 3, 11, 3, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 140, 932, -4.5F, -769.25F, 56.5F, 4, 3, 4, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 140, 932, 0.5F, -769.25F, 56.5F, 4, 3, 4, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 140, 932, -4.5F, -769.25F, 51.5F, 4, 3, 4, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 140, 932, 0.5F, -769.25F, 51.5F, 4, 3, 4, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 143, 935, 0.5F, -774.5F, 47.25F, 4, 4, 1, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 143, 935, -4.5F, -774.5F, 47.25F, 4, 4, 1, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 143, 935, 0.5F, -781.5F, 47.25F, 4, 4, 1, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 143, 935, -4.5F, -781.5F, 47.25F, 4, 4, 1, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 122, 848, -4.0F, -781.0F, 47.0F, 3, 3, 13, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 132, 858, -4.0F, -771.0F, 52.0F, 3, 6, 3, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 127, 853, -4.0F, -792.0F, -9.0F, 3, 3, 8, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 132, 858, 1.0F, -789.0F, -4.0F, 3, 6, 3, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 127, 853, 1.0F, -792.0F, -9.0F, 3, 3, 8, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 122, 848, -8.0F, -780.0F, 10.0F, 1, 12, 13, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 122, 848, -8.0F, -783.0F, 26.0F, 16, 15, 13, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 466, 926, -37.0F, -784.0F, 24.0F, 29, 16, 16, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 540, 913, -37.0F, -781.0F, 8.0F, 29, 13, 16, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 288, 927, -36.0F, -792.0F, -8.0F, 28, 24, 16, 0.0F, false));
-		bb_main.cubeList.add(new ModelBox(bb_main, 377, 958, -37.0F, -800.0F, -24.0F, 74, 32, 16, 0.0F, false));
-
-		cube_r80 = new ModelRenderer(this);
-		cube_r80.setRotationPoint(0.0F, -788.2F, 11.5F);
-		bb_main.addChild(cube_r80);
-		setRotation(cube_r80, 0.0F, -1.5708F, 0.0F);
-		cube_r80.cubeList.add(new ModelBox(cube_r80, 132, 858, 6.5F, -0.8F, -4.0F, 3, 6, 3, 0.0F, false));
-		cube_r80.cubeList.add(new ModelBox(cube_r80, 133, 859, -11.5F, 1.2F, -4.0F, 2, 4, 2, 0.0F, false));
-		cube_r80.cubeList.add(new ModelBox(cube_r80, 128, 854, -11.5F, -0.8F, -9.0F, 2, 2, 7, 0.0F, false));
-		cube_r80.cubeList.add(new ModelBox(cube_r80, 133, 859, -8.5F, 1.2F, -4.0F, 2, 4, 2, 0.0F, false));
-		cube_r80.cubeList.add(new ModelBox(cube_r80, 128, 854, -8.5F, -0.8F, -9.0F, 2, 2, 7, 0.0F, false));
-		cube_r80.cubeList.add(new ModelBox(cube_r80, 132, 858, -0.5F, -0.8F, -4.0F, 3, 6, 3, 0.0F, false));
-		cube_r80.cubeList.add(new ModelBox(cube_r80, 127, 853, -0.5F, -3.8F, -9.0F, 3, 3, 8, 0.0F, false));
-		cube_r80.cubeList.add(new ModelBox(cube_r80, 127, 853, 6.5F, -3.8F, -9.0F, 3, 3, 8, 0.0F, false));
-
-		cube_r81 = new ModelRenderer(this);
-		cube_r81.setRotationPoint(0.0F, -788.2F, 11.5F);
-		bb_main.addChild(cube_r81);
-		setRotation(cube_r81, 0.0F, 1.5708F, 0.0F);
-		cube_r81.cubeList.add(new ModelBox(cube_r81, 128, 854, 6.5F, -0.8F, -9.0F, 2, 2, 7, 0.0F, false));
-		cube_r81.cubeList.add(new ModelBox(cube_r81, 133, 859, 6.5F, 1.2F, -4.0F, 2, 4, 2, 0.0F, false));
-		cube_r81.cubeList.add(new ModelBox(cube_r81, 128, 854, 9.5F, -0.8F, -9.0F, 2, 2, 7, 0.0F, false));
-		cube_r81.cubeList.add(new ModelBox(cube_r81, 133, 859, 9.5F, 1.2F, -4.0F, 2, 4, 2, 0.0F, false));
-
-		cube_r82 = new ModelRenderer(this);
-		cube_r82.setRotationPoint(-33.5F, -775.5F, 33.5F);
-		bb_main.addChild(cube_r82);
-		setRotation(cube_r82, 0.0F, 3.1416F, 0.0F);
-		cube_r82.cubeList.add(new ModelBox(cube_r82, 106, 792, -70.0F, -2.5F, 30.5F, 73, 2, 6, 0.0F, false));
-		cube_r82.cubeList.add(new ModelBox(cube_r82, 106, 792, -70.0F, 0.5F, 30.5F, 73, 2, 6, 0.0F, false));
 	}
 
 
@@ -1997,7 +1918,6 @@ public class ModelLargeWindGenerator extends ModelBase {
 		east_io.render(size);
 		north_io.render(size);
 		down.render(size);
-		bb_main.render(size);
 	}
 
 	public float getRotation(double angle) {

@@ -1,0 +1,13 @@
+gui.protection=protection
+gui.protection.off=in forced run
+gui.Blades_damaged=Blades are damaged
+gui.Blades_damaged_number=Number of damages
+gui.forced_run=Forced run
+gui.forced_run_off=Turn off forced run
+tile.MultiblockGenerator.LargeWindGenerator.name=Large Wind Generator
+tooltip.LargeWindGenerator=A large generator that uses the strength of the wind to generate energy, which is more efficient at higher places.
+# Creative tab
+itemGroup.tabMekanismMultiblockMachine=Mekanism Multiblock Machine
+
+mekanism.configgui.ctgy.multiblock.multiblock=Multi-block setup
+mekanism.configgui.ctgy.multiblock.multiblockmachinegenerators=Multi-block generator configuration

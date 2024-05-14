@@ -11,7 +11,13 @@ public class ContainerLargeWindGenerator extends ContainerPassiveMultiBlockGener
     }
 
     @Override
+    protected int getInventorYOffset() {
+        return super.getInventorYOffset() + 9;
+    }
+
+
+    @Override
     protected void addSlots() {
-        addSlotToContainer(new SlotEnergy.SlotCharge(tileEntity, 0, 143, 35));
+        addSlotToContainer(new SlotEnergy.SlotCharge(tileEntity, 0, 143, 35 + 2));
     }
 }

@@ -153,8 +153,9 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
             float rangG = maxG < minG ? minG - maxG : maxG - minG;
             float slope = rangG / rangeY;
             float toGen = minG + (slope * (clampedY - minY));
-            return toGen / minG;
+            return (toGen / minG) * 45 - (explode * 0.01F);
         }
+
         return 0;
     }
 
@@ -390,7 +391,7 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
         super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("numPowering", numPowering);
         nbtTags.setInteger("explode", explode);
-        nbtTags.setBoolean("machineStop",machineStop);
+        nbtTags.setBoolean("machineStop", machineStop);
         nbtTags.setBoolean("bladeDamage", bladeDamage);
     }
 
@@ -413,7 +414,7 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
         return angle;
     }
 
-    public boolean getMachineStop(){
+    public boolean getMachineStop() {
         return machineStop;
     }
 
