@@ -1,4 +1,4 @@
-package mekanism.multiblockmachine.client.gui;
+package mekanism.multiblockmachine.client.gui.generator;
 
 import mekanism.api.EnumColor;
 import mekanism.api.TileNetworkList;

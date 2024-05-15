@@ -2,7 +2,7 @@ package mekanism.multiblockmachine.client;
 
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.render.item.ItemLayerWrapper;
-import mekanism.multiblockmachine.client.gui.GuiLargeWindGenerator;
+import mekanism.multiblockmachine.client.gui.generator.GuiLargeWindGenerator;
 import mekanism.multiblockmachine.client.render.RenderLargeWindGenerator;
 import mekanism.multiblockmachine.client.render.item.RenderMultiblockGeneratorItem;
 import mekanism.multiblockmachine.common.MekanismMultiblockMachine;

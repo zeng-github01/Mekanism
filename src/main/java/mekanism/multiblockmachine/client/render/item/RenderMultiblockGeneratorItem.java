@@ -5,12 +5,15 @@ import mekanism.client.render.item.SubTypeItemRenderer;
 import mekanism.multiblockmachine.common.block.states.BlockStateMultiblockMachineGenerator.MultiblockMachineGeneratorType;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.EnumMap;
 import java.util.Map;
 
+@SideOnly(Side.CLIENT)
 public class RenderMultiblockGeneratorItem extends SubTypeItemRenderer<MultiblockMachineGeneratorType> {
 
     public static Map<MultiblockMachineGeneratorType, ItemLayerWrapper> modelMap = new EnumMap<>(MultiblockMachineGeneratorType.class);

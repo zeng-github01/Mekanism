@@ -6,7 +6,10 @@ import mekanism.multiblockmachine.common.tile.generator.TileEntityLargeWindGener
 import mekanism.multiblockmachine.common.util.MekanismMultiblockMachineUtils;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class RenderLargeWindGenerator extends TileEntitySpecialRenderer<TileEntityLargeWindGenerator> {
 
     private ModelLargeWindGenerator model = new ModelLargeWindGenerator();
@@ -23,7 +26,7 @@ public class RenderLargeWindGenerator extends TileEntitySpecialRenderer<TileEnti
             angle = (tileEntity.getAngle() + ((tileEntity.getPos().getY() + 46F) / TileEntityLargeWindGenerator.SPEED_SCALED) * partialTick) % 360;
         }
         MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
-        model.render(0.0625F, angle);
+        model.render(0.0625F, angle,tileEntity.getActive(),rendererDispatcher.renderEngine);
         MekanismRenderer.disableGlow(glowInfo);
         GlStateManager.popMatrix();
     }

@@ -1,10 +1,24 @@
 package mekanism.multiblockmachine.client.model;
 
+import mekanism.client.render.MekanismRenderer;
+import mekanism.multiblockmachine.common.util.MekanismMultiblockMachineUtils;
+import mekanism.multiblockmachine.common.util.MekanismMultiblockMachineUtils.*;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 
+@SideOnly(Side.CLIENT)
 public class ModelLargeWindGenerator extends ModelBase {
+
+	public static ResourceLocation OVERLAY_ON = MekanismMultiblockMachineUtils.getResource(ResourceType.RENDER, "LargeWindGenerator_ON.png");
+	public static ResourceLocation OVERLAY_OFF = MekanismMultiblockMachineUtils.getResource(ResourceType.RENDER, "LargeWindGenerator_OFF.png");
+
 	ModelRenderer doll_up;
 	ModelRenderer cube_r1;
 	ModelRenderer cube_r2;
@@ -1902,7 +1916,28 @@ public class ModelLargeWindGenerator extends ModelBase {
 	}
 
 
-	public void render(float size, double angle) {
+	public void render(float size, double angle, boolean on, TextureManager manager) {
+		GlStateManager.pushMatrix();
+		GlStateManager.shadeModel(GL11.GL_SMOOTH);
+		GlStateManager.disableAlpha();
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+
+
+		doRender(size,angle);
+
+		manager.bindTexture(on ? OVERLAY_ON : OVERLAY_OFF);
+		GlStateManager.scale(1.001F, 1.001F, 1.001F);
+		GlStateManager.translate(-0.0011F, -0.0011F, -0.0011F);
+		MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
+		doRender(size,angle);
+		MekanismRenderer.disableGlow(glowInfo);
+		GlStateManager.disableBlend();
+		GlStateManager.enableAlpha();
+		GlStateManager.popMatrix();
+	}
+
+	private void doRender(float size, double angle) {
 		doll_up.render(size);
 		uio_up.render(size);
 		doll_up2.render(size);
