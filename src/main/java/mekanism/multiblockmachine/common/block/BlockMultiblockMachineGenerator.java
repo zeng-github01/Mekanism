@@ -40,7 +40,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
@@ -256,6 +255,18 @@ public abstract class BlockMultiblockMachineGenerator extends BlockMekanismConta
         return EnumBlockRenderType.MODEL;
     }
 
+    @Override
+    @Deprecated
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    public boolean isFullCube(IBlockState state) {
+        return false;
+    }
+
     @Nonnull
     @Override
     @Deprecated
@@ -295,9 +306,9 @@ public abstract class BlockMultiblockMachineGenerator extends BlockMekanismConta
         };
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    protected ItemStack getDropItem(@NotNull IBlockState state, @NotNull IBlockAccess world, @NotNull BlockPos pos) {
+    protected ItemStack getDropItem(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
         TileEntityBasicBlock tileEntity = (TileEntityBasicBlock) world.getTileEntity(pos);
         ItemStack itemStack = new ItemStack(MultiblockMachineBlocks.MultiblockGenerator, 1, state.getBlock().getMetaFromState(state));
 
