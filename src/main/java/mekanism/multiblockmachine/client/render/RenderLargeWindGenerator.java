@@ -25,10 +25,7 @@ public class RenderLargeWindGenerator extends TileEntitySpecialRenderer<TileEnti
         if (tileEntity.getActive()) {
             angle = (tileEntity.getAngle() + ((tileEntity.getPos().getY() + 46F) / TileEntityLargeWindGenerator.SPEED_SCALED) * partialTick) % 360;
         }
-        //todo：I don't know why this machine won't render the light, so you have to add it manually
-        MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
         model.render(0.0625F, angle,tileEntity.getActive(),rendererDispatcher.renderEngine);
-        MekanismRenderer.disableGlow(glowInfo);
         GlStateManager.popMatrix();
     }
 }
