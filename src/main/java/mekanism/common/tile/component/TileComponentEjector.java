@@ -30,8 +30,8 @@ public class TileComponentEjector implements ITileComponent {
 
     private static final int GAS_OUTPUT = MekanismConfig.current().mekce.GasEjectionSpeed.val();
     private static final int FLUID_OUTPUT = MekanismConfig.current().mekce.FluidEjectionSpeed.val();
-
     private static final int FAILURE_DELAY = MekanismConfig.current().mekce.EjectionFailureDelay.val();
+
     private TileEntityContainerBlock tileEntity;
 
     private boolean strictInput;
