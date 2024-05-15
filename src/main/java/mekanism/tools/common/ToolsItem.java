@@ -32,6 +32,7 @@ public enum ToolsItem {
     GLOWSTONE_LEGGINGS("GlowstoneLeggings", new ItemMekanismArmor(Materials.GLOWSTONE, 2, EntityEquipmentSlot.LEGS)),
     GLOWSTONE_BOOTS("GlowstoneBoots", new ItemMekanismArmor(Materials.GLOWSTONE, 3, EntityEquipmentSlot.FEET)),
 
+
     BRONZE_PICKAXE("BronzePickaxe", new ItemMekanismPickaxe(Materials.BRONZE)),
     BRONZE_AXE("BronzeAxe", new ItemMekanismAxe(Materials.BRONZE)),
     BRONZE_SHOVEL("BronzeShovel", new ItemMekanismShovel(Materials.BRONZE)),
@@ -42,6 +43,7 @@ public enum ToolsItem {
     BRONZE_CHESTPLATE("BronzeChestplate", new ItemMekanismArmor(Materials.BRONZE, 1, EntityEquipmentSlot.CHEST)),
     BRONZE_LEGGINGS("BronzeLeggings", new ItemMekanismArmor(Materials.BRONZE, 2, EntityEquipmentSlot.LEGS)),
     BRONZE_BOOTS("BronzeBoots", new ItemMekanismArmor(Materials.BRONZE, 3, EntityEquipmentSlot.FEET)),
+    BRONZE_SHIELD("BronzeShield",new ItemMekanismShield(Materials.BRONZE)),
 
     OSMIUM_PICKAXE("OsmiumPickaxe", new ItemMekanismPickaxe(Materials.OSMIUM)),
     OSMIUM_AXE("OsmiumAxe", new ItemMekanismAxe(Materials.OSMIUM)),
@@ -88,7 +90,7 @@ public enum ToolsItem {
     STEEL_BOOTS("SteelBoots", new ItemMekanismArmor(Materials.STEEL, 3, EntityEquipmentSlot.FEET));
 
     public static final List<ToolsItem> BRONZE_SET = Arrays.asList(BRONZE_PICKAXE, BRONZE_AXE, BRONZE_SHOVEL, BRONZE_HOE, BRONZE_SWORD, BRONZE_PAXEL, BRONZE_HELMET,
-            BRONZE_CHESTPLATE, BRONZE_LEGGINGS, BRONZE_BOOTS);
+            BRONZE_CHESTPLATE, BRONZE_LEGGINGS, BRONZE_BOOTS,BRONZE_SHIELD);
     public static final List<ToolsItem> OSMIUM_SET = Arrays.asList(OSMIUM_PICKAXE, OSMIUM_AXE, OSMIUM_SHOVEL, OSMIUM_HOE, OSMIUM_SWORD, OSMIUM_PAXEL, OSMIUM_HELMET,
             OSMIUM_CHESTPLATE, OSMIUM_LEGGINGS, OSMIUM_BOOTS);
     public static final List<ToolsItem> OBSIDIAN_SET = Arrays.asList(OBSIDIAN_PICKAXE, OBSIDIAN_AXE, OBSIDIAN_SHOVEL, OBSIDIAN_HOE, OBSIDIAN_SWORD, OBSIDIAN_PAXEL,
