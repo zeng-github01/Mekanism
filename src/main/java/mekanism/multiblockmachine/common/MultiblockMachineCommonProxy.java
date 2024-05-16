@@ -3,7 +3,9 @@ package mekanism.multiblockmachine.common;
 import mekanism.common.Mekanism;
 import mekanism.common.base.IGuiProvider;
 import mekanism.common.config.MekanismConfig;
-import mekanism.multiblockmachine.common.inventory.container.ContainerLargeWindGenerator;
+import mekanism.multiblockmachine.common.inventory.container.generator.ContainerLargeHeatGenerator;
+import mekanism.multiblockmachine.common.inventory.container.generator.ContainerLargeWindGenerator;
+import mekanism.multiblockmachine.common.tile.generator.TileEntityLargeHeatGenerator;
 import mekanism.multiblockmachine.common.tile.generator.TileEntityLargeWindGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -23,6 +25,7 @@ public class MultiblockMachineCommonProxy implements IGuiProvider {
 
     public void registerTileEntities() {
         registerTileEntity(TileEntityLargeWindGenerator.class, "large_wind_Generator");
+        registerTileEntity(TileEntityLargeHeatGenerator.class,"large_heat_Generator");
     }
 
     public void registerTESRs() {
@@ -54,7 +57,8 @@ public class MultiblockMachineCommonProxy implements IGuiProvider {
         TileEntity tileEntity = world.getTileEntity(pos);
         return switch (ID) {
             case 0 -> new ContainerLargeWindGenerator(player.inventory, (TileEntityLargeWindGenerator) tileEntity);
-            default -> null;
+            case 1 -> new ContainerLargeHeatGenerator(player.inventory, (TileEntityLargeHeatGenerator) tileEntity);
+                default -> null;
         };
     }
 

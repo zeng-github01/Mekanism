@@ -224,6 +224,7 @@ public abstract class BlockMultiblockMachineGenerator extends BlockMekanismConta
                 }
             }
         }
+
         int guiId = MultiblockMachineGeneratorType.get(getGeneratorBlock(), metadata).guiId;
 
         if (guiId != -1 && tileEntity != null) {
@@ -274,7 +275,7 @@ public abstract class BlockMultiblockMachineGenerator extends BlockMekanismConta
         MultiblockMachineGeneratorType type = MultiblockMachineGeneratorType.get(state);
         if (type != null) {
             switch (type) {
-                case LARGE_WIND_GENERATOR -> {
+                case LARGE_WIND_GENERATOR , LARGE_HEAT_GENERATOR-> {
                     return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
                 }
             }
@@ -350,7 +351,7 @@ public abstract class BlockMultiblockMachineGenerator extends BlockMekanismConta
     @Deprecated
     public boolean isSideSolid(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
         MultiblockMachineGeneratorType type = MultiblockMachineGeneratorType.get(getGeneratorBlock(), state.getBlock().getMetaFromState(state));
-        return type != MultiblockMachineGeneratorType.LARGE_WIND_GENERATOR;
+        return type != MultiblockMachineGeneratorType.LARGE_WIND_GENERATOR && type != MultiblockMachineGeneratorType.LARGE_HEAT_GENERATOR;
     }
 
     @Override

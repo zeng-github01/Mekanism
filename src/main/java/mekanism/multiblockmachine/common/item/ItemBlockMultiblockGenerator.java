@@ -157,6 +157,22 @@ public class ItemBlockMultiblockGenerator extends ItemBlock implements IEnergize
                     }
                 }
             }
+        } else if (stack.getItemDamage() == MultiblockMachineGeneratorType.LARGE_HEAT_GENERATOR.meta) {
+            if (!(block.isReplaceable(world, pos))) {
+                return false;
+            }
+            for (int yPos = 0; yPos <= 2; yPos++) {
+                for (int xPos = -1; xPos <= 1; xPos++) {
+                    for (int zPos = -1; zPos <= 1; zPos++) {
+                        if (xPos != 0 && yPos != 0 && zPos != 0) {
+                            if (!world.isAirBlock(pos.add(xPos, yPos, zPos)) || pos.getY() + yPos > 255) {
+                                place = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         if (place && super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, state)) {

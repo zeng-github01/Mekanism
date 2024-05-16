@@ -1,4 +1,4 @@
-package mekanism.multiblockmachine.common.inventory.container;
+package mekanism.multiblockmachine.common.inventory.container.generator;
 
 import mekanism.common.inventory.container.ContainerMekanism;
 import mekanism.common.tile.prefab.TileEntityElectricBlock;

@@ -14,7 +14,7 @@ import mekanism.common.config.MekanismConfig;
 import mekanism.common.network.PacketTileEntity;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
-import mekanism.multiblockmachine.common.inventory.container.ContainerLargeWindGenerator;
+import mekanism.multiblockmachine.common.inventory.container.generator.ContainerLargeWindGenerator;
 import mekanism.multiblockmachine.common.tile.generator.TileEntityLargeWindGenerator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;

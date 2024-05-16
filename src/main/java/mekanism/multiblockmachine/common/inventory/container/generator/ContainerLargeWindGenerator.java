@@ -1,4 +1,4 @@
-package mekanism.multiblockmachine.common.inventory.container;
+package mekanism.multiblockmachine.common.inventory.container.generator;
 
 import mekanism.common.inventory.slot.SlotEnergy;
 import mekanism.multiblockmachine.common.tile.generator.TileEntityLargeWindGenerator;

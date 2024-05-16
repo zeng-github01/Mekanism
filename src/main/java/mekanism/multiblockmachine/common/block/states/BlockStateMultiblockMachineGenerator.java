@@ -8,6 +8,7 @@ import mekanism.common.util.LangUtils;
 import mekanism.multiblockmachine.common.MekanismMultiblockMachine;
 import mekanism.multiblockmachine.common.MultiblockMachineBlocks;
 import mekanism.multiblockmachine.common.block.BlockMultiblockMachineGenerator;
+import mekanism.multiblockmachine.common.tile.generator.TileEntityLargeHeatGenerator;
 import mekanism.multiblockmachine.common.tile.generator.TileEntityLargeWindGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
@@ -61,7 +62,9 @@ public class BlockStateMultiblockMachineGenerator extends ExtendedBlockState {
     }
 
     public enum MultiblockMachineGeneratorType implements IStringSerializable, IBlockType {
-        LARGE_WIND_GENERATOR(MultiblockMachineGeneratorBlock.MULTIBLOCK_MACHINE_GENERATOR_BLOCK_1, 0, "LargeWindGenerator", 0, 200000, TileEntityLargeWindGenerator::new, true, Plane.HORIZONTAL, false);
+        LARGE_WIND_GENERATOR(MultiblockMachineGeneratorBlock.MULTIBLOCK_MACHINE_GENERATOR_BLOCK_1, 0, "LargeWindGenerator", 0, 200000, TileEntityLargeWindGenerator::new, true, Plane.HORIZONTAL, false),
+        LARGE_HEAT_GENERATOR(MultiblockMachineGeneratorBlock.MULTIBLOCK_MACHINE_GENERATOR_BLOCK_1, 1, "LargeHeatGenerator", 1, 160000, TileEntityLargeHeatGenerator::new, true, Plane.HORIZONTAL, false);
+
         public MultiblockMachineGeneratorBlock blockType;
         public int meta;
         public String blockName;
@@ -92,11 +95,12 @@ public class BlockStateMultiblockMachineGenerator extends ExtendedBlockState {
             this.hasRedstoneOutput = hasRedstoneOutput;
         }
 
-        private static final List<MultiblockMachineGeneratorType> GENERATORS_FOR_CONFIG  = new ArrayList<>();;
+        private static final List<MultiblockMachineGeneratorType> GENERATORS_FOR_CONFIG  = new ArrayList<>();
 
         static {
             Arrays.stream(MultiblockMachineGeneratorType.values()).filter(MultiblockMachineGeneratorType :: isValidMachine).forEach(GENERATORS_FOR_CONFIG::add);
         }
+
         public static List<MultiblockMachineGeneratorType> getGeneratorsForConfig() {
             return GENERATORS_FOR_CONFIG;
         }

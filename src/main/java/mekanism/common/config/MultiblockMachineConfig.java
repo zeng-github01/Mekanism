@@ -33,6 +33,12 @@ public class MultiblockMachineConfig extends BaseConfig {
 
     public final BooleanOption largewindGenerationDamage = new BooleanOption(this,"multiblock","largewindGenerationDamage",false,"Whether or not the organism causes harm when it is inside the leaf while it is working");
 
+    public final DoubleOption largeHeatGeneratorStorage = new DoubleOption(this, "multiblock",
+            "MultiblockHeatGeneratorStorage", 1440000D, "Energy capable of being stored");
+
+    public final DoubleOption largeHeatGenerationMax = new DoubleOption(this, "multiblock", "LargeHeatGeneratorMax", 1350D,
+            "Maximum base generation value of the Large Wind Generator.");
+
     public TypeConfigManager<MultiblockMachineGeneratorType> multiblockmachinegeneratorsManager = new TypeConfigManager<>(this, "multiblockmachinegenerators", MultiblockMachineGeneratorType.class,
             MultiblockMachineGeneratorType::getGeneratorsForConfig, MultiblockMachineGeneratorType::getBlockName);
 }
