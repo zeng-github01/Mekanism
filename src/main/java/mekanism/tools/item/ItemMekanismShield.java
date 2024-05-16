@@ -1,5 +1,6 @@
 package mekanism.tools.item;
 
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.LangUtils;
 import mekanism.tools.common.IHasRepairType;
 import mekanism.tools.common.Materials;
@@ -24,11 +25,11 @@ public class ItemMekanismShield extends Item implements IHasRepairType {
 
     protected Materials toolMaterial;
 
-    public ItemMekanismShield(Materials toolMaterial) {
+    public ItemMekanismShield(Materials toolMaterial,int maxDamage) {
         super();
         this.toolMaterial = toolMaterial;
         this.maxStackSize = 1;
-        this.setMaxDamage(toolMaterial.getMaterial().getMaxUses());
+        this.setMaxDamage(maxDamage);
         addPropertyOverride(new ResourceLocation("blocking"), new IItemPropertyGetter() {
             @SideOnly(Side.CLIENT)
             public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {

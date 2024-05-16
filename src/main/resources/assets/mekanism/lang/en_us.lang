@@ -1300,6 +1300,7 @@ item.ObsidianAxe.name=Obsidian Axe
 item.ObsidianShovel.name=Obsidian Shovel
 item.ObsidianHoe.name=Obsidian Hoe
 item.ObsidianSword.name=Obsidian Sword
+item.ObsidianShield.name=Obsidian Shield
 
 # Osmium
 item.OsmiumHelmet.name=Osmium Helmet
@@ -1312,6 +1313,7 @@ item.OsmiumAxe.name=Osmium Axe
 item.OsmiumShovel.name=Osmium Shovel
 item.OsmiumHoe.name=Osmium Hoe
 item.OsmiumSword.name=Osmium Sword
+item.OsmiumShield.name=Osmium Shield
 
 # Bronze
 item.BronzeHelmet.name=Bronze Helmet
@@ -1324,7 +1326,7 @@ item.BronzeAxe.name=Bronze Axe
 item.BronzeShovel.name=Bronze Shovel
 item.BronzeHoe.name=Bronze Hoe
 item.BronzeSword.name=Bronze Sword
-
+item.BronzeShield.name=Bronze Shield
 # Glow
 item.GlowstoneHelmet.name=Glowstone Helmet
 item.GlowstoneChestplate.name=Glowstone Chestplate
@@ -1336,6 +1338,7 @@ item.GlowstoneAxe.name=Glowstone Axe
 item.GlowstoneShovel.name=Glowstone Shovel
 item.GlowstoneHoe.name=Glowstone Hoe
 item.GlowstoneSword.name=Glowstone Sword
+item.GlowstoneShield.name=Glowstone Shield
 
 # Steel
 item.SteelHelmet.name=Steel Helmet
@@ -1348,6 +1351,7 @@ item.SteelAxe.name=Steel Axe
 item.SteelShovel.name=Steel Shovel
 item.SteelHoe.name=Steel Hoe
 item.SteelSword.name=Steel Sword
+item.SteelShield.name=Steel Shield
 
 # Lapis Lazuli
 item.LapisLazuliHelmet.name=Lapis Lazuli Helmet
@@ -1360,6 +1364,7 @@ item.LapisLazuliAxe.name=Lapis Lazuli Axe
 item.LapisLazuliShovel.name=Lapis Lazuli Shovel
 item.LapisLazuliHoe.name=Lapis Lazuli Hoe
 item.LapisLazuliSword.name=Lapis Lazuli Sword
+item.LapisShield.name=Lapis Lazuli Shield
 
 # Config Gui
 mekanism.configgui.ctgy.tools.general=General Settings

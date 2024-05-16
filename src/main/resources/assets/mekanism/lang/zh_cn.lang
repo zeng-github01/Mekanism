@@ -1300,6 +1300,7 @@ item.ObsidianAxe.name=黑曜石斧头
 item.ObsidianShovel.name=黑曜石铲子
 item.ObsidianHoe.name=黑曜石锄头
 item.ObsidianSword.name=黑曜石剑
+item.ObsidianShield.name=黑曜石盾
 
 # Osmium
 item.OsmiumHelmet.name=锇头盔
@@ -1312,7 +1313,7 @@ item.OsmiumAxe.name=锇斧头
 item.OsmiumShovel.name=锇铲子
 item.OsmiumHoe.name=锇锄头
 item.OsmiumSword.name=锇剑
-
+item.OsmiumShield.name=锇盾
 # Bronze
 item.BronzeHelmet.name=青铜头盔
 item.BronzeChestplate.name=青铜胸甲
@@ -1324,7 +1325,7 @@ item.BronzeAxe.name=青铜斧头
 item.BronzeShovel.name=青铜铲子
 item.BronzeHoe.name=青铜锄头
 item.BronzeSword.name=青铜剑
-
+item.BronzeShield.name=青铜盾
 # Glow
 item.GlowstoneHelmet.name=荧石头盔
 item.GlowstoneChestplate.name=荧石胸甲
@@ -1336,6 +1337,7 @@ item.GlowstoneAxe.name=荧石斧头
 item.GlowstoneShovel.name=荧石铲子
 item.GlowstoneHoe.name=荧石锄头
 item.GlowstoneSword.name=荧石剑
+item.GlowstoneShield.name=荧石盾
 
 # Steel
 item.SteelHelmet.name=钢头盔
@@ -1348,7 +1350,7 @@ item.SteelAxe.name=钢斧头
 item.SteelShovel.name=钢铲子
 item.SteelHoe.name=钢锄头
 item.SteelSword.name=钢剑
-
+item.SteelShield.name=钢盾
 # Lapis Lazuli
 item.LapisLazuliHelmet.name=青金石头盔
 item.LapisLazuliChestplate.name=青金石胸甲
@@ -1360,6 +1362,7 @@ item.LapisLazuliAxe.name=青金石斧头
 item.LapisLazuliShovel.name=青金石铲子
 item.LapisLazuliHoe.name=青金石锄头
 item.LapisLazuliSword.name=青金石剑
+item.LapisShield.name=青金石盾
 
 # Config Gui
 mekanism.configgui.ctgy.tools.general=常规
