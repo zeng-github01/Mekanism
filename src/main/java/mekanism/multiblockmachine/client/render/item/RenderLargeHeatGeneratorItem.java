@@ -3,6 +3,7 @@ package mekanism.multiblockmachine.client.render.item;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.multiblockmachine.client.model.ModelLargeHeatGenerator;
 import mekanism.multiblockmachine.common.util.MekanismMultiblockMachineUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.*;
 import net.minecraft.item.ItemStack;
@@ -26,7 +27,7 @@ public class RenderLargeHeatGeneratorItem {
         }
         GlStateManager.translate(0, 0, 0);
         MekanismRenderer.bindTexture(MekanismMultiblockMachineUtils.getResource(MekanismMultiblockMachineUtils.ResourceType.RENDER, "LargeHeatGenerator.png"));
-        heatGenerator.render(0.02F);
+        heatGenerator.render(0.02F,false, Minecraft.getMinecraft().renderEngine);
         GlStateManager.popMatrix();
     }
 }

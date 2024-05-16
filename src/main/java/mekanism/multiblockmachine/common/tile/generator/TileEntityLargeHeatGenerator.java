@@ -18,6 +18,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -33,7 +34,7 @@ public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator 
     /**
      * The FluidTank for this generator.
      */
-    public FluidTank lavaTank = new FluidTank(24000);
+    public FluidTank lavaTank = new FluidTank(288000);
     public double temperature = 0;
     public double thermalEfficiency = 0.5D;
     public double invHeatCapacity = 1;
@@ -42,9 +43,10 @@ public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator 
     public double lastTransferLoss;
     public double lastEnvironmentLoss;
     private int currentRedstoneLevel;
+    public int numPowering;
 
     public TileEntityLargeHeatGenerator() {
-        super("heat", "LargeHeatGenerator", MekanismConfig.current().multiblock.largeHeatGeneratorStorage.val(), MekanismConfig.current().multiblock.largeHeatGenerationMax.val());
+        super("heat", "LargeHeatGenerator", MekanismConfig.current().multiblock.largeHeatGeneratorStorage.val(), MekanismConfig.current().multiblock.largeHeatGeneration.val());
         inventory = NonNullList.withSize(2, ItemStack.EMPTY);
     }
 
@@ -76,21 +78,22 @@ public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator 
             if (canOperate()) {
                 setActive(true);
                 lavaTank.drain(10, true);
-                transferHeatTo(MekanismConfig.current().generators.heatGeneration.val());
+                transferHeatTo(MekanismConfig.current().multiblock.largeHeatGeneration.val());
             } else {
                 setActive(false);
             }
-
             double[] loss = simulateHeat();
             applyTemperatureChange();
             lastTransferLoss = loss[0];
             lastEnvironmentLoss = loss[1];
             producingEnergy = getEnergy() - prev;
-
             int newRedstoneLevel = getRedstoneLevel();
             if (newRedstoneLevel != currentRedstoneLevel) {
                 world.updateComparatorOutputLevel(pos, getBlockType());
                 currentRedstoneLevel = newRedstoneLevel;
+            }
+            if (MekanismUtils.canFunction(this)) {
+                CableUtils.emit(this, 2);
             }
         }
     }
@@ -150,9 +153,9 @@ public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator 
             }
         }
         if (world.provider.getDimension() == -1) {
-            netherBoost = MekanismConfig.current().generators.heatGenerationNether.val();
+            netherBoost = MekanismConfig.current().multiblock.largeHeatGenerationNether.val();
         }
-        return (MekanismConfig.current().generators.heatGenerationLava.val() * lavaBoost) + netherBoost;
+        return (MekanismConfig.current().multiblock.largeHeatGenerationLava.val() * lavaBoost) + netherBoost;
     }
 
     private boolean isLava(BlockPos pos) {
@@ -172,13 +175,11 @@ public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator 
     @Override
     public void handlePacketData(ByteBuf dataStream) {
         super.handlePacketData(dataStream);
-
         if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
             producingEnergy = dataStream.readDouble();
-
+            numPowering = dataStream.readInt();
             lastTransferLoss = dataStream.readDouble();
             lastEnvironmentLoss = dataStream.readDouble();
-
             TileUtils.readTankData(dataStream, lavaTank);
         }
     }
@@ -187,6 +188,7 @@ public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator 
     public TileNetworkList getNetworkedData(TileNetworkList data) {
         super.getNetworkedData(data);
         data.add(producingEnergy);
+        data.add(numPowering);
         data.add(lastTransferLoss);
         data.add(lastEnvironmentLoss);
         TileUtils.addTankData(data, lavaTank);
@@ -289,16 +291,26 @@ public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator 
 
     @Override
     public boolean canConnectHeat(EnumFacing side) {
-        return side == EnumFacing.DOWN;
+        return side == facing;
     }
 
 
     @Override
     public IHeatTransfer getAdjacent(EnumFacing side) {
         if (canConnectHeat(side)) {
-            TileEntity adj = Coord4D.get(this).offset(side).getTileEntity(world);
-            if (CapabilityUtils.hasCapability(adj, Capabilities.HEAT_TRANSFER_CAPABILITY, side.getOpposite())) {
-                return CapabilityUtils.getCapability(adj, Capabilities.HEAT_TRANSFER_CAPABILITY, side.getOpposite());
+            BlockPos pos = getPos().up().offset(side, 2);
+            BlockPos pos2 = getPos().up(2).offset(side, 2);
+            if (world.isBlockLoaded(pos)) {
+                TileEntity adj = world.getTileEntity(pos);
+                if (CapabilityUtils.hasCapability(adj, Capabilities.HEAT_TRANSFER_CAPABILITY, side.getOpposite())) {
+                    return CapabilityUtils.getCapability(adj, Capabilities.HEAT_TRANSFER_CAPABILITY, side.getOpposite());
+                }
+            }
+            if (world.isBlockLoaded(pos2)) {
+                TileEntity adj = world.getTileEntity(pos2);
+                if (CapabilityUtils.hasCapability(adj, Capabilities.HEAT_TRANSFER_CAPABILITY, side.getOpposite())) {
+                    return CapabilityUtils.getCapability(adj, Capabilities.HEAT_TRANSFER_CAPABILITY, side.getOpposite());
+                }
             }
         }
         return null;
@@ -318,6 +330,7 @@ public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator 
         if (side != facing && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new FluidHandlerWrapper(this, side));
         }
+
         return super.getCapability(capability, side);
     }
 
@@ -326,30 +339,38 @@ public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator 
         return MekanismUtils.redstoneLevelFromContents(lavaTank.getFluidAmount(), lavaTank.getCapacity());
     }
 
-
     @Override
     public boolean canBoundReceiveEnergy(BlockPos location, EnumFacing side) {
         return false;
     }
 
+
     @Override
-    public boolean canBoundOutPutEnergy(BlockPos location, EnumFacing side) {
+    public boolean canBoundOutPutEnergy(BlockPos coord, EnumFacing side) {
+        if (coord.equals(getPos().offset(facing))) {
+            return side == facing;
+        }
         return false;
     }
 
     @Override
     public void onPower() {
-
+        numPowering++;
     }
 
     @Override
     public void onNoPower() {
+        numPowering--;
+    }
 
+    @Override
+    public boolean isPowered() {
+        return redstone || numPowering > 0;
     }
 
     @Override
     public NBTTagCompound getConfigurationData(NBTTagCompound nbtTags) {
-        return null;
+        return nbtTags;
     }
 
     @Override
@@ -359,27 +380,99 @@ public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator 
 
     @Override
     public String getDataType() {
-        return "";
+        return getBlockType().getTranslationKey() + "." + fullName + ".name";
     }
 
     @Override
     public void onPlace() {
-
+        for (int y = 0; y <= 2; y++) {
+            for (int x = -1; x <= 1; x++) {
+                for (int z = -1; z <= 1; z++) {
+                    if (x == 0 && y == 0 && z == 0) {
+                        continue;
+                    }
+                    MekanismUtils.makeAdvancedBoundingBlock(world, getPos().add(x, y, z), Coord4D.get(this));
+                    world.notifyNeighborsOfStateChange(getPos().add(x, y, z), getBlockType(), true);
+                }
+            }
+        }
     }
 
     @Override
     public void onBreak() {
+        for (int y = 0; y <= 2; y++) {
+            for (int x = -1; x <= 1; x++) {
+                for (int z = -1; z <= 1; z++) {
+                    world.setBlockToAir(getPos().add(x, y, z));
+                }
+            }
+        }
+    }
 
+    @Override
+    public boolean renderUpdate() {
+        return false;
+    }
+
+    @Override
+    public boolean lightUpdate() {
+        return false;
     }
 
     @Override
     public boolean hasOffsetCapability(@NotNull Capability<?> capability, @Nullable EnumFacing side, @NotNull Vec3i offset) {
-        return false;
+        if (isOffsetCapabilityDisabled(capability, side, offset)) {
+            return false;
+        }
+        if (isStrictEnergy(capability) || capability == CapabilityEnergy.ENERGY || isTesla(capability, side) || capability == Capabilities.HEAT_TRANSFER_CAPABILITY || (side != facing && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)) {
+            return true;
+        }
+        return hasCapability(capability, side);
     }
 
     @Nullable
     @Override
     public <T> T getOffsetCapability(@NotNull Capability<T> capability, @Nullable EnumFacing side, @NotNull Vec3i offset) {
-        return null;
+        if (isOffsetCapabilityDisabled(capability, side, offset)) {
+            return null;
+        } else if (isStrictEnergy(capability)) {
+            return (T) this;
+        } else if (isTesla(capability, side)) {
+            return (T) getTeslaEnergyWrapper(side);
+        } else if (capability == CapabilityEnergy.ENERGY) {
+            return CapabilityEnergy.ENERGY.cast(getForgeEnergyWrapper(side));
+        } else if (capability == Capabilities.HEAT_TRANSFER_CAPABILITY) {
+            return Capabilities.HEAT_TRANSFER_CAPABILITY.cast(this);
+        } else if (side != facing && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new FluidHandlerWrapper(this, side));
+        }
+        return getCapability(capability, side);
+    }
+
+    @Override
+    public boolean isOffsetCapabilityDisabled(@Nonnull Capability<?> capability, EnumFacing side, @Nonnull Vec3i offset) {
+        if (isStrictEnergy(capability) || capability == CapabilityEnergy.ENERGY || isTesla(capability, side)) {
+            if (offset.equals(new Vec3i(facing.getXOffset(), 0, facing.getZOffset()))) {
+                return side != facing;
+            }
+            return true;
+        } else if (capability == Capabilities.HEAT_TRANSFER_CAPABILITY || (side != facing && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)) {
+            if (offset.equals(new Vec3i(facing.getXOffset(), 1, facing.getZOffset()))) {
+                return side != facing;
+            }
+            if (offset.equals(new Vec3i(facing.getXOffset(), 2, facing.getZOffset()))) {
+                return side != facing;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isCapabilityDisabled(@Nonnull Capability<?> capability, EnumFacing side) {
+        if (isStrictEnergy(capability) || capability == CapabilityEnergy.ENERGY || isTesla(capability, side) || capability == Capabilities.HEAT_TRANSFER_CAPABILITY || (side != facing && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)) {
+            return true;
+        }
+        return super.isCapabilityDisabled(capability, side);
     }
 }

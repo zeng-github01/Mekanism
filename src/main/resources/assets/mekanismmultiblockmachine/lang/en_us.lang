@@ -6,6 +6,8 @@ gui.forced_run=Forced run
 gui.forced_run_off=Turn off forced run
 tile.MultiblockGenerator.LargeWindGenerator.name=Large Wind Generator
 tooltip.LargeWindGenerator=A large generator that uses the strength of the wind to generate energy, which is more efficient at higher places.
+tile.MultiblockGenerator.LargeHeatGenerator.name=Large Heat Generator
+tooltip.LargeHeatGenerator=A large generator that uses the heat of magma or other combustible resources to generate energy.
 # Creative tab
 itemGroup.tabMekanismMultiblockMachine=Mekanism Multiblock Machine
 

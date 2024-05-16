@@ -1,14 +1,24 @@
 package mekanism.multiblockmachine.client.model;
 
 
+import mekanism.client.render.MekanismRenderer;
+import mekanism.multiblockmachine.common.util.MekanismMultiblockMachineUtils;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class ModelLargeHeatGenerator extends ModelBase {
+
+    public static ResourceLocation OVERLAY_ON = MekanismMultiblockMachineUtils.getResource(MekanismMultiblockMachineUtils.ResourceType.RENDER, "LargeHeatGenerator_ON.png");
+    public static ResourceLocation OVERLAY_OFF = MekanismMultiblockMachineUtils.getResource(MekanismMultiblockMachineUtils.ResourceType.RENDER, "LargeHeatGenerator_OFF.png");
+
     ModelRenderer drum;
     ModelRenderer ring1;
     ModelRenderer ring2;
@@ -153,8 +163,8 @@ public class ModelLargeHeatGenerator extends ModelBase {
         io.cubeList.add(new ModelBox(io, 0, 0, 5.0503F, 34.0F, -5.5502F, 6, 6, 3, 0.0F, false));
         io.cubeList.add(new ModelBox(io, 0, 0, 5.0503F, 2.0F, -5.5502F, 6, 6, 3, 0.0F, false));
         io.cubeList.add(new ModelBox(io, 82, 245, 5.0503F, 18.0F, -5.0502F, 6, 6, 2, 0.0F, false));
-        io.cubeList.add(new ModelBox(io, 132, 36, 4.0503F, 33.0F, -3.0502F, 8, 8, 1, 0.0F, false));
-        io.cubeList.add(new ModelBox(io, 132, 27, 4.0503F, 17.0F, -3.0502F, 8, 8, 1, 0.0F, false));
+        io.cubeList.add(new ModelBox(io, 132, 27, 4.0503F, 33.0F, -3.0502F, 8, 8, 1, 0.0F, false));
+        io.cubeList.add(new ModelBox(io, 132, 36, 4.0503F, 17.0F, -3.0502F, 8, 8, 1, 0.0F, false));
         io.cubeList.add(new ModelBox(io, 132, 36, 4.0503F, 1.0F, -3.0502F, 8, 8, 1, 0.0F, false));
         io.cubeList.add(new ModelBox(io, 451, 36, 4.0503F, 33.0F, -5.8002F, 8, 8, 1, 0.0F, false));
         io.cubeList.add(new ModelBox(io, 387, 121, 4.0503F, 17.0F, -5.8002F, 8, 8, 1, 0.0F, false));
@@ -265,7 +275,25 @@ public class ModelLargeHeatGenerator extends ModelBase {
         cube_r8.cubeList.add(new ModelBox(cube_r8, 2, 207, 7.0F, -1.0F, -23.0F, 17, 3, 46, 0.0F, false));
     }
 
-    public void render(float size) {
+    public void render(float size, boolean on, TextureManager manager) {
+        GlStateManager.pushMatrix();
+        GlStateManager.shadeModel(GL11.GL_SMOOTH);
+        GlStateManager.disableAlpha();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        doRender(size);
+        manager.bindTexture(on ? OVERLAY_ON : OVERLAY_OFF);
+        GlStateManager.scale(1.001F, 1.001F, 1.001F);
+        GlStateManager.translate(-0.0011F, -0.0011F, -0.0011F);
+        MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
+        doRender(size);
+        MekanismRenderer.disableGlow(glowInfo);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.popMatrix();
+    }
+
+    public void doRender(float size) {
         drum.render(size);
         ring1.render(size);
         ring2.render(size);

@@ -578,7 +578,6 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
                 //Disable if right power port but wrong side of the port
                 return side != right;
             } else if (offset.equals(new Vec3i(facing.getXOffset() * 3, 0, facing.getZOffset() * 3))) {
-                //Disable if right power port but wrong side of the port
                 return side != facing;
             }
             return true;
