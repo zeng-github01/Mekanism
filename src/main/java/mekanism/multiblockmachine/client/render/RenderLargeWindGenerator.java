@@ -28,4 +28,9 @@ public class RenderLargeWindGenerator extends TileEntitySpecialRenderer<TileEnti
         model.render(0.0625F, angle,tileEntity.getActive(),rendererDispatcher.renderEngine);
         GlStateManager.popMatrix();
     }
+
+    @Override
+    public boolean isGlobalRenderer(TileEntityLargeWindGenerator te){
+        return true;
+    }
 }
