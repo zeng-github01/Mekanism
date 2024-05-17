@@ -3,9 +3,9 @@ package mekanism.common.tile;
 import io.netty.buffer.ByteBuf;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
+import mekanism.api.tier.BaseTier;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.Mekanism;
-import mekanism.common.MekanismFluids;
 import mekanism.common.SideData;
 import mekanism.common.base.IComparatorSupport;
 import mekanism.common.base.IRedstoneControl;
@@ -15,7 +15,6 @@ import mekanism.common.capabilities.Capabilities;
 import mekanism.common.integration.computer.IComputerIntegration;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.security.ISecurityTile;
-import mekanism.api.tier.BaseTier;
 import mekanism.common.tier.GasTankTier;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
@@ -140,19 +139,16 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
 
     @Override
     public boolean canExtractItem(int slotID, @Nonnull ItemStack itemstack, @Nonnull EnumFacing side) {
+        Item item = itemstack.getItem();
         if (slotID == 1) {
-            if (tier != GasTankTier.CREATIVE && ((IGasItem) itemstack.getItem()).getGas(itemstack) != null && (
-                    ((IGasItem) itemstack.getItem()).getGas(itemstack).getGas() == MekanismFluids.NuclearWaste ||
-                            ((IGasItem) itemstack.getItem()).getGas(itemstack).getGas() == MekanismFluids.Plutonium ||
-                            ((IGasItem) itemstack.getItem()).getGas(itemstack).getGas() == MekanismFluids.Polonium ||
-                            ((IGasItem) itemstack.getItem()).getGas(itemstack).getGas() == MekanismFluids.SpentNuclearWaste)) {
+            if (tier != GasTankTier.CREATIVE && item instanceof IGasItem gasItem && gasItem.getGas(itemstack) != null && gasItem.getGas(itemstack).getGas().isRadiation()) {
                 return false;
             } else {
-                return itemstack.getItem() instanceof IGasItem && ((IGasItem) itemstack.getItem()).getGas(itemstack) == null;
+                return item instanceof IGasItem gasItem && gasItem.getGas(itemstack) == null;
             }
         } else if (slotID == 0) {
-            return itemstack.getItem() instanceof IGasItem && ((IGasItem) itemstack.getItem()).getGas(itemstack) != null &&
-                    ((IGasItem) itemstack.getItem()).getGas(itemstack).amount == ((IGasItem) itemstack.getItem()).getMaxGas(itemstack);
+            return item instanceof IGasItem gasItem && gasItem.getGas(itemstack) != null &&
+                    gasItem.getGas(itemstack).amount == gasItem.getMaxGas(itemstack);
         }
         return false;
     }
@@ -161,10 +157,10 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
         Item item = itemstack.getItem();
         if (slotID == 0) {
-            return item instanceof IGasItem && (gasTank.getGas() == null || ((IGasItem) item).canReceiveGas(itemstack, gasTank.getGas().getGas()));
+            return item instanceof IGasItem gasItem&& (gasTank.getGas() == null ||gasItem.canReceiveGas(itemstack, gasTank.getGas().getGas()));
         } else if (slotID == 1) {
             if (tier == GasTankTier.CREATIVE) {
-                return item instanceof IGasItem && (gasTank.getGas() == null || ((IGasItem) item).canProvideGas(itemstack, gasTank.getGas().getGas()));
+                return item instanceof IGasItem gasItem && (gasTank.getGas() == null || gasItem.canProvideGas(itemstack, gasTank.getGas().getGas()));
             }
             if (item instanceof IGasItem gasItem) {
                 GasStack gas = gasItem.getGas(itemstack);
@@ -172,13 +168,10 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
                     return true;
                 }
                 Gas type = gas.getGas();
-                if (type == MekanismFluids.NuclearWaste ||
-                    type == MekanismFluids.Plutonium ||
-                    type == MekanismFluids.Polonium ||
-                    type == MekanismFluids.SpentNuclearWaste) {
+                if (type.isRadiation()) {
                     return false;
                 } else {
-                    return gasTank.getGas() == null || ((IGasItem) item).canProvideGas(itemstack, gasTank.getGas().getGas());
+                    return gasTank.getGas() == null || gasItem.canProvideGas(itemstack, gasTank.getGas().getGas());
                 }
             }
             return false;
@@ -198,7 +191,7 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
         if (tier == GasTankTier.CREATIVE) {
             return stack != null ? stack.amount : 0;
         }
-        if (stack.getGas() == MekanismFluids.NuclearWaste || stack.getGas() == MekanismFluids.Plutonium || stack.getGas() == MekanismFluids.Polonium || stack.getGas() == MekanismFluids.SpentNuclearWaste) {
+        if (stack.getGas().isRadiation()) {
             return gasTank.receive(stack, false);
         } else {
             return gasTank.receive(stack, doTransfer);
@@ -223,7 +216,7 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        if (tier != GasTankTier.CREATIVE && (type == MekanismFluids.NuclearWaste || type == MekanismFluids.Plutonium || type == MekanismFluids.Polonium || type == MekanismFluids.SpentNuclearWaste)) {
+        if (tier != GasTankTier.CREATIVE && (type.isRadiation())) {
             return false;
         } else if (configComponent.hasSideForData(TransmissionType.GAS, facing, 1, side)) {
             return gasTank.canReceive(type);
@@ -298,7 +291,7 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
     }
 
     @Override
-   public void writeCustomNBT(NBTTagCompound nbtTags) {
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("tier", tier.ordinal());
         nbtTags.setTag("gasTank", gasTank.write(new NBTTagCompound()));
@@ -387,16 +380,16 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
             this.langKey = langKey;
         }
 
-        public String getLangKey() {
-            return langKey;
-        }
-
         public static <T> T chooseByMode(GasMode dumping, T idleOption, T dumpingOption, T dumpingExcessOption) {
             return switch (dumping) {
                 case IDLE -> idleOption;
                 case DUMPING -> dumpingOption;
                 case DUMPING_EXCESS -> dumpingExcessOption;
             };
+        }
+
+        public String getLangKey() {
+            return langKey;
         }
     }
 }
