@@ -505,11 +505,19 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
     }
 
     @Override
+    public Object[] getGasTanks() {
+        if (!hasFrequency()) {
+            return null;
+        }
+        return new Object[]{frequency.storedGas};
+    }
+
+    @Override
     public Object[] getTanks() {
         if (!hasFrequency()) {
             return null;
         }
-        return new Object[]{frequency.storedFluid, frequency.storedGas};
+        return new Object[]{frequency.storedFluid};
     }
 
     @Override

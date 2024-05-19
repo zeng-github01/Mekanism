@@ -60,8 +60,8 @@ public class TileEntityPRC extends TileEntityUpgradeableMachine<PressurizedInput
         configComponent.setInputConfig(TransmissionType.FLUID);
 
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.NONE, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.INPUT, new int[]{1}));
-        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.OUTPUT, new int[]{2}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.INPUT, new int[]{0}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.OUTPUT, new int[]{1}));
         configComponent.setConfig(TransmissionType.GAS, new byte[]{1, 1, 1, 1, 1, 2});
 
         configComponent.setInputConfig(TransmissionType.ENERGY);
@@ -111,17 +111,20 @@ public class TileEntityPRC extends TileEntityUpgradeableMachine<PressurizedInput
 
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
-        factory.ejectorComponent.setItemInputOutputData(configComponent.getOutputs(TransmissionType.ITEM).get(4));
         factory.gasTank.setGas(inputGasTank.getGas());
         factory.gasOutTank.setGas(outputGasTank.getGas());
         factory.fluidTank.setFluid(inputFluidTank.getFluid());
-
         factory.inventory.set(5, inventory.get(0));
         factory.inventory.set(1, inventory.get(1));
         factory.inventory.set(5 + 3, inventory.get(2));
         factory.inventory.set(0, inventory.get(3));
     }
 
+    @Override
+    protected void upgradeEjectorComponent(TileEntityFactory factory) {
+        factory.ejectorComponent.setItemInputOutputData(configComponent.getOutputs(TransmissionType.ITEM).get(4));
+        factory.ejectorComponent.getOutputSides(TransmissionType.GAS,factory.configComponent.getOutputs(TransmissionType.GAS).get(2));
+    }
 
     @Override
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
@@ -276,12 +279,12 @@ public class TileEntityPRC extends TileEntityUpgradeableMachine<PressurizedInput
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && inputGasTank.canReceive(type);
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(0) && inputGasTank.canReceive(type);
     }
 
     @Override
     public boolean canDrawGas(EnumFacing side, Gas type) {
-        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(2) && outputGasTank.canDraw(type);
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && outputGasTank.canDraw(type);
     }
 
     @Nonnull
@@ -331,8 +334,13 @@ public class TileEntityPRC extends TileEntityUpgradeableMachine<PressurizedInput
     }
 
     @Override
+    public Object[] getGasTanks() {
+        return new Object[]{inputGasTank, outputGasTank};
+    }
+
+    @Override
     public Object[] getTanks() {
-        return new Object[]{inputFluidTank, inputGasTank, outputGasTank};
+        return new Object[]{inputFluidTank};
     }
 
 

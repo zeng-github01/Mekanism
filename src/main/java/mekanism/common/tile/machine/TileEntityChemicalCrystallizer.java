@@ -99,6 +99,10 @@ public class TileEntityChemicalCrystallizer extends TileEntityUpgradeableMachine
         factory.inventory.set(4, inventory.get(0));
     }
 
+    @Override
+    protected void upgradeEjectorComponent(TileEntityFactory factory) {
+
+    }
 
     public GasInput getInput() {
         return new GasInput(inputTank.getGas());
@@ -265,8 +269,13 @@ public class TileEntityChemicalCrystallizer extends TileEntityUpgradeableMachine
     }
 
     @Override
-    public Object[] getTanks() {
+    public Object[] getGasTanks() {
         return new Object[]{inputTank};
+    }
+
+    @Override
+    public Object[] getTanks() {
+        return new Object[]{};
     }
 
     public int getScaledFuelLevel(int i) {

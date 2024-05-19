@@ -104,6 +104,11 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityUpgradeab
     }
 
     @Override
+    protected void upgradeEjectorComponent(TileEntityFactory factory) {
+
+    }
+
+    @Override
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
         if (slotID == 0) {
             return RecipeHandler.isInNucleosynthesizerRecipe(itemstack);

@@ -231,7 +231,7 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
 
 
     @Override
-   public void writeCustomNBT(NBTTagCompound nbtTags) {
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("mode", mode);
         nbtTags.setTag("gasTank", gasTank.write(new NBTTagCompound()));
@@ -353,8 +353,13 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
     }
 
     @Override
+    public Object[] getGasTanks() {
+        return new Object[]{gasTank};
+    }
+
+    @Override
     public Object[] getTanks() {
-        return new Object[]{gasTank, fluidTank};
+        return new Object[]{fluidTank};
     }
 
     @Nonnull

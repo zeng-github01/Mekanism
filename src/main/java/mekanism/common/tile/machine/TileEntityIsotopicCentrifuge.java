@@ -265,8 +265,13 @@ public class TileEntityIsotopicCentrifuge extends TileEntityBasicMachine<GasInpu
     }
 
     @Override
-    public Object[] getTanks() {
+    public Object[] getGasTanks() {
         return new Object[]{inputTank, outputTank};
+    }
+
+    @Override
+    public Object[] getTanks() {
+        return new Object[]{};
     }
 
     @Override

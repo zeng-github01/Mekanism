@@ -71,6 +71,11 @@ public abstract class TileEntityDoubleElectricMachine<RECIPE extends DoubleMachi
     }
 
     @Override
+    protected void upgradeEjectorComponent(TileEntityFactory factory) {
+
+    }
+
+    @Override
     public void onUpdate() {
         super.onUpdate();
         if (!world.isRemote) {

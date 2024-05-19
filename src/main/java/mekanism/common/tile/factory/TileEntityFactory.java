@@ -96,6 +96,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     public TileComponentEjector ejectorComponent;
     public TileComponentConfig configComponent;
     public boolean Factoryoldsorting;
+    private boolean machineUsesGAS;
+    private boolean isMachineUsesGAS = true;
     /**
      * This machine's recipe type.
      */
@@ -129,8 +131,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         configComponent.setInputConfig(TransmissionType.FLUID);
 
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.NONE, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.INPUT, new int[]{1}));
-        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.OUTPUT, new int[]{2}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.INPUT, new int[]{0}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.OUTPUT, new int[]{1}));
         configComponent.setConfig(TransmissionType.GAS, new byte[]{1, 1, 1, 1, 1, 2});
 
         configComponent.setInputConfig(TransmissionType.ENERGY);
@@ -983,6 +985,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             Factoryoldsorting = dataStream.readBoolean();
             upgraded = dataStream.readBoolean();
             lastUsage = dataStream.readDouble();
+            machineUsesGAS = dataStream.readBoolean();
+            isMachineUsesGAS = dataStream.readBoolean();
             int amount = dataStream.readInt();
             if (amount > 0) {
                 infuseStored.setAmount(amount);
@@ -1032,6 +1036,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         gasTank.read(nbtTags.getCompoundTag("gasTank"));
         gasOutTank.read(nbtTags.getCompoundTag("gasOutTank"));
         GasUtils.clearIfInvalid(gasTank, recipeType::isValidGas);
+        machineUsesGAS = nbtTags.getBoolean("machineUsesGAS");
+        isMachineUsesGAS = nbtTags.getBoolean("isMachineUsesGAS");
     }
 
     @Override
@@ -1053,6 +1059,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         nbtTags.setTag("fluidTank", fluidTank.writeToNBT(new NBTTagCompound()));
         nbtTags.setTag("gasTank", gasTank.write(new NBTTagCompound()));
         nbtTags.setTag("gasOutTank", gasOutTank.write(new NBTTagCompound()));
+        nbtTags.setBoolean("machineUsesGAS", machineUsesGAS);
+        nbtTags.setBoolean("isMachineUsesGAS", isMachineUsesGAS);
     }
 
     @Override
@@ -1065,7 +1073,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         data.add(Factoryoldsorting);
         data.add(upgraded);
         data.add(lastUsage);
-
+        data.add(machineUsesGAS);
+        data.add(isMachineUsesGAS);
         data.add(infuseStored.getAmount());
         if (infuseStored.getAmount() > 0) {
             data.add(infuseStored.getType().name);
@@ -1226,7 +1235,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        if (configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1)) {
+        if (configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(0)) {
             if (recipeType.getFuelType() == MachineFuelType.ADVANCED || recipeType.getFuelType() == MachineFuelType.FARM) {
                 return recipeType.canReceiveGas(side, type);
             } else if (recipeType == RecipeType.Crystallizer) {
@@ -1245,7 +1254,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public boolean canDrawGas(EnumFacing side, Gas type) {
-        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(2) && gasOutTank.canDraw(type);
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasOutTank.canDraw(type);
     }
 
     @Nonnull
@@ -1256,7 +1265,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         } else if (recipeType == RecipeType.OXIDIZER) {
             return new GasTankInfo[]{gasOutTank};
         } else {
-            return new GasTankInfo[]{gasTank};
+            return IGasHandler.NONE;
         }
     }
 
@@ -1322,17 +1331,13 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
     @Override
+    public Object[] getGasTanks() {
+        return new Object[]{gasTank, gasOutTank};
+    }
+
+    @Override
     public Object[] getTanks() {
-        if (recipeType == RecipeType.PRC || recipeType == RecipeType.WASHER) {
-            return new Object[]{fluidTank, gasTank, gasOutTank};
-        } else if (recipeType == RecipeType.Dissolution) {
-            return new Object[]{gasTank, gasOutTank, fluidTank};
-        } else if (recipeType == RecipeType.OXIDIZER) {
-            return new Object[]{gasOutTank, gasTank, fluidTank};
-        } else if (recipeType.getFuelType() == MachineFuelType.ADVANCED || recipeType.getFuelType() == MachineFuelType.FARM || recipeType == RecipeType.Crystallizer || recipeType == RecipeType.NUCLEOSYNTHESIZER) {
-            return new Object[]{gasTank, gasOutTank, fluidTank};
-        }
-        return new Object[]{fluidTank, gasTank, gasOutTank};
+        return new Object[]{fluidTank};
     }
 
     @Override
@@ -1439,15 +1444,20 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     private void CheckTheFaceSettings() {
         if (!GasMachine()) {
             configComponent.fillConfig(TransmissionType.GAS, -1);
+            machineUsesGAS = false;
+            isMachineUsesGAS = true;
         } else {
-            configComponent.setConfig(TransmissionType.GAS, new byte[]{1, 1, 1, 1, 1, 2});
+            if (!machineUsesGAS && isMachineUsesGAS) {
+                configComponent.setConfig(TransmissionType.GAS, new byte[]{1, 1, 1, 1, 1, 2});
+                isMachineUsesGAS = false;
+            }
         }
 
-        if (!GasOutputMachines()){
+        if (!GasOutputMachines()) {
             configComponent.setEjecting(TransmissionType.GAS, false);
             configComponent.setCanEject(TransmissionType.GAS, false);
-        }else {
-            configComponent.setCanEject(TransmissionType.GAS,true);
+        } else {
+            configComponent.setCanEject(TransmissionType.GAS, true);
         }
 
 

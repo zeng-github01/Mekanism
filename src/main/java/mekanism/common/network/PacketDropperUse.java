@@ -23,8 +23,12 @@ public class PacketDropperUse implements IMessageHandler<DropperUseMessage, IMes
             if (tileEntity instanceof ITankManager) {
                 try {
                     Object tank = ((ITankManager) tileEntity).getTanks()[message.tankId];
+                    Object gasTank = ((ITankManager) tileEntity).getGasTanks()[message.tankId];
                     if (tank != null) {
                         DropperHandler.useDropper(player, tank, message.mouseButton);
+                    }
+                    if (gasTank != null) {
+                        DropperHandler.useDropper(player, gasTank, message.mouseButton);
                     }
                 } catch (Exception e) {
                     Mekanism.logger.error("FIXME: Packet handling error", e);

@@ -549,6 +549,11 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
     }
 
     @Override
+    public Object[] getGasTanks() {
+        return new Object[]{};
+    }
+
+    @Override
     public Object[] getTanks() {
         return new Object[]{inputTank, outputTank};
     }

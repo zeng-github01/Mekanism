@@ -68,8 +68,8 @@ public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasIn
         configComponent.setInputConfig(TransmissionType.FLUID);
 
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.NONE, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.INPUT, new int[]{1}));
-        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.OUTPUT, new int[]{2}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.INPUT, new int[]{0}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.OUTPUT, new int[]{1}));
         configComponent.setConfig(TransmissionType.GAS, new byte[]{1, 1, 1, 1, 1, 2});
 
         configComponent.setInputConfig(TransmissionType.ENERGY);
@@ -89,6 +89,10 @@ public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasIn
         factory.inventory.set(0, inventory.get(4));
     }
 
+    @Override
+    protected void upgradeEjectorComponent(TileEntityFactory factory) {
+        factory.ejectorComponent.getOutputSides(TransmissionType.GAS,factory.configComponent.getOutputs(TransmissionType.GAS).get(2));
+    }
 
     @Override
     public void onUpdate() {
@@ -198,7 +202,7 @@ public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasIn
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && inputTank.canReceive(type) && Recipe.CHEMICAL_WASHER.containsRecipe(type);
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(0) && inputTank.canReceive(type) && Recipe.CHEMICAL_WASHER.containsRecipe(type);
     }
 
 
@@ -220,7 +224,7 @@ public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasIn
 
     @Override
     public boolean canDrawGas(EnumFacing side, Gas type) {
-        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(2) && outputTank.canDraw(type);
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && outputTank.canDraw(type);
     }
 
     @Nonnull
@@ -322,8 +326,13 @@ public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasIn
     }
 
     @Override
+    public Object[] getGasTanks() {
+        return new Object[]{inputTank, outputTank};
+    }
+
+    @Override
     public Object[] getTanks() {
-        return new Object[]{fluidTank, inputTank, outputTank};
+        return new Object[]{fluidTank};
     }
 
     @Override

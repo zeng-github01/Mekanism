@@ -283,8 +283,13 @@ public class TileEntityChemicalInfuser extends TileEntityBasicMachine<ChemicalPa
     }
 
     @Override
-    public Object[] getTanks() {
+    public Object[] getGasTanks() {
         return new Object[]{leftTank, rightTank, centerTank};
+    }
+
+    @Override
+    public Object[] getTanks() {
+        return new Object[]{};
     }
 
 

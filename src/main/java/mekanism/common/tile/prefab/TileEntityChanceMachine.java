@@ -61,6 +61,10 @@ public abstract class TileEntityChanceMachine<RECIPE extends ChanceMachineRecipe
         factory.inventory.set(11, inventory.get(4));
         factory.inventory.set(0, inventory.get(3));
     }
+    @Override
+    protected void upgradeEjectorComponent(TileEntityFactory factory) {
+
+    }
 
     @Override
     public void onUpdate() {

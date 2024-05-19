@@ -17,6 +17,7 @@ import net.minecraftforge.fluids.FluidUtil;
 
 public interface ITankManager {
 
+    Object[] getGasTanks();
     Object[] getTanks();
 
     class DropperHandler {

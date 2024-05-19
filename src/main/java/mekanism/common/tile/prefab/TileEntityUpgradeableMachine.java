@@ -85,4 +85,6 @@ public abstract class TileEntityUpgradeableMachine<INPUT extends MachineInput<IN
     }
 
     protected abstract void upgradeInventory(TileEntityFactory factory);
+
+    protected abstract void upgradeEjectorComponent(TileEntityFactory factory);
 }

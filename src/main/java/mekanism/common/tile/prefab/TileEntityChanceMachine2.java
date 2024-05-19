@@ -63,6 +63,11 @@ public abstract class TileEntityChanceMachine2<RECIPE extends Chance2MachineReci
     }
 
     @Override
+    protected void upgradeEjectorComponent(TileEntityFactory factory) {
+
+    }
+
+    @Override
     public void onUpdate() {
         super.onUpdate();
         if (!world.isRemote) {

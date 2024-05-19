@@ -108,6 +108,11 @@ public abstract class TileEntityAdvancedElectricMachine<RECIPE extends AdvancedM
         factory.inventory.set(0, inventory.get(4));
     }
 
+    @Override
+    protected void upgradeEjectorComponent(TileEntityFactory factory) {
+
+    }
+
     /**
      * Gets the amount of ticks the declared itemstack can fuel this machine.
      *

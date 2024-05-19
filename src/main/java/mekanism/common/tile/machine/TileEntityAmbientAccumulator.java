@@ -270,8 +270,13 @@ public class TileEntityAmbientAccumulator extends TileEntityContainerBlock imple
     }
 
     @Override
-    public Object[] getTanks() {
+    public Object[] getGasTanks() {
         return new Object[]{collectedGas};
+    }
+
+    @Override
+    public Object[] getTanks() {
+        return new Object[]{};
     }
 
     @Override

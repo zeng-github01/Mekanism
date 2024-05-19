@@ -37,7 +37,7 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
     public static final int MAX_GAS = 10000;
     public static final int BASE_INJECT_USAGE = 1;
     public final double BASE_ENERGY_USAGE = MachineType.CHEMICAL_DISSOLUTION_CHAMBER.getUsage();
-    public GasTank injectTank = new GasTank(MAX_GAS);
+    public GasTank  injectTank = new GasTank(MAX_GAS);
     public GasTank outputTank = new GasTank(MAX_GAS);
     public double injectUsage = BASE_INJECT_USAGE;
     public int injectUsageThisTick;
@@ -120,6 +120,11 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
         factory.inventory.set(5, inventory.get(1));
         factory.inventory.set(4, inventory.get(0));
 
+    }
+
+    @Override
+    protected void upgradeEjectorComponent(TileEntityFactory factory) {
+        factory.ejectorComponent.getOutputSides(TransmissionType.GAS,configComponent.getOutputs(TransmissionType.GAS).get(2));
     }
 
     @Override
@@ -302,8 +307,13 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
     }
 
     @Override
-    public Object[] getTanks() {
+    public Object[] getGasTanks() {
         return new Object[]{injectTank, outputTank};
+    }
+
+    @Override
+    public Object[] getTanks() {
+        return new Object[]{};
     }
 
 

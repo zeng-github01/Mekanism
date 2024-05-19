@@ -99,6 +99,11 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
         factory.inventory.set(0, inventory.get(5));
     }
 
+    @Override
+    protected void upgradeEjectorComponent(TileEntityFactory factory) {
+
+    }
+
     @Nullable
     public GasStack getItemGas(ItemStack itemStack) {
         return GasConversionHandler.getItemGas(itemStack, gasTank, this::isValidGas);

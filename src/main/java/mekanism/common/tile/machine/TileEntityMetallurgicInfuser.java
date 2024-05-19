@@ -115,6 +115,11 @@ public class TileEntityMetallurgicInfuser extends TileEntityUpgradeableMachine<I
         factory.inventory.set(4, inventory.get(1));
     }
 
+    @Override
+    protected void upgradeEjectorComponent(TileEntityFactory factory) {
+
+    }
+
 
     @Override
     public boolean canExtractItem(int slotID, @Nonnull ItemStack itemstack, @Nonnull EnumFacing side) {

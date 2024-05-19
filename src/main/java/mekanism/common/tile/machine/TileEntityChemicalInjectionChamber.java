@@ -9,6 +9,7 @@ import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.inputs.AdvancedMachineInput;
 import mekanism.common.recipe.machines.InjectionRecipe;
 import mekanism.common.tile.component.config.DataType;
+import mekanism.common.tile.factory.TileEntityFactory;
 import mekanism.common.tile.prefab.TileEntityAdvancedElectricMachine;
 import mekanism.common.util.InventoryUtils;
 import net.minecraft.util.EnumFacing;
@@ -24,7 +25,10 @@ public class TileEntityChemicalInjectionChamber extends TileEntityAdvancedElectr
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.GAS, new int[]{0}));
         configComponent.fillConfig(TransmissionType.GAS, 1);
         configComponent.setCanEject(TransmissionType.GAS, false);
+
     }
+
+
 
     @Override
     public Map<AdvancedMachineInput, InjectionRecipe> getRecipes() {

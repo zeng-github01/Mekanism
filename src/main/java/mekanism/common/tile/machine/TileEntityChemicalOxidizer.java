@@ -87,12 +87,15 @@ public class TileEntityChemicalOxidizer extends TileEntityUpgradeableMachine<Ite
 
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
-        //todo
-        //factory.gasTank.setGas(null);
         factory.gasOutTank.setGas(gasTank.getGas());
         factory.inventory.set(5, inventory.get(0));
         factory.inventory.set(1, inventory.get(1));
         factory.inventory.set(0, inventory.get(3));
+    }
+
+    @Override
+    protected void upgradeEjectorComponent(TileEntityFactory factory) {
+        factory.ejectorComponent.setOutputData(TransmissionType.GAS, factory.configComponent.getOutputs(TransmissionType.GAS).get(2));
     }
 
     @Override
@@ -198,8 +201,13 @@ public class TileEntityChemicalOxidizer extends TileEntityUpgradeableMachine<Ite
     }
 
     @Override
-    public Object[] getTanks() {
+    public Object[] getGasTanks() {
         return new Object[]{gasTank};
+    }
+
+    @Override
+    public Object[] getTanks() {
+        return new Object[]{};
     }
 
     @Override

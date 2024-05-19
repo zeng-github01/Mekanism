@@ -245,8 +245,13 @@ public class TileEntityAmbientAccumulatorEnergy extends TileEntityMachine implem
     }
 
     @Override
-    public Object[] getTanks() {
+    public Object[] getGasTanks() {
         return new Object[]{outputTank};
+    }
+
+    @Override
+    public Object[] getTanks() {
+        return new Object[]{};
     }
 
     @Override
