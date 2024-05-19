@@ -350,8 +350,7 @@ public abstract class BlockMultiblockMachineGenerator extends BlockMekanismConta
     @Override
     @Deprecated
     public boolean isSideSolid(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
-        MultiblockMachineGeneratorType type = MultiblockMachineGeneratorType.get(getGeneratorBlock(), state.getBlock().getMetaFromState(state));
-        return type != MultiblockMachineGeneratorType.LARGE_WIND_GENERATOR && type != MultiblockMachineGeneratorType.LARGE_HEAT_GENERATOR;
+        return false;
     }
 
     @Override

@@ -318,8 +318,7 @@ public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator 
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing side) {
-        return capability == Capabilities.HEAT_TRANSFER_CAPABILITY || (side != facing && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) ||
-                super.hasCapability(capability, side);
+        return capability == Capabilities.HEAT_TRANSFER_CAPABILITY || (side != facing && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) || super.hasCapability(capability, side);
     }
 
     @Override
@@ -475,4 +474,5 @@ public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator 
         }
         return super.isCapabilityDisabled(capability, side);
     }
+
 }

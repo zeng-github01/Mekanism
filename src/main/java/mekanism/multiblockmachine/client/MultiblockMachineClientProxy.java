@@ -2,18 +2,15 @@ package mekanism.multiblockmachine.client;
 
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.render.item.ItemLayerWrapper;
-import mekanism.multiblockmachine.client.gui.generator.GuiLargeHeatGenerator;
-import mekanism.multiblockmachine.client.gui.generator.GuiLargeWindGenerator;
-import mekanism.multiblockmachine.client.render.RenderLargeHeatGenerator;
-import mekanism.multiblockmachine.client.render.RenderLargeWindGenerator;
+import mekanism.multiblockmachine.client.gui.generator.*;
+import mekanism.multiblockmachine.client.render.*;
 import mekanism.multiblockmachine.client.render.item.RenderMultiblockGeneratorItem;
 import mekanism.multiblockmachine.common.MekanismMultiblockMachine;
 import mekanism.multiblockmachine.common.MultiblockMachineBlocks;
 import mekanism.multiblockmachine.common.MultiblockMachineCommonProxy;
 import mekanism.multiblockmachine.common.block.states.BlockStateMultiblockMachineGenerator.MultiblockMachineGeneratorBlockStateMapper;
 import mekanism.multiblockmachine.common.block.states.BlockStateMultiblockMachineGenerator.MultiblockMachineGeneratorType;
-import mekanism.multiblockmachine.common.tile.generator.TileEntityLargeHeatGenerator;
-import mekanism.multiblockmachine.common.tile.generator.TileEntityLargeWindGenerator;
+import mekanism.multiblockmachine.common.tile.generator.*;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -43,6 +40,7 @@ public class MultiblockMachineClientProxy extends MultiblockMachineCommonProxy {
     public void registerTESRs() {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLargeWindGenerator.class, new RenderLargeWindGenerator());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLargeHeatGenerator.class, new RenderLargeHeatGenerator());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLargeGasGenerator.class, new RenderLargeGasGenerator());
     }
 
     @Override
@@ -67,6 +65,7 @@ public class MultiblockMachineClientProxy extends MultiblockMachineCommonProxy {
         IRegistry<ModelResourceLocation, IBakedModel> modelRegistry = event.getModelRegistry();
         generatorModelBake(modelRegistry, MultiblockMachineGeneratorType.LARGE_WIND_GENERATOR);
         generatorModelBake(modelRegistry, MultiblockMachineGeneratorType.LARGE_HEAT_GENERATOR);
+        generatorModelBake(modelRegistry, MultiblockMachineGeneratorType.LARGE_GAS_GENERATOR);
     }
 
     private void generatorModelBake(IRegistry<ModelResourceLocation, IBakedModel> modelRegistry, MultiblockMachineGeneratorType type) {
@@ -87,6 +86,7 @@ public class MultiblockMachineClientProxy extends MultiblockMachineCommonProxy {
         return switch (ID) {
             case 0 -> new GuiLargeWindGenerator(player.inventory, (TileEntityLargeWindGenerator) tileEntity);
             case 1 -> new GuiLargeHeatGenerator(player.inventory, (TileEntityLargeHeatGenerator) tileEntity);
+            case 2 -> new GuiLargeGasGenerator(player.inventory, (TileEntityLargeGasGenerator) tileEntity);
             default -> null;
         };
     }

@@ -157,7 +157,7 @@ public class ItemBlockMultiblockGenerator extends ItemBlock implements IEnergize
                     }
                 }
             }
-        } else if (stack.getItemDamage() == MultiblockMachineGeneratorType.LARGE_HEAT_GENERATOR.meta) {
+        } else if (stack.getItemDamage() == MultiblockMachineGeneratorType.LARGE_HEAT_GENERATOR.meta || stack.getItemDamage() ==MultiblockMachineGeneratorType.LARGE_GAS_GENERATOR.meta) {
             if (!(block.isReplaceable(world, pos))) {
                 return false;
             }

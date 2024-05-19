@@ -8,6 +8,8 @@ tile.MultiblockGenerator.LargeWindGenerator.name=Large Wind Generator
 tooltip.LargeWindGenerator=A large generator that uses the strength of the wind to generate energy, which is more efficient at higher places.
 tile.MultiblockGenerator.LargeHeatGenerator.name=Large Heat Generator
 tooltip.LargeHeatGenerator=A large generator that uses the heat of magma or other combustible resources to generate energy.
+tile.MultiblockGenerator.LargeGasGenerator.name=Large Gas-Burning Generator
+tooltip.LargeGasGenerator=A large generator that harnesses the molecular varying gasses to produce energy.
 # Creative tab
 itemGroup.tabMekanismMultiblockMachine=Mekanism Multiblock Machine
 

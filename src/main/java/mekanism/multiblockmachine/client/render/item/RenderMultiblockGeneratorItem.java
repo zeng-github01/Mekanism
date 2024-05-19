@@ -31,6 +31,8 @@ public class RenderMultiblockGeneratorItem extends SubTypeItemRenderer<Multibloc
                 RenderLargeWindGeneratorItem.renderStack(stack, transformType);
             }else if (type == MultiblockMachineGeneratorType.LARGE_HEAT_GENERATOR){
                 RenderLargeHeatGeneratorItem.renderStack(stack,transformType);
+            }else if (type == MultiblockMachineGeneratorType.LARGE_GAS_GENERATOR){
+                RenderLargeGasGeneratorItem.renderStack(stack,transformType);
             }
         }
     }
