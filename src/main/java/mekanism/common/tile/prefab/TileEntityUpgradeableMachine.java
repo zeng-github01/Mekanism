@@ -1,6 +1,7 @@
 package mekanism.common.tile.prefab;
 
 import mekanism.api.transmitters.TransmissionType;
+import mekanism.common.Mekanism;
 import mekanism.common.MekanismBlocks;
 import mekanism.common.Upgrade;
 import mekanism.common.base.IFactory.RecipeType;
@@ -63,6 +64,8 @@ public abstract class TileEntityUpgradeableMachine<INPUT extends MachineInput<IN
         factory.upgradeComponent.setUpgradeSlot(0);
         factory.ejectorComponent.readFrom(ejectorComponent);
         factory.ejectorComponent.setOutputData(TransmissionType.ITEM, factory.configComponent.getOutputs(TransmissionType.ITEM).get(2));
+        factory.ejectorComponent.setItemInputOutputData(factory.configComponent.getOutputs(TransmissionType.ITEM).get(6));
+        factory.ejectorComponent.setOutputData(TransmissionType.GAS,factory.configComponent.getOutputs(TransmissionType.GAS).get(2));
         factory.setRecipeType(type);
         factory.upgradeComponent.setSupported(Upgrade.GAS, type.fuelEnergyUpgrades());
         factory.securityComponent.readFrom(securityComponent);
@@ -80,11 +83,10 @@ public abstract class TileEntityUpgradeableMachine<INPUT extends MachineInput<IN
 
         factory.upgraded = true;
         factory.markDirty();
-
+        Mekanism.packetHandler.sendUpdatePacket(factory);
         return true;
     }
 
     protected abstract void upgradeInventory(TileEntityFactory factory);
 
-    protected abstract void upgradeEjectorComponent(TileEntityFactory factory);
 }

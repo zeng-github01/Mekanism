@@ -68,7 +68,7 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
         configComponent.setConfig(TransmissionType.ITEM, new byte[]{2, 1, 2, 2, 3, 2});
 
         configComponent.addOutput(TransmissionType.FLUID, new SideData(DataType.NONE, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.FLUID, new SideData(DataType.FLUID, new int[]{1}));
+        configComponent.addOutput(TransmissionType.FLUID, new SideData(DataType.FLUID, new int[]{0}));
         configComponent.setConfig(TransmissionType.FLUID, new byte[]{0, 0, 0, 0, 0, 1});
 
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.NONE, InventoryUtils.EMPTY));
@@ -327,12 +327,12 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
 
     @Override
     public boolean canFill(EnumFacing from, @Nonnull FluidStack fluid) {
-        return mode == 1 && configComponent.getOutput(TransmissionType.FLUID, from, facing).hasSlot(1) && FluidContainerUtils.canFill(fluidTank.getFluid(), fluid);
+        return mode == 1 && configComponent.getOutput(TransmissionType.FLUID, from, facing).hasSlot(0) && FluidContainerUtils.canFill(fluidTank.getFluid(), fluid);
     }
 
     @Override
     public boolean canDrain(EnumFacing from, @Nullable FluidStack fluid) {
-        return mode == 0 && configComponent.getOutput(TransmissionType.FLUID, from, facing).hasSlot(1) && FluidContainerUtils.canDrain(fluidTank.getFluid(), fluid);
+        return mode == 0 && configComponent.getOutput(TransmissionType.FLUID, from, facing).hasSlot(0) && FluidContainerUtils.canDrain(fluidTank.getFluid(), fluid);
     }
 
     @Override

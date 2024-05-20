@@ -121,12 +121,6 @@ public class TileEntityPRC extends TileEntityUpgradeableMachine<PressurizedInput
     }
 
     @Override
-    protected void upgradeEjectorComponent(TileEntityFactory factory) {
-        factory.ejectorComponent.setItemInputOutputData(configComponent.getOutputs(TransmissionType.ITEM).get(4));
-        factory.ejectorComponent.getOutputSides(TransmissionType.GAS,factory.configComponent.getOutputs(TransmissionType.GAS).get(2));
-    }
-
-    @Override
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
         if (slotID == 0) {
             return RecipeHandler.isInPressurizedRecipe(itemstack);

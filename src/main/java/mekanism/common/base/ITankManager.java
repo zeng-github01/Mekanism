@@ -30,6 +30,46 @@ public interface ITankManager {
             }
 
             if (!stack.isEmpty()) {
+                if (tank instanceof FluidTank fluidTank) {
+                    int dropperStored = FluidUtil.getFluidContained(stack) != null ? FluidUtil.getFluidContained(stack).amount : 0;
+
+                    if (FluidUtil.getFluidContained(stack) != null && fluidTank.getFluid() != null && !FluidUtil.getFluidContained(stack).isFluidEqual(fluidTank.getFluid())) {
+                        return;
+                    }
+
+                    if (button == 0) { //Insert fluid into dropper
+                        if (dropper.getGas(stack) != null || fluidTank.getFluid() == null) {
+                            return;
+                        }
+
+                        int toInsert = Math.min(fluidTank.getFluidAmount(), ItemGaugeDropper.CAPACITY - dropperStored);
+                        FluidUtil.getFluidHandler(stack).fill(fluidTank.drain(toInsert, true), true);
+
+                        ((EntityPlayerMP) player).sendContainerToPlayer(player.openContainer);
+                    } else if (button == 1) { //Extract fluid from dropper
+                        if (dropper.getGas(stack) != null || fluidTank.getCapacity() - fluidTank.getFluidAmount() == 0) {
+                            return;
+                        }
+
+                        int toExtract = Math.min(fluidTank.getCapacity() - fluidTank.getFluidAmount(), dropperStored);
+                        fluidTank.fill(FluidUtil.getFluidHandler(stack).drain(toExtract, true), true);
+
+                        ((EntityPlayerMP) player).sendContainerToPlayer(player.openContainer);
+                    } else if (button == 2) { //Dump the tank
+                        fluidTank.setFluid(null);
+                    }
+                }
+            }
+        }
+
+        public static void useGasDropper(EntityPlayer player, Object tank, int button) {
+            ItemStack stack = player.inventory.getItemStack();
+
+            if (stack.isEmpty() || !(stack.getItem() instanceof ItemGaugeDropper dropper)) {
+                return;
+            }
+
+            if (!stack.isEmpty()) {
                 if (tank instanceof GasTank gasTank) {
                     int dropperStored = dropper.getGas(stack) != null ? dropper.getGas(stack).amount : 0;
 
@@ -59,34 +99,6 @@ public interface ITankManager {
                         ((EntityPlayerMP) player).sendContainerToPlayer(player.openContainer);
                     } else if (button == 2) { //Dump the tank
                         gasTank.setGas(null);
-                    }
-                } else if (tank instanceof FluidTank fluidTank) {
-                    int dropperStored = FluidUtil.getFluidContained(stack) != null ? FluidUtil.getFluidContained(stack).amount : 0;
-
-                    if (FluidUtil.getFluidContained(stack) != null && fluidTank.getFluid() != null && !FluidUtil.getFluidContained(stack).isFluidEqual(fluidTank.getFluid())) {
-                        return;
-                    }
-
-                    if (button == 0) { //Insert fluid into dropper
-                        if (dropper.getGas(stack) != null || fluidTank.getFluid() == null) {
-                            return;
-                        }
-
-                        int toInsert = Math.min(fluidTank.getFluidAmount(), ItemGaugeDropper.CAPACITY - dropperStored);
-                        FluidUtil.getFluidHandler(stack).fill(fluidTank.drain(toInsert, true), true);
-
-                        ((EntityPlayerMP) player).sendContainerToPlayer(player.openContainer);
-                    } else if (button == 1) { //Extract fluid from dropper
-                        if (dropper.getGas(stack) != null || fluidTank.getCapacity() - fluidTank.getFluidAmount() == 0) {
-                            return;
-                        }
-
-                        int toExtract = Math.min(fluidTank.getCapacity() - fluidTank.getFluidAmount(), dropperStored);
-                        fluidTank.fill(FluidUtil.getFluidHandler(stack).drain(toExtract, true), true);
-
-                        ((EntityPlayerMP) player).sendContainerToPlayer(player.openContainer);
-                    } else if (button == 2) { //Dump the tank
-                        fluidTank.setFluid(null);
                     }
                 }
             }

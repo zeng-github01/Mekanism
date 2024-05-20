@@ -1359,8 +1359,12 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     @Override
     public void writeSustainedData(ItemStack itemStack) {
         infuseStored.writeSustainedData(itemStack);
-        GasUtils.writeSustainedData(gasTank, itemStack);
-        GasUtils.writeSustainedData(gasOutTank, itemStack);
+        if (gasTank.getGas() != null){
+            ItemDataUtils.setCompound(itemStack,"gasTank",gasTank.getGas().write(new NBTTagCompound()));
+        }
+        if (gasOutTank.getGas() != null) {
+            ItemDataUtils.setCompound(itemStack, "gasOutTank", gasOutTank.getGas().write(new NBTTagCompound()));
+        }
         if (fluidTank.getFluid() != null) {
             ItemDataUtils.setCompound(itemStack, "fluidTank", fluidTank.getFluid().writeToNBT(new NBTTagCompound()));
         }
@@ -1369,8 +1373,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     @Override
     public void readSustainedData(ItemStack itemStack) {
         infuseStored.readSustainedData(itemStack);
-        GasUtils.readSustainedData(gasTank, itemStack);
-        GasUtils.readSustainedData(gasOutTank, itemStack);
+        gasTank.setGas(GasStack.readFromNBT(ItemDataUtils.getCompound(itemStack,"gasTank")));
+        gasOutTank.setGas(GasStack.readFromNBT(ItemDataUtils.getCompound(itemStack,"gasOutTank")));
         fluidTank.setFluid(FluidStack.loadFluidStackFromNBT(ItemDataUtils.getCompound(itemStack, "fluidTank")));
     }
 

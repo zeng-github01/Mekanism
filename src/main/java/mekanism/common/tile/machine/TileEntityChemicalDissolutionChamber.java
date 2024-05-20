@@ -123,11 +123,6 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
     }
 
     @Override
-    protected void upgradeEjectorComponent(TileEntityFactory factory) {
-        factory.ejectorComponent.getOutputSides(TransmissionType.GAS,configComponent.getOutputs(TransmissionType.GAS).get(2));
-    }
-
-    @Override
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
         if (slotID == 1) {
             return RecipeHandler.getDissolutionRecipe(new ItemStackInput(itemstack)) != null;

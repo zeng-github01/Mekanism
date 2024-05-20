@@ -100,17 +100,11 @@ public abstract class TileEntityAdvancedElectricMachine<RECIPE extends AdvancedM
     protected void upgradeInventory(TileEntityFactory factory) {
         //Advanced Machine
         factory.gasTank.setGas(gasTank.getGas());
-        factory.ejectorComponent.setItemInputOutputData(configComponent.getOutputs(TransmissionType.ITEM).get(5));
         factory.inventory.set(5, inventory.get(0));
         factory.inventory.set(4, inventory.get(1));
         factory.inventory.set(5 + 3, inventory.get(2));
         factory.inventory.set(1, inventory.get(3));
         factory.inventory.set(0, inventory.get(4));
-    }
-
-    @Override
-    protected void upgradeEjectorComponent(TileEntityFactory factory) {
-
     }
 
     /**

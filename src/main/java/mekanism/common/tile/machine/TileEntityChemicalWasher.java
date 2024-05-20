@@ -39,7 +39,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 
-public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasInput, GasOutput, WasherRecipe> implements IGasHandler, IFluidHandlerWrapper, ISustainedData, IUpgradeInfoHandler, ITankManager{
+public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasInput, GasOutput, WasherRecipe> implements IGasHandler, IFluidHandlerWrapper, ISustainedData, IUpgradeInfoHandler, ITankManager {
 
     public static final int MAX_GAS = 10000;
     public static final int MAX_FLUID = 10000;
@@ -54,7 +54,7 @@ public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasIn
     private int currentRedstoneLevel;
 
     public TileEntityChemicalWasher() {
-        super("washer", MachineType.CHEMICAL_WASHER, 4,1);
+        super("washer", MachineType.CHEMICAL_WASHER, 4, 1);
         configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.ENERGY, TransmissionType.FLUID, TransmissionType.GAS);
 
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.NONE, InventoryUtils.EMPTY));
@@ -87,11 +87,6 @@ public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasIn
         factory.fluidTank.setFluid(fluidTank.getFluid());
         factory.inventory.set(1, inventory.get(3));
         factory.inventory.set(0, inventory.get(4));
-    }
-
-    @Override
-    protected void upgradeEjectorComponent(TileEntityFactory factory) {
-        factory.ejectorComponent.getOutputSides(TransmissionType.GAS,factory.configComponent.getOutputs(TransmissionType.GAS).get(2));
     }
 
     @Override

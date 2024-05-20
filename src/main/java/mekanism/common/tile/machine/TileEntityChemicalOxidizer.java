@@ -94,11 +94,6 @@ public class TileEntityChemicalOxidizer extends TileEntityUpgradeableMachine<Ite
     }
 
     @Override
-    protected void upgradeEjectorComponent(TileEntityFactory factory) {
-        factory.ejectorComponent.setOutputData(TransmissionType.GAS, factory.configComponent.getOutputs(TransmissionType.GAS).get(2));
-    }
-
-    @Override
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
         if (slotID == 0) {
             return RecipeHandler.getOxidizerRecipe(new ItemStackInput(itemstack)) != null;

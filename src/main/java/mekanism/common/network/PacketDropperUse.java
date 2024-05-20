@@ -28,7 +28,7 @@ public class PacketDropperUse implements IMessageHandler<DropperUseMessage, IMes
                         DropperHandler.useDropper(player, tank, message.mouseButton);
                     }
                     if (gasTank != null) {
-                        DropperHandler.useDropper(player, gasTank, message.mouseButton);
+                        DropperHandler.useGasDropper(player, gasTank, message.mouseButton);
                     }
                 } catch (Exception e) {
                     Mekanism.logger.error("FIXME: Packet handling error", e);

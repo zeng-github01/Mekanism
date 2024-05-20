@@ -91,17 +91,11 @@ public class TileEntityChemicalCrystallizer extends TileEntityUpgradeableMachine
 
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
-        factory.ejectorComponent.setItemInputOutputData(configComponent.getOutputs(TransmissionType.ITEM).get(4));
         factory.gasTank.setGas(inputTank.getGas());
         factory.inventory.set(1, inventory.get(2));
         factory.inventory.set(5 + 3, inventory.get(1));
         factory.inventory.set(0, inventory.get(3));
         factory.inventory.set(4, inventory.get(0));
-    }
-
-    @Override
-    protected void upgradeEjectorComponent(TileEntityFactory factory) {
-
     }
 
     public GasInput getInput() {

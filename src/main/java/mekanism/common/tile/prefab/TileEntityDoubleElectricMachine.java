@@ -62,7 +62,6 @@ public abstract class TileEntityDoubleElectricMachine<RECIPE extends DoubleMachi
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
         //Double Machine
-        factory.ejectorComponent.setItemInputOutputData(configComponent.getOutputs(TransmissionType.ITEM).get(6));
         factory.inventory.set(5, inventory.get(0));
         factory.inventory.set(4, inventory.get(1));
         factory.inventory.set(5 + 3, inventory.get(2));
@@ -70,10 +69,6 @@ public abstract class TileEntityDoubleElectricMachine<RECIPE extends DoubleMachi
         factory.inventory.set(0, inventory.get(4));
     }
 
-    @Override
-    protected void upgradeEjectorComponent(TileEntityFactory factory) {
-
-    }
 
     @Override
     public void onUpdate() {

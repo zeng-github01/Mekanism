@@ -60,17 +60,12 @@ public abstract class TileEntityElectricMachine<RECIPE extends BasicMachineRecip
 
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
-        factory.ejectorComponent.setItemInputOutputData(configComponent.getOutputs(TransmissionType.ITEM).get(4));
         factory.inventory.set(5, inventory.get(0));
         factory.inventory.set(1, inventory.get(1));
         factory.inventory.set(5 + 3, inventory.get(2));
         factory.inventory.set(0, inventory.get(3));
     }
 
-    @Override
-    protected void upgradeEjectorComponent(TileEntityFactory factory) {
-
-    }
 
     @Override
     public void onUpdate() {

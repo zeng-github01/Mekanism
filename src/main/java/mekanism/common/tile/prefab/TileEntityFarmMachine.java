@@ -89,7 +89,6 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
 
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
-        factory.ejectorComponent.setItemInputOutputData(configComponent.getOutputs(TransmissionType.ITEM).get(5));
         factory.gasTank.setGas(gasTank.getGas());
         factory.inventory.set(5, inventory.get(0));
         factory.inventory.set(4, inventory.get(1));
@@ -97,11 +96,6 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
         factory.inventory.set(11, inventory.get(4));
         factory.inventory.set(1, inventory.get(2));
         factory.inventory.set(0, inventory.get(5));
-    }
-
-    @Override
-    protected void upgradeEjectorComponent(TileEntityFactory factory) {
-
     }
 
     @Nullable

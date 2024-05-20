@@ -37,7 +37,7 @@ public abstract class GuiTankGauge<T, TANK> extends GuiGauge<T> {
         if (inBounds(xAxis, yAxis)) {
             ItemStack stack = GuiElement.mc.player.inventory.getItemStack();
             if (guiObj instanceof GuiMekanismTile && !stack.isEmpty() && stack.getItem() instanceof ItemGaugeDropper) {
-                TileEntity tile = ((GuiMekanismTile) guiObj).getTileEntity();
+                TileEntity tile = ((GuiMekanismTile<?>) guiObj).getTileEntity();
                 if (tile instanceof ITankManager && ((ITankManager) tile).getTanks() != null) {
                     int index = Arrays.asList(((ITankManager) tile).getTanks()).indexOf(infoHandler.getTank());
                     if (index != -1) {
@@ -46,7 +46,8 @@ public abstract class GuiTankGauge<T, TANK> extends GuiGauge<T> {
                         }
                         Mekanism.packetHandler.sendToServer(new DropperUseMessage(Coord4D.get(tile), button, index));
                     }
-                }else if (tile instanceof ITankManager && ((ITankManager) tile).getGasTanks() !=null){
+                } 
+                 if (tile instanceof ITankManager && ((ITankManager) tile).getGasTanks() != null) {
                     int index = Arrays.asList(((ITankManager) tile).getGasTanks()).indexOf(infoHandler.getTank());
                     if (index != -1) {
                         if (button == 0 && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
