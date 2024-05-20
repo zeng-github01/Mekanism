@@ -1331,13 +1331,11 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
     @Override
-    public Object[] getGasTanks() {
-        return new Object[]{gasTank, gasOutTank};
-    }
-
-    @Override
     public Object[] getTanks() {
-        return new Object[]{fluidTank};
+        if (recipeType == RecipeType.OXIDIZER ||recipeType == RecipeType.Dissolution || recipeType == RecipeType.Crystallizer || recipeType.getFuelType() == MachineFuelType.FARM|| recipeType.getFuelType() == MachineFuelType.ADVANCED || recipeType == RecipeType.NUCLEOSYNTHESIZER) {
+            return new Object[]{gasTank, gasOutTank,fluidTank};
+        }
+        return new Object[]{fluidTank,gasTank, gasOutTank};
     }
 
     @Override

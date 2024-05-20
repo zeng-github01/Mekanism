@@ -187,13 +187,8 @@ public class TileEntityNutritionalLiquifier extends TileEntityBasicMachine<ItemS
     }
 
     @Override
-    public Object[] getGasTanks() {
-        return new Object[]{gasTank};
-    }
-
-    @Override
     public Object[] getTanks() {
-        return new Object[]{};
+        return new Object[]{gasTank};
     }
 
     @Override

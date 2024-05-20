@@ -244,14 +244,10 @@ public class TileEntityAmbientAccumulatorEnergy extends TileEntityMachine implem
         return upgrade == Upgrade.SPEED ? upgrade.getExpScaledInfo(this) : upgrade.getMultScaledInfo(this);
     }
 
-    @Override
-    public Object[] getGasTanks() {
-        return new Object[]{outputTank};
-    }
 
     @Override
     public Object[] getTanks() {
-        return new Object[]{};
+        return new Object[]{outputTank};
     }
 
     @Override

@@ -285,13 +285,8 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
     }
 
     @Override
-    public Object[] getGasTanks() {
-        return new Object[]{inputTank, outputTank};
-    }
-
-    @Override
     public Object[] getTanks() {
-        return new Object[]{};
+        return new Object[]{inputTank, outputTank};
     }
 
 

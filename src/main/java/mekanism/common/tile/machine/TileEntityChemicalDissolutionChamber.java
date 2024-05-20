@@ -302,13 +302,8 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
     }
 
     @Override
-    public Object[] getGasTanks() {
-        return new Object[]{injectTank, outputTank};
-    }
-
-    @Override
     public Object[] getTanks() {
-        return new Object[]{};
+        return new Object[]{injectTank, outputTank};
     }
 
 

@@ -282,14 +282,10 @@ public class TileEntityChemicalInfuser extends TileEntityBasicMachine<ChemicalPa
         return upgrade == Upgrade.SPEED ? upgrade.getExpScaledInfo(this) : upgrade.getMultScaledInfo(this);
     }
 
-    @Override
-    public Object[] getGasTanks() {
-        return new Object[]{leftTank, rightTank, centerTank};
-    }
 
     @Override
     public Object[] getTanks() {
-        return new Object[]{};
+        return new Object[]{leftTank, rightTank, centerTank};
     }
 
 

@@ -261,6 +261,9 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
                 int index = (dumping.ordinal() + 1) % GasMode.values().length;
                 dumping = GasMode.values()[index];
             }
+            if (type == 1) {
+                gasTank.setGas(null);
+            }
             for (EntityPlayer player : playersUsing) {
                 Mekanism.packetHandler.sendTo(new TileEntityMessage(this), (EntityPlayerMP) player);
             }

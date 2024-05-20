@@ -60,8 +60,8 @@ public class TileEntityPRC extends TileEntityUpgradeableMachine<PressurizedInput
         configComponent.setInputConfig(TransmissionType.FLUID);
 
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.NONE, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.INPUT, new int[]{0}));
-        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.OUTPUT, new int[]{1}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.INPUT, new int[]{1}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.OUTPUT, new int[]{2}));
         configComponent.setConfig(TransmissionType.GAS, new byte[]{1, 1, 1, 1, 1, 2});
 
         configComponent.setInputConfig(TransmissionType.ENERGY);
@@ -273,12 +273,12 @@ public class TileEntityPRC extends TileEntityUpgradeableMachine<PressurizedInput
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(0) && inputGasTank.canReceive(type);
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && inputGasTank.canReceive(type);
     }
 
     @Override
     public boolean canDrawGas(EnumFacing side, Gas type) {
-        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && outputGasTank.canDraw(type);
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(2) && outputGasTank.canDraw(type);
     }
 
     @Nonnull
@@ -328,14 +328,8 @@ public class TileEntityPRC extends TileEntityUpgradeableMachine<PressurizedInput
     }
 
     @Override
-    public Object[] getGasTanks() {
-        return new Object[]{inputGasTank, outputGasTank};
-    }
-
-    @Override
     public Object[] getTanks() {
-        return new Object[]{inputFluidTank};
+        return new Object[]{inputFluidTank,inputGasTank, outputGasTank};
     }
-
 
 }

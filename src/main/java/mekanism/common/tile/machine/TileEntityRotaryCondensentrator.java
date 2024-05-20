@@ -72,7 +72,7 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
         configComponent.setConfig(TransmissionType.FLUID, new byte[]{0, 0, 0, 0, 0, 1});
 
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.NONE, InventoryUtils.EMPTY));
-        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.GAS, new int[]{0}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.GAS, new int[]{1}));
         configComponent.setConfig(TransmissionType.GAS, new byte[]{0, 0, 0, 0, 1, 0});
 
         configComponent.setInputConfig(TransmissionType.ENERGY);
@@ -259,12 +259,12 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
 
     @Override
     public boolean canDrawGas(EnumFacing side, Gas type) {
-        return mode == 1 && configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(0) && gasTank.canDraw(type);
+        return mode == 1 && configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasTank.canDraw(type);
     }
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        return mode == 0 && configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(0) && gasTank.canReceive(type);
+        return mode == 0 && configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasTank.canReceive(type);
     }
 
     @Nonnull
@@ -352,14 +352,10 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
         return upgrade == Upgrade.SPEED ? upgrade.getExpScaledInfo(this) : upgrade.getMultScaledInfo(this);
     }
 
-    @Override
-    public Object[] getGasTanks() {
-        return new Object[]{gasTank};
-    }
 
     @Override
     public Object[] getTanks() {
-        return new Object[]{fluidTank};
+        return new Object[]{fluidTank,gasTank};
     }
 
     @Nonnull

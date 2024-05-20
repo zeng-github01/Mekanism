@@ -196,13 +196,8 @@ public class TileEntityChemicalOxidizer extends TileEntityUpgradeableMachine<Ite
     }
 
     @Override
-    public Object[] getGasTanks() {
-        return new Object[]{gasTank};
-    }
-
-    @Override
     public Object[] getTanks() {
-        return new Object[]{};
+        return new Object[]{gasTank};
     }
 
     @Override

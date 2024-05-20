@@ -85,7 +85,7 @@ public class SideData {
     }
 
     public GasTank getGasTank(ITankManager manager) {
-        Object[] tanks = manager.getGasTanks();
+        Object[] tanks = manager.getTanks();
         if (tanks == null || tanks.length < 1 || !(tanks[0] instanceof GasTank)) {
             return null;
         }

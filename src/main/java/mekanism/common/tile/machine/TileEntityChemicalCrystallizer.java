@@ -262,14 +262,10 @@ public class TileEntityChemicalCrystallizer extends TileEntityUpgradeableMachine
         inputTank.setGas(GasStack.readFromNBT(ItemDataUtils.getCompound(itemStack, "inputTank")));
     }
 
-    @Override
-    public Object[] getGasTanks() {
-        return new Object[]{inputTank};
-    }
 
     @Override
     public Object[] getTanks() {
-        return new Object[]{};
+        return new Object[]{inputTank};
     }
 
     public int getScaledFuelLevel(int i) {

@@ -417,11 +417,6 @@ public class TileEntityElectricPump extends TileEntityElectricBlock implements I
     }
 
     @Override
-    public Object[] getGasTanks() {
-        return new Object[]{};
-    }
-
-    @Override
     public Object[] getTanks() {
         return new Object[]{fluidTank};
     }

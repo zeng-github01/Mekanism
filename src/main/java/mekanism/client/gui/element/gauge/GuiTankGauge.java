@@ -46,15 +46,6 @@ public abstract class GuiTankGauge<T, TANK> extends GuiGauge<T> {
                         }
                         Mekanism.packetHandler.sendToServer(new DropperUseMessage(Coord4D.get(tile), button, index));
                     }
-                } 
-                 if (tile instanceof ITankManager && ((ITankManager) tile).getGasTanks() != null) {
-                    int index = Arrays.asList(((ITankManager) tile).getGasTanks()).indexOf(infoHandler.getTank());
-                    if (index != -1) {
-                        if (button == 0 && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-                            button = 2;
-                        }
-                        Mekanism.packetHandler.sendToServer(new DropperUseMessage(Coord4D.get(tile), button, index));
-                    }
                 }
             }
         }

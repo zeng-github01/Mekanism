@@ -454,11 +454,6 @@ public class TileEntityFluidTank extends TileEntityContainerBlock implements IAc
     }
 
     @Override
-    public Object[] getGasTanks() {
-        return new Object[]{};
-    }
-
-    @Override
     public Object[] getTanks() {
         return new Object[]{fluidTank};
     }

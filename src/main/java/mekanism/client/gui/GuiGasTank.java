@@ -15,15 +15,18 @@ import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.inventory.container.ContainerGasTank;
+import mekanism.common.item.ItemGaugeDropper;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.tile.TileEntityGasTank;
 import mekanism.common.util.LangUtils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;
 
@@ -97,5 +100,20 @@ public class GuiGasTank extends GuiMekanismTile<TileEntityGasTank> {
         }
     }
 
-
+    @Override
+    protected void mouseClicked(int x, int y, int button) throws IOException {
+        super.mouseClicked(x, y, button);
+        if (button == 0 || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+            int xAxis = x - guiLeft;
+            int yAxis = y - guiTop;
+            if (xAxis >= 42 && xAxis <= 42 + 118 && yAxis >= 16 && yAxis <= 16 + 12) {
+                ItemStack stack = mc.player.inventory.getItemStack();
+                if (!stack.isEmpty() && stack.getItem() instanceof ItemGaugeDropper) {
+                    TileNetworkList data = TileNetworkList.withContents(1);
+                    Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, data));
+                    SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
+                }
+            }
+        }
+    }
 }

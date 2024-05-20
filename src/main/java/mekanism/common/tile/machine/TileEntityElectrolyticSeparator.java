@@ -447,13 +447,8 @@ public class TileEntityElectrolyticSeparator extends TileEntityBasicMachine<Flui
     }
 
     @Override
-    public Object[] getGasTanks() {
-        return new Object[]{leftTank, rightTank};
-    }
-
-    @Override
     public Object[] getTanks() {
-        return new Object[]{fluidTank};
+        return new Object[]{fluidTank,leftTank, rightTank};
     }
 
     @Override
