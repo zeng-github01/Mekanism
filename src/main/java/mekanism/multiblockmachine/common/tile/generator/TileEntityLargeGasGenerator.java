@@ -40,6 +40,7 @@ public class TileEntityLargeGasGenerator extends TileEntityMultiblockGenerator i
     public int clientUsed;
     private int currentRedstoneLevel;
     public int numPowering;
+    private int animation;
 
     public TileEntityLargeGasGenerator() {
         super("gas", "LargeGasGenerator", MekanismConfig.current().general.FROM_H2.val() * 100 * 27, MekanismConfig.current().general.FROM_H2.val() * 2 * 27);
@@ -107,6 +108,8 @@ public class TileEntityLargeGasGenerator extends TileEntityMultiblockGenerator i
             if (MekanismUtils.canFunction(this)) {
                 CableUtils.emit(this, 3);
             }
+        }else if (getActive()) {
+            animation = animation % 10;
         }
     }
 
@@ -458,5 +461,9 @@ public class TileEntityLargeGasGenerator extends TileEntityMultiblockGenerator i
     @Override
     public boolean sideIsOutput(EnumFacing side) {
         return side == EnumFacing.UP;
+    }
+
+    public int getAnimation() {
+        return animation;
     }
 }

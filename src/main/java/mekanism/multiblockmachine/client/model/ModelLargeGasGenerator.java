@@ -2,6 +2,7 @@ package mekanism.multiblockmachine.client.model;
 
 import mekanism.client.render.MekanismRenderer;
 import mekanism.multiblockmachine.common.util.MekanismMultiblockMachineUtils;
+import mekanism.multiblockmachine.common.util.MekanismMultiblockMachineUtils.*;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
@@ -15,8 +16,8 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class ModelLargeGasGenerator extends ModelBase {
 
-    public static ResourceLocation OVERLAY_ON = MekanismMultiblockMachineUtils.getResource(MekanismMultiblockMachineUtils.ResourceType.RENDER, "LargeGasGenerator_ON.png");
-    public static ResourceLocation OVERLAY_OFF = MekanismMultiblockMachineUtils.getResource(MekanismMultiblockMachineUtils.ResourceType.RENDER, "LargeGasGenerator_OFF.png");
+    public static ResourceLocation OVERLAY_OFF = MekanismMultiblockMachineUtils.getResource(ResourceType.RENDER, "GasGenerator/LargeGasGenerator_OFF.png");
+
     ModelRenderer on45;
     ModelRenderer bone;
     ModelRenderer cube_r1;
@@ -467,14 +468,14 @@ public class ModelLargeGasGenerator extends ModelBase {
         portRight_r3.cubeList.add(new ModelBox(portRight_r3, 132, 45, -4.0F, -4.0F, 23.0F, 8, 8, 1, 0.0F, false));
     }
 
-    public void render(float size, boolean on, TextureManager manager) {
+    public void render(double tick, float size, boolean on, TextureManager manager) {
         GlStateManager.pushMatrix();
         GlStateManager.shadeModel(GL11.GL_SMOOTH);
         GlStateManager.disableAlpha();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         doRender(size);
-        manager.bindTexture(on ? OVERLAY_ON : OVERLAY_OFF);
+        manager.bindTexture(on ? MekanismMultiblockMachineUtils.getResource(ResourceType.RENDER, "GasGenerator/LargeGasGenerator_ON_" + getTick(tick) + ".png") : OVERLAY_OFF);
         GlStateManager.scale(1.001F, 1.001F, 1.001F);
         GlStateManager.translate(-0.0011F, -0.0011F, -0.0011F);
         MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
@@ -492,6 +493,19 @@ public class ModelLargeGasGenerator extends ModelBase {
         bone22.render(size);
         bb_main.render(size);
     }
+
+    public int getTick(double tick) {
+        if (tick >= 0.1F && tick < 0.2F || tick >= 0.8F && tick < 0.9F) {
+            return 0;
+        } else if (tick >= 0.2F && tick < 0.3F || tick >= 0.7F && tick < 0.8F) {
+            return 1;
+        } else if (tick >= 0.3F && tick < 0.4F || tick >= 0.6F && tick < 0.7F) {
+            return 2;
+        } else
+            return 3;
+
+    }
+
 
     public void setRotation(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;

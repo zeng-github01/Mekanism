@@ -26,8 +26,9 @@ public class RenderLargeGasGeneratorItem {
             GlStateManager.rotate(90, 0, 1, 0);
         }
         GlStateManager.translate(0, 0, 0);
-        MekanismRenderer.bindTexture(MekanismMultiblockMachineUtils.getResource(MekanismMultiblockMachineUtils.ResourceType.RENDER, "LargeGasGenerator.png"));
-        model.render(0.02F, false, Minecraft.getMinecraft().renderEngine);
+        MekanismRenderer.bindTexture(MekanismMultiblockMachineUtils.getResource(MekanismMultiblockMachineUtils.ResourceType.RENDER, "GasGenerator/LargeGasGenerator.png"));
+
+        model.render(0,0.02F, false, Minecraft.getMinecraft().renderEngine);
         GlStateManager.popMatrix();
     }
 }

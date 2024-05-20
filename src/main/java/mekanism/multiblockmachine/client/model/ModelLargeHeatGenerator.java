@@ -275,14 +275,14 @@ public class ModelLargeHeatGenerator extends ModelBase {
         cube_r8.cubeList.add(new ModelBox(cube_r8, 2, 207, 7.0F, -1.0F, -23.0F, 17, 3, 46, 0.0F, false));
     }
 
-    public void render(float size, boolean on, TextureManager manager) {
+    public void render(float size, boolean active, TextureManager manager) {
         GlStateManager.pushMatrix();
         GlStateManager.shadeModel(GL11.GL_SMOOTH);
         GlStateManager.disableAlpha();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         doRender(size);
-        manager.bindTexture(on ? OVERLAY_ON : OVERLAY_OFF);
+        manager.bindTexture(active ? OVERLAY_ON : OVERLAY_OFF);
         GlStateManager.scale(1.001F, 1.001F, 1.001F);
         GlStateManager.translate(-0.0011F, -0.0011F, -0.0011F);
         MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
