@@ -57,6 +57,7 @@ public class TileEntityChemicalInfuser extends TileEntityBasicMachine<ChemicalPa
         configComponent.setCanEject(TransmissionType.ITEM, false);
 
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.NONE, InventoryUtils.EMPTY));
+        configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.INPUT, new int[]{0,1}));
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.INPUT_1, new int[]{0}));
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.INPUT_2, new int[]{1}));
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.OUTPUT, new int[]{2}));
@@ -65,7 +66,7 @@ public class TileEntityChemicalInfuser extends TileEntityBasicMachine<ChemicalPa
         configComponent.setInputConfig(TransmissionType.ENERGY);
 
         ejectorComponent = new TileComponentEjector(this);
-        ejectorComponent.setOutputData(TransmissionType.GAS, configComponent.getOutputs(TransmissionType.GAS).get(3));
+        ejectorComponent.setOutputData(TransmissionType.GAS, configComponent.getOutputs(TransmissionType.GAS).get(4));
 
         inventory = NonNullList.withSize(5, ItemStack.EMPTY);
     }
@@ -196,13 +197,31 @@ public class TileEntityChemicalInfuser extends TileEntityBasicMachine<ChemicalPa
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
+        if (configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(0,1)) {
+            return leftTank.canReceive(type) || rightTank.canReceive(type);
+        }
+
         return getTank(side) != null && getTank(side) != centerTank && getTank(side).canReceive(type);
     }
 
     @Override
     public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
         if (canReceiveGas(side, stack != null ? stack.getGas() : null)) {
-            return getTank(side).receive(stack, doTransfer);
+            if (configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(0,1)) {
+                if (stack != null){
+                    if (leftTank.canReceive(stack.getGas()) && rightTank.getGasType() != stack.getGas()){
+                        return leftTank.receive(stack, doTransfer);
+                    }
+
+                    if (rightTank.canReceive(stack.getGas()) && leftTank.getGasType() != stack.getGas()){
+                        return rightTank.receive(stack, doTransfer);
+                    }
+                }
+            }
+            else
+            {
+                return getTank(side).receive(stack, doTransfer);
+            }
         }
         return 0;
     }
