@@ -65,9 +65,10 @@ public class TileEntityChemicalCrystallizer extends TileEntityUpgradeableMachine
         super.onUpdate();
         if (!world.isRemote) {
             ChargeUtils.discharge(2, this);
-            if (!inventory.get(0).isEmpty() && inventory.get(0).getItem() instanceof IGasItem && ((IGasItem) inventory.get(0).getItem()).getGas(inventory.get(0)) != null &&
-                    Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(((IGasItem) inventory.get(0).getItem()).getGas(inventory.get(0)).getGas())) {
-                TileUtils.receiveGas(inventory.get(0), inputTank);
+            ItemStack stack = inventory.get(0);
+            if (!stack.isEmpty() && stack.getItem() instanceof IGasItem item && item.getGas(stack) != null &&
+                    Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(item.getGas(stack).getGas())) {
+                TileUtils.receiveGasItem(inventory.get(0), inputTank);
             }
             CrystallizerRecipe recipe = getRecipe();
             if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick) {

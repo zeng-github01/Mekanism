@@ -53,7 +53,7 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
     private boolean needsRainCheck;
 
     public TileEntitySolarNeutronActivator() {
-        super("SolarNeutronActivator", BlockStateMachine.MachineType.SOLAR_NEUTRON_ACTIVATOR,2,1);
+        super("SolarNeutronActivator", BlockStateMachine.MachineType.SOLAR_NEUTRON_ACTIVATOR, 2, 1);
 
         configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.GAS);
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.NONE, InventoryUtils.EMPTY));
@@ -83,8 +83,9 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
     @Override
     public void onUpdate() {
         if (!world.isRemote) {
-            if (!inventory.get(0).isEmpty() && inventory.get(0).getItem() instanceof IGasItem && ((IGasItem) inventory.get(0).getItem()).getGas(inventory.get(0)) != null && RecipeHandler.Recipe.SOLAR_NEUTRON_ACTIVATOR.containsRecipe(((IGasItem) inventory.get(0).getItem()).getGas(inventory.get(0)).getGas())) {
-                TileUtils.receiveGas(inventory.get(0), inputTank);
+            ItemStack stack = inventory.get(0);
+            if (!stack.isEmpty() && stack.getItem() instanceof IGasItem item && item.getGas(stack) != null && RecipeHandler.Recipe.SOLAR_NEUTRON_ACTIVATOR.containsRecipe(item.getGas(stack).getGas())) {
+                TileUtils.receiveGasItem(inventory.get(0), inputTank);
             }
             TileUtils.drawGas(inventory.get(1), outputTank);
             SolarNeutronRecipe recipe = getRecipe();

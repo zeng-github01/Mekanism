@@ -94,7 +94,7 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
                 Autoeject(); //Used to deal with the problem that gas/fluid will automatically return to the tank when the ejection mode is on.
             }
             if (mode == 0) {
-                TileUtils.receiveGas(inventory.get(1), gasTank);
+                TileUtils.receiveGasItem(inventory.get(1), gasTank);
 
                 if (FluidContainerUtils.isFluidContainer(inventory.get(2))) {
                     FluidContainerUtils.handleContainerItemFill(this, fluidTank, 2, 3);

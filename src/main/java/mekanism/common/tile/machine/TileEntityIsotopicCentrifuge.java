@@ -75,7 +75,7 @@ public class TileEntityIsotopicCentrifuge extends TileEntityBasicMachine<GasInpu
         if (!world.isRemote) {
             ChargeUtils.discharge(2, this);
             if (!inventory.get(0).isEmpty() && inventory.get(0).getItem() instanceof IGasItem && ((IGasItem) inventory.get(0).getItem()).getGas(inventory.get(0)) != null && RecipeHandler.Recipe.ISOTOPIC_CENTRIFUGE.containsRecipe(((IGasItem) inventory.get(0).getItem()).getGas(inventory.get(0)).getGas())) {
-                TileUtils.receiveGas(inventory.get(0), inputTank);
+                TileUtils.receiveGasItem(inventory.get(0), inputTank);
             }
             TileUtils.drawGas(inventory.get(1), outputTank);
             IsotopicRecipe recipe = getRecipe();

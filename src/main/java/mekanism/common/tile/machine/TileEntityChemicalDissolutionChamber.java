@@ -74,18 +74,7 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
     public void onUpdate() {
         if (!world.isRemote) {
             ChargeUtils.discharge(3, this);
-            ItemStack itemStack = inventory.get(0);
-            if (!itemStack.isEmpty() && injectTank.getNeeded() > 0 && itemStack.getItem() instanceof IGasItem item) {
-                //TODO: Maybe make this use GasUtils.getItemGas. This only currently accepts IGasItems here though
-                GasStack gasStack = item.getGas(itemStack);
-                //Check to make sure it can provide the gas it contains
-                if (gasStack != null && item.canProvideGas(itemStack, gasStack.getGas())) {
-                    Gas gas = gasStack.getGas();
-                    if (gas != null && injectTank.canReceive(gas) && isValidGas(gas)) {
-                        injectTank.receive(GasUtils.removeGas(itemStack, gas, injectTank.getNeeded()), true);
-                    }
-                }
-            }
+            TileUtils.receiveGasItem(inventory.get(0),injectTank,MekanismFluids.SulfuricAcid);
             TileUtils.drawGas(inventory.get(2), outputTank);
             boolean changed = false;
             DissolutionRecipe recipe = getRecipe();
