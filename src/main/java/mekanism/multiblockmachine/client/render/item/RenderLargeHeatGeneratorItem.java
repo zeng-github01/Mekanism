@@ -26,8 +26,8 @@ public class RenderLargeHeatGeneratorItem {
             GlStateManager.rotate(90, 0, 1, 0);
         }
         GlStateManager.translate(0, 0, 0);
-        MekanismRenderer.bindTexture(MekanismMultiblockMachineUtils.getResource(MekanismMultiblockMachineUtils.ResourceType.RENDER, "LargeHeatGenerator.png"));
-        heatGenerator.render(0.02F,false, Minecraft.getMinecraft().renderEngine);
+        MekanismRenderer.bindTexture(MekanismMultiblockMachineUtils.getResource(MekanismMultiblockMachineUtils.ResourceType.RENDER, "HeatGenerator/LargeHeatGenerator.png"));
+        heatGenerator.render(0,0.02F,false, Minecraft.getMinecraft().renderEngine);
         GlStateManager.popMatrix();
     }
 }

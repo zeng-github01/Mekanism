@@ -16,8 +16,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class ModelLargeWindGenerator extends ModelBase {
 
-    public static ResourceLocation OVERLAY_ON = MekanismMultiblockMachineUtils.getResource(ResourceType.RENDER, "LargeWindGenerator_ON.png");
-    public static ResourceLocation OVERLAY_OFF = MekanismMultiblockMachineUtils.getResource(ResourceType.RENDER, "LargeWindGenerator_OFF.png");
+    public static ResourceLocation OVERLAY_OFF = MekanismMultiblockMachineUtils.getResource(ResourceType.RENDER, "WindGenerator/LargeWindGenerator_OFF.png");
 
     ModelRenderer doll_up;
     ModelRenderer cube_r1;
@@ -1916,7 +1915,7 @@ public class ModelLargeWindGenerator extends ModelBase {
     }
 
 
-    public void render(float size, double angle, boolean on, TextureManager manager) {
+    public void render(double tick,float size, double angle, boolean on, TextureManager manager) {
         GlStateManager.pushMatrix();
         GlStateManager.shadeModel(GL11.GL_SMOOTH);
         GlStateManager.disableAlpha();
@@ -1926,7 +1925,7 @@ public class ModelLargeWindGenerator extends ModelBase {
 
         doRender(size, angle);
 
-        manager.bindTexture(on ? OVERLAY_ON : OVERLAY_OFF);
+        manager.bindTexture(on ? MekanismMultiblockMachineUtils.getResource(ResourceType.RENDER, "WindGenerator/LargeWindGenerator_ON_" + getTick(tick) + ".png") : OVERLAY_OFF);
         GlStateManager.scale(1.001F, 1.001F, 1.001F);
         GlStateManager.translate(-0.0011F, -0.0011F, -0.0011F);
         MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
@@ -1967,5 +1966,12 @@ public class ModelLargeWindGenerator extends ModelBase {
         model.rotateAngleX = x;
         model.rotateAngleY = y;
         model.rotateAngleZ = z;
+    }
+
+    public int getTick(double tick) {
+        if (tick >= 0.2F && tick < 0.3F || tick >= 0.4F && tick < 0.5F || tick >= 0.6F && tick < 0.7F || tick >= 0.8F && tick < 0.9F) {
+            return 1;
+        }
+        return 0;
     }
 }

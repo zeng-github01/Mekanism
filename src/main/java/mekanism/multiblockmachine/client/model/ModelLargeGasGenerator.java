@@ -494,22 +494,21 @@ public class ModelLargeGasGenerator extends ModelBase {
         bb_main.render(size);
     }
 
-    public int getTick(double tick) {
-        if (tick >= 0.1F && tick < 0.2F || tick >= 0.8F && tick < 0.9F) {
-            return 0;
-        } else if (tick >= 0.2F && tick < 0.3F || tick >= 0.7F && tick < 0.8F) {
-            return 1;
-        } else if (tick >= 0.3F && tick < 0.4F || tick >= 0.6F && tick < 0.7F) {
-            return 2;
-        } else
-            return 3;
-
-    }
-
-
     public void setRotation(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
     }
+
+    public int getTick(double tick) {
+        if (tick >= 0.1F && tick < 0.2F || tick >= 0.6F && tick < 0.7F) {
+            return 0;
+        } else if (tick >= 0.2F && tick < 0.3F || tick >= 0.7F && tick < 0.8F) {
+            return 1;
+        } else if (tick >= 0.3F && tick < 0.4F || tick >= 0.8F && tick < 0.9F) {
+            return 2;
+        } else
+            return 3;
+    }
+
 }

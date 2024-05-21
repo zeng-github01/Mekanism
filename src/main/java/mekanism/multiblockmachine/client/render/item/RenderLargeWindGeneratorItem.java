@@ -44,7 +44,7 @@ public class RenderLargeWindGeneratorItem {
             }
             GlStateManager.translate(0, 0.4F, 0);
         }
-        MekanismRenderer.bindTexture(MekanismMultiblockMachineUtils.getResource(MekanismMultiblockMachineUtils.ResourceType.RENDER, "LargeWindGenerator.png"));
+        MekanismRenderer.bindTexture(MekanismMultiblockMachineUtils.getResource(MekanismMultiblockMachineUtils.ResourceType.RENDER, "WindGenerator/LargeWindGenerator.png"));
 
         if (MekanismConfig.current().generators.windGeneratorItem.val()) {
             if (lastTicksUpdated != Minecraft.getMinecraft().getRenderPartialTicks()) {
@@ -54,7 +54,7 @@ public class RenderLargeWindGeneratorItem {
         } else {
             angle = 0;
         }
-        windGenerator.render(0.002F, angle,false,Minecraft.getMinecraft().renderEngine);
+        windGenerator.render(0,0.002F, angle,false,Minecraft.getMinecraft().renderEngine);
         GlStateManager.popMatrix();
     }
 }

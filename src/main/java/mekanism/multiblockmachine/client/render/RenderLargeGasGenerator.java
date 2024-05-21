@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class RenderLargeGasGenerator extends TileEntitySpecialRenderer<TileEntityLargeGasGenerator> {
 
     private ModelLargeGasGenerator model = new ModelLargeGasGenerator();
-    protected Timeticks time = new Timeticks(20, 20, false);
+    private Timeticks time = new Timeticks(20, 20, false);
 
     @Override
     public void render(TileEntityLargeGasGenerator tileEntity, double x, double y, double z, float partialTick, int destroyStage, float alpha) {

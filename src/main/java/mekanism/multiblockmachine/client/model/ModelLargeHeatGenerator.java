@@ -16,8 +16,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class ModelLargeHeatGenerator extends ModelBase {
 
-    public static ResourceLocation OVERLAY_ON = MekanismMultiblockMachineUtils.getResource(MekanismMultiblockMachineUtils.ResourceType.RENDER, "LargeHeatGenerator_ON.png");
-    public static ResourceLocation OVERLAY_OFF = MekanismMultiblockMachineUtils.getResource(MekanismMultiblockMachineUtils.ResourceType.RENDER, "LargeHeatGenerator_OFF.png");
+    public static ResourceLocation OVERLAY_OFF = MekanismMultiblockMachineUtils.getResource(MekanismMultiblockMachineUtils.ResourceType.RENDER, "HeatGenerator/LargeHeatGenerator_OFF.png");
 
     ModelRenderer drum;
     ModelRenderer ring1;
@@ -275,14 +274,14 @@ public class ModelLargeHeatGenerator extends ModelBase {
         cube_r8.cubeList.add(new ModelBox(cube_r8, 2, 207, 7.0F, -1.0F, -23.0F, 17, 3, 46, 0.0F, false));
     }
 
-    public void render(float size, boolean active, TextureManager manager) {
+    public void render(double tick,float size, boolean active, TextureManager manager) {
         GlStateManager.pushMatrix();
         GlStateManager.shadeModel(GL11.GL_SMOOTH);
         GlStateManager.disableAlpha();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         doRender(size);
-        manager.bindTexture(active ? OVERLAY_ON : OVERLAY_OFF);
+        manager.bindTexture(active ? MekanismMultiblockMachineUtils.getResource(MekanismMultiblockMachineUtils.ResourceType.RENDER, "HeatGenerator/LargeHeatGenerator_ON_" + getTick(tick) + ".png") : OVERLAY_OFF);
         GlStateManager.scale(1.001F, 1.001F, 1.001F);
         GlStateManager.translate(-0.0011F, -0.0011F, -0.0011F);
         MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
@@ -322,5 +321,16 @@ public class ModelLargeHeatGenerator extends ModelBase {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
+    }
+
+    public int getTick(double tick) {
+        if (tick >= 0.1F && tick < 0.2F || tick >= 0.6F && tick < 0.7F) {
+            return 0;
+        } else if (tick >= 0.2F && tick < 0.3F || tick >= 0.7F && tick < 0.8F) {
+            return 1;
+        } else if (tick >= 0.3F && tick < 0.4F || tick >= 0.8F && tick < 0.9F) {
+            return 2;
+        } else
+            return 3;
     }
 }
