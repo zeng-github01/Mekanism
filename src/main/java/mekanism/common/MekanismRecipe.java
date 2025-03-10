@@ -19,6 +19,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.DimensionType;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -390,18 +392,18 @@ public class MekanismRecipe {
 
             for (Block block : ForgeRegistries.BLOCKS) {
                 if (block instanceof BlockCrops crops) {  //通过方块来获取可以生长的农作物
-                    Item inputSeed = crops.getSeed();
-                    Item primaryOutput = crops.getCrop();
-                    ItemStack secondaryOutput = ItemStack.EMPTY;
-                    List<ItemStack> drops = crops.getDrops(null, null, block.getDefaultState(), 0);
-                    if (drops != null && drops.size() <= 2) { //确保掉落物种类不超过2
-                        for (ItemStack stack : drops) {
-                            if (stack.getItem() != primaryOutput) {
-                                secondaryOutput = stack;
+                    try {
+                        Item inputSeed = crops.getSeed();
+                        Item primaryOutput = crops.getCrop();
+                        ItemStack secondaryOutput = ItemStack.EMPTY;
+                        List<ItemStack> drops = crops.getDrops(null, null, block.getDefaultState(), 0);
+                        if (drops != null && drops.size() <= 2) { //确保掉落物种类不超过2
+                            for (ItemStack stack : drops) {
+                                if (stack.getItem() != primaryOutput) {
+                                    secondaryOutput = stack;
+                                }
                             }
                         }
-                    }
-                    try {
                         if (secondaryOutput != ItemStack.EMPTY) {
                             RecipeHandler.addOrganicFarmRecipe(new ItemStack(inputSeed), MekanismFluids.NutrientSolution, new ItemStack(primaryOutput, 24), new ItemStack(secondaryOutput.getItem(), 4), MekanismConfig.current().mekce.seed.val());
                             RecipeHandler.addOrganicFarmRecipe(new ItemStack(inputSeed), MekanismFluids.Water, new ItemStack(primaryOutput, 3), secondaryOutput, MekanismConfig.current().mekce.seed.val());
@@ -414,10 +416,6 @@ public class MekanismRecipe {
                         }
                     } catch (Exception e) {
                         Mekanism.logger.error("Unable to add recipe for Organic Farm because {} is entered incorrectly", block);
-                        Mekanism.logger.error("Unable to add recipe for Organic Farm because {} is entered incorrectly", drops);
-                        Mekanism.logger.error("Unable to add recipe for Organic Farm because {} is entered incorrectly", inputSeed);
-                        Mekanism.logger.error("Unable to add recipe for Organic Farm because {} is entered incorrectly", primaryOutput);
-                        Mekanism.logger.error("Unable to add recipe for Organic Farm because {} is entered incorrectly", secondaryOutput);
                     }
                 }
             }
@@ -467,7 +465,11 @@ public class MekanismRecipe {
         }
 
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.AMBIENT_ACCUMULATOR) || MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.AMBIENT_ACCUMULATOR_ENERGY)) {
-            RecipeHandler.addAmbientGas(0, new GasStack(MekanismFluids.UnstableDimensional, 1), 1F / 5F);
+            //遍历所有维度来生成配方
+            for (DimensionType dimensionType : DimensionManager.getRegisteredDimensions().keySet()) {
+                RecipeHandler.addAmbientGas(dimensionType.getId(), new GasStack(MekanismFluids.UnstableDimensional, 1), 1F / 5F);
+            }
+
         }
 
         /**

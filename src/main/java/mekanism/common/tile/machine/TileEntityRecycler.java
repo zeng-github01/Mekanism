@@ -8,6 +8,7 @@ import mekanism.common.tile.prefab.TileEntityChanceMachine2;
 
 import java.util.Map;
 
+//TODO：修改这个配方类型，如果有新的配方，则使用新配方，否则使用默认配方
 public class TileEntityRecycler extends TileEntityChanceMachine2<RecyclerRecipe> {
 
     public TileEntityRecycler() {
@@ -18,4 +19,7 @@ public class TileEntityRecycler extends TileEntityChanceMachine2<RecyclerRecipe>
     public Map<ItemStackInput, RecyclerRecipe> getRecipes() {
         return Recipe.RECYCLER.get();
     }
+
+
+
 }
