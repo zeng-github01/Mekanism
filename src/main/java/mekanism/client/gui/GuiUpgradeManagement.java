@@ -132,7 +132,13 @@ public class GuiUpgradeManagement extends GuiMekanism {
             renderText(LangUtils.localize("gui.upgrades.noSelection") + ".", 92, 8, 0.8F, true);
         } else {
             int amount = tileEntity.getComponent().getUpgrades(selectedType);
-            renderText(selectedType.getName() + " " + LangUtils.localize("gui.upgrade"), 92, 8, 0.6F, true);
+            String typeName = selectedType.getName() + " " + LangUtils.localize("gui.upgrade");
+            int length = fontRenderer.getStringWidth(typeName);
+            if (length <= 55) {
+                renderText(typeName,92, 8, 0.6F, true);
+            }else {
+                renderScaledText(typeName, 92, 8,0x00CD00,55);
+            }
             renderText(LangUtils.localize("gui.upgrades.amount") + ": " + amount + "/" + selectedType.getMax(), 92, 16, 0.6F, true);
             int text = 0;
             for (String s : selectedType.getInfo((TileEntity) tileEntity)) {
@@ -143,7 +149,8 @@ public class GuiUpgradeManagement extends GuiMekanism {
             Upgrade[] supported = tileEntity.getComponent().getSupportedTypes().toArray(new Upgrade[0]);
             if (supported.length > supportedIndex) {
                 renderUpgrade(supported[supportedIndex], 80, 57, 0.8F, true);
-                fontRenderer.drawString(supported[supportedIndex].getName(), 96, 59, 0x404040);
+                renderScaledText(supported[supportedIndex].getName(), 96, 59, 0x404040,47);
+               // fontRenderer.drawString(supported[supportedIndex].getName(), 96, 59, 0x404040);
             }
         }
         Upgrade[] upgrades = getCurrentUpgrades().toArray(new Upgrade[0]);
@@ -157,7 +164,8 @@ public class GuiUpgradeManagement extends GuiMekanism {
             Upgrade upgrade = upgrades[index];
             int xPos = 25;
             int yPos = 7 + (i * 12);
-            fontRenderer.drawString(upgrade.getName(), xPos + 12, yPos + 2, 0x404040);
+            renderScaledText(upgrade.getName(), xPos + 12, yPos + 2, 0x404040,44);
+         //   fontRenderer.drawString(upgrade.getName(), xPos + 12, yPos + 2, 0x404040);
             renderUpgrade(upgrade, xPos + 2, yPos + 2, 0.5F, true);
             if (overUpgradeType(xAxis, yAxis, xPos, yPos)) {
                 this.displayTooltips(MekanismUtils.splitTooltip(upgrade.getDescription(), upgrade.getStack()), xAxis, yAxis);

@@ -37,22 +37,26 @@ public class GuiAmbientAccumulator extends GuiMekanismTile<TileEntityAmbientAccu
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040);
+        renderScaledText(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 4, 0x404040,174);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 94) + 2, 0x404040);
-        fontRenderer.drawString(LangUtils.localize("gui.dimensionId") + ":" + tileEntity.getWorld().provider.getDimension(), 8, 14, 0x33ff99);
-        fontRenderer.drawString(LangUtils.localize("gui.dimensionName") + ":", 8, 23, 0x33ff99);
-        fontRenderer.drawString(tileEntity.getWorld().provider.getDimensionType().getName(), 8, 32, 0x33ff99);
+        renderScaledText(LangUtils.localize("gui.dimensionId") + ":" + tileEntity.getWorld().provider.getDimension(), 8, 14, 0x33ff99);
+        renderScaledText(LangUtils.localize("gui.dimensionName") + ":" , 8, 23, 0x33ff99);
+        renderScaledText(tileEntity.getWorld().provider.getDimensionType().getName(), 8, 32, 0x33ff99);
         if (tileEntity.getRecipe() != null){
-            fontRenderer.drawString(LangUtils.localize("gui.dimensionGas") + ":", 8, 41, 0x33ff99);
-            fontRenderer.drawString(tileEntity.getRecipe().getOutput().output.getGas().getLocalizedName(), 8, 50, 0x33ff99);
+            renderScaledText(LangUtils.localize("gui.dimensionGas") + ":", 8, 41, 0x33ff99);
+            renderScaledText(tileEntity.getRecipe().getOutput().output.getGas().getLocalizedName(), 8, 50, 0x33ff99);
             float  Chance = Math.round(tileEntity.getRecipe().getOutput().primaryChance * 100);
-            fontRenderer.drawString(LangUtils.localize("gui.probability") + ":" + Chance + "%", 8, 59, 0x33ff99);
-            fontRenderer.drawString(tileEntity.collectedGas.getStored() + " / " + tileEntity.collectedGas.getMaxGas(), 8, 68, 0x33ff99);
+            renderScaledText(LangUtils.localize("gui.probability") + ":" + Chance + "%", 8, 59, 0x33ff99);
+            renderScaledText(tileEntity.collectedGas.getStored() + " / " + tileEntity.collectedGas.getMaxGas(), 8, 68, 0x33ff99);
         }else {
-            fontRenderer.drawString(LangUtils.localize("gui.dimensionNoGas"), 8, 41, 0x33ff99);
-            fontRenderer.drawString(tileEntity.collectedGas.getStored() + " / " + tileEntity.collectedGas.getMaxGas(), 8, 50, 0x33ff99);
+            renderScaledText(LangUtils.localize("gui.dimensionNoGas"), 8, 41, 0x33ff99);
+            renderScaledText(tileEntity.collectedGas.getStored() + " / " + tileEntity.collectedGas.getMaxGas(), 8, 50, 0x33ff99);
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
+
+    public void renderScaledText(String text, int x, int y, int color) {
+        renderScaledText(text,x,y,color,78);
+    }
 }
