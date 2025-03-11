@@ -22,12 +22,6 @@ public class MEKCEConfig extends BaseConfig {
     public final BooleanOption EnableSiliconCompat = new BooleanOption(this, "mekce", "EnableSiliconCompat", false,
             "When a mod that adds silicon (galacticraft, enderio, projectred and ae2) is detected, recipe for control circuit is changed from using iron to silicon in the metalurgic infuser");
 
-    //public final BooleanOption enableBoPProgression = new BooleanOption(this, "mekce", "enableBoPProgression", true,
-    //        "when true and biome's o plenty is installed atomic alloy is made by using ender instead of obsidian");
-
-    //public final BooleanOption EnableSingleUseCardboxes = new BooleanOption(this, "mekce", "EnableSingleUseCardboxes", true,
-    //        "This allows to force single use on cardboxes or not");
-
     public final BooleanOption ShowHiddenGas = new BooleanOption(this, "mekce", "ShowHiddenGases", true, "Displays hidden gas in creative gas tanks, which is invalid if PrefilledGasTanks is not enabled");
 
     public final BooleanOption EmptyToCreateBin = new BooleanOption(this, "mekce", "EmptytoCreateBin", false, "Let Configurator clear Create Bin");
@@ -71,8 +65,6 @@ public class MEKCEConfig extends BaseConfig {
     public final IntOption MAXspeedmachines = new IntOption(this, "mekce", "Maximumspeedmultiplierforsomemachines", 256,
             "Modify the maximum speed multiplier for some machines", 1, Integer.MAX_VALUE);
 
-   // public final BooleanOption EnableBuff = new BooleanOption(this, "mekce", "EnableBuff", false, "If true, a buff effect will be added to the player each time Canteen is used");
-
     public final DoubleOption seed = new DoubleOption(this, "mekce", "seed", 1D,
             "When turning seeds into crops, the chance to produce seeds for each operation in Organic Farm").setRequiresGameRestart(true);
 
@@ -99,7 +91,6 @@ public class MEKCEConfig extends BaseConfig {
     public final BooleanOption BinRecipeClosed = new BooleanOption(this, "mekce", "BinRecipeClosed", false, "Turn off the BIN synthesis recipe").setRequiresGameRestart(true);
 
     public final BooleanOption BinRecipeRemovesItem = new BooleanOption(this, "mekce", "BinRecipeRemovesItem", false, "Close Bin to remove items").setRequiresGameRestart(true);
-    public final BooleanOption MekAsuitOverloadProtection = new BooleanOption(this, "mekce", "MekAsuitOverloadProtection", true, "Allows MekAsuit to intercept direct setHealth with Emergency Rescue installed");
 
     public final IntOption MaximumEjectionDelay = new IntOption(this, "mekce", "MaximumEjectionDelay", 40, "Maximum ejection delay for gases and fluids");
     public final IntOption TankChangeSpeed = new IntOption(this, "mekce", "TankChangeSpeed", 20, "Record changes in the contents of the tank,Affects the ejection speed");
@@ -107,10 +98,9 @@ public class MEKCEConfig extends BaseConfig {
     public final FloatOption HighEjectionThreshold = new FloatOption(this, "mekce", "HighEjectionThreshold", 0.85F, "High ejection thresholds for gases and fluids, above which they are immediately output", 0, 1);
     public final BooleanOption PlasticWrench = new BooleanOption(this,"mekce","PlasticWrench",false,"If true, allow the plastic to fall through the wrench");
     public final BooleanOption StackingPlacementLimits = new BooleanOption(this,"mekce","StackingPlacementLimits",true,"If the number exceeds 1, it is forbidden to place blocks");
-    public final BooleanOption DRrecipes = new BooleanOption(this,"mekce","DRrecipes",true,"Enable the default Draconic Evolution recipe").setRequiresGameRestart(true);
-    public final BooleanOption DRAdditionsrecipes = new BooleanOption(this,"mekce","DRAdditionsrecipes",true,"Enable the default Draconic Additions recipe").setRequiresGameRestart(true);
     public final FloatOption freeRunnerFallDamageRatio = new FloatOption(this,"mekce","fallDamageReductionRatio",1F,"Percent of damage taken from falling that can be absorbed by Free Runners when they have enough power.",0,1);
     public final FloatOption freeRunnerFallEnergyCost = new FloatOption(this,"mekce","fallEnergyCost",50,"Energy cost/multiplier in Joules for reducing fall damage with free runners. Energy cost is: FallDamage * freeRunnerFallEnergyCost. (1 FallDamage is 1 half heart)");
+    public final BooleanOption EnableTheDefaultConfiguration = new BooleanOption(this,"mekce","EnableTheDefaultConfiguration",true,"Allows the machine to use the default configuration surface, which is empty by default if false");
 
     @Override
     public void load(Configuration config) {

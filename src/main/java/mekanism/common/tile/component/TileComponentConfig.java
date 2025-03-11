@@ -7,6 +7,7 @@ import mekanism.common.SideData;
 import mekanism.common.SideData.IOState;
 import mekanism.common.base.ITileComponent;
 import mekanism.common.capabilities.Capabilities;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.tile.component.config.DataType;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.util.InventoryUtils;
@@ -30,6 +31,7 @@ public class TileComponentConfig implements ITileComponent {
     private Map<TransmissionType, ArrayList<SideData>> sideOutputs = new EnumMap<>(TransmissionType.class);
     private Map<TransmissionType, Boolean> ejecting = new EnumMap<>(TransmissionType.class);
     private Map<TransmissionType, Boolean> canEject = new EnumMap<>(TransmissionType.class);
+
     public TileComponentConfig(TileEntityContainerBlock tile, TransmissionType... types) {
         tileEntity = tile;
         for (TransmissionType type : types) {
@@ -107,8 +109,19 @@ public class TileComponentConfig implements ITileComponent {
     }
 
     public void fillConfig(TransmissionType type, int data) {
-        byte sideData = (byte) data;
-        setConfig(type, sideData, sideData, sideData, sideData, sideData, sideData);
+        if (MekanismConfig.current().mekce.EnableTheDefaultConfiguration.val()) {
+            byte sideData = (byte) data;
+            setConfig(type, sideData, sideData, sideData, sideData, sideData, sideData);
+        } else {
+            if (data == -1) {
+                byte sideData = (byte) data;
+                setConfig(type, sideData, sideData, sideData, sideData, sideData, sideData);
+            } else {
+                data = 0;
+                byte sideData = (byte) data;
+                setConfig(type, sideData, sideData, sideData, sideData, sideData, sideData);
+            }
+        }
     }
 
     public void setIOConfig(TransmissionType type) {
@@ -128,7 +141,16 @@ public class TileComponentConfig implements ITileComponent {
 
     public void setConfig(TransmissionType type, byte[] config) {
         assert config.length == EnumFacing.VALUES.length;
-        setConfig(type, config[0], config[1], config[2], config[3], config[4], config[5]);
+        if (MekanismConfig.current().mekce.EnableTheDefaultConfiguration.val()) {
+            setConfig(type, config[0], config[1], config[2], config[3], config[4], config[5]);
+        } else {
+            for (int s = 0; s < config.length; s++) {
+                if (config[s] != (byte) -1) {
+                    config[s] = (byte) 0;
+                }
+            }
+            setConfig(type, config[0], config[1], config[2], config[3], config[4], config[5]);
+        }
     }
 
     public void setConfig(TransmissionType type, byte d, byte u, byte n, byte s, byte w, byte e) {
@@ -186,7 +208,7 @@ public class TileComponentConfig implements ITileComponent {
                 if (nbtTags.getByteArray("config" + type.ordinal()).length > 0) {
                     sideConfigs.put(type, new SideConfig(nbtTags.getByteArray("config" + type.ordinal())));
                     ejecting.put(type, nbtTags.getBoolean("ejecting" + type.ordinal()));
-              //      canEject.put(type,nbtTags.getBoolean("canEject" + type.ordinal()));
+                    //      canEject.put(type,nbtTags.getBoolean("canEject" + type.ordinal()));
                 }
             }
         }
@@ -207,7 +229,7 @@ public class TileComponentConfig implements ITileComponent {
             dataStream.readBytes(array);
             sideConfigs.put(type, new SideConfig(array));
             ejecting.put(type, dataStream.readBoolean());
-          //  canEject.put(type,dataStream.readBoolean());
+            //  canEject.put(type,dataStream.readBoolean());
         }
     }
 
@@ -216,7 +238,7 @@ public class TileComponentConfig implements ITileComponent {
         for (TransmissionType type : transmissions) {
             nbtTags.setByteArray("config" + type.ordinal(), sideConfigs.get(type).asByteArray());
             nbtTags.setBoolean("ejecting" + type.ordinal(), ejecting.get(type));
-         //   nbtTags.setBoolean("canEject" + type.ordinal(),canEject.get(type));
+            //   nbtTags.setBoolean("canEject" + type.ordinal(),canEject.get(type));
         }
         nbtTags.setBoolean("sideDataStored", true);
     }
@@ -231,7 +253,7 @@ public class TileComponentConfig implements ITileComponent {
         for (TransmissionType type : transmissions) {
             data.add(sideConfigs.get(type).asByteArray());
             data.add(ejecting.get(type));
-          //  data.add(canEject.get(type));
+            //  data.add(canEject.get(type));
         }
     }
 
