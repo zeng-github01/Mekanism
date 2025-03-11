@@ -14,13 +14,15 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderDynamicTank extends TileEntitySpecialRenderer<TileEntityDynamicTank> {
 
-    //TODO
+
     @Override
     public void render(TileEntityDynamicTank tileEntity, double x, double y, double z, float partialTick, int destroyStage, float alpha) {
+        boolean glChanged = false;
         if (tileEntity.clientHasStructure && tileEntity.isRendering && tileEntity.structure != null && tileEntity.structure.fluidStored != null && tileEntity.structure.fluidStored.amount != 0) {
             RenderData data = new RenderData();
             data.location = tileEntity.structure.renderLocation;
@@ -30,13 +32,9 @@ public class RenderDynamicTank extends TileEntitySpecialRenderer<TileEntityDynam
             data.fluidType = tileEntity.structure.fluidStored;
 
             if (data.location != null && data.height >= 1) {
-                bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
                 GlStateManager.pushMatrix();
-                GlStateManager.enableCull();
-                GlStateManager.enableBlend();
-                GlStateManager.disableLighting();
-                GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
-                setLightmapDisabled(true);
+                glChanged = enableGL();
+                bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
                 FluidRenderer.translateToOrigin(data.location);
                 GlowInfo glowInfo = MekanismRenderer.enableGlow(data.fluidType);
                 MekanismRenderer.color(data.fluidType, (float) data.fluidType.amount / (float) tileEntity.clientCapacity);
@@ -52,19 +50,36 @@ public class RenderDynamicTank extends TileEntitySpecialRenderer<TileEntityDynam
 
                 for (ValveData valveData : tileEntity.valveViewing) {
                     GlStateManager.pushMatrix();
+                    glChanged = enableGL();
+                    bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
                     FluidRenderer.translateToOrigin(valveData.location);
                     GlowInfo valveGlowInfo = MekanismRenderer.enableGlow(data.fluidType);
                     MekanismRenderer.color(data.fluidType);
                     FluidRenderer.getValveDisplay(ValveRenderData.get(data, valveData)).render();
+                    MekanismRenderer.resetColor();
                     MekanismRenderer.disableGlow(valveGlowInfo);
                     GlStateManager.popMatrix();
                 }
-                MekanismRenderer.resetColor();
-                setLightmapDisabled(false);
-                GlStateManager.enableLighting();
-                GlStateManager.disableBlend();
-                GlStateManager.disableCull();
+
+                if (glChanged) {
+                    setLightmapDisabled(false);
+                    GlStateManager.disableBlend();
+                    GlStateManager.enableAlpha();
+                    GlStateManager.enableLighting();
+                    GlStateManager.disableCull();
+                }
             }
         }
+    }
+
+    private boolean enableGL() {
+        GlStateManager.enableCull();
+        GlStateManager.disableLighting();
+        GlStateManager.shadeModel(GL11.GL_SMOOTH);
+        GlStateManager.disableAlpha();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+        setLightmapDisabled(true);
+        return true;
     }
 }

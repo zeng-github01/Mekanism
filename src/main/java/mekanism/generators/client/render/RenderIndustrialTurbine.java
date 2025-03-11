@@ -19,6 +19,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderIndustrialTurbine extends TileEntitySpecialRenderer<TileEntityTurbineCasing> {
@@ -31,6 +32,7 @@ public class RenderIndustrialTurbine extends TileEntitySpecialRenderer<TileEntit
     }
 
     public void renderAModelAt(TileEntityTurbineCasing tileEntity, double x, double y, double z, float partialTick, int destroyStage) {
+        boolean glChanged = false;
         if (tileEntity.clientHasStructure && tileEntity.isRendering && tileEntity.structure != null && tileEntity.structure.complex != null) {
             RenderTurbineRotor.internalRender = true;
             Coord4D coord = tileEntity.structure.complex;
@@ -55,26 +57,39 @@ public class RenderIndustrialTurbine extends TileEntitySpecialRenderer<TileEntit
                 data.width = tileEntity.structure.volWidth;
                 data.fluidType = STEAM;
 
-                bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-
                 if (data.location != null && data.height >= 1 && tileEntity.structure.fluidStored.getFluid() != null) {
                     GlStateManager.pushMatrix();
-                    GlStateManager.enableCull();
-                    GlStateManager.enableBlend();
-                    GlStateManager.disableLighting();
-                    GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+                    glChanged = enableGL();
+                    bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
                     FluidRenderer.translateToOrigin(data.location);
                     GlowInfo glowInfo = MekanismRenderer.enableGlow(tileEntity.structure.fluidStored);
                     MekanismRenderer.color(tileEntity.structure.fluidStored, (float) tileEntity.structure.fluidStored.amount / (float) tileEntity.structure.getFluidCapacity());
                     FluidRenderer.getTankDisplay(data).render();
                     MekanismRenderer.resetColor();
                     MekanismRenderer.disableGlow(glowInfo);
-                    GlStateManager.enableLighting();
-                    GlStateManager.disableBlend();
-                    GlStateManager.disableCull();
                     GlStateManager.popMatrix();
+
+
+                    if (glChanged) {
+                        setLightmapDisabled(false);
+                        GlStateManager.disableBlend();
+                        GlStateManager.enableAlpha();
+                        GlStateManager.enableLighting();
+                        GlStateManager.disableCull();
+                    }
                 }
             }
         }
+    }
+
+    private boolean enableGL() {
+        GlStateManager.enableCull();
+        GlStateManager.disableLighting();
+        GlStateManager.shadeModel(GL11.GL_SMOOTH);
+        GlStateManager.disableAlpha();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+        setLightmapDisabled(true);
+        return true;
     }
 }

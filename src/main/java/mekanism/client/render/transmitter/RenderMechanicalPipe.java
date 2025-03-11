@@ -22,6 +22,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import org.lwjgl.opengl.GL11;
 
 public class RenderMechanicalPipe extends RenderTransmitterBase<TileEntityMechanicalPipe> {
 
@@ -66,6 +67,11 @@ public class RenderMechanicalPipe extends RenderTransmitterBase<TileEntityMechan
             GlStateManager.pushMatrix();
             GlStateManager.enableCull();
             GlStateManager.disableLighting();
+            GlStateManager.shadeModel(GL11.GL_SMOOTH);
+            GlStateManager.disableAlpha();
+            GlStateManager.enableBlend();
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+
             GlowInfo glowInfo;
             if (fluidStack != null) {
                 glowInfo = MekanismRenderer.enableGlow(fluidStack);
@@ -93,11 +99,15 @@ public class RenderMechanicalPipe extends RenderTransmitterBase<TileEntityMechan
                 }
             }
             renderDisplayLists(getListAndRender(null, fluidStack), scale, gas);
+
             MekanismRenderer.resetColor();
             MekanismRenderer.disableGlow(glowInfo);
+            GlStateManager.popMatrix();
+
+            GlStateManager.disableBlend();
+            GlStateManager.enableAlpha();
             GlStateManager.enableLighting();
             GlStateManager.disableCull();
-            GlStateManager.popMatrix();
         }
     }
 

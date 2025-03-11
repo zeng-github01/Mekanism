@@ -300,18 +300,63 @@ public class MekanismRenderer {
         }
     }
 
+    public static int getColorARGB(@Nonnull FluidStack fluidStack) {
+        return fluidStack.getFluid().getColor(fluidStack);
+    }
+
+    public static int getColorARGB(@Nonnull FluidStack fluidStack, float fluidScale) {
+        if (fluidStack == null) {
+            return -1;
+        }
+        int color = getColorARGB(fluidStack);
+        if (fluidStack.getFluid().isGaseous(fluidStack)) {
+            //TODO: We probably want to factor in the fluid's alpha value somehow
+            return getColorARGB(getRed(color), getGreen(color), getBlue(color), Math.min(1, fluidScale + 0.2F));
+        }
+        return color;
+    }
+
+    public static int getColorARGB(@Nonnull GasStack stack, float scale, boolean gaseous) {
+        if (stack == null) {
+            return -1;
+        }
+        int color = stack.getGas().getTint();
+        return getColorARGB(getRed(color), getGreen(color), getBlue(color), gaseous ? Math.min(1, scale + 0.2F) : 1);
+    }
+
+    public static int getColorARGB(float red, float green, float blue, float alpha) {
+        return getColorARGB((int) (255 * red), (int) (255 * green), (int) (255 * blue), alpha);
+    }
+
     public static int getColorARGB(EnumColor color, float alpha) {
+        return getColorARGB(color.rgbCode[0],color.rgbCode[1],color.rgbCode[2],alpha);
+    }
+
+    public static int getColorARGB(int red, int green, int blue, float alpha) {
         if (alpha < 0) {
             alpha = 0;
         } else if (alpha > 1) {
             alpha = 1;
         }
         int argb = (int) (255 * alpha) << 24;
-        argb |= color.rgbCode[0] << 16;
-        argb |= color.rgbCode[1] << 8;
-        argb |= color.rgbCode[2];
+        argb |= red << 16;
+        argb |= green << 8;
+        argb |= blue;
         return argb;
     }
+
+    public static int calculateGlowLight(int combinedLight, @Nonnull FluidStack fluid) {
+        return fluid == null ? combinedLight : calculateGlowLight(combinedLight, fluid.getFluid().getLuminosity(fluid));
+    }
+
+    public static int calculateGlowLight(int combinedLight, int glow) {
+        //Only factor the glow into the block light portion
+        return (combinedLight & 0xFFFF0000) | Math.max(Math.min(glow, 15) << 4, combinedLight & 0xFFFF);
+    }
+
+
+
+
 
     @Nonnull
     public static GlowInfo enableGlow() {

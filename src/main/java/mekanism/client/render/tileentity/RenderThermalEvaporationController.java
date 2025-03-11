@@ -12,12 +12,14 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderThermalEvaporationController extends TileEntitySpecialRenderer<TileEntityThermalEvaporationController> {
 
     @Override
     public void render(TileEntityThermalEvaporationController tileEntity, double x, double y, double z, float partialTick, int destroyStage, float alpha) {
+        boolean glChanged = false;
         if (tileEntity.structured && tileEntity.inputTank.getFluid() != null && tileEntity.height - 2 >= 1 && tileEntity.inputTank.getFluidAmount() > 0) {
             RenderData data = new RenderData();
             data.location = tileEntity.getRenderLocation();
@@ -26,13 +28,9 @@ public class RenderThermalEvaporationController extends TileEntitySpecialRendere
             data.length = 2;
             data.width = 2;
             data.fluidType = tileEntity.inputTank.getFluid();
-            bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             GlStateManager.pushMatrix();
-            GlStateManager.enableCull();
-            GlStateManager.enableBlend();
-            GlStateManager.disableLighting();
-            GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
-            setLightmapDisabled(true);
+            glChanged = enableGL();
+            bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             FluidRenderer.translateToOrigin(data.location);
             float fluidScale = (float) tileEntity.inputTank.getFluidAmount() / (float) tileEntity.getMaxFluid();
             GlowInfo glowInfo = MekanismRenderer.enableGlow(data.fluidType);
@@ -45,11 +43,26 @@ public class RenderThermalEvaporationController extends TileEntitySpecialRendere
             }
             MekanismRenderer.resetColor();
             MekanismRenderer.disableGlow(glowInfo);
-            setLightmapDisabled(false);
-            GlStateManager.enableLighting();
-            GlStateManager.disableBlend();
-            GlStateManager.disableCull();
             GlStateManager.popMatrix();
+
+            if (glChanged) {
+                setLightmapDisabled(false);
+                GlStateManager.disableBlend();
+                GlStateManager.enableAlpha();
+                GlStateManager.enableLighting();
+                GlStateManager.disableCull();
+            }
         }
+    }
+
+    private boolean enableGL() {
+        GlStateManager.enableCull();
+        GlStateManager.disableLighting();
+        GlStateManager.shadeModel(GL11.GL_SMOOTH);
+        GlStateManager.disableAlpha();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+        setLightmapDisabled(true);
+        return true;
     }
 }
