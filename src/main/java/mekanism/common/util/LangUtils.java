@@ -1,5 +1,6 @@
 package mekanism.common.util;
 
+import mekanism.api.gas.GasStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
@@ -36,6 +37,10 @@ public final class LangUtils {
 
     public static String localizeFluidStack(FluidStack fluidStack) {
         return fluidStack == null ? null : fluidStack.getFluid().getLocalizedName(fluidStack);
+    }
+
+    public static String localizeGasStack(GasStack gasStack) {
+        return gasStack == null ? null : gasStack.getGas().getLocalizedName();
     }
 
     /**

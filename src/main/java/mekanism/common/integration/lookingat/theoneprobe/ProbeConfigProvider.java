@@ -5,6 +5,7 @@ import mcjty.theoneprobe.api.IProbeConfigProvider;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeHitEntityData;
 import mekanism.common.capabilities.Capabilities;
+import mekanism.common.tile.base.TileEntitySynchronized;
 import mekanism.common.util.CapabilityUtils;
 import mekanism.common.util.WorldUtils;
 import net.minecraft.block.state.IBlockState;
@@ -27,6 +28,10 @@ public class ProbeConfigProvider implements IProbeConfigProvider {
         TileEntity tile = WorldUtils.getTileEntity(world, data.getPos());
         if (CapabilityUtils.hasCapability(tile, Capabilities.ENERGY_STORAGE_CAPABILITY, null)) {
             config.setRFMode(0);
+        }
+        if (tile instanceof TileEntitySynchronized) {
+            //Disable the default fluid view for our own tiles
+            config.setTankMode(0);
         }
     }
 }

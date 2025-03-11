@@ -183,7 +183,7 @@ public final class MekanismHooks {
         FMLInterModComms.sendMessage(WAILA_MOD_ID, "register", "mekanism.common.integration.WailaDataProvider.register");
 
         //Register TOP handler
-        FMLInterModComms.sendFunctionMessage(TOP_MOD_ID, "getTheOneProbe", "mekanism.common.integration.TOPProvider");
+        FMLInterModComms.sendFunctionMessage(TOP_MOD_ID, "getTheOneProbe", "mekanism.common.integration.lookingat.theoneprobe.TOPProvider");
         if (OCLoaded) {
             loadOCDrivers();
         }

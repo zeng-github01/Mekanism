@@ -60,6 +60,32 @@ public class TileUtils {
         return FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream));
     }
 
+    public static FluidStack readFluidStack2(ByteBuf dataStream) {
+        return !dataStream.readBoolean() ? null : FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream));
+    }
+
+    public static void writeFluidStack(FluidStack stack, ByteBuf dataStream) {
+        if (stack == null) {
+            dataStream.writeBoolean(false);
+        } else {
+            dataStream.writeBoolean(true);
+            PacketHandler.writeNBT(dataStream, stack.writeToNBT(new NBTTagCompound()));
+        }
+    }
+
+    public static void writeGasStack2(GasStack stack, ByteBuf dataStream) {
+        if (stack == null) {
+            dataStream.writeBoolean(false);
+        }else {
+            dataStream.writeBoolean(true);
+            PacketHandler.writeNBT(dataStream,stack.write(new NBTTagCompound()));
+        }
+    }
+
+    public static GasStack readGasStack2(ByteBuf dataStream) {
+        return  !dataStream.readBoolean() ? null :GasStack.readFromNBT(PacketHandler.readNBT(dataStream));
+    }
+
     public static GasStack readGasStack(ByteBuf dataStream) {
         return GasStack.readFromNBT(PacketHandler.readNBT(dataStream));
     }

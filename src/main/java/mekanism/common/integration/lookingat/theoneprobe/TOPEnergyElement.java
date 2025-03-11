@@ -2,9 +2,7 @@ package mekanism.common.integration.lookingat.theoneprobe;
 
 import io.netty.buffer.ByteBuf;
 import mcjty.theoneprobe.api.IElement;
-import mekanism.common.integration.TOPProvider;
 import mekanism.common.integration.lookingat.EnergyElement;
-import net.minecraft.network.PacketBuffer;
 
 public class TOPEnergyElement extends EnergyElement implements IElement {
 
