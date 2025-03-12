@@ -9,6 +9,8 @@ import mekanism.api.radial.RadialData;
 import mekanism.client.gui.GuiRadialSelector;
 import mekanism.client.newgui.GuiModuleTweaker;
 import mekanism.client.render.RenderTickHandler;
+import mekanism.client.render.hud.MekanismStatusOverlay;
+import mekanism.client.render.lib.ScrollIncrementer;
 import mekanism.common.CommonPlayerTickHandler;
 import mekanism.common.KeySync;
 import mekanism.common.Mekanism;
@@ -71,14 +73,12 @@ public class ClientTickHandler {
     public static Random rand = new Random();
     public static Set<IClientTicker> tickingSet = new ReferenceOpenHashSet<>();
     public static Map<EntityPlayer, TeleportData> portableTeleports = new Object2ObjectOpenHashMap<>();
-    public static int wheelStatus = 0;
+    private static final ScrollIncrementer scrollIncrementer = new ScrollIncrementer(true);
     public static boolean visionEnhancement = false;
 
     public boolean initHoliday = false;
     public boolean shouldReset = false;
 
-    private static long lastScrollTime = -1;
-    private static double scrollDelta;
 
     public static boolean isJetpackInUse(EntityPlayer player, ItemStack jetpack) {
         if (!player.isSpectator() && !jetpack.isEmpty()) {
@@ -136,7 +136,7 @@ public class ClientTickHandler {
         if (delay == 0) {
             Mekanism.packetHandler.sendToServer(new PortableTeleporterMessage(PortableTeleporterPacketType.TELEPORT, hand, freq));
         } else {
-            portableTeleports.put(player, new TeleportData(hand, freq, minecraft.world.getWorldTime() + delay));
+            portableTeleports.put(player, new TeleportData(hand, freq, minecraft.world.getTotalWorldTime() + delay));
         }
     }
 
@@ -176,9 +176,6 @@ public class ClientTickHandler {
                 initHoliday = true;
             }
 
-            if (minecraft.world.getWorldTime() - lastScrollTime > 20) {
-                scrollDelta = 0;
-            }
 
             UUID playerUUID = minecraft.player.getUniqueID();
 
@@ -202,7 +199,7 @@ public class ClientTickHandler {
                     minecraft.world.spawnParticle(EnumParticleTypes.PORTAL, x, y, z, 0, 1, 0);
                 }
                 TeleportData data = entry.getValue();
-                if (minecraft.world.getWorldTime() == data.teleportTime) {
+                if (minecraft.world.getTotalWorldTime() == data.teleportTime) {
                     Mekanism.packetHandler.sendToServer(new PortableTeleporterMessage(PortableTeleporterPacketType.TELEPORT, data.hand, data.freq));
                     iter.remove();
                 }
@@ -291,17 +288,9 @@ public class ClientTickHandler {
 
     private void handleModeScroll(Event event, double delta) {
         if (delta != 0 && IModeItem.isModeItem(minecraft.player, EntityEquipmentSlot.MAINHAND)) {
-            wheelStatus += Mouse.getEventDWheel();
-            int shift = wheelStatus / 120;
-            wheelStatus = wheelStatus % 120;
-            int handoff = 0;
-            if (shift > 0) {
-                handoff = -1;
-            } else if (shift < 0) {
-                handoff = 1;
-            }
-            RenderTickHandler.modeSwitchTimer = 100;
-            Mekanism.packetHandler.sendToServer(new ModeChangMessage(EntityEquipmentSlot.MAINHAND, handoff));
+            int shift = scrollIncrementer.scroll(delta);
+            MekanismStatusOverlay.INSTANCE.setTimer();
+            Mekanism.packetHandler.sendToServer(new ModeChangMessage(EntityEquipmentSlot.MAINHAND, shift));
             event.setCanceled(true);
         }
     }

@@ -179,20 +179,18 @@ public class ItemFlamethrower extends ItemMekanism implements IGasItem, IModeIte
         list.add(LangUtils.localize("tooltip.flamethrower.mode") + " " + getMode(stack).getName());
         if (getStored(stack) > 0) {
             list.add(LangUtils.localize("tooltip.flamethrower.stored") + " " + EnumColor.ORANGE + getStored(stack));
-        }else {
+        } else {
             list.add(LangUtils.localize("tooltip.flamethrower.stored") + " " + EnumColor.ORANGE + LangUtils.localize("tooltip.noGas"));
         }
     }
 
     @Override
-    public void changeMode(@NotNull EntityPlayer player, @NotNull ItemStack stack, int shift, boolean displayChangeMessage) {
+    public void changeMode(@NotNull EntityPlayer player, @NotNull ItemStack stack, int shift, DisplayChange displayChange) {
         FlamethrowerMode mode = getMode(stack);
         FlamethrowerMode newMode = mode.adjust(shift);
         if (mode != newMode) {
             setMode(stack, newMode);
-            if (displayChangeMessage) {
-                player.sendMessage(new TextComponentGroup(TextFormatting.GRAY).string(Mekanism.LOG_TAG, TextFormatting.DARK_BLUE).string(" ").translation("mekanism.tooltip.flamethrower.modeBump", getMode(stack).getTextComponent()));
-            }
+            displayChange.sendMessage(player, () -> new TextComponentGroup().translation("mekanism.tooltip.flamethrower.modeBump", getMode(stack).getTextComponent()));
         }
     }
 
@@ -231,6 +229,7 @@ public class ItemFlamethrower extends ItemMekanism implements IGasItem, IModeIte
         public FlamethrowerMode byIndex(int index) {
             return byIndexStatic(index);
         }
+
         public static FlamethrowerMode byIndexStatic(int index) {
             return MathUtils.getByIndexMod(MODES, index);
         }

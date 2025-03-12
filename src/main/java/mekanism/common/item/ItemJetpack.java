@@ -265,14 +265,12 @@ public class ItemJetpack extends ItemArmor implements IGasItem, ISpecialArmor, I
     }
 
     @Override
-    public void changeMode(@NotNull EntityPlayer player, @NotNull ItemStack stack, int shift, boolean displayChangeMessage) {
+    public void changeMode(@NotNull EntityPlayer player, @NotNull ItemStack stack, int shift, DisplayChange displayChange) {
         JetpackMode mode = getJetpackMode(stack);
         JetpackMode newMode = mode.adjust(shift);
         if (mode != newMode) {
             setMode(stack, newMode);
-            if (displayChangeMessage) {
-                player.sendMessage(new TextComponentGroup(TextFormatting.GRAY).string(Mekanism.LOG_TAG, TextFormatting.DARK_BLUE).string(" ").translation("jetpack.mekanism.mode_change").string(newMode.getName()));
-            }
+            displayChange.sendMessage(player,()->new TextComponentGroup().translation("jetpack.mekanism.mode_change").string(newMode.getName()));
         }
     }
 

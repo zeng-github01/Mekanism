@@ -67,11 +67,11 @@ public class HUDRenderer {
 
     private void update(World level, EntityPlayer player) {
         // if we're just now rendering the HUD after a pause, reset the pitch/yaw trackers
-        if (lastTick == -1 || level.getWorldTime() - lastTick > 1) {
+        if (lastTick == -1 || level.getTotalWorldTime() - lastTick > 1) {
             prevRotationYaw = player.rotationYaw;
             prevRotationPitch = player.rotationPitch;
         }
-        lastTick = level.getWorldTime();
+        lastTick = level.getTotalWorldTime();
         float yawDiff = player.rotationYawHead - prevRotationYaw;
         float pitchDiff = player.rotationPitch - prevRotationPitch;
         float jitter = MekanismConfig.current().client.hudJitter.val();

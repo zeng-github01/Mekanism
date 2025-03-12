@@ -216,6 +216,7 @@ public class PacketHandler {
         netHandler.registerMessage(PacketUpdateModuleSettings.class, UpdateModuleSettingsMessage.class, 42, Side.CLIENT);
         netHandler.registerMessage(PacketUpdateModuleSettings.class, UpdateModuleSettingsMessage.class, 42, Side.SERVER);
         // netHandler.registerMessage(PacketRemoveModule.class, RemoveModuleMessage.class, 43, Side.SERVER);
+        netHandler.registerMessage(PacketShowModeChange.class,PacketShowModeChange.ShowModeChangeMessage.class,44,Side.CLIENT);
     }
 
     @Optional.Method(modid = MekanismHooks.Baubles_MOD_ID)

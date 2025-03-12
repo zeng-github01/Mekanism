@@ -172,6 +172,11 @@ public class GuiLargeWindGenerator extends GuiMekanismTile<TileEntityLargeWindGe
     }
 
     @Override
+    public void updateScreen() {
+        super.updateScreen();
+    }
+
+    @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         super.actionPerformed(button);
         if (button == ForcedRun) {

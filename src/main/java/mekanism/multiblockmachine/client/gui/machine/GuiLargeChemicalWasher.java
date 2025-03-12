@@ -76,6 +76,11 @@ public class GuiLargeChemicalWasher extends GuiMekanismTile<TileEntityLargeChemi
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
+
+    @Override
+    public void updateScreen() {
+        super.updateScreen();
+    }
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);

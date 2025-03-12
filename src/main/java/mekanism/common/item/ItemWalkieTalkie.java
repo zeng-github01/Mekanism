@@ -93,15 +93,13 @@ public class ItemWalkieTalkie extends ItemMekanismAddition implements IModeItem 
 
 
     @Override
-    public void changeMode(@NotNull EntityPlayer player, @NotNull ItemStack stack, int shift, boolean displayChangeMessage) {
+    public void changeMode(@NotNull EntityPlayer player, @NotNull ItemStack stack, int shift, DisplayChange displayChange) {
         if (getOn(stack)) {
             int channel = getChannel(stack);
             int newChannel = Math.floorMod(channel + shift - 1, 8) + 1;
             if (channel != newChannel) {
                 setChannel(stack, newChannel);
-                if (displayChangeMessage) {
-                    player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + Mekanism.LOG_TAG + " " + EnumColor.GREY + LangUtils.localize("tooltip.channel") + ": " + EnumColor.GREY + getChannel(stack)));
-                }
+                displayChange.sendMessage(player, () -> new TextComponentString(EnumColor.GREY + LangUtils.localize("tooltip.channel") + ": " + EnumColor.GREY + getChannel(stack)));
             }
         }
     }

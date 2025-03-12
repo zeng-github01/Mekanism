@@ -6,7 +6,6 @@ import mcp.MethodsReturnNonnullByDefault;
 import mekanism.api.*;
 import mekanism.api.annotations.FieldsAreNonnullByDefault;
 import mekanism.api.math.MathUtils;
-import mekanism.api.radial.IRadialDataHelper;
 import mekanism.api.radial.RadialData;
 import mekanism.api.radial.mode.IRadialMode;
 import mekanism.api.text.IHasTextComponent;
@@ -345,14 +344,12 @@ public class ItemConfigurator extends ItemEnergized implements IMekWrench, ITool
     }
 
     @Override
-    public void changeMode(@NotNull EntityPlayer player, @NotNull ItemStack stack, int shift, boolean displayChangeMessage) {
+    public void changeMode(@NotNull EntityPlayer player, @NotNull ItemStack stack, int shift, DisplayChange displayChange) {
         ConfiguratorMode mode = getMode(stack);
         ConfiguratorMode newMode = mode.adjust(shift);
         if (mode != newMode) {
             setMode(stack, player, newMode);
-            if (displayChangeMessage) {
-                player.sendMessage(new TextComponentGroup(TextFormatting.GRAY).string(Mekanism.LOG_TAG, TextFormatting.DARK_BLUE).string(" ").translation("mekanism.tooltip.configureState", LangUtils.withColor(newMode.getTextComponent(), newMode.color.textFormatting)));
-            }
+            displayChange.sendMessage(player, () -> new TextComponentGroup().translation("mekanism.tooltip.configureState", LangUtils.withColor(newMode.getTextComponent(), newMode.color.textFormatting)));
         }
     }
 

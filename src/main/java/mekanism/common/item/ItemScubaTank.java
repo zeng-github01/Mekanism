@@ -218,14 +218,12 @@ public class ItemScubaTank extends ItemArmor implements IGasItem, IItemHUDProvid
     }
 
     @Override
-    public void changeMode(@NotNull EntityPlayer player, @NotNull ItemStack stack, int shift, boolean displayChangeMessage) {
+    public void changeMode(@NotNull EntityPlayer player, @NotNull ItemStack stack, int shift, DisplayChange displayChange) {
         if (Math.abs(shift) % 2 == 1) {
             //We are changing by an odd amount, so toggle the mode
             boolean newState = !getFlowing(stack);
             setFlowing(stack, newState);
-            if (displayChangeMessage) {
-                player.sendMessage(new TextComponentGroup(TextFormatting.GRAY).string(Mekanism.LOG_TAG, TextFormatting.DARK_BLUE).string(" ").translation("tooltip.flowing", LangUtils.onOffColoured(newState)));
-            }
+                displayChange.sendMessage(player,()->new TextComponentGroup().translation("tooltip.flowing", LangUtils.onOffColoured(newState)));
         }
     }
 

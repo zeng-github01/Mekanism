@@ -45,6 +45,11 @@ public class GuiLargeHeatGenerator extends GuiMekanismTile<TileEntityLargeHeatGe
     }
 
     @Override
+    public void updateScreen() {
+        super.updateScreen();
+    }
+
+    @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRenderer.drawString(tileEntity.getName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getName()) / 2), 6, 0x404040);
         fontRenderer.drawString(LangUtils.localize("container.inventory"), 8, (ySize - 96) + 2, 0x404040);

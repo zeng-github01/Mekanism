@@ -3,29 +3,23 @@ package mekanism.client.render;
 import mekanism.api.Coord4D;
 import mekanism.api.MekanismAPI;
 import mekanism.api.Pos3D;
-import mekanism.client.ClientTickHandler;
 import mekanism.client.render.particle.EntityJetpackFlameFX;
 import mekanism.client.render.particle.EntityJetpackSmokeFX;
 import mekanism.client.render.particle.EntityScubaBubbleFX;
 import mekanism.common.Mekanism;
 import mekanism.common.content.gear.IModuleContainerItem;
 import mekanism.common.item.ItemFlamethrower;
-import mekanism.common.item.interfaces.IModeItem;
-import mekanism.common.lib.Color;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -34,14 +28,12 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nonnull;
 import java.util.Random;
 import java.util.UUID;
 
 @SideOnly(Side.CLIENT)
 public class RenderTickHandler {
 
-    public static int modeSwitchTimer = 0;
     public Random rand = new Random();
     public Minecraft mc = Minecraft.getMinecraft();
 
@@ -65,7 +57,6 @@ public class RenderTickHandler {
 
                 EntityPlayer player = mc.player;
                 World world = mc.player.world;
-                renderStatusBar(player);
                 RayTraceResult pos = player.rayTrace(40.0D, 1.0F);
                 if (pos != null) {
                     Coord4D obj = new Coord4D(pos.getBlockPos(), world);
@@ -87,9 +78,6 @@ public class RenderTickHandler {
                         font.drawStringWithShadow("TileEntity: " + tileDisplay, 1, 28, 0x404040);
                         font.drawStringWithShadow("Side: " + pos.sideHit, 1, 37, 0x404040);
                     }
-                }
-                if (modeSwitchTimer == 0) {
-                    ClientTickHandler.wheelStatus = 0;
                 }
 
                 // Traverse a copy of jetpack state and do animations
@@ -135,7 +123,7 @@ public class RenderTickHandler {
                 }
 
                 // Traverse a copy of gasmask state and do animations
-                if (world.getWorldTime() % 4 == 0) {
+                if (world.getTotalWorldTime() % 4 == 0) {
                     for (UUID uuid : Mekanism.playerState.getActiveScubaMask()) {
                         EntityPlayer p = mc.world.getPlayerEntityByUUID(uuid);
                         if (p != null && p.isInWater()) {
@@ -180,27 +168,6 @@ public class RenderTickHandler {
         }
     }
 
-    private void renderStatusBar(@Nonnull EntityPlayer player) {
-        //TODO: use vanilla status bar text? Note, the vanilla status bar text stays a lot longer than we have our message
-        // display for, so we would need to somehow modify it. This can be done via ATs but does cause it to always appear
-        // to be more faded in color, and blinks to full color just before disappearing
-        if (modeSwitchTimer > 1) {
-            if (mc.currentScreen == null && mc.fontRenderer != null) {
-                ItemStack stack = player.getHeldItemMainhand();
-                if (IModeItem.isModeItem(stack, EntityEquipmentSlot.MAINHAND)) {
-                    ITextComponent scrollTextComponent = ((IModeItem) stack.getItem()).getScrollTextComponent(stack);
-                    if (scrollTextComponent != null) {
-                        ScaledResolution scaledResolution = new ScaledResolution(mc);
-                        int x = scaledResolution.getScaledWidth();
-                        int y = scaledResolution.getScaledHeight();
-                        int color = Color.rgbad(1, 1, 1, modeSwitchTimer / 100F).argb();
-                        mc.fontRenderer.drawString(scrollTextComponent.getFormattedText(), (x - mc.fontRenderer.getStringWidth(scrollTextComponent.getFormattedText())) / 2, y - 60, color);
-                    }
-                }
-            }
-            modeSwitchTimer--;
-        }
-    }
 
     private void renderJetpackSmoke(World world, Vec3d pos, Vec3d motion) {
         spawnAndSetParticle(EnumParticleTypes.FLAME, world, pos.x, pos.y, pos.z, motion.x, motion.y, motion.z);

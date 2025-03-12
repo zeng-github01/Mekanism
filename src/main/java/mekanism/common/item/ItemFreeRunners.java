@@ -267,14 +267,12 @@ public class ItemFreeRunners extends ItemArmor implements IEnergizedItem, ISpeci
     }
 
     @Override
-    public void changeMode(@NotNull EntityPlayer player, @NotNull ItemStack stack, int shift, boolean displayChangeMessage) {
+    public void changeMode(@NotNull EntityPlayer player, @NotNull ItemStack stack, int shift, DisplayChange displayChange) {
         FreeRunnerMode mode = getMode(stack);
         FreeRunnerMode newMode = mode.adjust(shift);
         if (mode != newMode) {
             setMode(stack, newMode);
-            if (displayChangeMessage) {
-                player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + Mekanism.LOG_TAG + " " + EnumColor.GREY + LangUtils.localize("tooltip.free_runners.mode") + " " + EnumColor.INDIGO + newMode.getName()));
-            }
+            displayChange.sendMessage(player, () -> new TextComponentString(EnumColor.GREY + LangUtils.localize("tooltip.free_runners.mode") + " " + EnumColor.INDIGO + newMode.getName()));
         }
     }
 

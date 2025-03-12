@@ -186,13 +186,11 @@ public class ItemElectricBow extends ItemEnergized implements IModeItem, IItemHU
     }
 
     @Override
-    public void changeMode(@NotNull EntityPlayer player, @NotNull ItemStack stack, int shift, boolean displayChangeMessage) {
+    public void changeMode(@NotNull EntityPlayer player, @NotNull ItemStack stack, int shift, DisplayChange displayChange) {
         if (Math.abs(shift) % 2 == 1) {
             boolean newState = !getFireState(stack);
             setFireState(stack, newState);
-            if (displayChangeMessage) {
-                player.sendMessage(new TextComponentGroup(TextFormatting.GRAY).string(Mekanism.LOG_TAG, TextFormatting.DARK_BLUE).string(" ").translation("mekanism.tooltip.fireMode", LangUtils.onOffColoured(newState)));
-            }
+            displayChange.sendMessage(player,()->new TextComponentGroup().translation("mekanism.tooltip.fireMode", LangUtils.onOffColoured(newState)));
         }
     }
 

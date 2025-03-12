@@ -5,6 +5,7 @@ import io.netty.buffer.ByteBuf;
 import mekanism.common.Mekanism;
 import mekanism.common.PacketHandler;
 import mekanism.common.item.interfaces.IModeItem;
+import mekanism.common.item.interfaces.IModeItem.DisplayChange;
 import mekanism.common.network.PacketBaublesModeChange.BaublesModeChangMessage;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -24,7 +25,7 @@ public class PacketBaublesModeChange implements IMessageHandler<BaublesModeChang
             if (player != null && Mekanism.hooks.Baubles) {
                 ItemStack stack = BaublesApi.getBaublesHandler(player).getStackInSlot(message.slot);
                 if (!stack.isEmpty() && stack.getItem() instanceof IModeItem modeItem) {
-                    modeItem.changeMode(player, stack, message.shift, message.displayChangeMessage);
+                    modeItem.changeMode(player, stack, message.shift, message.displayChangeMessage? DisplayChange.OTHER : DisplayChange.NONE);
                 }
             }
         }, player);

@@ -121,6 +121,10 @@ public class GuiLargeElectrolyticSeparator extends GuiMekanismTile<TileEntityLar
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
+    @Override
+    public void updateScreen() {
+        super.updateScreen();
+    }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {

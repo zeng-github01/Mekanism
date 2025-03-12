@@ -4,7 +4,6 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Reference2BooleanMaps;
-import mekanism.api.AutomationType;
 import mekanism.api.EnumColor;
 import mekanism.api.IDisableableEnum;
 import mekanism.api.NBTConstants;
@@ -37,7 +36,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -91,7 +89,7 @@ public class ItemAtomicDisassembler extends ItemEnergized implements IItemHUDPro
             //Try to extract full energy, even if we have a lower damage amount this is fine as that just means
             // we don't have enough energy, but we will remove as much as we can, which is how much corresponds
             // to the amount of damage we will actually do
-            energyContainer.extract(stack,MekanismConfig.current().general.disassemblerEnergyUsageWeapon.val(),true);
+            energyContainer.extract(stack, MekanismConfig.current().general.disassemblerEnergyUsageWeapon.val(), true);
         }
         return false;
     }
@@ -235,14 +233,12 @@ public class ItemAtomicDisassembler extends ItemEnergized implements IItemHUDPro
 
 
     @Override
-    public void changeMode(@NotNull EntityPlayer player, @NotNull ItemStack stack, int shift, boolean displayChangeMessage) {
+    public void changeMode(@NotNull EntityPlayer player, @NotNull ItemStack stack, int shift, DisplayChange displayChange) {
         DisassemblerMode mode = getMode(stack);
         DisassemblerMode newMode = mode.adjust(shift);
         if (mode != newMode) {
             setMode(stack, player, newMode);
-            if (displayChangeMessage) {
-                player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + Mekanism.LOG_TAG + " " + EnumColor.GREY + LangUtils.localize("tooltip.modeToggle") + " " + EnumColor.INDIGO + newMode.getModeName() + EnumColor.AQUA + " (" + newMode.getEfficiency() + ")"));
-            }
+            displayChange.sendMessage(player, () -> new TextComponentString(EnumColor.GREY + LangUtils.localize("tooltip.modeToggle") + " " + EnumColor.INDIGO + newMode.getModeName() + EnumColor.AQUA + " (" + newMode.getEfficiency() + ")"));
         }
     }
 

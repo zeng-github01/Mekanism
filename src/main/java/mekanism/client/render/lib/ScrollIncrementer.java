@@ -16,7 +16,7 @@ public class ScrollIncrementer {
 
     private long getTime() {
         World level = Minecraft.getMinecraft().world;
-        return level == null ? -1 : level.getWorldTime();
+        return level == null ? -1 : level.getTotalWorldTime();
     }
 
     public int scroll(double delta) {

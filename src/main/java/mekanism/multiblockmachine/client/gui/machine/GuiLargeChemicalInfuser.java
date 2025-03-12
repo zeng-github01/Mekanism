@@ -85,6 +85,11 @@ public class GuiLargeChemicalInfuser extends GuiMekanismTile<TileEntityLargeChem
     }
 
     @Override
+    public void updateScreen() {
+        super.updateScreen();
+    }
+
+    @Override
     protected void drawGuiContainerBackgroundLayer(int xAxis, int yAxis) {
         super.drawGuiContainerBackgroundLayer(xAxis, yAxis);
         boolean output = tileEntity.centerTank.getStored() == tileEntity.centerTank.getMaxGas();

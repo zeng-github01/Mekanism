@@ -1515,9 +1515,6 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     public void sortInventory() { //old
         if (sorting) {
             int[] inputSlots = getSlotsWithTier(tier);
-            if (inputSlots == null) {
-                return;
-            }
             for (int i = 0; i < inputSlots.length; i++) {
                 int slotID = inputSlots[i];
                 ItemStack stack = inventory.get(slotID);
@@ -1822,7 +1819,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
          * </ol>
          */
         public void sort() {
-            if (!factory.sorting || factory.getWorld().getWorldTime() % 20 != 0) {
+            if (!factory.sorting || factory.getWorld().getTotalWorldTime() % 20 != 0) {
                 return;
             }
             int[] slotIds = getSlotsWithTier(factory.tier);

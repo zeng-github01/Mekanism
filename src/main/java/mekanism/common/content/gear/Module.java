@@ -21,6 +21,8 @@ import mekanism.api.text.TextComponentGroup;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismLang;
 import mekanism.common.content.gear.ModuleConfigItem.DisableableModuleConfigItem;
+import mekanism.common.item.interfaces.IModeItem;
+import mekanism.common.item.interfaces.IModeItem.DisplayChange;
 import mekanism.common.util.ItemDataUtils;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
@@ -316,8 +318,8 @@ public final class Module<MODULE extends ICustomModule<MODULE>> implements IModu
     }
 
 
-    public void changeMode(@Nonnull EntityPlayer player, @Nonnull ItemStack stack, int shift, boolean displayChangeMessage) {
-        customModule.changeMode(this, player, stack, shift, displayChangeMessage);
+    public void changeMode(@Nonnull EntityPlayer player, @Nonnull ItemStack stack, int shift, DisplayChange displayChange) {
+        customModule.changeMode(this, player, stack, shift, displayChange != DisplayChange.NONE);
     }
 
     @Override

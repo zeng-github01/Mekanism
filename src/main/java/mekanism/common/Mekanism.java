@@ -15,6 +15,7 @@ import mekanism.api.transmitters.TransmitterNetworkRegistry;
 import mekanism.client.ClientTickHandler;
 import mekanism.client.render.hud.MekaSuitEnergyLevel;
 import mekanism.client.render.hud.MekanismHUD;
+import mekanism.client.render.hud.MekanismStatusOverlay;
 import mekanism.common.base.IModule;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.chunkloading.ChunkManager;
@@ -759,6 +760,7 @@ public class Mekanism {
     public void onDrawScreenPre(RenderGameOverlayEvent.Post event) {
         MekaSuitEnergyLevel.onDrawScreenPre(event);
         MekanismHUD.onDrawScreenPre(event);
+        MekanismStatusOverlay.INSTANCE.render(event);
     }
 
 
