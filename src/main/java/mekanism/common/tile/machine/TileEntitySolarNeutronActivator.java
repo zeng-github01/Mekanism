@@ -99,7 +99,7 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
 
             if (seesSun && canOperate(recipe) && MekanismUtils.canFunction(this)) {
                 setActive(true);
-                operate(recipe);
+                MultipleActions(recipe);
             } else {
                 setActive(false);
             }

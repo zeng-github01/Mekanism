@@ -1,5 +1,6 @@
 package mekanism.common.content.assemblicator;
 
+import mekanism.common.Mekanism;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.RecipeUtils;
 import mekanism.common.util.StackUtils;
@@ -62,12 +63,17 @@ public class RecipeFormula {
 
     public List<Integer> getIngredientIndices(World world, ItemStack stack) {
         List<Integer> ret = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
-            dummy.setInventorySlotContents(i, stack);
-            if (recipe.matches(dummy, world)) {
-                ret.add(i);
+        //这是什么崩溃？
+        try {
+            for (int i = 0; i < 9; i++) {
+                dummy.setInventorySlotContents(i, stack);
+                if (recipe.matches(dummy, world)) {
+                    ret.add(i);
+                }
+                dummy.setInventorySlotContents(i, input.get(i));
             }
-            dummy.setInventorySlotContents(i, input.get(i));
+        } catch (Exception e) {
+            Mekanism.logger.error(e);
         }
         return ret;
     }

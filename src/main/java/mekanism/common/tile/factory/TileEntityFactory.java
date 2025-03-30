@@ -325,9 +325,6 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             if (ticker == 1) {
                 Mekanism.EXECUTE_MANAGER.addSyncTask(() -> world.notifyNeighborsOfStateChange(getPos(), getBlockType(), true));
             }
-            if (MekanismConfig.current().mekce.EnableUpgradeConfigure.val()) {
-                MekanismUtils.inject.accept(ticksRequired, this::onUpdate);
-            }
             ChargeUtils.discharge(1, this);
             handleSecondaryFuel();
             CheckTheFaceSettings();
@@ -370,8 +367,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                             if (update) {
                                 recalculateUpgradables(Upgrade.SPEED);
                             }
-                        }
-                        if (recipeType == RecipeType.WASHER) {
+                        }else if (recipeType == RecipeType.WASHER) {
                             BASE_TICKS_REQUIRED = 1;
                         }
                     }
@@ -379,11 +375,24 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                         progress[process]++;
                         gasTank.draw(secondaryEnergyThisTick, tier != FactoryTier.CREATIVE);
                         TypeUpdate(process, Exenery);
-
                     } else if ((progress[process] + 1) >= ticksRequired && ((recipeType == RecipeType.PRC || recipeType == RecipeType.NUCLEOSYNTHESIZER) ? getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + Exenery) : getEnergy() >= energyPerTick)) {
-                        operate(getInputSlot(process), getOutputSlot(process), getSecondaryOutputSlot(process));
+                        if (MekanismConfig.current().mekce.EnableUpgradeConfigure.val() && ticksRequired <= 0) {
+                            for (int i = ticksRequired; i < 0; i++){
+                                if (!canOperate(getInputSlot(process), getOutputSlot(process), getSecondaryOutputSlot(process))){
+                                    break;
+                                }
+                                if (!(((recipeType == RecipeType.PRC || recipeType == RecipeType.NUCLEOSYNTHESIZER) ? getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + Exenery) : getEnergy() >= energyPerTick))){
+                                    break;
+                                }
+                                operate(getInputSlot(process), getOutputSlot(process), getSecondaryOutputSlot(process));
+                                TypeUpdate(process, Exenery);
+                            }
+                        }else {
+                            operate(getInputSlot(process), getOutputSlot(process), getSecondaryOutputSlot(process));
+                            TypeUpdate(process, Exenery);
+                        }
                         progress[process] = 0;
-                        TypeUpdate(process, Exenery);
+
                     }
                 } else {
                     if (tier != FactoryTier.CREATIVE) {

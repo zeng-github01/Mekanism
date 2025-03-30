@@ -46,9 +46,13 @@ public abstract class BlockMekanismContainer extends BlockContainer {
         player.addExhaustion(0.005F);
         if (!world.isRemote) {
             ItemStack dropItem = getDropItem(state, world, pos);
+            //why Add a custom name
+            /*
             if (te instanceof IWorldNameable worldNameable) {
                 dropItem.setStackDisplayName(worldNameable.getName());
             }
+             */
+
             Block.spawnAsEntity(world, pos, dropItem);
         }
         //Set it to air like the flower pot's harvestBlock method

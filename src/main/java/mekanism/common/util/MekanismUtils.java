@@ -89,14 +89,7 @@ public final class MekanismUtils {
     private static final ItemStack MILK = new ItemStack(Items.MILK_BUCKET);
     public static final Map<String, Class<?>> classesFound = new Object2ObjectOpenHashMap<>();
     public static final ThreadLocal<Boolean> isInjecting = ThreadLocal.withInitial(() -> false);
-    public static final BiConsumer<Integer, Runnable> inject = (reqTime, process) -> {
-        if (!isInjecting.get()) {
-            isInjecting.set(true);
-            for (int i = reqTime; i < 0; i++)
-                process.run();
-            isInjecting.set(false);
-        }
-    };
+
     private static final List<UUID> warnedFails = new ArrayList<>();
     /**
      * Pre-calculated cache of translated block orientations

@@ -138,7 +138,7 @@ public class TileEntityElectrolyticSeparator extends TileEntityBasicMachine<Flui
                 }
                 operatingTicks++;
                 if (operatingTicks >= ticksRequired) {
-                    operate(recipe);
+                    MultipleActions(recipe);
                     operatingTicks = 0;
                 }
                 double prev = getEnergy();

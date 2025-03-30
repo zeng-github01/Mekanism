@@ -93,7 +93,7 @@ public class TileEntityIsotopicCentrifuge extends TileEntityBasicMachine<GasInpu
                 setActive(true);
                 operatingTicks++;
                 if (operatingTicks >= ticksRequired) {
-                    operate(recipe);
+                    MultipleActions(recipe);
                     operatingTicks = 0;
                 }
                 double prev = getEnergy();

@@ -102,7 +102,7 @@ public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasIn
                 setActive(true);
                 operatingTicks++;
                 if (operatingTicks >= ticksRequired) {
-                    operate(recipe);
+                    MultipleActions(recipe);
                     operatingTicks = 0;
                 }
                 double prev = getEnergy();

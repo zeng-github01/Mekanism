@@ -85,7 +85,7 @@ public class TileEntityChemicalInfuser extends TileEntityBasicMachine<ChemicalPa
                 setActive(true);
                 operatingTicks++;
                 if (operatingTicks >= ticksRequired) {
-                    operate(recipe);
+                    MultipleActions(recipe);
                     operatingTicks = 0;
                 }
                 double prev = getEnergy();

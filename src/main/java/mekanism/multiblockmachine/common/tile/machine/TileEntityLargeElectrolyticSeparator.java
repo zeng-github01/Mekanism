@@ -98,10 +98,6 @@ public class TileEntityLargeElectrolyticSeparator extends TileEntityMultiblockBa
 
             if (canOperate(recipe) && getEnergy() >= energyPerTick && MekanismUtils.canFunction(this)) {
                 setActive(true);
-                int thread = 1;
-                if (upgradeComponent.isUpgradeInstalled(Upgrade.THREAD)) {
-                    thread = upgradeComponent.getUpgrades(Upgrade.THREAD) + 1;
-                }
                 boolean update = BASE_ENERGY_PER_TICK != recipe.energyUsage;
                 BASE_ENERGY_PER_TICK = recipe.energyUsage;
                 if (update) {
@@ -109,13 +105,16 @@ public class TileEntityLargeElectrolyticSeparator extends TileEntityMultiblockBa
                 }
                 operatingTicks++;
                 if (operatingTicks >= ticksRequired) {
-                    for (int i = 0; i <= thread; i++) {
-                        operate(recipe);
+                    for (int i = 0; i <= Thread(); i++) {
+                        if (!canOperate(recipe)){
+                            break;
+                        }
+                        MultipleActions(recipe);
                     }
                     operatingTicks = 0;
                 }
                 double prev = getEnergy();
-                setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(recipe) * thread);
+                setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(recipe) * Thread());
                 clientEnergyUsed = prev - getEnergy();
             } else if (prevEnergy >= getEnergy()) {
                 setActive(false);

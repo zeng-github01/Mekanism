@@ -75,11 +75,16 @@ public class TileEntityLargeChemicalInfuser extends TileEntityMultiblockBasicMac
                 setActive(true);
                 operatingTicks++;
                 if (operatingTicks >= ticksRequired) {
+
                     for (int i = 0; i <= Thread(); i++) {
-                        operate(recipe);
+                        if (!canOperate(recipe)){
+                            break;
+                        }
+                        MultipleActions(recipe);
                     }
                     operatingTicks = 0;
                 }
+
                 double prev = getEnergy();
                 setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(recipe) * Thread());
                 clientEnergyUsed = prev - getEnergy();

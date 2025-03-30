@@ -45,9 +45,9 @@ public abstract class TileEntityOperationalMachine extends TileEntityMachine imp
     public void onUpdate() {
         super.onUpdate();
         if (!world.isRemote) {
-            if (MekanismConfig.current().mekce.EnableUpgradeConfigure.val()) {
-                MekanismUtils.inject.accept(ticksRequired, this::onUpdate);
-            }
+          //  if (MekanismConfig.current().mekce.EnableUpgradeConfigure.val()) {
+     //           MekanismUtils.inject.accept(ticksRequired, this::onUpdate);
+       //     }
         }
     }
 

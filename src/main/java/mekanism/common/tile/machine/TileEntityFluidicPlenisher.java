@@ -74,9 +74,6 @@ public class TileEntityFluidicPlenisher extends TileEntityElectricBlock implemen
     @Override
     public void onUpdate() {
         if (!world.isRemote) {
-			if (MekanismConfig.current().mekce.EnableUpgradeConfigure.val()) {
-            MekanismUtils.inject.accept(ticksRequired, this::onUpdate);
-			}
             ChargeUtils.discharge(2, this);
             if (FluidContainerUtils.isFluidContainer(inventory.get(0)) && fluidTank.getFluidAmount() != fluidTank.getCapacity()) {
                 FluidContainerUtils.handleContainerItemEmpty(this, fluidTank, 0, 1, new FluidChecker() {
@@ -201,7 +198,7 @@ public class TileEntityFluidicPlenisher extends TileEntityElectricBlock implemen
     }
 
     @Override
-   public void writeCustomNBT(NBTTagCompound nbtTags) {
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("operatingTicks", operatingTicks);
         nbtTags.setBoolean("finishedCalc", finishedCalc);

@@ -87,7 +87,7 @@ public abstract class TileEntityElectricMachine<RECIPE extends BasicMachineRecip
                 if ((operatingTicks + 1) < ticksRequired) {
                     operatingTicks++;
                 } else if ((operatingTicks + 1) >= ticksRequired) {
-                    operate(recipe);
+                    MultipleActions(recipe);
                     operatingTicks = 0;
                 }
             } else if (prevEnergy >= getEnergy()) {

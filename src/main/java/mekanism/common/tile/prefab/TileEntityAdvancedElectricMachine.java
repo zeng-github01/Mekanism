@@ -142,7 +142,7 @@ public abstract class TileEntityAdvancedElectricMachine<RECIPE extends AdvancedM
                 setActive(true);
                 operatingTicks++;
                 if (operatingTicks >= ticksRequired) {
-                    operate(recipe);
+                    MultipleActions(recipe);
                     operatingTicks = 0;
                 }
                 gasTank.draw(secondaryEnergyThisTick, true);

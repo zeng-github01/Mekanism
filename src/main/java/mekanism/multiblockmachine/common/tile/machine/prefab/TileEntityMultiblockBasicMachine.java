@@ -12,9 +12,13 @@ public abstract class TileEntityMultiblockBasicMachine<INPUT extends MachineInpu
 
     public RECIPE cachedRecipe = null;
 
-    public TileEntityMultiblockBasicMachine(String soundPath, BlockStateMultiblockMachine.MultiblockMachineType type, int baseTicksRequired,int slot) {
-        super("machine." + soundPath, type, baseTicksRequired,slot);
+    public TileEntityMultiblockBasicMachine(String soundPath, BlockStateMultiblockMachine.MultiblockMachineType type, int baseTicksRequired, int slot) {
+        super("machine." + soundPath, type, baseTicksRequired, slot);
     }
 
+
+    protected void MultipleActions(RECIPE recipe) {
+        MultipleActions(recipe, ticksRequired);
+    }
 
 }

@@ -108,7 +108,7 @@ public class TileEntityDigitalAssemblyTable extends TileEntityMultiblockBasicMac
                     operatingTicks++;
                     electricityStored.addAndGet(-MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy));
                 } else if ((operatingTicks + 1) >= ticksRequired && getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy)) {
-                    operate(recipe);
+                    MultipleActions(recipe);
                     operatingTicks = 0;
                     electricityStored.addAndGet(-MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy));
                 }

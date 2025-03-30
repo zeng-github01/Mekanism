@@ -125,7 +125,7 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
                 setActive(true);
                 operatingTicks++;
                 if (operatingTicks >= ticksRequired) {
-                    operate(recipe);
+                    MultipleActions(recipe);
                     operatingTicks = 0;
                 }
                 gasTank.draw(secondaryEnergyThisTick, true);

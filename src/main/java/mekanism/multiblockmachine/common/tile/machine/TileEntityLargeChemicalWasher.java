@@ -79,7 +79,10 @@ public class TileEntityLargeChemicalWasher extends TileEntityMultiblockBasicMach
                 operatingTicks++;
                 if (operatingTicks >= ticksRequired) {
                     for (int i = 0; i <= Thread(); i++) {
-                        operate(recipe);
+                        if (!canOperate(recipe)){
+                            break;
+                        }
+                        MultipleActions(recipe);
                     }
                     operatingTicks = 0;
                 }

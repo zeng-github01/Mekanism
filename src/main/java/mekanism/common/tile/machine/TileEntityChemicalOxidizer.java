@@ -76,7 +76,7 @@ public class TileEntityChemicalOxidizer extends TileEntityUpgradeableMachine<Ite
                 if (operatingTicks < ticksRequired) {
                     operatingTicks++;
                 } else {
-                    operate(recipe);
+                    MultipleActions(recipe);
                     operatingTicks = 0;
                     markNoUpdateSync();
                 }

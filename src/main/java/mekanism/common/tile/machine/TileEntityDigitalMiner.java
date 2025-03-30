@@ -160,11 +160,7 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
                 }
                 initCalc = true;
             }
-            if (MekanismConfig.current().mekce.EnableUpgradeConfigure.val()) {
-                MekanismUtils.inject.accept(delayLength, this::onUpdate);
-            }
             ChargeUtils.discharge(27, this);
-
             if (MekanismUtils.canFunction(this) && running && getEnergy() >= getPerTick() && searcher.state == State.FINISHED && !oresToMine.isEmpty()) {
                 setActive(true);
                 if (delay > 0) {

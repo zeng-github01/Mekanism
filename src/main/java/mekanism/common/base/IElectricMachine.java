@@ -1,5 +1,6 @@
 package mekanism.common.base;
 
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.recipe.inputs.MachineInput;
 import mekanism.common.recipe.machines.MachineRecipe;
 import mekanism.common.recipe.outputs.MachineOutput;
@@ -35,6 +36,22 @@ public interface IElectricMachine<INPUT extends MachineInput<INPUT>, OUTPUT exte
      * Gets this machine's recipes.
      */
     Map<INPUT, RECIPE> getRecipes();
+
+    default void MultipleActions(RECIPE recipe,int ticksRequired) {
+        if (recipe != null) {
+            if (MekanismConfig.current().mekce.EnableUpgradeConfigure.val() && ticksRequired <= 0) {
+                for (int i = ticksRequired; i < 0; i++) {
+                    if (!canOperate(recipe)) {
+                        break;
+                    }
+                    operate(recipe);
+                }
+            } else {
+                operate(recipe);
+            }
+        }
+    }
+
 
     RECIPE getRecipe();
 

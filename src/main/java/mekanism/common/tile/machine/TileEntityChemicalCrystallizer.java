@@ -85,7 +85,7 @@ public class TileEntityChemicalCrystallizer extends TileEntityUpgradeableMachine
                 if ((operatingTicks + 1) < ticksRequired) {
                     operatingTicks++;
                 } else {
-                    operate(recipe);
+                    MultipleActions(recipe);
                     operatingTicks = 0;
                 }
             } else if (prevEnergy >= getEnergy()) {

@@ -81,7 +81,7 @@ public class TileEntityNutritionalLiquifier extends TileEntityBasicMachine<ItemS
                 if (operatingTicks < ticksRequired) {
                     operatingTicks++;
                 } else {
-                    operate(recipe);
+                    MultipleActions(recipe);
                     operatingTicks = 0;
                     markNoUpdateSync();
                 }

@@ -90,7 +90,7 @@ public abstract class TileEntityDoubleElectricMachine<RECIPE extends DoubleMachi
                 setActive(true);
                 operatingTicks++;
                 if (operatingTicks >= ticksRequired) {
-                    operate(recipe);
+                    MultipleActions(recipe);
                     operatingTicks = 0;
                 }
                 electricityStored.addAndGet(-energyPerTick);

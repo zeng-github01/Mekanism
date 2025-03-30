@@ -120,9 +120,6 @@ public class TileEntityFormulaicAssemblicator extends TileEntityElectricBlock im
     public void onUpdate() {
         super.onUpdate();
         if (!world.isRemote) {
-            if (MekanismConfig.current().mekce.EnableUpgradeConfigure.val()) {
-                MekanismUtils.inject.accept(ticksRequired, this::onUpdate);
-            }
             if (formula != null && stockControl && needsOrganize) {
                 needsOrganize = false;
                 organizeStock();
