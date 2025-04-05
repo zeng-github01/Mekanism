@@ -8,7 +8,6 @@ import mekanism.api.gear.SwiftSneakHelp;
 import mekanism.api.radial.RadialData;
 import mekanism.client.gui.GuiRadialSelector;
 import mekanism.client.newgui.GuiModuleTweaker;
-import mekanism.client.render.RenderTickHandler;
 import mekanism.client.render.hud.MekanismStatusOverlay;
 import mekanism.client.render.lib.ScrollIncrementer;
 import mekanism.common.CommonPlayerTickHandler;
@@ -16,7 +15,6 @@ import mekanism.common.KeySync;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismModules;
 import mekanism.common.config.MekanismConfig;
-import mekanism.common.content.gear.IModuleContainerItem;
 import mekanism.common.content.gear.ModuleHelper;
 import mekanism.common.content.gear.mekasuit.ModuleVisionEnhancementUnit;
 import mekanism.common.frequency.Frequency;
@@ -34,8 +32,6 @@ import mekanism.common.network.PacketPortableTeleporter.PortableTeleporterMessag
 import mekanism.common.network.PacketPortableTeleporter.PortableTeleporterPacketType;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderPlayer;
@@ -48,7 +44,10 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.InputUpdateEvent;
+import net.minecraftforge.client.event.MouseEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -250,7 +249,7 @@ public class ClientTickHandler {
                 }
             }
 
-            if (MekKeyHandler.getIsKeyPressed(MekanismKeyHandler.moduleTweakerKey)) {
+            if (minecraft.currentScreen == null && MekKeyHandler.getIsKeyPressed(MekanismKeyHandler.moduleTweakerKey)) {
                 if (minecraft.player != null && ModuleTweakerContainer.hasTweakableItem(minecraft.player)) {
                     minecraft.displayGuiScreen(new GuiModuleTweaker(minecraft.player.inventory));
                 }
