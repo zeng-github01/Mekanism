@@ -96,6 +96,12 @@ public class ItemBlockEnergyCube extends ItemBlock implements IEnergizedItem, IS
         }
     }
 
+    @Nonnull
+    @Override
+    public String getTranslationKey(ItemStack itemstack) {
+        return getTranslationKey() + getBaseTier(itemstack).getSimpleName();
+    }
+
 
     @Nonnull
     @Override

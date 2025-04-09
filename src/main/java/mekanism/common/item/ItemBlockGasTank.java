@@ -73,6 +73,12 @@ public class ItemBlockGasTank extends ItemBlock implements IGasItem, ISustainedI
 
     @Nonnull
     @Override
+    public String getTranslationKey(ItemStack itemstack) {
+        return getTranslationKey() + getBaseTier(itemstack).getSimpleName();
+    }
+
+    @Nonnull
+    @Override
     public String getItemStackDisplayName(@Nonnull ItemStack itemstack) {
         return getBaseTier(itemstack).getColor() + LangUtils.localize("tile.GasTank" + getBaseTier(itemstack).getSimpleName() + ".name");
     }

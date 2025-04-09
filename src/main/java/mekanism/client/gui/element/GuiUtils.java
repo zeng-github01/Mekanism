@@ -169,7 +169,7 @@ public class GuiUtils {
         float uDif = uMax - uMin;
         float vDif = vMax - vMin;
         if (blendAlpha) {
-            GlStateManager.pushMatrix();
+
             GlStateManager.enableBlend();
             GlStateManager.enableAlpha();
         }
@@ -225,7 +225,7 @@ public class GuiUtils {
         if (blendAlpha) {
             GlStateManager.disableAlpha();
             GlStateManager.disableBlend();
-            GlStateManager.popMatrix();
+
         }
     }
 

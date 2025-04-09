@@ -147,6 +147,14 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
     @Override
     public String getTranslationKey(ItemStack itemstack) {
         if (MachineType.get(itemstack) != null) {
+            MachineType type = MachineType.get(itemstack);
+            if (type == MachineType.BASIC_FACTORY || type == MachineType.ADVANCED_FACTORY || type == MachineType.ELITE_FACTORY || type == MachineType.ULTIMATE_FACTORY || type == MachineType.CREATIVE_FACTORY) {
+                BaseTier tier = type.factoryTier.getBaseTier();
+                RecipeType recipeType = getRecipeTypeOrNull(itemstack);
+                if (recipeType != null) {
+                    return "tile." + recipeType.getTranslationKey() + "." + tier.getSimpleName() + "." + MachineType.get(itemstack).blockName;
+                }
+            }
             return getTranslationKey() + "." + MachineType.get(itemstack).blockName;
         }
         return "null";
