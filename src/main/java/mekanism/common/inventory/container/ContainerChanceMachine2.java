@@ -1,5 +1,6 @@
 package mekanism.common.inventory.container;
 
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.inventory.slot.SlotEnergy.SlotDischarge;
 import mekanism.common.inventory.slot.SlotOutput;
 import mekanism.common.recipe.RecipeHandler;
@@ -89,7 +90,7 @@ public class ContainerChanceMachine2<RECIPE extends Chance2MachineRecipe<RECIPE>
         addSlotToContainer(new Slot(tileEntity, 0, 56, 17){
             @Override
             public boolean isItemValid(ItemStack itemstack) {
-                return isInputItem(itemstack);
+                return isInputItem(itemstack) || MekanismConfig.current().mekce.EnableAddArrItemRecyclerRecipe.val();
             }
         });
         addSlotToContainer(new SlotDischarge(tileEntity, 1, 56, 53));

@@ -36,8 +36,6 @@ public class MEKCEConfig extends BaseConfig {
 
     public final BooleanOption ItemsEjectWithoutDelay = new BooleanOption(this, "mekce", "ItemsEjectWithoutDelay", false, "If true, the Item Ejection Delay is ignored");
 
-    public final IntOption EjectionFailureDelay = new IntOption(this, "mekce", "EjectionFailureDelay", 20, "How long to wait and retry if the machine is unable to export its own gas or fluid. Helps optimize performance.", 0, 100);
-
     public final IntOption MAXSpeedUpgrade = new IntOption(this, "mekce", "MAXSpeedUpgrade", 8,
             "The maximum number of speed upgrades that can be installed", 1, Integer.MAX_VALUE).setRequiresGameRestart(true);
 
@@ -101,7 +99,8 @@ public class MEKCEConfig extends BaseConfig {
     public final FloatOption freeRunnerFallDamageRatio = new FloatOption(this,"mekce","fallDamageReductionRatio",1F,"Percent of damage taken from falling that can be absorbed by Free Runners when they have enough power.",0,1);
     public final FloatOption freeRunnerFallEnergyCost = new FloatOption(this,"mekce","fallEnergyCost",50,"Energy cost/multiplier in Joules for reducing fall damage with free runners. Energy cost is: FallDamage * freeRunnerFallEnergyCost. (1 FallDamage is 1 half heart)");
     public final BooleanOption EnableTheDefaultConfiguration = new BooleanOption(this,"mekce","EnableTheDefaultConfiguration",true,"Allows the machine to use the default configuration surface, which is empty by default if false");
-
+    public final BooleanOption EnableAddArrItemRecyclerRecipe = new BooleanOption(this,"mekce","EnableAddArrItemRecyclerRecipe",true,"If true, all items are iterated through and added to the Recycler recipe").setRequiresGameRestart(true);
+    public final BooleanOption EnableRecyclerRecipeInJei = new BooleanOption(this,"mekce","EnableRecyclerRecipeInJei",true,"If true, the Recycler recipe is allowed to be displayed within the jei").setRequiresGameRestart(true);
     @Override
     public void load(Configuration config) {
         super.load(config);

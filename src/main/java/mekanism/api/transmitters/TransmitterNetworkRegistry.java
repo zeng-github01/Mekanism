@@ -86,8 +86,13 @@ public class TransmitterNetworkRegistry {
         commitChanges();
         networks.forEach(DynamicNetwork::preTick);
         // ForkJoinThread cannot use getEffectiveSide().
-        if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-            networks.parallelStream().forEach(DynamicNetwork::onParallelTick);
+        // 为什么会崩溃？
+        if (FMLCommonHandler.instance().getEffectiveSide() != null && FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+            try {
+                networks.parallelStream().forEach(DynamicNetwork::onParallelTick);
+            } catch (Exception ignored) {
+
+            }
         }
         networks.forEach(DynamicNetwork::tick);
     }

@@ -42,6 +42,9 @@ public class SideData {
     public SideData(DataType dataType, int[] slots, boolean[] extractionSlot) {
         this(dataType, slots);
         allowExtractionSlot = extractionSlot;
+        if (slots.length != extractionSlot.length){
+            throw new IllegalStateException("The length of the slot is inconsistent with the length of the extraction slot");
+        }
     }
 
     public SideData(DataType dataType, int[] slots) {

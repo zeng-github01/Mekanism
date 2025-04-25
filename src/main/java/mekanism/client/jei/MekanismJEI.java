@@ -18,6 +18,7 @@ import mekanism.common.base.IFactory;
 import mekanism.common.base.IFactory.RecipeType;
 import mekanism.common.base.ITierItem;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.inventory.container.robit.ContainerRobitInventory;
 import mekanism.common.item.ItemBlockEnergyCube;
 import mekanism.common.item.ItemBlockGasTank;
@@ -152,10 +153,11 @@ public class MekanismJEI implements IModPlugin {
                 "tile.MachineBlock4.CellExtractor.name", ProgressBar.BAR));
         addRecipeCategory(registry, MachineType.CELL_SEPARATOR, new ChanceMachineRecipeCategory(guiHelper, Recipe.CELL_SEPARATOR.getJEICategory(),
                 "tile.MachineBlock4.CellSeparator.name", ProgressBar.BAR));
-        addRecipeCategory(registry, MachineType.RECYCLER, new Chance2MachineRecipeCategory(guiHelper, Recipe.RECYCLER.getJEICategory(), "tile.MachineBlock4.Recycler.name",
-                ProgressBar.BAR));
+        if (!MekanismConfig.current().mekce.EnableRecyclerRecipeInJei.val()) {
+            addRecipeCategory(registry, MachineType.RECYCLER, new Chance2MachineRecipeCategory(guiHelper, Recipe.RECYCLER.getJEICategory(), "tile.MachineBlock4.Recycler.name", ProgressBar.BAR));
+        }
         addRecipeCategory(registry, MachineType.AMBIENT_ACCUMULATOR, new AmbientGasCategory(guiHelper));
-        addRecipeCategory(registry,MachineType.SPS,new SPSRecipeCategory(guiHelper));
+        addRecipeCategory(registry, MachineType.SPS, new SPSRecipeCategory(guiHelper));
         /**
          * ADD END
          */
@@ -215,7 +217,9 @@ public class MekanismJEI implements IModPlugin {
         RecipeRegistryHelper.registerAlloy(registry);
         RecipeRegistryHelper.registerCellExtractor(registry);
         RecipeRegistryHelper.registerCellSeparator(registry);
-        RecipeRegistryHelper.registerRecycler(registry);
+        if (MekanismConfig.current().mekce.EnableRecyclerRecipeInJei.val()) {
+            RecipeRegistryHelper.registerRecycler(registry);
+        }
         RecipeRegistryHelper.registerAmbientAccumulator(registry);
         RecipeRegistryHelper.registerSPS(registry);
 

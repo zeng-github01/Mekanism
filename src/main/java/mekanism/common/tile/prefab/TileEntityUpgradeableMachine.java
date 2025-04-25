@@ -7,7 +7,6 @@ import mekanism.common.Upgrade;
 import mekanism.common.base.IFactory.RecipeType;
 import mekanism.common.base.ITierUpgradeable;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
-import mekanism.common.config.MekanismConfig;
 import mekanism.common.recipe.inputs.MachineInput;
 import mekanism.common.recipe.machines.MachineRecipe;
 import mekanism.common.recipe.outputs.MachineOutput;
@@ -67,8 +66,8 @@ public abstract class TileEntityUpgradeableMachine<INPUT extends MachineInput<IN
         factory.upgradeComponent.setUpgradeSlot(0);
         factory.ejectorComponent.readFrom(ejectorComponent);
         factory.ejectorComponent.setOutputData(TransmissionType.ITEM, factory.configComponent.getOutputs(TransmissionType.ITEM).get(2));
-        factory.ejectorComponent.setInputOutputData(TransmissionType.ITEM,factory.configComponent.getOutputs(TransmissionType.ITEM).get(6));
-        factory.ejectorComponent.setOutputData(TransmissionType.GAS,factory.configComponent.getOutputs(TransmissionType.GAS).get(2));
+        factory.ejectorComponent.setInputOutputData(TransmissionType.ITEM, factory.configComponent.getOutputs(TransmissionType.ITEM).get(6));
+        factory.ejectorComponent.setOutputData(TransmissionType.GAS, factory.configComponent.getOutputs(TransmissionType.GAS).get(2));
         factory.setRecipeType(type);
         factory.upgradeComponent.setSupported(Upgrade.GAS, type.fuelEnergyUpgrades());
         factory.securityComponent.readFrom(securityComponent);
@@ -91,7 +90,6 @@ public abstract class TileEntityUpgradeableMachine<INPUT extends MachineInput<IN
     }
 
     protected abstract void upgradeInventory(TileEntityFactory factory);
-
 
 
 }

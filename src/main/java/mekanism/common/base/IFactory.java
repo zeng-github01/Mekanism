@@ -420,5 +420,8 @@ public interface IFactory {
             return recipe;
         }
 
+        public boolean supportsGas() {
+            return fuelType == MachineFuelType.ADVANCED || this == Dissolution || this == Crystallizer || this == PRC || this == WASHER || fuelType ==MachineFuelType.FARM || this == NUCLEOSYNTHESIZER ;
+        }
     }
 }

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.api.infuse.InfuseType;
+import mekanism.common.MekanismItems;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.recipe.inputs.*;
 import mekanism.common.recipe.machines.*;
@@ -312,6 +313,10 @@ public final class RecipeHandler {
 
     public static void addCellSeparatorRecipe(ItemStack input, ItemStack primaryOutput) {
         addRecipe(Recipe.CELL_SEPARATOR, new CellSeparatorRecipe(input, primaryOutput));
+    }
+
+    public static void addRecyclerRecipe(ItemStack input) {
+        addRecyclerRecipe(input, new ItemStack(MekanismItems.Scrap, 1), 1F / 6F);
     }
 
     public static void addRecyclerRecipe(ItemStack input, ItemStack primaryOutput, double chance) {

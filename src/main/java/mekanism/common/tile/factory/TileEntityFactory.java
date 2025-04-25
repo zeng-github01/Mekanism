@@ -152,7 +152,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.NONE, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.INPUT, new int[]{1}));
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.OUTPUT, new int[]{2}));
-        configComponent.addOutput(TransmissionType.GAS, new SideData(new int[]{1,2},new boolean[]{false,true}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData(new int[]{1, 2}, new boolean[]{false, true}));
         configComponent.setConfig(TransmissionType.GAS, new byte[]{1, 1, 1, 1, 1, 2});
 
         configComponent.setInputConfig(TransmissionType.ENERGY);
@@ -555,8 +555,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         } else {
             ItemStack recipeInput = ItemStack.EMPTY;
             boolean secondaryMatch = true;
+            boolean secondaryMatch2 = true;
             if (cached.recipeInput instanceof ItemStackInput input) {
-                recipeInput =input.ingredient;
+                recipeInput = input.ingredient;
             } else if (cached.recipeInput instanceof AdvancedMachineInput advancedInput) {
                 recipeInput = advancedInput.itemStack;
                 secondaryMatch = gasTank.getGasType() == null || advancedInput.gasType == gasTank.getGasType();
@@ -565,7 +566,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 secondaryMatch = extra.isEmpty() || ItemStack.areItemsEqual(doubleMachineInput.extraStack, extra);
             } else if (cached.recipeInput instanceof PressurizedInput pressurizedInput) {
                 recipeInput = pressurizedInput.getSolid();
-                secondaryMatch = (gasTank.getGas() == null || gasTank.getGas().isGasEqual(pressurizedInput.getGas())) && (fluidTank.getFluid() == null || fluidTank.getFluid() == pressurizedInput.getFluid());
+                secondaryMatch = gasTank.getGas() == null || gasTank.getGas().isGasEqual(pressurizedInput.getGas());
+                secondaryMatch2 = fluidTank.getFluid() == null || fluidTank.getFluid() == pressurizedInput.getFluid();
             } else if (cached.recipeInput instanceof InfusionInput infusionInput) {
                 recipeInput = infusionInput.inputStack;
                 secondaryMatch = infuseStored.getAmount() == 0 || infuseStored.getType() == infusionInput.infuse.getType();
@@ -578,7 +580,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             //If there is no cached item input or it doesn't match our fallback
             // then it is an out of date cache so we compare against the new one
             // and update the cache while we are at it
-            if (recipeInput.isEmpty() || !secondaryMatch || !ItemStack.areItemsEqual(recipeInput, fallbackInput)) {
+            if (recipeInput.isEmpty() || !secondaryMatch || !secondaryMatch2 || !ItemStack.areItemsEqual(recipeInput, fallbackInput)) {
                 cached = recipeType.getAnyRecipe(fallbackInput, extra, gasTank.getGasType(), infuseStored, gasTank.getGas(), fluidTank.getFluid());
                 if (updateCache) {
                     cachedRecipe[process] = cached;
@@ -1218,7 +1220,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public boolean canFill(EnumFacing from, @Nonnull FluidStack fluid) {
-        if (configComponent.getOutput(TransmissionType.FLUID, from, facing).ioState == SideData.IOState.INPUT) {
+        if (inputFluidMachine() && configComponent.getOutput(TransmissionType.FLUID, from, facing).ioState == SideData.IOState.INPUT) {
             return FluidContainerUtils.canFill(fluidTank.getFluid(), fluid);
         }
         return false;
@@ -1226,21 +1228,15 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
-        if (recipeType == RecipeType.PRC || recipeType == RecipeType.WASHER) {
-            if (configComponent.getOutput(TransmissionType.FLUID, from, facing).ioState != SideData.IOState.OFF) {
-                return new FluidTankInfo[]{fluidTank.getInfo()};
-            }
+        if (inputFluidMachine() && configComponent.getOutput(TransmissionType.FLUID, from, facing).ioState != SideData.IOState.OFF) {
+            return new FluidTankInfo[]{fluidTank.getInfo()};
         }
         return PipeUtils.EMPTY;
     }
 
     @Override
     public FluidTankInfo[] getAllTanks() {
-        if (recipeType == RecipeType.PRC || recipeType == RecipeType.WASHER) {
-            return new FluidTankInfo[]{fluidTank.getInfo()};
-        } else {
-            return PipeUtils.EMPTY;
-        }
+        return getTankInfo(null);
     }
 
     @Nonnull
@@ -1307,13 +1303,12 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     @Nonnull
     @Override
     public GasTankInfo[] getTankInfo() {
-        if (recipeType == RecipeType.Dissolution || recipeType == RecipeType.WASHER || recipeType == RecipeType.PRC) { //Only these plants show two gas storages
-            return new GasTankInfo[]{gasTank, gasOutTank};
-        } else if (recipeType == RecipeType.OXIDIZER) {
-            return new GasTankInfo[]{gasOutTank};
-        } else {
-            return IGasHandler.NONE;
-        }
+        return switch (recipeType) {
+            case Dissolution, WASHER, PRC -> new GasTankInfo[]{gasTank, gasOutTank};
+            case OXIDIZER -> new GasTankInfo[]{gasOutTank};
+            default -> IGasHandler.NONE;
+        };
+
     }
 
     @Override
@@ -1328,12 +1323,14 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing side) {
         if (isCapabilityDisabled(capability, side)) {
             return null;
-        }
-        if (capability == Capabilities.GAS_HANDLER_CAPABILITY || capability == Capabilities.CONFIG_CARD_CAPABILITY || capability == Capabilities.SPECIAL_CONFIG_DATA_CAPABILITY) {
-            return (T) this;
-        }
-        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+        } else if (capability == Capabilities.GAS_HANDLER_CAPABILITY) {
+            return Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
+        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new FluidHandlerWrapper(this, side));
+        } else if (capability == Capabilities.CONFIG_CARD_CAPABILITY) {
+            return Capabilities.CONFIG_CARD_CAPABILITY.cast(this);
+        } else if (capability == Capabilities.SPECIAL_CONFIG_DATA_CAPABILITY) {
+            return Capabilities.SPECIAL_CONFIG_DATA_CAPABILITY.cast(this);
         }
         return super.getCapability(capability, side);
     }
@@ -1343,13 +1340,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         if (configComponent.isCapabilityDisabled(capability, side, facing)) {
             return true;
         } else if (capability == Capabilities.GAS_HANDLER_CAPABILITY) {
-            // Originally, it was only possible to disable it if the type was specified
-            //Now modifying to these can also be disabled
-            if (GasInputMachine() || GasAdvancedInputMachine() || recipeType == RecipeType.OXIDIZER) {
-                return false;
-            } else {
-                return true;
-            }
+            //If the gas capability is not disabled, check if this machine even actually supports gas
+            return !recipeType.supportsGas();
         }
         return super.isCapabilityDisabled(capability, side);
     }
@@ -1439,6 +1431,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         } else {
             ItemStack recipeInput = ItemStack.EMPTY;
             boolean secondaryMatch = true;
+            boolean secondaryMatch2 = true;
             if (cached.recipeInput instanceof ItemStackInput input) {
                 recipeInput = input.ingredient;
             } else if (cached.recipeInput instanceof AdvancedMachineInput advancedInput) {
@@ -1454,7 +1447,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 secondaryMatch = gasTank.getGasType() == null || gasInput.ingredient.getGas() == gasTank.getGasType();
             } else if (cached.recipeInput instanceof PressurizedInput pressurizedInput) {
                 recipeInput = pressurizedInput.getSolid();
-                secondaryMatch = (gasTank.getGas() == null || gasTank.getGas().isGasEqual(pressurizedInput.getGas())) && (fluidTank.getFluid() == null || fluidTank.getFluid() == pressurizedInput.getFluid());
+                secondaryMatch = gasTank.getGas() == null || gasTank.getGas().isGasEqual(pressurizedInput.getGas());
+                secondaryMatch2 = fluidTank.getFluid() == null || fluidTank.getFluid() == pressurizedInput.getFluid();
             } else if (cached.recipeInput instanceof NucleosynthesizerInput input) {
                 recipeInput = input.getSolid();
                 secondaryMatch = (gasTank.getGas() == null || gasTank.getGas().isGasEqual(input.getGas()));
@@ -1462,7 +1456,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             //If there is no cached item input or it doesn't match our fallback
             // then it is an out of date cache so we compare against the new one
             // and update the cache while we are at it
-            if (recipeInput.isEmpty() || !secondaryMatch || !ItemStack.areItemsEqual(recipeInput, fallbackInput)) {
+            if (recipeInput.isEmpty() || !secondaryMatch || !secondaryMatch2 || !ItemStack.areItemsEqual(recipeInput, fallbackInput)) {
                 cached = recipeType.getAnyRecipe(fallbackInput, extra, gasTank.getGasType(), infuseStored, gasTank.getGas(), fluidTank.getFluid());
                 if (updateCache) {
                     cachedRecipe[process] = cached;

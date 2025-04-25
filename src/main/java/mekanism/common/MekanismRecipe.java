@@ -304,9 +304,9 @@ public class MekanismRecipe {
             RecipeHandler.addPRCRecipe(new ItemStack(Items.COAL, 1, OreDictionary.WILDCARD_VALUE), new FluidStack(FluidRegistry.WATER, 100), new GasStack(MekanismFluids.Oxygen, 100),
                     new ItemStack(MekanismItems.OtherDust, 1, 3), new GasStack(MekanismFluids.Hydrogen, 100), 0, 100);
             RecipeHandler.addPRCRecipe(new ItemStack(MekanismItems.OtherDust, 1, 7), new FluidStack(FluidRegistry.WATER, 10000), new GasStack(MekanismFluids.Plutonium, 1000),
-                    new ItemStack(MekanismItems.PlutoniumPellet, 1), new GasStack(MekanismFluids.SpentNuclearWaste, 1000), 100000, 2000);
+                    new ItemStack(MekanismItems.PlutoniumPellet, 1), new GasStack(MekanismFluids.SpentNuclearWaste, 1000), 10000, 2000);
             RecipeHandler.addPRCRecipe(new ItemStack(MekanismItems.OtherDust, 1, 7), new FluidStack(FluidRegistry.WATER, 10000), new GasStack(MekanismFluids.Polonium, 1000),
-                    new ItemStack(MekanismItems.PoloniumPellet, 1), new GasStack(MekanismFluids.SpentNuclearWaste, 1000), 100000, 2000);
+                    new ItemStack(MekanismItems.PoloniumPellet, 1), new GasStack(MekanismFluids.SpentNuclearWaste, 1000), 10000, 2000);
             RecipeHandler.addPRCRecipe(new ItemStack(MekanismItems.CosmicMatter, 64), FluidRegistry.getFluidStack("liquidsuperheatedsodium", 10000), new GasStack(MekanismFluids.UnstableDimensional, 10000),
                     ItemStack.EMPTY, new GasStack(MekanismFluids.Antimatter, 100), 100000, 24000);
             RecipeHandler.addPRCRecipe(new ItemStack(MekanismItems.ScrapBox, 64), FluidRegistry.getFluidStack("liquidfusionfuel", 10000), new GasStack(MekanismFluids.UnstableDimensional, 10000),
@@ -461,7 +461,24 @@ public class MekanismRecipe {
         }
 
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.RECYCLER)) {
-            RecipeHandler.addRecyclerRecipe(new ItemStack(Blocks.DIRT), new ItemStack(MekanismItems.Scrap, 1), 1F / 6F);
+            if (MekanismConfig.current().mekce.EnableAddArrItemRecyclerRecipe.val()) {
+                for (Item item : ForgeRegistries.ITEMS) {
+                    //跳过物品类型的空气
+                    if (item == Items.AIR) {
+                        continue;
+                    }
+                    if (item.getHasSubtypes()) {
+                        ItemStack stack = new ItemStack(item, 1, 32767);
+                        if (!stack.isEmpty()) {
+                            RecipeHandler.addRecyclerRecipe(stack);
+                        }
+                    } else {
+                        RecipeHandler.addRecyclerRecipe(new ItemStack(item));
+                    }
+                }
+            } else {
+                RecipeHandler.addRecyclerRecipe(new ItemStack(Blocks.DIRT));
+            }
         }
 
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.AMBIENT_ACCUMULATOR) || MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.AMBIENT_ACCUMULATOR_ENERGY)) {
