@@ -11,16 +11,17 @@ public enum DataType {
     OUTPUT("Output", EnumColor.INDIGO),
     OUTPUT_1("Output_1", EnumColor.DARK_BLUE),
     OUTPUT_2("Output_2", EnumColor.AQUA),
-    OUTPUT_ENHANCED("Output_Enhance",EnumColor.INDIGO),
+    OUTPUT_ENHANCED("Output_Enhance", EnumColor.INDIGO),
     INPUT_OUTPUT("Input_Output", EnumColor.PURPLE),
     INPUT_OUTPUT_ENHANCED("Input_Output_Enhance", EnumColor.PURPLE),
     INPUT_ENHANCED_OUTPUT_ENHANCED("Input_Enhance_Output_Enhance", EnumColor.PURPLE),
     INPUT_EXTRA("Input_Extra", EnumColor.ORANGE),
+    INPUT_EXTRA_OUTPUT("Input_Extra_Output", EnumColor.ORANGE),
     ENERGY("Energy", EnumColor.BRIGHT_GREEN),
     EXTRA("Extra", EnumColor.YELLOW),
     GAS("Gas", EnumColor.INDIGO),
     FLUID("Fluid", EnumColor.DARK_AQUA),
-    EMPTY("Empty",EnumColor.BLACK);
+    EMPTY("Empty", EnumColor.BLACK);
 
     private static final DataType[] TYPES = values();
     private final EnumColor color;
@@ -30,9 +31,11 @@ public enum DataType {
         this.color = color;
         this.name = langEntry;
     }
+
     public EnumColor getColor() {
         return color;
     }
+
     public String getName() {
         return name;
     }

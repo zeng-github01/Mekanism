@@ -52,6 +52,7 @@ public abstract class TileEntityDoubleElectricMachine<RECIPE extends DoubleMachi
         configComponent.addOutput(TransmissionType.ITEM, new SideData(new int[]{0, 2}, new boolean[]{false, true}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT_ENHANCED, new int[]{0}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT_ENHANCED_OUTPUT_ENHANCED, new int[]{0, 2}, new boolean[]{false, true}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT_EXTRA_OUTPUT, new int[]{1, 0, 2}, new boolean[]{false, false, true}));
 
         configComponent.setConfig(TransmissionType.ITEM, new byte[]{4, 1, 1, 3, 1, 2});
         configComponent.setInputConfig(TransmissionType.ENERGY);
@@ -60,7 +61,8 @@ public abstract class TileEntityDoubleElectricMachine<RECIPE extends DoubleMachi
 
         ejectorComponent = new TileComponentEjector(this);
         ejectorComponent.setOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(2));
-        ejectorComponent.setInputOutputData(TransmissionType.ITEM,configComponent.getOutputs(TransmissionType.ITEM).get(6));
+        ejectorComponent.setInputOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(6));
+        ejectorComponent.setInputExtraOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(9));
     }
 
     @Override
@@ -79,10 +81,10 @@ public abstract class TileEntityDoubleElectricMachine<RECIPE extends DoubleMachi
         super.onUpdate();
         if (!world.isRemote) {
             ChargeUtils.discharge(3, this);
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() ->{
+            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
                 AutomaticallyExtractItems(7, 0);
                 AutomaticallyExtractItems(8, 0);
-                BetterEjectingItem(8,2);
+                BetterEjectingItem(8, 2);
             });
             boolean inactive = false;
             RECIPE recipe = getRecipe();

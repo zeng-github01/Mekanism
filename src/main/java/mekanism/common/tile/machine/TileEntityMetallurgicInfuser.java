@@ -47,6 +47,7 @@ public class TileEntityMetallurgicInfuser extends TileEntityUpgradeableMachine<I
     public TileEntityMetallurgicInfuser() {
         super("metalinfuser", MachineType.METALLURGIC_INFUSER, 0, 200);
         configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.ENERGY);
+
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.NONE, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT, new int[]{2}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.OUTPUT, new int[]{3}));
@@ -56,6 +57,7 @@ public class TileEntityMetallurgicInfuser extends TileEntityUpgradeableMachine<I
         configComponent.addOutput(TransmissionType.ITEM, new SideData(new int[]{2, 3}, new boolean[]{false, true}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT_ENHANCED, new int[]{2}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT_ENHANCED_OUTPUT_ENHANCED, new int[]{2, 3}, new boolean[]{false, true}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT_EXTRA_OUTPUT, new int[]{1, 2, 3}, new boolean[]{false, false, true}));
         configComponent.setConfig(TransmissionType.ITEM, new byte[]{4, 1, 1, 3, 1, 2});
 
         configComponent.setInputConfig(TransmissionType.ENERGY);
@@ -63,7 +65,8 @@ public class TileEntityMetallurgicInfuser extends TileEntityUpgradeableMachine<I
 
         ejectorComponent = new TileComponentEjector(this);
         ejectorComponent.setOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(2));
-        ejectorComponent.setInputOutputData(TransmissionType.ITEM,configComponent.getOutputs(TransmissionType.ITEM).get(6));
+        ejectorComponent.setInputOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(6));
+        ejectorComponent.setInputExtraOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(9));
     }
 
     @Override
@@ -71,10 +74,10 @@ public class TileEntityMetallurgicInfuser extends TileEntityUpgradeableMachine<I
         super.onUpdate();
         if (!world.isRemote) {
             ChargeUtils.discharge(4, this);
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() ->{
+            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
                 AutomaticallyExtractItems(7, 2);
                 AutomaticallyExtractItems(8, 2);
-                BetterEjectingItem(8,3);
+                BetterEjectingItem(8, 3);
             });
             ItemStack infuseInput = inventory.get(1);
             if (!infuseInput.isEmpty()) {
