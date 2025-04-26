@@ -222,7 +222,6 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
 
-
     public static ItemStack copyStackWithSize(ItemStack stack, int amount) {
         if (stack.isEmpty() || amount <= 0) return ItemStack.EMPTY;
         ItemStack s = stack.copy();
@@ -336,7 +335,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 }
             }
             MachineTypeSwitching();
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() ->{
+            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
                 AutomaticallyExtractItems(9);
                 AutomaticallyExtractItems(10);
                 BetterEjectingItem();
@@ -367,7 +366,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                             if (update) {
                                 recalculateUpgradables(Upgrade.SPEED);
                             }
-                        }else if (recipeType == RecipeType.WASHER) {
+                        } else if (recipeType == RecipeType.WASHER) {
                             BASE_TICKS_REQUIRED = 1;
                         }
                     }
@@ -377,17 +376,17 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                         TypeUpdate(process, Exenery);
                     } else if ((progress[process] + 1) >= ticksRequired && ((recipeType == RecipeType.PRC || recipeType == RecipeType.NUCLEOSYNTHESIZER) ? getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + Exenery) : getEnergy() >= energyPerTick)) {
                         if (MekanismConfig.current().mekce.EnableUpgradeConfigure.val() && ticksRequired <= 0) {
-                            for (int i = ticksRequired; i < 0; i++){
-                                if (!canOperate(getInputSlot(process), getOutputSlot(process), getSecondaryOutputSlot(process))){
+                            for (int i = ticksRequired; i < 0; i++) {
+                                if (!canOperate(getInputSlot(process), getOutputSlot(process), getSecondaryOutputSlot(process))) {
                                     break;
                                 }
-                                if (!(((recipeType == RecipeType.PRC || recipeType == RecipeType.NUCLEOSYNTHESIZER) ? getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + Exenery) : getEnergy() >= energyPerTick))){
+                                if (!(((recipeType == RecipeType.PRC || recipeType == RecipeType.NUCLEOSYNTHESIZER) ? getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + Exenery) : getEnergy() >= energyPerTick))) {
                                     break;
                                 }
                                 operate(getInputSlot(process), getOutputSlot(process), getSecondaryOutputSlot(process));
                                 TypeUpdate(process, Exenery);
                             }
-                        }else {
+                        } else {
                             operate(getInputSlot(process), getOutputSlot(process), getSecondaryOutputSlot(process));
                             TypeUpdate(process, Exenery);
                         }
@@ -733,6 +732,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         return slotID >= slotIDOutput && slotID <= slotIDOutput + tier.processes * 2 - 1;
     }
 
+
     @Override
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
         if (isOutputSlot(slotID)) {
@@ -740,7 +740,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         } else if (isSecondaryOutputSlot(slotID)) {
             return false;
         } else if (isInputSlot(slotID)) {
-            return recipeType.getAnyRecipe(itemstack, inventory.get(4), gasTank.getGasType(), infuseStored, gasTank.getGas(), fluidTank.getFluid()) != null;
+            return !NoItemInputMachine() && recipeType.hasRecipeForInput(itemstack);
         }
         if (slotID == 0) {
             return itemstack.getItem() == MekanismItems.SpeedUpgrade || itemstack.getItem() == MekanismItems.EnergyUpgrade;
@@ -757,6 +757,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         }
         return false;
     }
+
 
     public double getScaledProgress(int process) {
         if (recipeType == RecipeType.PRC || recipeType == RecipeType.NUCLEOSYNTHESIZER) {
@@ -781,6 +782,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         }
         return (double) progress[process] / ticksRequired;
     }
+
 
     public double getScaledInfuseLevel(int i) {
         return (double) infuseStored.getAmount() * i / maxInfuse;
@@ -1278,20 +1280,23 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        if (configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasTank.canReceive(type)) {
-            if (recipeType.getFuelType() == MachineFuelType.ADVANCED || recipeType.getFuelType() == MachineFuelType.FARM) {
-                return recipeType.canReceiveGas(side, type);
-            } else if (recipeType == RecipeType.Crystallizer) {
-                return RecipeHandler.Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(type);
-            } else if (recipeType == RecipeType.Dissolution) {
-                return type == MekanismFluids.SulfuricAcid;
-            } else if (recipeType == RecipeType.PRC || recipeType == RecipeType.NUCLEOSYNTHESIZER) {
-                return true;
-            } else if (recipeType == RecipeType.WASHER) {
-                return RecipeHandler.Recipe.CHEMICAL_WASHER.containsRecipe(type);
-            }
-        }
-        return false;
+        return switch (recipeType.getFuelType()) {
+            case ADVANCED, FARM ->
+                    configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasTank.canReceive(type) && recipeType.canReceiveGas(side, type);
+            default -> switch (recipeType) {
+                case Crystallizer ->
+                        configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasTank.canReceive(type) && RecipeHandler.Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(type);
+                case Dissolution ->
+                        configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasTank.canReceive(type) && type == MekanismFluids.SulfuricAcid;
+                case PRC ->
+                        configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasTank.canReceive(type) && RecipeHandler.Recipe.PRESSURIZED_REACTION_CHAMBER.containsRecipe(type);
+                case NUCLEOSYNTHESIZER ->
+                        configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasTank.canReceive(type) && RecipeHandler.Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER.containsRecipe(type);
+                case WASHER ->
+                        configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasTank.canReceive(type) && RecipeHandler.Recipe.CHEMICAL_WASHER.containsRecipe(type);
+                default -> false;
+            };
+        };
     }
 
 

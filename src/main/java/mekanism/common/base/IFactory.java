@@ -255,6 +255,7 @@ public interface IFactory {
             return getChance2Recipe(new ItemStackInput(input));
         }
 
+
         @Nullable
         public MachineRecipe getAnyRecipe(ItemStack slotStack, ItemStack extraStack, Gas gasType, InfuseStorage infuse, GasStack gasStackType, FluidStack fluidStack) {
             if (fuelType == MachineFuelType.ADVANCED) {
@@ -350,14 +351,53 @@ public interface IFactory {
             }
             for (Object obj : recipe.get().entrySet()) {
                 if (((Entry<?, ?>) obj).getKey() instanceof DoubleMachineInput input) {
-                    ItemStack stack = input.extraStack;
-                    if (StackUtils.equalsWildcard(stack, extraStack)) {
+                    if (StackUtils.equalsWildcard(input.extraStack, extraStack)) {
                         return true;
                     }
                 }
             }
             return false;
         }
+
+        public boolean hasRecipeForInput(ItemStack stack){
+            if (stack.isEmpty()) {
+                return false;
+            }
+            for (Object obj : recipe.get().entrySet()) {
+                if (((Map.Entry<?, ?>) obj).getKey() instanceof AdvancedMachineInput input) {
+                    if (ItemHandlerHelper.canItemStacksStack(input.itemStack, stack)) {
+                        return true;
+                    }
+                }
+                if (((Map.Entry<?, ?>) obj).getKey() instanceof ItemStackInput input){
+                    if (StackUtils.equalsWildcardWithNBT(input.ingredient, stack)) {
+                        return true;
+                    }
+                }
+                if (((Map.Entry<?, ?>) obj).getKey() instanceof DoubleMachineInput input){
+                    if (ItemHandlerHelper.canItemStacksStack(input.itemStack, stack)) {
+                        return true;
+                    }
+                }
+                if (((Map.Entry<?, ?>) obj).getKey() instanceof InfusionInput input){
+                    if (ItemHandlerHelper.canItemStacksStack(input.inputStack, stack)) {
+                        return true;
+                    }
+                }
+                if (((Map.Entry<?, ?>) obj).getKey() instanceof NucleosynthesizerInput input){
+                    if (ItemHandlerHelper.canItemStacksStack(input.getSolid(), stack)) {
+                        return true;
+                    }
+                }
+                if (((Map.Entry<?, ?>) obj).getKey() instanceof PressurizedInput input){
+                    if (ItemHandlerHelper.canItemStacksStack(input.getSolid(), stack)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
 
         public TileEntityAdvancedElectricMachine getTile() {
             if (AdvancedElectricMachineCacheTile == null) {
