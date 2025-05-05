@@ -95,7 +95,7 @@ public abstract class TileEntityAdvancedElectricMachine<RECIPE extends AdvancedM
         }
         ejectorComponent = new TileComponentEjector(this);
         ejectorComponent.setOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(2));
-        ejectorComponent.setInputOutputData(TransmissionType.ITEM,configComponent.getOutputs(TransmissionType.ITEM).get(5));
+        ejectorComponent.setInputOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(5));
     }
 
     @Override
@@ -122,43 +122,43 @@ public abstract class TileEntityAdvancedElectricMachine<RECIPE extends AdvancedM
 
     public abstract boolean isValidGas(Gas gas);
 
+    private boolean inactive;
+
     @Override
     public void onUpdate() {
         super.onUpdate();
 
         if (!world.isRemote) {
             ChargeUtils.discharge(3, this);
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() ->{
+            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
                 AutomaticallyExtractItems(6, 0);
                 AutomaticallyExtractItems(7, 0);
-                BetterEjectingItem(7,2);
+                BetterEjectingItem(7, 2);
             });
             handleSecondaryFuel();
-            boolean inactive = false;
+            inactive = false;
             RECIPE recipe = getRecipe();
             secondaryEnergyThisTick = useStatisticalMechanics() ? StatUtils.inversePoisson(secondaryEnergyPerTick) : (int) Math.ceil(secondaryEnergyPerTick);
-
-            if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick && gasTank.getStored() >= secondaryEnergyThisTick) {
-                setActive(true);
-                operatingTicks++;
-                if (operatingTicks >= ticksRequired) {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                }
-                gasTank.draw(secondaryEnergyThisTick, true);
-                electricityStored.addAndGet(-energyPerTick);
-            } else {
+            getProcess(recipe, gasTank.getStored() >= secondaryEnergyThisTick, energyPerTick, false,true);
+            if (!(canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick && gasTank.getStored() >= secondaryEnergyThisTick)) {
                 inactive = true;
-                setActive(false);
-            }
-
-            if (inactive && getRecipe() == null) {
-                operatingTicks = 0;
             }
             prevEnergy = getEnergy();
             if (!(gasTank.getGasType() == null || gasTank.getStored() == 0)) {
                 prevGas = gasTank.getGasType();
             }
+        }
+    }
+
+    @Override
+    public void setUpOtherActions() {
+        gasTank.draw(secondaryEnergyThisTick, true);
+    }
+
+    @Override
+    public void setClearOperatingTicks() {
+        if (inactive && getRecipe() == null) {
+            operatingTicks = 0;
         }
     }
 

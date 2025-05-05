@@ -107,6 +107,22 @@ public class TileEntityElectrolyticSeparator extends TileEntityBasicMachine<Flui
     }
 
     @Override
+    public void setupVariableValues() {
+        boolean update = BASE_ENERGY_PER_TICK != getRecipe().energyUsage;
+        BASE_ENERGY_PER_TICK = getRecipe().energyUsage;
+        if (update) {
+            recalculateUpgradables(Upgrade.ENERGY);
+        }
+    }
+
+    @Override
+    public void setUpOtherActions() {
+        double prev = getEnergy();
+        setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(getRecipe()));
+        clientEnergyUsed = prev - getEnergy();
+    }
+
+    @Override
     public void onUpdate() {
         super.onUpdate();
         if (!world.isRemote) {
@@ -118,7 +134,6 @@ public class TileEntityElectrolyticSeparator extends TileEntityBasicMachine<Flui
                     }
                 }
             }
-
             if (!inventory.get(1).isEmpty() && leftTank.getStored() > 0) {
                 leftTank.draw(GasUtils.addGas(inventory.get(1), leftTank.getGas()), true);
                 MekanismUtils.saveChunk(this);
@@ -127,28 +142,14 @@ public class TileEntityElectrolyticSeparator extends TileEntityBasicMachine<Flui
                 rightTank.draw(GasUtils.addGas(inventory.get(2), rightTank.getGas()), true);
                 MekanismUtils.saveChunk(this);
             }
-            SeparatorRecipe recipe = getRecipe();
 
-            if (canOperate(recipe) && getEnergy() >= energyPerTick && MekanismUtils.canFunction(this)) {
-                setActive(true);
-                boolean update = BASE_ENERGY_PER_TICK != recipe.energyUsage;
-                BASE_ENERGY_PER_TICK = recipe.energyUsage;
-                if (update) {
-                    recalculateUpgradables(Upgrade.ENERGY);
-                }
-                operatingTicks++;
-                if (operatingTicks >= ticksRequired) {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                }
-                double prev = getEnergy();
-                setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(recipe));
-                clientEnergyUsed = prev - getEnergy();
-            } else if (prevEnergy >= getEnergy()) {
-                setActive(false);
-            }
+            SeparatorRecipe recipe = getRecipe();
+            getProcess(recipe,true,energyPerTick,true,false);
+
             prevEnergy = getEnergy();
+
             int dumpAmount = 8 * Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val());
+
             Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
                 this.gasSpeedController.ensureSize(2, () -> Arrays.asList(new TankProvider.Gas(leftTank), new TankProvider.Gas(rightTank)));
                 handleTank(leftTank, dumpLeft, configComponent.getSidesForData(TransmissionType.GAS, facing, 1), dumpAmount, 0);

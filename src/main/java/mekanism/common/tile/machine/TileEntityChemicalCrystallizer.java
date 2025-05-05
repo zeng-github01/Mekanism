@@ -79,18 +79,7 @@ public class TileEntityChemicalCrystallizer extends TileEntityUpgradeableMachine
                 TileUtils.receiveGasItem(inventory.get(0), inputTank);
             }
             CrystallizerRecipe recipe = getRecipe();
-            if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick) {
-                setActive(true);
-                setEnergy(getEnergy() - energyPerTick);
-                if ((operatingTicks + 1) < ticksRequired) {
-                    operatingTicks++;
-                } else {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                }
-            } else if (prevEnergy >= getEnergy()) {
-                setActive(false);
-            }
+            getProcess(recipe);
             if (!canOperate(recipe)) {
                 operatingTicks = 0;
             }

@@ -98,19 +98,7 @@ public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasIn
             manageBuckets();
             TileUtils.drawGas(inventory.get(2), outputTank);
             WasherRecipe recipe = getRecipe();
-            if (canOperate(recipe) && getEnergy() >= energyPerTick && MekanismUtils.canFunction(this)) {
-                setActive(true);
-                operatingTicks++;
-                if (operatingTicks >= ticksRequired) {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                }
-                double prev = getEnergy();
-                setEnergy(getEnergy() - energyPerTick * getUpgradedUsage());
-                clientEnergyUsed = prev - getEnergy();
-            } else if (prevEnergy >= getEnergy()) {
-                setActive(false);
-            }
+            getProcess(recipe,true,energyPerTick,true,false);
             prevEnergy = getEnergy();
             int newRedstoneLevel = getRedstoneLevel();
             if (newRedstoneLevel != currentRedstoneLevel) {
@@ -119,6 +107,13 @@ public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasIn
             }
         }
     }
+    @Override
+    protected void setUpOtherActions() {
+        double prev = getEnergy();
+        setEnergy(getEnergy() - energyPerTick * getUpgradedUsage());
+        clientEnergyUsed = prev - getEnergy();
+    }
+
 
     public WasherRecipe getRecipe() {
         GasInput input = getInput();

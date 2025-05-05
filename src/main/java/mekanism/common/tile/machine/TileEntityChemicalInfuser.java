@@ -81,23 +81,16 @@ public class TileEntityChemicalInfuser extends TileEntityBasicMachine<ChemicalPa
             TileUtils.receiveGasItem(inventory.get(1), rightTank);
             TileUtils.drawGas(inventory.get(2), centerTank);
             ChemicalInfuserRecipe recipe = getRecipe();
-            if (canOperate(recipe) && getEnergy() >= energyPerTick && MekanismUtils.canFunction(this)) {
-                setActive(true);
-                operatingTicks++;
-                if (operatingTicks >= ticksRequired) {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                }
-                double prev = getEnergy();
-                setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(recipe));
-                clientEnergyUsed = prev - getEnergy();
-            } else {
-                if (prevEnergy >= getEnergy()) {
-                    setActive(false);
-                }
-            }
+            getProcess(recipe,true,energyPerTick * getUpgradedUsage(recipe),true,false);
             prevEnergy = getEnergy();
         }
+    }
+
+    @Override
+    protected void setUpOtherActions() {
+        double prev = getEnergy();
+        setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(getRecipe()));
+        clientEnergyUsed = prev - getEnergy();
     }
 
     public int getUpgradedUsage(ChemicalInfuserRecipe recipe) {

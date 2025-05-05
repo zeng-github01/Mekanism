@@ -15,7 +15,6 @@ import mekanism.common.tile.component.config.DataType;
 import mekanism.common.tile.factory.TileEntityFactory;
 import mekanism.common.util.ChargeUtils;
 import mekanism.common.util.InventoryUtils;
-import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.NonNullListSynchronized;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -75,27 +74,13 @@ public abstract class TileEntityElectricMachine<RECIPE extends BasicMachineRecip
         super.onUpdate();
         if (!world.isRemote) {
             ChargeUtils.discharge(1, this);
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() ->{
+            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
                 AutomaticallyExtractItems(5, 0);
                 AutomaticallyExtractItems(6, 0);
-                BetterEjectingItem(6,2);
+                BetterEjectingItem(6, 2);
             });
             RECIPE recipe = getRecipe();
-            if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick) {
-                setActive(true);
-                electricityStored.addAndGet(-energyPerTick);
-                if ((operatingTicks + 1) < ticksRequired) {
-                    operatingTicks++;
-                } else if ((operatingTicks + 1) >= ticksRequired) {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                }
-            } else if (prevEnergy >= getEnergy()) {
-                setActive(false);
-            }
-            if (!canOperate(recipe)) {
-                operatingTicks = 0;
-            }
+            getProcess(recipe);
             prevEnergy = getEnergy();
         }
     }

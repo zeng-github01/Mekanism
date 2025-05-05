@@ -44,7 +44,7 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityUpgradeab
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT, new int[]{0}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.ENERGY, new int[]{1}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.OUTPUT, new int[]{2}));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData( new int[]{0, 2}, new boolean[]{false, true}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(new int[]{0, 2}, new boolean[]{false, true}));
         configComponent.setConfig(TransmissionType.ITEM, new byte[]{2, 1, 0, 0, 0, 3});
 
         configComponent.setInputConfig(TransmissionType.GAS);
@@ -53,42 +53,29 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityUpgradeab
 
         ejectorComponent = new TileComponentEjector(this);
         ejectorComponent.setOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(3));
-        ejectorComponent.setInputOutputData(TransmissionType.ITEM,configComponent.getOutputs(TransmissionType.ITEM).get(4));
+        ejectorComponent.setInputOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(4));
     }
 
     @Override
     public void onUpdate() {
         super.onUpdate();
-
         if (!world.isRemote) {
             NucleosynthesizerRecipe recipe = getRecipe();
             ChargeUtils.discharge(1, this);
-            if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy)) {
-                boolean update = BASE_TICKS_REQUIRED != recipe.ticks;
-                BASE_TICKS_REQUIRED = recipe.ticks;
-                if (update) {
-                    recalculateUpgradables(Upgrade.SPEED);
-                }
-                setActive(true);
-                if ((operatingTicks + 1) < ticksRequired) {
-                    operatingTicks++;
-                    electricityStored.addAndGet(-MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy));
-                } else if ((operatingTicks + 1) >= ticksRequired && getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy)) {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                    electricityStored.addAndGet(-MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy));
-                }
-            } else {
+            getProcess(recipe, true, MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy));
+            if (!(canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy))) {
                 BASE_TICKS_REQUIRED = 100;
-                if (prevEnergy >= getEnergy()) {
-                    setActive(false);
-                }
-            }
-
-            if (!canOperate(recipe)) {
-                operatingTicks = 0;
             }
             prevEnergy = getEnergy();
+        }
+    }
+
+    @Override
+    protected void setupVariableValues() {
+        boolean update = BASE_TICKS_REQUIRED != getRecipe().ticks;
+        BASE_TICKS_REQUIRED = getRecipe().ticks;
+        if (update) {
+            recalculateUpgradables(Upgrade.SPEED);
         }
     }
 
@@ -100,6 +87,7 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityUpgradeab
         factory.inventory.set(5 + 3, inventory.get(2));
         factory.inventory.set(0, inventory.get(3));
     }
+
     @Override
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
         if (slotID == 0) {

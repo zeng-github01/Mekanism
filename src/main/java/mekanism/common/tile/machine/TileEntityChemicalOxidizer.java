@@ -70,21 +70,15 @@ public class TileEntityChemicalOxidizer extends TileEntityUpgradeableMachine<Ite
             Mekanism.EXECUTE_MANAGER.addSyncTask(() -> AutomaticallyExtractItems(4, 0));
             TileUtils.drawGas(inventory.get(2), gasTank);
             OxidationRecipe recipe = getRecipe();
-            if (canOperate(recipe) && getEnergy() >= energyPerTick && MekanismUtils.canFunction(this)) {
-                setActive(true);
-                setEnergy(getEnergy() - energyPerTick);
-                if (operatingTicks < ticksRequired) {
-                    operatingTicks++;
-                } else {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                    markNoUpdateSync();
-                }
-            } else if (prevEnergy >= getEnergy()) {
-                setActive(false);
-            }
+            getProcess(recipe);
             prevEnergy = getEnergy();
         }
+    }
+
+
+    @Override
+    protected void setFinish(){
+        markNoUpdateSync();
     }
 
     @Override

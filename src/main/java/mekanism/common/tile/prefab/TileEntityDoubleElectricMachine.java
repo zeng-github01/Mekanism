@@ -86,23 +86,8 @@ public abstract class TileEntityDoubleElectricMachine<RECIPE extends DoubleMachi
                 AutomaticallyExtractItems(8, 0);
                 BetterEjectingItem(8, 2);
             });
-            boolean inactive = false;
             RECIPE recipe = getRecipe();
-            if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick) {
-                setActive(true);
-                operatingTicks++;
-                if (operatingTicks >= ticksRequired) {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                }
-                electricityStored.addAndGet(-energyPerTick);
-            } else {
-                inactive = true;
-                setActive(false);
-            }
-            if (inactive && getRecipe() == null) {
-                operatingTicks = 0;
-            }
+            getProcess(recipe);
             prevEnergy = getEnergy();
         }
     }

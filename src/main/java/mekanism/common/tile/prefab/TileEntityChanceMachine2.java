@@ -75,21 +75,7 @@ public abstract class TileEntityChanceMachine2<RECIPE extends Chance2MachineReci
                 BetterEjectingItem(6,2);
             });
             RECIPE recipe = getRecipe();
-            if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick) {
-                setActive(true);
-                electricityStored.addAndGet(-energyPerTick);
-                if ((operatingTicks + 1) < ticksRequired) {
-                    operatingTicks++;
-                } else {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                }
-            } else if (prevEnergy >= getEnergy()) {
-                setActive(false);
-            }
-            if (!canOperate(recipe)) {
-                operatingTicks = 0;
-            }
+            getProcess(recipe);
             prevEnergy = getEnergy();
         }
     }

@@ -76,6 +76,22 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
         ejectorComponent.setInputOutputData(TransmissionType.GAS, configComponent.getOutputs(TransmissionType.GAS).get(3));
     }
 
+
+
+    @Override
+    public void setUpOtherActions() {
+        injectTank.draw(injectUsageThisTick, true);
+    }
+
+    @Override
+    public void setClearOperatingTicks() {
+        if (changed && !canOperate(getRecipe())) {
+            operatingTicks = 0;
+        }
+    }
+
+    private boolean changed;
+
     @Override
     public void onUpdate() {
         if (!world.isRemote) {
@@ -87,28 +103,14 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
             }
             ChargeUtils.discharge(3, this);
             Mekanism.EXECUTE_MANAGER.addSyncTask(() -> AutomaticallyExtractItems(5, 1));
-
             TileUtils.receiveGasItem(inventory.get(0), injectTank, MekanismFluids.SulfuricAcid);
             TileUtils.drawGas(inventory.get(2), outputTank);
-            boolean changed = false;
+            changed = false;
             DissolutionRecipe recipe = getRecipe();
             injectUsageThisTick = Math.max(BASE_INJECT_USAGE, StatUtils.inversePoisson(injectUsage));
-            if (canOperate(recipe) && getEnergy() >= energyPerTick && injectTank.getStored() >= injectUsageThisTick && MekanismUtils.canFunction(this)) {
-                setActive(true);
-                setEnergy(getEnergy() - energyPerTick);
-                minorOperate();
-                if ((operatingTicks + 1) < ticksRequired) {
-                    operatingTicks++;
-                } else {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                }
-            } else if (prevEnergy >= getEnergy()) {
+            getProcess(recipe, injectTank.getStored() >= injectUsageThisTick,energyPerTick,false,true);
+            if (prevEnergy >= getEnergy()) {
                 changed = true;
-                setActive(false);
-            }
-            if (changed && !canOperate(recipe)) {
-                operatingTicks = 0;
             }
             prevEnergy = getEnergy();
             if (needsPacket) {
@@ -189,9 +191,7 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
         markNoUpdateSync();
     }
 
-    public void minorOperate() {
-        injectTank.draw(injectUsageThisTick, true);
-    }
+
 
     @Override
     public void handlePacketData(ByteBuf dataStream) {

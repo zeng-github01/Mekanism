@@ -43,8 +43,8 @@ public class MekanismParticleHelper {
         IBlockState iblockstate = world.getBlockState(pos);
         //Makes it so transmitters don't need to change their tier
         iblockstate = iblockstate.getBlock().getActualState(iblockstate, world, pos);
-        if (tile instanceof ITieredTile) {
-            color = ((ITieredTile) tile).getTier().getColor();
+        if (tile instanceof ITieredTile tieredTile) {
+            color = tieredTile.getTier().getColor();
         }
 
         if (iblockstate.getRenderType() != EnumBlockRenderType.INVISIBLE) {

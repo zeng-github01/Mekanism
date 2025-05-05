@@ -93,21 +93,7 @@ public class TileEntityMetallurgicInfuser extends TileEntityUpgradeableMachine<I
             }
 
             MetallurgicInfuserRecipe recipe = RecipeHandler.getMetallurgicInfuserRecipe(getInput());
-            if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick) {
-                setActive(true);
-                setEnergy(getEnergy() - energyPerTick);
-                if ((operatingTicks + 1) < ticksRequired) {
-                    operatingTicks++;
-                } else {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                }
-            } else if (prevEnergy >= getEnergy()) {
-                setActive(false);
-            }
-            if (!canOperate(recipe)) {
-                operatingTicks = 0;
-            }
+            getProcess(recipe);
             prevEnergy = getEnergy();
         }
     }

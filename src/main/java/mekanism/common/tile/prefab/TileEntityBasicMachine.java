@@ -7,7 +7,6 @@ import mekanism.common.base.IElectricMachine;
 import mekanism.common.base.ISideConfiguration;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.capabilities.Capabilities;
-import mekanism.common.config.MekanismConfig;
 import mekanism.common.integration.computer.IComputerIntegration;
 import mekanism.common.recipe.inputs.MachineInput;
 import mekanism.common.recipe.machines.MachineRecipe;
@@ -28,7 +27,8 @@ import javax.annotation.Nonnull;
 
 /**
  * 基本类型机器方块
- * @param <INPUT> 用于机器的输入
+ *
+ * @param <INPUT>  用于机器的输入
  * @param <OUTPUT> 用于机器的输出
  * @param <RECIPE> 用于机器的配方
  */
@@ -288,10 +288,62 @@ public abstract class TileEntityBasicMachine<INPUT extends MachineInput<INPUT>, 
     }
 
 
+    protected void setupVariableValues() {
+    }
+
+    protected void setUpOtherActions() {
+    }
+
+    protected void setClearOperatingTicks() {
+    }
+
+    protected void setFinish(){
+
+    }
+
+    public void getProcess(RECIPE recipe) {
+        getProcess(recipe, true);
+    }
+
+    public void getProcess(RECIPE recipe, boolean canOperate) {
+        getProcess(recipe, canOperate, energyPerTick, true, true);
+    }
+
+    public void getProcess(RECIPE recipe, boolean canOperate, double energyTick) {
+        getProcess(recipe, canOperate, energyTick, true, true);
+    }
+
+
+
+    public void getProcess(RECIPE recipe, boolean canOperate, double energyTick, boolean clear, boolean defaultEnergy) {
+        if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyTick && canOperate) {
+            setupVariableValues();
+            setActive(true);
+            operatingTicks++;
+            if (defaultEnergy) {
+                electricityStored.addAndGet(-energyTick);
+            }
+            if (operatingTicks >= ticksRequired) {
+                MultipleActions(recipe);
+                operatingTicks = 0;
+                setFinish();
+            }
+            setUpOtherActions();
+        } else if (prevEnergy >= getEnergy()) {
+            setActive(false);
+        }
+        if (clear) {
+            if (!canOperate(recipe)) {
+                operatingTicks = 0;
+            }
+        } else {
+            setClearOperatingTicks();
+        }
+    }
 
 
     public void MultipleActions(RECIPE recipe) {
-        MultipleActions(recipe,ticksRequired);
+        MultipleActions(recipe, ticksRequired);
     }
 
 

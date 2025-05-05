@@ -89,19 +89,7 @@ public class TileEntityIsotopicCentrifuge extends TileEntityBasicMachine<GasInpu
             }
             TileUtils.drawGas(inventory.get(1), outputTank);
             IsotopicRecipe recipe = getRecipe();
-            if (canOperate(recipe) && getEnergy() >= energyPerTick && MekanismUtils.canFunction(this)) {
-                setActive(true);
-                operatingTicks++;
-                if (operatingTicks >= ticksRequired) {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                }
-                double prev = getEnergy();
-                setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(recipe));
-                clientEnergyUsed = prev - getEnergy();
-            } else if (prevEnergy >= getEnergy()) {
-                setActive(false);
-            }
+            getProcess(recipe,true,energyPerTick,true,false);
             prevEnergy = getEnergy();
             int newRedstoneLevel = getRedstoneLevel();
             if (newRedstoneLevel != currentRedstoneLevel) {
@@ -124,6 +112,13 @@ public class TileEntityIsotopicCentrifuge extends TileEntityBasicMachine<GasInpu
                 prevScale = (9 * prevScale + targetScale) / 10;
             }
         }
+    }
+
+    @Override
+    public void setUpOtherActions() {
+        double prev = getEnergy();
+        setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(getRecipe()));
+        clientEnergyUsed = prev - getEnergy();
     }
 
     @Override

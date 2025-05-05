@@ -75,19 +75,7 @@ public class TileEntityNutritionalLiquifier extends TileEntityBasicMachine<ItemS
             Mekanism.EXECUTE_MANAGER.addSyncTask(() -> AutomaticallyExtractItems(4, 0));
             TileUtils.drawGas(inventory.get(2), gasTank);
             NutritionalRecipe recipe = getRecipe();
-            if (canOperate(recipe) && getEnergy() >= energyPerTick && MekanismUtils.canFunction(this)) {
-                setActive(true);
-                setEnergy(getEnergy() - energyPerTick);
-                if (operatingTicks < ticksRequired) {
-                    operatingTicks++;
-                } else {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                    markNoUpdateSync();
-                }
-            } else if (prevEnergy >= getEnergy()) {
-                setActive(false);
-            }
+            getProcess(recipe);
             prevEnergy = getEnergy();
             if (needsPacket) {
                 Mekanism.packetHandler.sendUpdatePacket(this);
@@ -105,6 +93,10 @@ public class TileEntityNutritionalLiquifier extends TileEntityBasicMachine<ItemS
                 prevScale = (9 * prevScale + targetScale) / 10;
             }
         }
+    }
+    @Override
+    public void setFinish(){
+        markNoUpdateSync();
     }
 
     @Override

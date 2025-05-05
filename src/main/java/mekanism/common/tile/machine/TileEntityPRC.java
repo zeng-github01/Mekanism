@@ -82,39 +82,32 @@ public class TileEntityPRC extends TileEntityUpgradeableMachine<PressurizedInput
     public void onUpdate() {
         super.onUpdate();
         if (!world.isRemote) {
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() ->{
+            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
                 AutomaticallyExtractItems(5, 0);
                 AutomaticallyExtractItems(6, 0);
-                BetterEjectingItem(6,2);
+                BetterEjectingItem(6, 2);
             });
             PressurizedRecipe recipe = getRecipe();
             ChargeUtils.discharge(1, this);
-            if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy)) {
-                boolean update = BASE_TICKS_REQUIRED != recipe.ticks;
-                BASE_TICKS_REQUIRED = recipe.ticks;
-                if (update) {
-                    recalculateUpgradables(Upgrade.SPEED);
-                }
-                setActive(true);
-                if ((operatingTicks + 1) < ticksRequired) {
-                    operatingTicks++;
-                    electricityStored.addAndGet(-MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy));
-                } else if ((operatingTicks + 1) >= ticksRequired && getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy)) {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                    electricityStored.addAndGet(-MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy));
-                }
-            } else {
+            getProcess(recipe, true, MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy));
+
+            if (!(canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy))) {
                 BASE_TICKS_REQUIRED = 100;
-                if (prevEnergy >= getEnergy()) {
-                    setActive(false);
-                }
             }
 
             if (!canOperate(recipe)) {
                 operatingTicks = 0;
             }
             prevEnergy = getEnergy();
+        }
+    }
+
+    @Override
+    public void setupVariableValues() {
+        boolean update = BASE_TICKS_REQUIRED != getRecipe().ticks;
+        BASE_TICKS_REQUIRED = getRecipe().ticks;
+        if (update) {
+            recalculateUpgradables(Upgrade.SPEED);
         }
     }
 
