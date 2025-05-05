@@ -1,24 +1,24 @@
 {
   "result": {
     "item": "mekanism:machineblock4",
-    "data": 0
+    "data": 1
   },
   "pattern": [
     "ABA",
     "CDC",
-    "DED"
+    "ABA"
   ],
   "type": "mekanism:ore_shaped",
   "conditions": [
     {
       "type": "mekanism:recipe_enabled",
-      "machineType": "Stamping"
+      "machineType": "Rolling"
     }
   ],
   "key": {
     "A": {
-      "ore": "ingotSteel",
-      "type": "forge:ore_dict"
+      "item": "mekanism:basicblock",
+      "data": 8
     },
     "B": {
       "ore": "craftingPiston",
@@ -30,10 +30,6 @@
     "D": {
       "ore": "blockSteel",
       "type": "forge:ore_dict"
-    },
-    "E": {
-      "item": "mekanism:basicblock",
-      "data": 8
     }
   }
 }

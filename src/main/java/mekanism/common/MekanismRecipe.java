@@ -1,5 +1,6 @@
 package mekanism.common;
 
+
 import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
@@ -27,7 +28,9 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 public class MekanismRecipe {
 
@@ -340,18 +343,18 @@ public class MekanismRecipe {
 
         //Nutritional Liquifier Recipes
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.NUTRITIONAL_LIQUIFIER)) {
-            for (Item item : ForgeRegistries.ITEMS) {
-                if (item instanceof ItemFood itemFood) {
+            for (ItemStack stack : getRegistriesStacks()) {
+                if (stack.getItem() instanceof ItemFood food) {
                     try {
-                        ItemStack stack = new ItemStack(itemFood, 1, OreDictionary.WILDCARD_VALUE);
-                        if (!stack.isEmpty() && itemFood.getHealAmount(stack) > 0) {
-                            RecipeHandler.addNutritionalLiquifierRecipe(stack, new GasStack(MekanismFluids.NutritionalPaste, itemFood.getHealAmount(stack) * 50));
+                        if (!stack.isEmpty() && food.getHealAmount(stack) > 0) {
+                            RecipeHandler.addNutritionalLiquifierRecipe(stack, new GasStack(MekanismFluids.NutritionalPaste, food.getHealAmount(stack) * 50));
                         }
                     } catch (Exception ignored) {
-                        Mekanism.logger.error("Unable to add recipe for Nutritional Liquifier because {} is entered incorrectly", itemFood);
+                        Mekanism.logger.error("Unable to add recipe for Nutritional Liquifier because {} is entered incorrectly", food);
                     }
                 }
             }
+
             RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.CAKE), new GasStack(MekanismFluids.NutritionalPaste, 6 * 50));
         }
 
@@ -433,48 +436,38 @@ public class MekanismRecipe {
             RecipeHandler.addNucleosynthesizerRecipe(new ItemStack(MekanismItems.EmptyCrystals, 64), new GasStack(MekanismFluids.UnstableDimensional, 10000), new ItemStack(MekanismItems.CosmicMatter), 80000, 2000);
         }
 
+
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.STAMPING)) {
-            RecipeHandler.addStampingRecipe(new ItemStack(Blocks.DIRT), new ItemStack(Blocks.SAND, 2));
+            AutoMekanismRecipes.addStampingRecipe();
         }
 
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.ROLLING)) {
-            RecipeHandler.addRollingRecipe(new ItemStack(Blocks.DIRT), new ItemStack(Blocks.SAND, 2));
+            AutoMekanismRecipes.addRollingRecipe();
         }
 
-        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.BRUSHED)) {
+        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.BRUSHED)) {// 拉丝机 杆?
             RecipeHandler.addBrushedRecipe(new ItemStack(Blocks.DIRT), new ItemStack(Blocks.SAND, 2));
         }
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.TURNING)) {
-            RecipeHandler.addTurningRecipe(new ItemStack(Blocks.DIRT), new ItemStack(Blocks.SAND, 2));
+            AutoMekanismRecipes.addTurningRecipe();
         }
 
-        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.ALLOY)) {
+        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.ALLOY)) { //合金炉
             RecipeHandler.addAlloyRecipe(new ItemStack(MekanismItems.Ingot, 3, 5), new ItemStack(MekanismItems.Ingot, 1, 6), new ItemStack(MekanismItems.Ingot, 4, 2));
         }
 
-        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.CELL_EXTRACTOR)) {
+        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.CELL_EXTRACTOR)) {//细胞提取机
             RecipeHandler.addCellExtractorRecipe(new ItemStack(Blocks.IRON_ORE), new ItemStack(Blocks.IRON_BLOCK), new ItemStack(Items.IRON_INGOT), 1);
         }
 
-        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.CELL_SEPARATOR)) {
+        if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.CELL_SEPARATOR)) {//细胞分离机
             RecipeHandler.addCellSeparatorRecipe(new ItemStack(Blocks.IRON_ORE), new ItemStack(Blocks.IRON_BLOCK), new ItemStack(Items.IRON_INGOT), 1);
         }
 
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.RECYCLER)) {
             if (MekanismConfig.current().mekce.EnableAddArrItemRecyclerRecipe.val()) {
-                for (Item item : ForgeRegistries.ITEMS) {
-                    //跳过物品类型的空气
-                    if (item == Items.AIR) {
-                        continue;
-                    }
-                    if (item.getHasSubtypes()) {
-                        ItemStack stack = new ItemStack(item, 1, 32767);
-                        if (!stack.isEmpty()) {
-                            RecipeHandler.addRecyclerRecipe(stack);
-                        }
-                    } else {
-                        RecipeHandler.addRecyclerRecipe(new ItemStack(item));
-                    }
+                for (ItemStack stack : getRegistriesStacks()) {
+                    RecipeHandler.addRecyclerRecipe(stack);
                 }
             } else {
                 RecipeHandler.addRecyclerRecipe(new ItemStack(Blocks.DIRT));
@@ -493,6 +486,26 @@ public class MekanismRecipe {
          * ADD END
          */
 
+    }
+
+    //获取所有物品(不包括空气)
+    public static List<ItemStack> getRegistriesStacks() {
+        List<ItemStack> stacks = new ArrayList<>();
+        for (Item item : ForgeRegistries.ITEMS) {
+            //跳过物品类型的空气
+            if (item == Items.AIR) {
+                continue;
+            }
+            if (item.getHasSubtypes()) {
+                ItemStack stack = new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE);
+                if (!stack.isEmpty()) {
+                    stacks.add(stack);
+                }
+            } else {
+                stacks.add(new ItemStack(item));
+            }
+        }
+        return stacks;
     }
 
 
