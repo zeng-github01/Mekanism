@@ -38,7 +38,7 @@ public class MachineRecipeCategory<WRAPPER extends MachineRecipeWrapper> extends
             public double getProgress() {
                 return (double) timer.getValue() / 20F;
             }
-        }, progressBar, this, guiLocation, 77, 37));
+        }, progressBar, this, guiLocation, 77, 37,false));
     }
 
     @Override

@@ -50,7 +50,7 @@ public class ElectrolyticSeparatorRecipeCategory<WRAPPER extends ElectrolyticSep
             public double getProgress() {
                 return 1;
             }
-        }, progressBar, this, guiLocation, 78, 29));
+        }, progressBar, this, guiLocation, 78, 29,false));
     }
 
     @Override

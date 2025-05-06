@@ -717,6 +717,8 @@ gui.entityDetection=实体检测
 gui.energyContents=能量含量
 gui.redstoneOutput=红石输出
 gui.maxWaterOutput=最大水输出
+gui.mekanism.progress=进度:
+gui.mekanism.show.recipes=显示机器配方
 
 gui.stockControl=库存控制
 gui.allowDefault=允许预设

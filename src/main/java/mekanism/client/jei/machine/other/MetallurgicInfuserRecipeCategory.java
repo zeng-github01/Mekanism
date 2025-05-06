@@ -52,7 +52,7 @@ public class MetallurgicInfuserRecipeCategory<WRAPPER extends MetallurgicInfuser
             public double getProgress() {
                 return (double) timer.getValue() / 20F;
             }
-        }, ProgressBar.MEDIUM, this, guiLocation, 70, 46));
+        }, ProgressBar.MEDIUM, this, guiLocation, 70, 46,false));
         guiElements.add(new GuiBar(this, guiLocation, 6, 17, 6, 54));
     }
 

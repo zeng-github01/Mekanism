@@ -717,6 +717,8 @@ gui.stockControl=Stock Control
 gui.allowDefault=Allow Default
 gui.sizeMode=Size Mode
 mekanism.gui.sizeModeConflict=has no effect currently, because single item mode is turned on.
+gui.mekanism.progress=Progress:
+gui.mekanism.show.recipes=Show Machine Recipes
 
 gui.reactor.injectionRate=Injection Rate
 

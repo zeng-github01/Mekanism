@@ -45,7 +45,7 @@ public class RotaryCondensentratorRecipeCategory extends BaseRecipeCategory<Rota
                     public double getProgress() {
                         return (float) timer.getValue() / 20F;
                     }
-                }, condensentrating ? GuiProgress.ProgressBar.LARGE_RIGHT : GuiProgress.ProgressBar.LARGE_LEFT, this, guiLocation, 62, 38)
+                }, condensentrating ? GuiProgress.ProgressBar.LARGE_RIGHT : GuiProgress.ProgressBar.LARGE_LEFT, this, guiLocation, 62, 38,false)
         );
     }
 

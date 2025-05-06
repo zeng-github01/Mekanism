@@ -131,7 +131,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
                 public double getProgress() {
                     return tileEntity.getScaledProgress(cacheIndex);
                 }
-            }, ProgressBar.DOWN, this, resource, xPos, 33));
+            }, ProgressBar.DOWN, this, resource, xPos, 33,true,false));
         }
         int One_X_Slot_Location = tileEntity.tier == FactoryTier.BASIC ? 54 : tileEntity.tier == FactoryTier.ADVANCED ? 34 : tileEntity.tier == FactoryTier.ELITE ? 28 : 26;
         int short_X_Tank = tileEntity.tier == FactoryTier.CREATIVE ? 212 : tileEntity.tier == FactoryTier.ULTIMATE ? 174 : 140;

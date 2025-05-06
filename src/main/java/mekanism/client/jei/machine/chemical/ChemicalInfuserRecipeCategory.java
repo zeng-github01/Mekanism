@@ -36,13 +36,13 @@ public class ChemicalInfuserRecipeCategory<WRAPPER extends ChemicalInfuserRecipe
             public double getProgress() {
                 return (float) timer.getValue() / 20F;
             }
-        }, GuiProgress.ProgressBar.SMALL_RIGHT, this, guiLocation, 45, 38));
+        }, GuiProgress.ProgressBar.SMALL_RIGHT, this, guiLocation, 45, 38,false));
         guiElements.add(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override
             public double getProgress() {
                 return (float) timer.getValue() / 20F;
             }
-        }, GuiProgress.ProgressBar.SMALL_LEFT, this, guiLocation, 99, 38));
+        }, GuiProgress.ProgressBar.SMALL_LEFT, this, guiLocation, 99, 38,false));
     }
 
     @Override

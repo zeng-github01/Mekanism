@@ -84,7 +84,7 @@ public class GuiSlot extends GuiElement {
             GlStateManager.translate(0, 0, 10);
             int xPos = xLocation + 1;
             int yPos = yLocation + 1;
-            GuiUtils.fill( xPos, yPos, xPos + 16, yPos + 16, overlayColorSupplier.getAsInt());
+            GuiUtils.fill(xPos, yPos, xPos + 16, yPos + 16, overlayColorSupplier.getAsInt());
             GlStateManager.popMatrix();
             MekanismRenderer.resetColor();
         }

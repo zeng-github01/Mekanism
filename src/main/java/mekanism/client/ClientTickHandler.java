@@ -6,6 +6,7 @@ import mekanism.api.IClientTicker;
 import mekanism.api.gear.IModule;
 import mekanism.api.gear.SwiftSneakHelp;
 import mekanism.api.radial.RadialData;
+import mekanism.client.gui.GuiMekanism;
 import mekanism.client.gui.GuiRadialSelector;
 import mekanism.client.newgui.GuiModuleTweaker;
 import mekanism.client.render.hud.MekanismStatusOverlay;
@@ -30,6 +31,7 @@ import mekanism.common.lib.radial.IGenericRadialModeItem;
 import mekanism.common.network.PacketModeChange.ModeChangMessage;
 import mekanism.common.network.PacketPortableTeleporter.PortableTeleporterMessage;
 import mekanism.common.network.PacketPortableTeleporter.PortableTeleporterPacketType;
+import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -44,10 +46,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
-import net.minecraftforge.client.event.InputUpdateEvent;
-import net.minecraftforge.client.event.MouseEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -405,4 +404,15 @@ public class ClientTickHandler {
         }
     }
 
+    //移除jei的显示配方按钮
+    @SubscribeEvent
+    public void onDrawScreenEventPost(RenderTooltipEvent.Pre event) {
+        if (Mekanism.hooks.JEI && minecraft.currentScreen instanceof GuiMekanism) {
+            List<String> tip = event.getLines();
+            String jeiShowRecipes = LangUtils.localize("jei.tooltip.show.recipes");
+            if (tip.contains(jeiShowRecipes)) {
+                event.setCanceled(true);
+            }
+        }
+    }
 }

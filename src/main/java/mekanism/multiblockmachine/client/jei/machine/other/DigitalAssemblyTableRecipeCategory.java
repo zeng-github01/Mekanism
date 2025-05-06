@@ -49,7 +49,7 @@ public class DigitalAssemblyTableRecipeCategory<WRAPPER extends DigitalAssemblyT
             public double getProgress() {
                 return (float) timer.getValue() / 20F;
             }
-        }, progressBar, this, guiLocation, 125, 38));
+        }, progressBar, this, guiLocation, 125, 38,false));
         guiElements.add(new GuiBar(this, guiLocation, 11, 77, 206, 6));
     }
 

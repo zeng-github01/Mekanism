@@ -44,7 +44,7 @@ public class FarmMachineRecipeCategory<RECIPE extends FarmMachineRecipe<RECIPE>,
             public double getProgress() {
                 return (double) timer.getValue() / 20F;
             }
-        }, progressBar, this, guiLocation, 77, 37));
+        }, progressBar, this, guiLocation, 77, 37,false));
         guiElements.add(new GuiBar(this, guiLocation, 60, 36, 8, 14));
     }
 

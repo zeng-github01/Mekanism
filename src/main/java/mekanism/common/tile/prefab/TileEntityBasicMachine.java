@@ -301,6 +301,10 @@ public abstract class TileEntityBasicMachine<INPUT extends MachineInput<INPUT>, 
 
     }
 
+    protected void setNoFinish(){
+
+    }
+
     public void getProcess(RECIPE recipe) {
         getProcess(recipe, true);
     }
@@ -329,8 +333,11 @@ public abstract class TileEntityBasicMachine<INPUT extends MachineInput<INPUT>, 
                 setFinish();
             }
             setUpOtherActions();
-        } else if (prevEnergy >= getEnergy()) {
-            setActive(false);
+        } else{
+            setNoFinish();
+            if (prevEnergy >= getEnergy()) {
+                setActive(false);
+            }
         }
         if (clear) {
             if (!canOperate(recipe)) {

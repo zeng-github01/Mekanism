@@ -37,7 +37,7 @@ public class ChemicalDissolutionChamberRecipeCategory<WRAPPER extends ChemicalDi
             public double getProgress() {
                 return (float) timer.getValue() / 20F;
             }
-        }, progressBar, this, guiLocation, 62, 39));
+        }, progressBar, this, guiLocation, 62, 39,false));
     }
 
     @Override

@@ -1,11 +1,16 @@
 package mekanism.client.gui.element;
 
 import mekanism.client.gui.IGuiWrapper;
+import mekanism.common.Mekanism;
+import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiProgress extends GuiElement {
@@ -14,14 +19,27 @@ public class GuiProgress extends GuiElement {
     protected final ProgressBar type;
     protected final int xLocation;
     protected final int yLocation;
+    protected final boolean isjei;
+    protected final boolean canProgress;
 
     public GuiProgress(IProgressInfoHandler handler, ProgressBar type, IGuiWrapper gui, ResourceLocation def, int x, int y) {
+        this(handler, type, gui, def, x, y, true,true);
+    }
+
+    public GuiProgress(IProgressInfoHandler handler, ProgressBar type, IGuiWrapper gui, ResourceLocation def, int x, int y,boolean isjei) {
+        this(handler, type, gui, def, x, y, isjei,true);
+    }
+
+
+
+    public GuiProgress(IProgressInfoHandler handler, ProgressBar type, IGuiWrapper gui, ResourceLocation def, int x, int y, boolean isjei,boolean canProgress) {
         super(MekanismUtils.getResource(ResourceType.PROGRESS, "Progress_Icon.png"), gui, def);
         xLocation = x;
         yLocation = y;
-
         this.type = type;
         this.handler = handler;
+        this.isjei = isjei;
+        this.canProgress = canProgress;
     }
 
 
@@ -59,7 +77,31 @@ public class GuiProgress extends GuiElement {
     }
 
     @Override
+    protected boolean inBounds(int xAxis, int yAxis) {
+        return xAxis >= xLocation && xAxis <= xLocation + type.width && yAxis >= yLocation && yAxis <= yLocation + type.height;
+    }
+
+    @Override
     public void renderForeground(int xAxis, int yAxis) {
+        mc.renderEngine.bindTexture(RESOURCE);
+        List<String> strings = new ArrayList<>();
+        if (inBounds(xAxis, yAxis)) {
+            if (Mekanism.hooks.JEI && canProgress) {
+                strings.add(LangUtils.localize("gui.mekanism.show.recipes"));
+            }
+            if (isjei && handler.getProgress() != 0 && handler.getProgress() != 1) {
+                if (!strings.isEmpty()){
+                    strings.clear();
+                }
+                String getProgress = String.format("%.2f", handler.getProgress() * 100);
+                String progress = LangUtils.localize("gui.mekanism.progress") + getProgress + "%";
+                strings.add(progress);
+            }
+        }
+        if (!strings.isEmpty()) {
+            displayTooltips(strings, xAxis, yAxis);
+        }
+        mc.renderEngine.bindTexture(defaultLocation);
     }
 
     @Override
@@ -81,8 +123,8 @@ public class GuiProgress extends GuiElement {
         DOWN(12, 22, 128, 58, true),
         TALL_RIGHT(26, 17, 128, 80, false),
         INSTALLING(14, 16, 128, 97, true),
-        BI_RIGHT(20, 8, 128, 130, false),;
-
+        BI_RIGHT(20, 8, 128, 130, false),
+        ;
 
 
         public final int width;

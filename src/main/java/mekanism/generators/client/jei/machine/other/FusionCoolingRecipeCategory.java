@@ -28,7 +28,7 @@ public class FusionCoolingRecipeCategory<WRAPPER extends FusionCoolingRecipeWrap
             public double getProgress() {
                 return (float) timer.getValue() / 20F;
             }
-        }, progressBar, this, guiLocation, 62, 38));
+        }, progressBar, this, guiLocation, 62, 38,false));
     }
 
     @Override

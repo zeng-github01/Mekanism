@@ -32,7 +32,7 @@ public class IsotopicRecipeCategory<WRAPPER extends IsotopicRecipeWrapper<Isotop
             public double getProgress() {
                 return (float) timer.getValue() / 20F;
             }
-        }, progressBar, this, guiLocation, 62, 38));
+        }, progressBar, this, guiLocation, 62, 38,false));
     }
 
     @Override

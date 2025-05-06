@@ -33,7 +33,7 @@ public class ChemicalCrystallizerRecipeCategory<WRAPPER extends ChemicalCrystall
             public double getProgress() {
                 return (float) timer.getValue() / 20F;
             }
-        }, progressBar, this, guiLocation, 51, 60));
+        }, progressBar, this, guiLocation, 51, 60,false));
         guiElements.add(new GuiInnerScreen(this, guiLocation, 27, 13, 121, 42).with(true));
     }
 

@@ -40,7 +40,7 @@ public class ChanceMachineRecipeCategory<RECIPE extends ChanceMachineRecipe<RECI
             public double getProgress() {
                 return (double) timer.getValue() / 20F;
             }
-        }, progressBar, this, guiLocation, 77, 37));
+        }, progressBar, this, guiLocation, 77, 37,false));
     }
 
     @Override

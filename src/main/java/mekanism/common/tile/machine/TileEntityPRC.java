@@ -89,17 +89,19 @@ public class TileEntityPRC extends TileEntityUpgradeableMachine<PressurizedInput
             });
             PressurizedRecipe recipe = getRecipe();
             ChargeUtils.discharge(1, this);
-            getProcess(recipe, true, MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy));
-
-            if (!(canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy))) {
-                BASE_TICKS_REQUIRED = 100;
+            if (canOperate(recipe)) {
+                double energey = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy);
+                getProcess(recipe, true, energey);
             }
 
-            if (!canOperate(recipe)) {
-                operatingTicks = 0;
-            }
             prevEnergy = getEnergy();
         }
+    }
+
+
+    @Override
+    protected void setNoFinish() {
+        BASE_TICKS_REQUIRED = 100;
     }
 
     @Override

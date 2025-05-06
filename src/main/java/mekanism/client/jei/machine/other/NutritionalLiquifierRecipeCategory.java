@@ -34,7 +34,7 @@ public class NutritionalLiquifierRecipeCategory<WRAPPER extends NutritionalLiqui
             public double getProgress() {
                 return (double) timer.getValue() / 20F;
             }
-        }, progressBar, this, guiLocation, 62, 39));
+        }, progressBar, this, guiLocation, 62, 39,false));
     }
 
     @Override

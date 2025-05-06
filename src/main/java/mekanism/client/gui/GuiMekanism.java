@@ -241,7 +241,11 @@ public abstract class GuiMekanism extends GuiContainer implements IGuiWrapper {
         return MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "Null.png");
     }
 
-    public boolean CloseAtuoBG(boolean auto){
-        return atuoBG = auto;
+    public void CloseAtuoBG(boolean auto){
+         atuoBG = auto;
+    }
+
+    public void CloseAtuoBG(){
+        CloseAtuoBG(false);
     }
 }

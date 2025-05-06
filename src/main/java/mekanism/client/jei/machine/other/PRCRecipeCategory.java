@@ -49,7 +49,7 @@ public class PRCRecipeCategory<WRAPPER extends PRCRecipeWrapper<PressurizedRecip
             public double getProgress() {
                 return (float) timer.getValue() / 20F;
             }
-        }, progressBar, this, guiLocation, 75, 37));
+        }, progressBar, this, guiLocation, 75, 37,false));
     }
 
     @Override
