@@ -1,11 +1,11 @@
 package mekanism.client.newgui.warning;
 
+import mekanism.client.newgui.warning.WarningTracker.WarningType;
 import net.minecraft.util.text.ITextComponent;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.function.BooleanSupplier;
-import mekanism.client.newgui.warning.WarningTracker.WarningType;
 
 public interface IWarningTracker {
 

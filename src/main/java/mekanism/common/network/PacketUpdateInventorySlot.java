@@ -3,11 +3,11 @@ package mekanism.common.network;
 import io.netty.buffer.ByteBuf;
 import mekanism.common.PacketHandler;
 import mekanism.common.content.gear.IModuleContainerItem;
+import mekanism.common.network.PacketUpdateInventorySlot.UpdateInventorySlotMessage;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import mekanism.common.network.PacketUpdateInventorySlot.UpdateInventorySlotMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketUpdateInventorySlot implements IMessageHandler<UpdateInventorySlotMessage, IMessage> {

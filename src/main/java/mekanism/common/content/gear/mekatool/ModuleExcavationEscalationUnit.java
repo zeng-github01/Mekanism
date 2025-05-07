@@ -10,7 +10,6 @@ import mekanism.api.gear.config.IModuleConfigItem;
 import mekanism.api.gear.config.ModuleConfigItemCreator;
 import mekanism.api.gear.config.ModuleEnumData;
 import mekanism.api.math.MathUtils;
-import mekanism.api.radial.IRadialDataHelper;
 import mekanism.api.radial.RadialData;
 import mekanism.api.radial.mode.IRadialMode;
 import mekanism.api.radial.mode.NestedRadialMode;

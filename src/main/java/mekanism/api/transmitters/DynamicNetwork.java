@@ -7,7 +7,6 @@ import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import mekanism.api.Coord4D;
 import mekanism.api.IClientTicker;
 import mekanism.api.Range4D;
-import mekanism.common.Mekanism;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

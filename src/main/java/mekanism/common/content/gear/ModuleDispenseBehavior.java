@@ -1,12 +1,13 @@
 package mekanism.common.content.gear;
 
-import javax.annotation.Nonnull;
 import mekanism.api.gear.ICustomModule;
 import mekanism.api.gear.ICustomModule.ModuleDispenseResult;
 import mekanism.api.gear.IModule;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.item.ItemStack;
+
+import javax.annotation.Nonnull;
 
 public class ModuleDispenseBehavior extends BehaviorDefaultDispenseItem {
 

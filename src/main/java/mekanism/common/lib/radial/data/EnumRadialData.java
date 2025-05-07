@@ -1,9 +1,5 @@
 package mekanism.common.lib.radial.data;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-
 import com.google.common.collect.Lists;
 import mekanism.api.annotations.NothingNullByDefault;
 import mekanism.api.math.MathUtils;
@@ -11,6 +7,9 @@ import mekanism.api.radial.ClassBasedRadialData;
 import mekanism.api.radial.mode.IRadialMode;
 import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.Objects;
 
 @NothingNullByDefault
 public class EnumRadialData<MODE extends Enum<MODE> & IRadialMode> extends ClassBasedRadialData<MODE> {

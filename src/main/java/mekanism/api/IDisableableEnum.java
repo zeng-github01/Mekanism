@@ -1,7 +1,7 @@
 package mekanism.api;
 
-import java.util.function.Predicate;
 import javax.annotation.Nonnull;
+import java.util.function.Predicate;
 
 /**
  * Interface for enum's to make them easily incremental, while allowing for disabling various elements

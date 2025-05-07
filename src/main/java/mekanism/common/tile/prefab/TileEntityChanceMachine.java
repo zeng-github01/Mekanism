@@ -1,7 +1,6 @@
 package mekanism.common.tile.prefab;
 
 import mekanism.api.transmitters.TransmissionType;
-import mekanism.common.Mekanism;
 import mekanism.common.MekanismItems;
 import mekanism.common.SideData;
 import mekanism.common.block.states.BlockStateMachine.MachineType;

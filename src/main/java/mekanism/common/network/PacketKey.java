@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import mekanism.common.Mekanism;
 import mekanism.common.PacketHandler;
 import mekanism.common.network.PacketKey.KeyMessage;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;

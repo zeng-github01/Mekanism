@@ -1,7 +1,6 @@
 package mekanism.api.mixninapi;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
 public interface ElytraMixinHelp {

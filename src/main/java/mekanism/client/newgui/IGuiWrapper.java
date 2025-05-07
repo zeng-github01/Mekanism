@@ -1,20 +1,19 @@
 package mekanism.client.newgui;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.function.BooleanSupplier;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import mekanism.client.gui.element.GuiUtils;
 import mekanism.client.newgui.element.GuiElement;
+import mekanism.client.newgui.warning.WarningTracker.WarningType;
 import mekanism.common.Mekanism;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import mekanism.client.newgui.warning.WarningTracker.WarningType;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.BooleanSupplier;
 
 
 public interface IGuiWrapper {

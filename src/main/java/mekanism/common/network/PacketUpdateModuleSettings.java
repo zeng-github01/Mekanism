@@ -1,8 +1,6 @@
 package mekanism.common.network;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import io.netty.util.CharsetUtil;
 import mekanism.api.gear.ModuleData;
 import mekanism.api.gear.config.ModuleBooleanData;
 import mekanism.api.gear.config.ModuleConfigData;

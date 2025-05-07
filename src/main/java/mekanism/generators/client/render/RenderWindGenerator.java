@@ -1,7 +1,6 @@
 package mekanism.generators.client.render;
 
 import mekanism.client.render.MekanismRenderer;
-import mekanism.common.config.MekanismConfig;
 import mekanism.generators.client.model.ModelWindGenerator;
 import mekanism.generators.common.tile.TileEntityWindGenerator;
 import mekanism.generators.common.util.MekanismGeneratorUtils;

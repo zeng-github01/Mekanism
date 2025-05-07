@@ -1,6 +1,5 @@
 package mekanism.common.content.gear.mekasuit;
 
-import java.util.function.Consumer;
 import mekanism.api.annotations.ParametersAreNotNullByDefault;
 import mekanism.api.gear.ICustomModule;
 import mekanism.api.gear.IHUDElement;
@@ -13,6 +12,8 @@ import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.function.Consumer;
 
 @ParametersAreNotNullByDefault
 public class ModuleVisionEnhancementUnit implements ICustomModule<ModuleVisionEnhancementUnit> {

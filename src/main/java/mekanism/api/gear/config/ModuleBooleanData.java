@@ -1,9 +1,10 @@
 package mekanism.api.gear.config;
 
-import java.util.Objects;
+import net.minecraft.nbt.NBTTagCompound;
+
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import net.minecraft.nbt.NBTTagCompound;
+import java.util.Objects;
 
 /**
  * Boolean implementation of {@link ModuleConfigData}.

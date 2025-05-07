@@ -1,13 +1,11 @@
 package mekanism.client.render.hud;
 
-import mekanism.client.gui.element.GuiUtils;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.item.interfaces.IModeItem;
 import mekanism.common.lib.Color;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;

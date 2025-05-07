@@ -1,8 +1,9 @@
 package mekanism.api;
 
-import java.util.function.Predicate;
 import mekanism.api.annotations.NothingNullByDefault;
 import mekanism.api.functions.ConstantPredicates;
+
+import java.util.function.Predicate;
 
 /**
  * Interface for enum's to make them easily incremental

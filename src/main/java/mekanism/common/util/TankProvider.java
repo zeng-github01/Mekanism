@@ -2,7 +2,6 @@ package mekanism.common.util;
 
 import mekanism.api.gas.GasTank;
 import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public interface TankProvider {
 

@@ -1,12 +1,13 @@
 package mekanism.common.content.gear.mekatool;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import mekanism.api.gear.ICustomModule;
 import mekanism.api.gear.IModule;
 import mekanism.api.gear.config.IModuleConfigItem;
 import mekanism.api.gear.config.ModuleBooleanData;
 import mekanism.api.gear.config.ModuleConfigItemCreator;
 import mekanism.common.MekanismLang;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 public class ModuleTeleportationUnit implements ICustomModule<ModuleTeleportationUnit> {

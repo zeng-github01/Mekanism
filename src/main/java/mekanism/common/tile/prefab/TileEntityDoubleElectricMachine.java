@@ -1,7 +1,6 @@
 package mekanism.common.tile.prefab;
 
 import mekanism.api.transmitters.TransmissionType;
-import mekanism.common.Mekanism;
 import mekanism.common.MekanismItems;
 import mekanism.common.SideData;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
@@ -15,7 +14,6 @@ import mekanism.common.tile.component.config.DataType;
 import mekanism.common.tile.factory.TileEntityFactory;
 import mekanism.common.util.ChargeUtils;
 import mekanism.common.util.InventoryUtils;
-import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.NonNullListSynchronized;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;

@@ -1,6 +1,7 @@
 package mekanism.api.annotations;
 
 import org.jetbrains.annotations.NotNull;
+
 import java.util.function.Supplier;
 
 /**

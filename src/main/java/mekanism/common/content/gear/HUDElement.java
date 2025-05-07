@@ -1,11 +1,12 @@
 package mekanism.common.content.gear;
 
-import java.util.function.IntSupplier;
 import mekanism.api.gear.IHUDElement;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.lib.Color;
 import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.function.IntSupplier;
 
 public class HUDElement implements IHUDElement {
 

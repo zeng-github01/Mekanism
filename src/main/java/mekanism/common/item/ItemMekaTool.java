@@ -1,7 +1,6 @@
 package mekanism.common.item;
 
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -9,7 +8,6 @@ import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Reference2BooleanArrayMap;
 import it.unimi.dsi.fastutil.objects.Reference2BooleanMap;
-import mekanism.api.AutomationType;
 import mekanism.api.EnumColor;
 import mekanism.api.energy.IEnergizedItem;
 import mekanism.api.gear.ICustomModule;
@@ -35,7 +33,6 @@ import mekanism.common.lib.radial.IGenericRadialModeItem;
 import mekanism.common.lib.radial.data.NestingRadialData;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
-import mekanism.common.util.StorageUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.BlockTripWire;

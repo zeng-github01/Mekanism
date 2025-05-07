@@ -2,7 +2,6 @@ package mekanism.common.item;
 
 import mekanism.api.EnumColor;
 import mekanism.api.NBTConstants;
-import mekanism.common.Mekanism;
 import mekanism.common.item.interfaces.IItemHUDProvider;
 import mekanism.common.item.interfaces.IModeItem;
 import mekanism.common.util.ItemDataUtils;

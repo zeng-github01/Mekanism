@@ -21,7 +21,6 @@ import mekanism.api.text.TextComponentGroup;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismLang;
 import mekanism.common.content.gear.ModuleConfigItem.DisableableModuleConfigItem;
-import mekanism.common.item.interfaces.IModeItem;
 import mekanism.common.item.interfaces.IModeItem.DisplayChange;
 import mekanism.common.util.ItemDataUtils;
 import mekanism.common.util.LangUtils;

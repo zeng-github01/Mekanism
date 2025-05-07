@@ -3,7 +3,6 @@ package mekanism.common.network;
 import io.netty.buffer.ByteBuf;
 import mekanism.common.PacketHandler;
 import mekanism.common.network.PacketFlyingSync.FlyingSyncMessage;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;

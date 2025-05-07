@@ -1,9 +1,9 @@
 package mekanism.common.config;
 
+import mekanism.api.annotations.FieldsAreNonnullByDefault;
 import mekanism.common.config.options.DoubleOption;
 import mekanism.common.config.options.FloatOption;
 import mekanism.common.config.options.IntOption;
-import mekanism.api.annotations.FieldsAreNonnullByDefault;
 
 /**
  * Created by Thiakil on 15/03/2019.

@@ -1,6 +1,5 @@
 package mekanism.common.content.gear;
 
-import mekanism.common.block.BlockBounding;
 import mekanism.common.content.gear.mekatool.ModuleVeinMiningUnit;
 import mekanism.common.util.MultipartUtils;
 import net.minecraft.block.state.IBlockState;

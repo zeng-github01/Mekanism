@@ -8,7 +8,6 @@ import mekanism.common.MekanismFluids;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.ItemDataUtils;
 import mekanism.common.util.LangUtils;
-import mekanism.common.util.MekanismUtils;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;

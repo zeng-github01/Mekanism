@@ -8,7 +8,6 @@ import mekanism.api.gas.GasStack;
 import mekanism.api.gas.IGasItem;
 import mekanism.api.math.MathUtils;
 import mekanism.client.render.MekanismRenderer;
-import mekanism.common.Mekanism;
 import mekanism.common.MekanismFluids;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.item.interfaces.IItemHUDProvider;

@@ -3,7 +3,6 @@ package mekanism.multiblockmachine.client.gui;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.GasStack;
 import mekanism.client.gui.GuiMekanismTile;
-import mekanism.client.gui.element.GuiUtils;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.bar.GuiBar;

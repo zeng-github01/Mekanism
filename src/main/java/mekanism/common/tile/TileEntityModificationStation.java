@@ -9,7 +9,6 @@ import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.content.gear.IModuleContainerItem;
 import mekanism.common.content.gear.IModuleItem;
 import mekanism.common.content.gear.ModuleHelper;
-import mekanism.common.item.ItemModule;
 import mekanism.common.tile.prefab.TileEntityOperationalMachine;
 import mekanism.common.util.ChargeUtils;
 import mekanism.common.util.MekanismUtils;

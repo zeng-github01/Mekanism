@@ -2,6 +2,7 @@ package mekanism.common.util;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Supplier;
 
 /**

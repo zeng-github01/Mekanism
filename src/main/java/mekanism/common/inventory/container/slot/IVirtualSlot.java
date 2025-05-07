@@ -1,11 +1,11 @@
 package mekanism.common.inventory.container.slot;
 
-import java.util.function.IntSupplier;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.function.IntSupplier;
 
 public interface IVirtualSlot {
 

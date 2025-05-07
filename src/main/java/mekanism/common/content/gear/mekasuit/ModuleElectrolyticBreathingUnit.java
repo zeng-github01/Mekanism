@@ -15,16 +15,11 @@ import mekanism.common.MekanismModules;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.content.gear.ModuleHelper;
 import mekanism.common.util.GasUtils;
-import mekanism.common.util.MekanismUtils;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-
-import java.util.Map;
 
 @ParametersAreNotNullByDefault
 public class ModuleElectrolyticBreathingUnit implements ICustomModule<ModuleElectrolyticBreathingUnit> {

@@ -6,7 +6,6 @@ import crafttweaker.api.liquid.ILiquidDefinition;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
-import mekanism.common.integration.crafttweaker.CrafttweakerIntegration;
 import net.minecraftforge.fluids.Fluid;
 
 public class CraftTweakerGasDefinition implements IGasDefinition {

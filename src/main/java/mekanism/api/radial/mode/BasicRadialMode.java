@@ -1,7 +1,5 @@
 package mekanism.api.radial.mode;
 
-import java.util.Objects;
-
 import com.github.bsideup.jabel.Desugar;
 import mekanism.api.EnumColor;
 import mekanism.api.text.ILangEntry;
@@ -9,6 +7,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 /**
  * Record providing a basic implementation for simple radial modes.

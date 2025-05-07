@@ -1,9 +1,10 @@
 package mekanism.api.functions;
 
-import java.util.function.BiPredicate;
-import java.util.function.Predicate;
 import mekanism.api.AutomationType;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
 /**
  * Helper class to reduce having to create duplicate objects for constant predicates.

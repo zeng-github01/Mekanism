@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Upgrade;
 import mekanism.common.base.IComparatorSupport;
-import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.MekanismUtils;
 import mekanism.multiblockmachine.common.block.states.BlockStateMultiblockMachine;
 import net.minecraft.inventory.Container;

@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
-import mekanism.common.Mekanism;
 import mekanism.common.SideData;
 import mekanism.common.Upgrade;
 import mekanism.common.base.FluidHandlerWrapper;

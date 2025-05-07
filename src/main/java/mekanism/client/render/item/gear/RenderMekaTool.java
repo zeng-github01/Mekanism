@@ -1,8 +1,6 @@
 package mekanism.client.render.item.gear;
 
 import mekanism.client.model.ModelAtomicDisassembler;
-import mekanism.client.model.ModelMekaToolLeft;
-import mekanism.client.model.ModelMekaToolRight;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.render.item.ItemLayerWrapper;
 import mekanism.client.render.item.MekanismItemStackRenderer;

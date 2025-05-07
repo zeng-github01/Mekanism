@@ -6,15 +6,10 @@ import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.client.jei.MekanismJEI;
-import mekanism.common.MekanismLang;
-import mekanism.common.util.MekanismUtils;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IGuiIngredientGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SPSRecipeCategory extends BaseRecipeCategory<SPSRecipeWrapper> {
 
