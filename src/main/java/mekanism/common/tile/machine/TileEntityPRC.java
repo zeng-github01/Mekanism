@@ -82,11 +82,6 @@ public class TileEntityPRC extends TileEntityUpgradeableMachine<PressurizedInput
     public void onUpdate() {
         super.onUpdate();
         if (!world.isRemote) {
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                AutomaticallyExtractItems(5, 0);
-                AutomaticallyExtractItems(6, 0);
-                BetterEjectingItem(6, 2);
-            });
             PressurizedRecipe recipe = getRecipe();
             ChargeUtils.discharge(1, this);
             if (canOperate(recipe)) {
@@ -98,6 +93,12 @@ public class TileEntityPRC extends TileEntityUpgradeableMachine<PressurizedInput
         }
     }
 
+    @Override
+    public void addTileSyncTask() {
+        AutomaticallyExtractItems(5, 0);
+        AutomaticallyExtractItems(6, 0);
+        BetterEjectingItem(6, 2);
+    }
 
     @Override
     protected void setNoFinish() {

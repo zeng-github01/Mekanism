@@ -98,12 +98,14 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
             if (explode >= MekanismConfig.current().multiblock.largewindGenerationExplodeCount.val() && MekanismConfig.current().multiblock.largewindGenerationExplode.val()) {
                 explode();
             }
-            if (MekanismUtils.canFunction(this)) {
-                Mekanism.EXECUTE_MANAGER.addSyncTask(() -> CableUtils.emit(this, 4));
-            }
         } else if (getActive()) {
             angle = (angle + (getPos().getY() + 46F) / SPEED_SCALED) % 360;
         }
+    }
+
+    @Override
+    public void addTileSyncTask() {
+        CableUtils.emit(this, 4);
     }
 
     private void RangeStops() {

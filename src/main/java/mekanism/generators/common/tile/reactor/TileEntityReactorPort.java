@@ -65,10 +65,8 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
         if (changed) {
             world.notifyNeighborsOfStateChange(getPos(), getBlockType(), true);
         }
-
         super.onUpdate();
         if (!world.isRemote) {
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> CableUtils.emit(this));
             if (fluidEject && getReactor() != null && getReactor().getSteamTank().getFluid() != null) {
                 IFluidTank tank = getReactor().getSteamTank();
                 EmitUtils.forEachSide(getWorld(), getPos(), EnumSet.allOf(EnumFacing.class), (tile, side) -> {
@@ -82,6 +80,13 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
             }
         }
     }
+
+    @Override
+    public void addTileSyncTask(){
+        CableUtils.emit(this);
+    }
+
+
 
     @Override
     public int fill(EnumFacing from, @Nonnull FluidStack resource, boolean doFill) {

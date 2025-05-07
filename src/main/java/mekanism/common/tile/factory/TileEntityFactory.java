@@ -322,6 +322,13 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
     @Override
+    public void addTileSyncTask(){
+        AutomaticallyExtractItems(9);
+        AutomaticallyExtractItems(10);
+        BetterEjectingItem();
+    }
+
+    @Override
     public void onUpdate() {
         super.onUpdate();
         if (!world.isRemote) {
@@ -339,11 +346,6 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 }
             }
             MachineTypeSwitching();
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                AutomaticallyExtractItems(9);
-                AutomaticallyExtractItems(10);
-                BetterEjectingItem();
-            });
             double prev = getEnergy();
             if (tier == FactoryTier.CREATIVE) {
                 energyPerTick = 0;

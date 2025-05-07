@@ -1,6 +1,7 @@
 package mekanism.common.tile.machine;
 
 import io.netty.buffer.ByteBuf;
+import mekanism.api.IConfigCardAccess;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
@@ -32,7 +33,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class TileEntityAmbientAccumulatorEnergy extends TileEntityMachine implements ISustainedData, IGasHandler,
-        IUpgradeInfoHandler, ITankManager, IComparatorSupport, ISideConfiguration {
+        IUpgradeInfoHandler, ITankManager, IComparatorSupport, ISideConfiguration, IConfigCardAccess {
 
     public static final int MAX_GAS = GasTankTier.BASIC.getBaseStorage();
     public GasTank outputTank = new GasTank(MAX_GAS);
@@ -42,6 +43,7 @@ public class TileEntityAmbientAccumulatorEnergy extends TileEntityMachine implem
     public TileComponentConfig configComponent;
     private int currentRedstoneLevel;
     public int cachedDimensionId;
+
     public TileEntityAmbientAccumulatorEnergy() {
         super("machine.washer", BlockStateMachine.MachineType.AMBIENT_ACCUMULATOR_ENERGY, 2);
         configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.ENERGY, TransmissionType.GAS);
@@ -190,7 +192,7 @@ public class TileEntityAmbientAccumulatorEnergy extends TileEntityMachine implem
     @Override
     public boolean canExtractItem(int slotID, @Nonnull ItemStack itemstack, @Nonnull EnumFacing side) {
         if (slotID == 0) {
-            return !itemstack.isEmpty() && itemstack.getItem() instanceof IGasItem gasItem&& gasItem.canProvideGas(itemstack, null);
+            return !itemstack.isEmpty() && itemstack.getItem() instanceof IGasItem gasItem && gasItem.canProvideGas(itemstack, null);
         } else if (slotID == 1) {
             return ChargeUtils.canBeOutputted(itemstack, false);
         }
@@ -208,7 +210,7 @@ public class TileEntityAmbientAccumulatorEnergy extends TileEntityMachine implem
         if (isCapabilityDisabled(capability, side)) {
             return false;
         }
-        return capability == Capabilities.GAS_HANDLER_CAPABILITY || super.hasCapability(capability, side);
+        return capability == Capabilities.GAS_HANDLER_CAPABILITY || capability == Capabilities.CONFIG_CARD_CAPABILITY || super.hasCapability(capability, side);
     }
 
     @Override
@@ -217,6 +219,8 @@ public class TileEntityAmbientAccumulatorEnergy extends TileEntityMachine implem
             return null;
         } else if (capability == Capabilities.GAS_HANDLER_CAPABILITY) {
             return Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
+        } else if (capability == Capabilities.CONFIG_CARD_CAPABILITY) {
+            return Capabilities.CONFIG_CARD_CAPABILITY.cast(this);
         }
         return super.getCapability(capability, side);
     }

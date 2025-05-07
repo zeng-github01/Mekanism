@@ -57,14 +57,16 @@ public abstract class TileEntityGenerator extends TileEntityEffectsBlock impleme
                 if (type != null && !type.isEnabled()) {
                     Mekanism.logger.info("Destroying generator of type '" + type.getBlockName() + "' at coords " + Coord4D.get(this) + " as according to config.");
                     world.setBlockToAir(getPos());
-                    return;
                 }
-            }
-            if (MekanismUtils.canFunction(this)) {
-                Mekanism.EXECUTE_MANAGER.addSyncTask(() -> CableUtils.emit(this));
             }
         }
     }
+
+    @Override
+    public void addTileSyncTask() {
+        CableUtils.emit(this);
+    }
+
 
     @Override
     public double getMaxOutput() {
@@ -117,7 +119,7 @@ public abstract class TileEntityGenerator extends TileEntityEffectsBlock impleme
 
 
     @Override
-   public void writeCustomNBT(NBTTagCompound nbtTags) {
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("controlType", controlType.ordinal());
 

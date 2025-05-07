@@ -68,6 +68,24 @@ public class TileEntityLargeElectrolyticSeparator extends TileEntityMultiblockBa
     }
 
     @Override
+    public void setupVariableValues() {
+        boolean update = BASE_ENERGY_PER_TICK != getRecipe().energyUsage;
+        BASE_ENERGY_PER_TICK = getRecipe().energyUsage;
+        if (update) {
+            recalculateUpgradables(Upgrade.ENERGY);
+        }
+    }
+
+    @Override
+    public void setUpOtherActions() {
+        double prev = getEnergy();
+        setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(getRecipe()));
+        clientEnergyUsed = prev - getEnergy();
+    }
+
+    public int dumpAmount;
+
+    @Override
     public void onUpdate() {
         super.onUpdate();
         if (!world.isRemote) {
@@ -95,51 +113,30 @@ public class TileEntityLargeElectrolyticSeparator extends TileEntityMultiblockBa
                 MekanismUtils.saveChunk(this);
             }
             SeparatorRecipe recipe = getRecipe();
-
-            if (canOperate(recipe) && getEnergy() >= energyPerTick && MekanismUtils.canFunction(this)) {
-                setActive(true);
-                boolean update = BASE_ENERGY_PER_TICK != recipe.energyUsage;
-                BASE_ENERGY_PER_TICK = recipe.energyUsage;
-                if (update) {
-                    recalculateUpgradables(Upgrade.ENERGY);
-                }
-                operatingTicks++;
-                if (operatingTicks >= ticksRequired) {
-                    for (int i = 0; i <= Thread(); i++) {
-                        if (!canOperate(recipe)){
-                            break;
-                        }
-                        MultipleActions(recipe);
-                    }
-                    operatingTicks = 0;
-                }
-                double prev = getEnergy();
-                setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(recipe) * Thread());
-                clientEnergyUsed = prev - getEnergy();
-            } else if (prevEnergy >= getEnergy()) {
-                setActive(false);
-            }
+            getProcess(recipe, true, energyPerTick * getUpgradedUsage(recipe) * Thread(), true, false);
             prevEnergy = getEnergy();
             if (needsPacket) {
                 Mekanism.packetHandler.sendUpdatePacket(this);
             }
             needsPacket = false;
-            int dumpAmount = 8 * Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val());
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                this.gasSpeedController.ensureSize(2, () -> Arrays.asList(new TankProvider.Gas(leftTank), new TankProvider.Gas(rightTank)));
-                handleTank(leftTank, dumpLeft, getLeftTankside(), dumpAmount, 0);
-                handleTank(rightTank, dumpRight, getRightTankside(), dumpAmount, 1);
-                int newRedstoneLevel = getRedstoneLevel();
-                if (newRedstoneLevel != currentRedstoneLevel) {
-                    world.updateComparatorOutputLevel(pos, getBlockType());
-                    currentRedstoneLevel = newRedstoneLevel;
-                }
-            });
+            dumpAmount = 8 * Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val());
         } else if (updateDelay > 0) {
             updateDelay--;
             if (updateDelay == 0) {
                 MekanismUtils.updateBlock(world, getPos());
             }
+        }
+    }
+
+    @Override
+    public void addTileSyncTask() {
+        this.gasSpeedController.ensureSize(2, () -> Arrays.asList(new TankProvider.Gas(leftTank), new TankProvider.Gas(rightTank)));
+        handleTank(leftTank, dumpLeft, getLeftTankside(), dumpAmount, 0);
+        handleTank(rightTank, dumpRight, getRightTankside(), dumpAmount, 1);
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            world.updateComparatorOutputLevel(pos, getBlockType());
+            currentRedstoneLevel = newRedstoneLevel;
         }
     }
 

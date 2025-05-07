@@ -72,7 +72,6 @@ public class TileEntityNutritionalLiquifier extends TileEntityBasicMachine<ItemS
                 }
             }
             ChargeUtils.discharge(1, this);
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> AutomaticallyExtractItems(4, 0));
             TileUtils.drawGas(inventory.get(2), gasTank);
             NutritionalRecipe recipe = getRecipe();
             getProcess(recipe);
@@ -94,8 +93,14 @@ public class TileEntityNutritionalLiquifier extends TileEntityBasicMachine<ItemS
             }
         }
     }
+
     @Override
-    public void setFinish(){
+    public void addTileSyncTask() {
+        AutomaticallyExtractItems(4, 0);
+    }
+
+    @Override
+    public void setFinish() {
         markNoUpdateSync();
     }
 

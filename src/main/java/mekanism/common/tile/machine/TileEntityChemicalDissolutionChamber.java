@@ -102,7 +102,6 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
                 }
             }
             ChargeUtils.discharge(3, this);
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> AutomaticallyExtractItems(5, 1));
             TileUtils.receiveGasItem(inventory.get(0), injectTank, MekanismFluids.SulfuricAcid);
             TileUtils.drawGas(inventory.get(2), outputTank);
             changed = false;
@@ -129,6 +128,11 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
                 prevScale = (9 * prevScale + targetScale) / 10;
             }
         }
+    }
+
+    @Override
+    public void addTileSyncTask(){
+        AutomaticallyExtractItems(5, 1);
     }
 
     @Override

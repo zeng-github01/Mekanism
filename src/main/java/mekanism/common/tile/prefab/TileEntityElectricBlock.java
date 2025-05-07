@@ -8,6 +8,7 @@ import ic2.api.energy.tile.IEnergyConductor;
 import ic2.api.energy.tile.IEnergyEmitter;
 import io.netty.buffer.ByteBuf;
 import mekanism.api.TileNetworkList;
+import mekanism.common.Mekanism;
 import mekanism.common.base.IEnergyWrapper;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.capabilities.CapabilityWrapperManager;
@@ -96,6 +97,13 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
         /*if(MekanismUtils.useIC2()) {
             register();
         }*/
+        if (!world.isRemote) {
+            Mekanism.EXECUTE_MANAGER.addSyncTask(this::addTileSyncTask);
+        }
+    }
+
+
+    public void addTileSyncTask(){
     }
 
     @Override

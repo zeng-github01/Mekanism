@@ -95,10 +95,12 @@ public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator 
                 world.updateComparatorOutputLevel(pos, getBlockType());
                 currentRedstoneLevel = newRedstoneLevel;
             }
-            if (MekanismUtils.canFunction(this)) {
-                Mekanism.EXECUTE_MANAGER.addSyncTask(() -> CableUtils.emit(this, 2));
-            }
         }
+    }
+
+    @Override
+    public void addTileSyncTask() {
+        CableUtils.emit(this, 2);
     }
 
     @Override

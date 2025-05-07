@@ -73,9 +73,7 @@ public class TileEntityMidsizeGasTank extends TileEntityContainerBlock implement
             TileUtils.drawGas(inventory.get(0), gasTank, true);
             TileUtils.receiveGasItem(inventory.get(1), gasTank, inventory.get(1).getItem() instanceof IGasItem item && !item.getGas(inventory.get(1)).getGas().isRadiation());
             if (gasTank.getGas() != null && MekanismUtils.canFunction(this) && dumping != GasMode.DUMPING) {
-                Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                    handleTank(gasTank, getOutputTank());
-                });
+                Mekanism.EXECUTE_MANAGER.addSyncTask(() -> handleTank(gasTank, getOutputTank()));
             }
             if (dumping == GasMode.DUMPING) {
                 gasTank.draw(GasStorage / 400, true);

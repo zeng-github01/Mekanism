@@ -1,6 +1,7 @@
 package mekanism.common.tile.machine;
 
 import io.netty.buffer.ByteBuf;
+import mekanism.api.IConfigCardAccess;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
@@ -36,7 +37,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileEntityRotaryCondensentrator extends TileEntityMachine implements ISustainedData, IFluidHandlerWrapper, IGasHandler, IUpgradeInfoHandler, ITankManager,
-        IComparatorSupport, ISideConfiguration {
+        IComparatorSupport, ISideConfiguration, IConfigCardAccess {
 
     public static final int MAX_FLUID = 10000;
     public GasTank gasTank = new GasTank(MAX_FLUID);
@@ -277,7 +278,7 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
         if (isCapabilityDisabled(capability, side)) {
             return false;
         }
-        return capability == Capabilities.GAS_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, side);
+        return capability == Capabilities.GAS_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == Capabilities.CONFIG_CARD_CAPABILITY || super.hasCapability(capability, side);
     }
 
     @Override
@@ -288,6 +289,8 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
             return Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
         } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new FluidHandlerWrapper(this, side));
+        } else if (capability == Capabilities.CONFIG_CARD_CAPABILITY) {
+            return Capabilities.CONFIG_CARD_CAPABILITY.cast(this);
         }
         return super.getCapability(capability, side);
     }
@@ -354,7 +357,7 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
 
     @Override
     public Object[] getTanks() {
-        return new Object[]{fluidTank,gasTank};
+        return new Object[]{fluidTank, gasTank};
     }
 
     @Nonnull

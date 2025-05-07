@@ -74,45 +74,37 @@ public class TileEntityLargeChemicalWasher extends TileEntityMultiblockBasicMach
             manageBuckets();
             TileUtils.drawGas(inventory.get(2), outputTank);
             WasherRecipe recipe = getRecipe();
-            if (canOperate(recipe) && getEnergy() >= energyPerTick && MekanismUtils.canFunction(this)) {
-                setActive(true);
-                operatingTicks++;
-                if (operatingTicks >= ticksRequired) {
-                    for (int i = 0; i <= Thread(); i++) {
-                        if (!canOperate(recipe)){
-                            break;
-                        }
-                        MultipleActions(recipe);
-                    }
-                    operatingTicks = 0;
-                }
-                double prev = getEnergy();
-                setEnergy(getEnergy() - energyPerTick * getUpgradedUsage() * Thread());
-                clientEnergyUsed = prev - getEnergy();
-            } else if (prevEnergy >= getEnergy()) {
-                setActive(false);
-            }
+            getProcess(recipe,true,energyPerTick * getUpgradedUsage() * Thread(),true,false);
             prevEnergy = getEnergy();
             if (needsPacket) {
                 Mekanism.packetHandler.sendUpdatePacket(this);
             }
             needsPacket = false;
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                this.gasSpeedController.ensureSize(1, () -> Collections.singletonList(new TankProvider.Gas(outputTank)));
-                handleTank(outputTank, getRightTankSide(), facing);
-                handleTank(outputTank, getRightTankSide(), MekanismUtils.getRight(facing));
-                int newRedstoneLevel = getRedstoneLevel();
-                if (newRedstoneLevel != currentRedstoneLevel) {
-                    updateComparatorOutputLevelSync();
-                    currentRedstoneLevel = newRedstoneLevel;
-                }
-            });
         } else if (updateDelay > 0) {
             updateDelay--;
             if (updateDelay == 0) {
                 MekanismUtils.updateBlock(world, getPos());
             }
         }
+    }
+
+    @Override
+    public void addTileSyncTask() {
+        this.gasSpeedController.ensureSize(1, () -> Collections.singletonList(new TankProvider.Gas(outputTank)));
+        handleTank(outputTank, getRightTankSide(), facing);
+        handleTank(outputTank, getRightTankSide(), MekanismUtils.getRight(facing));
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            updateComparatorOutputLevelSync();
+            currentRedstoneLevel = newRedstoneLevel;
+        }
+    }
+
+    @Override
+    protected void setUpOtherActions() {
+        double prev = getEnergy();
+        setEnergy(getEnergy() - energyPerTick * getUpgradedUsage() * Thread());
+        clientEnergyUsed = prev - getEnergy();
     }
 
     private TileEntity getRightTankSide() {

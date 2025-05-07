@@ -1,6 +1,7 @@
 package mekanism.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import mekanism.api.IConfigCardAccess;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.math.MathUtils;
@@ -27,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-public class TileEntitySPS extends TileEntityMachine implements IGasHandler, ISideConfiguration, ISustainedData, ITankManager {
+public class TileEntitySPS extends TileEntityMachine implements IGasHandler, ISideConfiguration, ISustainedData, ITankManager, IConfigCardAccess {
 
     public double progress;
     public GasTank inputTank = new GasTank(1000);
@@ -267,7 +268,7 @@ public class TileEntitySPS extends TileEntityMachine implements IGasHandler, ISi
         if (isCapabilityDisabled(capability, side)) {
             return false;
         }
-        return capability == Capabilities.GAS_HANDLER_CAPABILITY || super.hasCapability(capability, side);
+        return capability == Capabilities.GAS_HANDLER_CAPABILITY || capability == Capabilities.CONFIG_CARD_CAPABILITY || super.hasCapability(capability, side);
     }
 
     @Override
@@ -276,6 +277,8 @@ public class TileEntitySPS extends TileEntityMachine implements IGasHandler, ISi
             return null;
         } else if (capability == Capabilities.GAS_HANDLER_CAPABILITY) {
             return Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
+        } else if (capability == Capabilities.CONFIG_CARD_CAPABILITY) {
+            return Capabilities.CONFIG_CARD_CAPABILITY.cast(this);
         }
         return super.getCapability(capability, side);
     }

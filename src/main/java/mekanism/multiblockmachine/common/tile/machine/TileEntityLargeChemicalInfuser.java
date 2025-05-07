@@ -71,47 +71,37 @@ public class TileEntityLargeChemicalInfuser extends TileEntityMultiblockBasicMac
             TileUtils.receiveGasItem(inventory.get(1), rightTank);
             TileUtils.drawGas(inventory.get(2), centerTank);
             ChemicalInfuserRecipe recipe = getRecipe();
-            if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick) {
-                setActive(true);
-                operatingTicks++;
-                if (operatingTicks >= ticksRequired) {
-
-                    for (int i = 0; i <= Thread(); i++) {
-                        if (!canOperate(recipe)){
-                            break;
-                        }
-                        MultipleActions(recipe);
-                    }
-                    operatingTicks = 0;
-                }
-
-                double prev = getEnergy();
-                setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(recipe) * Thread());
-                clientEnergyUsed = prev - getEnergy();
-            } else if (prevEnergy >= getEnergy()) {
-                setActive(false);
-            }
+            getProcess(recipe, true, energyPerTick * getUpgradedUsage(recipe) * Thread(), true, false);
             prevEnergy = getEnergy();
             if (needsPacket) {
                 Mekanism.packetHandler.sendUpdatePacket(this);
             }
             needsPacket = false;
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                this.gasSpeedController.ensureSize(1, () -> Collections.singletonList(new TankProvider.Gas(centerTank)));
-                handleTank(centerTank, getLeftTankside());
-                handleTank(centerTank, getRightTankside());
-                int newRedstoneLevel = getRedstoneLevel();
-                if (newRedstoneLevel != currentRedstoneLevel) {
-                    world.updateComparatorOutputLevel(pos, getBlockType());
-                    currentRedstoneLevel = newRedstoneLevel;
-                }
-            });
         } else if (updateDelay > 0) {
             updateDelay--;
             if (updateDelay == 0) {
                 MekanismUtils.updateBlock(world, getPos());
             }
         }
+    }
+
+    @Override
+    public void addTileSyncTask() {
+        this.gasSpeedController.ensureSize(1, () -> Collections.singletonList(new TankProvider.Gas(centerTank)));
+        handleTank(centerTank, getLeftTankside());
+        handleTank(centerTank, getRightTankside());
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            world.updateComparatorOutputLevel(pos, getBlockType());
+            currentRedstoneLevel = newRedstoneLevel;
+        }
+    }
+
+    @Override
+    protected void setUpOtherActions() {
+        double prev = getEnergy();
+        setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(getRecipe()) * Thread());
+        clientEnergyUsed = prev - getEnergy();
     }
 
     private TileEntity getLeftTankside() {
@@ -132,7 +122,7 @@ public class TileEntityLargeChemicalInfuser extends TileEntityMultiblockBasicMac
 
     private void handleTank(GasTank tank, TileEntity tile) {
         if (tile != null) {
-            ejectGas(EnumSet.of(facing),tank,this.gasSpeedController, tile);
+            ejectGas(EnumSet.of(facing), tank, this.gasSpeedController, tile);
         }
     }
 

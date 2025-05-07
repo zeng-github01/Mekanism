@@ -113,12 +113,6 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
         super.onUpdate();
         if (!world.isRemote) {
             ChargeUtils.discharge(2, this);
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                AutomaticallyExtractItems(6, 0);
-                AutomaticallyExtractItems(7, 0);
-                BetterEjectingItem(7, 3);
-                BetterEjectingItem(7, 4);
-            });
             handleSecondaryFuel();
             inactive = false;
             RECIPE recipe = getRecipe();
@@ -132,6 +126,14 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
                 prevGas = gasTank.getGasType();
             }
         }
+    }
+
+    @Override
+    public void addTileSyncTask() {
+        AutomaticallyExtractItems(6, 0);
+        AutomaticallyExtractItems(7, 0);
+        BetterEjectingItem(7, 3);
+        BetterEjectingItem(7, 4);
     }
 
     @Override

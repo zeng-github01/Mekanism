@@ -74,15 +74,17 @@ public abstract class TileEntityElectricMachine<RECIPE extends BasicMachineRecip
         super.onUpdate();
         if (!world.isRemote) {
             ChargeUtils.discharge(1, this);
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                AutomaticallyExtractItems(5, 0);
-                AutomaticallyExtractItems(6, 0);
-                BetterEjectingItem(6, 2);
-            });
             RECIPE recipe = getRecipe();
             getProcess(recipe);
             prevEnergy = getEnergy();
         }
+    }
+
+    @Override
+    public void addTileSyncTask() {
+        AutomaticallyExtractItems(5, 0);
+        AutomaticallyExtractItems(6, 0);
+        BetterEjectingItem(6, 2);
     }
 
     @Override

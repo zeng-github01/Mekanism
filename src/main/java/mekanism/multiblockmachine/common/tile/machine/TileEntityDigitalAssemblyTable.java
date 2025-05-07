@@ -81,6 +81,30 @@ public class TileEntityDigitalAssemblyTable extends TileEntityMultiblockBasicMac
     }
 
     @Override
+    public void setupVariableValues() {
+        boolean update = BASE_TICKS_REQUIRED != getRecipe().ticks;
+        BASE_TICKS_REQUIRED = getRecipe().ticks;
+        if (update) {
+            recalculateUpgradables(Upgrade.SPEED);
+        }
+    }
+
+
+    @Override
+    public void setUpOtherActions() {
+        for (int i = 11; i < 14; i++) {
+            if (inventory.get(i).attemptDamageItem(1, Rand, null)) {
+                inventory.set(i, ItemStack.EMPTY);
+            }
+        }
+    }
+
+    @Override
+    public void setNoFinish(){
+        BASE_TICKS_REQUIRED = 100;
+    }
+
+    @Override
     public void onUpdate() {
         super.onUpdate();
         if (!world.isRemote) {
@@ -92,35 +116,12 @@ public class TileEntityDigitalAssemblyTable extends TileEntityMultiblockBasicMac
             }
             DigitalAssemblyTableRecipe recipe = getRecipe();
             ChargeUtils.discharge(1, this);
-            if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy) && isMachiningTools()) {
-                boolean update = BASE_TICKS_REQUIRED != recipe.ticks;
-                BASE_TICKS_REQUIRED = recipe.ticks;
-                if (update) {
-                    recalculateUpgradables(Upgrade.SPEED);
-                }
-                setActive(true);
-                for (int i = 11; i < 14; i++) {
-                    if (inventory.get(i).attemptDamageItem(1, Rand, null)) {
-                        inventory.set(i, ItemStack.EMPTY);
-                    }
-                }
-                if ((operatingTicks + 1) < ticksRequired) {
-                    operatingTicks++;
-                    electricityStored.addAndGet(-MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy));
-                } else if ((operatingTicks + 1) >= ticksRequired && getEnergy() >= MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy)) {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                    electricityStored.addAndGet(-MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy));
-                }
-            } else {
-                BASE_TICKS_REQUIRED = 100;
-                if (prevEnergy >= getEnergy()) {
-                    setActive(false);
-                }
+
+            if (canOperate(recipe)){
+                double energy = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy);
+                getProcess(recipe,isMachiningTools(),energy);
             }
-            if (!canOperate(recipe)) {
-                operatingTicks = 0;
-            }
+
             if (prevEnergy != getEnergy() || lastInputFluid != inputFluidTank.getFluidAmount() || lastInputGas != inputGasTank.getStored() || lastOutputGas != outputGasTank.getStored() || lastOutputFluid != outputFluidTank.getFluidAmount() || lastoperatingTicks != operatingTicks) {
                 SPacketUpdateTileEntity packet = this.getUpdatePacket();
                 PlayerChunkMapEntry trackingEntry = ((WorldServer) this.world).getPlayerChunkMap().getEntry(this.pos.getX() >> 4, this.pos.getZ() >> 4);
@@ -140,18 +141,6 @@ public class TileEntityDigitalAssemblyTable extends TileEntityMultiblockBasicMac
                 Mekanism.packetHandler.sendUpdatePacket(this);
             }
             needsPacket = false;
-
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                this.gasSpeedController.ensureSize(1, () -> Collections.singletonList(new TankProvider.Gas(outputGasTank)));
-                handleGasTank(outputGasTank, getGasTankside());
-                this.fluidSpeedController.ensureSize(1, () -> Collections.singletonList(new TankProvider.Fluid(outputFluidTank)));
-                handleFluidTank(outputFluidTank, getFluidTankside());
-                int newRedstoneLevel = getRedstoneLevel();
-                if (newRedstoneLevel != currentRedstoneLevel) {
-                    world.updateComparatorOutputLevel(pos, getBlockType());
-                    currentRedstoneLevel = newRedstoneLevel;
-                }
-            });
         } else {
             if (!isActive) {
                 if (DoorHeight < 16) {
@@ -189,6 +178,20 @@ public class TileEntityDigitalAssemblyTable extends TileEntityMultiblockBasicMac
                     MekanismUtils.updateBlock(world, getPos());
                 }
             }
+        }
+    }
+
+
+    @Override
+    public void addTileSyncTask() {
+        this.gasSpeedController.ensureSize(1, () -> Collections.singletonList(new TankProvider.Gas(outputGasTank)));
+        handleGasTank(outputGasTank, getGasTankside());
+        this.fluidSpeedController.ensureSize(1, () -> Collections.singletonList(new TankProvider.Fluid(outputFluidTank)));
+        handleFluidTank(outputFluidTank, getFluidTankside());
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            world.updateComparatorOutputLevel(pos, getBlockType());
+            currentRedstoneLevel = newRedstoneLevel;
         }
     }
 

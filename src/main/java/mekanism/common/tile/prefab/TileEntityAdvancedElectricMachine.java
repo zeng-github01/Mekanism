@@ -130,11 +130,6 @@ public abstract class TileEntityAdvancedElectricMachine<RECIPE extends AdvancedM
 
         if (!world.isRemote) {
             ChargeUtils.discharge(3, this);
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                AutomaticallyExtractItems(6, 0);
-                AutomaticallyExtractItems(7, 0);
-                BetterEjectingItem(7, 2);
-            });
             handleSecondaryFuel();
             inactive = false;
             RECIPE recipe = getRecipe();
@@ -148,6 +143,13 @@ public abstract class TileEntityAdvancedElectricMachine<RECIPE extends AdvancedM
                 prevGas = gasTank.getGasType();
             }
         }
+    }
+
+    @Override
+    public void addTileSyncTask() {
+        AutomaticallyExtractItems(6, 0);
+        AutomaticallyExtractItems(7, 0);
+        BetterEjectingItem(7, 2);
     }
 
     @Override

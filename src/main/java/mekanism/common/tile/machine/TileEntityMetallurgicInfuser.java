@@ -74,11 +74,6 @@ public class TileEntityMetallurgicInfuser extends TileEntityUpgradeableMachine<I
         super.onUpdate();
         if (!world.isRemote) {
             ChargeUtils.discharge(4, this);
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                AutomaticallyExtractItems(7, 2);
-                AutomaticallyExtractItems(8, 2);
-                BetterEjectingItem(8, 3);
-            });
             ItemStack infuseInput = inventory.get(1);
             if (!infuseInput.isEmpty()) {
                 InfuseObject pendingInfuseInput = InfuseRegistry.getObject(infuseInput);
@@ -96,6 +91,13 @@ public class TileEntityMetallurgicInfuser extends TileEntityUpgradeableMachine<I
             getProcess(recipe);
             prevEnergy = getEnergy();
         }
+    }
+
+    @Override
+    public void addTileSyncTask() {
+        AutomaticallyExtractItems(7, 2);
+        AutomaticallyExtractItems(8, 2);
+        BetterEjectingItem(8, 3);
     }
 
     @Override

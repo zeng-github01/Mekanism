@@ -74,10 +74,12 @@ public abstract class TileEntityMultiblockGenerator extends TileEntityEffectsBlo
                     return;
                 }
             }
-            if (MekanismUtils.canFunction(this)) {
-                Mekanism.EXECUTE_MANAGER.addSyncTask(() -> CableUtils.emit(this));
-            }
         }
+    }
+
+    @Override
+    public void addTileSyncTask() {
+        CableUtils.emit(this);
     }
 
     @Override

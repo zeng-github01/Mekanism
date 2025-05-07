@@ -69,12 +69,6 @@ public abstract class TileEntityChanceMachine<RECIPE extends ChanceMachineRecipe
         super.onUpdate();
         if (!world.isRemote) {
             ChargeUtils.discharge(1, this);
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() ->{
-                AutomaticallyExtractItems(5, 0);
-                AutomaticallyExtractItems(6, 0);
-                BetterEjectingItem(6,2);
-                BetterEjectingItem(6,4);
-            });
             RECIPE recipe = getRecipe();
             if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick) {
                 setActive(true);
@@ -93,6 +87,14 @@ public abstract class TileEntityChanceMachine<RECIPE extends ChanceMachineRecipe
             }
             prevEnergy = getEnergy();
         }
+    }
+
+    @Override
+    public void addTileSyncTask() {
+        AutomaticallyExtractItems(5, 0);
+        AutomaticallyExtractItems(6, 0);
+        BetterEjectingItem(6,2);
+        BetterEjectingItem(6,4);
     }
 
     @Override

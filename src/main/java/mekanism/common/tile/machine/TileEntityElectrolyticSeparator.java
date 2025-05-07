@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
-import mekanism.common.Mekanism;
 import mekanism.common.MekanismFluids;
 import mekanism.common.SideData;
 import mekanism.common.Upgrade;
@@ -122,6 +121,8 @@ public class TileEntityElectrolyticSeparator extends TileEntityBasicMachine<Flui
         clientEnergyUsed = prev - getEnergy();
     }
 
+    public int dumpAmount;
+
     @Override
     public void onUpdate() {
         super.onUpdate();
@@ -144,23 +145,23 @@ public class TileEntityElectrolyticSeparator extends TileEntityBasicMachine<Flui
             }
 
             SeparatorRecipe recipe = getRecipe();
-            getProcess(recipe,true,energyPerTick,true,false);
-
+            getProcess(recipe, true, energyPerTick, true, false);
             prevEnergy = getEnergy();
-
-            int dumpAmount = 8 * Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val());
-
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                this.gasSpeedController.ensureSize(2, () -> Arrays.asList(new TankProvider.Gas(leftTank), new TankProvider.Gas(rightTank)));
-                handleTank(leftTank, dumpLeft, configComponent.getSidesForData(TransmissionType.GAS, facing, 1), dumpAmount, 0);
-                handleTank(rightTank, dumpRight, configComponent.getSidesForData(TransmissionType.GAS, facing, 2), dumpAmount, 1);
-                int newRedstoneLevel = getRedstoneLevel();
-                if (newRedstoneLevel != currentRedstoneLevel) {
-                    updateComparatorOutputLevelSync();
-                    currentRedstoneLevel = newRedstoneLevel;
-                }
-            });
+            dumpAmount = 8 * Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val());
         }
+    }
+
+    @Override
+    public void addTileSyncTask() {
+        this.gasSpeedController.ensureSize(2, () -> Arrays.asList(new TankProvider.Gas(leftTank), new TankProvider.Gas(rightTank)));
+        handleTank(leftTank, dumpLeft, configComponent.getSidesForData(TransmissionType.GAS, facing, 1), dumpAmount, 0);
+        handleTank(rightTank, dumpRight, configComponent.getSidesForData(TransmissionType.GAS, facing, 2), dumpAmount, 1);
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            updateComparatorOutputLevelSync();
+            currentRedstoneLevel = newRedstoneLevel;
+        }
+
     }
 
     private void handleTank(GasTank tank, GasMode mode, Set<EnumFacing> side, int dumpAmount, int tankidx) {
