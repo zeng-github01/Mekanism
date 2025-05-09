@@ -79,42 +79,41 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
     }
 
     @Override
-    public void onUpdate() {
-        if (!world.isRemote) {
-            ItemStack stack = inventory.get(0);
-            if (!stack.isEmpty() && stack.getItem() instanceof IGasItem item && item.getGas(stack) != null && RecipeHandler.Recipe.SOLAR_NEUTRON_ACTIVATOR.containsRecipe(item.getGas(stack).getGas())) {
-                TileUtils.receiveGasItem(inventory.get(0), inputTank);
-            }
-            TileUtils.drawGas(inventory.get(1), outputTank);
-            SolarNeutronRecipe recipe = getRecipe();
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        ItemStack stack = inventory.get(0);
+        if (!stack.isEmpty() && stack.getItem() instanceof IGasItem item && item.getGas(stack) != null && RecipeHandler.Recipe.SOLAR_NEUTRON_ACTIVATOR.containsRecipe(item.getGas(stack).getGas())) {
+            TileUtils.receiveGasItem(inventory.get(0), inputTank);
+        }
+        TileUtils.drawGas(inventory.get(1), outputTank);
+        SolarNeutronRecipe recipe = getRecipe();
 
-            // TODO: Ideally the neutron activator should use the sky brightness to determine throughput; but
-            // changing this would dramatically affect a lot of setups with Fusion reactors which can take
-            // a long time to relight. I don't want to be chased by a mob right now, so just doing basic
-            // rain checks.
-            boolean seesSun = world.isDaytime() && world.canSeeSky(getPos().up()) && !world.provider.isNether();
-            if (needsRainCheck) {
-                seesSun &= !(world.isRaining() || world.isThundering());
-            }
+        // TODO: Ideally the neutron activator should use the sky brightness to determine throughput; but
+        // changing this would dramatically affect a lot of setups with Fusion reactors which can take
+        // a long time to relight. I don't want to be chased by a mob right now, so just doing basic
+        // rain checks.
+        boolean seesSun = world.isDaytime() && world.canSeeSky(getPos().up()) && !world.provider.isNether();
+        if (needsRainCheck) {
+            seesSun &= !(world.isRaining() || world.isThundering());
+        }
 
-            if (seesSun && canOperate(recipe) && MekanismUtils.canFunction(this)) {
-                setActive(true);
-                MultipleActions(recipe);
-            } else {
-                setActive(false);
-            }
+        if (seesSun && canOperate(recipe) && MekanismUtils.canFunction(this)) {
+            setActive(true);
+            MultipleActions(recipe);
+        } else {
+            setActive(false);
+        }
 
-            // Every 20 ticks (once a second), send update to client. Note that this is a 50% reduction in network
-            // traffic from previous implementation that send the update every 10 ticks.
-            if (world.getTotalWorldTime() % 20 == 0) {
-                Mekanism.packetHandler.sendUpdatePacket(this);
-            }
+        // Every 20 ticks (once a second), send update to client. Note that this is a 50% reduction in network
+        // traffic from previous implementation that send the update every 10 ticks.
+        if (world.getTotalWorldTime() % 20 == 0) {
+            Mekanism.packetHandler.sendUpdatePacket(this);
+        }
 
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                updateComparatorOutputLevelSync();
-                currentRedstoneLevel = newRedstoneLevel;
-            }
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            updateComparatorOutputLevelSync();
+            currentRedstoneLevel = newRedstoneLevel;
         }
     }
 

@@ -30,39 +30,37 @@ public class TileEntityModificationStation extends TileEntityOperationalMachine 
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            ChargeUtils.discharge(1, this);
-            ItemStack moduleSlot = inventory.get(2);
-            ItemStack containerSlot = inventory.get(3);
-            if (MekanismUtils.canFunction(this)) {
-                boolean operated = false;
-                if (getEnergy() >= energyPerTick && !moduleSlot.isEmpty() && !containerSlot.isEmpty()) {
-                    ModuleData<?> data = ((IModuleItem) moduleSlot.getItem()).getModuleData();
-                    // make sure the container supports this module
-                    if (ModuleHelper.get().getSupported(containerSlot).contains(data)) {
-                        // make sure we can still install more of this module
-                        IModule<?> module = ModuleHelper.get().load(containerSlot, data);
-                        if (module == null || module.getInstalledCount() < data.getMaxStackSize()) {
-                            operated = true;
-                            operatingTicks++;
-                            electricityStored.addAndGet(-energyPerTick);
-                            if (operatingTicks == ticksRequired) {
-                                operatingTicks = 0;
-                                ((IModuleContainerItem) containerSlot.getItem()).addModule(containerSlot, data);
-                                moduleSlot.shrink(1);
-                            }
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        ChargeUtils.discharge(1, this);
+        ItemStack moduleSlot = inventory.get(2);
+        ItemStack containerSlot = inventory.get(3);
+        if (MekanismUtils.canFunction(this)) {
+            boolean operated = false;
+            if (getEnergy() >= energyPerTick && !moduleSlot.isEmpty() && !containerSlot.isEmpty()) {
+                ModuleData<?> data = ((IModuleItem) moduleSlot.getItem()).getModuleData();
+                // make sure the container supports this module
+                if (ModuleHelper.get().getSupported(containerSlot).contains(data)) {
+                    // make sure we can still install more of this module
+                    IModule<?> module = ModuleHelper.get().load(containerSlot, data);
+                    if (module == null || module.getInstalledCount() < data.getMaxStackSize()) {
+                        operated = true;
+                        operatingTicks++;
+                        electricityStored.addAndGet(-energyPerTick);
+                        if (operatingTicks == ticksRequired) {
+                            operatingTicks = 0;
+                            ((IModuleContainerItem) containerSlot.getItem()).addModule(containerSlot, data);
+                            moduleSlot.shrink(1);
                         }
                     }
+                }
 
-                }
-                if (!operated) {
-                    operatingTicks = 0;
-                }
             }
-            prevEnergy = getEnergy();
+            if (!operated) {
+                operatingTicks = 0;
+            }
         }
+        prevEnergy = getEnergy();
     }
 
     public void removeModule(EntityPlayer player, ModuleData<?> type) {

@@ -84,59 +84,57 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            updatedThisTick = false;
-            if (ticker == 5) {
-                refresh();
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        updatedThisTick = false;
+        if (ticker == 5) {
+            refresh();
+        }
+        if (structured) {
+            updateTemperature();
+        }
+
+        manageBuckets();
+
+        if (structured) {
+            if (inputTank.getFluidAmount() > inputTank.getCapacity() && inputTank.getFluid() != null) {
+                inputTank.getFluid().amount = inputTank.getCapacity();
             }
-            if (structured) {
-                updateTemperature();
+        }
+
+
+        ThermalEvaporationRecipe recipe = getRecipe();
+        if (canOperate(recipe)) {
+            int outputNeeded = outputTank.getCapacity() - outputTank.getFluidAmount();
+            int inputStored = inputTank.getFluidAmount();
+            double outputRatio = (double) recipe.recipeOutput.output.amount / (double) recipe.recipeInput.ingredient.amount;
+            double tempMult = Math.max(0, getTemperature()) * MekanismConfig.current().general.evaporationTempMultiplier.val();
+            double inputToUse = tempMult * recipe.recipeInput.ingredient.amount * ((float) height / (float) MAX_HEIGHT);
+            inputToUse = Math.min(inputTank.getFluidAmount(), inputToUse);
+            inputToUse = Math.min(inputToUse, outputNeeded / outputRatio);
+
+            lastGain = (float) inputToUse / (float) recipe.recipeInput.ingredient.amount;
+            partialInput += inputToUse;
+
+            if (partialInput >= 1) {
+                int inputInt = (int) Math.floor(partialInput);
+                inputTank.drain(inputInt, true);
+                partialInput %= 1;
+                partialOutput += (double) inputInt / recipe.recipeInput.ingredient.amount;
             }
 
-            manageBuckets();
-
-            if (structured) {
-                if (inputTank.getFluidAmount() > inputTank.getCapacity() && inputTank.getFluid() != null) {
-                    inputTank.getFluid().amount = inputTank.getCapacity();
-                }
+            if (partialOutput >= 1) {
+                int outputInt = (int) Math.floor(partialOutput);
+                outputTank.fill(new FluidStack(recipe.recipeOutput.output.getFluid(), outputInt), true);
+                partialOutput %= 1;
             }
-
-
-            ThermalEvaporationRecipe recipe = getRecipe();
-            if (canOperate(recipe)) {
-                int outputNeeded = outputTank.getCapacity() - outputTank.getFluidAmount();
-                int inputStored = inputTank.getFluidAmount();
-                double outputRatio = (double) recipe.recipeOutput.output.amount / (double) recipe.recipeInput.ingredient.amount;
-                double tempMult = Math.max(0, getTemperature()) * MekanismConfig.current().general.evaporationTempMultiplier.val();
-                double inputToUse = tempMult * recipe.recipeInput.ingredient.amount * ((float) height / (float) MAX_HEIGHT);
-                inputToUse = Math.min(inputTank.getFluidAmount(), inputToUse);
-                inputToUse = Math.min(inputToUse, outputNeeded / outputRatio);
-
-                lastGain = (float) inputToUse / (float) recipe.recipeInput.ingredient.amount;
-                partialInput += inputToUse;
-
-                if (partialInput >= 1) {
-                    int inputInt = (int) Math.floor(partialInput);
-                    inputTank.drain(inputInt, true);
-                    partialInput %= 1;
-                    partialOutput += (double) inputInt / recipe.recipeInput.ingredient.amount;
-                }
-
-                if (partialOutput >= 1) {
-                    int outputInt = (int) Math.floor(partialOutput);
-                    outputTank.fill(new FluidStack(recipe.recipeOutput.output.getFluid(), outputInt), true);
-                    partialOutput %= 1;
-                }
-            } else {
-                lastGain = 0;
-            }
-            if (structured) {
-                if (Math.abs((float) inputTank.getFluidAmount() / inputTank.getCapacity() - prevScale) > 0.01) {
-                    Mekanism.packetHandler.sendUpdatePacket(this);
-                    prevScale = (float) inputTank.getFluidAmount() / inputTank.getCapacity();
-                }
+        } else {
+            lastGain = 0;
+        }
+        if (structured) {
+            if (Math.abs((float) inputTank.getFluidAmount() / inputTank.getCapacity() - prevScale) > 0.01) {
+                Mekanism.packetHandler.sendUpdatePacket(this);
+                prevScale = (float) inputTank.getFluidAmount() / inputTank.getCapacity();
             }
         }
     }
@@ -165,7 +163,7 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
     }
 
     protected void refresh() {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             if (!updatedThisTick) {
                 clearStructure();
                 structured = buildStructure();
@@ -251,7 +249,7 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
     }
 
     public int getActiveSolars() {
-        if (world.isRemote) {
+        if (isRemote()) {
             return clientSolarAmount;
         }
         int ret = 0;
@@ -489,7 +487,7 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
     }
 
     @Override
-   public void writeCustomNBT(NBTTagCompound nbtTags) {
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setTag("waterTank", inputTank.writeToNBT(new NBTTagCompound()));
         nbtTags.setTag("brineTank", outputTank.writeToNBT(new NBTTagCompound()));

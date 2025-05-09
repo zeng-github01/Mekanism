@@ -51,7 +51,7 @@ public abstract class TileEntityChanceMachine2<RECIPE extends Chance2MachineReci
 
         ejectorComponent = new TileComponentEjector(this);
         ejectorComponent.setOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(3));
-        ejectorComponent.setInputOutputData(TransmissionType.ITEM,configComponent.getOutputs(TransmissionType.ITEM).get(4));
+        ejectorComponent.setInputOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(4));
     }
 
     @Override
@@ -63,21 +63,19 @@ public abstract class TileEntityChanceMachine2<RECIPE extends Chance2MachineReci
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            ChargeUtils.discharge(1, this);
-            RECIPE recipe = getRecipe();
-            getProcess(recipe);
-            prevEnergy = getEnergy();
-        }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        ChargeUtils.discharge(1, this);
+        RECIPE recipe = getRecipe();
+        getProcess(recipe);
+        prevEnergy = getEnergy();
     }
 
     @Override
     public void addTileSyncTask() {
         AutomaticallyExtractItems(5, 0);
         AutomaticallyExtractItems(6, 0);
-        BetterEjectingItem(6,2);
+        BetterEjectingItem(6, 2);
     }
 
     @Override

@@ -21,9 +21,6 @@ public class TileEntityInductionCell extends TileEntityBasicBlock implements ISt
 
     public double electricityStored;
 
-    @Override
-    public void onUpdate() {
-    }
 
     public String getName() {
         return LangUtils.localize(getBlockType().getTranslationKey() + ".InductionCell" + tier.getBaseTier().getSimpleName() + ".name");

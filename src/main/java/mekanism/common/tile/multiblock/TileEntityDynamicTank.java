@@ -57,26 +57,30 @@ public class TileEntityDynamicTank extends TileEntityMultiblock<SynchronizedTank
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (world.isRemote) {
-            if (clientHasStructure && isRendering) {
-                if (structure != null) {
-                    float targetScale = (float) (structure.fluidStored != null ? structure.fluidStored.amount :structure.gasstored != null ? structure.gasstored.amount : 0) / clientCapacity;
-                    if (Math.abs(prevScale - targetScale) > 0.01) {
-                        prevScale = (9 * prevScale + targetScale) / 10;
-                    }
+    public void onUpdateClient() {
+        super.onUpdateClient();
+        if (clientHasStructure && isRendering) {
+            if (structure != null) {
+                float targetScale = (float) (structure.fluidStored != null ? structure.fluidStored.amount : structure.gasstored != null ? structure.gasstored.amount : 0) / clientCapacity;
+                if (Math.abs(prevScale - targetScale) > 0.01) {
+                    prevScale = (9 * prevScale + targetScale) / 10;
                 }
-            } else {
-                for (ValveData data : valveViewing) {
-                    TileEntityDynamicTank tileEntity = (TileEntityDynamicTank) data.location.getTileEntity(world);
-                    if (tileEntity != null) {
-                        tileEntity.clientHasStructure = false;
-                    }
-                }
-                valveViewing.clear();
             }
-        } else if (structure != null) {
+        } else {
+            valveViewing.forEach(data -> {
+                TileEntityDynamicTank tileEntity = (TileEntityDynamicTank) data.location.getTileEntity(world);
+                if (tileEntity != null) {
+                    tileEntity.clientHasStructure = false;
+                }
+            });
+            valveViewing.clear();
+        }
+    }
+
+    @Override
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        if (structure != null) {
             if (structure.fluidStored != null && structure.fluidStored.amount <= 0) {
                 structure.fluidStored = null;
                 markNoUpdateSync();

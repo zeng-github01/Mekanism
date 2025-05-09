@@ -56,46 +56,46 @@ public class TileEntityResistiveHeater extends TileEntityEffectsBlock implements
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (world.isRemote && updateDelay > 0) {
+    public void onUpdateClient() {
+        super.onUpdateClient();
+        if (updateDelay > 0) {
             updateDelay--;
             if (updateDelay == 0 && clientActive != isActive) {
                 isActive = clientActive;
                 MekanismUtils.updateBlock(world, getPos());
             }
         }
+    }
 
-        if (!world.isRemote) {
-            boolean packet = false;
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0 && clientActive != isActive) {
-                    packet = true;
-                }
-            }
-
-            ChargeUtils.discharge(0, this);
-            double toUse = 0;
-            if (MekanismUtils.canFunction(this)) {
-                toUse = Math.min(getEnergy(), energyUsage);
-                heatToAbsorb += toUse / MekanismConfig.current().general.energyPerHeat.val();
-                setEnergy(getEnergy() - toUse);
-            }
-
-            setActive(toUse > 0);
-            double[] loss = simulateHeat();
-            applyTemperatureChange();
-            lastEnvironmentLoss = loss[1];
-            float newSoundScale = (float) Math.max(0, toUse / 1E5);
-            if (Math.abs(newSoundScale - soundScale) > 0.01) {
+    @Override
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        boolean packet = false;
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0 && clientActive != isActive) {
                 packet = true;
             }
+        }
+        ChargeUtils.discharge(0, this);
+        double toUse = 0;
+        if (MekanismUtils.canFunction(this)) {
+            toUse = Math.min(getEnergy(), energyUsage);
+            heatToAbsorb += toUse / MekanismConfig.current().general.energyPerHeat.val();
+            setEnergy(getEnergy() - toUse);
+        }
 
-            soundScale = newSoundScale;
-            if (packet) {
-                Mekanism.packetHandler.sendUpdatePacket(this);
-            }
+        setActive(toUse > 0);
+        double[] loss = simulateHeat();
+        applyTemperatureChange();
+        lastEnvironmentLoss = loss[1];
+        float newSoundScale = (float) Math.max(0, toUse / 1E5);
+        if (Math.abs(newSoundScale - soundScale) > 0.01) {
+            packet = true;
+        }
+        soundScale = newSoundScale;
+        if (packet) {
+            Mekanism.packetHandler.sendUpdatePacket(this);
         }
     }
 
@@ -322,7 +322,7 @@ public class TileEntityResistiveHeater extends TileEntityEffectsBlock implements
     @Override
     public void validate() {
         super.validate();
-        if (world.isRemote && !rendererInitialized) {
+        if (isRemote() && !rendererInitialized) {
             rendererInitialized = true;
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
                 new BloomRenderResistiveHeater(this);

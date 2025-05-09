@@ -58,48 +58,51 @@ public class TileEntityFuelwoodHeater extends TileEntityContainerBlock implement
     }
 
     @Override
-    public void onUpdate() {
-        if (world.isRemote && updateDelay > 0) {
+    public void onUpdateClient() {
+        super.onUpdateClient();
+        if (updateDelay > 0) {
             updateDelay--;
             if (updateDelay == 0 && clientActive != isActive) {
                 isActive = clientActive;
                 MekanismUtils.updateBlock(world, getPos());
             }
         }
+    }
 
-        if (!world.isRemote) {
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0 && clientActive != isActive) {
-                    Mekanism.packetHandler.sendUpdatePacket(this);
-                }
+    @Override
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0 && clientActive != isActive) {
+                Mekanism.packetHandler.sendUpdatePacket(this);
             }
-
-            boolean burning = false;
-            if (burnTime > 0) {
-                burnTime--;
-                burning = true;
-            } else {
-                if (!inventory.get(0).isEmpty()) {
-                    maxBurnTime = burnTime = TileEntityFurnace.getItemBurnTime(inventory.get(0)) / 2;
-                    if (burnTime > 0) {
-                        ItemStack preShrunk = inventory.get(0).copy();
-                        inventory.get(0).shrink(1);
-                        if (inventory.get(0).getCount() == 0) {
-                            inventory.set(0, preShrunk.getItem().getContainerItem(preShrunk));
-                        }
-                        burning = true;
-                    }
-                }
-            }
-            if (burning) {
-                heatToAbsorb += MekanismConfig.current().general.heatPerFuelTick.val();
-            }
-            double[] loss = simulateHeat();
-            applyTemperatureChange();
-            lastEnvironmentLoss = loss[1];
-            setActive(burning);
         }
+
+        boolean burning = false;
+        if (burnTime > 0) {
+            burnTime--;
+            burning = true;
+        } else {
+            if (!inventory.get(0).isEmpty()) {
+                maxBurnTime = burnTime = TileEntityFurnace.getItemBurnTime(inventory.get(0)) / 2;
+                if (burnTime > 0) {
+                    ItemStack preShrunk = inventory.get(0).copy();
+                    inventory.get(0).shrink(1);
+                    if (inventory.get(0).getCount() == 0) {
+                        inventory.set(0, preShrunk.getItem().getContainerItem(preShrunk));
+                    }
+                    burning = true;
+                }
+            }
+        }
+        if (burning) {
+            heatToAbsorb += MekanismConfig.current().general.heatPerFuelTick.val();
+        }
+        double[] loss = simulateHeat();
+        applyTemperatureChange();
+        lastEnvironmentLoss = loss[1];
+        setActive(burning);
     }
 
     @Override
@@ -112,7 +115,7 @@ public class TileEntityFuelwoodHeater extends TileEntityContainerBlock implement
     }
 
     @Override
-   public void writeCustomNBT(NBTTagCompound nbtTags) {
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setDouble("temperature", temperature);
         nbtTags.setBoolean("isActive", isActive);

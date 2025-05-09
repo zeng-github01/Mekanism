@@ -40,66 +40,61 @@ public class TileEntityTurbineCasing extends TileEntityMultiblock<SynchronizedTu
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        if (structure != null) {
+            if (structure.fluidStored != null && structure.fluidStored.amount <= 0) {
+                structure.fluidStored = null;
+                markNoUpdateSync();
+            }
+            if (isRendering) {
+                structure.lastSteamInput = structure.newSteamInput;
+                structure.newSteamInput = 0;
+                int stored = structure.fluidStored != null ? structure.fluidStored.amount : 0;
+                double proportion = (double) stored / (double) structure.getFluidCapacity();
+                double flowRate = 0;
 
-        if (!world.isRemote) {
-            if (structure != null) {
-                if (structure.fluidStored != null && structure.fluidStored.amount <= 0) {
-                    structure.fluidStored = null;
-                    markNoUpdateSync();
+                if (stored > 0 && getEnergy() < structure.getEnergyCapacity()) {
+                    double energyMultiplier = (MekanismConfig.current().general.maxEnergyPerSteam.val() / TurbineUpdateProtocol.MAX_BLADES) *
+                            Math.min(structure.blades, structure.coils * MekanismConfig.current().generators.turbineBladesPerCoil.val());
+                    double rate = structure.lowerVolume * (structure.getDispersers() * MekanismConfig.current().generators.turbineDisperserGasFlow.val());
+                    rate = Math.min(rate, structure.vents * MekanismConfig.current().generators.turbineVentGasFlow.val());
+
+                    double origRate = rate;
+                    rate = Math.min(Math.min(stored, rate), (getMaxEnergy() - getEnergy()) / energyMultiplier) * proportion;
+
+                    flowRate = rate / origRate;
+                    setEnergy(getEnergy() + (int) rate * energyMultiplier);
+
+                    structure.fluidStored.amount -= rate;
+                    structure.clientFlow = (int) rate;
+                    structure.flowRemaining = Math.min((int) rate, structure.condensers * MekanismConfig.current().generators.condenserRate.val());
+                    if (structure.fluidStored.amount == 0) {
+                        structure.fluidStored = null;
+                    }
+                } else {
+                    structure.clientFlow = 0;
                 }
 
-                if (isRendering) {
-                    structure.lastSteamInput = structure.newSteamInput;
-                    structure.newSteamInput = 0;
-
-                    int stored = structure.fluidStored != null ? structure.fluidStored.amount : 0;
-                    double proportion = (double) stored / (double) structure.getFluidCapacity();
-                    double flowRate = 0;
-
-                    if (stored > 0 && getEnergy() < structure.getEnergyCapacity()) {
-                        double energyMultiplier = (MekanismConfig.current().general.maxEnergyPerSteam.val() / TurbineUpdateProtocol.MAX_BLADES) *
-                                Math.min(structure.blades, structure.coils * MekanismConfig.current().generators.turbineBladesPerCoil.val());
-                        double rate = structure.lowerVolume * (structure.getDispersers() * MekanismConfig.current().generators.turbineDisperserGasFlow.val());
-                        rate = Math.min(rate, structure.vents * MekanismConfig.current().generators.turbineVentGasFlow.val());
-
-                        double origRate = rate;
-                        rate = Math.min(Math.min(stored, rate), (getMaxEnergy() - getEnergy()) / energyMultiplier) * proportion;
-
-                        flowRate = rate / origRate;
-                        setEnergy(getEnergy() + (int) rate * energyMultiplier);
-
-                        structure.fluidStored.amount -= rate;
-                        structure.clientFlow = (int) rate;
-                        structure.flowRemaining = Math.min((int) rate, structure.condensers * MekanismConfig.current().generators.condenserRate.val());
-                        if (structure.fluidStored.amount == 0) {
-                            structure.fluidStored = null;
-                        }
-                    } else {
-                        structure.clientFlow = 0;
+                if (structure.dumpMode == GasMode.DUMPING && structure.fluidStored != null) {
+                    structure.fluidStored.amount -= Math.min(structure.fluidStored.amount, Math.max(structure.fluidStored.amount / 50, structure.lastSteamInput * 2));
+                    if (structure.fluidStored.amount == 0) {
+                        structure.fluidStored = null;
                     }
-
-                    if (structure.dumpMode == GasMode.DUMPING && structure.fluidStored != null) {
-                        structure.fluidStored.amount -= Math.min(structure.fluidStored.amount, Math.max(structure.fluidStored.amount / 50, structure.lastSteamInput * 2));
-                        if (structure.fluidStored.amount == 0) {
-                            structure.fluidStored = null;
-                        }
-                    }
-
-                    float newRotation = (float) flowRate;
-                    boolean needsRotationUpdate = false;
-
-                    if (Math.abs(newRotation - structure.clientRotation) > SynchronizedTurbineData.ROTATION_THRESHOLD) {
-                        structure.clientRotation = newRotation;
-                        needsRotationUpdate = true;
-                    }
-
-                    if (structure.needsRenderUpdate() || needsRotationUpdate) {
-                        sendPacketToRenderer();
-                    }
-                    structure.prevFluid = structure.fluidStored != null ? structure.fluidStored.copy() : null;
                 }
+
+                float newRotation = (float) flowRate;
+                boolean needsRotationUpdate = false;
+
+                if (Math.abs(newRotation - structure.clientRotation) > SynchronizedTurbineData.ROTATION_THRESHOLD) {
+                    structure.clientRotation = newRotation;
+                    needsRotationUpdate = true;
+                }
+
+                if (structure.needsRenderUpdate() || needsRotationUpdate) {
+                    sendPacketToRenderer();
+                }
+                structure.prevFluid = structure.fluidStored != null ? structure.fluidStored.copy() : null;
             }
         }
     }
@@ -172,7 +167,7 @@ public class TileEntityTurbineCasing extends TileEntityMultiblock<SynchronizedTu
 
     @Override
     public void handlePacketData(ByteBuf dataStream) {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             if (structure != null) {
                 byte type = dataStream.readByte();
                 if (type == 0) {

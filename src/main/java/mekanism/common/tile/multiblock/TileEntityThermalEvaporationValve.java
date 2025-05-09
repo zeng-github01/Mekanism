@@ -24,23 +24,21 @@ public class TileEntityThermalEvaporationValve extends TileEntityThermalEvaporat
     private int currentRedstoneLevel;
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            if ((master == null) == prevMaster) {
-                for (EnumFacing side : EnumFacing.VALUES) {
-                    Coord4D obj = Coord4D.get(this).offset(side);
-                    if (obj.exists(world) && !obj.isAirBlock(world) && !(obj.getTileEntity(world) instanceof TileEntityThermalEvaporationBlock)) {
-                        MekanismUtils.notifyNeighborofChange(world, obj, this.pos);
-                    }
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        if ((master == null) == prevMaster) {
+            for (EnumFacing side : EnumFacing.VALUES) {
+                Coord4D obj = Coord4D.get(this).offset(side);
+                if (obj.exists(world) && !obj.isAirBlock(world) && !(obj.getTileEntity(world) instanceof TileEntityThermalEvaporationBlock)) {
+                    MekanismUtils.notifyNeighborofChange(world, obj, this.pos);
                 }
             }
-            prevMaster = master != null;
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                updateComparatorOutputLevelSync();
-                currentRedstoneLevel = newRedstoneLevel;
-            }
+        }
+        prevMaster = master != null;
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            updateComparatorOutputLevelSync();
+            currentRedstoneLevel = newRedstoneLevel;
         }
     }
 

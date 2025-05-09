@@ -62,12 +62,8 @@ public class TileEntityLogisticalSorter extends TileEntityEffectsBlock implement
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (world.isRemote) {
-            return;
-        }
-
+    public void onUpdateServer() {
+        super.onUpdateServer();
         delayTicks = Math.max(0, delayTicks - 1);
         if (delayTicks == 6) {
             setActive(false);
@@ -376,7 +372,7 @@ public class TileEntityLogisticalSorter extends TileEntityEffectsBlock implement
 
     @Override
     public void openInventory(@Nonnull EntityPlayer player) {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             Mekanism.packetHandler.sendUpdatePacket(this);
         }
     }

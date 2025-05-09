@@ -75,14 +75,12 @@ public abstract class TileEntityDoubleElectricMachine<RECIPE extends DoubleMachi
 
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
             ChargeUtils.discharge(3, this);
             RECIPE recipe = getRecipe();
             getProcess(recipe);
             prevEnergy = getEnergy();
-        }
     }
 
     @Override

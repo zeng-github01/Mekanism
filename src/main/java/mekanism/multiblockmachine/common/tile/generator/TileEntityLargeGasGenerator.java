@@ -14,7 +14,7 @@ import mekanism.common.capabilities.Capabilities;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.*;
 import mekanism.multiblockmachine.client.render.bloom.generator.BloomRendererLargeGasGenerator;
-import mekanism.multiblockmachine.common.block.states.BlockStateMultiblockMachineGenerator.*;
+import mekanism.multiblockmachine.common.block.states.BlockStateMultiblockMachineGenerator.MultiblockMachineGeneratorType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -55,63 +55,66 @@ public class TileEntityLargeGasGenerator extends TileEntityMultiblockGenerator i
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            ChargeUtils.charge(1, this);
-            if (!inventory.get(0).isEmpty() && fuelTank.getStored() < MAX_GAS) {
-                Gas gasType = null;
-                if (fuelTank.getGas() != null) {
-                    gasType = fuelTank.getGas().getGas();
-                } else if (!inventory.get(0).isEmpty() && inventory.get(0).getItem() instanceof IGasItem item) {
-                    if (item.getGas(inventory.get(0)) != null) {
-                        gasType = item.getGas(inventory.get(0)).getGas();
-                    }
-                }
-                if (gasType != null && FuelHandler.getFuel(gasType) != null) {
-                    GasStack removed = GasUtils.removeGas(inventory.get(0), gasType, fuelTank.getNeeded());
-                    boolean isTankEmpty = fuelTank.getGas() == null;
-                    int fuelReceived = fuelTank.receive(removed, true);
-                    if (fuelReceived > 0 && isTankEmpty) {
-                        output = FuelHandler.getFuel(fuelTank.getGas().getGas()).energyPerTick * 2;
-                    }
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        ChargeUtils.charge(1, this);
+        if (!inventory.get(0).isEmpty() && fuelTank.getStored() < MAX_GAS) {
+            Gas gasType = null;
+            if (fuelTank.getGas() != null) {
+                gasType = fuelTank.getGas().getGas();
+            } else if (!inventory.get(0).isEmpty() && inventory.get(0).getItem() instanceof IGasItem item) {
+                if (item.getGas(inventory.get(0)) != null) {
+                    gasType = item.getGas(inventory.get(0)).getGas();
                 }
             }
-
-            boolean operate = canOperate();
-            if (operate && getEnergy() + generationRate < getMaxEnergy()) {
-                setActive(true);
-                if (fuelTank.getStored() != 0) {
-                    FuelHandler.FuelGas fuel = FuelHandler.getFuel(fuelTank.getGas().getGas());
-                    maxBurnTicks = fuel.burnTicks;
-                    generationRate = fuel.energyPerTick;
+            if (gasType != null && FuelHandler.getFuel(gasType) != null) {
+                GasStack removed = GasUtils.removeGas(inventory.get(0), gasType, fuelTank.getNeeded());
+                boolean isTankEmpty = fuelTank.getGas() == null;
+                int fuelReceived = fuelTank.receive(removed, true);
+                if (fuelReceived > 0 && isTankEmpty) {
+                    output = FuelHandler.getFuel(fuelTank.getGas().getGas()).energyPerTick * 2;
                 }
-
-                int toUse = getToUse() * Thread();
-                output = (Math.max(MekanismConfig.current().general.FROM_H2.val() * 2 * 27, generationRate * getToUse() * 2 * 27)) * Thread();
-
-                int total = burnTicks + fuelTank.getStored() * maxBurnTicks;
-                total -= toUse;
-                setEnergy(getEnergy() + generationRate * toUse * Thread());
-
-                if (fuelTank.getStored() > 0) {
-                    fuelTank.setGas(new GasStack(fuelTank.getGasType(), total / maxBurnTicks));
-                }
-                burnTicks = total % maxBurnTicks;
-                clientUsed = toUse;
-            } else {
-                if (!operate) {
-                    reset();
-                }
-                clientUsed = 0;
-                setActive(false);
             }
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                world.updateComparatorOutputLevel(pos, getBlockType());
-                currentRedstoneLevel = newRedstoneLevel;
+        }
+
+        boolean operate = canOperate();
+        if (operate && getEnergy() + generationRate < getMaxEnergy()) {
+            setActive(true);
+            if (fuelTank.getStored() != 0) {
+                FuelHandler.FuelGas fuel = FuelHandler.getFuel(fuelTank.getGas().getGas());
+                maxBurnTicks = fuel.burnTicks;
+                generationRate = fuel.energyPerTick;
             }
-        } else if (getActive()) {
+
+            int toUse = getToUse() * Thread();
+            output = (Math.max(MekanismConfig.current().general.FROM_H2.val() * 2 * 27, generationRate * getToUse() * 2 * 27)) * Thread();
+
+            int total = burnTicks + fuelTank.getStored() * maxBurnTicks;
+            total -= toUse;
+            setEnergy(getEnergy() + generationRate * toUse * Thread());
+
+            if (fuelTank.getStored() > 0) {
+                fuelTank.setGas(new GasStack(fuelTank.getGasType(), total / maxBurnTicks));
+            }
+            burnTicks = total % maxBurnTicks;
+            clientUsed = toUse;
+        } else {
+            if (!operate) {
+                reset();
+            }
+            clientUsed = 0;
+            setActive(false);
+        }
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            world.updateComparatorOutputLevel(pos, getBlockType());
+            currentRedstoneLevel = newRedstoneLevel;
+        }
+    }
+
+    @Override
+    public void onUpdateClient() {
+        if (getActive()) {
             animation = animation % 10;
         }
     }
@@ -482,7 +485,7 @@ public class TileEntityLargeGasGenerator extends TileEntityMultiblockGenerator i
     @Override
     public void validate() {
         super.validate();
-        if (world.isRemote && !rendererInitialized) {
+        if (isRemote() && !rendererInitialized) {
             rendererInitialized = true;
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
                 new BloomRendererLargeGasGenerator(this);

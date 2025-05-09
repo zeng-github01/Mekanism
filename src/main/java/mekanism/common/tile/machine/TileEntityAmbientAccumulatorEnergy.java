@@ -67,28 +67,25 @@ public class TileEntityAmbientAccumulatorEnergy extends TileEntityMachine implem
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-
-            ChargeUtils.discharge(1, this);
-            TileUtils.drawGas(inventory.get(0), outputTank);
-            AmbientGasRecipe recipe = getRecipe();
-            if (canOperate(recipe) && getEnergy() >= energyPerTick && MekanismUtils.canFunction(this)) {
-                setActive(true);
-                int operations = operate(recipe);
-                double prev = getEnergy();
-                setEnergy(getEnergy() - energyPerTick * operations);
-                clientEnergyUsed = prev - getEnergy();
-            } else if (prevEnergy >= getEnergy()) {
-                setActive(false);
-            }
-            prevEnergy = getEnergy();
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                updateComparatorOutputLevelSync();
-                currentRedstoneLevel = newRedstoneLevel;
-            }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        ChargeUtils.discharge(1, this);
+        TileUtils.drawGas(inventory.get(0), outputTank);
+        AmbientGasRecipe recipe = getRecipe();
+        if (canOperate(recipe) && getEnergy() >= energyPerTick && MekanismUtils.canFunction(this)) {
+            setActive(true);
+            int operations = operate(recipe);
+            double prev = getEnergy();
+            setEnergy(getEnergy() - energyPerTick * operations);
+            clientEnergyUsed = prev - getEnergy();
+        } else if (prevEnergy >= getEnergy()) {
+            setActive(false);
+        }
+        prevEnergy = getEnergy();
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            updateComparatorOutputLevelSync();
+            currentRedstoneLevel = newRedstoneLevel;
         }
     }
 

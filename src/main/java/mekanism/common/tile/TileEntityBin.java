@@ -186,41 +186,40 @@ public class TileEntityBin extends TileEntityBasicBlock implements ISidedInvento
     }
 
     @Override
-    public void onUpdate() {
-        if (!world.isRemote) {
-            addTicks = Math.max(0, addTicks - 1);
-            delayTicks = Math.max(0, delayTicks - 1);
-            sortStacks();
-            if (getItemCount() != prevCount) {
-                markNoUpdateSync();
-                MekanismUtils.saveChunk(this);
-            }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        addTicks = Math.max(0, addTicks - 1);
+        delayTicks = Math.max(0, delayTicks - 1);
+        sortStacks();
+        if (getItemCount() != prevCount) {
+            markNoUpdateSync();
+            MekanismUtils.saveChunk(this);
+        }
 
-            if (delayTicks == 0) {
-                if (!bottomStack.isEmpty() && isActive) {
-                    TileEntity tile = Coord4D.get(this).offset(EnumFacing.DOWN).getTileEntity(world);
-                    ILogisticalTransporter transporter = CapabilityUtils.getCapability(tile, Capabilities.LOGISTICAL_TRANSPORTER_CAPABILITY, EnumFacing.UP);
-                    TransitResponse response;
-                    if (transporter == null) {
-                        response = InventoryUtils.putStackInInventory(tile, TransitRequest.getFromStack(bottomStack), EnumFacing.DOWN, false);
-                    } else {
-                        response = TransporterUtils.insert(this, transporter, TransitRequest.getFromStack(bottomStack), null, true, 0);
-                    }
-                    if (!response.isEmpty() && tier != BinTier.CREATIVE) {
-                        bottomStack.shrink(response.getSendingAmount());
-                        setInventorySlotContents(0, bottomStack);
-                    }
-                    delayTicks = 10;
+        if (delayTicks == 0) {
+            if (!bottomStack.isEmpty() && isActive) {
+                TileEntity tile = Coord4D.get(this).offset(EnumFacing.DOWN).getTileEntity(world);
+                ILogisticalTransporter transporter = CapabilityUtils.getCapability(tile, Capabilities.LOGISTICAL_TRANSPORTER_CAPABILITY, EnumFacing.UP);
+                TransitResponse response;
+                if (transporter == null) {
+                    response = InventoryUtils.putStackInInventory(tile, TransitRequest.getFromStack(bottomStack), EnumFacing.DOWN, false);
+                } else {
+                    response = TransporterUtils.insert(this, transporter, TransitRequest.getFromStack(bottomStack), null, true, 0);
                 }
-            } else {
-                delayTicks--;
+                if (!response.isEmpty() && tier != BinTier.CREATIVE) {
+                    bottomStack.shrink(response.getSendingAmount());
+                    setInventorySlotContents(0, bottomStack);
+                }
+                delayTicks = 10;
             }
+        } else {
+            delayTicks--;
         }
     }
 
 
     @Override
-   public void writeCustomNBT(NBTTagCompound nbtTags) {
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setBoolean("isActive", isActive);
         nbtTags.setInteger("itemCount", cacheCount);
@@ -342,7 +341,7 @@ public class TileEntityBin extends TileEntityBasicBlock implements ISidedInvento
     @Override
     public void markDirty() {
         super.markDirty();
-        if (!world.isRemote) {
+        if (!isRemote()) {
             MekanismUtils.saveChunk(this);
             Mekanism.packetHandler.sendUpdatePacket(this);
             prevCount = getItemCount();

@@ -109,55 +109,53 @@ public class TileEntityFormulaicAssemblicator extends TileEntityElectricBlock im
     @Override
     public void onLoad() {
         super.onLoad();
-        if (!world.isRemote) {
+        if (!isRemote()) {
             checkFormula();
             recalculateRecipe();
         }
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            if (formula != null && stockControl && needsOrganize) {
-                needsOrganize = false;
-                organizeStock();
-            }
-            ChargeUtils.discharge(SLOT_ENERGY, this);
-            if (controlType != RedstoneControl.PULSE) {
-                pulseOperations = 0;
-            } else if (MekanismUtils.canFunction(this)) {
-                pulseOperations++;
-            }
-            checkFormula();
-            if (autoMode && formula == null) {
-                toggleAutoMode();
-            }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        if (formula != null && stockControl && needsOrganize) {
+            needsOrganize = false;
+            organizeStock();
+        }
+        ChargeUtils.discharge(SLOT_ENERGY, this);
+        if (controlType != RedstoneControl.PULSE) {
+            pulseOperations = 0;
+        } else if (MekanismUtils.canFunction(this)) {
+            pulseOperations++;
+        }
+        checkFormula();
+        if (autoMode && formula == null) {
+            toggleAutoMode();
+        }
 
-            if (autoMode && formula != null && ((controlType == RedstoneControl.PULSE && pulseOperations > 0) || MekanismUtils.canFunction(this))) {
-                boolean canOperate = true;
-                if (!isRecipe) {
-                    canOperate = moveItemsToGrid();
-                }
-                if (canOperate) {
-                    isRecipe = true;
-                    if (operatingTicks >= ticksRequired) {
-                        if (doSingleCraft()) {
-                            operatingTicks = 0;
-                            if (pulseOperations > 0) {
-                                pulseOperations--;
-                            }
+        if (autoMode && formula != null && ((controlType == RedstoneControl.PULSE && pulseOperations > 0) || MekanismUtils.canFunction(this))) {
+            boolean canOperate = true;
+            if (!isRecipe) {
+                canOperate = moveItemsToGrid();
+            }
+            if (canOperate) {
+                isRecipe = true;
+                if (operatingTicks >= ticksRequired) {
+                    if (doSingleCraft()) {
+                        operatingTicks = 0;
+                        if (pulseOperations > 0) {
+                            pulseOperations--;
                         }
-                    } else if (getEnergy() >= energyPerTick) {
-                        operatingTicks++;
-                        setEnergy(getEnergy() - energyPerTick);
                     }
-                } else {
-                    operatingTicks = 0;
+                } else if (getEnergy() >= energyPerTick) {
+                    operatingTicks++;
+                    setEnergy(getEnergy() - energyPerTick);
                 }
             } else {
                 operatingTicks = 0;
             }
+        } else {
+            operatingTicks = 0;
         }
     }
 
@@ -206,7 +204,7 @@ public class TileEntityFormulaicAssemblicator extends TileEntityElectricBlock im
     }
 
     private void recalculateRecipe() {
-        if (world != null && !world.isRemote) {
+        if (world != null && !isRemote()) {
             if (formula == null) {
                 for (int i = 0; i < 9; i++) {
                     dummyInv.setInventorySlotContents(i, StackUtils.size(inventory.get(SLOT_CRAFT_MATRIX_FIRST + i), 1));
@@ -344,7 +342,7 @@ public class TileEntityFormulaicAssemblicator extends TileEntityElectricBlock im
     }
 
     private void toggleStockControl() {
-        if (!world.isRemote && formula != null) {
+        if (!isRemote() && formula != null) {
             stockControl = !stockControl;
             if (stockControl) {
                 organizeStock();

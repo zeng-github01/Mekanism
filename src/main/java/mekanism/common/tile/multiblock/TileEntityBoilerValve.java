@@ -67,44 +67,37 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            if (structure != null && structure.upperRenderLocation != null && getPos().getY() >= structure.upperRenderLocation.y - 1) {
-                if (structure.steamStored != null && structure.steamStored.amount > 0 && Eject) {
-                    EmitUtils.forEachSide(getWorld(), getPos(), EnumSet.allOf(EnumFacing.class), (tile, side) -> {
-                        if (!(tile instanceof TileEntityBoilerValve)) {
-                            IFluidHandler handler = CapabilityUtils.getCapability(tile, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
-                            if (handler != null && PipeUtils.canFill(handler, structure.steamStored)) {
-                                structure.steamStored.amount -= handler.fill(structure.steamStored, true);
-                                if (structure.steamStored.amount <= 0) {
-                                    structure.steamStored = null;
-                                }
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        if (structure != null && structure.upperRenderLocation != null && getPos().getY() >= structure.upperRenderLocation.y - 1) {
+            if (structure.steamStored != null && structure.steamStored.amount > 0 && Eject) {
+                EmitUtils.forEachSide(getWorld(), getPos(), EnumSet.allOf(EnumFacing.class), (tile, side) -> {
+                    if (!(tile instanceof TileEntityBoilerValve)) {
+                        IFluidHandler handler = CapabilityUtils.getCapability(tile, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
+                        if (handler != null && PipeUtils.canFill(handler, structure.steamStored)) {
+                            structure.steamStored.amount -= handler.fill(structure.steamStored, true);
+                            if (structure.steamStored.amount <= 0) {
+                                structure.steamStored = null;
                             }
                         }
-                    });
-                }
-
-                Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                    if (outputTank.getGas() != null && outputTank.getGas().getGas() != null && Eject) {
-                        GasStack toSend = outputTank.getGas().copy().withAmount(Math.min(outputTank.getMaxGas(), outputTank.getGasAmount()));
-                        outputTank.output(GasUtils.emit(toSend, this, EnumSet.allOf(EnumFacing.class)), true);
                     }
                 });
-
-
-                int newRedstoneLevel = getRedstoneLevel();
-                if (newRedstoneLevel != currentRedstoneLevel) {
-                    updateComparatorOutputLevelSync();
-                    currentRedstoneLevel = newRedstoneLevel;
-                }
+            }
+            if (outputTank.getGas() != null && outputTank.getGas().getGas() != null && Eject) {
+                GasStack toSend = outputTank.getGas().copy().withAmount(Math.min(outputTank.getMaxGas(), outputTank.getGasAmount()));
+                outputTank.output(GasUtils.emit(toSend, this, EnumSet.allOf(EnumFacing.class)), true);
+            }
+            int newRedstoneLevel = getRedstoneLevel();
+            if (newRedstoneLevel != currentRedstoneLevel) {
+                updateComparatorOutputLevelSync();
+                currentRedstoneLevel = newRedstoneLevel;
             }
         }
     }
 
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
-        if ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) {
+        if ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) {
             if (structure.upperRenderLocation != null && getPos().getY() >= structure.upperRenderLocation.y - 1) {
                 return new FluidTankInfo[]{steamTank.getInfo()};
             }
@@ -131,7 +124,7 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
 
     @Override
     public boolean canFill(EnumFacing from, @Nonnull FluidStack fluid) {
-        if (((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) && !Eject) {
+        if (((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) && !Eject) {
             return structure.upperRenderLocation != null && getPos().getY() < structure.upperRenderLocation.y - 1 && fluid.getFluid() == FluidRegistry.WATER;
         }
         return false;
@@ -139,7 +132,7 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
 
     @Override
     public boolean canDrain(EnumFacing from, @Nullable FluidStack fluid) {
-        if (((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) && Eject) {
+        if (((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) && Eject) {
             return structure.upperRenderLocation != null && getPos().getY() >= structure.upperRenderLocation.y - 1 && FluidContainerUtils.canDrain(structure.steamStored, fluid);
         }
         return false;
@@ -181,7 +174,7 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing side) {
-        if ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) {
+        if ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) {
             if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == Capabilities.GAS_HANDLER_CAPABILITY || capability == Capabilities.CONFIGURABLE_CAPABILITY) {
                 return true;
             }
@@ -191,7 +184,7 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
 
     @Override
     public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing side) {
-        if ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) {
+        if ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) {
             if (capability == Capabilities.CONFIGURABLE_CAPABILITY || capability == Capabilities.GAS_HANDLER_CAPABILITY) {
                 return (T) this;
             }
@@ -219,7 +212,7 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        if (((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) && !Eject) {
+        if (((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) && !Eject) {
             return structure.upperRenderLocation != null && getPos().getY() < structure.upperRenderLocation.y - 1 && type == MekanismFluids.SuperheatedSodium;
         }
         return false;
@@ -227,7 +220,7 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
 
     @Override
     public boolean canDrawGas(EnumFacing side, Gas type) {
-        if (((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) && Eject) {
+        if (((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) && Eject) {
             return structure.upperRenderLocation != null && getPos().getY() >= structure.upperRenderLocation.y - 1 && GasUtils.canDrain(structure.OutputGas, type);
         }
         return false;
@@ -236,7 +229,7 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
     @Nonnull
     @Override
     public GasTankInfo[] getTankInfo() {
-        return ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) ? new GasTankInfo[]{inputTank.getInfo(), outputTank.getInfo()} : IGasHandler.NONE;
+        return ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) ? new GasTankInfo[]{inputTank.getInfo(), outputTank.getInfo()} : IGasHandler.NONE;
     }
 
 
@@ -261,7 +254,7 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
 
     @Override
     public EnumActionResult onSneakRightClick(EntityPlayer player, EnumFacing side) {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             Eject = !Eject;
             String modeText = " " + (Eject ? EnumColor.DARK_RED : EnumColor.DARK_GREEN) + LangUtils.transOutputInput(Eject) + ".";
             player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + Mekanism.LOG_TAG + " " + EnumColor.GREY +

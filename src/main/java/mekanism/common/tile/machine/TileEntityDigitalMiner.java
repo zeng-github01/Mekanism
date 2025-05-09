@@ -149,129 +149,138 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
                 }
             }
         }
+    }
 
-        if (!world.isRemote) {
-            if (!initCalc) {
-                if (searcher.state == State.FINISHED) {
-                    boolean prevRunning = running;
-                    reset();
-                    start();
-                    running = prevRunning;
-                }
-                initCalc = true;
+    @Override
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        if (!initCalc) {
+            if (searcher.state == State.FINISHED) {
+                boolean prevRunning = running;
+                reset();
+                start();
+                running = prevRunning;
             }
-            ChargeUtils.discharge(27, this);
-            if (MekanismUtils.canFunction(this) && running && getEnergy() >= getPerTick() && searcher.state == State.FINISHED && !oresToMine.isEmpty()) {
+            initCalc = true;
+        }
+
+        ChargeUtils.discharge(27, this);
+
+        if (MekanismUtils.canFunction(this) && running && getEnergy() >= getPerTick() && searcher.state == State.FINISHED && !oresToMine.isEmpty()) {
+            if (getEnergy() >= getPerTick()) {
                 setActive(true);
                 if (delay > 0) {
                     delay--;
                 }
                 setEnergy(getEnergy() - getPerTick());
                 if (delay == 0) {
-                    boolean did = false;
-                    for (Iterator<Chunk3D> it = oresToMine.keySet().iterator(); it.hasNext(); ) {
-                        Chunk3D chunk = it.next();
-                        BitSet set = oresToMine.get(chunk);
-                        int next = 0;
-                        while (!did) {
-                            int index = set.nextSetBit(next);
-                            Coord4D coord = getCoordFromIndex(index);
-                            if (index == -1) {
-                                it.remove();
-                                break;
-                            }
-
-                            if (!coord.exists(world)) {
-                                set.clear(index);
-                                if (set.cardinality() == 0) {
-                                    it.remove();
-                                    break;
-                                }
-                                next = index + 1;
-                                continue;
-                            }
-
-                            IBlockState state = coord.getBlockState(world);
-                            Block block = state.getBlock();
-                            int meta = block.getMetaFromState(state);
-
-                            if (coord.isAirBlock(world)) {
-                                set.clear(index);
-                                if (set.cardinality() == 0) {
-                                    it.remove();
-                                    break;
-                                }
-                                next = index + 1;
-                                continue;
-                            }
-
-                            boolean hasFilter = false;
-                            ItemStack is = new ItemStack(block, 1, meta);
-                            for (MinerFilter filter : filters) {
-                                if (filter.canFilter(is)) {
-                                    hasFilter = true;
-                                    break;
-                                }
-                            }
-
-                            if (inverse == hasFilter || !canMine(coord)) {
-                                set.clear(index);
-                                if (set.cardinality() == 0) {
-                                    it.remove();
-                                    break;
-                                }
-                                next = index + 1;
-                                continue;
-                            }
-
-                            List<ItemStack> drops = MinerUtils.getDrops(world, coord, silkTouch, this.pos);
-                            if (canInsert(drops) && setReplace(coord, index)) {
-                                did = true;
-                                add(drops);
-                                set.clear(index);
-                                if (set.cardinality() == 0) {
-                                    it.remove();
-                                }
-                                world.playEvent(WorldEvents.BREAK_BLOCK_EFFECTS, coord.getPos(), Block.getStateId(state));
-                                missingStack = ItemStack.EMPTY;
-                            }
-                            break;
-                        }
-                    }
+                    tryMineBlock();
                     delay = getDelay();
                 }
-            } else if (prevEnergy >= getEnergy()) {
+            } else {
                 setActive(false);
             }
-
-            TransitRequest ejectMap = getEjectItemMap();
-            if (doEject && delayTicks == 0 && !ejectMap.isEmpty()) {
-                TileEntity ejectInv = getEjectInv();
-                TileEntity ejectTile = getEjectTile();
-                if (ejectInv != null && ejectTile != null) {
-                    ILogisticalTransporter capability = CapabilityUtils.getCapability(ejectInv, Capabilities.LOGISTICAL_TRANSPORTER_CAPABILITY, facing.getOpposite());
-                    TransitResponse response;
-                    if (capability == null) {
-                        response = InventoryUtils.putStackInInventory(ejectInv, ejectMap, facing.getOpposite(), false);
-                    } else {
-                        response = TransporterUtils.insert(ejectTile, capability, ejectMap, null, true, 0);
-                    }
-                    if (!response.isEmpty()) {
-                        response.getInvStack(ejectTile, facing.getOpposite()).use();
-                    }
-                    delayTicks = 10;
-                }
-            } else if (delayTicks > 0) {
-                delayTicks--;
-            }
-
-            if (playersUsing.size() > 0) {
-                for (EntityPlayer player : playersUsing) {
-                    Mekanism.packetHandler.sendTo(new TileEntityMessage(this, getSmallPacket(new TileNetworkList())), (EntityPlayerMP) player);
-                }
-            }
-            prevEnergy = getEnergy();
+        } else {
+            setActive(false);
         }
+
+        TransitRequest ejectMap = getEjectItemMap();
+        if (doEject && delayTicks == 0 && !ejectMap.isEmpty()) {
+            TileEntity ejectInv = getEjectInv();
+            TileEntity ejectTile = getEjectTile();
+            if (ejectInv != null && ejectTile != null) {
+                ILogisticalTransporter capability = CapabilityUtils.getCapability(ejectInv, Capabilities.LOGISTICAL_TRANSPORTER_CAPABILITY, facing.getOpposite());
+                TransitResponse response;
+                if (capability == null) {
+                    response = InventoryUtils.putStackInInventory(ejectInv, ejectMap, facing.getOpposite(), false);
+                } else {
+                    response = TransporterUtils.insert(ejectTile, capability, ejectMap, null, true, 0);
+                }
+                if (!response.isEmpty()) {
+                    response.getInvStack(ejectTile, facing.getOpposite()).use();
+                }
+                delayTicks = 10;
+            }
+        } else if (delayTicks > 0) {
+            delayTicks--;
+        }
+
+        if (!playersUsing.isEmpty()) {
+            playersUsing.forEach(player -> Mekanism.packetHandler.sendTo(new TileEntityMessage(this, getSmallPacket(new TileNetworkList())), (EntityPlayerMP) player));
+        }
+        prevEnergy = getEnergy();
+    }
+
+    //TODO
+    private void tryMineBlock() {
+        boolean did = false;
+        for (Iterator<Chunk3D> it = oresToMine.keySet().iterator(); it.hasNext(); ) {
+            Chunk3D chunk = it.next();
+            BitSet set = oresToMine.get(chunk);
+            int next = 0;
+            while (!did) {
+                int index = set.nextSetBit(next);
+                Coord4D coord = getCoordFromIndex(index);
+                if (index == -1) {
+                    it.remove();
+                    break;
+                }
+
+                if (!coord.exists(world)) {
+                    set.clear(index);
+                    if (set.cardinality() == 0) {
+                        it.remove();
+                        break;
+                    }
+                    next = index + 1;
+                    continue;
+                }
+
+                IBlockState state = coord.getBlockState(world);
+                Block block = state.getBlock();
+                int meta = block.getMetaFromState(state);
+                if (coord.isAirBlock(world)) {
+                    set.clear(index);
+                    if (set.cardinality() == 0) {
+                        it.remove();
+                        break;
+                    }
+                    next = index + 1;
+                    continue;
+                }
+                boolean hasFilter = false;
+                ItemStack is = new ItemStack(block, 1, meta);
+                for (MinerFilter filter : filters) {
+                    if (filter.canFilter(is)) {
+                        hasFilter = true;
+                        break;
+                    }
+                }
+                if (inverse == hasFilter || !canMine(coord)) {
+                    set.clear(index);
+                    if (set.cardinality() == 0) {
+                        it.remove();
+                        break;
+                    }
+                    next = index + 1;
+                    continue;
+                }
+
+                List<ItemStack> drops = MinerUtils.getDrops(world, coord, silkTouch, this.pos);
+                if (canInsert(drops) && setReplace(coord, index)) {
+                    did = true;
+                    add(drops);
+                    set.clear(index);
+                    if (set.cardinality() == 0) {
+                        it.remove();
+                    }
+                    world.playEvent(WorldEvents.BREAK_BLOCK_EFFECTS, coord.getPos(), Block.getStateId(state));
+                    missingStack = ItemStack.EMPTY;
+                }
+                break;
+            }
+        }
+
     }
 
     @Override
@@ -304,7 +313,7 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
         radius = newRadius;
         // If the radius changed and we're on the server, go ahead and refresh
         // the chunk set
-        if (changed && hasWorld() && world.isRemote) {
+        if (changed && hasWorld() && isRemote()) {
             chunkSet = null;
             getChunkSet();
         }
@@ -526,7 +535,7 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
     @Override
     public void openInventory(@Nonnull EntityPlayer player) {
         super.openInventory(player);
-        if (!world.isRemote) {
+        if (!isRemote()) {
             Mekanism.packetHandler.sendTo(new TileEntityMessage(this), (EntityPlayerMP) player);
         }
     }
@@ -1251,7 +1260,7 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
     @Override
     public void validate() {
         super.validate();
-        if (world.isRemote && !rendererInitialized) {
+        if (isRemote() && !rendererInitialized) {
             rendererInitialized = true;
             if (Mekanism.hooks.Bloom) {
                 new BloomRenderDigitalMiner(this);

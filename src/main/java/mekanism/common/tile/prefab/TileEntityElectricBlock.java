@@ -8,7 +8,6 @@ import ic2.api.energy.tile.IEnergyConductor;
 import ic2.api.energy.tile.IEnergyEmitter;
 import io.netty.buffer.ByteBuf;
 import mekanism.api.TileNetworkList;
-import mekanism.common.Mekanism;
 import mekanism.common.base.IEnergyWrapper;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.capabilities.CapabilityWrapperManager;
@@ -70,7 +69,7 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
 
     @Method(modid = MekanismHooks.IC2_MOD_ID)
     public void register() {
-        if (!world.isRemote && !ic2Registered) {
+        if (!isRemote() && !ic2Registered) {
             MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
             ic2Registered = true;
         }
@@ -78,7 +77,7 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
 
     @Method(modid = MekanismHooks.IC2_MOD_ID)
     public void deregister() {
-        if (!world.isRemote && ic2Registered) {
+        if (!isRemote() && ic2Registered) {
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
             ic2Registered = false;
         }
@@ -92,14 +91,11 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
         }
     }
 
+
     @Override
-    public void onUpdate() {
-        /*if(MekanismUtils.useIC2()) {
-            register();
-        }*/
-        if (!world.isRemote) {
-            Mekanism.EXECUTE_MANAGER.addSyncTask(this::addTileSyncTask);
-        }
+    public void onAsyncUpdateServer(){
+        super.onAsyncUpdateServer();
+        addTileSyncTask();
     }
 
 

@@ -86,63 +86,66 @@ public class TileEntityFluidTank extends TileEntityContainerBlock implements IAc
         return false;
     }
 
+
     @Override
-    public void onUpdate() {
-        if (world.isRemote) {
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0 && clientActive != isActive) {
-                    isActive = clientActive;
-                    MekanismUtils.updateBlock(world, getPos());
-                }
+    public void onUpdateClient() {
+        super.onUpdateClient();
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0 && clientActive != isActive) {
+                isActive = clientActive;
+                MekanismUtils.updateBlock(world, getPos());
             }
+        }
+        float targetScale = (float) (fluidTank.getFluid() != null ? fluidTank.getFluid().amount : 0) / fluidTank.getCapacity();
+        if (Math.abs(prevScale - targetScale) > 0.01) {
+            prevScale = (9 * prevScale + targetScale) / 10;
+        }
+    }
 
-            float targetScale = (float) (fluidTank.getFluid() != null ? fluidTank.getFluid().amount : 0) / fluidTank.getCapacity();
-            if (Math.abs(prevScale - targetScale) > 0.01) {
-                prevScale = (9 * prevScale + targetScale) / 10;
-            }
-        } else {
-            if (fluidTank.getFluid() != null && fluidTank.getFluidAmount() == 0) {
-                fluidTank.setFluid(null);
-            }
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0 && clientActive != isActive) {
-                    needsPacket = true;
-                }
-            }
-
-            if (valve > 0) {
-                valve--;
-                if (valve == 0) {
-                    valveFluid = null;
-                    needsPacket = true;
-                }
-            }
-
-            if (fluidTank.getFluidAmount() != prevAmount) {
-                MekanismUtils.saveChunk(this);
+    @Override
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        if (fluidTank.getFluid() != null && fluidTank.getFluidAmount() == 0) {
+            fluidTank.setFluid(null);
+        }
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0 && clientActive != isActive) {
                 needsPacket = true;
             }
-
-            prevAmount = fluidTank.getFluidAmount();
-            if (!inventory.get(0).isEmpty()) {
-                manageInventory();
-            }
-            if (isActive) {
-                activeEmit();
-            }
-
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                markNoUpdateSync();
-                currentRedstoneLevel = newRedstoneLevel;
-            }
-            if (needsPacket) {
-                Mekanism.packetHandler.sendUpdatePacket(this);
-            }
-            needsPacket = false;
         }
+
+        if (valve > 0) {
+            valve--;
+            if (valve == 0) {
+                valveFluid = null;
+                needsPacket = true;
+            }
+        }
+
+        if (fluidTank.getFluidAmount() != prevAmount) {
+            MekanismUtils.saveChunk(this);
+            needsPacket = true;
+        }
+
+        prevAmount = fluidTank.getFluidAmount();
+        if (!inventory.get(0).isEmpty()) {
+            manageInventory();
+        }
+        if (isActive) {
+            activeEmit();
+        }
+
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            markNoUpdateSync();
+            currentRedstoneLevel = newRedstoneLevel;
+        }
+        if (needsPacket) {
+            Mekanism.packetHandler.sendUpdatePacket(this);
+        }
+        needsPacket = false;
     }
 
     @Nonnull
@@ -335,7 +338,7 @@ public class TileEntityFluidTank extends TileEntityContainerBlock implements IAc
 
     @Override
     public EnumActionResult onSneakRightClick(EntityPlayer player, EnumFacing side) {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             setActive(!getActive());
             world.playSound(null, getPos().getX(), getPos().getY(), getPos().getZ(), SoundEvents.UI_BUTTON_CLICK, SoundCategory.BLOCKS, 0.3F, 1);
         }
@@ -418,7 +421,7 @@ public class TileEntityFluidTank extends TileEntityContainerBlock implements IAc
 
     @Override
     public boolean canDrain(EnumFacing from, @Nullable FluidStack fluid) {
-        return fluidTank != null && FluidContainerUtils.canDrain(fluidTank.getFluid(), fluid) &&  (!isActive || from != EnumFacing.DOWN);
+        return fluidTank != null && FluidContainerUtils.canDrain(fluidTank.getFluid(), fluid) && (!isActive || from != EnumFacing.DOWN);
     }
 
     @Override

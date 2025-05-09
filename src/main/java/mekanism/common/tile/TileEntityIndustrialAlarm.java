@@ -18,11 +18,9 @@ public class TileEntityIndustrialAlarm extends TileEntityEffectsBlock {
 
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            setActive(isPowered());
-        }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        setActive(isPowered());
     }
 
     @Override

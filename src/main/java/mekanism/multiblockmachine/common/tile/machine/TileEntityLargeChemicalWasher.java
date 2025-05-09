@@ -59,26 +59,29 @@ public class TileEntityLargeChemicalWasher extends TileEntityMultiblockBasicMach
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0) {
-                    needsPacket = true;
-                }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0) {
+                needsPacket = true;
             }
-            ChargeUtils.discharge(3, this);
-            manageBuckets();
-            TileUtils.drawGas(inventory.get(2), outputTank);
-            WasherRecipe recipe = getRecipe();
-            getProcess(recipe,true,energyPerTick * getUpgradedUsage() * Thread(),true,false);
-            prevEnergy = getEnergy();
-            if (needsPacket) {
-                Mekanism.packetHandler.sendUpdatePacket(this);
-            }
-            needsPacket = false;
-        } else if (updateDelay > 0) {
+        }
+        ChargeUtils.discharge(3, this);
+        manageBuckets();
+        TileUtils.drawGas(inventory.get(2), outputTank);
+        WasherRecipe recipe = getRecipe();
+        getProcess(recipe, true, energyPerTick * getUpgradedUsage() * Thread(), true, false);
+        prevEnergy = getEnergy();
+        if (needsPacket) {
+            Mekanism.packetHandler.sendUpdatePacket(this);
+        }
+        needsPacket = false;
+    }
+
+    @Override
+    public void onUpdateClient() {
+        if (updateDelay > 0) {
             updateDelay--;
             if (updateDelay == 0) {
                 MekanismUtils.updateBlock(world, getPos());
@@ -116,7 +119,7 @@ public class TileEntityLargeChemicalWasher extends TileEntityMultiblockBasicMach
 
     private void handleTank(GasTank tank, TileEntity tile, EnumFacing side) {
         if (tile != null) {
-            ejectGas(Collections.singleton(side),tank,this.gasSpeedController,tile);
+            ejectGas(Collections.singleton(side), tank, this.gasSpeedController, tile);
         }
     }
 
@@ -558,7 +561,7 @@ public class TileEntityLargeChemicalWasher extends TileEntityMultiblockBasicMach
     @Override
     public void validate() {
         super.validate();
-        if (world.isRemote && !rendererInitialized) {
+        if (isRemote() && !rendererInitialized) {
             rendererInitialized = true;
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
                 new BloomRenderLargeChemicalWasher(this);

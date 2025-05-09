@@ -85,65 +85,65 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
         ejectorComponent.setOutputData(TransmissionType.FLUID, configComponent.getOutputs(TransmissionType.FLUID).get(1));
     }
 
+
+
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            ChargeUtils.discharge(4, this);
-            if (!MekanismConfig.current().mekce.RotaryCondensentratorAuto.val()) {
-                Autoeject(); //Used to deal with the problem that gas/fluid will automatically return to the tank when the ejection mode is on.
-            }
-            if (mode == 0) {
-                TileUtils.receiveGasItem(inventory.get(1), gasTank);
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        ChargeUtils.discharge(4, this);
+        if (!MekanismConfig.current().mekce.RotaryCondensentratorAuto.val()) {
+            Autoeject(); //Used to deal with the problem that gas/fluid will automatically return to the tank when the ejection mode is on.
+        }
+        if (mode == 0) {
+            TileUtils.receiveGasItem(inventory.get(1), gasTank);
 
-                if (FluidContainerUtils.isFluidContainer(inventory.get(2))) {
-                    FluidContainerUtils.handleContainerItemFill(this, fluidTank, 2, 3);
-                    //I don't know why, mode 0 [gas-> liquid] causes the fluid to be transplanted into the tank using a slot, which retains the liquid but no quantity, and here it is repaired by setting the fluid to null when it is judged that there is fluid but the quantity is 0
-                    if (fluidTank.getFluid() != null && fluidTank.getFluidAmount() == 0) {
-                        fluidTank.setFluid(null);
-                    }
-                }
-
-                if (getEnergy() >= energyPerTick && MekanismUtils.canFunction(this) && isValidGas(gasTank.getGas()) &&
-                        (fluidTank.getFluid() == null || (fluidTank.getFluidAmount() < MAX_FLUID && gasEquals(gasTank.getGas(), fluidTank.getFluid())))) {
-                    int operations = getUpgradedUsage();
-                    double prev = getEnergy();
-
-                    setActive(true);
-                    fluidTank.fill(new FluidStack(gasTank.stored.getGas().getFluid(), operations), true);
-                    gasTank.draw(operations, true);
-                    setEnergy(getEnergy() - energyPerTick * operations);
-                    clientEnergyUsed = prev - getEnergy();
-                } else if (prevEnergy >= getEnergy()) {
-                    setActive(false);
-                }
-            } else if (mode == 1) {
-                TileUtils.drawGas(inventory.get(0), gasTank);
-                if (FluidContainerUtils.isFluidContainer(inventory.get(2)) && fluidTank.getFluidAmount() != fluidTank.getCapacity()) {
-                    FluidContainerUtils.handleContainerItemEmpty(this, fluidTank, 2, 3);
-                }
-
-                if (getEnergy() >= energyPerTick && MekanismUtils.canFunction(this) && isValidFluid(fluidTank.getFluid()) &&
-                        (gasTank.getGas() == null || (gasTank.getStored() < MAX_FLUID && gasEquals(gasTank.getGas(), fluidTank.getFluid())))) {
-                    int operations = getUpgradedUsage();
-                    double prev = getEnergy();
-
-                    setActive(true);
-                    gasTank.receive(new GasStack(GasRegistry.getGas(fluidTank.getFluid().getFluid()), operations), true);
-                    fluidTank.drain(operations, true);
-                    setEnergy(getEnergy() - energyPerTick * operations);
-                    clientEnergyUsed = prev - getEnergy();
-                } else if (prevEnergy >= getEnergy()) {
-                    setActive(false);
+            if (FluidContainerUtils.isFluidContainer(inventory.get(2))) {
+                FluidContainerUtils.handleContainerItemFill(this, fluidTank, 2, 3);
+                //I don't know why, mode 0 [gas-> liquid] causes the fluid to be transplanted into the tank using a slot, which retains the liquid but no quantity, and here it is repaired by setting the fluid to null when it is judged that there is fluid but the quantity is 0
+                if (fluidTank.getFluid() != null && fluidTank.getFluidAmount() == 0) {
+                    fluidTank.setFluid(null);
                 }
             }
-            prevEnergy = getEnergy();
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                updateComparatorOutputLevelSync();
-                currentRedstoneLevel = newRedstoneLevel;
 
+            if (getEnergy() >= energyPerTick && MekanismUtils.canFunction(this) && isValidGas(gasTank.getGas()) &&
+                    (fluidTank.getFluid() == null || (fluidTank.getFluidAmount() < MAX_FLUID && gasEquals(gasTank.getGas(), fluidTank.getFluid())))) {
+                int operations = getUpgradedUsage();
+                double prev = getEnergy();
+
+                setActive(true);
+                fluidTank.fill(new FluidStack(gasTank.stored.getGas().getFluid(), operations), true);
+                gasTank.draw(operations, true);
+                setEnergy(getEnergy() - energyPerTick * operations);
+                clientEnergyUsed = prev - getEnergy();
+            } else if (prevEnergy >= getEnergy()) {
+                setActive(false);
             }
+        } else if (mode == 1) {
+            TileUtils.drawGas(inventory.get(0), gasTank);
+            if (FluidContainerUtils.isFluidContainer(inventory.get(2)) && fluidTank.getFluidAmount() != fluidTank.getCapacity()) {
+                FluidContainerUtils.handleContainerItemEmpty(this, fluidTank, 2, 3);
+            }
+
+            if (getEnergy() >= energyPerTick && MekanismUtils.canFunction(this) && isValidFluid(fluidTank.getFluid()) &&
+                    (gasTank.getGas() == null || (gasTank.getStored() < MAX_FLUID && gasEquals(gasTank.getGas(), fluidTank.getFluid())))) {
+                int operations = getUpgradedUsage();
+                double prev = getEnergy();
+
+                setActive(true);
+                gasTank.receive(new GasStack(GasRegistry.getGas(fluidTank.getFluid().getFluid()), operations), true);
+                fluidTank.drain(operations, true);
+                setEnergy(getEnergy() - energyPerTick * operations);
+                clientEnergyUsed = prev - getEnergy();
+            } else if (prevEnergy >= getEnergy()) {
+                setActive(false);
+            }
+        }
+        prevEnergy = getEnergy();
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            updateComparatorOutputLevelSync();
+            currentRedstoneLevel = newRedstoneLevel;
+
         }
     }
 

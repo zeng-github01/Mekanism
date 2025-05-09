@@ -29,7 +29,7 @@ public class TileEntityTurbineRotor extends TileEntityInternalMultiblock {
 
     @Override
     public void onNeighborChange(Block block) {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             updateRotors();
         }
     }
@@ -174,9 +174,6 @@ public class TileEntityTurbineRotor extends TileEntityInternalMultiblock {
         return INFINITE_EXTENT_AABB;
     }
 
-    @Override
-    public void onUpdate() {
-    }
 
     @Override
     public void setMultiblock(String id) {

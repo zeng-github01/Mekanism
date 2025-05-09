@@ -43,24 +43,27 @@ public class TileEntityWindGenerator extends TileEntityGenerator implements IBou
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        ChargeUtils.charge(0, this);
+        // If we're in a blacklisted dimension, there's nothing more to do
+        if (isBlacklistDimension) {
+            return;
+        }
 
-        if (!world.isRemote) {
-            ChargeUtils.charge(0, this);
-            // If we're in a blacklisted dimension, there's nothing more to do
-            if (isBlacklistDimension) {
-                return;
-            }
+        if (ticker % 20 == 0) {
+            currentMultiplier = getMultiplier();
+            setActive(MekanismUtils.canFunction(this) && currentMultiplier > 0);
+        }
+        if (getActive()) {
+            setEnergy(electricityStored.get() + (MekanismConfig.current().generators.windGenerationMin.val() * currentMultiplier));
+        }
+    }
 
-            if (ticker % 20 == 0) {
-                currentMultiplier = getMultiplier();
-                setActive(MekanismUtils.canFunction(this) && currentMultiplier > 0);
-            }
-            if (getActive()) {
-                setEnergy(electricityStored.get() + (MekanismConfig.current().generators.windGenerationMin.val() * currentMultiplier));
-            }
-        } else if (getActive()) {
+    @Override
+    public void onUpdateClient() {
+        super.onUpdateClient();
+        if (getActive()) {
             angle = (angle + (getPos().getY() + 4F) / SPEED_SCALED) % 360;
         }
     }
@@ -68,7 +71,7 @@ public class TileEntityWindGenerator extends TileEntityGenerator implements IBou
     @Override
     public void handlePacketData(ByteBuf dataStream) {
         super.handlePacketData(dataStream);
-        if (world.isRemote) {
+        if (isRemote()) {
             currentMultiplier = dataStream.readFloat();
             isBlacklistDimension = dataStream.readBoolean();
         }

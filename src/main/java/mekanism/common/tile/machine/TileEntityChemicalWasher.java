@@ -91,22 +91,21 @@ public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasIn
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            ChargeUtils.discharge(3, this);
-            manageBuckets();
-            TileUtils.drawGas(inventory.get(2), outputTank);
-            WasherRecipe recipe = getRecipe();
-            getProcess(recipe,true,energyPerTick,true,false);
-            prevEnergy = getEnergy();
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                updateComparatorOutputLevelSync();
-                currentRedstoneLevel = newRedstoneLevel;
-            }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        ChargeUtils.discharge(3, this);
+        manageBuckets();
+        TileUtils.drawGas(inventory.get(2), outputTank);
+        WasherRecipe recipe = getRecipe();
+        getProcess(recipe, true, energyPerTick, true, false);
+        prevEnergy = getEnergy();
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            updateComparatorOutputLevelSync();
+            currentRedstoneLevel = newRedstoneLevel;
         }
     }
+
     @Override
     protected void setUpOtherActions() {
         double prev = getEnergy();
@@ -193,7 +192,7 @@ public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasIn
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1)  && inputTank.canReceive(type) && Recipe.CHEMICAL_WASHER.containsRecipe(type);
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && inputTank.canReceive(type) && Recipe.CHEMICAL_WASHER.containsRecipe(type);
     }
 
 
@@ -215,7 +214,7 @@ public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasIn
 
     @Override
     public boolean canDrawGas(EnumFacing side, Gas type) {
-        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(2)  && outputTank.canDraw(type);
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(2) && outputTank.canDraw(type);
     }
 
     @Nonnull

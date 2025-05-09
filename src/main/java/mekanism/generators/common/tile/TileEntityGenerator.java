@@ -49,15 +49,13 @@ public abstract class TileEntityGenerator extends TileEntityEffectsBlock impleme
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            if (MekanismConfig.current().general.destroyDisabledBlocks.val()) {
-                GeneratorType type = GeneratorType.get(getBlockType(), getBlockMetadata());
-                if (type != null && !type.isEnabled()) {
-                    Mekanism.logger.info("Destroying generator of type '" + type.getBlockName() + "' at coords " + Coord4D.get(this) + " as according to config.");
-                    world.setBlockToAir(getPos());
-                }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        if (MekanismConfig.current().general.destroyDisabledBlocks.val()) {
+            GeneratorType type = GeneratorType.get(getBlockType(), getBlockMetadata());
+            if (type != null && !type.isEnabled()) {
+                Mekanism.logger.info("Destroying generator of type '" + type.getBlockName() + "' at coords " + Coord4D.get(this) + " as according to config.");
+                world.setBlockToAir(getPos());
             }
         }
     }

@@ -72,47 +72,46 @@ public class TileEntityFluidicPlenisher extends TileEntityElectricBlock implemen
     }
 
     @Override
-    public void onUpdate() {
-        if (!world.isRemote) {
-            ChargeUtils.discharge(2, this);
-            if (FluidContainerUtils.isFluidContainer(inventory.get(0)) && fluidTank.getFluidAmount() != fluidTank.getCapacity()) {
-                FluidContainerUtils.handleContainerItemEmpty(this, fluidTank, 0, 1, new FluidChecker() {
-                    @Override
-                    public boolean isValid(Fluid f) {
-                        return f.canBePlacedInWorld();
-                    }
-                });
-            }
-
-            if (MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick && fluidTank.getFluid() != null && fluidTank.getFluid().getFluid().canBePlacedInWorld()) {
-                if (!finishedCalc) {
-                    setEnergy(getEnergy() - energyPerTick);
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        ChargeUtils.discharge(2, this);
+        if (FluidContainerUtils.isFluidContainer(inventory.get(0)) && fluidTank.getFluidAmount() != fluidTank.getCapacity()) {
+            FluidContainerUtils.handleContainerItemEmpty(this, fluidTank, 0, 1, new FluidChecker() {
+                @Override
+                public boolean isValid(Fluid f) {
+                    return f.canBePlacedInWorld();
                 }
-                if ((operatingTicks + 1) < ticksRequired) {
-                    operatingTicks++;
-                } else {
-                    if (!finishedCalc) {
-                        doPlenish();
-                    } else {
-                        Coord4D below = Coord4D.get(this).offset(EnumFacing.DOWN);
+            });
+        }
 
-                        if (canReplace(below, false, false) && fluidTank.getFluidAmount() >= Fluid.BUCKET_VOLUME) {
-                            if (fluidTank.getFluid().getFluid().canBePlacedInWorld()) {
-                                world.setBlockState(below.getPos(), MekanismUtils.getFlowingBlock(fluidTank.getFluid().getFluid()).getDefaultState(), 3);
-                                setEnergy(getEnergy() - energyPerTick);
-                                fluidTank.drain(Fluid.BUCKET_VOLUME, true);
-                            }
+        if (MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick && fluidTank.getFluid() != null && fluidTank.getFluid().getFluid().canBePlacedInWorld()) {
+            if (!finishedCalc) {
+                setEnergy(getEnergy() - energyPerTick);
+            }
+            if ((operatingTicks + 1) < ticksRequired) {
+                operatingTicks++;
+            } else {
+                if (!finishedCalc) {
+                    doPlenish();
+                } else {
+                    Coord4D below = Coord4D.get(this).offset(EnumFacing.DOWN);
+
+                    if (canReplace(below, false, false) && fluidTank.getFluidAmount() >= Fluid.BUCKET_VOLUME) {
+                        if (fluidTank.getFluid().getFluid().canBePlacedInWorld()) {
+                            world.setBlockState(below.getPos(), MekanismUtils.getFlowingBlock(fluidTank.getFluid().getFluid()).getDefaultState(), 3);
+                            setEnergy(getEnergy() - energyPerTick);
+                            fluidTank.drain(Fluid.BUCKET_VOLUME, true);
                         }
                     }
-                    operatingTicks = 0;
                 }
+                operatingTicks = 0;
             }
+        }
 
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                updateComparatorOutputLevelSync();
-                currentRedstoneLevel = newRedstoneLevel;
-            }
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            updateComparatorOutputLevelSync();
+            currentRedstoneLevel = newRedstoneLevel;
         }
     }
 

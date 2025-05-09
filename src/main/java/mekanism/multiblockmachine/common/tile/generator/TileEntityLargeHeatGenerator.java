@@ -10,7 +10,7 @@ import mekanism.common.capabilities.Capabilities;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.*;
 import mekanism.multiblockmachine.client.render.bloom.generator.BloomRenderLargeHeatGenerator;
-import mekanism.multiblockmachine.common.block.states.BlockStateMultiblockMachineGenerator.*;
+import mekanism.multiblockmachine.common.block.states.BlockStateMultiblockMachineGenerator.MultiblockMachineGeneratorType;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -54,47 +54,45 @@ public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator 
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            ChargeUtils.charge(1, this);
-            if (!inventory.get(0).isEmpty()) {
-                if (FluidContainerUtils.isFluidContainer(inventory.get(0))) {
-                    lavaTank.fill(FluidContainerUtils.extractFluid(lavaTank, this, 0, FluidContainerUtils.FluidChecker.check(FluidRegistry.LAVA)), true);
-                } else {
-                    int fuel = getFuel(inventory.get(0));
-                    if (fuel > 0) {
-                        int fuelNeeded = lavaTank.getCapacity() - (lavaTank.getFluid() != null ? lavaTank.getFluid().amount : 0);
-                        if (fuel <= fuelNeeded) {
-                            lavaTank.fill(new FluidStack(FluidRegistry.LAVA, fuel), true);
-                            if (!inventory.get(0).getItem().getContainerItem(inventory.get(0)).isEmpty()) {
-                                inventory.set(0, inventory.get(0).getItem().getContainerItem(inventory.get(0)));
-                            } else {
-                                inventory.get(0).shrink(1);
-                            }
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        ChargeUtils.charge(1, this);
+        if (!inventory.get(0).isEmpty()) {
+            if (FluidContainerUtils.isFluidContainer(inventory.get(0))) {
+                lavaTank.fill(FluidContainerUtils.extractFluid(lavaTank, this, 0, FluidContainerUtils.FluidChecker.check(FluidRegistry.LAVA)), true);
+            } else {
+                int fuel = getFuel(inventory.get(0));
+                if (fuel > 0) {
+                    int fuelNeeded = lavaTank.getCapacity() - (lavaTank.getFluid() != null ? lavaTank.getFluid().amount : 0);
+                    if (fuel <= fuelNeeded) {
+                        lavaTank.fill(new FluidStack(FluidRegistry.LAVA, fuel), true);
+                        if (!inventory.get(0).getItem().getContainerItem(inventory.get(0)).isEmpty()) {
+                            inventory.set(0, inventory.get(0).getItem().getContainerItem(inventory.get(0)));
+                        } else {
+                            inventory.get(0).shrink(1);
                         }
                     }
                 }
             }
-            double prev = getEnergy();
-            transferHeatTo(getBoost());
-            if (canOperate()) {
-                setActive(true);
-                lavaTank.drain(10 * Thread(), true);
-                transferHeatTo(MekanismConfig.current().multiblock.largeHeatGeneration.val() * Thread());
-            } else {
-                setActive(false);
-            }
-            double[] loss = simulateHeat();
-            applyTemperatureChange();
-            lastTransferLoss = loss[0];
-            lastEnvironmentLoss = loss[1];
-            producingEnergy = getEnergy() - prev;
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                world.updateComparatorOutputLevel(pos, getBlockType());
-                currentRedstoneLevel = newRedstoneLevel;
-            }
+        }
+        double prev = getEnergy();
+        transferHeatTo(getBoost());
+        if (canOperate()) {
+            setActive(true);
+            lavaTank.drain(10 * Thread(), true);
+            transferHeatTo(MekanismConfig.current().multiblock.largeHeatGeneration.val() * Thread());
+        } else {
+            setActive(false);
+        }
+        double[] loss = simulateHeat();
+        applyTemperatureChange();
+        lastTransferLoss = loss[0];
+        lastEnvironmentLoss = loss[1];
+        producingEnergy = getEnergy() - prev;
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            world.updateComparatorOutputLevel(pos, getBlockType());
+            currentRedstoneLevel = newRedstoneLevel;
         }
     }
 
@@ -484,7 +482,7 @@ public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator 
     @Override
     public void validate() {
         super.validate();
-        if (world.isRemote && !rendererInitialized) {
+        if (isRemote() && !rendererInitialized) {
             rendererInitialized = true;
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
                 new BloomRenderLargeHeatGenerator(this);

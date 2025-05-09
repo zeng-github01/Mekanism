@@ -66,18 +66,22 @@ public class TileEntityInductionPort extends TileEntityInductionCasing implement
     @Override
     public void onUpdate() {
         super.onUpdate();
-        if (!ic2Registered && MekanismUtils.useIC2()) {
+        if (MekanismUtils.useIC2() && !ic2Registered) {
             register();
         }
-        if (!world.isRemote) {
-            if (structure != null && mode) {
-                Mekanism.EXECUTE_MANAGER.addSyncTask(() -> CableUtils.emit(this));
-            }
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                updateComparatorOutputLevelSync();
-                currentRedstoneLevel = newRedstoneLevel;
-            }
+    }
+
+
+    @Override
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        if (structure != null && mode) {
+            CableUtils.emit(this);
+        }
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            updateComparatorOutputLevelSync();
+            currentRedstoneLevel = newRedstoneLevel;
         }
     }
 
@@ -96,7 +100,7 @@ public class TileEntityInductionPort extends TileEntityInductionCasing implement
 
     @Method(modid = MekanismHooks.IC2_MOD_ID)
     public void register() {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             IEnergyTile registered = EnergyNet.instance.getTile(world, getPos());
             if (registered != this) {
                 if (registered != null && ic2Registered) {
@@ -112,7 +116,7 @@ public class TileEntityInductionPort extends TileEntityInductionCasing implement
 
     @Method(modid = MekanismHooks.IC2_MOD_ID)
     public void deregister() {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             IEnergyTile registered = EnergyNet.instance.getTile(world, getPos());
             if (registered != null && ic2Registered) {
                 MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(registered));
@@ -176,7 +180,7 @@ public class TileEntityInductionPort extends TileEntityInductionCasing implement
     }
 
     @Override
-   public void writeCustomNBT(NBTTagCompound nbtTags) {
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setBoolean("mode", mode);
     }
@@ -337,7 +341,7 @@ public class TileEntityInductionPort extends TileEntityInductionCasing implement
 
     @Override
     public EnumActionResult onSneakRightClick(EntityPlayer player, EnumFacing side) {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             mode = !mode;
             String modeText = " " + (mode ? EnumColor.DARK_RED : EnumColor.DARK_GREEN) + LangUtils.transOutputInput(mode) + ".";
             player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + Mekanism.LOG_TAG + " " + EnumColor.GREY +
@@ -404,7 +408,7 @@ public class TileEntityInductionPort extends TileEntityInductionCasing implement
     @Override
     public int[] getSlotsForFace(@Nonnull EnumFacing side) {
         //Inserting into input make it draw power from the item inserted
-        return (!world.isRemote && structure != null) || (world.isRemote && clientHasStructure) ? mode ? CHARGE_SLOT : DISCHARGE_SLOT : InventoryUtils.EMPTY;
+        return (!isRemote() && structure != null) || (isRemote() && clientHasStructure) ? mode ? CHARGE_SLOT : DISCHARGE_SLOT : InventoryUtils.EMPTY;
     }
 
     @Override
@@ -420,7 +424,7 @@ public class TileEntityInductionPort extends TileEntityInductionCasing implement
     @Override
     public boolean isCapabilityDisabled(@Nonnull Capability<?> capability, EnumFacing side) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return !world.isRemote ? structure == null : !clientHasStructure;
+            return !isRemote() ? structure == null : !clientHasStructure;
         }
         return super.isCapabilityDisabled(capability, side);
     }

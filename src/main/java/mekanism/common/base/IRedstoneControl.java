@@ -1,6 +1,10 @@
 package mekanism.common.base;
 
+import mekanism.api.IIncrementalEnum;
+import mekanism.api.math.MathUtils;
 import mekanism.common.util.LangUtils;
+
+import javax.annotation.Nonnull;
 
 public interface IRedstoneControl {
 
@@ -35,12 +39,13 @@ public interface IRedstoneControl {
      */
     boolean canPulse();
 
-    enum RedstoneControl {
+    enum RedstoneControl implements IIncrementalEnum<RedstoneControl> {
         DISABLED("control.disabled"),
         HIGH("control.high"),
         LOW("control.low"),
         PULSE("control.pulse");
 
+        private static final RedstoneControl[] MODES = values();
         private String display;
 
         RedstoneControl(String s) {
@@ -49,6 +54,16 @@ public interface IRedstoneControl {
 
         public String getDisplay() {
             return LangUtils.localize(display);
+        }
+
+        @Nonnull
+        @Override
+        public RedstoneControl byIndex(int index) {
+            return byIndexStatic(index);
+        }
+
+        public static RedstoneControl byIndexStatic(int index) {
+            return MathUtils.getByIndexMod(MODES, index);
         }
     }
 }

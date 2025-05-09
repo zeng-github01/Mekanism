@@ -78,18 +78,16 @@ public class TileEntityPRC extends TileEntityUpgradeableMachine<PressurizedInput
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            PressurizedRecipe recipe = getRecipe();
-            ChargeUtils.discharge(1, this);
-            if (canOperate(recipe)) {
-                double energey = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy);
-                getProcess(recipe, true, energey);
-            }
-
-            prevEnergy = getEnergy();
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        PressurizedRecipe recipe = getRecipe();
+        ChargeUtils.discharge(1, this);
+        if (canOperate(recipe)) {
+            double energey = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy);
+            getProcess(recipe, true, energey);
         }
+
+        prevEnergy = getEnergy();
     }
 
     @Override

@@ -17,7 +17,7 @@ public interface IElectricMachine<INPUT extends MachineInput<INPUT>, OUTPUT exte
     /**
      * Update call for machines. Use instead of updateEntity() - it's called every tick.
      */
-    void onUpdate();
+    void onAsyncUpdateServer();
 
     /**
      * Whether or not this machine can operate.

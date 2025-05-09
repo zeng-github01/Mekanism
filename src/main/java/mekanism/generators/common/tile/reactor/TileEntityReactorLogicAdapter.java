@@ -2,7 +2,6 @@ package mekanism.generators.common.tile.reactor;
 
 import io.netty.buffer.ByteBuf;
 import mekanism.api.TileNetworkList;
-import mekanism.common.Mekanism;
 import mekanism.common.integration.computer.IComputerIntegration;
 import mekanism.common.util.LangUtils;
 import net.minecraft.init.Items;
@@ -25,16 +24,15 @@ public class TileEntityReactorLogicAdapter extends TileEntityReactorBlock implem
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
+    public void onUpdateServer() {
+        super.onUpdateServer();
             boolean outputting = checkMode();
             if (outputting != prevOutputting) {
-                Mekanism.EXECUTE_MANAGER.addSyncTask(() -> world.notifyNeighborsOfStateChange(getPos(), getBlockType(), true));
+                world.notifyNeighborsOfStateChange(getPos(), getBlockType(), true);
             }
             prevOutputting = outputting;
-        }
     }
+
 
     @Override
     public boolean isFrame() {
@@ -42,7 +40,7 @@ public class TileEntityReactorLogicAdapter extends TileEntityReactorBlock implem
     }
 
     public boolean checkMode() {
-        if (world.isRemote) {
+        if (isRemote()) {
             return prevOutputting;
         }
         if (getReactor() == null || !getReactor().isFormed()) {
@@ -66,7 +64,7 @@ public class TileEntityReactorLogicAdapter extends TileEntityReactorBlock implem
 
 
     @Override
-   public void writeCustomNBT(NBTTagCompound nbtTags) {
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("logicType", logicType.ordinal());
         nbtTags.setBoolean("activeCooled", activeCooled);

@@ -12,7 +12,7 @@ import mekanism.common.util.ChargeUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.NonNullListSynchronized;
 import mekanism.multiblockmachine.client.render.bloom.generator.BloomRenderLargeWindGenerator;
-import mekanism.multiblockmachine.common.block.states.BlockStateMultiblockMachineGenerator.*;
+import mekanism.multiblockmachine.common.block.states.BlockStateMultiblockMachineGenerator.MultiblockMachineGeneratorType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -69,39 +69,43 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            ChargeUtils.charge(0, this);
-            // If we're in a blacklisted dimension, there's nothing more to do
-            if (isBlacklistDimension) {
-                return;
-            }
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        ChargeUtils.charge(0, this);
+        // If we're in a blacklisted dimension, there's nothing more to do
+        if (isBlacklistDimension) {
+            return;
+        }
 
-            if (ticker % 200 == 0 && MekanismConfig.current().multiblock.largewindGenerationRangeStops.val() && !machineStop2) {
-                RangeStops();
-            }
+        if (ticker % 200 == 0 && MekanismConfig.current().multiblock.largewindGenerationRangeStops.val() && !machineStop2) {
+            RangeStops();
+        }
 
-            if (ticker % 20 == 0) {
-                currentMultiplier = getMultiplier();
-                setActive(MekanismUtils.canFunction(this) && currentMultiplier > 0 && !machineStop && !machineStop2);
+        if (ticker % 20 == 0) {
+            currentMultiplier = getMultiplier();
+            setActive(MekanismUtils.canFunction(this) && currentMultiplier > 0 && !machineStop && !machineStop2);
+        }
+        if (getActive()) {
+            setEnergy(electricityStored.get() + (MekanismConfig.current().multiblock.largewindGenerationMin.val() * currentMultiplier));
+            if (MekanismConfig.current().multiblock.largewindGenerationDamage.val()) {
+                kill();
             }
-            if (getActive()) {
-                setEnergy(electricityStored.get() + (MekanismConfig.current().multiblock.largewindGenerationMin.val() * currentMultiplier));
-                if (MekanismConfig.current().multiblock.largewindGenerationDamage.val()) {
-                    kill();
-                }
-            }
-            if (explode != 0) {
-                bladeDamage = true;
-            }
-            if (explode >= MekanismConfig.current().multiblock.largewindGenerationExplodeCount.val() && MekanismConfig.current().multiblock.largewindGenerationExplode.val()) {
-                explode();
-            }
-        } else if (getActive()) {
+        }
+        if (explode != 0) {
+            bladeDamage = true;
+        }
+        if (explode >= MekanismConfig.current().multiblock.largewindGenerationExplodeCount.val() && MekanismConfig.current().multiblock.largewindGenerationExplode.val()) {
+            explode();
+        }
+    }
+
+    @Override
+    public void onUpdateClient() {
+        if (getActive()) {
             angle = (angle + (getPos().getY() + 46F) / SPEED_SCALED) % 360;
         }
     }
+
 
     @Override
     public void addTileSyncTask() {
@@ -646,7 +650,7 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
     @Override
     public void validate() {
         super.validate();
-        if (world.isRemote && !rendererInitialized) {
+        if (isRemote() && !rendererInitialized) {
             rendererInitialized = true;
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
                 new BloomRenderLargeWindGenerator(this);

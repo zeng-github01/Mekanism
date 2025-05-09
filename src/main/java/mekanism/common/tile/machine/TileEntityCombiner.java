@@ -19,18 +19,17 @@ public class TileEntityCombiner extends TileEntityDoubleElectricMachine<Combiner
         upgradeComponent.setSupported(Upgrade.STONE_GENERATOR);
     }
 
+    //TODO
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            if (upgradeComponent.isUpgradeInstalled(Upgrade.STONE_GENERATOR)) {
-                for (DoubleMachineInput input : getRecipes().keySet()) {
-                    if (ItemHandlerHelper.canItemStacksStack(input.extraStack, new ItemStack(Blocks.COBBLESTONE))) {
-                        if (input.useItem(inventory, 0, false)) {
-                            if (inventory.get(1).isEmpty()) {
-                                inventory.set(1, getRecipes().get(input).getInput().extraStack);
-                                electricityStored.addAndGet(-getRecipes().get(input).getInput().extraStack.getCount() * 10);
-                            }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        if (upgradeComponent.isUpgradeInstalled(Upgrade.STONE_GENERATOR)) {
+            for (DoubleMachineInput input : getRecipes().keySet()) {
+                if (ItemHandlerHelper.canItemStacksStack(input.extraStack, new ItemStack(Blocks.COBBLESTONE))) {
+                    if (input.useItem(inventory, 0, false)) {
+                        if (inventory.get(1).isEmpty()) {
+                            inventory.set(1, getRecipes().get(input).getInput().extraStack);
+                            electricityStored.addAndGet(-getRecipes().get(input).getInput().extraStack.getCount() * 10);
                         }
                     }
                 }

@@ -36,12 +36,20 @@ public class TileEntityThermalEvaporationBlock extends TileEntityContainerBlock 
         inventory = NonNullListSynchronized.withSize(0, ItemStack.EMPTY);
     }
 
+
     @Override
     public void onUpdate() {
-        if (!world.isRemote && ticker == 5 && !attempted && master == null) {
+        super.onUpdate();
+        attempted = false;
+    }
+
+    @Override
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        if (ticker == 5 && !attempted && master == null) {
             updateController();
         }
-        attempted = false;
+
     }
 
     @Override
@@ -71,7 +79,7 @@ public class TileEntityThermalEvaporationBlock extends TileEntityContainerBlock 
     @Override
     public void onNeighborChange(Block block) {
         super.onNeighborChange(block);
-        if (!world.isRemote) {
+        if (!isRemote()) {
             TileEntityThermalEvaporationController tile = getController();
             if (tile != null) {
                 tile.refresh();

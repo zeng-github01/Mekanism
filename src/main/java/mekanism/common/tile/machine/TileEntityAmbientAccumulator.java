@@ -27,7 +27,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import javax.annotation.Nonnull;
 
 public class TileEntityAmbientAccumulator extends TileEntityContainerBlock implements IRedstoneControl, IGasHandler,
-        IActiveState, ITankManager, ISecurityTile, IComparatorSupport, ISideConfiguration,ISustainedData  {
+        IActiveState, ITankManager, ISecurityTile, IComparatorSupport, ISideConfiguration, ISustainedData {
     public GasTank collectedGas = new GasTank(10000);
     public RedstoneControl controlType = RedstoneControl.DISABLED;
     public TileComponentEjector ejectorComponent;
@@ -45,7 +45,7 @@ public class TileEntityAmbientAccumulator extends TileEntityContainerBlock imple
         configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.GAS);
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.NONE, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.OUTPUT, new int[]{0}));
-        configComponent.fillConfig(TransmissionType.ITEM,1);
+        configComponent.fillConfig(TransmissionType.ITEM, 1);
         configComponent.setCanEject(TransmissionType.ITEM, false);
 
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.NONE, InventoryUtils.EMPTY));
@@ -59,28 +59,25 @@ public class TileEntityAmbientAccumulator extends TileEntityContainerBlock imple
     }
 
     @Override
-    public void onUpdate() {
-        if (!world.isRemote) {
+    public void onAsyncUpdateServer() {
+        TileUtils.drawGas(inventory.get(0), collectedGas);
+        AmbientGasRecipe recipe = getRecipe();
 
-            TileUtils.drawGas(inventory.get(0), collectedGas);
-            AmbientGasRecipe recipe = getRecipe();
+        if (canOperate(recipe) && MekanismUtils.canFunction(this)) {
+            setActive(true);
+            operate(recipe);
+        } else {
+            setActive(false);
+        }
 
-            if (canOperate(recipe) && MekanismUtils.canFunction(this)){
-                setActive(true);
-                operate(recipe);
-            } else {
-                setActive(false);
-            }
+        if (world.getTotalWorldTime() % 20 == 0) {
+            Mekanism.packetHandler.sendUpdatePacket(this);
+        }
 
-            if (world.getTotalWorldTime() % 20 == 0) {
-                Mekanism.packetHandler.sendUpdatePacket(this);
-            }
-
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                updateComparatorOutputLevelSync();
-                currentRedstoneLevel = newRedstoneLevel;
-            }
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            updateComparatorOutputLevelSync();
+            currentRedstoneLevel = newRedstoneLevel;
         }
     }
 
@@ -105,13 +102,13 @@ public class TileEntityAmbientAccumulator extends TileEntityContainerBlock imple
     }
 
     public void operate(AmbientGasRecipe recipe) {
-        recipe.operate(cachedDimensionId,collectedGas,1);
+        recipe.operate(cachedDimensionId, collectedGas, 1);
     }
 
     @Override
     public boolean canExtractItem(int slotID, @Nonnull ItemStack itemstack, @Nonnull EnumFacing side) {
         if (slotID == 0) {
-            return !itemstack.isEmpty() && itemstack.getItem() instanceof IGasItem gasItem&& gasItem.canProvideGas(itemstack, null);
+            return !itemstack.isEmpty() && itemstack.getItem() instanceof IGasItem gasItem && gasItem.canProvideGas(itemstack, null);
         }
         return false;
     }
@@ -137,7 +134,7 @@ public class TileEntityAmbientAccumulator extends TileEntityContainerBlock imple
     @Override
     public boolean canDrawGas(EnumFacing side, Gas type) {
         return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(0) && collectedGas.canDraw(type);
-       // return side == facing && type == collectedGas.getGasType();
+        // return side == facing && type == collectedGas.getGasType();
     }
 
     @Override

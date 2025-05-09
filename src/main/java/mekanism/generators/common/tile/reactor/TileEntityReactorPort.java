@@ -66,18 +66,21 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
             world.notifyNeighborsOfStateChange(getPos(), getBlockType(), true);
         }
         super.onUpdate();
-        if (!world.isRemote) {
-            if (fluidEject && getReactor() != null && getReactor().getSteamTank().getFluid() != null) {
-                IFluidTank tank = getReactor().getSteamTank();
-                EmitUtils.forEachSide(getWorld(), getPos(), EnumSet.allOf(EnumFacing.class), (tile, side) -> {
-                    if (!(tile instanceof TileEntityReactorPort)) {
-                        IFluidHandler handler = CapabilityUtils.getCapability(tile, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
-                        if (handler != null && PipeUtils.canFill(handler, tank.getFluid())) {
-                            tank.drain(handler.fill(tank.getFluid(), true), true);
-                        }
+    }
+
+    @Override
+    public void onUpdateServer(){
+        super.onUpdateServer();
+        if (fluidEject && getReactor() != null && getReactor().getSteamTank().getFluid() != null) {
+            IFluidTank tank = getReactor().getSteamTank();
+            EmitUtils.forEachSide(getWorld(), getPos(), EnumSet.allOf(EnumFacing.class), (tile, side) -> {
+                if (!(tile instanceof TileEntityReactorPort)) {
+                    IFluidHandler handler = CapabilityUtils.getCapability(tile, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
+                    if (handler != null && PipeUtils.canFill(handler, tank.getFluid())) {
+                        tank.drain(handler.fill(tank.getFluid(), true), true);
                     }
-                });
-            }
+                }
+            });
         }
     }
 
@@ -355,7 +358,7 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
 
     @Override
     public EnumActionResult onSneakRightClick(EntityPlayer player, EnumFacing side) {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             fluidEject = !fluidEject;
             String modeText = " " + (fluidEject ? EnumColor.DARK_RED : EnumColor.DARK_GREEN) + LangUtils.transOutputInput(fluidEject) + ".";
             player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + Mekanism.LOG_TAG + " " + EnumColor.GREY +
@@ -368,7 +371,7 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
 
     @Override
     public EnumActionResult onRightClick(EntityPlayer player, EnumFacing side) {
-        if (!world.isRemote && player.isCreative() && getReactor() != null) {
+        if (!isRemote() && player.isCreative() && getReactor() != null) {
             getReactor().setPlasmaTemp(1_000_000_000);
         }
         return EnumActionResult.PASS;

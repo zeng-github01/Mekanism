@@ -37,7 +37,7 @@ import java.util.Set;
 import java.util.stream.IntStream;
 
 public class TileEntityHybridStorage extends TileEntityElectricBlock implements ISideConfiguration, IComputerIntegration,
-        ISecurityTile, IConfigCardAccess, IGasHandler, ISustainedData, ITankManager, IFluidHandlerWrapper, IRedstoneControl ,IFluidContainerManager{
+        ISecurityTile, IConfigCardAccess, IGasHandler, ISustainedData, ITankManager, IFluidHandlerWrapper, IRedstoneControl, IFluidContainerManager {
 
     private static final int[] INV_SLOTS = IntStream.range(0, 120).toArray();
     private static final boolean[] INV_SLOTS_INPUT_OUTPUT = IntStream.range(0, 120).mapToObj(it -> it >= 0).collect(BooleanArrayList::new, BooleanArrayList::add, BooleanArrayList::addAll).toBooleanArray(new boolean[0]);
@@ -86,24 +86,22 @@ public class TileEntityHybridStorage extends TileEntityElectricBlock implements 
 
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            TileUtils.receiveGasItem(inventory.get(120), gasTank1);
-            TileUtils.drawGas(inventory.get(121), gasTank1);
-            TileUtils.receiveGasItem(inventory.get(122), gasTank2);
-            TileUtils.drawGas(inventory.get(123), gasTank2);
-            manageInventory();
-            ChargeUtils.charge(126, this);
-            ChargeUtils.discharge(127, this);
-            if (fluidTank.getFluid() != null && fluidTank.getFluidAmount() == 0) {
-                fluidTank.setFluid(null);
-            }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        TileUtils.receiveGasItem(inventory.get(120), gasTank1);
+        TileUtils.drawGas(inventory.get(121), gasTank1);
+        TileUtils.receiveGasItem(inventory.get(122), gasTank2);
+        TileUtils.drawGas(inventory.get(123), gasTank2);
+        manageInventory();
+        ChargeUtils.charge(126, this);
+        ChargeUtils.discharge(127, this);
+        if (fluidTank.getFluid() != null && fluidTank.getFluidAmount() == 0) {
+            fluidTank.setFluid(null);
         }
     }
 
     @Override
-    public void addTileSyncTask(){
+    public void addTileSyncTask() {
         energyOupt();
         handleGasTank(gasTank1, configComponent.getSidesForData(TransmissionType.GAS, facing, 4), true);
         handleGasTank(gasTank2, configComponent.getSidesForData(TransmissionType.GAS, facing, 5), true);
@@ -129,7 +127,7 @@ public class TileEntityHybridStorage extends TileEntityElectricBlock implements 
     private void manageInventory() {
         if (!inventory.get(124).isEmpty()) {
             if (FluidContainerUtils.isFluidContainer(inventory.get(124))) {
-                FluidContainerUtils.handleContainerItem(this,editMode,fluidTank,124,125);
+                FluidContainerUtils.handleContainerItem(this, editMode, fluidTank, 124, 125);
             }
         }
     }

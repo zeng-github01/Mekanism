@@ -63,40 +63,35 @@ public class TileEntityDynamicValve extends TileEntityDynamicTank implements IFl
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                updateComparatorOutputLevelSync();
-                currentRedstoneLevel = newRedstoneLevel;
-            }
-
-            if (structure != null && eject) {
-                if (fluidTank.getFluid() != null && fluidTank.getFluid().getFluid() != null) {
-                    IFluidTank tank = fluidTank;
-                    EmitUtils.forEachSide(getWorld(), getPos(), EnumSet.allOf(EnumFacing.class), (tile, side) -> {
-                        if (!(tile instanceof TileEntityDynamicValve)) {
-                            IFluidHandler handler = CapabilityUtils.getCapability(tile, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
-                            if (handler != null && PipeUtils.canFill(handler, tank.getFluid())) {
-                                tank.drain(handler.fill(tank.getFluid(), true), true);
-                            }
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            updateComparatorOutputLevelSync();
+            currentRedstoneLevel = newRedstoneLevel;
+        }
+        if (structure != null && eject) {
+            if (fluidTank.getFluid() != null && fluidTank.getFluid().getFluid() != null) {
+                IFluidTank tank = fluidTank;
+                EmitUtils.forEachSide(getWorld(), getPos(), EnumSet.allOf(EnumFacing.class), (tile, side) -> {
+                    if (!(tile instanceof TileEntityDynamicValve)) {
+                        IFluidHandler handler = CapabilityUtils.getCapability(tile, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
+                        if (handler != null && PipeUtils.canFill(handler, tank.getFluid())) {
+                            tank.drain(handler.fill(tank.getFluid(), true), true);
                         }
-                    });
-                }
-                Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                    if (gasTank.getGas() != null && gasTank.getGas().getGas() != null) {
-                        GasStack toSend = gasTank.getGas().copy().withAmount(Math.min(gasTank.getMaxGas(), gasTank.getGasAmount()));
-                        gasTank.output(GasUtils.emit(toSend, this, EnumSet.allOf(EnumFacing.class)), true);
                     }
                 });
+            }
+            if (gasTank.getGas() != null && gasTank.getGas().getGas() != null) {
+                GasStack toSend = gasTank.getGas().copy().withAmount(Math.min(gasTank.getMaxGas(), gasTank.getGasAmount()));
+                gasTank.output(GasUtils.emit(toSend, this, EnumSet.allOf(EnumFacing.class)), true);
             }
         }
     }
 
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
-        return ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) ? new FluidTankInfo[]{fluidTank.getInfo()} : PipeUtils.EMPTY;
+        return ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) ? new FluidTankInfo[]{fluidTank.getInfo()} : PipeUtils.EMPTY;
     }
 
     @Override
@@ -117,12 +112,12 @@ public class TileEntityDynamicValve extends TileEntityDynamicTank implements IFl
 
     @Override
     public boolean canFill(EnumFacing from, @Nonnull FluidStack fluid) {
-        return ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) && !eject;
+        return ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) && !eject;
     }
 
     @Override
     public boolean canDrain(EnumFacing from, @Nullable FluidStack fluid) {
-        return ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) && FluidContainerUtils.canDrain(structure.fluidStored, fluid);
+        return ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) && FluidContainerUtils.canDrain(structure.fluidStored, fluid);
     }
 
     @Nonnull
@@ -133,7 +128,7 @@ public class TileEntityDynamicValve extends TileEntityDynamicTank implements IFl
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing side) {
-        if ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) {
+        if ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) {
             if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == Capabilities.GAS_HANDLER_CAPABILITY || capability == Capabilities.CONFIGURABLE_CAPABILITY) {
                 return true;
             }
@@ -143,7 +138,7 @@ public class TileEntityDynamicValve extends TileEntityDynamicTank implements IFl
 
     @Override
     public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing side) {
-        if ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) {
+        if ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) {
             if (capability == Capabilities.CONFIGURABLE_CAPABILITY || capability == Capabilities.GAS_HANDLER_CAPABILITY) {
                 return (T) this;
             }
@@ -157,7 +152,7 @@ public class TileEntityDynamicValve extends TileEntityDynamicTank implements IFl
     @Override
     public boolean isCapabilityDisabled(@Nonnull Capability<?> capability, EnumFacing side) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return !world.isRemote ? structure == null : !clientHasStructure;
+            return !isRemote() ? structure == null : !clientHasStructure;
         }
         return super.isCapabilityDisabled(capability, side);
     }
@@ -165,7 +160,7 @@ public class TileEntityDynamicValve extends TileEntityDynamicTank implements IFl
     @Nonnull
     @Override
     public int[] getSlotsForFace(@Nonnull EnumFacing side) {
-        return (!world.isRemote && structure != null) || (world.isRemote && clientHasStructure) ? SLOTS : InventoryUtils.EMPTY;
+        return (!isRemote() && structure != null) || (isRemote() && clientHasStructure) ? SLOTS : InventoryUtils.EMPTY;
     }
 
     @Override
@@ -191,18 +186,18 @@ public class TileEntityDynamicValve extends TileEntityDynamicTank implements IFl
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        return ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) && !eject;
+        return ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) && !eject;
     }
 
     @Override
     public boolean canDrawGas(EnumFacing side, Gas type) {
-        return ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) && GasUtils.canDrain(structure.gasstored, type);
+        return ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) && GasUtils.canDrain(structure.gasstored, type);
     }
 
     @Nonnull
     @Override
     public GasTankInfo[] getTankInfo() {
-        return ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) ? new GasTankInfo[]{gasTank.getInfo()} : IGasHandler.NONE;
+        return ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) ? new GasTankInfo[]{gasTank.getInfo()} : IGasHandler.NONE;
     }
 
     @Override
@@ -226,7 +221,7 @@ public class TileEntityDynamicValve extends TileEntityDynamicTank implements IFl
 
     @Override
     public EnumActionResult onSneakRightClick(EntityPlayer player, EnumFacing side) {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             eject = !eject;
             String modeText = " " + (eject ? EnumColor.DARK_RED : EnumColor.DARK_GREEN) + LangUtils.transOutputInput(eject) + ".";
             player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + Mekanism.LOG_TAG + " " + EnumColor.GREY +

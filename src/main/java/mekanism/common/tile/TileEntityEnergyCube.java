@@ -75,20 +75,18 @@ public class TileEntityEnergyCube extends TileEntityElectricBlock implements ICo
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            ChargeUtils.charge(0, this);
-            ChargeUtils.discharge(1, this);
-            if (MekanismUtils.canFunction(this) && configComponent.isEjecting(TransmissionType.ENERGY)) {
-                CableUtils.emit(this);
-            }
-            int newScale = getScaledEnergyLevel(20);
-            if (newScale != prevScale) {
-                Mekanism.packetHandler.sendUpdatePacket(this);
-            }
-            prevScale = newScale;
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        ChargeUtils.charge(0, this);
+        ChargeUtils.discharge(1, this);
+        if (MekanismUtils.canFunction(this) && configComponent.isEjecting(TransmissionType.ENERGY)) {
+            CableUtils.emit(this);
         }
+        int newScale = getScaledEnergyLevel(20);
+        if (newScale != prevScale) {
+            Mekanism.packetHandler.sendUpdatePacket(this);
+        }
+        prevScale = newScale;
     }
 
     @Override
@@ -137,7 +135,6 @@ public class TileEntityEnergyCube extends TileEntityElectricBlock implements ICo
     public boolean sideIsOutput(EnumFacing side) {
         return configComponent.hasSideForData(TransmissionType.ENERGY, facing, 2, side);
     }
-
 
 
     @Override
@@ -206,7 +203,7 @@ public class TileEntityEnergyCube extends TileEntityElectricBlock implements ICo
     }
 
     @Override
-   public void writeCustomNBT(NBTTagCompound nbtTags) {
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("tier", tier.ordinal());
         nbtTags.setInteger("controlType", controlType.ordinal());

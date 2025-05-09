@@ -19,7 +19,6 @@ import mekanism.multiblockmachine.client.render.bloom.machine.BloomRenderDigital
 import mekanism.multiblockmachine.common.MultiblockMachineItems;
 import mekanism.multiblockmachine.common.block.states.BlockStateMultiblockMachine;
 import mekanism.multiblockmachine.common.tile.machine.prefab.TileEntityMultiblockBasicMachine;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -100,83 +99,85 @@ public class TileEntityDigitalAssemblyTable extends TileEntityMultiblockBasicMac
     }
 
     @Override
-    public void setNoFinish(){
+    public void setNoFinish() {
         BASE_TICKS_REQUIRED = 100;
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0) {
-                    needsPacket = true;
-                }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0) {
+                needsPacket = true;
             }
-            DigitalAssemblyTableRecipe recipe = getRecipe();
-            ChargeUtils.discharge(1, this);
+        }
+        DigitalAssemblyTableRecipe recipe = getRecipe();
+        ChargeUtils.discharge(1, this);
 
-            if (canOperate(recipe)){
-                double energy = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy);
-                getProcess(recipe,isMachiningTools(),energy);
-            }
+        if (canOperate(recipe)) {
+            double energy = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy);
+            getProcess(recipe, isMachiningTools(), energy);
+        }
 
-            if (prevEnergy != getEnergy() || lastInputFluid != inputFluidTank.getFluidAmount() || lastInputGas != inputGasTank.getStored() || lastOutputGas != outputGasTank.getStored() || lastOutputFluid != outputFluidTank.getFluidAmount() || lastoperatingTicks != operatingTicks) {
-                SPacketUpdateTileEntity packet = this.getUpdatePacket();
-                PlayerChunkMapEntry trackingEntry = ((WorldServer) this.world).getPlayerChunkMap().getEntry(this.pos.getX() >> 4, this.pos.getZ() >> 4);
-                if (trackingEntry != null) {
-                    for (EntityPlayerMP player : trackingEntry.getWatchingPlayers()) {
-                        player.connection.sendPacket(packet);
-                    }
-                }
+        if (prevEnergy != getEnergy() || lastInputFluid != inputFluidTank.getFluidAmount() || lastInputGas != inputGasTank.getStored() || lastOutputGas != outputGasTank.getStored() || lastOutputFluid != outputFluidTank.getFluidAmount() || lastoperatingTicks != operatingTicks) {
+            SPacketUpdateTileEntity packet = this.getUpdatePacket();
+            PlayerChunkMapEntry trackingEntry = ((WorldServer) this.world).getPlayerChunkMap().getEntry(this.pos.getX() >> 4, this.pos.getZ() >> 4);
+            if (trackingEntry != null) {
+                trackingEntry.getWatchingPlayers().forEach(player -> player.connection.sendPacket(packet));
             }
-            prevEnergy = getEnergy();
-            lastInputGas = inputGasTank.getStored();
-            lastInputFluid = inputFluidTank.getFluidAmount();
-            lastOutputGas = outputGasTank.getStored();
-            lastOutputFluid = outputFluidTank.getFluidAmount();
-            lastoperatingTicks = operatingTicks;
-            if (needsPacket) {
-                Mekanism.packetHandler.sendUpdatePacket(this);
+        }
+        prevEnergy = getEnergy();
+        lastInputGas = inputGasTank.getStored();
+        lastInputFluid = inputFluidTank.getFluidAmount();
+        lastOutputGas = outputGasTank.getStored();
+        lastOutputFluid = outputFluidTank.getFluidAmount();
+        lastoperatingTicks = operatingTicks;
+        if (needsPacket) {
+            Mekanism.packetHandler.sendUpdatePacket(this);
+        }
+        needsPacket = false;
+
+    }
+
+
+    @Override
+    public void onUpdateClient() {
+        super.onUpdateClient();
+        if (!isActive) {
+            if (DoorHeight < 16) {
+                DoorHeight++;
             }
-            needsPacket = false;
         } else {
-            if (!isActive) {
-                if (DoorHeight < 16) {
-                    DoorHeight++;
-                }
-            } else {
-                if (DoorHeight > 0) {
-                    DoorHeight--;
-                }
+            if (DoorHeight > 0) {
+                DoorHeight--;
             }
+        }
 
-            float targetInputGasScale = (float) (inputGasTank.getGas() != null ? inputGasTank.getGas().amount : 0) / inputGasTank.getMaxGas();
-            if (Math.abs(inputGasScale - targetInputGasScale) > 0.01) {
-                inputGasScale = (9 * inputGasScale + targetInputGasScale) / 10;
-            }
-            float targetOutputGasScale = (float) (outputGasTank.getGas() != null ? outputGasTank.getGas().amount : 0) / outputGasTank.getMaxGas();
-            if (Math.abs(outputGasScale - targetOutputGasScale) > 0.01) {
-                outputGasScale = (9 * outputGasScale + targetOutputGasScale) / 10;
-            }
+        float targetInputGasScale = (float) (inputGasTank.getGas() != null ? inputGasTank.getGas().amount : 0) / inputGasTank.getMaxGas();
+        if (Math.abs(inputGasScale - targetInputGasScale) > 0.01) {
+            inputGasScale = (9 * inputGasScale + targetInputGasScale) / 10;
+        }
+        float targetOutputGasScale = (float) (outputGasTank.getGas() != null ? outputGasTank.getGas().amount : 0) / outputGasTank.getMaxGas();
+        if (Math.abs(outputGasScale - targetOutputGasScale) > 0.01) {
+            outputGasScale = (9 * outputGasScale + targetOutputGasScale) / 10;
+        }
 
-            float targetInputFluidScale = (float) (inputFluidTank.getFluid() != null ? inputFluidTank.getFluid().amount : 0) / inputFluidTank.getCapacity();
-            if (Math.abs(inputFluidScale - targetInputFluidScale) > 0.01) {
-                inputFluidScale = (9 * inputFluidScale + targetInputFluidScale) / 10;
-            }
+        float targetInputFluidScale = (float) (inputFluidTank.getFluid() != null ? inputFluidTank.getFluid().amount : 0) / inputFluidTank.getCapacity();
+        if (Math.abs(inputFluidScale - targetInputFluidScale) > 0.01) {
+            inputFluidScale = (9 * inputFluidScale + targetInputFluidScale) / 10;
+        }
 
-            float targetOutputFluidScale = (float) (outputFluidTank.getFluid() != null ? outputFluidTank.getFluid().amount : 0) / outputFluidTank.getCapacity();
-            if (Math.abs(outputFluidScale - targetOutputFluidScale) > 0.01) {
-                outputFluidScale = (9 * outputFluidScale + targetOutputFluidScale) / 10;
-            }
+        float targetOutputFluidScale = (float) (outputFluidTank.getFluid() != null ? outputFluidTank.getFluid().amount : 0) / outputFluidTank.getCapacity();
+        if (Math.abs(outputFluidScale - targetOutputFluidScale) > 0.01) {
+            outputFluidScale = (9 * outputFluidScale + targetOutputFluidScale) / 10;
+        }
 
 
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0) {
-                    MekanismUtils.updateBlock(world, getPos());
-                }
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0) {
+                MekanismUtils.updateBlock(world, getPos());
             }
         }
     }
@@ -892,7 +893,7 @@ public class TileEntityDigitalAssemblyTable extends TileEntityMultiblockBasicMac
     @Override
     public void validate() {
         super.validate();
-        if (world.isRemote && !rendererInitialized) {
+        if (isRemote() && !rendererInitialized) {
             rendererInitialized = true;
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
                 new BloomRenderDigitalAssemblyTable(this);

@@ -37,19 +37,16 @@ public class TileEntityRadioactiveWasteBarrel extends TileEntityBasicBlock imple
     public boolean clientActive;
 
     @Override
-    public void onUpdate() {
-        if (!world.isRemote) {
-            if (getWorld().getTotalWorldTime() > lastProcessTick) {
-                lastProcessTick = getWorld().getTotalWorldTime();
-                if (gasTank.getGas() != null && gasTank.getGas().getGas().isRadiation() && ++processTicks >= 20) {
-                    processTicks = 0;
-                    gasTank.draw(1, true);
-                }
-                if (getActive()) {
-                    Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                        gasTank.draw(GasUtils.emit(gasTank.stored, this, Collections.singleton(EnumFacing.DOWN)), true);
-                    });
-                }
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        if (getWorld().getTotalWorldTime() > lastProcessTick) {
+            lastProcessTick = getWorld().getTotalWorldTime();
+            if (gasTank.getGas() != null && gasTank.getGas().getGas().isRadiation() && ++processTicks >= 20) {
+                processTicks = 0;
+                gasTank.draw(1, true);
+            }
+            if (getActive()) {
+                gasTank.draw(GasUtils.emit(gasTank.stored, this, Collections.singleton(EnumFacing.DOWN)), true);
             }
         }
     }
@@ -94,7 +91,7 @@ public class TileEntityRadioactiveWasteBarrel extends TileEntityBasicBlock imple
 
     @Override
     public EnumActionResult onSneakRightClick(EntityPlayer player, EnumFacing side) {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             setActive(!getActive());
             world.playSound(null, getPos().getX(), getPos().getY(), getPos().getZ(), SoundEvents.UI_BUTTON_CLICK, SoundCategory.BLOCKS, 0.3F, 1);
         }

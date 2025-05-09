@@ -10,9 +10,6 @@ public class TileEntityInternalMultiblock extends TileEntityBasicBlock {
 
     public String multiblockUUID;
 
-    @Override
-    public void onUpdate() {
-    }
 
     @Override
     public void handlePacketData(ByteBuf dataStream) {

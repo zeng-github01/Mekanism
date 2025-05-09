@@ -4,9 +4,8 @@ import mekanism.common.Mekanism;
 import mekanism.common.content.boiler.SynchronizedBoilerData;
 import mekanism.common.multiblock.TileEntityInternalMultiblock;
 import mekanism.common.util.MekanismUtils;
-import net.minecraft.util.ITickable;
 
-public class TileEntitySuperheatingElement extends TileEntityInternalMultiblock implements ITickable {
+public class TileEntitySuperheatingElement extends TileEntityInternalMultiblock {
 
     public boolean prevHot;
 
@@ -27,22 +26,21 @@ public class TileEntitySuperheatingElement extends TileEntityInternalMultiblock 
 
         super.setMultiblock(id);
 
-        if (packet && !world.isRemote) {
+        if (packet && !isRemote()) {
             Mekanism.packetHandler.sendUpdatePacket(this);
         }
     }
 
     @Override
-    public void onUpdate() {
-        if (world.isRemote) {
-            boolean newHot = false;
-            if (multiblockUUID != null && SynchronizedBoilerData.clientHotMap.get(multiblockUUID) != null) {
-                newHot = SynchronizedBoilerData.clientHotMap.get(multiblockUUID);
-            }
-            if (prevHot != newHot) {
-                MekanismUtils.updateBlock(world, getPos());
-                prevHot = newHot;
-            }
+    public void onUpdateClient() {
+        super.onUpdateClient();
+        boolean newHot = false;
+        if (multiblockUUID != null && SynchronizedBoilerData.clientHotMap.get(multiblockUUID) != null) {
+            newHot = SynchronizedBoilerData.clientHotMap.get(multiblockUUID);
+        }
+        if (prevHot != newHot) {
+            MekanismUtils.updateBlock(world, getPos());
+            prevHot = newHot;
         }
     }
 }

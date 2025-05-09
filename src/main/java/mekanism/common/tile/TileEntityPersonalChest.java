@@ -34,16 +34,16 @@ public class TileEntityPersonalChest extends TileEntityContainerBlock implements
 
     @Override
     public void onUpdate() {
+        super.onUpdate();
         prevLidAngle = lidAngle;
         float increment = 0.1F;
-        if ((playersUsing.size() > 0) && (lidAngle == 0.0F)) {
-            world.playSound(null, getPos().getX() + 0.5F, getPos().getY() + 0.5D, getPos().getZ() + 0.5F,
-                    SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, (world.rand.nextFloat() * 0.1F) + 0.9F);
+        if ((!playersUsing.isEmpty()) && (lidAngle == 0.0F)) {
+            world.playSound(null, getPos().getX() + 0.5F, getPos().getY() + 0.5D, getPos().getZ() + 0.5F, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, (world.rand.nextFloat() * 0.1F) + 0.9F);
         }
 
-        if ((playersUsing.size() == 0 && lidAngle > 0.0F) || (playersUsing.size() > 0 && lidAngle < 1.0F)) {
+        if ((playersUsing.isEmpty() && lidAngle > 0.0F) || (!playersUsing.isEmpty() && lidAngle < 1.0F)) {
             float angle = lidAngle;
-            if (playersUsing.size() > 0) {
+            if (!playersUsing.isEmpty()) {
                 lidAngle += increment;
             } else {
                 lidAngle -= increment;
@@ -53,8 +53,7 @@ public class TileEntityPersonalChest extends TileEntityContainerBlock implements
             }
             float split = 0.5F;
             if (lidAngle < split && angle >= split) {
-                world.playSound(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D,
-                        SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, (world.rand.nextFloat() * 0.1F) + 0.9F);
+                world.playSound(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, (world.rand.nextFloat() * 0.1F) + 0.9F);
             }
             if (lidAngle < 0.0F) {
                 lidAngle = 0.0F;

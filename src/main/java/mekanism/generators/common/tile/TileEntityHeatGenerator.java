@@ -51,51 +51,46 @@ public class TileEntityHeatGenerator extends TileEntityGenerator implements IFlu
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-
-        if (!world.isRemote) {
-            ChargeUtils.charge(1, this);
-            if (!inventory.get(0).isEmpty()) {
-                if (FluidContainerUtils.isFluidContainer(inventory.get(0))) {
-                    lavaTank.fill(FluidContainerUtils.extractFluid(lavaTank, this, 0, FluidChecker.check(FluidRegistry.LAVA)), true);
-                } else {
-                    int fuel = getFuel(inventory.get(0));
-                    if (fuel > 0) {
-                        int fuelNeeded = lavaTank.getCapacity() - (lavaTank.getFluid() != null ? lavaTank.getFluid().amount : 0);
-                        if (fuel <= fuelNeeded) {
-                            lavaTank.fill(new FluidStack(FluidRegistry.LAVA, fuel), true);
-                            if (!inventory.get(0).getItem().getContainerItem(inventory.get(0)).isEmpty()) {
-                                inventory.set(0, inventory.get(0).getItem().getContainerItem(inventory.get(0)));
-                            } else {
-                                inventory.get(0).shrink(1);
-                            }
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        ChargeUtils.charge(1, this);
+        if (!inventory.get(0).isEmpty()) {
+            if (FluidContainerUtils.isFluidContainer(inventory.get(0))) {
+                lavaTank.fill(FluidContainerUtils.extractFluid(lavaTank, this, 0, FluidChecker.check(FluidRegistry.LAVA)), true);
+            } else {
+                int fuel = getFuel(inventory.get(0));
+                if (fuel > 0) {
+                    int fuelNeeded = lavaTank.getCapacity() - (lavaTank.getFluid() != null ? lavaTank.getFluid().amount : 0);
+                    if (fuel <= fuelNeeded) {
+                        lavaTank.fill(new FluidStack(FluidRegistry.LAVA, fuel), true);
+                        if (!inventory.get(0).getItem().getContainerItem(inventory.get(0)).isEmpty()) {
+                            inventory.set(0, inventory.get(0).getItem().getContainerItem(inventory.get(0)));
+                        } else {
+                            inventory.get(0).shrink(1);
                         }
                     }
                 }
             }
+        }
+        double prev = getEnergy();
+        transferHeatTo(getBoost());
+        if (canOperate()) {
+            setActive(true);
+            lavaTank.drain(10, true);
+            transferHeatTo(MekanismConfig.current().generators.heatGeneration.val());
+        } else {
+            setActive(false);
+        }
 
-            double prev = getEnergy();
-            transferHeatTo(getBoost());
-            if (canOperate()) {
-                setActive(true);
-                lavaTank.drain(10, true);
-                transferHeatTo(MekanismConfig.current().generators.heatGeneration.val());
-            } else {
-                setActive(false);
-            }
-
-            double[] loss = simulateHeat();
-            applyTemperatureChange();
-            lastTransferLoss = loss[0];
-            lastEnvironmentLoss = loss[1];
-            producingEnergy = getEnergy() - prev;
-
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                updateComparatorOutputLevelSync();
-                currentRedstoneLevel = newRedstoneLevel;
-            }
+        double[] loss = simulateHeat();
+        applyTemperatureChange();
+        lastTransferLoss = loss[0];
+        lastEnvironmentLoss = loss[1];
+        producingEnergy = getEnergy() - prev;
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            updateComparatorOutputLevelSync();
+            currentRedstoneLevel = newRedstoneLevel;
         }
     }
 
@@ -342,7 +337,7 @@ public class TileEntityHeatGenerator extends TileEntityGenerator implements IFlu
     @Override
     public void validate() {
         super.validate();
-        if (world.isRemote && !rendererInitialized) {
+        if (isRemote() && !rendererInitialized) {
             rendererInitialized = true;
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
                 new BloomRenderHeatGenerator(this);

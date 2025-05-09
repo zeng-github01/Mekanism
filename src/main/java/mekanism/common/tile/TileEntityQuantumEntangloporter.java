@@ -101,41 +101,39 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        if (configComponent.isEjecting(TransmissionType.ENERGY)) {
+            CableUtils.emit(this);
+        }
+        double[] loss = simulateHeat();
+        applyTemperatureChange();
 
-        if (!world.isRemote) {
-            if (configComponent.isEjecting(TransmissionType.ENERGY)) {
-                CableUtils.emit(this);
+        lastTransferLoss = loss[0];
+        lastEnvironmentLoss = loss[1];
+
+        FrequencyManager manager = getManager(frequency);
+        Frequency lastFreq = frequency;
+
+        if (manager != null) {
+            if (frequency != null && !frequency.valid) {
+                frequency = (InventoryFrequency) manager.validateFrequency(securityComponent.getOwnerUUID(), Coord4D.get(this), frequency);
+                markNoUpdateSync();
             }
-            double[] loss = simulateHeat();
-            applyTemperatureChange();
 
-            lastTransferLoss = loss[0];
-            lastEnvironmentLoss = loss[1];
-
-            FrequencyManager manager = getManager(frequency);
-            Frequency lastFreq = frequency;
-
-            if (manager != null) {
-                if (frequency != null && !frequency.valid) {
-                    frequency = (InventoryFrequency) manager.validateFrequency(securityComponent.getOwnerUUID(), Coord4D.get(this), frequency);
+            if (frequency != null) {
+                frequency = (InventoryFrequency) manager.update(Coord4D.get(this), frequency);
+                if (frequency == null) {
                     markNoUpdateSync();
                 }
-
-                if (frequency != null) {
-                    frequency = (InventoryFrequency) manager.update(Coord4D.get(this), frequency);
-                    if (frequency == null) {
-                        markNoUpdateSync();
-                    }
-                }
-            } else {
-                frequency = null;
-                if (lastFreq != null) {
-                    markNoUpdateSync();
-                }
+            }
+        } else {
+            frequency = null;
+            if (lastFreq != null) {
+                markNoUpdateSync();
             }
         }
+
     }
 
     @Override
@@ -150,7 +148,7 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
     @Override
     public void invalidate() {
         super.invalidate();
-        if (!world.isRemote) {
+        if (!isRemote()) {
             if (frequency != null) {
                 FrequencyManager manager = getManager(frequency);
                 if (manager != null) {

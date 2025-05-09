@@ -68,21 +68,18 @@ public class TileEntitySolarGenerator extends TileEntityGenerator {
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            ChargeUtils.charge(0, this);
-            // Sort out if the generator can see the sun; we no longer check if it's raining here,
-            // since under the new rules, we can still generate power when it's raining, albeit at a
-            // significant penalty.
-            seesSun = world.isDaytime() && canSeeSky() && !world.provider.isNether();
-
-            if (canOperate()) {
-                setActive(true);
-                setEnergy(getEnergy() + getProduction());
-            } else {
-                setActive(false);
-            }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        ChargeUtils.charge(0, this);
+        // Sort out if the generator can see the sun; we no longer check if it's raining here,
+        // since under the new rules, we can still generate power when it's raining, albeit at a
+        // significant penalty.
+        seesSun = world.isDaytime() && canSeeSky() && !world.provider.isNether();
+        if (canOperate()) {
+            setActive(true);
+            setEnergy(getEnergy() + getProduction());
+        } else {
+            setActive(false);
         }
     }
 

@@ -41,14 +41,12 @@ public class TileEntityInductionCasing extends TileEntityMultiblock<Synchronized
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            if (structure != null && isRendering) {
-                structure.tick(world);
-                ChargeUtils.charge(0, this);
-                ChargeUtils.discharge(1, this);
-            }
+    public void onUpdateServer(){
+        super.onUpdateServer();
+        if (structure != null && isRendering) {
+            structure.tick(world);
+            ChargeUtils.charge(0, this);
+            ChargeUtils.discharge(1, this);
         }
     }
 

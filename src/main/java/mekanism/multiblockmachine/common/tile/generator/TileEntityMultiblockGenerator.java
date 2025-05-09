@@ -51,7 +51,7 @@ public abstract class TileEntityMultiblockGenerator extends TileEntityEffectsBlo
         super("gen." + soundPath, type.getBlockName(), maxEnergy);
         output = out;
         controlType = RedstoneControl.DISABLED;
-        upgradeComponent = new TileComponentUpgrade(this, slot, Upgrade.THREAD, MekanismMultiblockMachine.proxy, type.blockType.getBlock(), type.meta,type.guiId);
+        upgradeComponent = new TileComponentUpgrade(this, slot, Upgrade.THREAD, MekanismMultiblockMachine.proxy, type.blockType.getBlock(), type.meta, type.guiId);
     }
 
     public int Thread() {
@@ -63,16 +63,13 @@ public abstract class TileEntityMultiblockGenerator extends TileEntityEffectsBlo
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            if (MekanismConfig.current().multiblock.destroyDisabledBlocks.val()) {
-                MultiblockMachineGeneratorType type = MultiblockMachineGeneratorType.get(getBlockType(), getBlockMetadata());
-                if (type != null && !type.isEnabled()) {
-                    Mekanism.logger.info("Destroying generator of type '" + type.getBlockName() + "' at coords " + Coord4D.get(this) + " as according to config.");
-                    world.setBlockToAir(getPos());
-                    return;
-                }
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        if (MekanismConfig.current().multiblock.destroyDisabledBlocks.val()) {
+            MultiblockMachineGeneratorType type = MultiblockMachineGeneratorType.get(getBlockType(), getBlockMetadata());
+            if (type != null && !type.isEnabled()) {
+                Mekanism.logger.info("Destroying generator of type '" + type.getBlockName() + "' at coords " + Coord4D.get(this) + " as according to config.");
+                world.setBlockToAir(getPos());
             }
         }
     }

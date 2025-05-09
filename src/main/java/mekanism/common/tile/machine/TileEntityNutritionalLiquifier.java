@@ -62,36 +62,38 @@ public class TileEntityNutritionalLiquifier extends TileEntityBasicMachine<ItemS
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0) {
-                    needsPacket = true;
-                }
-            }
-            ChargeUtils.discharge(1, this);
-            TileUtils.drawGas(inventory.get(2), gasTank);
-            NutritionalRecipe recipe = getRecipe();
-            getProcess(recipe);
-            prevEnergy = getEnergy();
-            if (needsPacket) {
-                Mekanism.packetHandler.sendUpdatePacket(this);
-            }
-            needsPacket = false;
-        } else {
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0) {
-                    MekanismUtils.updateBlock(world, getPos());
-                }
-            }
-            float targetScale = (float) (gasTank.getGas() != null ? gasTank.getGas().amount : 0) / gasTank.getMaxGas();
-            if (Math.abs(prevScale - targetScale) > 0.01) {
-                prevScale = (9 * prevScale + targetScale) / 10;
+    public void onUpdateClient() {
+        super.onUpdateClient();
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0) {
+                MekanismUtils.updateBlock(world, getPos());
             }
         }
+        float targetScale = (float) (gasTank.getGas() != null ? gasTank.getGas().amount : 0) / gasTank.getMaxGas();
+        if (Math.abs(prevScale - targetScale) > 0.01) {
+            prevScale = (9 * prevScale + targetScale) / 10;
+        }
+    }
+
+    @Override
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0) {
+                needsPacket = true;
+            }
+        }
+        ChargeUtils.discharge(1, this);
+        TileUtils.drawGas(inventory.get(2), gasTank);
+        NutritionalRecipe recipe = getRecipe();
+        getProcess(recipe);
+        prevEnergy = getEnergy();
+        if (needsPacket) {
+            Mekanism.packetHandler.sendUpdatePacket(this);
+        }
+        needsPacket = false;
     }
 
     @Override

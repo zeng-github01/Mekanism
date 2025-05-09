@@ -63,49 +63,50 @@ public class TileEntitySPS extends TileEntityMachine implements IGasHandler, ISi
 
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            double processed = 0;
-            couldOperate = canOperate();
-            receivedEnergy = getEnergy();
-            if (couldOperate && receivedEnergy != 0 && MekanismUtils.canFunction(this)) {
-                setActive(true);
-                double lastProgress = progress;
-                final int inputPerAntimatter = 1000;
-                int inputNeeded = (inputPerAntimatter - inputProcessed) + inputPerAntimatter * (outputTank.getNeeded() - 1);
-                double processable = receivedEnergy / 1000000;
-                if (processable + progress >= inputNeeded) {
-                    processed = process(inputNeeded);
-                    progress = 0;
-                } else {
-                    processed = processable;
-                    progress += processable;
-                    setEnergy(getEnergy() - receivedEnergy);
-                    int toProcess = MathUtils.clampToInt(progress);
-                    long actualProcessed = process(toProcess);
-                    if (actualProcessed < toProcess) {
-                        //If we processed less than we intended to we need to adjust how much our values actually changed by
-                        long processedDif = toProcess - actualProcessed;
-                        progress -= processedDif;
-                        processed -= processedDif;
-                    }
-                    progress %= 1;
-                }
-                if (lastProgress != progress) {
-                    markNoUpdateSync();
-                }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        double processed = 0;
+        couldOperate = canOperate();
+        receivedEnergy = getEnergy();
+        if (couldOperate && receivedEnergy != 0 && MekanismUtils.canFunction(this)) {
+            setActive(true);
+            double lastProgress = progress;
+            final int inputPerAntimatter = 1000;
+            int inputNeeded = (inputPerAntimatter - inputProcessed) + inputPerAntimatter * (outputTank.getNeeded() - 1);
+            double processable = receivedEnergy / 1000000;
+            if (processable + progress >= inputNeeded) {
+                processed = process(inputNeeded);
+                progress = 0;
             } else {
-                setActive(false);
+                processed = processable;
+                progress += processable;
+                setEnergy(getEnergy() - receivedEnergy);
+                int toProcess = MathUtils.clampToInt(progress);
+                long actualProcessed = process(toProcess);
+                if (actualProcessed < toProcess) {
+                    //If we processed less than we intended to we need to adjust how much our values actually changed by
+                    long processedDif = toProcess - actualProcessed;
+                    progress -= processedDif;
+                    processed -= processedDif;
+                }
+                progress %= 1;
             }
-
-            if (receivedEnergy != lastReceivedEnergy || processed != lastProcessed) {
-                // needsPacket = true;
+            if (lastProgress != progress) {
+                markNoUpdateSync();
             }
-            lastReceivedEnergy = receivedEnergy;
-            receivedEnergy = 0;
-            lastProcessed = processed;
+        } else {
+            setActive(false);
         }
+
+        /*
+        if (receivedEnergy != lastReceivedEnergy || processed != lastProcessed) {
+            needsPacket = true;
+        }
+
+         */
+        lastReceivedEnergy = receivedEnergy;
+        receivedEnergy = 0;
+        lastProcessed = processed;
     }
 
     private long process(int operations) {

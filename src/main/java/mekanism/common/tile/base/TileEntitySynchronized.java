@@ -13,6 +13,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 /**
  * 可异步类型tile方块。
@@ -212,4 +213,19 @@ public class TileEntitySynchronized extends TileEntity {
     public void setRequireUpdateLight(final boolean requireUpdateLight) {
         this.requireUpdateLight = requireUpdateLight;
     }
+
+    /**
+     * Like getWorld(), but for when you _know_ world won't be null
+     *
+     * @return The world!
+     */
+    @Nonnull
+    protected World getWorldNN() {
+        return Objects.requireNonNull(getWorld(), "getWorldNN called before world set");
+    }
+
+    public boolean isRemote() {
+        return getWorldNN().isRemote;
+    }
+
 }

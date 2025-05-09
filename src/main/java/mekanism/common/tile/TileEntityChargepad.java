@@ -1,6 +1,7 @@
 package mekanism.common.tile;
 
 import baubles.api.BaublesApi;
+import com.google.common.base.Predicate;
 import io.netty.buffer.ByteBuf;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
@@ -34,6 +35,8 @@ import java.util.Random;
 
 public class TileEntityChargepad extends TileEntityEffectsBlock {
 
+    private static final Predicate<EntityLivingBase> CHARGE_PREDICATE = entity -> (entity instanceof EntityPlayer player && !player.isSpectator()) || entity instanceof EntityRobit;
+
     public boolean isActive;
     public boolean clientActive;
 
@@ -45,57 +48,56 @@ public class TileEntityChargepad extends TileEntityEffectsBlock {
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            isActive = false;
-            List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class,
-                    new AxisAlignedBB(getPos().getX(), getPos().getY(), getPos().getZ(), getPos().getX() + 1, getPos().getY() + 0.2, getPos().getZ() + 1));
-            for (EntityLivingBase entity : entities) {
-                if (entity instanceof EntityPlayer || entity instanceof EntityRobit) {
-                    isActive = getEnergy() > 0;
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        isActive = false;
+        List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(getPos().getX(), getPos().getY(), getPos().getZ(),
+                getPos().getX() + 1, getPos().getY() + 0.4, getPos().getZ() + 1), CHARGE_PREDICATE);
+        for (EntityLivingBase entity : entities) {
+            isActive = getEnergy() > 0;
+            if (!isActive) {
+                break;
+            }else if (entity instanceof EntityRobit robit){
+                double canGive = Math.min(getEnergy(), 1000);
+                double toGive = Math.min(robit.MAX_ELECTRICITY - robit.getEnergy(), canGive);
+                robit.setEnergy(robit.getEnergy() + toGive);
+                setEnergy(getEnergy() - toGive);
+            }else if (entity instanceof EntityPlayer player){
+                double prevEnergy = getEnergy();
+                List<ItemStack> stacks = new ArrayList<>();
+                stacks.addAll(player.inventory.offHandInventory);
+                stacks.addAll(player.inventory.mainInventory);
+                stacks.addAll(player.inventory.armorInventory);
+                if (Mekanism.hooks.Baubles) {
+                    stacks.addAll(chargeBaublesInventory(player));
                 }
-                if (isActive) {
-                    if (entity instanceof EntityRobit robit) {
-                        double canGive = Math.min(getEnergy(), 1000);
-                        double toGive = Math.min(robit.MAX_ELECTRICITY - robit.getEnergy(), canGive);
-                        robit.setEnergy(robit.getEnergy() + toGive);
-                        setEnergy(getEnergy() - toGive);
-                    } else if (entity instanceof EntityPlayer player) {
-                        double prevEnergy = getEnergy();
-                        List<ItemStack> stacks = new ArrayList<>();
-                        stacks.addAll(player.inventory.offHandInventory);
-                        stacks.addAll(player.inventory.mainInventory);
-                        stacks.addAll(player.inventory.armorInventory);
-                        if (Mekanism.hooks.Baubles){
-                            stacks.addAll(chargeBaublesInventory(player));
-                        }
-                        for(ItemStack stack : stacks) {
-                            ChargeUtils.charge(stack, this);
-                            if (prevEnergy != getEnergy()) {
-                                break;
-                            }
-                        }
-
+                for (ItemStack stack : stacks) {
+                    ChargeUtils.charge(stack, this);
+                    if (prevEnergy != getEnergy()) {
+                        break;
                     }
                 }
             }
+        }
 
-            if (clientActive != isActive) {
-                if (isActive) {
-                    world.playSound(null, getPos().getX() + 0.5, getPos().getY() + 0.1, getPos().getZ() + 0.5,
-                            SoundEvents.BLOCK_STONE_PRESSPLATE_CLICK_ON, SoundCategory.BLOCKS, 0.3F, 0.8F);
-                } else {
-                    world.playSound(null, getPos().getX() + 0.5, getPos().getY() + 0.1, getPos().getZ() + 0.5,
-                            SoundEvents.BLOCK_STONE_PRESSPLATE_CLICK_OFF, SoundCategory.BLOCKS, 0.3F, 0.7F);
-                }
-                setActive(isActive);
+        if (clientActive != isActive) {
+            if (isActive) {
+                world.playSound(null, getPos().getX() + 0.5, getPos().getY() + 0.1, getPos().getZ() + 0.5, SoundEvents.BLOCK_STONE_PRESSPLATE_CLICK_ON, SoundCategory.BLOCKS, 0.3F, 0.8F);
+            } else {
+                world.playSound(null, getPos().getX() + 0.5, getPos().getY() + 0.1, getPos().getZ() + 0.5, SoundEvents.BLOCK_STONE_PRESSPLATE_CLICK_OFF, SoundCategory.BLOCKS, 0.3F, 0.7F);
             }
-        } else if (isActive) {
-            world.spawnParticle(EnumParticleTypes.REDSTONE, getPos().getX() + random.nextDouble(), getPos().getY() + 0.15,
-                    getPos().getZ() + random.nextDouble(), 0, 0, 0);
+            setActive(isActive);
         }
     }
+
+    @Override
+    public void onUpdateClient() {
+        super.onUpdateClient();
+        if (getActive()) {
+            world.spawnParticle(EnumParticleTypes.REDSTONE, getPos().getX() + random.nextDouble(), getPos().getY() + 0.15, getPos().getZ() + random.nextDouble(), 0, 0, 0);
+        }
+    }
+
 
     @Override
     public boolean sideIsConsumer(EnumFacing side) {
@@ -124,10 +126,10 @@ public class TileEntityChargepad extends TileEntityEffectsBlock {
 
 
     @Optional.Method(modid = MekanismHooks.Baubles_MOD_ID)
-    public List<ItemStack> chargeBaublesInventory(EntityPlayer player){
+    public List<ItemStack> chargeBaublesInventory(EntityPlayer player) {
         IItemHandler baubles = BaublesApi.getBaublesHandler(player);
         List<ItemStack> stacks = new ArrayList<>();
-        for (int i = 0; i < baubles.getSlots(); i++){
+        for (int i = 0; i < baubles.getSlots(); i++) {
             stacks.add(baubles.getStackInSlot(i));
         }
         return stacks;
@@ -135,7 +137,7 @@ public class TileEntityChargepad extends TileEntityEffectsBlock {
 
 
     @Override
-   public void writeCustomNBT(NBTTagCompound nbtTags) {
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setBoolean("isActive", isActive);
 

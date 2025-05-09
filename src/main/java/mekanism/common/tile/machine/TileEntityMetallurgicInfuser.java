@@ -72,27 +72,24 @@ public class TileEntityMetallurgicInfuser extends TileEntityUpgradeableMachine<I
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            ChargeUtils.discharge(4, this);
-            ItemStack infuseInput = inventory.get(1);
-            if (!infuseInput.isEmpty()) {
-                InfuseObject pendingInfuseInput = InfuseRegistry.getObject(infuseInput);
-                if (pendingInfuseInput != null) {
-                    if (infuseStored.getType() == null || infuseStored.getType() == pendingInfuseInput.type) {
-                        if (infuseStored.getAmount() + pendingInfuseInput.stored <= MAX_INFUSE) {
-                            infuseStored.increase(pendingInfuseInput);
-                            infuseInput.shrink(1);
-                        }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        ChargeUtils.discharge(4, this);
+        ItemStack infuseInput = inventory.get(1);
+        if (!infuseInput.isEmpty()) {
+            InfuseObject pendingInfuseInput = InfuseRegistry.getObject(infuseInput);
+            if (pendingInfuseInput != null) {
+                if (infuseStored.getType() == null || infuseStored.getType() == pendingInfuseInput.type) {
+                    if (infuseStored.getAmount() + pendingInfuseInput.stored <= MAX_INFUSE) {
+                        infuseStored.increase(pendingInfuseInput);
+                        infuseInput.shrink(1);
                     }
                 }
             }
-
-            MetallurgicInfuserRecipe recipe = RecipeHandler.getMetallurgicInfuserRecipe(getInput());
-            getProcess(recipe);
-            prevEnergy = getEnergy();
         }
+        MetallurgicInfuserRecipe recipe = RecipeHandler.getMetallurgicInfuserRecipe(getInput());
+        getProcess(recipe);
+        prevEnergy = getEnergy();
     }
 
     @Override

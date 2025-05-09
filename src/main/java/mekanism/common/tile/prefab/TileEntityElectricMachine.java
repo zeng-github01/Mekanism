@@ -69,14 +69,12 @@ public abstract class TileEntityElectricMachine<RECIPE extends BasicMachineRecip
 
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
             ChargeUtils.discharge(1, this);
             RECIPE recipe = getRecipe();
             getProcess(recipe);
             prevEnergy = getEnergy();
-        }
     }
 
     @Override

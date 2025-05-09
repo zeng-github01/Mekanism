@@ -33,7 +33,7 @@ import java.util.Set;
  * 基本方块类型
  */
 @Interface(iface = "ic2.api.tile.IWrenchable", modid = MekanismHooks.IC2_MOD_ID)
-    public abstract class TileEntityBasicBlock extends TileEntityRestrictedTick implements ITileNetwork {
+public abstract class TileEntityBasicBlock extends TileEntityRestrictedTick implements ITileNetwork {
 
     /**
      * The direction this block is facing.
@@ -62,7 +62,7 @@ import java.util.Set;
     @Override
     public void onLoad() {
         super.onLoad();
-        if (world.isRemote) {
+        if (isRemote()) {
             Mekanism.packetHandler.sendToServer(new DataRequestMessage(Coord4D.get(this)));
         }
     }
@@ -74,37 +74,33 @@ import java.util.Set;
         }
 
         tickComponents();
-
-        if (world.isRemote || !supportsAsync()) {
-            doAsyncTick();
+        //TODO：切换为四种状态：同时更新,客户端更新,服务端更新，服务端异步更新
+        if (!isRemote()) {
+            onUpdateServer(); //服务端更新
+            if (supportsAsync()) { //如果支持异步
+                Mekanism.EXECUTE_MANAGER.addTask(this::onAsyncUpdateServer); //进行服务端异步更新
+            }
         } else {
-            Mekanism.EXECUTE_MANAGER.addTask(this::doAsyncTick);
+            onUpdateClient(); //进行客户端更新
         }
-    }
+        onUpdate(); //最后同时更新
 
-    private void doAsyncTick() {
-        onUpdate();
-        ticker++;
-        redstoneLastTick = redstone;
-        autoClientSync();
-    }
 
-    private void autoClientSync() {
-        if (!world.isRemote && doAutoSync && !playersUsing.isEmpty()) {
+        if (!isRemote() && doAutoSync && !playersUsing.isEmpty()) {
             if (supportsAsync()) {
-                Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                    TileEntityMessage message = new TileEntityMessage(this);
-                    playersUsing.forEach(player -> Mekanism.packetHandler.sendTo(message, (EntityPlayerMP) player));
-                });
+                Mekanism.EXECUTE_MANAGER.addSyncTask(() -> playersUsing.forEach(player -> Mekanism.packetHandler.sendTo(new TileEntityMessage(this), (EntityPlayerMP) player)));
             } else {
-                TileEntityMessage message = new TileEntityMessage(this);
-                playersUsing.forEach(player -> Mekanism.packetHandler.sendTo(message, (EntityPlayerMP) player));
+                playersUsing.forEach(player -> Mekanism.packetHandler.sendTo(new TileEntityMessage(this), (EntityPlayerMP) player));
             }
         }
+
+        ticker++;
+        redstoneLastTick = redstone;
     }
 
+
     private boolean checkInvalidBlock() {
-        if (!world.isRemote && MekanismConfig.current().general.destroyDisabledBlocks.val()) {
+        if (!isRemote() && MekanismConfig.current().general.destroyDisabledBlocks.val()) {
             MachineType type = MachineType.get(getBlockType(), getBlockMetadata());
             if (type != null && !type.isEnabled()) {
                 Mekanism.logger.info("Destroying machine of type '{}' at coords {} as according to config.", type.getBlockName(), Coord4D.get(this));
@@ -119,9 +115,7 @@ import java.util.Set;
         components.forEach(ITileComponent::tick);
     }
 
-    public boolean supportsAsync() {
-        return true;
-    }
+
 
     @Override
     public void updateContainingBlockInfo() {
@@ -174,15 +168,40 @@ import java.util.Set;
     @Override
     public void validate() {
         super.validate();
-        if (world.isRemote) {
+        if (isRemote()) {
             Mekanism.packetHandler.sendToServer(new DataRequestMessage(Coord4D.get(this)));
         }
+    }
+
+    public boolean supportsAsync() {
+        return true;
     }
 
     /**
      * Update call for machines. Use instead of updateEntity -- it's called every tick.
      */
-    public abstract void onUpdate();
+    public void onUpdate() {
+    }
+
+
+    /**
+     * Update call for machines. Use instead of updateEntity -- it's called every tick on the client side.
+     */
+    protected void onUpdateClient() {
+    }
+
+    /**
+     * Update call for machines. Use instead of updateEntity -- it's called every tick on the server side.
+     */
+    protected void onUpdateServer() {
+    }
+
+    /**
+     * Async Update call for machines. Use instead of updateEntity -- it's called every tick on the server side.
+     */
+    protected void onAsyncUpdateServer() {
+    }
+
 
     @Override
     public void readCustomNBT(NBTTagCompound nbtTags) {
@@ -225,7 +244,7 @@ import java.util.Set;
         if (canSetFacing(direction)) {
             facing = direction;
         }
-        if (facing != clientFacing && !world.isRemote) {
+        if (facing != clientFacing && !isRemote()) {
             Mekanism.packetHandler.sendUpdatePacket(this);
             markNoUpdateSync();
             clientFacing = facing;
@@ -254,7 +273,7 @@ import java.util.Set;
     }
 
     public void onNeighborChange(Block block) {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             updatePower();
         }
     }
@@ -272,7 +291,7 @@ import java.util.Set;
      * Called when block is placed in world
      */
     public void onAdded() {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             updatePower();
         }
     }

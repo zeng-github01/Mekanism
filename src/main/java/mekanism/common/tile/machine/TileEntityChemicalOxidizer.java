@@ -62,15 +62,13 @@ public class TileEntityChemicalOxidizer extends TileEntityUpgradeableMachine<Ite
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
             ChargeUtils.discharge(1, this);
             TileUtils.drawGas(inventory.get(2), gasTank);
             OxidationRecipe recipe = getRecipe();
             getProcess(recipe);
             prevEnergy = getEnergy();
-        }
     }
     @Override
     public void addTileSyncTask(){

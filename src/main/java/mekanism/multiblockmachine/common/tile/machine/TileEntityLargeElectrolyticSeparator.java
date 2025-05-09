@@ -86,46 +86,50 @@ public class TileEntityLargeElectrolyticSeparator extends TileEntityMultiblockBa
     public int dumpAmount;
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            ChargeUtils.discharge(3, this);
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0) {
-                    needsPacket = true;
-                }
-            }
-            if (!inventory.get(0).isEmpty()) {
-                if (RecipeHandler.Recipe.ELECTROLYTIC_SEPARATOR.containsRecipe(inventory.get(0))) {
-                    if (FluidContainerUtils.isFluidContainer(inventory.get(0))) {
-                        fluidTank.fill(FluidContainerUtils.extractFluid(fluidTank, this, 0), true);
-                    }
-                }
-            }
-
-            if (!inventory.get(1).isEmpty() && leftTank.getStored() > 0) {
-                leftTank.draw(GasUtils.addGas(inventory.get(1), leftTank.getGas()), true);
-                MekanismUtils.saveChunk(this);
-            }
-            if (!inventory.get(2).isEmpty() && rightTank.getStored() > 0) {
-                rightTank.draw(GasUtils.addGas(inventory.get(2), rightTank.getGas()), true);
-                MekanismUtils.saveChunk(this);
-            }
-            SeparatorRecipe recipe = getRecipe();
-            getProcess(recipe, true, energyPerTick * getUpgradedUsage(recipe) * Thread(), true, false);
-            prevEnergy = getEnergy();
-            if (needsPacket) {
-                Mekanism.packetHandler.sendUpdatePacket(this);
-            }
-            needsPacket = false;
-            dumpAmount = 8 * Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val());
-        } else if (updateDelay > 0) {
+    public void onUpdateClient() {
+        super.onUpdateClient();
+        if (updateDelay > 0) {
             updateDelay--;
             if (updateDelay == 0) {
                 MekanismUtils.updateBlock(world, getPos());
             }
         }
+    }
+
+    @Override
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        ChargeUtils.discharge(3, this);
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0) {
+                needsPacket = true;
+            }
+        }
+        if (!inventory.get(0).isEmpty()) {
+            if (RecipeHandler.Recipe.ELECTROLYTIC_SEPARATOR.containsRecipe(inventory.get(0))) {
+                if (FluidContainerUtils.isFluidContainer(inventory.get(0))) {
+                    fluidTank.fill(FluidContainerUtils.extractFluid(fluidTank, this, 0), true);
+                }
+            }
+        }
+
+        if (!inventory.get(1).isEmpty() && leftTank.getStored() > 0) {
+            leftTank.draw(GasUtils.addGas(inventory.get(1), leftTank.getGas()), true);
+            MekanismUtils.saveChunk(this);
+        }
+        if (!inventory.get(2).isEmpty() && rightTank.getStored() > 0) {
+            rightTank.draw(GasUtils.addGas(inventory.get(2), rightTank.getGas()), true);
+            MekanismUtils.saveChunk(this);
+        }
+        SeparatorRecipe recipe = getRecipe();
+        getProcess(recipe, true, energyPerTick * getUpgradedUsage(recipe) * Thread(), true, false);
+        prevEnergy = getEnergy();
+        if (needsPacket) {
+            Mekanism.packetHandler.sendUpdatePacket(this);
+        }
+        needsPacket = false;
+        dumpAmount = 8 * Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val());
     }
 
     @Override
@@ -713,7 +717,7 @@ public class TileEntityLargeElectrolyticSeparator extends TileEntityMultiblockBa
     @Override
     public void validate() {
         super.validate();
-        if (world.isRemote && !rendererInitialized) {
+        if (isRemote() && !rendererInitialized) {
             rendererInitialized = true;
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
                 new BloomRenderLargeElectrolyticSeparator(this);

@@ -57,27 +57,32 @@ public class TileEntityLargeChemicalInfuser extends TileEntityMultiblockBasicMac
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0) {
-                    needsPacket = true;
-                }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0) {
+                needsPacket = true;
             }
-            ChargeUtils.discharge(3, this);
-            TileUtils.receiveGasItem(inventory.get(0), leftTank);
-            TileUtils.receiveGasItem(inventory.get(1), rightTank);
-            TileUtils.drawGas(inventory.get(2), centerTank);
-            ChemicalInfuserRecipe recipe = getRecipe();
-            getProcess(recipe, true, energyPerTick * getUpgradedUsage(recipe) * Thread(), true, false);
-            prevEnergy = getEnergy();
-            if (needsPacket) {
-                Mekanism.packetHandler.sendUpdatePacket(this);
-            }
-            needsPacket = false;
-        } else if (updateDelay > 0) {
+        }
+        ChargeUtils.discharge(3, this);
+        TileUtils.receiveGasItem(inventory.get(0), leftTank);
+        TileUtils.receiveGasItem(inventory.get(1), rightTank);
+        TileUtils.drawGas(inventory.get(2), centerTank);
+        ChemicalInfuserRecipe recipe = getRecipe();
+        getProcess(recipe, true, energyPerTick * getUpgradedUsage(recipe) * Thread(), true, false);
+        prevEnergy = getEnergy();
+        if (needsPacket) {
+            Mekanism.packetHandler.sendUpdatePacket(this);
+        }
+        needsPacket = false;
+
+    }
+
+    @Override
+    public void onUpdateClient() {
+        super.onUpdateClient();
+        if (updateDelay > 0) {
             updateDelay--;
             if (updateDelay == 0) {
                 MekanismUtils.updateBlock(world, getPos());
@@ -568,7 +573,7 @@ public class TileEntityLargeChemicalInfuser extends TileEntityMultiblockBasicMac
     @Override
     public void validate() {
         super.validate();
-        if (world.isRemote && !rendererInitialized) {
+        if (isRemote() && !rendererInitialized) {
             rendererInitialized = true;
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
                 new BloomRenderLargeChemicalInfuser(this);

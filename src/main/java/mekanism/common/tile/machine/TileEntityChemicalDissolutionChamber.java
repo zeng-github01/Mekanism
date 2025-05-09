@@ -77,7 +77,6 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
     }
 
 
-
     @Override
     public void setUpOtherActions() {
         injectTank.draw(injectUsageThisTick, true);
@@ -93,45 +92,49 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
     private boolean changed;
 
     @Override
-    public void onUpdate() {
-        if (!world.isRemote) {
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0) {
-                    needsPacket = true;
-                }
-            }
-            ChargeUtils.discharge(3, this);
-            TileUtils.receiveGasItem(inventory.get(0), injectTank, MekanismFluids.SulfuricAcid);
-            TileUtils.drawGas(inventory.get(2), outputTank);
-            changed = false;
-            DissolutionRecipe recipe = getRecipe();
-            injectUsageThisTick = Math.max(BASE_INJECT_USAGE, StatUtils.inversePoisson(injectUsage));
-            getProcess(recipe, injectTank.getStored() >= injectUsageThisTick,energyPerTick,false,true);
-            if (prevEnergy >= getEnergy()) {
-                changed = true;
-            }
-            prevEnergy = getEnergy();
-            if (needsPacket) {
-                Mekanism.packetHandler.sendUpdatePacket(this);
-            }
-            needsPacket = false;
-        }else {
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0) {
-                    MekanismUtils.updateBlock(world, getPos());
-                }
-            }
-            float targetScale = (float) (outputTank.getGas() != null ? outputTank.getGas().amount : 0) / outputTank.getMaxGas();
-            if (Math.abs(prevScale - targetScale) > 0.01) {
-                prevScale = (9 * prevScale + targetScale) / 10;
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0) {
+                needsPacket = true;
             }
         }
+        ChargeUtils.discharge(3, this);
+        TileUtils.receiveGasItem(inventory.get(0), injectTank, MekanismFluids.SulfuricAcid);
+        TileUtils.drawGas(inventory.get(2), outputTank);
+        changed = false;
+        DissolutionRecipe recipe = getRecipe();
+        injectUsageThisTick = Math.max(BASE_INJECT_USAGE, StatUtils.inversePoisson(injectUsage));
+        getProcess(recipe, injectTank.getStored() >= injectUsageThisTick, energyPerTick, false, true);
+        if (prevEnergy >= getEnergy()) {
+            changed = true;
+        }
+        prevEnergy = getEnergy();
+        if (needsPacket) {
+            Mekanism.packetHandler.sendUpdatePacket(this);
+        }
+        needsPacket = false;
     }
 
     @Override
-    public void addTileSyncTask(){
+    public void onUpdateClient() {
+        super.onUpdateClient();
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0) {
+                MekanismUtils.updateBlock(world, getPos());
+            }
+        }
+        float targetScale = (float) (outputTank.getGas() != null ? outputTank.getGas().amount : 0) / outputTank.getMaxGas();
+        if (Math.abs(prevScale - targetScale) > 0.01) {
+            prevScale = (9 * prevScale + targetScale) / 10;
+        }
+    }
+
+
+    @Override
+    public void addTileSyncTask() {
         AutomaticallyExtractItems(5, 1);
     }
 
@@ -194,7 +197,6 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
         recipe.operate(inventory, 1, outputTank);
         markNoUpdateSync();
     }
-
 
 
     @Override

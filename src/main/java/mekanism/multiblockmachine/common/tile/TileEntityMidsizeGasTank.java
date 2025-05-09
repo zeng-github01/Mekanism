@@ -68,30 +68,29 @@ public class TileEntityMidsizeGasTank extends TileEntityContainerBlock implement
     }
 
     @Override
-    public void onUpdate() {
-        if (!world.isRemote) {
-            TileUtils.drawGas(inventory.get(0), gasTank, true);
-            TileUtils.receiveGasItem(inventory.get(1), gasTank, inventory.get(1).getItem() instanceof IGasItem item && !item.getGas(inventory.get(1)).getGas().isRadiation());
-            if (gasTank.getGas() != null && MekanismUtils.canFunction(this) && dumping != GasMode.DUMPING) {
-                Mekanism.EXECUTE_MANAGER.addSyncTask(() -> handleTank(gasTank, getOutputTank()));
-            }
-            if (dumping == GasMode.DUMPING) {
-                gasTank.draw(GasStorage / 400, true);
-            }
-            if (dumping == GasMode.DUMPING_EXCESS && gasTank.getNeeded() < GasOut) {
-                gasTank.draw(GasOut - gasTank.getNeeded(), true);
-            }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        TileUtils.drawGas(inventory.get(0), gasTank, true);
+        TileUtils.receiveGasItem(inventory.get(1), gasTank, inventory.get(1).getItem() instanceof IGasItem item && !item.getGas(inventory.get(1)).getGas().isRadiation());
+        if (gasTank.getGas() != null && MekanismUtils.canFunction(this) && dumping != GasMode.DUMPING) {
+            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> handleTank(gasTank, getOutputTank()));
+        }
+        if (dumping == GasMode.DUMPING) {
+            gasTank.draw(GasStorage / 400, true);
+        }
+        if (dumping == GasMode.DUMPING_EXCESS && gasTank.getNeeded() < GasOut) {
+            gasTank.draw(GasOut - gasTank.getNeeded(), true);
+        }
 
-            int newGasAmount = gasTank.getStored();
-            if (newGasAmount != currentGasAmount) {
-                MekanismUtils.saveChunk(this);
-            }
-            currentGasAmount = newGasAmount;
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                markNoUpdateSync();
-                currentRedstoneLevel = newRedstoneLevel;
-            }
+        int newGasAmount = gasTank.getStored();
+        if (newGasAmount != currentGasAmount) {
+            MekanismUtils.saveChunk(this);
+        }
+        currentGasAmount = newGasAmount;
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            markNoUpdateSync();
+            currentRedstoneLevel = newRedstoneLevel;
         }
     }
 

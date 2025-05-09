@@ -63,42 +63,43 @@ public class TileEntityChemicalCrystallizer extends TileEntityUpgradeableMachine
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0) {
-                    needsPacket = true;
-                }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0) {
+                needsPacket = true;
             }
-            ChargeUtils.discharge(2, this);
-            ItemStack stack = inventory.get(0);
-            if (!stack.isEmpty() && stack.getItem() instanceof IGasItem item && item.getGas(stack) != null &&
-                    Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(item.getGas(stack).getGas())) {
-                TileUtils.receiveGasItem(inventory.get(0), inputTank);
+        }
+        ChargeUtils.discharge(2, this);
+        ItemStack stack = inventory.get(0);
+        if (!stack.isEmpty() && stack.getItem() instanceof IGasItem item && item.getGas(stack) != null &&
+                Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(item.getGas(stack).getGas())) {
+            TileUtils.receiveGasItem(inventory.get(0), inputTank);
+        }
+        CrystallizerRecipe recipe = getRecipe();
+        getProcess(recipe);
+        if (!canOperate(recipe)) {
+            operatingTicks = 0;
+        }
+        prevEnergy = getEnergy();
+        if (needsPacket) {
+            Mekanism.packetHandler.sendUpdatePacket(this);
+        }
+        needsPacket = false;
+    }
+
+    @Override
+    public void onUpdateClient() {
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0) {
+                MekanismUtils.updateBlock(world, getPos());
             }
-            CrystallizerRecipe recipe = getRecipe();
-            getProcess(recipe);
-            if (!canOperate(recipe)) {
-                operatingTicks = 0;
-            }
-            prevEnergy = getEnergy();
-            if (needsPacket) {
-                Mekanism.packetHandler.sendUpdatePacket(this);
-            }
-            needsPacket = false;
-        }else {
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0) {
-                    MekanismUtils.updateBlock(world, getPos());
-                }
-            }
-            float targetScale = (float) (inputTank.getGas() != null ? inputTank.getGas().amount : 0) / inputTank.getMaxGas();
-            if (Math.abs(prevScale - targetScale) > 0.01) {
-                prevScale = (9 * prevScale + targetScale) / 10;
-            }
+        }
+        float targetScale = (float) (inputTank.getGas() != null ? inputTank.getGas().amount : 0) / inputTank.getMaxGas();
+        if (Math.abs(prevScale - targetScale) > 0.01) {
+            prevScale = (9 * prevScale + targetScale) / 10;
         }
     }
 
@@ -226,7 +227,7 @@ public class TileEntityChemicalCrystallizer extends TileEntityUpgradeableMachine
     @Override
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
         if (slotID == 0) {
-            return !itemstack.isEmpty() && itemstack.getItem() instanceof IGasItem  gasItem && gasItem.getGas(itemstack) != null &&
+            return !itemstack.isEmpty() && itemstack.getItem() instanceof IGasItem gasItem && gasItem.getGas(itemstack) != null &&
                     Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(gasItem.getGas(itemstack).getGas());
         } else if (slotID == 2) {
             return ChargeUtils.canBeDischarged(itemstack);

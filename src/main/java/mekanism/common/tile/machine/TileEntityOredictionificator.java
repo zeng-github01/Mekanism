@@ -66,36 +66,35 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
     }
 
     @Override
-    public void onUpdate() {
-        if (!world.isRemote) {
-            if (playersUsing.size() > 0) {
-                for (EntityPlayer player : playersUsing) {
-                    Mekanism.packetHandler.sendTo(new TileEntityMessage(this, getGenericPacket(new TileNetworkList())), (EntityPlayerMP) player);
-                }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        if (!playersUsing.isEmpty()) {
+            for (EntityPlayer player : playersUsing) {
+                Mekanism.packetHandler.sendTo(new TileEntityMessage(this, getGenericPacket(new TileNetworkList())), (EntityPlayerMP) player);
             }
-            didProcess = false;
-            ItemStack inputStack = inventory.get(0);
-            if (MekanismUtils.canFunction(this) && !inputStack.isEmpty() && getValidName(inputStack) != null) {
-                ItemStack result = getResult(inputStack);
-                if (!result.isEmpty()) {
-                    ItemStack outputStack = inventory.get(1);
-                    if (outputStack.isEmpty()) {
-                        inputStack.shrink(1);
-                        if (inputStack.getCount() <= 0) {
-                            inventory.set(0, ItemStack.EMPTY);
-                        }
-                        inventory.set(1, result);
-                        didProcess = true;
-                    } else if (ItemHandlerHelper.canItemStacksStack(outputStack, result) && outputStack.getCount() < outputStack.getMaxStackSize()) {
-                        inputStack.shrink(1);
-                        if (inputStack.getCount() <= 0) {
-                            inventory.set(0, ItemStack.EMPTY);
-                        }
-                        outputStack.grow(1);
-                        didProcess = true;
+        }
+        didProcess = false;
+        ItemStack inputStack = inventory.get(0);
+        if (MekanismUtils.canFunction(this) && !inputStack.isEmpty() && getValidName(inputStack) != null) {
+            ItemStack result = getResult(inputStack);
+            if (!result.isEmpty()) {
+                ItemStack outputStack = inventory.get(1);
+                if (outputStack.isEmpty()) {
+                    inputStack.shrink(1);
+                    if (inputStack.getCount() <= 0) {
+                        inventory.set(0, ItemStack.EMPTY);
                     }
-                    markNoUpdateSync();
+                    inventory.set(1, result);
+                    didProcess = true;
+                } else if (ItemHandlerHelper.canItemStacksStack(outputStack, result) && outputStack.getCount() < outputStack.getMaxStackSize()) {
+                    inputStack.shrink(1);
+                    if (inputStack.getCount() <= 0) {
+                        inventory.set(0, ItemStack.EMPTY);
+                    }
+                    outputStack.grow(1);
+                    didProcess = true;
                 }
+                markNoUpdateSync();
             }
         }
     }
@@ -142,9 +141,9 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
 
     @Override
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
-        if (slotID == 1){
+        if (slotID == 1) {
             return false;
-        }else if (slotID == 0) {
+        } else if (slotID == 0) {
             return !getResult(itemstack).isEmpty();
         }
         return false;
@@ -244,7 +243,7 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
 
     @Override
     public void openInventory(@Nonnull EntityPlayer player) {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             Mekanism.packetHandler.sendUpdatePacket(this);
         }
     }

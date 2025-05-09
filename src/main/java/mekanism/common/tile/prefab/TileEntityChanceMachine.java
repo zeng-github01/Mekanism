@@ -50,7 +50,7 @@ public abstract class TileEntityChanceMachine<RECIPE extends ChanceMachineRecipe
 
         ejectorComponent = new TileComponentEjector(this);
         ejectorComponent.setOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(3));
-        ejectorComponent.setInputOutputData(TransmissionType.ITEM,configComponent.getOutputs(TransmissionType.ITEM).get(4));
+        ejectorComponent.setInputOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(4));
     }
 
     @Override
@@ -64,36 +64,34 @@ public abstract class TileEntityChanceMachine<RECIPE extends ChanceMachineRecipe
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            ChargeUtils.discharge(1, this);
-            RECIPE recipe = getRecipe();
-            if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick) {
-                setActive(true);
-                electricityStored.addAndGet(-energyPerTick);
-                if ((operatingTicks + 1) < ticksRequired) {
-                    operatingTicks++;
-                } else {
-                    MultipleActions(recipe);
-                    operatingTicks = 0;
-                }
-            } else if (prevEnergy >= getEnergy()) {
-                setActive(false);
-            }
-            if (!canOperate(recipe)) {
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        ChargeUtils.discharge(1, this);
+        RECIPE recipe = getRecipe();
+        if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick) {
+            setActive(true);
+            electricityStored.addAndGet(-energyPerTick);
+            if ((operatingTicks + 1) < ticksRequired) {
+                operatingTicks++;
+            } else {
+                MultipleActions(recipe);
                 operatingTicks = 0;
             }
-            prevEnergy = getEnergy();
+        } else if (prevEnergy >= getEnergy()) {
+            setActive(false);
         }
+        if (!canOperate(recipe)) {
+            operatingTicks = 0;
+        }
+        prevEnergy = getEnergy();
     }
 
     @Override
     public void addTileSyncTask() {
         AutomaticallyExtractItems(5, 0);
         AutomaticallyExtractItems(6, 0);
-        BetterEjectingItem(6,2);
-        BetterEjectingItem(6,4);
+        BetterEjectingItem(6, 2);
+        BetterEjectingItem(6, 4);
     }
 
     @Override

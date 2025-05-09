@@ -40,15 +40,6 @@ public abstract class TileEntityOperationalMachine extends TileEntityMachine imp
         }
     }
 
-    @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-          //  if (MekanismConfig.current().mekce.EnableUpgradeConfigure.val()) {
-     //           MekanismUtils.inject.accept(ticksRequired, this::onUpdate);
-       //     }
-        }
-    }
 
     @Override
     public TileNetworkList getNetworkedData(TileNetworkList data) {

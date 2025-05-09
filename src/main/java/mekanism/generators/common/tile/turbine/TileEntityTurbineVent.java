@@ -26,9 +26,9 @@ public class TileEntityTurbineVent extends TileEntityTurbineCasing implements IF
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote && structure != null && structure.flowRemaining > 0) {
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        if (structure != null && structure.flowRemaining > 0) {
             FluidStack fluidStack = new FluidStack(FluidRegistry.WATER, structure.flowRemaining);
             EmitUtils.forEachSide(getWorld(), getPos(), EnumSet.allOf(EnumFacing.class), (tile, side) -> {
                 IFluidHandler handler = CapabilityUtils.getCapability(tile, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
@@ -41,7 +41,7 @@ public class TileEntityTurbineVent extends TileEntityTurbineCasing implements IF
 
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
-        return ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) ? new FluidTankInfo[]{fakeInfo} : PipeUtils.EMPTY;
+        return ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) ? new FluidTankInfo[]{fakeInfo} : PipeUtils.EMPTY;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class TileEntityTurbineVent extends TileEntityTurbineCasing implements IF
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing side) {
-        if ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) {
+        if ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) {
             if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
                 return true;
             }
@@ -80,7 +80,7 @@ public class TileEntityTurbineVent extends TileEntityTurbineCasing implements IF
 
     @Override
     public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing side) {
-        if ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) {
+        if ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) {
             if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
                 return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new FluidHandlerWrapper(this, side));
             }

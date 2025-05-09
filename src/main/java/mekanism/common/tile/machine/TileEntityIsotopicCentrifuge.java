@@ -59,7 +59,7 @@ public class TileEntityIsotopicCentrifuge extends TileEntityBasicMachine<GasInpu
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.NONE, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.INPUT, new int[]{0}));
         configComponent.addOutput(TransmissionType.GAS, new SideData(DataType.OUTPUT, new int[]{1}));
-        configComponent.addOutput(TransmissionType.GAS, new SideData(new int[]{0, 1},new boolean[]{false,true}));
+        configComponent.addOutput(TransmissionType.GAS, new SideData(new int[]{0, 1}, new boolean[]{false, true}));
         configComponent.setConfig(TransmissionType.GAS, new byte[]{1, -1, 2, 1, 1, 1});
 
         configComponent.addOutput(TransmissionType.ENERGY, new SideData(DataType.NONE, SideData.IOState.OFF));
@@ -74,45 +74,47 @@ public class TileEntityIsotopicCentrifuge extends TileEntityBasicMachine<GasInpu
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0) {
-                    needsPacket = true;
-                }
-            }
-            ChargeUtils.discharge(2, this);
-            if (!inventory.get(0).isEmpty() && inventory.get(0).getItem() instanceof IGasItem  gasItem&& gasItem.getGas(inventory.get(0)) != null && RecipeHandler.Recipe.ISOTOPIC_CENTRIFUGE.containsRecipe(gasItem.getGas(inventory.get(0)).getGas())) {
-                TileUtils.receiveGasItem(inventory.get(0), inputTank);
-            }
-            TileUtils.drawGas(inventory.get(1), outputTank);
-            IsotopicRecipe recipe = getRecipe();
-            getProcess(recipe,true,energyPerTick,true,false);
-            prevEnergy = getEnergy();
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                updateComparatorOutputLevelSync();
-                currentRedstoneLevel = newRedstoneLevel;
-            }
-            if (needsPacket) {
-                Mekanism.packetHandler.sendUpdatePacket(this);
-            }
-            needsPacket = false;
-        }else {
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0) {
-                    MekanismUtils.updateBlock(world, getPos());
-                }
-            }
-            float targetScale = (float) (outputTank.getGas() != null ? outputTank.getGas().amount : 0) / outputTank.getMaxGas();
-            if (Math.abs(prevScale - targetScale) > 0.01) {
-                prevScale = (9 * prevScale + targetScale) / 10;
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0) {
+                needsPacket = true;
             }
         }
+        ChargeUtils.discharge(2, this);
+        if (!inventory.get(0).isEmpty() && inventory.get(0).getItem() instanceof IGasItem gasItem && gasItem.getGas(inventory.get(0)) != null && RecipeHandler.Recipe.ISOTOPIC_CENTRIFUGE.containsRecipe(gasItem.getGas(inventory.get(0)).getGas())) {
+            TileUtils.receiveGasItem(inventory.get(0), inputTank);
+        }
+        TileUtils.drawGas(inventory.get(1), outputTank);
+        IsotopicRecipe recipe = getRecipe();
+        getProcess(recipe, true, energyPerTick, true, false);
+        prevEnergy = getEnergy();
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            updateComparatorOutputLevelSync();
+            currentRedstoneLevel = newRedstoneLevel;
+        }
+        if (needsPacket) {
+            Mekanism.packetHandler.sendUpdatePacket(this);
+        }
+        needsPacket = false;
     }
+
+    @Override
+    public void onUpdateClient() {
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0) {
+                MekanismUtils.updateBlock(world, getPos());
+            }
+        }
+        float targetScale = (float) (outputTank.getGas() != null ? outputTank.getGas().amount : 0) / outputTank.getMaxGas();
+        if (Math.abs(prevScale - targetScale) > 0.01) {
+            prevScale = (9 * prevScale + targetScale) / 10;
+        }
+    }
+
 
     @Override
     public void setUpOtherActions() {

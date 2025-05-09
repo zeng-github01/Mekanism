@@ -108,22 +108,20 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
     private boolean inactive;
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            ChargeUtils.discharge(2, this);
-            handleSecondaryFuel();
-            inactive = false;
-            RECIPE recipe = getRecipe();
-            secondaryEnergyThisTick = useStatisticalMechanics() ? StatUtils.inversePoisson(secondaryEnergyPerTick) : (int) Math.ceil(secondaryEnergyPerTick);
-            getProcess(recipe, gasTank.getStored() >= secondaryEnergyThisTick, energyPerTick, false, true);
-            if (!(canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick && gasTank.getStored() >= secondaryEnergyThisTick)) {
-                inactive = true;
-            }
-            prevEnergy = getEnergy();
-            if (!(gasTank.getGasType() == null || gasTank.getStored() == 0)) {
-                prevGas = gasTank.getGasType();
-            }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        ChargeUtils.discharge(2, this);
+        handleSecondaryFuel();
+        inactive = false;
+        RECIPE recipe = getRecipe();
+        secondaryEnergyThisTick = useStatisticalMechanics() ? StatUtils.inversePoisson(secondaryEnergyPerTick) : (int) Math.ceil(secondaryEnergyPerTick);
+        getProcess(recipe, gasTank.getStored() >= secondaryEnergyThisTick, energyPerTick, false, true);
+        if (!(canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick && gasTank.getStored() >= secondaryEnergyThisTick)) {
+            inactive = true;
+        }
+        prevEnergy = getEnergy();
+        if (!(gasTank.getGasType() == null || gasTank.getStored() == 0)) {
+            prevGas = gasTank.getGasType();
         }
     }
 

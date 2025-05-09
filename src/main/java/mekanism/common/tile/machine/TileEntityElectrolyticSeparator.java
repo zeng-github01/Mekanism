@@ -124,31 +124,29 @@ public class TileEntityElectrolyticSeparator extends TileEntityBasicMachine<Flui
     public int dumpAmount;
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            ChargeUtils.discharge(3, this);
-            if (!inventory.get(0).isEmpty()) {
-                if (Recipe.ELECTROLYTIC_SEPARATOR.containsRecipe(inventory.get(0))) {
-                    if (FluidContainerUtils.isFluidContainer(inventory.get(0))) {
-                        fluidTank.fill(FluidContainerUtils.extractFluid(fluidTank, this, 0), true);
-                    }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        ChargeUtils.discharge(3, this);
+        if (!inventory.get(0).isEmpty()) {
+            if (Recipe.ELECTROLYTIC_SEPARATOR.containsRecipe(inventory.get(0))) {
+                if (FluidContainerUtils.isFluidContainer(inventory.get(0))) {
+                    fluidTank.fill(FluidContainerUtils.extractFluid(fluidTank, this, 0), true);
                 }
             }
-            if (!inventory.get(1).isEmpty() && leftTank.getStored() > 0) {
-                leftTank.draw(GasUtils.addGas(inventory.get(1), leftTank.getGas()), true);
-                MekanismUtils.saveChunk(this);
-            }
-            if (!inventory.get(2).isEmpty() && rightTank.getStored() > 0) {
-                rightTank.draw(GasUtils.addGas(inventory.get(2), rightTank.getGas()), true);
-                MekanismUtils.saveChunk(this);
-            }
-
-            SeparatorRecipe recipe = getRecipe();
-            getProcess(recipe, true, energyPerTick, true, false);
-            prevEnergy = getEnergy();
-            dumpAmount = 8 * Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val());
         }
+        if (!inventory.get(1).isEmpty() && leftTank.getStored() > 0) {
+            leftTank.draw(GasUtils.addGas(inventory.get(1), leftTank.getGas()), true);
+            MekanismUtils.saveChunk(this);
+        }
+        if (!inventory.get(2).isEmpty() && rightTank.getStored() > 0) {
+            rightTank.draw(GasUtils.addGas(inventory.get(2), rightTank.getGas()), true);
+            MekanismUtils.saveChunk(this);
+        }
+
+        SeparatorRecipe recipe = getRecipe();
+        getProcess(recipe, true, energyPerTick, true, false);
+        prevEnergy = getEnergy();
+        dumpAmount = 8 * Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val());
     }
 
     @Override

@@ -11,7 +11,6 @@ import mekanism.common.base.IFluidHandlerWrapper;
 import mekanism.common.base.ISustainedData;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.*;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -49,73 +48,72 @@ public class TileEntityBioGenerator extends TileEntityGenerator implements IFlui
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0) {
-                    needsPacket = true;
-                }
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0) {
+                needsPacket = true;
             }
-            ChargeUtils.charge(1, this);
-            if (!inventory.get(0).isEmpty()) {
-                FluidStack fluid = FluidUtil.getFluidContained(inventory.get(0));
-                if (fluid != null && FluidRegistry.isFluidRegistered("bioethanol")) {
-                    if (fluid.getFluid() == FluidRegistry.getFluid("bioethanol")) {
-                        IFluidHandler handler = FluidUtil.getFluidHandler(inventory.get(0));
-                        FluidStack drained = handler.drain(bioFuelSlot.MAX_FLUID - bioFuelSlot.fluidStored, true);
-                        if (drained != null) {
-                            bioFuelSlot.fluidStored += drained.amount;
-                        }
-                    }
-                } else {
-                    int fuel = getFuel(inventory.get(0));
-                    if (fuel > 0) {
-                        int fuelNeeded = bioFuelSlot.MAX_FLUID - bioFuelSlot.fluidStored;
-                        if (fuel <= fuelNeeded) {
-                            bioFuelSlot.fluidStored += fuel;
-                            if (!inventory.get(0).getItem().getContainerItem(inventory.get(0)).isEmpty()) {
-                                inventory.set(0, inventory.get(0).getItem().getContainerItem(inventory.get(0)));
-                            } else {
-                                inventory.get(0).shrink(1);
-                            }
-                        }
+        }
+        ChargeUtils.charge(1, this);
+        if (!inventory.get(0).isEmpty()) {
+            FluidStack fluid = FluidUtil.getFluidContained(inventory.get(0));
+            if (fluid != null && FluidRegistry.isFluidRegistered("bioethanol")) {
+                if (fluid.getFluid() == FluidRegistry.getFluid("bioethanol")) {
+                    IFluidHandler handler = FluidUtil.getFluidHandler(inventory.get(0));
+                    FluidStack drained = handler.drain(bioFuelSlot.MAX_FLUID - bioFuelSlot.fluidStored, true);
+                    if (drained != null) {
+                        bioFuelSlot.fluidStored += drained.amount;
                     }
                 }
-            }
-            if (canOperate()) {
-                setActive(true);
-                bioFuelSlot.setFluid(bioFuelSlot.fluidStored - 1);
-                setEnergy(electricityStored.get() + MekanismConfig.current().generators.bioGeneration.val());
             } else {
-                setActive(false);
-            }
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                updateComparatorOutputLevelSync();
-                currentRedstoneLevel = newRedstoneLevel;
-            }
-            if (needsPacket) {
-                Mekanism.packetHandler.sendUpdatePacket(this);
-            }
-            needsPacket = false;
-            if (lastBioFuelAmount != bioFuelSlot.fluidStored) {
-                SPacketUpdateTileEntity packet = this.getUpdatePacket();
-                PlayerChunkMapEntry trackingEntry = ((WorldServer) this.world).getPlayerChunkMap().getEntry(this.pos.getX() >> 4, this.pos.getZ() >> 4);
-                if (trackingEntry != null) {
-                    for (EntityPlayerMP player : trackingEntry.getWatchingPlayers()) {
-                        player.connection.sendPacket(packet);
+                int fuel = getFuel(inventory.get(0));
+                if (fuel > 0) {
+                    int fuelNeeded = bioFuelSlot.MAX_FLUID - bioFuelSlot.fluidStored;
+                    if (fuel <= fuelNeeded) {
+                        bioFuelSlot.fluidStored += fuel;
+                        if (!inventory.get(0).getItem().getContainerItem(inventory.get(0)).isEmpty()) {
+                            inventory.set(0, inventory.get(0).getItem().getContainerItem(inventory.get(0)));
+                        } else {
+                            inventory.get(0).shrink(1);
+                        }
                     }
                 }
             }
-            lastBioFuelAmount = bioFuelSlot.fluidStored;
+        }
+        if (canOperate()) {
+            setActive(true);
+            bioFuelSlot.setFluid(bioFuelSlot.fluidStored - 1);
+            setEnergy(electricityStored.get() + MekanismConfig.current().generators.bioGeneration.val());
         } else {
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0) {
-                    MekanismUtils.updateBlock(world, getPos());
-                }
+            setActive(false);
+        }
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            updateComparatorOutputLevelSync();
+            currentRedstoneLevel = newRedstoneLevel;
+        }
+        if (needsPacket) {
+            Mekanism.packetHandler.sendUpdatePacket(this);
+        }
+        needsPacket = false;
+        if (lastBioFuelAmount != bioFuelSlot.fluidStored) {
+            SPacketUpdateTileEntity packet = this.getUpdatePacket();
+            PlayerChunkMapEntry trackingEntry = ((WorldServer) this.world).getPlayerChunkMap().getEntry(this.pos.getX() >> 4, this.pos.getZ() >> 4);
+            if (trackingEntry != null) {
+                trackingEntry.getWatchingPlayers().forEach(player -> player.connection.sendPacket(packet));
+            }
+        }
+        lastBioFuelAmount = bioFuelSlot.fluidStored;
+    }
+
+    @Override
+    public void onUpdateClient() {
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0) {
+                MekanismUtils.updateBlock(world, getPos());
             }
         }
     }

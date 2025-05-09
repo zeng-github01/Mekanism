@@ -57,17 +57,15 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityUpgradeab
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
-            NucleosynthesizerRecipe recipe = getRecipe();
-            ChargeUtils.discharge(1, this);
-            if (canOperate(recipe)) {
-                double energy = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy);
-                getProcess(recipe, true, energy);
-            }
-            prevEnergy = getEnergy();
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        NucleosynthesizerRecipe recipe = getRecipe();
+        ChargeUtils.discharge(1, this);
+        if (canOperate(recipe)) {
+            double energy = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy);
+            getProcess(recipe, true, energy);
         }
+        prevEnergy = getEnergy();
     }
 
     @Override

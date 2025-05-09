@@ -8,7 +8,6 @@ import ic2.api.energy.tile.IEnergyConductor;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergyTile;
 import mekanism.api.Coord4D;
-import mekanism.common.Mekanism;
 import mekanism.common.base.FluidHandlerWrapper;
 import mekanism.common.base.IComparatorSupport;
 import mekanism.common.base.IEnergyWrapper;
@@ -58,20 +57,21 @@ public class TileEntityTurbineValve extends TileEntityTurbineCasing implements I
     @Override
     public void onUpdate() {
         super.onUpdate();
-
-        if (!ic2Registered && MekanismUtils.useIC2()) {
+        if (MekanismUtils.useIC2() && !ic2Registered) {
             register();
         }
+    }
 
-        if (!world.isRemote) {
-            if (structure != null) {
-                Mekanism.EXECUTE_MANAGER.addSyncTask(() -> CableUtils.emit(this));
-            }
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                updateComparatorOutputLevelSync();
-                currentRedstoneLevel = newRedstoneLevel;
-            }
+    @Override
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        if (structure != null) {
+            CableUtils.emit(this);
+        }
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            updateComparatorOutputLevelSync();
+            currentRedstoneLevel = newRedstoneLevel;
         }
     }
 
@@ -90,7 +90,7 @@ public class TileEntityTurbineValve extends TileEntityTurbineCasing implements I
 
     @Method(modid = MekanismHooks.IC2_MOD_ID)
     public void register() {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             IEnergyTile registered = EnergyNet.instance.getTile(world, getPos());
             if (registered != this) {
                 if (registered != null && ic2Registered) {
@@ -106,7 +106,7 @@ public class TileEntityTurbineValve extends TileEntityTurbineCasing implements I
 
     @Method(modid = MekanismHooks.IC2_MOD_ID)
     public void deregister() {
-        if (!world.isRemote) {
+        if (!isRemote()) {
             IEnergyTile registered = EnergyNet.instance.getTile(world, getPos());
             if (registered != null && ic2Registered) {
                 MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(registered));
@@ -303,7 +303,7 @@ public class TileEntityTurbineValve extends TileEntityTurbineCasing implements I
 
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
-        return ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) ? new FluidTankInfo[]{fluidTank.getInfo()} : PipeUtils.EMPTY;
+        return ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) ? new FluidTankInfo[]{fluidTank.getInfo()} : PipeUtils.EMPTY;
     }
 
     @Override
@@ -326,7 +326,7 @@ public class TileEntityTurbineValve extends TileEntityTurbineCasing implements I
     @Override
     public boolean canFill(EnumFacing from, @Nonnull FluidStack fluid) {
         if (fluid.getFluid() == FluidRegistry.getFluid("steam")) {
-            return (!world.isRemote && structure != null) || (world.isRemote && clientHasStructure);
+            return (!isRemote() && structure != null) || (isRemote() && clientHasStructure);
         }
         return false;
     }
@@ -372,7 +372,7 @@ public class TileEntityTurbineValve extends TileEntityTurbineCasing implements I
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing side) {
-        if ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) {
+        if ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) {
             if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == Capabilities.ENERGY_STORAGE_CAPABILITY
                     || capability == Capabilities.ENERGY_OUTPUTTER_CAPABILITY || capability == Capabilities.TESLA_HOLDER_CAPABILITY
                     || (capability == Capabilities.TESLA_PRODUCER_CAPABILITY && sideIsOutput(facing)) || capability == CapabilityEnergy.ENERGY) {
@@ -384,7 +384,7 @@ public class TileEntityTurbineValve extends TileEntityTurbineCasing implements I
 
     @Override
     public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing side) {
-        if ((!world.isRemote && structure != null) || (world.isRemote && clientHasStructure)) {
+        if ((!isRemote() && structure != null) || (isRemote() && clientHasStructure)) {
             if (capability == Capabilities.ENERGY_STORAGE_CAPABILITY || capability == Capabilities.ENERGY_OUTPUTTER_CAPABILITY) {
                 return (T) this;
             } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {

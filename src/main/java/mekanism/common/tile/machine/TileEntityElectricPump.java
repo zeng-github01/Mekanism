@@ -92,55 +92,52 @@ public class TileEntityElectricPump extends TileEntityElectricBlock implements I
     }
 
     @Override
-    public void onUpdate() {
-        if (!world.isRemote) {
-            ChargeUtils.discharge(2, this);
-            if (fluidTank.getFluid() != null) {
-                if (FluidContainerUtils.isFluidContainer(inventory.get(0))) {
-                    FluidContainerUtils.handleContainerItemFill(this, fluidTank, 0, 1);
-                }
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        ChargeUtils.discharge(2, this);
+        if (fluidTank.getFluid() != null) {
+            if (FluidContainerUtils.isFluidContainer(inventory.get(0))) {
+                FluidContainerUtils.handleContainerItemFill(this, fluidTank, 0, 1);
             }
-            if (MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick) {
-                if (suckedLastOperation) {
-                    setEnergy(getEnergy() - energyPerTick);
-                }
-                if ((operatingTicks + 1) < ticksRequired) {
-                    operatingTicks++;
-                } else {
-                    if (fluidTank.getFluid() == null || fluidTank.getFluid().amount + Fluid.BUCKET_VOLUME <= fluidTank.getCapacity()) {
-                        if (!suck(true)) {
-                            suckedLastOperation = false;
-                            reset();
-                        } else {
-                            suckedLastOperation = true;
-                        }
-                    } else {
-                        suckedLastOperation = false;
-                    }
-                    operatingTicks = 0;
-                }
+        }
+
+        if (MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick) {
+            if (suckedLastOperation) {
+                setEnergy(getEnergy() - energyPerTick);
+            }
+            if ((operatingTicks + 1) < ticksRequired) {
+                operatingTicks++;
             } else {
-                suckedLastOperation = false;
-            }
-        }
-
-        super.onUpdate();
-
-        if (!world.isRemote) {
-            if (fluidTank.getFluid() != null) {
-                TileEntity tileEntity = Coord4D.get(this).offset(EnumFacing.UP).getTileEntity(world);
-                if (CapabilityUtils.hasCapability(tileEntity, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN)) {
-                    IFluidHandler handler = CapabilityUtils.getCapability(tileEntity, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN);
-                    FluidStack toDrain = new FluidStack(fluidTank.getFluid(), Math.min(256 * (upgradeComponent.getUpgrades(Upgrade.SPEED) + 1), fluidTank.getFluidAmount()));
-                    fluidTank.drain(handler.fill(toDrain, true), true);
+                if (fluidTank.getFluid() == null || fluidTank.getFluid().amount + Fluid.BUCKET_VOLUME <= fluidTank.getCapacity()) {
+                    if (!suck(true)) {
+                        suckedLastOperation = false;
+                        reset();
+                    } else {
+                        suckedLastOperation = true;
+                    }
+                } else {
+                    suckedLastOperation = false;
                 }
+                operatingTicks = 0;
             }
-            int newRedstoneLevel = getRedstoneLevel();
-            if (newRedstoneLevel != currentRedstoneLevel) {
-                updateComparatorOutputLevelSync();
-                currentRedstoneLevel = newRedstoneLevel;
+        } else {
+            suckedLastOperation = false;
+        }
+
+        if (fluidTank.getFluid() != null) {
+            TileEntity tileEntity = Coord4D.get(this).offset(EnumFacing.UP).getTileEntity(world);
+            if (CapabilityUtils.hasCapability(tileEntity, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN)) {
+                IFluidHandler handler = CapabilityUtils.getCapability(tileEntity, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN);
+                FluidStack toDrain = new FluidStack(fluidTank.getFluid(), Math.min(256 * (upgradeComponent.getUpgrades(Upgrade.SPEED) + 1), fluidTank.getFluidAmount()));
+                fluidTank.drain(handler.fill(toDrain, true), true);
             }
         }
+        int newRedstoneLevel = getRedstoneLevel();
+        if (newRedstoneLevel != currentRedstoneLevel) {
+            updateComparatorOutputLevelSync();
+            currentRedstoneLevel = newRedstoneLevel;
+        }
+
     }
 
     @Override
@@ -241,7 +238,7 @@ public class TileEntityElectricPump extends TileEntityElectricBlock implements I
     }
 
     @Override
-   public void writeCustomNBT(NBTTagCompound nbtTags) {
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("operatingTicks", operatingTicks);
         nbtTags.setBoolean("suckedLastOperation", suckedLastOperation);

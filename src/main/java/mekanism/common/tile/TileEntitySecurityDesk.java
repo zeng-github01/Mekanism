@@ -50,49 +50,45 @@ public class TileEntitySecurityDesk extends TileEntityContainerBlock implements 
     }
 
     @Override
-    public void onUpdate() {
-        if (!world.isRemote) {
-            if (ownerUUID != null && frequency != null) {
-                if (!inventory.get(0).isEmpty() && inventory.get(0).getItem() instanceof IOwnerItem ownerItem) {
-                    if (ownerItem.hasOwner(inventory.get(0)) && ownerItem.getOwnerUUID(inventory.get(0)) != null) {
-                        if (ownerItem.getOwnerUUID(inventory.get(0)).equals(ownerUUID)) {
-                            ownerItem.setOwnerUUID(inventory.get(0), null);
-                            if (ownerItem instanceof ISecurityItem iSecurityItem && iSecurityItem.hasSecurity(inventory.get(0))) {
-                                iSecurityItem.setSecurity(inventory.get(0), SecurityMode.PUBLIC);
-                            }
-                        }
-                    }
-                }
-
-                if (!inventory.get(1).isEmpty() && inventory.get(1).getItem() instanceof IOwnerItem item) {
-                    if (item.hasOwner(inventory.get(1))) {
-                        if (item.getOwnerUUID(inventory.get(1)) == null) {
-                            item.setOwnerUUID(inventory.get(1), ownerUUID);
-                        }
-                        if (item.getOwnerUUID(inventory.get(1)).equals(ownerUUID)) {
-                            if (item instanceof ISecurityItem securityItem && securityItem.hasSecurity(inventory.get(1))) {
-                                securityItem.setSecurity(inventory.get(1), frequency.securityMode);
-                            }
+    public void onUpdateServer() {
+        super.onUpdateServer();
+        if (ownerUUID != null && frequency != null) {
+            if (!inventory.get(0).isEmpty() && inventory.get(0).getItem() instanceof IOwnerItem ownerItem) {
+                if (ownerItem.hasOwner(inventory.get(0)) && ownerItem.getOwnerUUID(inventory.get(0)) != null) {
+                    if (ownerItem.getOwnerUUID(inventory.get(0)).equals(ownerUUID)) {
+                        ownerItem.setOwnerUUID(inventory.get(0), null);
+                        if (ownerItem instanceof ISecurityItem iSecurityItem && iSecurityItem.hasSecurity(inventory.get(0))) {
+                            iSecurityItem.setSecurity(inventory.get(0), SecurityMode.PUBLIC);
                         }
                     }
                 }
             }
-
-            if (frequency == null && ownerUUID != null) {
-                setFrequency(ownerUUID);
-            }
-
-            FrequencyManager manager = getManager(frequency);
-            if (manager != null) {
-                if (frequency != null && !frequency.valid) {
-                    frequency = (SecurityFrequency) manager.validateFrequency(ownerUUID, Coord4D.get(this), frequency);
+            if (!inventory.get(1).isEmpty() && inventory.get(1).getItem() instanceof IOwnerItem item) {
+                if (item.hasOwner(inventory.get(1))) {
+                    if (item.getOwnerUUID(inventory.get(1)) == null) {
+                        item.setOwnerUUID(inventory.get(1), ownerUUID);
+                    }
+                    if (item.getOwnerUUID(inventory.get(1)).equals(ownerUUID)) {
+                        if (item instanceof ISecurityItem securityItem && securityItem.hasSecurity(inventory.get(1))) {
+                            securityItem.setSecurity(inventory.get(1), frequency.securityMode);
+                        }
+                    }
                 }
-                if (frequency != null) {
-                    frequency = (SecurityFrequency) manager.update(Coord4D.get(this), frequency);
-                }
-            } else {
-                frequency = null;
             }
+        }
+        if (frequency == null && ownerUUID != null) {
+            setFrequency(ownerUUID);
+        }
+        FrequencyManager manager = getManager(frequency);
+        if (manager != null) {
+            if (frequency != null && !frequency.valid) {
+                frequency = (SecurityFrequency) manager.validateFrequency(ownerUUID, Coord4D.get(this), frequency);
+            }
+            if (frequency != null) {
+                frequency = (SecurityFrequency) manager.update(Coord4D.get(this), frequency);
+            }
+        } else {
+            frequency = null;
         }
     }
 
@@ -221,7 +217,7 @@ public class TileEntitySecurityDesk extends TileEntityContainerBlock implements 
     @Override
     public void invalidate() {
         super.invalidate();
-        if (!world.isRemote) {
+        if (!isRemote()) {
             if (frequency != null) {
                 FrequencyManager manager = getManager(frequency);
                 if (manager != null) {
@@ -278,7 +274,7 @@ public class TileEntitySecurityDesk extends TileEntityContainerBlock implements 
     @Override
     public void validate() {
         super.validate();
-        if (world.isRemote && !rendererInitialized) {
+        if (isRemote() && !rendererInitialized) {
             rendererInitialized = true;
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
                 new BloomRenderSecurityDesk(this);

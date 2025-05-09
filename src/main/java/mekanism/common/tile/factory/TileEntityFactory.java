@@ -329,9 +329,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!world.isRemote) {
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
             if (ticker == 1) {
                 Mekanism.EXECUTE_MANAGER.addSyncTask(() -> world.notifyNeighborsOfStateChange(getPos(), getBlockType(), true));
             }
@@ -426,7 +425,6 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             }
             lastUsage = prev - getEnergy();
             prevEnergy = getEnergy();
-        }
     }
 
     private void MachineTypeSwitching() {
@@ -493,7 +491,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         for (Upgrade upgrade : upgradeComponent.getSupportedTypes()) {
             recalculateUpgradables(upgrade);
         }
-        if (hasWorld() && world.isRemote) {
+        if (hasWorld() && isRemote()) {
             setSoundEvent(type.getSound());
         }
     }

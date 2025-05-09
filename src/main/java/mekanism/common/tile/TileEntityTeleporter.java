@@ -148,38 +148,40 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
         if (teleportBounds == null) {
             resetBounds();
         }
+    }
 
-        if (!world.isRemote) {
-            FrequencyManager manager = getManager(frequency);
-            if (manager != null) {
-                if (frequency != null && !frequency.valid) {
-                    frequency = manager.validateFrequency(getSecurity().getOwnerUUID(), Coord4D.get(this), frequency);
-                }
-                if (frequency != null) {
-                    frequency = manager.update(Coord4D.get(this), frequency);
-                }
-            } else {
-                frequency = null;
-            }
-
-            status = canTeleport();
-            if (MekanismUtils.canFunction(this) && status == 1 && teleDelay == 0) {
-                teleport();
-            }
-            if (teleDelay == 0 && didTeleport.size() > 0) {
-                cleanTeleportCache();
-            }
-
-            shouldRender = status == 1 || status > 4;
-            if (shouldRender != prevShouldRender) {
-                Mekanism.packetHandler.sendUpdatePacket(this);
-                //This also means the comparator output changed so notify the neighbors we have a change
-                MekanismUtils.notifyLoadedNeighborsOfTileChange(world, Coord4D.get(this));
-            }
-            prevShouldRender = shouldRender;
-            teleDelay = Math.max(0, teleDelay - 1);
-        }
+    @Override
+    public void onUpdateServer() {
+        super.onUpdateServer();
         ChargeUtils.discharge(0, this);
+        FrequencyManager manager = getManager(frequency);
+        if (manager != null) {
+            if (frequency != null && !frequency.valid) {
+                frequency = manager.validateFrequency(getSecurity().getOwnerUUID(), Coord4D.get(this), frequency);
+            }
+            if (frequency != null) {
+                frequency = manager.update(Coord4D.get(this), frequency);
+            }
+        } else {
+            frequency = null;
+        }
+
+        status = canTeleport();
+        if (MekanismUtils.canFunction(this) && status == 1 && teleDelay == 0) {
+            teleport();
+        }
+        if (teleDelay == 0 && didTeleport.size() > 0) {
+            cleanTeleportCache();
+        }
+
+        shouldRender = status == 1 || status > 4;
+        if (shouldRender != prevShouldRender) {
+            Mekanism.packetHandler.sendUpdatePacket(this);
+            //This also means the comparator output changed so notify the neighbors we have a change
+            MekanismUtils.notifyLoadedNeighborsOfTileChange(world, Coord4D.get(this));
+        }
+        prevShouldRender = shouldRender;
+        teleDelay = Math.max(0, teleDelay - 1);
     }
 
     @Override
@@ -238,7 +240,7 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
     @Override
     public void onChunkUnload() {
         super.onChunkUnload();
-        if (!world.isRemote && frequency != null) {
+        if (!isRemote() && frequency != null) {
             FrequencyManager manager = getManager(frequency);
             if (manager != null) {
                 manager.deactivate(Coord4D.get(this));
@@ -249,7 +251,7 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
     @Override
     public void invalidate() {
         super.invalidate();
-        if (!world.isRemote) {
+        if (!isRemote()) {
             if (frequency != null) {
                 FrequencyManager manager = getManager(frequency);
                 if (manager != null) {
@@ -313,7 +315,7 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
     }
 
     public void teleport() {
-        if (world.isRemote) {
+        if (isRemote()) {
             return;
         }
         List<Entity> entitiesInPortal = getToTeleport();
@@ -407,7 +409,7 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
 
 
     @Override
-   public void writeCustomNBT(NBTTagCompound nbtTags) {
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("controlType", controlType.ordinal());
         nbtTags.setInteger("color", colors.indexOf(color));

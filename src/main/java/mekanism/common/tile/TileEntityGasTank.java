@@ -83,8 +83,8 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
     }
 
     @Override
-    public void onUpdate() {
-        if (!world.isRemote) {
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
             TileUtils.drawGas(inventory.get(0), gasTank, tier != GasTankTier.CREATIVE);
             if (TileUtils.receiveGas(inventory.get(1), gasTank) && tier == GasTankTier.CREATIVE && gasTank.getGas() != null) {
                 gasTank.getGas().amount = Integer.MAX_VALUE;
@@ -102,7 +102,6 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
                     currentRedstoneLevel = newRedstoneLevel;
                 }
             });
-        }
     }
 
     public void handTank() {

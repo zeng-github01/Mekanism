@@ -51,35 +51,41 @@ public class TileEntitySeismicVibrator extends TileEntityElectricBlock implement
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (world.isRemote) {
-            if (isActive) {
-                clientPiston++;
-            }
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0 && clientActive != isActive) {
-                    isActive = clientActive;
-                    MekanismUtils.updateBlock(world, getPos());
-                }
-            }
-        } else {
-            if (updateDelay > 0) {
-                updateDelay--;
-                if (updateDelay == 0 && clientActive != isActive) {
-                    Mekanism.packetHandler.sendUpdatePacket(this);
-                }
-            }
-
-            ChargeUtils.discharge(0, this);
-            if (MekanismUtils.canFunction(this) && getEnergy() >= BASE_ENERGY_PER_TICK) {
-                setActive(true);
-                setEnergy(getEnergy() - BASE_ENERGY_PER_TICK);
-            } else {
-                setActive(false);
+    public void onUpdateClient() {
+        super.onUpdateClient();
+        if (isActive) {
+            clientPiston++;
+        }
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0 && clientActive != isActive) {
+                isActive = clientActive;
+                MekanismUtils.updateBlock(world, getPos());
             }
         }
+    }
+
+    @Override
+    public void onAsyncUpdateServer() {
+        super.onAsyncUpdateServer();
+        if (updateDelay > 0) {
+            updateDelay--;
+            if (updateDelay == 0 && clientActive != isActive) {
+                Mekanism.packetHandler.sendUpdatePacket(this);
+            }
+        }
+        ChargeUtils.discharge(0, this);
+        if (MekanismUtils.canFunction(this) && getEnergy() >= BASE_ENERGY_PER_TICK) {
+            setActive(true);
+            setEnergy(getEnergy() - BASE_ENERGY_PER_TICK);
+        } else {
+            setActive(false);
+        }
+    }
+
+    @Override
+    public void onUpdate() {
+        super.onUpdate();
         if (getActive()) {
             Mekanism.activeVibrators.add(Coord4D.get(this));
         } else {
@@ -95,7 +101,7 @@ public class TileEntitySeismicVibrator extends TileEntityElectricBlock implement
 
 
     @Override
-   public void writeCustomNBT(NBTTagCompound nbtTags) {
+    public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setBoolean("isActive", isActive);
         nbtTags.setInteger("controlType", controlType.ordinal());

@@ -55,10 +55,15 @@ public abstract class TileEntityReactorBlock extends TileEntityElectricBlock {
         if (changed) {
             changed = false;
         }
-        if (!world.isRemote && ticker == 5 && !attempted && (getReactor() == null || !getReactor().isFormed())) {
+        attempted = false;
+    }
+
+    @Override
+    public void onUpdateServer(){
+        super.onUpdateServer();
+        if (ticker == 5 && !attempted && (getReactor() == null || !getReactor().isFormed())){
             updateController();
         }
-        attempted = false;
     }
 
     @Override
@@ -87,7 +92,7 @@ public abstract class TileEntityReactorBlock extends TileEntityElectricBlock {
     @Override
     public void onAdded() {
         super.onAdded();
-        if (!world.isRemote) {
+        if (!isRemote()) {
             if (getReactor() != null) {
                 getReactor().formMultiblock(false);
             } else {
