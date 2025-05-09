@@ -17,18 +17,23 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
@@ -205,23 +210,25 @@ public class RenderTickHandler {
     }
 
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGH)
     public void renderExtraBlockBreak(DrawBlockHighlightEvent event) {
         EntityPlayer player = event.getPlayer();
         if (player == null) {
             return;
         }
+        ItemStack stack = player.getHeldItemMainhand();
         RayTraceResult rayTraceResult = event.getTarget();
-        if (rayTraceResult.typeOfHit != RayTraceResult.Type.MISS) {
-            World world = player.getEntityWorld();
-            BlockPos pos = rayTraceResult.getBlockPos();
-            IBlockState blockState = world.getBlockState(pos);
-            ItemStack stack = player.getHeldItemMainhand();
-            if (!stack.isEmpty() && stack.getItem() instanceof IBlastingItem tool) {
+        if (!stack.isEmpty() && stack.getItem() instanceof IBlastingItem tool) {
+            event.setCanceled(true);
+            if (event.getSubID() == 0 && rayTraceResult.typeOfHit.equals(RayTraceResult.Type.BLOCK)) {
+                World world = player.getEntityWorld();
+                BlockPos pos = rayTraceResult.getBlockPos();
+                IBlockState blockState = world.getBlockState(pos);
                 Map<BlockPos, IBlockState> blocks = tool.getBlastedBlocks(world, player, stack, pos, blockState);
                 if (!blocks.isEmpty()) {
-                    event.setCanceled(true);
                     blocks.forEach((key, value) -> drawSelectionBox(player, rayTraceResult, key, value, event.getSubID(), event.getPartialTicks()));
+                } else {
+                    drawSelectionBox(player, rayTraceResult, pos, blockState, event.getSubID(), event.getPartialTicks());
                 }
             }
         }
@@ -244,7 +251,8 @@ public class RenderTickHandler {
                 float red = (float) color.getRed() / 255.0F;
                 float green = (float) color.getGreen() / 255.0F;
                 float blue = (float) color.getBlue() / 255.0F;
-                RenderGlobal.drawSelectionBoundingBox(iblockstate.getSelectedBoundingBox(player.world, blockpos).grow(0.0020000000949949026D).offset(-d3, -d4, -d5), red, green, blue, 0.4F);
+                drawSelectionBoundingBox(iblockstate.getSelectedBoundingBox(player.world, blockpos).grow(0.0020000000949949026D).offset(-d3, -d4, -d5), red, green, blue, 0.390625F); //draw Blinking Block
+                RenderGlobal.drawSelectionBoundingBox(iblockstate.getSelectedBoundingBox(player.world, blockpos).grow(0.0020000000949949026D).offset(-d3, -d4, -d5), red, green, blue, 0.4F); //draw Outlined Bounding Box
             }
             GlStateManager.depthMask(true);
             GlStateManager.enableTexture2D();
@@ -252,5 +260,50 @@ public class RenderTickHandler {
         }
     }
 
+    private void drawSelectionBoundingBox(AxisAlignedBB box, float red, float green, float blue, float alpha) {
+        drawBoundingBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ, red, green, blue, alpha);
+    }
+
+    public static void drawBoundingBox(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, float red, float green, float blue, float alpha) {
+        Tessellator tessellator = Tessellator.getInstance();
+        alpha *= (float)Math.abs(Math.sin((double)Minecraft.getSystemTime() / 100.0 * 0.3D));
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+        bufferbuilder.begin(5, DefaultVertexFormats.POSITION_COLOR);
+        drawBoundingBox(bufferbuilder, minX, minY, minZ, maxX, maxY, maxZ, red, green, blue, alpha);
+        tessellator.draw();
+    }
+
+    public static void drawBoundingBox(BufferBuilder buffer, double minX, double minY, double minZ, double maxX, double maxY, double maxZ, float red, float green, float blue, float alpha) {
+        buffer.pos(minX, minY, minZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(minX, minY, minZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(minX, minY, minZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(minX, minY, maxZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(minX, maxY, minZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(minX, maxY, maxZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(minX, maxY, maxZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(minX, minY, maxZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(maxX, maxY, maxZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(maxX, minY, maxZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(maxX, minY, maxZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(maxX, minY, minZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(maxX, maxY, maxZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(maxX, maxY, minZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(maxX, maxY, minZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(maxX, minY, minZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(minX, maxY, minZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(minX, minY, minZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(minX, minY, minZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(maxX, minY, minZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(minX, minY, maxZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(maxX, minY, maxZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(maxX, minY, maxZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(minX, maxY, minZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(minX, maxY, minZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(minX, maxY, maxZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(maxX, maxY, minZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(maxX, maxY, maxZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(maxX, maxY, maxZ).color(red, green, blue, alpha).endVertex();
+        buffer.pos(maxX, maxY, maxZ).color(red, green, blue, alpha).endVertex();
+    }
 
 }
