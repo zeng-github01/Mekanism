@@ -19,27 +19,27 @@ public class GuiProgress extends GuiElement {
     protected final ProgressBar type;
     protected final int xLocation;
     protected final int yLocation;
-    protected final boolean isjei;
-    protected final boolean canProgress;
+    protected final boolean canGetProgress;
+    protected final boolean canShowRecipes;
 
     public GuiProgress(IProgressInfoHandler handler, ProgressBar type, IGuiWrapper gui, ResourceLocation def, int x, int y) {
         this(handler, type, gui, def, x, y, true,true);
     }
 
-    public GuiProgress(IProgressInfoHandler handler, ProgressBar type, IGuiWrapper gui, ResourceLocation def, int x, int y,boolean isjei) {
-        this(handler, type, gui, def, x, y, isjei,true);
+    public GuiProgress(IProgressInfoHandler handler, ProgressBar type, IGuiWrapper gui, ResourceLocation def, int x, int y,boolean canGetProgress) {
+        this(handler, type, gui, def, x, y, canGetProgress,true);
     }
 
 
 
-    public GuiProgress(IProgressInfoHandler handler, ProgressBar type, IGuiWrapper gui, ResourceLocation def, int x, int y, boolean isjei,boolean canProgress) {
+    public GuiProgress(IProgressInfoHandler handler, ProgressBar type, IGuiWrapper gui, ResourceLocation def, int x, int y, boolean canGetProgress,boolean canShowRecipes) {
         super(MekanismUtils.getResource(ResourceType.PROGRESS, "Progress_Icon.png"), gui, def);
         xLocation = x;
         yLocation = y;
         this.type = type;
         this.handler = handler;
-        this.isjei = isjei;
-        this.canProgress = canProgress;
+        this.canGetProgress = canGetProgress;
+        this.canShowRecipes = canShowRecipes;
     }
 
 
@@ -86,10 +86,10 @@ public class GuiProgress extends GuiElement {
         mc.renderEngine.bindTexture(RESOURCE);
         List<String> strings = new ArrayList<>();
         if (inBounds(xAxis, yAxis)) {
-            if (Mekanism.hooks.JEI && canProgress) {
+            if (Mekanism.hooks.JEI && canShowRecipes) {
                 strings.add(LangUtils.localize("gui.mekanism.show.recipes"));
             }
-            if (isjei && handler.getProgress() != 0 && handler.getProgress() != 1) {
+            if (canGetProgress && handler.getProgress() != 0 && handler.getProgress() != 1) {
                 if (!strings.isEmpty()){
                     strings.clear();
                 }

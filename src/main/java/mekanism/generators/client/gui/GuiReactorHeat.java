@@ -1,6 +1,7 @@
 package mekanism.generators.client.gui;
 
 import mekanism.api.util.time.Timeticks;
+import mekanism.client.gui.IJeiNoShowRecipe;
 import mekanism.client.gui.element.GuiEnergyInfo;
 import mekanism.client.gui.element.GuiProgress;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
-public class GuiReactorHeat extends GuiReactorInfo {
+public class GuiReactorHeat extends GuiReactorInfo implements IJeiNoShowRecipe {
 
     protected Timeticks time;
 
@@ -68,7 +69,7 @@ public class GuiReactorHeat extends GuiReactorInfo {
             public double getProgress() {
                 return tileEntity.getPlasmaTemp() > tileEntity.getCaseTemp() ? 1 : 0;
             }
-        }, ProgressBar.SMALL_RIGHT, this, resource, 27, 75));
+        }, ProgressBar.SMALL_RIGHT, this, resource, 27, 75,true,false));
         addGuiElement(new GuiNumberGauge(new INumberInfoHandler() {
             @Override
             public TextureAtlasSprite getIcon() {
@@ -95,13 +96,13 @@ public class GuiReactorHeat extends GuiReactorInfo {
             public double getProgress() {
                 return tileEntity.getCaseTemp() > 0 ? 1 : 0;
             }
-        }, ProgressBar.SMALL_RIGHT, this, resource, 81, 60));
+        }, ProgressBar.SMALL_RIGHT, this, resource, 81, 60,true,false));
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
                 return (tileEntity.getCaseTemp() > 0 && tileEntity.getactivelyCooled()) ? (double) time.getValue() / 20F : 0;
             }
-        }, ProgressBar.SMALL_RIGHT, this, resource, 81, 90));
+        }, ProgressBar.SMALL_RIGHT, this, resource, 81, 90,true,false));
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {

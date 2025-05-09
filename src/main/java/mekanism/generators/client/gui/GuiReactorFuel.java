@@ -51,13 +51,13 @@ public class GuiReactorFuel extends GuiReactorInfo {
             public double getProgress() {
                 return tileEntity.isBurning() ? (double) time.getValue() / 20F : 0;
             }
-        }, ProgressBar.SMALL_RIGHT, this, resource, 45, 75));
+        }, ProgressBar.SMALL_RIGHT, this, resource, 45, 75,true,false));
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {
                 return tileEntity.isBurning() ? (double) time.getValue() / 20F : 0;
             }
-        }, ProgressBar.SMALL_LEFT, this, resource, 99, 75));
+        }, ProgressBar.SMALL_LEFT, this, resource, 99, 75,true,false));
         addGuiElement(new GuiReactorTab(this, tileEntity, ReactorTab.HEAT, resource));
         addGuiElement(new GuiReactorTab(this, tileEntity, ReactorTab.STAT, resource));
     }

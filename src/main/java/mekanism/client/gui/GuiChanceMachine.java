@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiChanceMachine<RECIPE extends ChanceMachineRecipe<RECIPE>> extends GuiMekanismTile<TileEntityChanceMachine<RECIPE>> {
+public class GuiChanceMachine<RECIPE extends ChanceMachineRecipe<RECIPE>> extends GuiMekanismTile<TileEntityChanceMachine<RECIPE>> implements IJeiNoShowRecipe {
 
     public GuiChanceMachine(InventoryPlayer inventory, TileEntityChanceMachine<RECIPE> tile) {
         super(tile, new ContainerChanceMachine<>(inventory, tile));

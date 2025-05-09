@@ -34,7 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrolyticSeparator> {
+public class GuiElectrolyticSeparator extends GuiMekanismTile<TileEntityElectrolyticSeparator> implements IJeiNoShowRecipe {
 
     public GuiDisableableButton LeftMode;
     public GuiDisableableButton RightMode;

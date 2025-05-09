@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiNutritionalLiquifier extends GuiMekanismTile<TileEntityNutritionalLiquifier> {
+public class GuiNutritionalLiquifier extends GuiMekanismTile<TileEntityNutritionalLiquifier> implements IJeiNoShowRecipe {
 
     public GuiNutritionalLiquifier(InventoryPlayer inventory, TileEntityNutritionalLiquifier tile) {
         super(tile, new ContainerNutritionalLiquifier(inventory, tile));

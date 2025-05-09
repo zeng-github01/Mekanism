@@ -25,7 +25,7 @@ public class GuiRobitCrafting extends GuiRobit {
             public double getProgress() {
                 return 0F;
             }
-        }, GuiProgress.ProgressBar.TALL_RIGHT, this, getGuiLocation(), 90, 35));
+        }, GuiProgress.ProgressBar.TALL_RIGHT, this, getGuiLocation(), 90, 35,false));
     }
 
     @Override

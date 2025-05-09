@@ -2,6 +2,7 @@ package mekanism.multiblockmachine.client.gui.machine;
 
 import mekanism.api.TileNetworkList;
 import mekanism.client.gui.GuiMekanismTile;
+import mekanism.client.gui.IJeiNoShowRecipe;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
@@ -33,7 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiLargeElectrolyticSeparator extends GuiMekanismTile<TileEntityLargeElectrolyticSeparator> {
+public class GuiLargeElectrolyticSeparator extends GuiMekanismTile<TileEntityLargeElectrolyticSeparator> implements IJeiNoShowRecipe {
 
     public GuiDisableableButton LeftMode;
     public GuiDisableableButton RightMode;

@@ -18,8 +18,13 @@ public class TileEntityIndustrialAlarm extends TileEntityEffectsBlock {
 
 
     @Override
-    public void onAsyncUpdateServer() {
-        super.onAsyncUpdateServer();
+    public void onUpdateClient() {
+        super.onUpdateClient();
+    }
+
+    @Override
+    public void onUpdateServer() {
+        super.onUpdateServer();
         setActive(isPowered());
     }
 

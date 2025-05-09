@@ -8,6 +8,7 @@ import mekanism.api.gear.SwiftSneakHelp;
 import mekanism.api.radial.RadialData;
 import mekanism.client.gui.GuiMekanism;
 import mekanism.client.gui.GuiRadialSelector;
+import mekanism.client.gui.IJeiNoShowRecipe;
 import mekanism.client.newgui.GuiModuleTweaker;
 import mekanism.client.render.hud.MekanismStatusOverlay;
 import mekanism.client.render.lib.ScrollIncrementer;
@@ -407,7 +408,7 @@ public class ClientTickHandler {
     //移除jei的显示配方按钮
     @SubscribeEvent
     public void onDrawScreenEventPost(RenderTooltipEvent.Pre event) {
-        if (Mekanism.hooks.JEI && minecraft.currentScreen instanceof GuiMekanism) {
+        if (Mekanism.hooks.JEI && minecraft.currentScreen instanceof GuiMekanism mekanism && mekanism instanceof IJeiNoShowRecipe) {
             List<String> tip = event.getLines();
             String jeiShowRecipes = LangUtils.localize("jei.tooltip.show.recipes");
             if (tip.contains(jeiShowRecipes)) {

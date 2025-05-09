@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 @SideOnly(Side.CLIENT)
-public class GuiOredictionificator extends GuiMekanismTile<TileEntityOredictionificator> {
+public class GuiOredictionificator extends GuiMekanismTile<TileEntityOredictionificator> implements IJeiNoShowRecipe{
 
     private Map<OredictionificatorFilter, ItemStack> renderStacks = new Object2ObjectOpenHashMap<>();
     private boolean isDragging = false;

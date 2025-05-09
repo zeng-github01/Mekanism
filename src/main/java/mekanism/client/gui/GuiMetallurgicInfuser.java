@@ -34,7 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgicInfuser> {
+public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgicInfuser> implements IJeiNoShowRecipe{
 
     private GuiDisableableButton toggleButton;
 

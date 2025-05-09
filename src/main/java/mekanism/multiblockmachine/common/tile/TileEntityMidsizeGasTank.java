@@ -491,4 +491,11 @@ public class TileEntityMidsizeGasTank extends TileEntityContainerBlock implement
     public boolean canOutputEnergy(EnumFacing side) {
         return false;
     }
+
+    @Nonnull
+    @Override
+    public String getName() {
+        return LangUtils.localize("tile." + fullName + ".name");
+    }
+
 }

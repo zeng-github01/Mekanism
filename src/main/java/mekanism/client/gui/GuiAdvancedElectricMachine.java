@@ -26,7 +26,7 @@ import java.util.List;
 
 
 @SideOnly(Side.CLIENT)
-public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<RECIPE>> extends GuiMekanismTile<TileEntityAdvancedElectricMachine<RECIPE>> {
+public class GuiAdvancedElectricMachine<RECIPE extends AdvancedMachineRecipe<RECIPE>> extends GuiMekanismTile<TileEntityAdvancedElectricMachine<RECIPE>> implements IJeiNoShowRecipe {
 
     public GuiAdvancedElectricMachine(InventoryPlayer inventory, TileEntityAdvancedElectricMachine<RECIPE> tile) {
         super(tile, new ContainerAdvancedElectricMachine<>(inventory, tile));

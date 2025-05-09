@@ -35,7 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCondensentrator> {
+public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCondensentrator> implements IJeiNoShowRecipe{
 
     protected Timeticks time;
 

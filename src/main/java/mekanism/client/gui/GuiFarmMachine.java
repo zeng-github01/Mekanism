@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> extends GuiMekanismTile<TileEntityFarmMachine<RECIPE>> {
+public class GuiFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> extends GuiMekanismTile<TileEntityFarmMachine<RECIPE>> implements  IJeiNoShowRecipe {
 
     public GuiFarmMachine(InventoryPlayer inventory, TileEntityFarmMachine<RECIPE> tile) {
         super(tile, new ContainerFarmMachine<>(inventory, tile));

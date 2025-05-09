@@ -7,20 +7,27 @@ import mekanism.client.render.particle.EntityJetpackFlameFX;
 import mekanism.client.render.particle.EntityJetpackSmokeFX;
 import mekanism.client.render.particle.EntityScubaBubbleFX;
 import mekanism.common.Mekanism;
+import mekanism.common.content.gear.IBlastingItem;
 import mekanism.common.content.gear.IModuleContainerItem;
 import mekanism.common.item.ItemFlamethrower;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
@@ -28,6 +35,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.awt.*;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
@@ -193,6 +202,54 @@ public class RenderTickHandler {
             fx = new EntityScubaBubbleFX(world, x, y, z, velX, velY, velZ);
         }
         mc.effectRenderer.addEffect(fx);
+    }
+
+
+    @SubscribeEvent
+    public void renderExtraBlockBreak(DrawBlockHighlightEvent event) {
+        EntityPlayer player = event.getPlayer();
+        if (player == null) {
+            return;
+        }
+        RayTraceResult rayTraceResult = event.getTarget();
+        if (rayTraceResult.typeOfHit != RayTraceResult.Type.MISS) {
+            World world = player.getEntityWorld();
+            BlockPos pos = rayTraceResult.getBlockPos();
+            IBlockState blockState = world.getBlockState(pos);
+            ItemStack stack = player.getHeldItemMainhand();
+            if (!stack.isEmpty() && stack.getItem() instanceof IBlastingItem tool) {
+                Map<BlockPos, IBlockState> blocks = tool.getBlastedBlocks(world, player, stack, pos, blockState);
+                if (!blocks.isEmpty()) {
+                    event.setCanceled(true);
+                    blocks.forEach((key, value) -> drawSelectionBox(player, rayTraceResult, key, value, event.getSubID(), event.getPartialTicks()));
+                }
+            }
+        }
+    }
+
+
+    public void drawSelectionBox(EntityPlayer player, RayTraceResult movingObjectPositionIn, BlockPos blockpos, IBlockState iblockstate, int execute, float partialTicks) {
+        if (execute == 0 && movingObjectPositionIn.typeOfHit == RayTraceResult.Type.BLOCK) {
+            GlStateManager.enableBlend();
+            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.glLineWidth(2.0F);
+            GlStateManager.disableTexture2D();
+            GlStateManager.depthMask(false);
+            if (iblockstate.getMaterial() != Material.AIR && player.world.getWorldBorder().contains(blockpos)) {
+                double d3 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
+                double d4 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) partialTicks;
+                double d5 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) partialTicks;
+                float millis = (float) (System.currentTimeMillis() % 10000L) / 10000.0F;
+                Color color = Color.getHSBColor(millis, 0.8F, 0.8F);
+                float red = (float) color.getRed() / 255.0F;
+                float green = (float) color.getGreen() / 255.0F;
+                float blue = (float) color.getBlue() / 255.0F;
+                RenderGlobal.drawSelectionBoundingBox(iblockstate.getSelectedBoundingBox(player.world, blockpos).grow(0.0020000000949949026D).offset(-d3, -d4, -d5), red, green, blue, 0.4F);
+            }
+            GlStateManager.depthMask(true);
+            GlStateManager.enableTexture2D();
+            GlStateManager.disableBlend();
+        }
     }
 
 

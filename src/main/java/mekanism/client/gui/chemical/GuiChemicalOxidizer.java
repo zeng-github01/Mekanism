@@ -1,6 +1,7 @@
 package mekanism.client.gui.chemical;
 
 import mekanism.client.gui.GuiMekanismTile;
+import mekanism.client.gui.IJeiNoShowRecipe;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
@@ -27,7 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiChemicalOxidizer extends GuiMekanismTile<TileEntityChemicalOxidizer> {
+public class GuiChemicalOxidizer extends GuiMekanismTile<TileEntityChemicalOxidizer> implements IJeiNoShowRecipe {
 
     public GuiChemicalOxidizer(InventoryPlayer inventory, TileEntityChemicalOxidizer tile) {
         super(tile, new ContainerChemicalOxidizer(inventory, tile));

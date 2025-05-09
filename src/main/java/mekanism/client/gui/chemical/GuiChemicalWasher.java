@@ -1,6 +1,7 @@
 package mekanism.client.gui.chemical;
 
 import mekanism.client.gui.GuiMekanismTile;
+import mekanism.client.gui.IJeiNoShowRecipe;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
@@ -29,7 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiChemicalWasher extends GuiMekanismTile<TileEntityChemicalWasher> {
+public class GuiChemicalWasher extends GuiMekanismTile<TileEntityChemicalWasher> implements IJeiNoShowRecipe {
 
     public GuiChemicalWasher(InventoryPlayer inventory, TileEntityChemicalWasher tile) {
         super(tile, new ContainerChemicalWasher(inventory, tile));

@@ -23,7 +23,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
-public class GuiAntiprotonicNucleosynthesizer extends GuiMekanismTile<TileEntityAntiprotonicNucleosynthesizer> {
+public class GuiAntiprotonicNucleosynthesizer extends GuiMekanismTile<TileEntityAntiprotonicNucleosynthesizer> implements IJeiNoShowRecipe {
 
     public GuiAntiprotonicNucleosynthesizer(InventoryPlayer inventory, TileEntityAntiprotonicNucleosynthesizer tile) {
         super(tile, new ContainerAntiprotonicNucleosynthesizer(inventory, tile));

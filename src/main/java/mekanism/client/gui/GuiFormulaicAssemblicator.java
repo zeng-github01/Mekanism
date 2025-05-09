@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiFormulaicAssemblicator extends GuiMekanismTile<TileEntityFormulaicAssemblicator> {
+public class GuiFormulaicAssemblicator extends GuiMekanismTile<TileEntityFormulaicAssemblicator> implements IJeiNoShowRecipe{
 
     private GuiButton encodeFormulaButton;
     private GuiButton stockControlButton;

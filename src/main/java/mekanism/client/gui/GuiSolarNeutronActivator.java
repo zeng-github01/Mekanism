@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiSolarNeutronActivator extends GuiMekanismTile<TileEntitySolarNeutronActivator> {
+public class GuiSolarNeutronActivator extends GuiMekanismTile<TileEntitySolarNeutronActivator> implements IJeiNoShowRecipe{
 
     protected Timeticks time;
 

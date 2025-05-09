@@ -2,6 +2,7 @@ package mekanism.multiblockmachine.client.gui.machine;
 
 import mekanism.api.util.time.Timeticks;
 import mekanism.client.gui.GuiMekanismTile;
+import mekanism.client.gui.IJeiNoShowRecipe;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
@@ -22,7 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiLargeChemicalWasher extends GuiMekanismTile<TileEntityLargeChemicalWasher> {
+public class GuiLargeChemicalWasher extends GuiMekanismTile<TileEntityLargeChemicalWasher> implements IJeiNoShowRecipe {
     protected Timeticks time;
 
     public GuiLargeChemicalWasher(InventoryPlayer inventory, TileEntityLargeChemicalWasher tile) {

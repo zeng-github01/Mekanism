@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiPRC extends GuiMekanismTile<TileEntityPRC> {
+public class GuiPRC extends GuiMekanismTile<TileEntityPRC> implements IJeiNoShowRecipe {
 
     public GuiPRC(InventoryPlayer inventory, TileEntityPRC tile) {
         super(tile, new ContainerPRC(inventory, tile));

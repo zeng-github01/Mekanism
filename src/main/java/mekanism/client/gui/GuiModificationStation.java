@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.Arrays;
 
-public class GuiModificationStation extends GuiMekanismTile<TileEntityModificationStation> {
+public class GuiModificationStation extends GuiMekanismTile<TileEntityModificationStation> implements IJeiNoShowRecipe{
 
     public GuiModificationStation(InventoryPlayer inventory, TileEntityModificationStation tile) {
         super(tile, new ContainerModificationStation(inventory, tile));
@@ -29,7 +29,7 @@ public class GuiModificationStation extends GuiMekanismTile<TileEntityModificati
             public double getProgress() {
                 return tileEntity.getScaledProgress();
             }
-        }, GuiProgress.ProgressBar.LARGE_RIGHT, this, resource, 53, 37));
+        }, GuiProgress.ProgressBar.LARGE_RIGHT, this, resource, 53, 37,false));
         addGuiElement(new GuiPlayerSlot(this, resource));
     }
 

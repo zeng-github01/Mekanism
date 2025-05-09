@@ -59,7 +59,7 @@ public class GuiUpgradeManagement extends GuiMekanism {
                     public double getProgress() {
                         return (double) tileEntity.getComponent().upgradeTicks / TileComponentUpgrade.UPGRADE_TICKS_REQUIRED;
                     }
-                }, GuiProgress.ProgressBar.INSTALLING, this, getGuiLocation(), 153, 25));
+                }, GuiProgress.ProgressBar.INSTALLING, this, getGuiLocation(), 153, 25,false));
         addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 90, 6, 59, 50));
         addGuiElement(new GuiElementScreen(this, getGuiLocation(), 24, 56, 125, 14));
         addGuiElement(new GuiElementScreen(this, getGuiLocation(), 24, 6, 66, 50));

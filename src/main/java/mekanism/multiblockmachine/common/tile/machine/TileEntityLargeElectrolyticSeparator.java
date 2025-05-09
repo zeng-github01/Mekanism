@@ -123,7 +123,9 @@ public class TileEntityLargeElectrolyticSeparator extends TileEntityMultiblockBa
             MekanismUtils.saveChunk(this);
         }
         SeparatorRecipe recipe = getRecipe();
-        getProcess(recipe, true, energyPerTick * getUpgradedUsage(recipe) * Thread(), true, false);
+        if (canOperate(recipe)){
+            getProcess(recipe, true, energyPerTick * getUpgradedUsage(recipe) * Thread(), true, false);
+        }
         prevEnergy = getEnergy();
         if (needsPacket) {
             Mekanism.packetHandler.sendUpdatePacket(this);

@@ -143,16 +143,11 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
 
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void onUpdateServer() {
+        super.onUpdateServer();
         if (teleportBounds == null) {
             resetBounds();
         }
-    }
-
-    @Override
-    public void onUpdateServer() {
-        super.onUpdateServer();
         ChargeUtils.discharge(0, this);
         FrequencyManager manager = getManager(frequency);
         if (manager != null) {
@@ -355,6 +350,7 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
     }
 
     public List<Entity> getToTeleport() {
+
         List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, teleportBounds);
         List<Entity> ret = new ArrayList<>();
         for (Entity entity : entities) {

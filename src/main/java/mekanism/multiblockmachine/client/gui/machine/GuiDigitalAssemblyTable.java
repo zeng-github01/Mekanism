@@ -1,6 +1,7 @@
 package mekanism.multiblockmachine.client.gui.machine;
 
 import mekanism.client.gui.GuiMekanismTile;
+import mekanism.client.gui.IJeiNoShowRecipe;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.bar.GuiBar;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
@@ -20,7 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
-public class GuiDigitalAssemblyTable extends GuiMekanismTile<TileEntityDigitalAssemblyTable> {
+public class GuiDigitalAssemblyTable extends GuiMekanismTile<TileEntityDigitalAssemblyTable> implements IJeiNoShowRecipe {
 
     public GuiDigitalAssemblyTable(InventoryPlayer inventory, TileEntityDigitalAssemblyTable tile) {
         super(tile, new ContainerDigitalAssemblyTable(inventory, tile));

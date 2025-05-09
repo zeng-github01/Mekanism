@@ -23,7 +23,7 @@ public class GuiRobitSmelting extends GuiRobit {
             public double getProgress() {
                 return (double) robit.furnaceCookTime / 200;
             }
-        }, GuiProgress.ProgressBar.TALL_RIGHT, this, getGuiLocation(), 78, 34));
+        }, GuiProgress.ProgressBar.TALL_RIGHT, this, getGuiLocation(), 78, 34,false));
     }
 
     @Override

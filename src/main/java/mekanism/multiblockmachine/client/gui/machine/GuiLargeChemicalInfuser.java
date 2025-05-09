@@ -2,6 +2,7 @@ package mekanism.multiblockmachine.client.gui.machine;
 
 import mekanism.api.util.time.Timeticks;
 import mekanism.client.gui.GuiMekanismTile;
+import mekanism.client.gui.IJeiNoShowRecipe;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
@@ -21,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiLargeChemicalInfuser extends GuiMekanismTile<TileEntityLargeChemicalInfuser> {
+public class GuiLargeChemicalInfuser extends GuiMekanismTile<TileEntityLargeChemicalInfuser> implements IJeiNoShowRecipe {
 
     protected Timeticks time;
 
