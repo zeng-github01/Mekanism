@@ -74,10 +74,10 @@ public interface IFactory {
         SMELTING("Smelting", "smelter", MachineType.ENERGIZED_SMELTER, MachineFuelType.BASIC, false, Recipe.ENERGIZED_SMELTER),
         ENRICHING("Enriching", "enrichment", MachineType.ENRICHMENT_CHAMBER, MachineFuelType.BASIC, false, Recipe.ENRICHMENT_CHAMBER),
         CRUSHING("Crushing", "crusher", MachineType.CRUSHER, MachineFuelType.BASIC, false, Recipe.CRUSHER),
-        COMPRESSING("Compressing", "compressor", MachineType.OSMIUM_COMPRESSOR, MachineFuelType.ADVANCED, false, Recipe.OSMIUM_COMPRESSOR),
+        COMPRESSING("Compressing", "compressor", MachineType.OSMIUM_COMPRESSOR, MachineFuelType.ADVANCED, false, Recipe.OSMIUM_COMPRESSOR, true, false, false),
         COMBINING("Combining", "combiner", MachineType.COMBINER, MachineFuelType.DOUBLE, false, Recipe.COMBINER),
-        PURIFYING("Purifying", "purifier", MachineType.PURIFICATION_CHAMBER, MachineFuelType.ADVANCED, true, Recipe.PURIFICATION_CHAMBER),
-        INJECTING("Injecting", "injection", MachineType.CHEMICAL_INJECTION_CHAMBER, MachineFuelType.ADVANCED, true, Recipe.CHEMICAL_INJECTION_CHAMBER),
+        PURIFYING("Purifying", "purifier", MachineType.PURIFICATION_CHAMBER, MachineFuelType.ADVANCED, true, Recipe.PURIFICATION_CHAMBER, true, false, false),
+        INJECTING("Injecting", "injection", MachineType.CHEMICAL_INJECTION_CHAMBER, MachineFuelType.ADVANCED, true, Recipe.CHEMICAL_INJECTION_CHAMBER, true, false, false),
         INFUSING("Infusing", "metalinfuser", MachineType.METALLURGIC_INFUSER, MachineFuelType.BASIC, false, Recipe.METALLURGIC_INFUSER),
         SAWING("Sawing", "sawmill", MachineType.PRECISION_SAWMILL, MachineFuelType.CHANCE, false, Recipe.PRECISION_SAWMILL),
         STAMPING("Stamping", "stamping", MachineType.STAMPING, MachineFuelType.BASIC, false, Recipe.STAMPING),
@@ -87,14 +87,14 @@ public interface IFactory {
         AllOY("Alloy", "alloy", MachineType.ALLOY, MachineFuelType.DOUBLE, false, Recipe.ALLOY),
         EXTRACTOR("Extractor", "extractor", MachineType.CELL_EXTRACTOR, MachineFuelType.CHANCE, false, Recipe.CELL_EXTRACTOR),
         SEPARATOR("Separator", "separator", MachineType.CELL_SEPARATOR, MachineFuelType.CHANCE, false, Recipe.CELL_SEPARATOR),
-        FARM("Farm", "farm", MachineType.ORGANIC_FARM, MachineFuelType.FARM, true, Recipe.ORGANIC_FARM),
+        FARM("Farm", "farm", MachineType.ORGANIC_FARM, MachineFuelType.FARM, true, Recipe.ORGANIC_FARM, true, false, false),
         RECYCLER("Recycler", "Recycler", MachineType.RECYCLER, MachineFuelType.CHANCE2, false, Recipe.RECYCLER),
-        Crystallizer("Crystallizer", "crystallizer", MachineType.CHEMICAL_CRYSTALLIZER, MachineFuelType.BASIC, false, Recipe.CHEMICAL_CRYSTALLIZER,false, false),
-        Dissolution("Dissolution", "dissolution", MachineType.CHEMICAL_DISSOLUTION_CHAMBER, MachineFuelType.BASIC, true, Recipe.CHEMICAL_DISSOLUTION_CHAMBER),
-        PRC("PRC", "prc", MachineType.PRESSURIZED_REACTION_CHAMBER, MachineFuelType.BASIC, false, Recipe.PRESSURIZED_REACTION_CHAMBER,false, false),
-        OXIDIZER("Oxidizer", "oxidizer", MachineType.CHEMICAL_OXIDIZER, MachineFuelType.BASIC, false, Recipe.CHEMICAL_OXIDIZER,false, false),
-        NUCLEOSYNTHESIZER("Nucleosynthesizer", "nucleosynthesizer", MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER, MachineFuelType.BASIC, false, Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER,false, false),
-        WASHER("Washer", "washer", MachineType.CHEMICAL_WASHER, MachineFuelType.BASIC, false, Recipe.CHEMICAL_WASHER,false, false);
+        Crystallizer("Crystallizer", "crystallizer", MachineType.CHEMICAL_CRYSTALLIZER, MachineFuelType.BASIC, false, Recipe.CHEMICAL_CRYSTALLIZER, false, false, false, true, true, false, false),
+        Dissolution("Dissolution", "dissolution", MachineType.CHEMICAL_DISSOLUTION_CHAMBER, MachineFuelType.BASIC, true, Recipe.CHEMICAL_DISSOLUTION_CHAMBER, true, true, true, false, true, true, false),
+        PRC("PRC", "prc", MachineType.PRESSURIZED_REACTION_CHAMBER, MachineFuelType.BASIC, false, Recipe.PRESSURIZED_REACTION_CHAMBER, false, false, true, true, true, true, true),
+        OXIDIZER("Oxidizer", "oxidizer", MachineType.CHEMICAL_OXIDIZER, MachineFuelType.BASIC, false, Recipe.CHEMICAL_OXIDIZER, false, false, true, false, false, true, false),
+        NUCLEOSYNTHESIZER("Nucleosynthesizer", "nucleosynthesizer", MachineType.ANTIPROTONIC_NUCLEOSYNTHESIZER, MachineFuelType.BASIC, false, Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER, false, false, true, true, true, false, false),
+        WASHER("Washer", "washer", MachineType.CHEMICAL_WASHER, MachineFuelType.BASIC, false, Recipe.CHEMICAL_WASHER, false, false, false, false, true, true, true);
 
         private String name;
         private SoundEvent sound;
@@ -107,13 +107,22 @@ public interface IFactory {
         private TileEntityFarmMachine FarmMachineCacheTile;
         public boolean isFullBlock;
         public boolean isOpaqueCube;
+        public boolean canInputItem;
+        public boolean canOutputItem;
+        public boolean canInputGas;
+        public boolean canOuputGas;
+        public boolean canInputFliud;
 
 
         RecipeType(String s, String s1, MachineType t, MachineFuelType ft, boolean speed, Recipe r) {
-            this(s,s1,t,ft,speed,r,true,true);
+            this(s, s1, t, ft, speed, r, true, true, true, true, false, false, false);
         }
 
-        RecipeType(String s, String s1, MachineType t, MachineFuelType ft, boolean speed, Recipe r,boolean fullBlock, boolean opaque) {
+        RecipeType(String s, String s1, MachineType t, MachineFuelType ft, boolean speed, Recipe r, boolean inputGas, boolean outputGas, boolean inputFliud) {
+            this(s, s1, t, ft, speed, r, true, true, true, true, inputGas, outputGas, inputFliud);
+        }
+
+        RecipeType(String s, String s1, MachineType t, MachineFuelType ft, boolean speed, Recipe r, boolean fullBlock, boolean opaque, boolean inputItem, boolean outputItem, boolean inputGas, boolean outputGas, boolean inputFliud) {
             name = s;
             sound = new SoundEvent(new ResourceLocation(Mekanism.MODID, "tile.machine." + s1));
             type = t;
@@ -122,6 +131,11 @@ public interface IFactory {
             recipe = r;
             isFullBlock = fullBlock;
             isOpaqueCube = opaque;
+            canInputItem = inputItem;
+            canOutputItem = outputItem;
+            canInputGas = inputGas;
+            canOuputGas = outputGas;
+            canInputFliud = inputFliud;
         }
 
         public static RecipeType getFromMachine(Block block, int meta) {
@@ -359,7 +373,7 @@ public interface IFactory {
             return false;
         }
 
-        public boolean hasRecipeForInput(ItemStack stack){
+        public boolean hasRecipeForInput(ItemStack stack) {
             if (stack.isEmpty()) {
                 return false;
             }
@@ -369,27 +383,27 @@ public interface IFactory {
                         return true;
                     }
                 }
-                if (((Map.Entry<?, ?>) obj).getKey() instanceof ItemStackInput input){
+                if (((Map.Entry<?, ?>) obj).getKey() instanceof ItemStackInput input) {
                     if (StackUtils.equalsWildcardWithNBT(input.ingredient, stack)) {
                         return true;
                     }
                 }
-                if (((Map.Entry<?, ?>) obj).getKey() instanceof DoubleMachineInput input){
+                if (((Map.Entry<?, ?>) obj).getKey() instanceof DoubleMachineInput input) {
                     if (ItemHandlerHelper.canItemStacksStack(input.itemStack, stack)) {
                         return true;
                     }
                 }
-                if (((Map.Entry<?, ?>) obj).getKey() instanceof InfusionInput input){
+                if (((Map.Entry<?, ?>) obj).getKey() instanceof InfusionInput input) {
                     if (ItemHandlerHelper.canItemStacksStack(input.inputStack, stack)) {
                         return true;
                     }
                 }
-                if (((Map.Entry<?, ?>) obj).getKey() instanceof NucleosynthesizerInput input){
+                if (((Map.Entry<?, ?>) obj).getKey() instanceof NucleosynthesizerInput input) {
                     if (ItemHandlerHelper.canItemStacksStack(input.getSolid(), stack)) {
                         return true;
                     }
                 }
-                if (((Map.Entry<?, ?>) obj).getKey() instanceof PressurizedInput input){
+                if (((Map.Entry<?, ?>) obj).getKey() instanceof PressurizedInput input) {
                     if (ItemHandlerHelper.canItemStacksStack(input.getSolid(), stack)) {
                         return true;
                     }
@@ -456,12 +470,32 @@ public interface IFactory {
             return type;
         }
 
-        public Recipe  getrecipe(){
+        public Recipe getrecipe() {
             return recipe;
         }
 
         public boolean supportsGas() {
-            return fuelType == MachineFuelType.ADVANCED || this == Dissolution || this == Crystallizer || this == PRC || this == WASHER || fuelType ==MachineFuelType.FARM || this == NUCLEOSYNTHESIZER ;
+            return fuelType == MachineFuelType.ADVANCED || this == Dissolution || this == Crystallizer || this == PRC || this == WASHER || fuelType == MachineFuelType.FARM || this == NUCLEOSYNTHESIZER;
+        }
+
+        public boolean getCanInputItem() {
+            return canInputItem;
+        }
+
+        public boolean getCanOuputItem() {
+            return canOutputItem;
+        }
+
+        public boolean getCanInputGas() {
+            return canInputGas;
+        }
+
+        public boolean getCanOuputGas() {
+            return canOuputGas;
+        }
+
+        public boolean getCanInputFluid() {
+            return canInputFliud;
         }
     }
 }

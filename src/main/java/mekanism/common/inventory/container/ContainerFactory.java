@@ -42,34 +42,22 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
             }
         });
         addSlotToContainer(new SlotOutput(tileEntity, 3, xTypeSlot, 112));
-        addSlotToContainer(new FactoryExtraSlot(tileEntity, 4, 7, 57) {
-        });
+        addSlotToContainer(new FactoryExtraSlot(tileEntity, 4, 7, 57));
 
         int xOffset = tileEntity.tier == FactoryTier.BASIC ? 55 : tileEntity.tier == FactoryTier.ADVANCED ? 35 : tileEntity.tier == FactoryTier.ELITE ? 29 : 27;
         int xDistance = tileEntity.tier == FactoryTier.BASIC ? 38 : tileEntity.tier == FactoryTier.ADVANCED ? 26 : 19;
 
         for (int i = 0; i < tileEntity.tier.processes; i++) {
-            if (tileEntity.NoItemInputMachine()) {
-                addSlotToContainer(new FactoryInputSlot(tileEntity, getInputSlotIndex(i), 7, 35, i, false, false));
-            } else {
-                addSlotToContainer(new FactoryInputSlot(tileEntity, getInputSlotIndex(i), xOffset + (i * xDistance), 13, i, true, true));
-            }
+            addSlotToContainer(new FactoryInputSlot(tileEntity, getInputSlotIndex(i), xOffset + (i * xDistance), 13, i, !tileEntity.NoItemInputMachine(), !tileEntity.NoItemInputMachine()));
         }
         for (int i = 0; i < tileEntity.tier.processes; i++) {
-            if (tileEntity.GasOutputMachine()) {
-                addSlotToContainer(new FactoryOutputSlot(tileEntity, getOutputSlotIndex(i), 7, 35, false));
-            } else {
-                addSlotToContainer(new FactoryOutputSlot(tileEntity, getOutputSlotIndex(i), xOffset + (i * xDistance), 57, true));
-            }
+            addSlotToContainer(new FactoryOutputSlot(tileEntity, getOutputSlotIndex(i), xOffset + (i * xDistance), 57, tileEntity.OuputItemMachine()));
         }
 
         for (int i = 0; i < tileEntity.tier.processes; i++) {
-            if (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.FARM || tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.CHANCE) {
-                addSlotToContainer(new FactoryOutputSlot(tileEntity, getSecondaryOutputSlotIndex(i), xOffset + (i * xDistance), 78, true));
-            } else {
-                addSlotToContainer(new FactoryOutputSlot(tileEntity, getSecondaryOutputSlotIndex(i), 7, 35, false) {
-                }); //Secondary output slots are reserved to prevent errors
-            }
+            boolean Secondary = tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.FARM || tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.CHANCE;
+            addSlotToContainer(new FactoryOutputSlot(tileEntity, getSecondaryOutputSlotIndex(i), xOffset + (i * xDistance), 78, Secondary));
+
         }
     }
 
@@ -220,6 +208,7 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
         private final int processNumber;
         public boolean itemValid;
         public boolean enabled;
+
         private FactoryInputSlot(IInventory inventoryIn, int index, int xPosition, int yPosition, int processNumber, boolean itemValid, boolean enabled) {
             super(inventoryIn, index, xPosition, yPosition);
             this.processNumber = processNumber;
@@ -239,40 +228,40 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
             return enabled;
         }
 
-        private boolean isInputItem(ItemStack itemstack){
-            if (!tileEntity.NoItemInputMachine()){
-                for(Object obj : tileEntity.getRecipeType().getrecipe().get().entrySet()){
+        private boolean isInputItem(ItemStack itemstack) {
+            if (!tileEntity.NoItemInputMachine()) {
+                for (Object obj : tileEntity.getRecipeType().getrecipe().get().entrySet()) {
                     if (((Map.Entry<?, ?>) obj).getKey() instanceof AdvancedMachineInput input) {
                         ItemStack stack = input.itemStack;
                         if (ItemHandlerHelper.canItemStacksStack(stack, itemstack)) {
                             return true;
                         }
                     }
-                    if (((Map.Entry<?, ?>) obj).getKey() instanceof ItemStackInput input){
+                    if (((Map.Entry<?, ?>) obj).getKey() instanceof ItemStackInput input) {
                         ItemStack stack = input.ingredient;
                         if (StackUtils.equalsWildcardWithNBT(stack, itemstack)) {
                             return true;
                         }
                     }
-                    if (((Map.Entry<?, ?>) obj).getKey() instanceof DoubleMachineInput input){
+                    if (((Map.Entry<?, ?>) obj).getKey() instanceof DoubleMachineInput input) {
                         ItemStack stack = input.itemStack;
                         if (ItemHandlerHelper.canItemStacksStack(stack, itemstack)) {
                             return true;
                         }
                     }
-                    if (((Map.Entry<?, ?>) obj).getKey() instanceof InfusionInput input){
-                        ItemStack stack =input.inputStack;
+                    if (((Map.Entry<?, ?>) obj).getKey() instanceof InfusionInput input) {
+                        ItemStack stack = input.inputStack;
                         if (ItemHandlerHelper.canItemStacksStack(stack, itemstack)) {
                             return true;
                         }
                     }
-                    if (((Map.Entry<?, ?>) obj).getKey() instanceof NucleosynthesizerInput input){
+                    if (((Map.Entry<?, ?>) obj).getKey() instanceof NucleosynthesizerInput input) {
                         ItemStack stack = input.getSolid();
                         if (ItemHandlerHelper.canItemStacksStack(stack, itemstack)) {
                             return true;
                         }
                     }
-                    if (((Map.Entry<?, ?>) obj).getKey() instanceof PressurizedInput input){
+                    if (((Map.Entry<?, ?>) obj).getKey() instanceof PressurizedInput input) {
                         ItemStack stack = input.getSolid();
                         if (ItemHandlerHelper.canItemStacksStack(stack, itemstack)) {
                             return true;
@@ -281,29 +270,25 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
                 }
                 return false;
             }
-           return false;
+            return false;
         }
     }
 
 
-
-
-
-
     private class FactoryOutputSlot extends SlotOutput {
         public boolean Enabled;
+
         public FactoryOutputSlot(IInventory inventory, int index, int x, int y, boolean enabled) {
             super(inventory, index, x, y);
             Enabled = enabled;
         }
+
         @Override
         @SideOnly(Side.CLIENT)
         public boolean isEnabled() {
             return Enabled;
         }
     }
-
-
 
 
     private class FactoryExtraSlot extends Slot {
@@ -314,13 +299,13 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
 
         @Override
         public boolean isItemValid(ItemStack stack) {
-            return (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.DOUBLE || tileEntity.getRecipeType() == RecipeType.INFUSING || tileEntity.GasAdvancedInputMachine() || tileEntity.GasInputMachine());
+            return (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.DOUBLE || tileEntity.getRecipeType() == RecipeType.INFUSING || tileEntity.GasInputMachine());
         }
 
         @Override
         @SideOnly(Side.CLIENT)
         public boolean isEnabled() {
-            return (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.DOUBLE || tileEntity.getRecipeType() == RecipeType.INFUSING || tileEntity.GasAdvancedInputMachine() || tileEntity.GasInputMachine());
+            return (tileEntity.getRecipeType().getFuelType() == IFactory.MachineFuelType.DOUBLE || tileEntity.getRecipeType() == RecipeType.INFUSING || tileEntity.GasInputMachine());
         }
 
     }

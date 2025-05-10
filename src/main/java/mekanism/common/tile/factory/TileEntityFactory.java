@@ -106,7 +106,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     public FluidInput waterInput = new FluidInput(new FluidStack(FluidRegistry.WATER, WATER_USAGE));
     public int delayTicks;
-    private boolean  machineUsesItem;
+    private boolean machineUsesItem;
     private boolean isMachineUsesItem = true;
     private boolean machineUsesGAS;
     private boolean isMachineUsesGAS = true;
@@ -391,9 +391,11 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public void addTileSyncTask() {
-        AutomaticallyExtractItems(9);
-        AutomaticallyExtractItems(10);
-        BetterEjectingItem();
+        if (!NoItemMachine()) {
+            AutomaticallyExtractItems(9);
+            AutomaticallyExtractItems(10);
+            BetterEjectingItem();
+        }
     }
 
     @Override
@@ -574,31 +576,35 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
      */
     //TODO
     public boolean NoItemInputMachine() {
-        return recipeType == RecipeType.Crystallizer || recipeType == RecipeType.WASHER;
+        return !recipeType.getCanInputItem();
+    }
+
+    public boolean NoItemMachine() {
+        return !recipeType.getCanInputItem() && !recipeType.getCanOuputItem();
+    }
+    public boolean OuputItemMachine(){
+        return recipeType.getCanOuputItem();
     }
 
     public boolean GasOutputMachine() {
-        return recipeType == RecipeType.Dissolution || recipeType == RecipeType.OXIDIZER || recipeType == RecipeType.WASHER;
+        return recipeType.getCanOuputGas();
     }
 
     public boolean GasInputMachine() {
-        return recipeType == RecipeType.Dissolution || recipeType == RecipeType.Crystallizer || recipeType == RecipeType.PRC || recipeType == RecipeType.WASHER;
+        return recipeType.getCanInputGas();
     }
 
     public boolean GasAdvancedInputMachine() {
         return recipeType.getFuelType() == MachineFuelType.FARM || recipeType.getFuelType() == MachineFuelType.ADVANCED || recipeType == RecipeType.NUCLEOSYNTHESIZER;
     }
 
-    public boolean GasOutputMachines() {
-        return recipeType == RecipeType.Dissolution || recipeType == RecipeType.OXIDIZER || recipeType == RecipeType.WASHER || recipeType == RecipeType.PRC;
-    }
 
     public boolean GasMachine() {
-        return recipeType == RecipeType.OXIDIZER || recipeType == RecipeType.Dissolution || recipeType == RecipeType.Crystallizer || recipeType == RecipeType.PRC || recipeType == RecipeType.WASHER || recipeType.getFuelType() == MachineFuelType.FARM || recipeType.getFuelType() == MachineFuelType.ADVANCED || recipeType == RecipeType.NUCLEOSYNTHESIZER;
+        return recipeType.getCanInputGas() || recipeType.getCanOuputGas();
     }
 
     public boolean inputFluidMachine() {
-        return recipeType == RecipeType.PRC || recipeType == RecipeType.WASHER;
+        return recipeType.getCanInputFluid();
     }
 
     /**
@@ -697,7 +703,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     public void handleSecondaryFuel() {
         ItemStack extra = inventory.get(4);
         if (!extra.isEmpty()) {
-            if ((GasInputMachine() || GasAdvancedInputMachine()) && gasTank.getNeeded() > 0) {
+            if (GasInputMachine() && gasTank.getNeeded() > 0) {
                 GasStack gasStack = getItemGas(extra);
                 if (gasStack != null) {
                     Gas gas = gasStack.getGas();
@@ -819,7 +825,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         } else if (slotID == 1) {
             return ChargeUtils.canBeDischarged(itemstack);
         } else if (slotID == 4) {
-            if (GasInputMachine() || GasAdvancedInputMachine()) {
+            if (GasInputMachine()) {
                 return getItemGas(itemstack) != null;
             } else if (recipeType.getFuelType() == MachineFuelType.DOUBLE) {
                 return recipeType.hasRecipeForExtra(itemstack);
@@ -1182,8 +1188,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         nbtTags.setTag("fluidTank", fluidTank.writeToNBT(new NBTTagCompound()));
         nbtTags.setTag("gasTank", gasTank.write(new NBTTagCompound()));
         nbtTags.setTag("gasOutTank", gasOutTank.write(new NBTTagCompound()));
-        nbtTags.setBoolean("machineUsesItem",machineUsesItem);
-        nbtTags.setBoolean("isMachineUsesItem",isMachineUsesItem);
+        nbtTags.setBoolean("machineUsesItem", machineUsesItem);
+        nbtTags.setBoolean("isMachineUsesItem", isMachineUsesItem);
         nbtTags.setBoolean("machineUsesGAS", machineUsesGAS);
         nbtTags.setBoolean("isMachineUsesGAS", isMachineUsesGAS);
         nbtTags.setBoolean("machineUsesFluid", machineUsesFluid);
@@ -1297,7 +1303,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public int fill(EnumFacing from, @Nonnull FluidStack resource, boolean doFill) {
-        return fluidTank.fill(resource, doFill);
+        return inputFluidMachine() ? fluidTank.fill(resource, doFill) : 0;
     }
 
     @Override
@@ -1324,7 +1330,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     @Nonnull
     @Override
     public int[] getSlotsForFace(@Nonnull EnumFacing side) {
-        return configComponent.getOutput(TransmissionType.ITEM, side, facing).availableSlots;
+        return NoItemMachine() ? InventoryUtils.EMPTY : configComponent.getOutput(TransmissionType.ITEM, side, facing).availableSlots;
     }
 
     @Override
@@ -1344,7 +1350,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
-        if (canReceiveGas(side, stack.getGas())) {
+        if (GasMachine() && canReceiveGas(side, stack.getGas())) {
             return gasTank.receive(stack, doTransfer);
         }
         return 0;
@@ -1352,7 +1358,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public GasStack drawGas(EnumFacing side, int amount, boolean doTransfer) {
-        if (canDrawGas(side, null)) {
+        if (GasOutputMachine() && canDrawGas(side, null)) {
             return gasOutTank.draw(amount, doTransfer);
         }
         return null;
@@ -1360,20 +1366,14 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        return switch (recipeType.getFuelType()) {
-            case ADVANCED, FARM ->
-                    configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasTank.canReceive(type) && recipeType.canReceiveGas(side, type);
+        return configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasTank.canReceive(type) && switch (recipeType.getFuelType()) {
+            case ADVANCED, FARM -> recipeType.canReceiveGas(side, type);
             default -> switch (recipeType) {
-                case Crystallizer ->
-                        configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasTank.canReceive(type) && RecipeHandler.Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(type);
-                case Dissolution ->
-                        configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasTank.canReceive(type) && type == MekanismFluids.SulfuricAcid;
-                case PRC ->
-                        configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasTank.canReceive(type) && RecipeHandler.Recipe.PRESSURIZED_REACTION_CHAMBER.containsRecipe(type);
-                case NUCLEOSYNTHESIZER ->
-                        configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasTank.canReceive(type) && RecipeHandler.Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER.containsRecipe(type);
-                case WASHER ->
-                        configComponent.getOutput(TransmissionType.GAS, side, facing).hasSlot(1) && gasTank.canReceive(type) && RecipeHandler.Recipe.CHEMICAL_WASHER.containsRecipe(type);
+                case Crystallizer -> RecipeHandler.Recipe.CHEMICAL_CRYSTALLIZER.containsRecipe(type);
+                case Dissolution -> type == MekanismFluids.SulfuricAcid;
+                case PRC -> RecipeHandler.Recipe.PRESSURIZED_REACTION_CHAMBER.containsRecipe(type);
+                case NUCLEOSYNTHESIZER -> RecipeHandler.Recipe.ANTIPROTONIC_NUCLEOSYNTHESIZER.containsRecipe(type);
+                case WASHER -> RecipeHandler.Recipe.CHEMICAL_WASHER.containsRecipe(type);
                 default -> false;
             };
         };
@@ -1566,8 +1566,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         return cached;
     }
 
+
     private void CheckTheFaceSettings() {
-        if (NoItemInputMachine()) {
+        if (NoItemMachine()) {
             configComponent.removeSupported(TransmissionType.ITEM);
             configComponent.removeConfig(TransmissionType.ITEM);
             ejectorComponent.removeOutputData(TransmissionType.ITEM);
@@ -1576,7 +1577,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             machineUsesItem = false;
             isMachineUsesItem = true;
         } else {
-            if (!machineUsesItem && isMachineUsesItem){
+            if (!machineUsesItem && isMachineUsesItem) {
                 configComponent.addSupported(TransmissionType.ITEM);
                 configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.NONE, InventoryUtils.EMPTY));
                 configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT, getSlotsWithTier(tier)));
@@ -1617,7 +1618,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             }
         }
 
-        if (!GasOutputMachines()) {
+        if (!GasOutputMachine()) {
             configComponent.setEjecting(TransmissionType.GAS, false);
             configComponent.setCanEject(TransmissionType.GAS, false);
         } else {
