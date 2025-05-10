@@ -65,6 +65,22 @@ public class TileComponentEjector implements ITileComponent {
         return this;
     }
 
+    public TileComponentEjector removeOutputData(TransmissionType type) {
+        sideData.remove(type);
+        return this;
+    }
+
+    public TileComponentEjector removeInputOutputData(TransmissionType type) {
+        sideData2.remove(type);
+        return this;
+    }
+
+
+    public TileComponentEjector removeInputExtraOutputData(TransmissionType type) {
+        sideData3.remove(type);
+        return this;
+    }
+
     public void readFrom(TileComponentEjector ejector) {
         strictInput = ejector.strictInput;
         outputColor = ejector.outputColor;

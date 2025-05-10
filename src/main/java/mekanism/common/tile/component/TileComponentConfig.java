@@ -32,6 +32,7 @@ public class TileComponentConfig implements ITileComponent {
     private Map<TransmissionType, Boolean> ejecting = new EnumMap<>(TransmissionType.class);
     private Map<TransmissionType, Boolean> canEject = new EnumMap<>(TransmissionType.class);
 
+
     public TileComponentConfig(TileEntityContainerBlock tile, TransmissionType... types) {
         tileEntity = tile;
         for (TransmissionType type : types) {
@@ -49,6 +50,13 @@ public class TileComponentConfig implements ITileComponent {
         ejecting = config.ejecting;
         canEject = config.canEject;
         transmissions = config.transmissions;
+    }
+
+    public void removeSupported(TransmissionType type) {
+        transmissions.remove(type);
+        sideOutputs.remove(type);
+        ejecting.remove(type);
+        canEject.remove(type);
     }
 
     public void addSupported(TransmissionType type) {
@@ -100,6 +108,10 @@ public class TileComponentConfig implements ITileComponent {
         return false;
     }
 
+    public void removeCanEject(TransmissionType type){
+        canEject.remove(type);
+    }
+
     public void setCanEject(TransmissionType type, boolean eject) {
         canEject.put(type, eject);
     }
@@ -139,6 +151,11 @@ public class TileComponentConfig implements ITileComponent {
         setCanEject(type, false);
     }
 
+    public void removeInputConfig(TransmissionType type) {
+        removeConfig(type);
+        removeCanEject(type);
+    }
+
     public void setConfig(TransmissionType type, byte[] config) {
         assert config.length == EnumFacing.VALUES.length;
         if (MekanismConfig.current().mekce.EnableTheDefaultConfiguration.val()) {
@@ -159,6 +176,15 @@ public class TileComponentConfig implements ITileComponent {
 
     public void addOutput(TransmissionType type, SideData data) {
         sideOutputs.get(type).add(data);
+    }
+
+    public void removeConfig(TransmissionType type){
+        sideConfigs.remove(type);
+    }
+
+    public TileComponentConfig removeOutput(TransmissionType type, SideData data){
+        sideOutputs.get(type).remove(data);
+        return this;
     }
 
     public ArrayList<SideData> getOutputs(TransmissionType type) {
