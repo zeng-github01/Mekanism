@@ -476,7 +476,11 @@ public class MekanismRecipe {
     //获取所有物品(不包括空气)
     public static List<ItemStack> getRegistriesStacks() {
         List<ItemStack> stacks = new ArrayList<>();
-        ForgeRegistries.ITEMS.forEach(item -> {
+        for (Item item : ForgeRegistries.ITEMS) {
+            //跳过物品类型的空气
+            if (item == Items.AIR) {
+                continue;
+            }
             if (item.getHasSubtypes()) {
                 ItemStack stack = new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE);
                 if (!stack.isEmpty()) {
@@ -485,9 +489,7 @@ public class MekanismRecipe {
             } else {
                 stacks.add(new ItemStack(item));
             }
-        });
-        //移除空气
-        stacks.remove(new ItemStack(Items.AIR));
+        }
         return stacks;
     }
 

@@ -29,7 +29,7 @@ public class GuiModificationStation extends GuiMekanismTile<TileEntityModificati
             public double getProgress() {
                 return tileEntity.getScaledProgress();
             }
-        }, GuiProgress.ProgressBar.LARGE_RIGHT, this, resource, 53, 37,false));
+        }, GuiProgress.ProgressBar.LARGE_RIGHT, this, resource, 53, 37,true,false));
         addGuiElement(new GuiPlayerSlot(this, resource));
     }
 
