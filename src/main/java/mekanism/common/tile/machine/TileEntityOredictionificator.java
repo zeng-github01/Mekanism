@@ -66,13 +66,16 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
     }
 
     @Override
+    public void onUpdateServer(){
+        super.onUpdateServer();
+        if (!playersUsing.isEmpty()) {
+            playersUsing.forEach(player ->  Mekanism.packetHandler.sendTo(new TileEntityMessage(this, getGenericPacket(new TileNetworkList())), (EntityPlayerMP) player));
+        }
+    }
+
+    @Override
     public void onAsyncUpdateServer() {
         super.onAsyncUpdateServer();
-        if (!playersUsing.isEmpty()) {
-            for (EntityPlayer player : playersUsing) {
-                Mekanism.packetHandler.sendTo(new TileEntityMessage(this, getGenericPacket(new TileNetworkList())), (EntityPlayerMP) player);
-            }
-        }
         didProcess = false;
         ItemStack inputStack = inventory.get(0);
         if (MekanismUtils.canFunction(this) && !inputStack.isEmpty() && getValidName(inputStack) != null) {

@@ -118,11 +118,9 @@ public class TileEntityLogisticalSorter extends TileEntityEffectsBlock implement
 
             delayTicks = 10;
         }
-//        if (!playersUsing.isEmpty()) {
-//            for (EntityPlayer player : playersUsing) {
-//                Mekanism.packetHandler.sendTo(new TileEntityMessage(this, getGenericPacket(new TileNetworkList())), (EntityPlayerMP) player);
-//            }
-//        }
+        if (!playersUsing.isEmpty()) {
+            playersUsing.forEach(player ->  Mekanism.packetHandler.sendTo(new TileEntityMessage(this, getGenericPacket(new TileNetworkList())), (EntityPlayerMP) player));
+        }
 
         int newRedstoneLevel = getRedstoneLevel();
         if (newRedstoneLevel != currentRedstoneLevel) {
