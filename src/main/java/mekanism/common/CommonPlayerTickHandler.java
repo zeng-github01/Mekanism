@@ -25,7 +25,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
@@ -123,11 +122,11 @@ public class CommonPlayerTickHandler {
                 player.setAir(player.getAir() + received.amount);
             }
             if (player.getAir() == max) {
-                for (PotionEffect effect : player.getActivePotionEffects()) {
+                player.getActivePotionEffects().forEach(effect -> {
                     for (int i = 0; i < 9; i++) {
                         MekanismUtils.speedUpEffectSafely(player, effect);
                     }
-                }
+                });
             }
         }
         Mekanism.playerState.updateFlightInfo(player);

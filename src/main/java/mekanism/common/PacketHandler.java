@@ -216,9 +216,9 @@ public class PacketHandler {
         netHandler.registerMessage(PacketUpdateModuleSettings.class, UpdateModuleSettingsMessage.class, 42, Side.CLIENT);
         netHandler.registerMessage(PacketUpdateModuleSettings.class, UpdateModuleSettingsMessage.class, 42, Side.SERVER);
         // netHandler.registerMessage(PacketRemoveModule.class, RemoveModuleMessage.class, 43, Side.SERVER);
-        netHandler.registerMessage(PacketShowModeChange.class,PacketShowModeChange.ShowModeChangeMessage.class,44,Side.CLIENT);
-        netHandler.registerMessage(PacketOpenGui.class,PacketOpenGui.OpenGui.class,45,Side.CLIENT);
-        netHandler.registerMessage(PacketOpenGui.class,PacketOpenGui.OpenGui.class,45,Side.SERVER);
+        netHandler.registerMessage(PacketShowModeChange.class, PacketShowModeChange.ShowModeChangeMessage.class, 44, Side.CLIENT);
+        netHandler.registerMessage(PacketOpenGui.class, PacketOpenGui.OpenGui.class, 45, Side.CLIENT);
+        netHandler.registerMessage(PacketOpenGui.class, PacketOpenGui.OpenGui.class, 45, Side.SERVER);
     }
 
     @Optional.Method(modid = MekanismHooks.Baubles_MOD_ID)
@@ -284,11 +284,11 @@ public class PacketHandler {
     public synchronized void sendToCuboid(IMessage message, AxisAlignedBB cuboid, int dimId) {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
         if (server != null && cuboid != null) {
-            for (EntityPlayerMP player : server.getPlayerList().getPlayers()) {
+            server.getPlayerList().getPlayers().forEach(player -> {
                 if (player.dimension == dimId && cuboid.contains(new Vec3d(player.posX, player.posY, player.posZ))) {
                     sendTo(message, player);
                 }
-            }
+            });
         }
     }
 

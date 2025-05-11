@@ -52,7 +52,7 @@ public class GlowPanelModel extends OBJBakedModelBase {
             .put(TransformType.FIXED, get(0, 0, 0, 0, 0, 0, 1))
             .put(TransformType.NONE, get(0, 0, 0, 0, 0, 0, 0))
             .build();
-    private static Int2ObjectMap< List<BakedQuad>> glowPanelCache = new Int2ObjectOpenHashMap<>();
+    private static Int2ObjectMap<List<BakedQuad>> glowPanelCache = new Int2ObjectOpenHashMap<>();
     private static Int2ObjectMap<GlowPanelModel> glowPanelItemCache = new Int2ObjectOpenHashMap<>();
     private IBlockState tempState;
     private ItemStack tempStack;
@@ -154,10 +154,7 @@ public class GlowPanelModel extends OBJBakedModelBase {
             ImmutableMap.Builder<String, TextureAtlasSprite> builder = ImmutableMap.builder();
             builder.put(ModelLoader.White.LOCATION.toString(), ModelLoader.White.INSTANCE);
             TextureAtlasSprite missing = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(new ResourceLocation("missingno").toString());
-
-            for (String s : getModel().getMatLib().getMaterialNames()) {
-                builder.put(s, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(getModel().getMatLib().getMaterial(s).getTexture().getTextureLocation().toString()));
-            }
+            getModel().getMatLib().getMaterialNames().forEach(s -> builder.put(s, Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(getModel().getMatLib().getMaterial(s).getTexture().getTextureLocation().toString())));
 
             builder.put("missingno", missing);
             GlowPanelModel bakedModel = new GlowPanelModel(baseModel, getModel(), getState(), vertexFormat, builder.build(), transformationMap);

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.api.infuse.InfuseType;
+import mekanism.common.MekanismFluids;
 import mekanism.common.MekanismItems;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.recipe.inputs.*;
@@ -37,14 +38,12 @@ public final class RecipeHandler {
     public static <INPUT extends MachineInput<INPUT>, OUTPUT extends MachineOutput<OUTPUT>, RECIPE extends MachineRecipe<INPUT, OUTPUT, RECIPE>>
     void removeRecipe(@Nonnull Recipe<INPUT, OUTPUT, RECIPE> recipeMap, @Nonnull RECIPE recipe) {
         List<INPUT> toRemove = new ArrayList<>();
-        for (INPUT iterInput : recipeMap.get().keySet()) {
+        recipeMap.get().keySet().forEach(iterInput -> {
             if (iterInput.testEquality(recipe.getInput())) {
                 toRemove.add(iterInput);
             }
-        }
-        for (INPUT iterInput : toRemove) {
-            recipeMap.get().remove(iterInput);
-        }
+        });
+        toRemove.forEach(iterInput -> recipeMap.get().remove(iterInput));
     }
 
     /**
@@ -241,6 +240,9 @@ public final class RecipeHandler {
         addRecipe(Recipe.SOLAR_NEUTRON_ACTIVATOR, new SolarNeutronRecipe(inputGas, outputGas));
     }
 
+    public static void addAmbientGas(int dimensionID) {
+        addAmbientGas(dimensionID,new GasStack(MekanismFluids.UnstableDimensional, 1), 1F / 5F);
+    }
     public static void addAmbientGas(int dimensionID, GasStack outputGas, double chance) {
         addRecipe(Recipe.AMBIENT_ACCUMULATOR, new AmbientGasRecipe(dimensionID, outputGas, chance));
         addRecipe(Recipe.AMBIENT_ACCUMULATOR_ENERGY, new AmbientGasRecipe(dimensionID, outputGas, chance));

@@ -210,9 +210,7 @@ public class TileEntityMidsizeGasTank extends TileEntityContainerBlock implement
             if (type == 1) {
                 gasTank.setGas(null);
             }
-            for (EntityPlayer player : playersUsing) {
-                Mekanism.packetHandler.sendTo(new PacketTileEntity.TileEntityMessage(this), (EntityPlayerMP) player);
-            }
+            playersUsing.forEach(player -> Mekanism.packetHandler.sendTo(new PacketTileEntity.TileEntityMessage(this), (EntityPlayerMP) player));
 
             return;
         }

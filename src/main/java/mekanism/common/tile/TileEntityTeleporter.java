@@ -258,15 +258,12 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
 
     public void cleanTeleportCache() {
         List<UUID> list = new ArrayList<>();
-        for (Entity e : world.getEntitiesWithinAABB(Entity.class, teleportBounds)) {
-            list.add(e.getPersistentID());
-        }
-        Set<UUID> teleportCopy = new ObjectOpenHashSet<>(didTeleport);
-        for (UUID id : teleportCopy) {
+        world.getEntitiesWithinAABB(Entity.class, teleportBounds).forEach(e -> list.add(e.getPersistentID()));
+        new ObjectOpenHashSet<>(didTeleport).forEach(id -> {
             if (!list.contains(id)) {
                 didTeleport.remove(id);
             }
-        }
+        });
     }
 
     @Nonnull
@@ -318,10 +315,9 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
         if (closestCoords == null) {
             return;
         }
-        for (Entity entity : entitiesInPortal) {
+        entitiesInPortal.forEach(entity -> {
             World teleWorld = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(closestCoords.dimensionId);
             TileEntityTeleporter teleporter = (TileEntityTeleporter) closestCoords.getTileEntity(teleWorld);
-
             if (teleporter != null) {
                 teleporter.didTeleport.add(entity.getPersistentID());
                 teleporter.teleDelay = 5;
@@ -331,13 +327,11 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
                 } else {
                     teleportEntityTo(entity, closestCoords, teleporter);
                 }
-                for (Coord4D coords : frequency.activeCoords) {
-                    Mekanism.packetHandler.sendToAllTracking(new PortalFXMessage(coords), coords);
-                }
+                frequency.activeCoords.forEach(coords -> Mekanism.packetHandler.sendToAllTracking(new PortalFXMessage(coords), coords));
                 setEnergy(getEnergy() - calculateEnergyCost(entity, closestCoords));
                 world.playSound(entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, entity.getSoundCategory(), 1.0F, 1.0F, false);
             }
-        }
+        });
     }
 
     public void teleportEntityTo(Entity entity, Coord4D coord, TileEntityTeleporter teleporter) {
@@ -350,14 +344,13 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
     }
 
     public List<Entity> getToTeleport() {
-
         List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, teleportBounds);
         List<Entity> ret = new ArrayList<>();
-        for (Entity entity : entities) {
+        entities.forEach(entity -> {
             if (!didTeleport.contains(entity.getPersistentID())) {
                 ret.add(entity);
             }
-        }
+        });
         return ret;
     }
 
@@ -489,16 +482,12 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
         data.add(controlType.ordinal());
         data.add(colors.indexOf(color));
         data.add(Mekanism.publicTeleporters.getFrequencies().size());
-        for (Frequency freq : Mekanism.publicTeleporters.getFrequencies()) {
-            freq.write(data);
-        }
+        Mekanism.publicTeleporters.getFrequencies().forEach(freq -> freq.write(data));
 
         FrequencyManager manager = getManager(new Frequency(null, null).setPublic(false));
         if (manager != null) {
             data.add(manager.getFrequencies().size());
-            for (Frequency freq : manager.getFrequencies()) {
-                freq.write(data);
-            }
+            manager.getFrequencies().forEach(freq-> freq.write(data));
         } else {
             data.add(0);
         }

@@ -14,8 +14,6 @@ public class SequentialTaskExecutor extends RecursiveAction {
 
     @Override
     protected void compute() {
-        for (ForkJoinTask<?> task : sequentialTaskList) {
-            task.fork().join();
-        }
+        sequentialTaskList.forEach(task -> task.fork().join());
     }
 }

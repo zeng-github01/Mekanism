@@ -512,11 +512,11 @@ public class Mekanism {
 
         //Add baby skeleton spawner
         if (MekanismConfig.current().general.spawnBabySkeletons.val()) {
-            for (Biome biome : BiomeProvider.allowedBiomes) {
-                if (biome.getSpawnableList(EnumCreatureType.MONSTER) != null && biome.getSpawnableList(EnumCreatureType.MONSTER).size() > 0) {
+            BiomeProvider.allowedBiomes.forEach(biome -> {
+                if (biome.getSpawnableList(EnumCreatureType.MONSTER) != null && !biome.getSpawnableList(EnumCreatureType.MONSTER).isEmpty()) {
                     EntityRegistry.addSpawn(EntityBabySkeleton.class, 40, 1, 3, EnumCreatureType.MONSTER, biome);
                 }
-            }
+            });
         }
 
         //Load this module
@@ -586,10 +586,10 @@ public class Mekanism {
 
         // Add all furnace recipes to the energized smelter
         // Must happen after CraftTweaker for vanilla stuff has run.
-        for (Entry<ItemStack, ItemStack> entry : FurnaceRecipes.instance().getSmeltingList().entrySet()) {
-            SmeltingRecipe recipe = new SmeltingRecipe(new ItemStackInput(entry.getKey()), new ItemStackOutput(entry.getValue()));
+        FurnaceRecipes.instance().getSmeltingList().forEach((key, value) -> {
+            SmeltingRecipe recipe = new SmeltingRecipe(new ItemStackInput(key), new ItemStackOutput(value));
             Recipe.ENERGIZED_SMELTER.put(recipe);
-        }
+        });
 
         hooks.hookPostInit();
 

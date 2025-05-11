@@ -5,8 +5,6 @@ import appeng.api.definitions.IBlocks;
 import appeng.api.definitions.IItems;
 import appeng.api.definitions.IMaterials;
 import dan200.computercraft.api.ComputerCraftAPI;
-import ic2.api.recipe.IRecipeInput;
-import ic2.api.recipe.MachineRecipe;
 import ic2.api.recipe.Recipes;
 import li.cil.oc.api.Driver;
 import mekanism.api.transmitters.TransmissionType;
@@ -36,7 +34,6 @@ import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -232,7 +229,7 @@ public final class MekanismHooks {
 
     @Method(modid = MekanismHooks.IC2_MOD_ID)
     private void hookIC2Recipes() {
-        for (MachineRecipe<IRecipeInput, Collection<ItemStack>> entry : Recipes.macerator.getRecipes()) {
+        Recipes.macerator.getRecipes().forEach(entry -> {
             if (!entry.getInput().getInputs().isEmpty()) {
                 if (!Recipe.CRUSHER.containsRecipe(entry.getInput().getInputs().get(0))) {
                     List<String> names = OreDictCache.getOreDictName(entry.getInput().getInputs().get(0));
@@ -244,7 +241,7 @@ public final class MekanismHooks {
                     }
                 }
             }
-        }
+        });
 
         try {
             Recipes.macerator.addRecipe(Recipes.inputFactory.forOreDict("oreOsmium"), null, false,
@@ -292,9 +289,7 @@ public final class MekanismHooks {
     private void registerCyclicCombinerOreRecipe(String ore, int quantity, ItemStack extra, String outputName) {
         Item outputItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(CYCLIC_MOD_ID, outputName));
         if (outputItem != null) {
-            for (ItemStack stack : OreDictionary.getOres(ore, false)) {
-                RecipeHandler.addCombinerRecipe(StackUtils.size(stack, quantity), extra, new ItemStack(outputItem));
-            }
+            OreDictionary.getOres(ore, false).forEach(stack -> RecipeHandler.addCombinerRecipe(StackUtils.size(stack, quantity), extra, new ItemStack(outputItem)));
         }
     }
 
@@ -403,7 +398,7 @@ public final class MekanismHooks {
                 crystalSeed.get().getSubItems(CreativeTabs.SEARCH, seeds);
                 //Crystal seeds use a meta AND NBT to determine growth state, so we need to ignore the NBT, and use the meta which should be fixed on what stage it's at
                 MachineInput.addCustomItemMatcher(crystalSeed.get().getClass(), (def, test) -> def.getItem() == test.getItem() && def.getMetadata() == test.getMetadata());
-                for (ItemStack stack : seeds) {
+                seeds.forEach(stack -> {
                     String unloc = crystalSeed.get().getTranslationKey(stack);
                     if (unloc.endsWith("certus") && pureCertus.isPresent()) {
                         RecipeHandler.addEnrichmentChamberRecipe(stack, pureCertus.get().copy());
@@ -412,7 +407,7 @@ public final class MekanismHooks {
                     } else if (unloc.endsWith("fluix") && pureFluix.isPresent()) {
                         RecipeHandler.addEnrichmentChamberRecipe(stack, pureFluix.get().copy());
                     }
-                }
+                });
             }
         } catch (Exception e) {
             Mekanism.logger.error("Something went wrong with ae2 integration", e);

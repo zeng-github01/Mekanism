@@ -51,12 +51,12 @@ public class GasNetwork extends DynamicNetwork<IGasHandler, GasNetwork, GasStack
     }
 
     public GasNetwork(Collection<GasNetwork> networks) {
-        for (GasNetwork net : networks) {
+        networks.forEach(net -> {
             if (net != null) {
                 adoptTransmittersAndAcceptorsFrom(net);
                 net.deregister();
             }
-        }
+        });
         gasScale = getScale();
         register();
     }

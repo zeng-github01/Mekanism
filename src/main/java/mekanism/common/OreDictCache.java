@@ -64,14 +64,14 @@ public final class OreDictCache {
         }
 
         List<ItemStack> stacks = new ArrayList<>();
-        for (String key : keys) {
-            for (ItemStack stack : OreDictionary.getOres(key, false)) {
+        keys.forEach(key -> {
+            OreDictionary.getOres(key, false).forEach(stack -> {
                 ItemStack toAdd = stack.copy();
                 if (!stacks.contains(stack) && (!forceBlock || toAdd.getItem() instanceof ItemBlock)) {
                     stacks.add(stack.copy());
                 }
-            }
-        }
+            });
+        });
         oreDictStacks.put(oreName, stacks);
         return stacks;
     }

@@ -163,17 +163,16 @@ public class TileEntityDynamicTank extends TileEntityMultiblock<SynchronizedTank
             TileUtils.addGasStack(data, structure.gasstored);
             if (isRendering) {
                 Set<ValveData> toSend = new ObjectOpenHashSet<>();
-
-                for (ValveData valveData : structure.valves) {
+                structure.valves.forEach(valveData -> {
                     if (valveData.activeTicks > 0) {
                         toSend.add(valveData);
                     }
-                }
+                });
                 data.add(toSend.size());
-                for (ValveData valveData : toSend) {
+                toSend.forEach(valveData -> {
                     valveData.location.write(data);
                     data.add(valveData.side);
-                }
+                });
             }
         }
         return data;

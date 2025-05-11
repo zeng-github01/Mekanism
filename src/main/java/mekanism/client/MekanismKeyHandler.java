@@ -66,11 +66,6 @@ public class MekanismKeyHandler extends MekKeyHandler {
 
     public MekanismKeyHandler() {
         super(BINDINGS);
-        /*
-        for (KeyBinding bindings : BINDINGS.getBindings()){
-            ClientRegistry.registerKeyBinding(bindings);
-        }
-         */
         ClientRegistry.registerKeyBinding(handModeSwitchKey);
         ClientRegistry.registerKeyBinding(headModeSwitchKey);
         ClientRegistry.registerKeyBinding(chestModeSwitchKey);

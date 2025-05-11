@@ -13,7 +13,6 @@ import mekanism.common.tile.TileEntityLogisticalSorter;
 import mekanism.common.tile.machine.TileEntityDigitalMiner;
 import mekanism.common.tile.machine.TileEntityOredictionificator;
 import mekanism.common.tile.machine.TileEntityOredictionificator.OredictionificatorFilter;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -38,9 +37,7 @@ public class PacketEditFilter implements IMessageHandler<EditFilterMessage, IMes
                 if (!message.delete) {
                     sorter.filters.add(index, message.tEdited);
                 }
-                for (EntityPlayer iterPlayer : sorter.playersUsing) {
-                    Mekanism.packetHandler.sendTo(new TileEntityMessage(sorter, sorter.getFilterPacket(new TileNetworkList())), (EntityPlayerMP) iterPlayer);
-                }
+                sorter.playersUsing.forEach(iterPlayer -> Mekanism.packetHandler.sendTo(new TileEntityMessage(sorter, sorter.getFilterPacket(new TileNetworkList())), (EntityPlayerMP) iterPlayer));
             } else if (message.type == 1 && message.coord4D.getTileEntity(worldServer) instanceof TileEntityDigitalMiner miner) {
 
                 if (!miner.filters.contains(message.mFilter)) {
@@ -51,9 +48,7 @@ public class PacketEditFilter implements IMessageHandler<EditFilterMessage, IMes
                 if (!message.delete) {
                     miner.filters.add(index, message.mEdited);
                 }
-                for (EntityPlayer iterPlayer : miner.playersUsing) {
-                    Mekanism.packetHandler.sendTo(new TileEntityMessage(miner, miner.getFilterPacket(new TileNetworkList())), (EntityPlayerMP) iterPlayer);
-                }
+                miner.playersUsing.forEach(iterPlayer -> Mekanism.packetHandler.sendTo(new TileEntityMessage(miner, miner.getFilterPacket(new TileNetworkList())), (EntityPlayerMP) iterPlayer));
             } else if (message.type == 2 && message.coord4D.getTileEntity(worldServer) instanceof TileEntityOredictionificator oredictionificator) {
                 if (!oredictionificator.filters.contains(message.oFilter)) {
                     return;
@@ -63,9 +58,7 @@ public class PacketEditFilter implements IMessageHandler<EditFilterMessage, IMes
                 if (!message.delete) {
                     oredictionificator.filters.add(index, message.oEdited);
                 }
-                for (EntityPlayer iterPlayer : oredictionificator.playersUsing) {
-                    Mekanism.packetHandler.sendTo(new TileEntityMessage(oredictionificator, oredictionificator.getFilterPacket(new TileNetworkList())), (EntityPlayerMP) iterPlayer);
-                }
+                oredictionificator.playersUsing.forEach(iterPlayer -> Mekanism.packetHandler.sendTo(new TileEntityMessage(oredictionificator, oredictionificator.getFilterPacket(new TileNetworkList())), (EntityPlayerMP) iterPlayer));
             }
         });
         return null;

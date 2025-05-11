@@ -179,13 +179,9 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
         }
         List<String> text = new ArrayList<>();
         if (privateMode) {
-            for (Frequency freq : getPrivateCache()) {
-                text.add(freq.name);
-            }
+            getPrivateCache().forEach(freq -> text.add(freq.name));
         } else {
-            for (Frequency freq : getPublicCache()) {
-                text.add(freq.name + " (" + freq.clientOwner + ")");
-            }
+            getPublicCache().forEach(freq -> text.add(freq.name + " (" + freq.clientOwner + ")"));
         }
         scrollList.setText(text);
         if (privateMode) {

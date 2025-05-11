@@ -22,7 +22,6 @@ import org.lwjgl.input.Mouse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 @SideOnly(Side.CLIENT)
@@ -80,26 +79,20 @@ public abstract class GuiFilterHolder<TILE extends TileEntityContainerBlock, FIL
 
         // Update displayed stacks
         if (stackSwitch == 0) {
-            for (Entry<IOreDictFilter, StackData> entry : oreDictStacks.entrySet()) {
-                setNextRenderStack(entry.getValue());
-            }
-            for (Entry<IModIDFilter, StackData> entry : modIDStacks.entrySet()) {
-                setNextRenderStack(entry.getValue());
-            }
+            oreDictStacks.forEach((key, value) -> setNextRenderStack(value));
+            modIDStacks.forEach((key, value) -> setNextRenderStack(value));
             stackSwitch = 20;
         } else {
-            for (Entry<IOreDictFilter, StackData> entry : oreDictStacks.entrySet()) {
-                StackData data = entry.getValue();
-                if (data.iterStacks != null && data.iterStacks.size() == 0) {
+            oreDictStacks.forEach((key, data) -> {
+                if (data.iterStacks != null && data.iterStacks.isEmpty()) {
                     data.renderStack = ItemStack.EMPTY;
                 }
-            }
-            for (Entry<IModIDFilter, StackData> entry : modIDStacks.entrySet()) {
-                StackData data = entry.getValue();
-                if (data.iterStacks != null && data.iterStacks.size() == 0) {
+            });
+            modIDStacks.forEach((key, data) -> {
+                if (data.iterStacks != null && data.iterStacks.isEmpty()) {
                     data.renderStack = ItemStack.EMPTY;
                 }
-            }
+            });
         }
 
         Set<IOreDictFilter> oreDictFilters = new ObjectOpenHashSet<>();
@@ -116,13 +109,13 @@ public abstract class GuiFilterHolder<TILE extends TileEntityContainerBlock, FIL
             }
         }
 
-        for (IFilter filter : filters) {
+        filters.forEach(filter -> {
             if (filter instanceof IOreDictFilter && !oreDictFilters.contains(filter)) {
                 oreDictStacks.remove(filter);
             } else if (filter instanceof IModIDFilter && !modIDFilters.contains(filter)) {
                 modIDStacks.remove(filter);
             }
-        }
+        });
     }
 
     @Override

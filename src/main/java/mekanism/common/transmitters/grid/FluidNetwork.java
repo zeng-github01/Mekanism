@@ -47,12 +47,12 @@ public class FluidNetwork extends DynamicNetwork<IFluidHandler, FluidNetwork, Fl
     }
 
     public FluidNetwork(Collection<FluidNetwork> networks) {
-        for (FluidNetwork net : networks) {
+        networks.forEach(net -> {
             if (net != null) {
                 adoptTransmittersAndAcceptorsFrom(net);
                 net.deregister();
             }
-        }
+        });
         fluidScale = getScale();
         register();
     }

@@ -43,11 +43,11 @@ public class TileComponentChunkLoader implements ITileComponent {
 
     public void setTicket(Ticket t) {
         if (chunkTicket != t && chunkTicket != null && chunkTicket.world == tileEntity.getWorld()) {
-            for (ChunkPos chunk : chunkTicket.getChunkList()) {
+            chunkTicket.getChunkList().forEach(chunk -> {
                 if (ForgeChunkManager.getPersistentChunksFor(tileEntity.getWorld()).keys().contains(chunk)) {
                     ForgeChunkManager.unforceChunk(chunkTicket, chunk);
                 }
-            }
+            });
             ForgeChunkManager.releaseTicket(chunkTicket);
         }
         chunkTicket = t;
@@ -59,18 +59,18 @@ public class TileComponentChunkLoader implements ITileComponent {
 
     public void sortChunks() {
         if (chunkTicket != null) {
-            for (ChunkPos chunk : chunkTicket.getChunkList()) {
+            chunkTicket.getChunkList().forEach(chunk -> {
                 if (!chunkSet.contains(chunk)) {
                     if (ForgeChunkManager.getPersistentChunksFor(tileEntity.getWorld()).keys().contains(chunk)) {
                         ForgeChunkManager.unforceChunk(chunkTicket, chunk);
                     }
                 }
-            }
-            for (ChunkPos chunk : chunkSet) {
+            });
+            chunkSet.forEach(chunk -> {
                 if (!chunkTicket.getChunkList().contains(chunk)) {
                     ForgeChunkManager.forceChunk(chunkTicket, chunk);
                 }
-            }
+            });
         }
     }
 
@@ -84,9 +84,7 @@ public class TileComponentChunkLoader implements ITileComponent {
 
     public void forceChunks(Ticket ticket) {
         setTicket(ticket);
-        for (ChunkPos chunk : chunkSet) {
-            ForgeChunkManager.forceChunk(chunkTicket, chunk);
-        }
+        chunkSet.forEach(chunk -> ForgeChunkManager.forceChunk(chunkTicket, chunk));
     }
 
     public boolean canOperate() {
@@ -148,12 +146,12 @@ public class TileComponentChunkLoader implements ITileComponent {
         }
 
         NBTTagList list = new NBTTagList();
-        for (ChunkPos pos : chunkSet) {
+        chunkSet.forEach(pos -> {
             NBTTagCompound compound = new NBTTagCompound();
             compound.setInteger("chunkX", pos.x);
             compound.setInteger("chunkZ", pos.z);
             list.appendTag(compound);
-        }
+        });
         nbtTags.setTag("chunkSet", list);
     }
 

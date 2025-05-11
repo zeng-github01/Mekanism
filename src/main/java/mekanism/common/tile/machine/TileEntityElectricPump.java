@@ -254,11 +254,11 @@ public class TileEntityElectricPump extends TileEntityElectricBlock implements I
         nbtTags.setInteger("controlType", controlType.ordinal());
 
         NBTTagList recurringList = new NBTTagList();
-        for (Coord4D wrapper : recurringNodes) {
+        recurringNodes.forEach(wrapper -> {
             NBTTagCompound tagCompound = new NBTTagCompound();
             wrapper.write(tagCompound);
             recurringList.appendTag(tagCompound);
-        }
+        });
         if (recurringList.tagCount() != 0) {
             nbtTags.setTag("recurringNodes", recurringList);
         }

@@ -195,7 +195,6 @@ public class RenderResizableCuboid {
         face = face.getAxisDirection() == AxisDirection.NEGATIVE ? face : face.getOpposite();
 
         EnumFacing opposite = face.getOpposite();
-
         for (RenderInfo ri : renderInfoList) {
             renderPoint(wr, face, u, v, other, ri, true, false, locationFormula, faceFormula, access, shadeTypes);
             renderPoint(wr, face, u, v, other, ri, true, true, locationFormula, faceFormula, access, shadeTypes);

@@ -141,9 +141,7 @@ public abstract class TileEntityBasicBlock extends TileEntityRestrictedTick impl
                 world.notifyNeighborsOfStateChange(getPos(), world.getBlockState(getPos()).getBlock(), true);
                 clientFacing = facing;
             }
-            for (ITileComponent component : components) {
-                component.read(dataStream);
-            }
+            components.forEach(components -> components.read(dataStream));
         }
     }
 
@@ -151,18 +149,14 @@ public abstract class TileEntityBasicBlock extends TileEntityRestrictedTick impl
     public TileNetworkList getNetworkedData(TileNetworkList data) {
         data.add(facing == null ? -1 : facing.ordinal());
         data.add(redstone);
-        for (ITileComponent component : components) {
-            component.write(data);
-        }
+        components.forEach(component -> component.write(data));
         return data;
     }
 
     @Override
     public void invalidate() {
         super.invalidate();
-        for (ITileComponent component : components) {
-            component.invalidate();
-        }
+        components.forEach(ITileComponent::invalidate);
     }
 
     @Override
@@ -210,9 +204,7 @@ public abstract class TileEntityBasicBlock extends TileEntityRestrictedTick impl
             facing = EnumFacing.byIndex(nbtTags.getInteger("facing"));
         }
         redstone = nbtTags.getBoolean("redstone");
-        for (ITileComponent component : components) {
-            component.read(nbtTags);
-        }
+        components.forEach(component -> component.read(nbtTags));
     }
 
     @Override
@@ -222,9 +214,7 @@ public abstract class TileEntityBasicBlock extends TileEntityRestrictedTick impl
             nbtTags.setInteger("facing", facing.ordinal());
         }
         nbtTags.setBoolean("redstone", redstone);
-        for (ITileComponent component : components) {
-            component.write(nbtTags);
-        }
+        components.forEach(component -> component.write(nbtTags));
     }
 
     @Override

@@ -147,13 +147,12 @@ public class TileEntityFluidicPlenisher extends TileEntityElectricBlock implemen
                     world.setBlockState(coord.getPos(), MekanismUtils.getFlowingBlock(fluid.getFluid()).getDefaultState(), 3);
                     fluidTank.drain(Fluid.BUCKET_VOLUME, true);
                 }
-
-                for (EnumFacing dir : dirs) {
+                dirs.forEach(dir -> {
                     Coord4D sideCoord = coord.offset(dir);
                     if (sideCoord.exists(world) && canReplace(sideCoord, true, true)) {
                         activeNodes.add(sideCoord);
                     }
-                }
+                });
                 toRemove.add(coord);
                 break;
             } else {
@@ -208,19 +207,17 @@ public class TileEntityFluidicPlenisher extends TileEntityElectricBlock implemen
         }
 
         NBTTagList activeList = new NBTTagList();
-        for (Coord4D wrapper : activeNodes) {
+        activeNodes.forEach(wrapper -> {
             NBTTagCompound tagCompound = new NBTTagCompound();
             wrapper.write(tagCompound);
             activeList.appendTag(tagCompound);
-        }
+        });
         if (activeList.tagCount() != 0) {
             nbtTags.setTag("activeNodes", activeList);
         }
 
         NBTTagList usedList = new NBTTagList();
-        for (Coord4D obj : usedNodes) {
-            activeList.appendTag(obj.write(new NBTTagCompound()));
-        }
+        usedNodes.forEach(obj -> activeList.appendTag(obj.write(new NBTTagCompound())));
         if (activeList.tagCount() != 0) {
             nbtTags.setTag("usedNodes", usedList);
         }

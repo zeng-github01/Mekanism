@@ -116,10 +116,7 @@ public class ItemBlockMultiblockMachine extends ItemBlock implements IEnergizedI
                 list.add(EnumColor.AQUA + LangUtils.localize("tooltip.inventory") + ": " + EnumColor.GREY + LangUtils.transYesNo(getInventory(itemstack) != null && getInventory(itemstack).tagCount() != 0));
 
                 if (type.supportsUpgrades && ItemDataUtils.hasData(itemstack, "upgrades")) {
-                    Map<Upgrade, Integer> upgrades = Upgrade.buildMap(ItemDataUtils.getDataMap(itemstack));
-                    for (Map.Entry<Upgrade, Integer> entry : upgrades.entrySet()) {
-                        list.add(entry.getKey().getColor() + "- " + entry.getKey().getName() + (entry.getKey().canMultiply() ? ": " + EnumColor.GREY + "x" + entry.getValue() : ""));
-                    }
+                    Upgrade.buildMap(ItemDataUtils.getDataMap(itemstack)).forEach((key, value) -> list.add(key.getColor() + "- " + key.getName() + (key.canMultiply() ? ": " + EnumColor.GREY + "x" + value : "")));
                 }
 
             } else {

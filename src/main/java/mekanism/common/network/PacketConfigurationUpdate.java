@@ -75,9 +75,7 @@ public class PacketConfigurationUpdate implements IMessageHandler<ConfigurationU
                 } else if (message.packetType == ConfigurationPacket.STRICT_INPUT) {
                     config.getEjector().setStrictInput(!config.getEjector().hasStrictInput());
                 }
-                for (EntityPlayer p : ((TileEntityBasicBlock) config).playersUsing) {
-                    Mekanism.packetHandler.sendTo(new TileEntityMessage(message.coord4D, network.getNetworkedData()), (EntityPlayerMP) p);
-                }
+                ((TileEntityBasicBlock) config).playersUsing.forEach(p -> Mekanism.packetHandler.sendTo(new TileEntityMessage(message.coord4D, network.getNetworkedData()), (EntityPlayerMP) p));
             }
         }, player);
         return null;

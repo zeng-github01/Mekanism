@@ -162,12 +162,11 @@ public class TileEntityLogisticalSorter extends TileEntityEffectsBlock implement
         nbtTags.setInteger("rrIndex", rrIndex);
 
         NBTTagList filterTags = new NBTTagList();
-
-        for (TransporterFilter filter : filters) {
+        filters.forEach(filter -> {
             NBTTagCompound tagCompound = new NBTTagCompound();
             filter.write(tagCompound);
             filterTags.appendTag(tagCompound);
-        }
+        });
         if (filterTags.tagCount() != 0) {
             nbtTags.setTag("filters", filterTags);
         }
@@ -217,16 +216,12 @@ public class TileEntityLogisticalSorter extends TileEntityEffectsBlock implement
                 // Move filter up
                 int filterIndex = dataStream.readInt();
                 filters.swap(filterIndex, filterIndex - 1);
-                for (EntityPlayer player : playersUsing) {
-                    openInventory(player);
-                }
+                playersUsing.forEach(this::openInventory);
             } else if (type == 4) {
                 // Move filter down
                 int filterIndex = dataStream.readInt();
                 filters.swap(filterIndex, filterIndex + 1);
-                for (EntityPlayer player : playersUsing) {
-                    openInventory(player);
-                }
+                playersUsing.forEach(this::openInventory);
             } else if (type == 5) {
                 singleItem = !singleItem;
             }
@@ -297,9 +292,7 @@ public class TileEntityLogisticalSorter extends TileEntityEffectsBlock implement
         data.add(singleItem);
 
         data.add(filters.size());
-        for (TransporterFilter filter : filters) {
-            filter.write(data);
-        }
+        filters.forEach(filter -> filter.write(data));
         return data;
     }
 
@@ -323,9 +316,7 @@ public class TileEntityLogisticalSorter extends TileEntityEffectsBlock implement
         super.getNetworkedData(data);
         data.add(2);
         data.add(filters.size());
-        for (TransporterFilter filter : filters) {
-            filter.write(data);
-        }
+        filters.forEach(filter-> filter.write(data));
         return data;
     }
 
@@ -426,11 +417,11 @@ public class TileEntityLogisticalSorter extends TileEntityEffectsBlock implement
         nbtTags.setInteger("rrIndex", rrIndex);
 
         NBTTagList filterTags = new NBTTagList();
-        for (TransporterFilter filter : filters) {
+        filters.forEach(filter -> {
             NBTTagCompound tagCompound = new NBTTagCompound();
             filter.write(tagCompound);
             filterTags.appendTag(tagCompound);
-        }
+        });
         if (filterTags.tagCount() != 0) {
             nbtTags.setTag("filters", filterTags);
         }
@@ -472,11 +463,11 @@ public class TileEntityLogisticalSorter extends TileEntityEffectsBlock implement
         ItemDataUtils.setBoolean(itemStack, "singleItem", singleItem);
 
         NBTTagList filterTags = new NBTTagList();
-        for (TransporterFilter filter : filters) {
+        filters.forEach(filter -> {
             NBTTagCompound tagCompound = new NBTTagCompound();
             filter.write(tagCompound);
             filterTags.appendTag(tagCompound);
-        }
+        });
         if (filterTags.tagCount() != 0) {
             ItemDataUtils.setList(itemStack, "filters", filterTags);
         }
@@ -591,10 +582,7 @@ public class TileEntityLogisticalSorter extends TileEntityEffectsBlock implement
                 return new Object[]{"Single-item mode set to " + singleItem};
             }
         }
-
-        for (EntityPlayer player : playersUsing) {
-            Mekanism.packetHandler.sendTo(new TileEntityMessage(this, getGenericPacket(new TileNetworkList())), (EntityPlayerMP) player);
-        }
+        playersUsing.forEach(player ->  Mekanism.packetHandler.sendTo(new TileEntityMessage(this, getGenericPacket(new TileNetworkList())), (EntityPlayerMP) player));
         return null;
     }
 

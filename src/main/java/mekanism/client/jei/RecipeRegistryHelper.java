@@ -192,12 +192,12 @@ public class RecipeRegistryHelper {
         }
         List<RotaryCondensentratorRecipeWrapper> condensentratorRecipes = new ArrayList<>();
         List<RotaryCondensentratorRecipeWrapper> decondensentratorRecipes = new ArrayList<>();
-        for (Gas gas : GasRegistry.getRegisteredGasses()) {
+        GasRegistry.getRegisteredGasses().forEach(gas -> {
             if (gas.hasFluid()) {
                 condensentratorRecipes.add(new RotaryCondensentratorRecipeWrapper(gas.getFluid(), gas, true));
                 decondensentratorRecipes.add(new RotaryCondensentratorRecipeWrapper(gas.getFluid(), gas, false));
             }
-        }
+        });
         String condensentrating = "mekanism.rotary_condensentrator_condensentrating";
         String decondensentrating = "mekanism.rotary_condensentrator_decondensentrating";
         registry.addRecipes(condensentratorRecipes, condensentrating);

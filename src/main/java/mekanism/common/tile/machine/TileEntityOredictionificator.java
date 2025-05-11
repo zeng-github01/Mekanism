@@ -66,10 +66,10 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
     }
 
     @Override
-    public void onUpdateServer(){
+    public void onUpdateServer() {
         super.onUpdateServer();
         if (!playersUsing.isEmpty()) {
-            playersUsing.forEach(player ->  Mekanism.packetHandler.sendTo(new TileEntityMessage(this, getGenericPacket(new TileNetworkList())), (EntityPlayerMP) player));
+            playersUsing.forEach(player -> Mekanism.packetHandler.sendTo(new TileEntityMessage(this, getGenericPacket(new TileNetworkList())), (EntityPlayerMP) player));
         }
     }
 
@@ -158,11 +158,11 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
         super.writeCustomNBT(nbtTags);
         nbtTags.setInteger("controlType", controlType.ordinal());
         NBTTagList filterTags = new NBTTagList();
-        for (OredictionificatorFilter filter : filters) {
+        filters.forEach(filter -> {
             NBTTagCompound tagCompound = new NBTTagCompound();
             filter.write(tagCompound);
             filterTags.appendTag(tagCompound);
-        }
+        });
         if (filterTags.tagCount() != 0) {
             nbtTags.setTag("filters", filterTags);
         }
@@ -220,9 +220,8 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
         data.add(controlType.ordinal());
         data.add(didProcess);
         data.add(filters.size());
-        for (OredictionificatorFilter filter : filters) {
-            filter.write(data);
-        }
+        filters.forEach(filter -> filter.write(data));
+
         return data;
     }
 
@@ -238,9 +237,7 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
         super.getNetworkedData(data);
         data.add(2);
         data.add(filters.size());
-        for (OredictionificatorFilter filter : filters) {
-            filter.write(data);
-        }
+        filters.forEach(filter -> filter.write(data));
         return data;
     }
 
@@ -254,11 +251,11 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
     @Override
     public NBTTagCompound getConfigurationData(NBTTagCompound nbtTags) {
         NBTTagList filterTags = new NBTTagList();
-        for (OredictionificatorFilter filter : filters) {
+        filters.forEach(filter -> {
             NBTTagCompound tagCompound = new NBTTagCompound();
             filter.write(tagCompound);
             filterTags.appendTag(tagCompound);
-        }
+        });
         if (filterTags.tagCount() != 0) {
             nbtTags.setTag("filters", filterTags);
         }
@@ -284,11 +281,11 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
     public void writeSustainedData(ItemStack itemStack) {
         ItemDataUtils.setBoolean(itemStack, "hasOredictionificatorConfig", true);
         NBTTagList filterTags = new NBTTagList();
-        for (OredictionificatorFilter filter : filters) {
+        filters.forEach(filter -> {
             NBTTagCompound tagCompound = new NBTTagCompound();
             filter.write(tagCompound);
             filterTags.appendTag(tagCompound);
-        }
+        });
         if (filterTags.tagCount() != 0) {
             ItemDataUtils.setList(itemStack, "filters", filterTags);
         }

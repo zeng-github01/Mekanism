@@ -5,7 +5,6 @@ import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.GasStack;
 import mekanism.api.infuse.InfuseRegistry;
-import mekanism.api.infuse.InfuseType;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.client.render.obj.TransmitterModel;
 import mekanism.client.render.tileentity.*;
@@ -329,7 +328,7 @@ public class MekanismRenderer {
     }
 
     public static int getColorARGB(EnumColor color, float alpha) {
-        return getColorARGB(color.rgbCode[0],color.rgbCode[1],color.rgbCode[2],alpha);
+        return getColorARGB(color.rgbCode[0], color.rgbCode[1], color.rgbCode[2], alpha);
     }
 
     public static int getColorARGB(int red, int green, int blue, float alpha) {
@@ -353,9 +352,6 @@ public class MekanismRenderer {
         //Only factor the glow into the block light portion
         return (combinedLight & 0xFFFF0000) | Math.max(Math.min(glow, 15) << 4, combinedLight & 0xFFFF);
     }
-
-
-
 
 
     @Nonnull
@@ -425,14 +421,8 @@ public class MekanismRenderer {
         event.getMap().registerSprite(new ResourceLocation(Mekanism.MODID, "blocks/liquid/LiquidHeavyWater"));
 
         TransmitterModel.registerIcons(event.getMap());
-
-        for (Gas gas : GasRegistry.getRegisteredGasses()) {
-            gas.registerIcon(event.getMap());
-        }
-
-        for (InfuseType type : InfuseRegistry.getInfuseMap().values()) {
-            type.setIcon(event.getMap().registerSprite(type.iconResource));
-        }
+        GasRegistry.getRegisteredGasses().forEach(gas -> gas.registerIcon(event.getMap()));
+        InfuseRegistry.getInfuseMap().values().forEach(type -> type.setIcon(event.getMap().registerSprite(type.iconResource)));
 
         FluidRenderer.resetDisplayInts();
         RenderFluidTank.resetDisplayInts();
@@ -449,9 +439,7 @@ public class MekanismRenderer {
         RenderLogisticalTransporter.onStitch(event.getMap());
         RenderMechanicalPipe.onStitch();
 
-        for (Gas gas : GasRegistry.getRegisteredGasses()) {
-            gas.updateIcon(event.getMap());
-        }
+        GasRegistry.getRegisteredGasses().forEach(gas -> gas.updateIcon(event.getMap()));
     }
 
     public enum FluidType {

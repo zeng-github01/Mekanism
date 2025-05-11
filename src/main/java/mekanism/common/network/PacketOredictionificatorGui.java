@@ -116,9 +116,7 @@ public class PacketOredictionificatorGui implements IMessageHandler<Oredictionif
 
             if (guiType == 0) {
                 TileEntityOredictionificator tile = (TileEntityOredictionificator) obj.getTileEntity(world);
-                for (EntityPlayer player : tile.playersUsing) {
-                    Mekanism.packetHandler.sendTo(new TileEntityMessage(obj, tile.getFilterPacket(new TileNetworkList())), (EntityPlayerMP) player);
-                }
+                tile.playersUsing.forEach(player -> Mekanism.packetHandler.sendTo(new TileEntityMessage(obj, tile.getFilterPacket(new TileNetworkList())), (EntityPlayerMP) player));
             }
         }
 

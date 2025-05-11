@@ -60,7 +60,6 @@ public class MekanismOBJLoader implements ICustomModelLoader {
             ImmutableMap.Builder<String, TextureAtlasSprite> builder = ImmutableMap.builder();
             builder.put(ModelLoader.White.LOCATION.toString(), ModelLoader.White.INSTANCE);
             TextureAtlasSprite missing = textureGetter.apply(new ResourceLocation("missingno"));
-
             for (String s : objModel.getMatLib().getMaterialNames()) {
                 ResourceLocation texture = objModel.getMatLib().getMaterial(s).getTexture().getTextureLocation();
                 if (texture.getPath().startsWith("#")) {

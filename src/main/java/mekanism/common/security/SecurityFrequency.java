@@ -45,9 +45,7 @@ public class SecurityFrequency extends Frequency {
 
         if (!trusted.isEmpty()) {
             NBTTagList trustedList = new NBTTagList();
-            for (String s : trusted) {
-                trustedList.appendTag(new NBTTagString(s));
-            }
+            trusted.forEach(s -> trustedList.appendTag(new NBTTagString(s)));
             nbtTags.setTag("trusted", trustedList);
         }
     }
@@ -78,9 +76,7 @@ public class SecurityFrequency extends Frequency {
         data.add(securityMode.ordinal());
 
         data.add(trusted.size());
-        for (String s : trusted) {
-            data.add(s);
-        }
+        trusted.forEach(data::add);
     }
 
     @Override

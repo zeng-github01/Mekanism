@@ -35,12 +35,12 @@ public class EnergyNetwork extends DynamicNetwork<EnergyAcceptorWrapper, EnergyN
     }
 
     public EnergyNetwork(Collection<EnergyNetwork> networks) {
-        for (EnergyNetwork net : networks) {
+        networks.forEach(net -> {
             if (net != null) {
                 adoptTransmittersAndAcceptorsFrom(net);
                 net.deregister();
             }
-        }
+        });
         register();
     }
 

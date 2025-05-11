@@ -13,7 +13,7 @@ import java.util.List;
 public class IMCHandler {
 
     public void onIMCEvent(List<IMCMessage> messages) {
-        for (IMCMessage msg : messages) {
+        messages.forEach(msg -> {
             if (msg.isNBTMessage()) {
                 boolean found = false;
                 boolean delete = false;
@@ -42,7 +42,7 @@ public class IMCHandler {
                     Mekanism.logger.error(msg.getSender() + " sent unknown IMC message with key '" + msg.key + ".'");
                 }
             }
-        }
+        });
     }
 
     private <INPUT extends MachineInput<INPUT>, OUTPUT extends MachineOutput<OUTPUT>, RECIPE extends MachineRecipe<INPUT, OUTPUT, RECIPE>>

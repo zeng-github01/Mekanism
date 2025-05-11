@@ -97,17 +97,13 @@ public class GuiModuleScreen extends GuiElement {
     public void drawBackground(int mouseX, int mouseY, float partialTicks) {
         super.drawBackground(mouseX, mouseY, partialTicks);
         renderBackgroundTexture(SCREEN, 32, 32);
-        for (MiniElement element : miniElements) {
-            element.renderBackground(mouseX, mouseY);
-        }
+        miniElements.forEach(element ->  element.renderBackground(mouseX, mouseY));
     }
 
     @Override
     public void onClick(double mouseX, double mouseY) {
         super.onClick(mouseX, mouseY);
-        for (MiniElement element : miniElements) {
-            element.click(mouseX, mouseY);
-        }
+        miniElements.forEach(element ->  element.click(mouseX, mouseY));
     }
 
     @Override
@@ -126,10 +122,7 @@ public class GuiModuleScreen extends GuiElement {
                 startY += 13;
             }
         }
-
-        for (MiniElement element : miniElements) {
-            element.renderForeground(mouseX, mouseY);
-        }
+        miniElements.forEach(element -> element.renderForeground(mouseX, mouseY));
     }
 
 

@@ -14,7 +14,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 public class TileComponentUpgrade implements ITileComponent {
@@ -62,7 +61,7 @@ public class TileComponentUpgrade implements ITileComponent {
         guiIDs = guiid;
     }
 
-    public TileComponentUpgrade(TileEntityContainerBlock tile, int slot,Upgrade upgrade, IGuiProvider guiProvider,  Block block, int meta, int guiid) {
+    public TileComponentUpgrade(TileEntityContainerBlock tile, int slot, Upgrade upgrade, IGuiProvider guiProvider, Block block, int meta, int guiid) {
         tileEntity = tile;
         upgradeSlot = slot;
         setSupported(upgrade);
@@ -193,27 +192,23 @@ public class TileComponentUpgrade implements ITileComponent {
             upgrades.put(Upgrade.values()[dataStream.readInt()], dataStream.readInt());
         }
         upgradeTicks = dataStream.readInt();
-        for (Upgrade upgrade : getSupportedTypes()) {
-            tileEntity.recalculateUpgradables(upgrade);
-        }
+        getSupportedTypes().forEach(upgrade -> tileEntity.recalculateUpgradables(upgrade));
     }
 
     @Override
     public void write(TileNetworkList data) {
         data.add(upgrades.size());
-        for (Entry<Upgrade, Integer> entry : upgrades.entrySet()) {
-            data.add(entry.getKey().ordinal());
-            data.add(entry.getValue());
-        }
+        upgrades.forEach((key, value) -> {
+            data.add(key.ordinal());
+            data.add(value);
+        });
         data.add(upgradeTicks);
     }
 
     @Override
     public void read(NBTTagCompound nbtTags) {
         upgrades = Upgrade.buildMap(nbtTags);
-        for (Upgrade upgrade : getSupportedTypes()) {
-            tileEntity.recalculateUpgradables(upgrade);
-        }
+        getSupportedTypes().forEach(upgrade -> tileEntity.recalculateUpgradables(upgrade));
     }
 
     @Override

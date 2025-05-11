@@ -57,9 +57,7 @@ public enum Upgrade {
 
     public static void saveMap(Map<Upgrade, Integer> upgrades, NBTTagCompound nbtTags) {
         NBTTagList list = new NBTTagList();
-        for (Entry<Upgrade, Integer> entry : upgrades.entrySet()) {
-            list.appendTag(getTagFor(entry.getKey(), entry.getValue()));
-        }
+        upgrades.forEach((key, value) -> list.appendTag(getTagFor(key, value)));
         nbtTags.setTag("upgrades", list);
     }
 

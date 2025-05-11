@@ -74,7 +74,7 @@ public class RenderLogisticalTransporter extends RenderTransmitterBase<TileEntit
 
             float partial = partialTick * transporter.tier.getSpeed();
             Collection<TransporterStack> reducedTransit = getReducedTransit(inTransit);
-            for (TransporterStack stack : reducedTransit) {
+            reducedTransit.forEach(stack -> {
                 entityItem.setItem(stack.itemStack);
                 float[] pos = TransporterUtils.getStackPosition(transporter.getTransmitter(), stack, partial);
                 float xShifted = (float) x + pos[0];
@@ -100,10 +100,10 @@ public class RenderLogisticalTransporter extends RenderTransmitterBase<TileEntit
                     MekanismRenderer.disableGlow(glowInfo);
                     GlStateManager.popMatrix();
                 }
-            }
+            });
         }
 
-        if (transporter instanceof TileEntityDiversionTransporter) {
+        if (transporter instanceof TileEntityDiversionTransporter transporter1) {
             if (!pushed) {
                 GlStateManager.pushMatrix();
                 pushed = true;
@@ -112,7 +112,7 @@ public class RenderLogisticalTransporter extends RenderTransmitterBase<TileEntit
             if (!itemStack.isEmpty() && itemStack.getItem() instanceof ItemConfigurator) {
                 RayTraceResult pos = mc.player.rayTrace(8.0D, 1.0F);
                 if (pos != null && pos.sideHit != null && pos.getBlockPos().equals(transporter.getPos())) {
-                    int mode = ((TileEntityDiversionTransporter) transporter).modes[pos.sideHit.ordinal()];
+                    int mode = transporter1.modes[pos.sideHit.ordinal()];
                     GlStateManager.pushMatrix();
                     GlStateManager.enableCull();
                     GlStateManager.disableLighting();
@@ -152,13 +152,13 @@ public class RenderLogisticalTransporter extends RenderTransmitterBase<TileEntit
     private Collection<TransporterStack> getReducedTransit(Collection<TransporterStack> inTransit) {
         Collection<TransporterStack> reducedTransit = new ArrayList<>();
         Set<TransportInformation> information = new ObjectOpenHashSet<>();
-        for (TransporterStack stack : inTransit) {
+        inTransit.forEach(stack -> {
             if (stack != null && !stack.itemStack.isEmpty() && information.add(new TransportInformation(stack))) {
                 //Ensure the stack is valid AND we did not already have information matching the stack
                 //We use add to check if it already contained the value, so that we only have to query the set once
                 reducedTransit.add(stack);
             }
-        }
+        });
         return reducedTransit;
     }
 
@@ -167,18 +167,12 @@ public class RenderLogisticalTransporter extends RenderTransmitterBase<TileEntit
             return cachedOverlays.get(side).get(mode);
         }
 
-        TextureAtlasSprite icon = null;
-        switch (mode) {
-            case 0:
-                icon = gunpowderIcon;
-                break;
-            case 1:
-                icon = torchOnIcon;
-                break;
-            case 2:
-                icon = torchOffIcon;
-                break;
-        }
+        TextureAtlasSprite icon = switch (mode) {
+            case 0 -> gunpowderIcon;
+            case 1 -> torchOnIcon;
+            case 2 -> torchOffIcon;
+            default -> null;
+        };
 
         Model3D toReturn = new Model3D();
         toReturn.baseBlock = Blocks.STONE;
@@ -280,8 +274,7 @@ public class RenderLogisticalTransporter extends RenderTransmitterBase<TileEntit
             if (obj == this) {
                 return true;
             }
-            if (obj instanceof TransportInformation) {
-                TransportInformation other = (TransportInformation) obj;
+            if (obj instanceof TransportInformation other) {
                 return progress == other.progress && color == other.color && item.equals(other.item);
             }
             return false;

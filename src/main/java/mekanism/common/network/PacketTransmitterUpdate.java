@@ -51,12 +51,12 @@ public class PacketTransmitterUpdate implements IMessageHandler<TransmitterUpdat
                     DynamicNetwork network = transmitter.hasTransmitterNetwork() && !message.newNetwork ? transmitter.getTransmitterNetwork() : transmitter.createEmptyNetwork();
                     network.register();
                     transmitter.setTransmitterNetwork(network);
-                    for (Coord4D coord : message.transmitterCoords) {
+                    message.transmitterCoords.forEach(coord -> {
                         TileEntity tile = coord.getTileEntity(player.world);
                         if (CapabilityUtils.hasCapability(tile, Capabilities.GRID_TRANSMITTER_CAPABILITY, null)) {
                             CapabilityUtils.getCapability(tile, Capabilities.GRID_TRANSMITTER_CAPABILITY, null).setTransmitterNetwork(network);
                         }
-                    }
+                    });
                     network.updateCapacity();
                     return;
                 }
@@ -157,9 +157,7 @@ public class PacketTransmitterUpdate implements IMessageHandler<TransmitterUpdat
                 case UPDATE -> {
                     dataStream.writeBoolean(newNetwork);
                     dataStream.writeInt(transmittersAdded.size());
-                    for (IGridTransmitter transmitter : transmittersAdded) {
-                        transmitter.coord().write(dataStream);
-                    }
+                    transmittersAdded.forEach(transmitter -> transmitter.coord().write(dataStream));
                 }
                 case ENERGY -> dataStream.writeDouble(power);
                 case GAS -> {

@@ -210,7 +210,6 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
     }
 
 
-
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         GlStateManager.translate(0, 0, 300);
@@ -355,7 +354,7 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
         super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
-        buttons.forEach(element -> element.mouseDragged(mouseX, mouseY,0,clickedMouseButton, timeSinceLastClick));
+        buttons.forEach(element -> element.mouseDragged(mouseX, mouseY, 0, clickedMouseButton, timeSinceLastClick));
     }
 
 
@@ -506,9 +505,7 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
         }
         GuiUtils.renderBackgroundTexture(BASE_BACKGROUND, 4, 4, guiLeft, guiTop, xSize, ySize, 256, 256);
         MekanismRenderer.resetColor();
-        for (Widget button : this.buttons) {
-            button.render(mouseX, mouseY, partialTick);
-        }
+        this.buttons.forEach(button -> button.render(mouseX, mouseY, partialTick));
         MekanismRenderer.resetColor();
     }
 

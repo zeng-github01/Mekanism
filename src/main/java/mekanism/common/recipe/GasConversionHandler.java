@@ -62,14 +62,14 @@ public class GasConversionHandler {
         if (gas != null && gasStack.amount > 0 && gasToIngredients.containsKey(gas)) {
             List<IMekanismIngredient<ItemStack>> ingredients = gasToIngredients.get(gas);
             List<IMekanismIngredient<ItemStack>> toRemove = new ArrayList<>();
-            for (IMekanismIngredient<ItemStack> stored : ingredients) {
+            ingredients.forEach(stored -> {
                 if (stored.equals(ingredient)) {
                     //TODO: Better comparision??? Doesn't really matter until we have better duplication handling
                     // or have proper handling for if something is registered as an ore dict and as an item
                     toRemove.add(stored);
                     ingredientToGas.remove(stored);
                 }
-            }
+            });
             if (ingredients.size() == toRemove.size()) {
                 //If we are removing all for that gas type then remove the list as well
                 gasToIngredients.remove(gas);
@@ -145,9 +145,7 @@ public class GasConversionHandler {
             return stacks;
         }
         //TODO: Maybe check for duplicates if things are in oredict and not? For the most part things assume there are no duplication at the moment
-        for (IMekanismIngredient<ItemStack> ingredient : ingredients) {
-            stacks.addAll(ingredient.getMatching());
-        }
+        ingredients.forEach(ingredient ->   stacks.addAll(ingredient.getMatching()));
         return stacks;
     }
 }

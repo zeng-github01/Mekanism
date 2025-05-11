@@ -26,15 +26,13 @@ public class PacketBoxBlacklist implements IMessageHandler<BoxBlacklistMessage, 
         public void toBytes(ByteBuf dataStream) {
             Set<BlockInfo> boxIgnore = MekanismAPI.getBoxIgnore();
             dataStream.writeInt(boxIgnore.size());
-            for (BlockInfo info : boxIgnore) {
+            boxIgnore.forEach(info -> {
                 dataStream.writeInt(Block.getIdFromBlock(info.block));
                 dataStream.writeInt(info.meta);
-            }
+            });
             Set<String> boxModIgnore = MekanismAPI.getBoxModIgnore();
             dataStream.writeInt(boxModIgnore.size());
-            for (String modid : boxModIgnore) {
-                ByteBufUtils.writeUTF8String(dataStream, modid);
-            }
+            boxModIgnore.forEach(modid -> ByteBufUtils.writeUTF8String(dataStream, modid));
         }
 
         @Override

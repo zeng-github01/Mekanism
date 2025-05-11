@@ -218,13 +218,13 @@ public class ClientTickHandler {
             }
 
             if (isScubaMaskOn(minecraft.player) && minecraft.player.getAir() == 300) {
-                for (PotionEffect effect : minecraft.player.getActivePotionEffects()) {
+                minecraft.player.getActivePotionEffects().forEach(effect -> {
                     if (MekanismUtils.shouldSpeedUpEffect(effect)) {
                         for (int i = 0; i < 9; i++) {
                             MekanismUtils.speedUpEffectSafely(minecraft.player, effect);
                         }
                     }
-                }
+                });
             }
 
             if (isVisionEnhancementOn(minecraft.player)) {

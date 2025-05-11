@@ -1,6 +1,5 @@
 package mekanism.common.recipe;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import mekanism.common.Mekanism;
@@ -76,9 +75,7 @@ public class ShapelessMekanismRecipe extends ShapelessOreRecipe {
         String group = JsonUtils.getString(json, "group", "");
 
         NonNullList<Ingredient> ings = NonNullList.create();
-        for (JsonElement ele : JsonUtils.getJsonArray(json, "ingredients")) {
-            ings.add(CraftingHelper.getIngredient(ele, context));
-        }
+        JsonUtils.getJsonArray(json, "ingredients").forEach(ele -> ings.add(CraftingHelper.getIngredient(ele, context)));
         if (ings.isEmpty()) {
             throw new JsonParseException("No ingredients for shapeless recipe");
         }

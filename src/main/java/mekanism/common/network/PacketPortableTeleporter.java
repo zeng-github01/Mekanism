@@ -225,16 +225,10 @@ public class PacketPortableTeleporter implements IMessageHandler<PortableTelepor
 
                 TileNetworkList data = new TileNetworkList();
                 data.add(publicCache.size());
-
-                for (Frequency freq : publicCache) {
-                    freq.write(data);
-                }
+                publicCache.forEach(freq -> freq.write(data));
 
                 data.add(privateCache.size());
-
-                for (Frequency freq : privateCache) {
-                    freq.write(data);
-                }
+                privateCache.forEach(freq -> freq.write(data));
 
                 PacketHandler.encode(data.toArray(), buffer);
             } else if (packetType == PortableTeleporterPacketType.SET_FREQ) {

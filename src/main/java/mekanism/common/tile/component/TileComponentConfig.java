@@ -230,13 +230,13 @@ public class TileComponentConfig implements ITileComponent {
     @Override
     public void read(NBTTagCompound nbtTags) {
         if (nbtTags.getBoolean("sideDataStored")) {
-            for (TransmissionType type : transmissions) {
+            transmissions.forEach(type -> {
                 if (nbtTags.getByteArray("config" + type.ordinal()).length > 0) {
                     sideConfigs.put(type, new SideConfig(nbtTags.getByteArray("config" + type.ordinal())));
                     ejecting.put(type, nbtTags.getBoolean("ejecting" + type.ordinal()));
                     //      canEject.put(type,nbtTags.getBoolean("canEject" + type.ordinal()));
                 }
-            }
+            });
         }
     }
 
@@ -250,37 +250,34 @@ public class TileComponentConfig implements ITileComponent {
             transmissions.add(TransmissionType.values()[dataStream.readInt()]);
         }
 
-        for (TransmissionType type : transmissions) {
+        transmissions.forEach(type -> {
             byte[] array = new byte[6];
             dataStream.readBytes(array);
             sideConfigs.put(type, new SideConfig(array));
             ejecting.put(type, dataStream.readBoolean());
             //  canEject.put(type,dataStream.readBoolean());
-        }
+        });
     }
 
     @Override
     public void write(NBTTagCompound nbtTags) {
-        for (TransmissionType type : transmissions) {
+        transmissions.forEach(type -> {
             nbtTags.setByteArray("config" + type.ordinal(), sideConfigs.get(type).asByteArray());
             nbtTags.setBoolean("ejecting" + type.ordinal(), ejecting.get(type));
             //   nbtTags.setBoolean("canEject" + type.ordinal(),canEject.get(type));
-        }
+        });
         nbtTags.setBoolean("sideDataStored", true);
     }
 
     @Override
     public void write(TileNetworkList data) {
         data.add(transmissions.size());
-
-        for (TransmissionType type : transmissions) {
-            data.add(type.ordinal());
-        }
-        for (TransmissionType type : transmissions) {
+        transmissions.forEach(type -> data.add(type.ordinal()));
+        transmissions.forEach(type -> {
             data.add(sideConfigs.get(type).asByteArray());
             data.add(ejecting.get(type));
             //  data.add(canEject.get(type));
-        }
+        });
     }
 
     @Override

@@ -71,17 +71,14 @@ public abstract class TileEntityUpgradeableMachine<INPUT extends MachineInput<IN
         factory.setRecipeType(type);
         factory.upgradeComponent.setSupported(Upgrade.GAS, type.fuelEnergyUpgrades());
         factory.securityComponent.readFrom(securityComponent);
-
-        for (TransmissionType transmission : configComponent.getTransmissions()) {
+        configComponent.getTransmissions().forEach(transmission -> {
             factory.configComponent.setConfig(transmission, configComponent.getConfig(transmission).asByteArray());
             factory.configComponent.setEjecting(transmission, configComponent.isEjecting(transmission));
-        }
+        });
 
         upgradeInventory(factory);
 
-        for (Upgrade upgrade : factory.upgradeComponent.getSupportedTypes()) {
-            factory.recalculateUpgradables(upgrade);
-        }
+        factory.upgradeComponent.getSupportedTypes().forEach(factory::recalculateUpgradables);
 
         factory.upgraded = true;
         factory.markNoUpdateSync();

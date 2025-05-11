@@ -94,10 +94,10 @@ public class TransmitterModel extends OBJBakedModelBase {
     }
 
     public static void clearCache() {
-        for (TransmitterModel model : modelInstances) {
+        modelInstances.forEach(model -> {
             model.modelCache.clear();
             model.itemCache = null;
-        }
+        });
     }
 
     @Nonnull

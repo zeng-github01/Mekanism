@@ -188,7 +188,7 @@ public class GuiRadialSelector extends GuiScreen {
 
         // Labels (has to be separate from icons or the icons occasionally will get extra artifacts for some reason)
         boolean whiteRadialText = MekanismConfig.current().client.whiteRadialText.val();
-        for (PositionedText toDraw : textToDraw) {
+        textToDraw.forEach(toDraw -> {
             GlStateManager.pushMatrix();
             GlStateManager.translate(toDraw.x, toDraw.y, 0);
             GlStateManager.scale(0.6F, 0.6F, 0.6F);
@@ -198,7 +198,7 @@ public class GuiRadialSelector extends GuiScreen {
             }
             GuiUtils.drawString(fontRenderer, text.getFormattedText(), -fontRenderer.getStringWidth(text.getFormattedText()) / 2F, 8, 0xCCFFFFFF, true);
             GlStateManager.popMatrix();
-        }
+        });
         MekanismRenderer.resetColor();
         GlStateManager.popMatrix();
     }

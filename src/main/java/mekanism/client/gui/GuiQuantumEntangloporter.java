@@ -100,13 +100,9 @@ public class GuiQuantumEntangloporter extends GuiMekanismTile<TileEntityQuantumE
         }
         List<String> text = new ArrayList<>();
         if (privateMode) {
-            for (Frequency freq : tileEntity.privateCache) {
-                text.add(freq.name);
-            }
+            tileEntity.privateCache.forEach(freq -> text.add(freq.name));
         } else {
-            for (Frequency freq : tileEntity.publicCache) {
-                text.add(freq.name + " (" + freq.clientOwner + ")");
-            }
+            tileEntity.publicCache.forEach(freq -> text.add(freq.name + " (" + freq.clientOwner + ")"));
         }
         scrollList.setText(text);
         if (privateMode) {

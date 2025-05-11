@@ -91,7 +91,7 @@ public class ShapedMekanismRecipe extends ShapedOreRecipe {
         //    group = context.getModId() + ":" + group;
 
         Map<Character, Ingredient> ingMap = new Object2ObjectOpenHashMap<>();
-        for (Entry<String, JsonElement> entry : JsonUtils.getJsonObject(json, "key").entrySet()) {
+        JsonUtils.getJsonObject(json, "key").entrySet().forEach(entry -> {
             if (entry.getKey().length() != 1) {
                 throw new JsonSyntaxException("Invalid key entry: '" + entry.getKey() + "' is an invalid symbol (must be 1 character only).");
             }
@@ -99,7 +99,7 @@ public class ShapedMekanismRecipe extends ShapedOreRecipe {
                 throw new JsonSyntaxException("Invalid key entry: ' ' is a reserved symbol.");
             }
             ingMap.put(entry.getKey().toCharArray()[0], CraftingHelper.getIngredient(entry.getValue(), context));
-        }
+        });
 
         ingMap.put(' ', Ingredient.EMPTY);
 

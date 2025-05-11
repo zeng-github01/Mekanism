@@ -102,14 +102,14 @@ public class TransmitterNetworkRegistry {
             logger.info("Dealing with {} invalid Transmitters", invalidTransmitters.size());
         }
 
-        for (IGridTransmitter<?, ?, ?> invalid : invalidTransmitters) {
+        invalidTransmitters.forEach(invalid -> {
             if (!(invalid.isOrphan() && invalid.isValid())) {
                 DynamicNetwork<?, ?, ?> network = invalid.getTransmitterNetwork();
                 if (network != null) {
                     network.invalidate();
                 }
             }
-        }
+        });
 
         invalidTransmitters.clear();
     }
@@ -122,14 +122,13 @@ public class TransmitterNetworkRegistry {
         if (MekanismAPI.debug && !orphanTransmitters.isEmpty()) {
             logger.info("Dealing with {} orphan Transmitters", orphanTransmitters.size());
         }
-
-        for (IGridTransmitter<?, ?, ?> orphanTransmitter : new ObjectArrayList<>(orphanTransmitters.values())) {
+        new ObjectArrayList<>(orphanTransmitters.values()).forEach(orphanTransmitter -> {
             DynamicNetwork<?, ?, ?> network = getNetworkFromOrphan(orphanTransmitter);
             if (network != null) {
                 networksToChange.add(network);
                 network.register();
             }
-        }
+        });
 
         orphanTransmitters.clear();
     }
@@ -173,9 +172,7 @@ public class TransmitterNetworkRegistry {
     }
 
     public void commitChanges() {
-        for (DynamicNetwork<?, ?, ?> network : networksToChange) {
-            network.commit();
-        }
+        networksToChange.forEach(DynamicNetwork::commit);
         networksToChange.clear();
     }
 
@@ -187,7 +184,6 @@ public class TransmitterNetworkRegistry {
     public String[] toStrings() {
         String[] strings = new String[networks.size()];
         int i = 0;
-
         for (DynamicNetwork<?, ?, ?> network : networks) {
             strings[i] = network.toString();
             i++;
@@ -234,7 +230,7 @@ public class TransmitterNetworkRegistry {
                 IGridTransmitter<A, N, BUFFER> transmitter = (IGridTransmitter<A, N, BUFFER>) orphanTransmitters.get(from);
 
                 if (transmitter.isValid() && transmitter.isOrphan() &&
-                    (connectedTransmitters.isEmpty() || connectedTransmitters.stream().anyMatch(existing -> existing.isCompatibleWith(transmitter)))) {
+                        (connectedTransmitters.isEmpty() || connectedTransmitters.stream().anyMatch(existing -> existing.isCompatibleWith(transmitter)))) {
                     connectedTransmitters.add(transmitter);
                     transmitter.setOrphan(false);
 

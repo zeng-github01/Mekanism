@@ -379,10 +379,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             }
         }
 
-        for (Upgrade upgrade : factory.upgradeComponent.getSupportedTypes()) {
-            factory.recalculateUpgradables(upgrade);
-        }
-
+        factory.upgradeComponent.getSupportedTypes().forEach(factory::recalculateUpgradables);
         factory.upgraded = true;
         factory.markNoUpdateSync();
         Mekanism.packetHandler.sendUpdatePacket(factory);
@@ -558,9 +555,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         BASE_ENERGY_PER_TICK = energyPerTick = tier == FactoryTier.CREATIVE ? 0 : recipeType.getEnergyUsage();
         upgradeComponent.setSupported(Upgrade.GAS, recipeType.fuelEnergyUpgrades());
         secondaryEnergyPerTick = getSecondaryEnergyPerTick(recipeType);
-        for (Upgrade upgrade : upgradeComponent.getSupportedTypes()) {
-            recalculateUpgradables(upgrade);
-        }
+        upgradeComponent.getSupportedTypes().forEach(this::recalculateUpgradables);
         if (hasWorld() && isRemote()) {
             setSoundEvent(type.getSound());
         }

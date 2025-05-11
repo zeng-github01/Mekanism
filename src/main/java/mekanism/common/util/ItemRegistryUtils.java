@@ -5,21 +5,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModContainer;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public final class ItemRegistryUtils {
 
     private static final Map<String, String> modIDMap = new Object2ObjectOpenHashMap<>();
 
     private static void populateMap() {
-        for (Entry<String, ModContainer> entry : Loader.instance().getIndexedModList().entrySet()) {
-            modIDMap.put(entry.getKey().toLowerCase(Locale.ROOT), entry.getValue().getName());
-        }
+        Loader.instance().getIndexedModList().forEach((key, value) -> modIDMap.put(key.toLowerCase(Locale.ROOT), value.getName()));
     }
 
     /* Mod ID lookup thanks to JEI */

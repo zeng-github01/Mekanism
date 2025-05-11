@@ -54,15 +54,11 @@ public class ItemModule extends Item implements IModuleItem {
     public void addInformation(@Nonnull ItemStack stack, World world, @Nonnull List<String> tooltip, @Nonnull ITooltipFlag flag) {
         if (MekKeyHandler.getIsKeyPressed(MekanismKeyHandler.sneakKey)) {
             tooltip.add(MekanismLang.MODULE_SUPPORTED.translateColored(EnumColor.BRIGHT_GREEN).getFormattedText());
-            for (Item item : ModuleHelper.get().getSupported(getModuleData())) {
-                tooltip.add(item.getItemStackDisplayName(new ItemStack(item)));
-            }
+            ModuleHelper.get().getSupported(getModuleData()).forEach(item -> tooltip.add(item.getItemStackDisplayName(new ItemStack(item))));
             Set<ModuleData<?>> conflicting = ModuleHelper.get().getConflicting(getModuleData());
             if (!conflicting.isEmpty()) {
                 tooltip.add(MekanismLang.MODULE_CONFLICTING.translateColored(EnumColor.RED).getFormattedText());
-                for (ModuleData<?> module : conflicting) {
-                    tooltip.add(MekanismLang.GENERIC_LIST.translate().getFormattedText() + " " + module.getModuleData().getRarity().getColor() + LangUtils.localize(module.getTranslationKey()));
-                }
+                conflicting.forEach(module -> tooltip.add(MekanismLang.GENERIC_LIST.translate().getFormattedText() + " " + module.getModuleData().getRarity().getColor() + LangUtils.localize(module.getTranslationKey())));
             }
         } else {
             ModuleData<?> moduleData = getModuleData();

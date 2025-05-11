@@ -22,7 +22,6 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class RecipeUtils {
 
@@ -164,15 +163,14 @@ public class RecipeUtils {
             for (int i = 0; i < invLength; i++) {
                 ItemStack itemstack = inv.getStackInSlot(i);
                 if (!itemstack.isEmpty() && MachineType.get(itemstack) != null && MachineType.get(itemstack).supportsUpgrades) {
-                    Map<Upgrade, Integer> stackMap = Upgrade.buildMap(ItemDataUtils.getDataMapIfPresent(itemstack));
-                    for (Entry<Upgrade, Integer> entry : stackMap.entrySet()) {
+                    Upgrade.buildMap(ItemDataUtils.getDataMapIfPresent(itemstack)).entrySet().forEach(entry -> {
                         if (entry != null && entry.getKey() != null && entry.getValue() != null) {
                             upgrades.compute(entry.getKey(), (k, val) -> Math.min(entry.getKey().getMax(), (val != null ? val : 0) + entry.getValue()));
                         }
-                    }
+                    });
                 }
             }
-            if (ItemDataUtils.hasData(toReturn, "upgrades")){
+            if (ItemDataUtils.hasData(toReturn, "upgrades")) {
                 Upgrade.saveMap(upgrades, ItemDataUtils.getDataMap(toReturn));
             }
         }

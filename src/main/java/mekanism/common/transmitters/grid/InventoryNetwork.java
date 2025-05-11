@@ -19,12 +19,12 @@ public class InventoryNetwork extends DynamicNetwork<TileEntity, InventoryNetwor
     }
 
     public InventoryNetwork(Collection<InventoryNetwork> networks) {
-        for (InventoryNetwork net : networks) {
+        networks.forEach(net -> {
             if (net != null) {
                 adoptTransmittersAndAcceptorsFrom(net);
                 net.deregister();
             }
-        }
+        });
         register();
     }
 

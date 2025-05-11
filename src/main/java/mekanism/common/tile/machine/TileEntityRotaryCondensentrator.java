@@ -193,10 +193,7 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
             if (type == 0) {
                 mode = mode == 0 ? 1 : 0;
             }
-            for (EntityPlayer player : playersUsing) {
-                Mekanism.packetHandler.sendTo(new TileEntityMessage(this), (EntityPlayerMP) player);
-            }
-
+            playersUsing.forEach(player ->  Mekanism.packetHandler.sendTo(new TileEntityMessage(this), (EntityPlayerMP) player));
             return;
         }
 

@@ -66,11 +66,11 @@ public class VoiceServerManager {
         if (channel == 0) {
             return;
         }
-        for (VoiceConnection iterConn : connections) {
+        connections.forEach(iterConn -> {
             if (iterConn.getPlayer() != null && iterConn != connection && iterConn.canListen(channel)) {
                 iterConn.sendToPlayer(byteCount, audioData, connection);
             }
-        }
+        });
     }
 
     private class ListenThread extends Thread {

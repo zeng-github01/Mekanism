@@ -150,12 +150,12 @@ public abstract class TileEntityMultiblock<T extends SynchronizedData<T>> extend
 
     public void sendPacketToRenderer() {
         if (structure != null) {
-            for (Coord4D obj : structure.locations) {
+            structure.locations.forEach(obj -> {
                 TileEntityMultiblock<T> tileEntity = (TileEntityMultiblock<T>) obj.getTileEntity(world);
                 if (tileEntity != null && tileEntity.isRendering) {
                     Mekanism.packetHandler.sendUpdatePacket(tileEntity);
                 }
-            }
+            });
         }
     }
 

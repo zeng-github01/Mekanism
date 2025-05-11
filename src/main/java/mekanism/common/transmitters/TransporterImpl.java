@@ -65,10 +65,10 @@ public class TransporterImpl extends TransmitterImpl<TileEntity, InventoryNetwor
 
     public void writeToPacket(TileNetworkList data) {
         data.add(transit.size());
-        for (Entry<Integer, TransporterStack> entry : transit.entrySet()) {
-            data.add(entry.getKey());
-            entry.getValue().write(this, data);
-        }
+        transit.forEach((key, value) -> {
+            data.add(key);
+            value.write(this, data);
+        });
     }
 
     public void readFromPacket(ByteBuf dataStream) {
@@ -96,9 +96,7 @@ public class TransporterImpl extends TransmitterImpl<TileEntity, InventoryNetwor
 
     public void update() {
         if (world().isRemote) {
-            for (TransporterStack stack : transit.values()) {
-                stack.progress = Math.min(100, stack.progress + getTileEntity().tier.getSpeed());
-            }
+            transit.values().forEach(stack -> stack.progress = Math.min(100, stack.progress + getTileEntity().tier.getSpeed()));
         } else if (getTransmitterNetwork() != null) {
             IntSet deletes = new IntOpenHashSet();
             getTileEntity().pullItems();
@@ -175,7 +173,7 @@ public class TransporterImpl extends TransmitterImpl<TileEntity, InventoryNetwor
                 }
             }
 
-            if (deletes.size() > 0 || needsSync.size() > 0) {
+            if (!deletes.isEmpty() || !needsSync.isEmpty()) {
                 TileEntityMessage msg = new TileEntityMessage(coord, getTileEntity().makeBatchPacket(needsSync, deletes));
                 // Now remove any entries from transit that have been deleted
                 deletes.forEach(id -> transit.remove(id));

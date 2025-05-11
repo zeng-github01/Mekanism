@@ -509,12 +509,12 @@ public class TileEntityThermalEvaporationController extends TileEntityThermalEva
     }
 
     public void clearStructure() {
-        for (Coord4D tankPart : tankParts) {
+        tankParts.forEach( tankPart-> {
             TileEntity tile = tankPart.getTileEntity(world);
-            if (tile instanceof TileEntityThermalEvaporationBlock) {
-                ((TileEntityThermalEvaporationBlock) tile).controllerGone();
+            if (tile instanceof TileEntityThermalEvaporationBlock tiles) {
+                tiles.controllerGone();
             }
-        }
+        });
         tankParts.clear();
         solars = new IEvaporationSolar[]{null, null, null, null};
     }

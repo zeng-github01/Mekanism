@@ -45,7 +45,7 @@ public abstract class DynamicNetwork<ACCEPTOR, NETWORK extends DynamicNetwork<AC
 
     public void commit() {
         if (!transmittersToAdd.isEmpty()) {
-            for (IGridTransmitter<ACCEPTOR, NETWORK, BUFFER> transmitter : transmittersToAdd) {
+            transmittersToAdd.forEach(transmitter -> {
                 if (transmitter.isValid()) {
                     if (world == null) {
                         world = transmitter.world();
@@ -59,8 +59,7 @@ public abstract class DynamicNetwork<ACCEPTOR, NETWORK extends DynamicNetwork<AC
                     absorbBuffer(transmitter);
                     transmitters.add(transmitter);
                 }
-            }
-
+            });
             updateCapacity();
             clampBuffer();
             queueClientUpdate(transmittersToAdd);
@@ -68,15 +67,14 @@ public abstract class DynamicNetwork<ACCEPTOR, NETWORK extends DynamicNetwork<AC
         }
 
         if (!changedAcceptors.isEmpty()) {
-            for (Entry<IGridTransmitter<ACCEPTOR, NETWORK, BUFFER>, EnumSet<EnumFacing>> entry : changedAcceptors.entrySet()) {
-                IGridTransmitter<ACCEPTOR, NETWORK, BUFFER> transmitter = entry.getKey();
+            changedAcceptors.forEach((transmitter, value) -> {
                 if (transmitter.isValid()) {
                     //Update all the changed directions
-                    for (EnumFacing side : entry.getValue()) {
+                    for (EnumFacing side : value) {
                         updateTransmitterOnSide(transmitter, side);
                     }
                 }
-            }
+            });
             changedAcceptors.clear();
         }
     }
@@ -128,23 +126,20 @@ public abstract class DynamicNetwork<ACCEPTOR, NETWORK extends DynamicNetwork<AC
         clampBuffer();
 
         //Update all shares
-        for (IGridTransmitter<ACCEPTOR, NETWORK, BUFFER> transmitter : transmitters) {
-            transmitter.updateShare();
-        }
+        transmitters.forEach(IGridTransmitter::updateShare);
 
         //Now invalidate the transmitter
         if (!isRemote()) {
-            for (IGridTransmitter<ACCEPTOR, NETWORK, BUFFER> transmitter : transmitters) {
+            transmitters.forEach(transmitter -> {
                 if (transmitter.isValid()) {
                     transmitter.takeShare();
                     transmitter.setTransmitterNetwork(null);
                     TransmitterNetworkRegistry.registerOrphanTransmitter(transmitter);
                 }
-            }
+            });
         }
         deregister();
     }
-
 
 
     public void acceptorChanged(IGridTransmitter<ACCEPTOR, NETWORK, BUFFER> transmitter, EnumFacing side) {
@@ -158,23 +153,22 @@ public abstract class DynamicNetwork<ACCEPTOR, NETWORK extends DynamicNetwork<AC
     }
 
     public void adoptTransmittersAndAcceptorsFrom(NETWORK net) {
-        for (IGridTransmitter<ACCEPTOR, NETWORK, BUFFER> transmitter : net.transmitters) {
+        net.transmitters.forEach(transmitter -> {
             transmitter.setTransmitterNetwork((NETWORK) this);
             transmitters.add(transmitter);
             transmittersAdded.add(transmitter);
-        }
+        });
 
         transmittersToAdd.addAll(net.transmittersToAdd);
         possibleAcceptors.addAll(net.possibleAcceptors);
 
-        for (Entry<Coord4D, EnumSet<EnumFacing>> entry : net.acceptorDirections.entrySet()) {
-            Coord4D coord = entry.getKey();
+        net.acceptorDirections.forEach((coord, value) -> {
             if (acceptorDirections.containsKey(coord)) {
-                acceptorDirections.get(coord).addAll(entry.getValue());
+                acceptorDirections.get(coord).addAll(value);
             } else {
-                acceptorDirections.put(coord, entry.getValue());
+                acceptorDirections.put(coord, value);
             }
-        }
+        });
     }
 
     public Range4D getPacketRange() {
@@ -197,7 +191,8 @@ public abstract class DynamicNetwork<ACCEPTOR, NETWORK extends DynamicNetwork<AC
         int maxY = initCoord.y;
         int maxZ = initCoord.z;
 
-        for (IGridTransmitter transmitter : transmitters) {
+
+        for (IGridTransmitter<ACCEPTOR, NETWORK, BUFFER> transmitter : transmitters) {
             Coord4D coord = transmitter.coord();
             if (coord.x < minX) {
                 minX = coord.x;

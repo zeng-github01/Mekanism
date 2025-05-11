@@ -33,7 +33,7 @@ public class ContainerRobitSmelting extends ContainerRobit {
     @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
-        for (IContainerListener listener : listeners) {
+        listeners.forEach(listener -> {
             if (lastCookTime != robit.furnaceCookTime) {
                 listener.sendWindowProperty(this, 0, robit.furnaceCookTime);
             }
@@ -43,7 +43,7 @@ public class ContainerRobitSmelting extends ContainerRobit {
             if (lastItemBurnTime != robit.currentItemBurnTime) {
                 listener.sendWindowProperty(this, 2, robit.currentItemBurnTime);
             }
-        }
+        });
         lastCookTime = robit.furnaceCookTime;
         lastBurnTime = robit.furnaceBurnTime;
         lastItemBurnTime = robit.currentItemBurnTime;

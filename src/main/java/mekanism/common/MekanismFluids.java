@@ -8,7 +8,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
@@ -177,9 +176,7 @@ public class MekanismFluids {
         FluidRegistry.addBucketForFluid(Brine.getFluid());
         FluidRegistry.addBucketForFluid(Lithium.getFluid());
          */
-        List<GasStack> list = GasRegistry.getRegisteredGasses().stream().filter(Gas::isRegisterFluid).map(g -> new GasStack(g, Fluid.BUCKET_VOLUME)).collect(Collectors.toList());
-        for (GasStack gas : list) {
-            FluidRegistry.addBucketForFluid(gas.getGas().getFluid());
-        }
+        GasRegistry.getRegisteredGasses().stream().filter(Gas::isRegisterFluid).map(g -> new GasStack(g, Fluid.BUCKET_VOLUME)).collect(Collectors.toList()).forEach(gas -> FluidRegistry.addBucketForFluid(gas.getGas().getFluid()));
+
     }
 }

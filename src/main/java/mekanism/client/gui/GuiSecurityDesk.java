@@ -82,9 +82,7 @@ public class GuiSecurityDesk extends GuiMekanismTile<TileEntitySecurityDesk> {
         if (tileEntity.ownerUUID != null) {
             List<String> text = new ArrayList<>();
             if (tileEntity.frequency != null) {
-                for (String s : tileEntity.frequency.trusted) {
-                    text.add(s);
-                }
+                tileEntity.frequency.trusted.forEach(text::add);
             }
             scrollList.setText(text);
             removeButton.enabled = scrollList.hasSelection();

@@ -41,9 +41,7 @@ public class ItemDictionary extends ItemMekanism {
                 List<String> names = OreDictCache.getOreDictName(testStack);
                 if (!names.isEmpty()) {
                     player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + Mekanism.LOG_TAG + EnumColor.GREY + " " + LangUtils.localize("tooltip.keysFound") + ":"));
-                    for (String name : names) {
-                        player.sendMessage(new TextComponentString(EnumColor.DARK_GREEN + " - " + name));
-                    }
+                    names.forEach(name -> player.sendMessage(new TextComponentString(EnumColor.DARK_GREEN + " - " + name)));
                 } else {
                     player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + Mekanism.LOG_TAG + EnumColor.GREY + " " + LangUtils.localize("tooltip.noKey") + "."));
                 }

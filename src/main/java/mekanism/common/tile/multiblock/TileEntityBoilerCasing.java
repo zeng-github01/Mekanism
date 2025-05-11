@@ -70,12 +70,12 @@ public class TileEntityBoilerCasing extends TileEntityMultiblock<SynchronizedBoi
             }
         }
         if (!clientHasStructure || !isRendering) {
-            for (ValveData data : valveViewing) {
+            valveViewing.forEach(data -> {
                 TileEntityBoilerCasing tileEntity = (TileEntityBoilerCasing) data.location.getTileEntity(world);
                 if (tileEntity != null) {
                     tileEntity.clientHasStructure = false;
                 }
-            }
+            });
             valveViewing.clear();
         }
     }
@@ -175,7 +175,6 @@ public class TileEntityBoilerCasing extends TileEntityMultiblock<SynchronizedBoi
     }
 
 
-
     @Override
     public boolean onActivate(EntityPlayer player, EnumHand hand, ItemStack stack) {
         if (!player.isSneaking() && structure != null) {
@@ -228,16 +227,16 @@ public class TileEntityBoilerCasing extends TileEntityMultiblock<SynchronizedBoi
             if (isRendering) {
                 data.add(structure.clientHot);
                 Set<ValveData> toSend = new ObjectOpenHashSet<>();
-                for (ValveData valveData : structure.valves) {
+                structure.valves.forEach(valveData -> {
                     if (valveData.activeTicks > 0) {
                         toSend.add(valveData);
                     }
-                }
+                });
                 data.add(toSend.size());
-                for (ValveData valveData : toSend) {
+                toSend.forEach(valveData -> {
                     valveData.location.write(data);
                     data.add(valveData.side.ordinal());
-                }
+                });
             }
         }
         return data;

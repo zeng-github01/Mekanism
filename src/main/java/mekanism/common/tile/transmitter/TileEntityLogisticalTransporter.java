@@ -233,10 +233,10 @@ public class TileEntityLogisticalTransporter extends TileEntityTransmitter<TileE
         }
         data.add(BATCH_PACKET);
         data.add(updates.size());
-        for (Entry<Integer, TransporterStack> entry : updates.entrySet()) {
-            data.add(entry.getKey());
-            entry.getValue().write(getTransmitter(), data);
-        }
+        updates.forEach((key, value) -> {
+            data.add(key);
+            value.write(getTransmitter(), data);
+        });
         data.add(deletes.size());
         data.addAll(deletes);
         return data;
@@ -270,11 +270,11 @@ public class TileEntityLogisticalTransporter extends TileEntityTransmitter<TileE
             nbtTags.setInteger("color", TransporterUtils.colors.indexOf(getTransmitter().getColor()));
         }
         NBTTagList stacks = new NBTTagList();
-        for (TransporterStack stack : getTransmitter().getTransit()) {
+        getTransmitter().getTransit().forEach(stack -> {
             NBTTagCompound tagCompound = new NBTTagCompound();
             stack.write(tagCompound);
             stacks.appendTag(tagCompound);
-        }
+        });
         if (stacks.tagCount() != 0) {
             nbtTags.setTag("stacks", stacks);
         }
@@ -322,9 +322,7 @@ public class TileEntityLogisticalTransporter extends TileEntityTransmitter<TileE
     public void onChunkUnload() {
         super.onChunkUnload();
         if (!getWorld().isRemote) {
-            for (TransporterStack stack : getTransmitter().getTransit()) {
-                TransporterUtils.drop(getTransmitter(), stack);
-            }
+            getTransmitter().getTransit().forEach(stack -> TransporterUtils.drop(getTransmitter(), stack));
         }
     }
 

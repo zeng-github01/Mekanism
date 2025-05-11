@@ -249,10 +249,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
                             LangUtils.transYesNo(getInventory(itemstack) != null && getInventory(itemstack).tagCount() != 0));
                 }
                 if (type.supportsUpgrades && ItemDataUtils.hasData(itemstack, "upgrades")) {
-                    Map<Upgrade, Integer> upgrades = Upgrade.buildMap(ItemDataUtils.getDataMap(itemstack));
-                    for (Entry<Upgrade, Integer> entry : upgrades.entrySet()) {
-                        list.add(entry.getKey().getColor() + "- " + entry.getKey().getName() + (entry.getKey().canMultiply() ? ": " + EnumColor.GREY + "x" + entry.getValue() : ""));
-                    }
+                    Upgrade.buildMap(ItemDataUtils.getDataMap(itemstack)).forEach((key, value) -> list.add(key.getColor() + "- " + key.getName() + (key.canMultiply() ? ": " + EnumColor.GREY + "x" + value : "")));
                 }
             } else {
                 list.addAll(MekanismUtils.splitTooltip(type.getDescription(), itemstack));

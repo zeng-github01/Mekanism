@@ -207,9 +207,7 @@ public abstract class ItemMekaSuitArmor extends ItemArmor implements IEnergizedI
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
         super.onArmorTick(world, player, stack);
-        for (Module<?> module : getModules(stack)) {
-            module.tick(player);
-        }
+        getModules(stack).forEach(module -> module.tick(player));
     }
 
     @Override
@@ -254,9 +252,7 @@ public abstract class ItemMekaSuitArmor extends ItemArmor implements IEnergizedI
         List<Runnable> energyUsageCallbacks = new ArrayList<>(4);
         if (getDamageAbsorbed(player, source, amount, energyUsageCallbacks) >= 1) {
             //If we can fully absorb it, actually use the energy from the various pieces and then return that we absorbed it all
-            for (Runnable energyUsageCallback : energyUsageCallbacks) {
-                energyUsageCallback.run();
-            }
+            energyUsageCallbacks.forEach(Runnable::run);
             return true;
         }
         return false;
@@ -322,10 +318,9 @@ public abstract class ItemMekaSuitArmor extends ItemArmor implements IEnergizedI
                 }
             }
         }
-        for (FoundArmorDetails details : armorDetails) {
-            //Use energy/or enqueue usage for each piece as needed
+        armorDetails.forEach(details -> {
             if (details.usageInfo.energyUsed != 0) {
-                for (ItemStack stack : player.getArmorInventoryList()) {
+                player.getArmorInventoryList().forEach(stack -> {
                     if (stack.getItem() == details.armor) {
                         if (energyUseCallbacks == null) {
                             details.energyContainer.extract(stack, details.usageInfo.energyUsed, true);
@@ -333,9 +328,9 @@ public abstract class ItemMekaSuitArmor extends ItemArmor implements IEnergizedI
                             energyUseCallbacks.add(() -> details.energyContainer.extract(stack, details.usageInfo.energyUsed, true));
                         }
                     }
-                }
+                });
             }
-        }
+        });
         return Math.min(ratioAbsorbed, 1);
     }
 
@@ -441,11 +436,11 @@ public abstract class ItemMekaSuitArmor extends ItemArmor implements IEnergizedI
         double amount = 0;
         if (equipmentSlot == EntityEquipmentSlot.HEAD) {
             amount = 1.5D;
-        }else if (equipmentSlot == EntityEquipmentSlot.CHEST){
+        } else if (equipmentSlot == EntityEquipmentSlot.CHEST) {
             amount = 4D;
-        }else if (equipmentSlot == EntityEquipmentSlot.LEGS){
+        } else if (equipmentSlot == EntityEquipmentSlot.LEGS) {
             amount = 3D;
-        }else if (equipmentSlot == EntityEquipmentSlot.FEET){
+        } else if (equipmentSlot == EntityEquipmentSlot.FEET) {
             amount = 1.5D;
         }
         if (equipmentSlot == this.armorType) {

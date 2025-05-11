@@ -34,24 +34,21 @@ public final class HolidayManager {
         }
         LocalDate time = LocalDate.now();
         YearlyDate date = new YearlyDate(time.getMonthValue(), time.getDayOfMonth());
-        for (Holiday holiday : holidays) {
-            holiday.updateIsToday(date);
-        }
+        holidays.forEach(holiday -> holiday.updateIsToday(date));
         Mekanism.logger.info("Initialized HolidayManager.");
     }
 
     public static void check() {
         try {
             YearlyDate date = getDate();
-
-            for (Holiday holiday : holidays) {
+            holidays.forEach(holiday -> {
                 if (!holidaysNotified.contains(holiday)) {
                     if (holiday.checkIsToday(date)) {
                         holiday.onEvent(mc.player);
                         holidaysNotified.add(holiday);
                     }
                 }
-            }
+            });
         } catch (Exception ignored) {
         }
     }
@@ -128,6 +125,7 @@ public final class HolidayManager {
         private void updateIsToday(YearlyDate date) {
             isToday = checkIsToday(date);
         }
+
         protected boolean checkIsToday(YearlyDate date) {
             return getDate().equals(date);
         }
@@ -177,11 +175,11 @@ public final class HolidayManager {
         }
     }
 
-    private static class AprilFools extends  Holiday{
+    private static class AprilFools extends Holiday {
 
         @Override
         public YearlyDate getDate() {
-            return new YearlyDate(4,1);
+            return new YearlyDate(4, 1);
         }
 
         @Override

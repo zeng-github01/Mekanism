@@ -244,12 +244,11 @@ public class TileEntityFormulaicAssemblicator extends TileEntityElectricBlock im
         ItemStack output = lastOutputStack;
         if (!output.isEmpty() && tryMoveToOutput(output, false) && (lastRemainingItems.isEmpty() || lastRemainingItems.stream().allMatch(it -> it.isEmpty() || tryMoveToOutput(it, false)))) {
             tryMoveToOutput(output, true);
-            for (ItemStack remainingItem : lastRemainingItems) {
+            lastRemainingItems.forEach(remainingItem -> {
                 if (!remainingItem.isEmpty()) {
                     tryMoveToOutput(remainingItem, true);
                 }
-            }
-
+            });
             for (int i = SLOT_CRAFT_MATRIX_FIRST; i <= SLOT_CRAFT_MATRIX_LAST; i++) {
                 ItemStack stack = inventory.get(i);
                 if (!stack.isEmpty()) {

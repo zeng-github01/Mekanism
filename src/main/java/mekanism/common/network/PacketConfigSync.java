@@ -2,7 +2,6 @@ package mekanism.common.network;
 
 import io.netty.buffer.ByteBuf;
 import mekanism.common.Mekanism;
-import mekanism.common.base.IModule;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.network.PacketConfigSync.ConfigSyncMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -41,9 +40,7 @@ public class PacketConfigSync implements IMessageHandler<ConfigSyncMessage, IMes
             config.usage.write(dataStream);
             config.storage.write(dataStream);
             try {
-                for (IModule module : Mekanism.modulesLoaded) {
-                    module.writeConfig(dataStream, config);
-                }
+                Mekanism.modulesLoaded.forEach(module -> module.writeConfig(dataStream, config));
             } catch (Exception e) {
                 LOGGER.fatal("Something went wrong", e);
             }
@@ -55,9 +52,7 @@ public class PacketConfigSync implements IMessageHandler<ConfigSyncMessage, IMes
             config.usage.read(dataStream);
             config.storage.read(dataStream);
             try {
-                for (IModule module : Mekanism.modulesLoaded) {
-                    module.readConfig(dataStream, config);
-                }
+                Mekanism.modulesLoaded.forEach(module -> module.readConfig(dataStream, config));
             } catch (Exception e) {
                 LOGGER.fatal("Something went wrong", e);
             }

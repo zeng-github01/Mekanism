@@ -77,9 +77,7 @@ public class PacketRadialModeChange implements IMessageHandler<RadialModeChangeM
         public void toBytes(ByteBuf dataStream) {
             dataStream.writeInt(slot.ordinal());
             new PacketBuffer(dataStream).writeVarInt(path.size());
-            for (ResourceLocation paths : path) {
-                new PacketBuffer(dataStream).writeResourceLocation(paths);
-            }
+            path.forEach(paths -> new PacketBuffer(dataStream).writeResourceLocation(paths));
             dataStream.writeInt(networkRepresentation);
         }
 

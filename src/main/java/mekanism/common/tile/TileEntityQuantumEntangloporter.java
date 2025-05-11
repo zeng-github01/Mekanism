@@ -302,16 +302,11 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
         }
 
         data.add(Mekanism.publicEntangloporters.getFrequencies().size());
-        for (Frequency freq : Mekanism.publicEntangloporters.getFrequencies()) {
-            freq.write(data);
-        }
-
+        Mekanism.publicEntangloporters.getFrequencies().forEach(freq -> freq.write(data));
         FrequencyManager manager = getManager(new InventoryFrequency(null, null).setPublic(false));
         if (manager != null) {
             data.add(manager.getFrequencies().size());
-            for (Frequency freq : manager.getFrequencies()) {
-                freq.write(data);
-            }
+            manager.getFrequencies().forEach(freq -> freq.write(data));
         } else {
             data.add(0);
         }

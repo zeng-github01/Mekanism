@@ -22,12 +22,12 @@ public class HeatNetwork extends DynamicNetwork<IHeatTransfer, HeatNetwork, Void
     }
 
     public HeatNetwork(Collection<HeatNetwork> networks) {
-        for (HeatNetwork net : networks) {
+        networks.forEach(net -> {
             if (net != null) {
                 adoptTransmittersAndAcceptorsFrom(net);
                 net.deregister();
             }
-        }
+        });
         register();
     }
 

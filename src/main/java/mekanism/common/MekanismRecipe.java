@@ -2,7 +2,6 @@ package mekanism.common;
 
 
 import mekanism.api.EnumColor;
-import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.GasStack;
 import mekanism.api.gas.OreGas;
@@ -13,14 +12,12 @@ import mekanism.common.block.states.BlockStateMachine;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.util.StackUtils;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -75,9 +72,7 @@ public class MekanismRecipe {
             RecipeHandler.addEnrichmentChamberRecipe(new ItemStack(MekanismItems.OtherDust, 1, 7), new ItemStack(MekanismItems.FluoriteClump, 1));
             RecipeHandler.addEnrichmentChamberRecipe(new ItemStack(Items.COAL, 1, 1), new ItemStack(MekanismItems.OtherDust, 1, 8));
             RecipeHandler.addEnrichmentChamberRecipe(new ItemStack(MekanismBlocks.OreBlock, 1, 3), new ItemStack(MekanismItems.FluoriteClump, 6));
-            for (ItemStack ingotUranium : OreDictionary.getOres("ingotUranium", false)) {
-                RecipeHandler.addEnrichmentChamberRecipe(StackUtils.size(ingotUranium, 1), new ItemStack(MekanismItems.YellowCakeUranium, 2));
-            }
+            OreDictionary.getOres("ingotUranium", false).forEach(ingotUranium -> RecipeHandler.addEnrichmentChamberRecipe(StackUtils.size(ingotUranium, 1), new ItemStack(MekanismItems.YellowCakeUranium, 2)));
 
             for (int i = 0; i < EnumColor.DYES.length; i++) {
                 RecipeHandler.addEnrichmentChamberRecipe(new ItemStack(MekanismBlocks.PlasticBlock, 1, i), new ItemStack(MekanismBlocks.SlickPlasticBlock, 1, i));
@@ -226,9 +221,8 @@ public class MekanismRecipe {
             //Metallurgic Infuser Recipes
             RecipeHandler.addMetallurgicInfuserRecipe(carbon, 10, new ItemStack(Items.IRON_INGOT), new ItemStack(MekanismItems.EnrichedIron));
             RecipeHandler.addMetallurgicInfuserRecipe(carbon, 10, new ItemStack(MekanismItems.EnrichedIron), new ItemStack(MekanismItems.OtherDust, 1, 1));
-            for (ItemStack steel : OreDictionary.getOres("ingotSteel", false)) {
-                RecipeHandler.addMetallurgicInfuserRecipe(redstone, 10, StackUtils.size(steel, 1), new ItemStack(MekanismItems.EnrichedAlloy));
-            }
+            OreDictionary.getOres("ingotSteel", false).forEach(steel -> RecipeHandler.addMetallurgicInfuserRecipe(redstone, 10, StackUtils.size(steel, 1), new ItemStack(MekanismItems.EnrichedAlloy)));
+
             RecipeHandler.addMetallurgicInfuserRecipe(fungi, 10, new ItemStack(Blocks.DIRT), new ItemStack(Blocks.MYCELIUM));
             RecipeHandler.addMetallurgicInfuserRecipe(bio, 10, new ItemStack(Blocks.COBBLESTONE), new ItemStack(Blocks.MOSSY_COBBLESTONE));
             RecipeHandler.addMetallurgicInfuserRecipe(bio, 10, new ItemStack(Blocks.STONEBRICK, 1, 0), new ItemStack(Blocks.STONEBRICK, 1, 1));
@@ -276,13 +270,11 @@ public class MekanismRecipe {
         }
         //Chemical Dissolution Chamber Recipes
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.CHEMICAL_DISSOLUTION_CHAMBER)) {
-            for (ItemStack ore : OreDictionary.getOres("dustFluorite")) {
-                RecipeHandler.addChemicalDissolutionChamberRecipe(StackUtils.size(ore, 1), new GasStack(MekanismFluids.HydrofluoricAcid, 100));
-            }
+            OreDictionary.getOres("dustFluorite").forEach(ore -> RecipeHandler.addChemicalDissolutionChamberRecipe(StackUtils.size(ore, 1), new GasStack(MekanismFluids.HydrofluoricAcid, 100)));
         }
 
         //T4 Processing Recipes
-        for (Gas gas : GasRegistry.getRegisteredGasses()) {
+        GasRegistry.getRegisteredGasses().forEach(gas -> {
             if (gas instanceof OreGas oreGas && !oreGas.isClean()) {
                 if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.CHEMICAL_WASHER)) {
                     RecipeHandler.addChemicalWasherRecipe(new GasStack(oreGas, 1), new GasStack(oreGas.getCleanGas(), 1));
@@ -294,8 +286,7 @@ public class MekanismRecipe {
                     RecipeHandler.addChemicalCrystallizerRecipe(new GasStack(oreGas.getCleanGas(), 200), new ItemStack(MekanismItems.Crystal, 1, gasResource.ordinal()));
                 }
             }
-        }
-
+        });
         //Pressurized Reaction Chamber Recipes
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.PRESSURIZED_REACTION_CHAMBER)) {
             RecipeHandler.addPRCRecipe(new ItemStack(MekanismItems.BioFuel, 2), new FluidStack(FluidRegistry.WATER, 10), new GasStack(MekanismFluids.Hydrogen, 100),
@@ -343,7 +334,7 @@ public class MekanismRecipe {
 
         //Nutritional Liquifier Recipes
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.NUTRITIONAL_LIQUIFIER)) {
-            for (ItemStack stack : getRegistriesStacks()) {
+            getRegistriesStacks().forEach(stack -> {
                 if (stack.getItem() instanceof ItemFood food) {
                     try {
                         if (!stack.isEmpty() && food.getHealAmount(stack) > 0) {
@@ -353,8 +344,7 @@ public class MekanismRecipe {
                         Mekanism.logger.error("Unable to add recipe for Nutritional Liquifier because {} is entered incorrectly", food);
                     }
                 }
-            }
-
+            });
             RecipeHandler.addNutritionalLiquifierRecipe(new ItemStack(Items.CAKE), new GasStack(MekanismFluids.NutritionalPaste, 6 * 50));
         }
 
@@ -392,15 +382,14 @@ public class MekanismRecipe {
             RecipeHandler.addOrganicFarmRecipe(new ItemStack(Blocks.BROWN_MUSHROOM, 1), MekanismFluids.Water, new ItemStack(Blocks.BROWN_MUSHROOM, 3));
             RecipeHandler.addOrganicFarmRecipe(new ItemStack(Blocks.RED_MUSHROOM, 1), MekanismFluids.Water, new ItemStack(Blocks.RED_MUSHROOM, 3));
 
-
-            for (Block block : ForgeRegistries.BLOCKS) {
+            ForgeRegistries.BLOCKS.forEach(block -> {
                 if (block instanceof BlockCrops crops) {  //通过方块来获取可以生长的农作物
                     try {
                         Item inputSeed = crops.getSeed();
                         Item primaryOutput = crops.getCrop();
                         ItemStack secondaryOutput = ItemStack.EMPTY;
                         List<ItemStack> drops = crops.getDrops(null, null, block.getDefaultState(), 0);
-                        if (drops != null && drops.size() <= 2) { //确保掉落物种类不超过2
+                        if (drops != null && drops.size() < 2) { //确保掉落物种类不超过2
                             for (ItemStack stack : drops) {
                                 if (stack.getItem() != primaryOutput) {
                                     secondaryOutput = stack;
@@ -421,7 +410,7 @@ public class MekanismRecipe {
                         Mekanism.logger.error("Unable to add recipe for Organic Farm because {} is entered incorrectly", block);
                     }
                 }
-            }
+            });
         }
 
         //Antiprotonic Nucleosynthesizer Recipes
@@ -466,9 +455,8 @@ public class MekanismRecipe {
 
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.RECYCLER)) {
             if (MekanismConfig.current().mekce.EnableAddArrItemRecyclerRecipe.val()) {
-                for (ItemStack stack : getRegistriesStacks()) {
-                    RecipeHandler.addRecyclerRecipe(stack);
-                }
+                getRegistriesStacks().forEach(RecipeHandler::addRecyclerRecipe);
+
             } else {
                 RecipeHandler.addRecyclerRecipe(new ItemStack(Blocks.DIRT));
             }
@@ -476,10 +464,7 @@ public class MekanismRecipe {
 
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.AMBIENT_ACCUMULATOR) || MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.AMBIENT_ACCUMULATOR_ENERGY)) {
             //遍历所有维度来生成配方
-            for (DimensionType dimensionType : DimensionManager.getRegisteredDimensions().keySet()) {
-                RecipeHandler.addAmbientGas(dimensionType.getId(), new GasStack(MekanismFluids.UnstableDimensional, 1), 1F / 5F);
-            }
-
+            DimensionManager.getRegisteredDimensions().keySet().forEach(dimensionType -> RecipeHandler.addAmbientGas(dimensionType.getId()));
         }
 
         /**
@@ -491,11 +476,7 @@ public class MekanismRecipe {
     //获取所有物品(不包括空气)
     public static List<ItemStack> getRegistriesStacks() {
         List<ItemStack> stacks = new ArrayList<>();
-        for (Item item : ForgeRegistries.ITEMS) {
-            //跳过物品类型的空气
-            if (item == Items.AIR) {
-                continue;
-            }
+        ForgeRegistries.ITEMS.forEach(item -> {
             if (item.getHasSubtypes()) {
                 ItemStack stack = new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE);
                 if (!stack.isEmpty()) {
@@ -504,7 +485,9 @@ public class MekanismRecipe {
             } else {
                 stacks.add(new ItemStack(item));
             }
-        }
+        });
+        //移除空气
+        stacks.remove(new ItemStack(Items.AIR));
         return stacks;
     }
 

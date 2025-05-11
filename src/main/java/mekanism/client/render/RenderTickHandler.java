@@ -43,7 +43,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.awt.*;
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 
 @SideOnly(Side.CLIENT)
 public class RenderTickHandler {
@@ -95,7 +94,7 @@ public class RenderTickHandler {
                 }
 
                 // Traverse a copy of jetpack state and do animations
-                for (UUID uuid : Mekanism.playerState.getActiveJetpacks()) {
+                Mekanism.playerState.getActiveJetpacks().forEach(uuid -> {
                     EntityPlayer p = mc.world.getPlayerEntityByUUID(uuid);
                     if (p != null) {
                         Pos3D playerPos = new Pos3D(p).translate(0, p.getEyeHeight(), 0);
@@ -134,11 +133,11 @@ public class RenderTickHandler {
                         Pos3D vCenter = new Pos3D((world.rand.nextFloat() - 0.5) * 0.4, -0.86, -0.30).rotatePitch(xRot).rotateYaw(p.rotationYaw);
                         renderJetpackSmoke(world, playerPos.translate(vCenter).translate(playerMotion), vCenter.scale(0.2).translate(playerMotion));
                     }
-                }
+                });
 
                 // Traverse a copy of gasmask state and do animations
                 if (world.getTotalWorldTime() % 4 == 0) {
-                    for (UUID uuid : Mekanism.playerState.getActiveScubaMask()) {
+                    Mekanism.playerState.getActiveScubaMask().forEach(uuid -> {
                         EntityPlayer p = mc.world.getPlayerEntityByUUID(uuid);
                         if (p != null && p.isInWater()) {
                             Pos3D vec = new Pos3D(0.4, 0.4, 0.4).multiply(p.getLook(1)).translate(0, -0.2, 0);
@@ -146,9 +145,9 @@ public class RenderTickHandler {
                             Pos3D v = new Pos3D(p).translate(0, p.getEyeHeight(), 0).translate(vec);
                             spawnAndSetParticle(EnumParticleTypes.WATER_BUBBLE, world, v.x, v.y, v.z, motion.x, motion.y + 0.2, motion.z);
                         }
-                    }
+                    });
 
-                    for (EntityPlayer p : world.playerEntities) {
+                    world.playerEntities.forEach(p -> {
                         if (!Mekanism.playerState.isFlamethrowerOn(p) && !p.isSwingInProgress) {
                             ItemStack currentItem = p.getHeldItemMainhand();
                             if (!currentItem.isEmpty() && currentItem.getItem() instanceof ItemFlamethrower flamethrower && flamethrower.getGas(currentItem) != null) {
@@ -175,9 +174,8 @@ public class RenderTickHandler {
                                 spawnAndSetParticle(EnumParticleTypes.FLAME, world, mergedVec.x, mergedVec.y, mergedVec.z, flameMotion.x, flameMotion.y, flameMotion.z);
                             }
                         }
-                    }
+                    });
                 }
-
             }
         }
     }
@@ -266,7 +264,7 @@ public class RenderTickHandler {
 
     public static void drawBoundingBox(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, float red, float green, float blue, float alpha) {
         Tessellator tessellator = Tessellator.getInstance();
-        alpha *= (float)Math.abs(Math.sin((double)Minecraft.getSystemTime() / 100.0 * 0.3D));
+        alpha *= (float) Math.abs(Math.sin((double) Minecraft.getSystemTime() / 100.0 * 0.3D));
         BufferBuilder bufferbuilder = tessellator.getBuffer();
         bufferbuilder.begin(5, DefaultVertexFormats.POSITION_COLOR);
         drawBoundingBox(bufferbuilder, minX, minY, minZ, maxX, maxY, maxZ, red, green, blue, alpha);

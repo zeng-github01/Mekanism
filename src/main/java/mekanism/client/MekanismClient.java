@@ -69,9 +69,6 @@ public class MekanismClient extends Mekanism {
 
         MekanismConfig.setSyncedConfig(null);
         Mekanism.proxy.onConfigSync(false);
-
-        for (IModule module : Mekanism.modulesLoaded) {
-            module.resetClient();
-        }
+        Mekanism.modulesLoaded.forEach(IModule::resetClient);
     }
 }

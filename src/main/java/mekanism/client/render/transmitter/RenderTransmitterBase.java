@@ -51,11 +51,11 @@ public abstract class RenderTransmitterBase<T extends TileEntityTransmitter> ext
         Map<String, IBakedModel> modelParts = new Object2ObjectOpenHashMap<>();
         Set<String> keys = objModel.getMatLib().getGroups().keySet();
         if (!keys.isEmpty()) {
-            for (String key : keys) {
+            keys.forEach(key -> {
                 if (!modelParts.containsKey(key)) {
                     modelParts.put(key, objModel.bake(new OBJState(Collections.singletonList(key), false), Attributes.DEFAULT_BAKED_FORMAT, textureGetterFlipV));
                 }
-            }
+            });
         }
         return modelParts;
     }
@@ -66,16 +66,15 @@ public abstract class RenderTransmitterBase<T extends TileEntityTransmitter> ext
         }
 
         for (EnumFacing side : EnumFacing.VALUES) {
-            for (BakedQuad quad : cc.getQuads(null, side, 0)) {
+            cc.getQuads(null, side, 0).forEach(quad ->{
                 quad = MekanismRenderer.iconTransform(quad, icon);
                 LightUtil.renderQuadColor(renderer, quad, color.argb());
-            }
+            });
         }
-
-        for (BakedQuad quad : cc.getQuads(null, null, 0)) {
+        cc.getQuads(null, null, 0).forEach(quad -> {
             quad = MekanismRenderer.iconTransform(quad, icon);
             LightUtil.renderQuadColor(renderer, quad, color.argb());
-        }
+        });
     }
 
     public IBakedModel getModelForSide(TileEntityTransmitter part, EnumFacing side) {

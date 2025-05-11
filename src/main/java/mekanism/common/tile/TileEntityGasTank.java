@@ -22,7 +22,6 @@ import mekanism.common.tile.component.TileComponentSecurity;
 import mekanism.common.tile.component.config.DataType;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.util.*;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -85,23 +84,23 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
     @Override
     public void onAsyncUpdateServer() {
         super.onAsyncUpdateServer();
-            TileUtils.drawGas(inventory.get(0), gasTank, tier != GasTankTier.CREATIVE);
-            if (TileUtils.receiveGas(inventory.get(1), gasTank) && tier == GasTankTier.CREATIVE && gasTank.getGas() != null) {
-                gasTank.getGas().amount = Integer.MAX_VALUE;
+        TileUtils.drawGas(inventory.get(0), gasTank, tier != GasTankTier.CREATIVE);
+        if (TileUtils.receiveGas(inventory.get(1), gasTank) && tier == GasTankTier.CREATIVE && gasTank.getGas() != null) {
+            gasTank.getGas().amount = Integer.MAX_VALUE;
+        }
+        Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
+            handTank();
+            int newGasAmount = gasTank.getStored();
+            if (newGasAmount != currentGasAmount) {
+                MekanismUtils.saveChunk(this);
             }
-            Mekanism.EXECUTE_MANAGER.addSyncTask(() -> {
-                handTank();
-                int newGasAmount = gasTank.getStored();
-                if (newGasAmount != currentGasAmount) {
-                    MekanismUtils.saveChunk(this);
-                }
-                currentGasAmount = newGasAmount;
-                int newRedstoneLevel = getRedstoneLevel();
-                if (newRedstoneLevel != currentRedstoneLevel) {
-                    markNoUpdateSync();
-                    currentRedstoneLevel = newRedstoneLevel;
-                }
-            });
+            currentGasAmount = newGasAmount;
+            int newRedstoneLevel = getRedstoneLevel();
+            if (newRedstoneLevel != currentRedstoneLevel) {
+                markNoUpdateSync();
+                currentRedstoneLevel = newRedstoneLevel;
+            }
+        });
     }
 
     public void handTank() {
@@ -268,9 +267,7 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
             if (type == 1) {
                 gasTank.setGas(null);
             }
-            for (EntityPlayer player : playersUsing) {
-                Mekanism.packetHandler.sendTo(new TileEntityMessage(this), (EntityPlayerMP) player);
-            }
+            playersUsing.forEach(player -> Mekanism.packetHandler.sendTo(new TileEntityMessage(this), (EntityPlayerMP) player));
 
             return;
         }

@@ -119,32 +119,24 @@ public abstract class OBJBakedModelBase extends OBJBakedModel {
         Set<Face> faces = Collections.synchronizedSet(new LinkedHashSet<>());
         Optional<TRSRTransformation> transform = Optional.empty();
         Map<Face, String> groupNameMap = new Object2ObjectOpenHashMap<>();
-
         for (Group g : getModel().getMatLib().getGroups().values()) {
-            if (getState() instanceof OBJState) {
-                OBJState state = (OBJState) getState();
-
+            if (getState() instanceof OBJState state) {
                 if (state.parent != null) {
                     transform = state.parent.apply(Optional.empty());
                 }
-
                 updateStateVisibilityMap(state);
-
                 if (state.getGroupsWithVisibility(true).contains(g.getName())) {
-                    Set<Face> groupFaces = g.applyTransform(transform);
-                    for (Face f : groupFaces) {
+                    g.applyTransform(transform).forEach(f -> {
                         groupNameMap.put(f, g.getName());
                         faces.add(f);
-                    }
+                    });
                 }
             } else {
                 transform = getState().apply(Optional.empty());
-                Set<Face> groupFaces = g.applyTransform(transform);
-
-                for (Face f : groupFaces) {
+                g.applyTransform(transform).forEach(f -> {
                     groupNameMap.put(f, g.getName());
                     faces.add(f);
-                }
+                });
             }
         }
 

@@ -143,11 +143,11 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
     public void onUpdate() {
         super.onUpdate();
         if (getActive()) {
-            for (EntityPlayer player : new ReferenceOpenHashSet<>(playersUsing)) {
+            new ReferenceOpenHashSet<>(playersUsing).forEach(player -> {
                 if (player.openContainer instanceof ContainerNull || player.openContainer instanceof ContainerFilter) {
                     player.closeScreen();
                 }
-            }
+            });
         }
     }
 
@@ -608,24 +608,18 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
                     // Move filter up
                     int filterIndex = dataStream.readInt();
                     filters.swap(filterIndex, filterIndex - 1);
-                    for (EntityPlayer player : playersUsing) {
-                        openInventory(player);
-                    }
+                    playersUsing.forEach(this::openInventory);
                 }
                 case 12 -> {
                     // Move filter down
                     int filterIndex = dataStream.readInt();
                     filters.swap(filterIndex, filterIndex + 1);
-                    for (EntityPlayer player : playersUsing) {
-                        openInventory(player);
-                    }
+                    playersUsing.forEach(this::openInventory);
                 }
             }
 
             MekanismUtils.saveChunk(this);
-            for (EntityPlayer player : playersUsing) {
-                Mekanism.packetHandler.sendTo(new TileEntityMessage(this, getGenericPacket(new TileNetworkList())), (EntityPlayerMP) player);
-            }
+            playersUsing.forEach(player -> Mekanism.packetHandler.sendTo(new TileEntityMessage(this, getGenericPacket(new TileNetworkList())), (EntityPlayerMP) player));
             return;
         }
 
@@ -700,9 +694,7 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
         data.add(0);
         addBasicData(data);
         data.add(filters.size());
-        for (MinerFilter filter : filters) {
-            filter.write(data);
-        }
+        filters.forEach(filter -> filter.write(data));
         return data;
     }
 
@@ -740,9 +732,8 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
         super.getNetworkedData(data);
         data.add(2);
         data.add(filters.size());
-        for (MinerFilter filter : filters) {
-            filter.write(data);
-        }
+        filters.forEach(filter -> filter.write(data));
+
         return data;
     }
 
@@ -995,9 +986,7 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
         } else if (method == 10) {
             return new Object[]{searcher != null ? searcher.found : 0};
         }
-        for (EntityPlayer player : playersUsing) {
-            Mekanism.packetHandler.sendTo(new TileEntityMessage(this, getGenericPacket(new TileNetworkList())), (EntityPlayerMP) player);
-        }
+        playersUsing.forEach(player -> Mekanism.packetHandler.sendTo(new TileEntityMessage(this, getGenericPacket(new TileNetworkList())), (EntityPlayerMP) player));
         return null;
     }
 
@@ -1011,9 +1000,7 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
         nbtTags.setBoolean("silkTouch", silkTouch);
         nbtTags.setBoolean("inverse", inverse);
         NBTTagList filterTags = new NBTTagList();
-        for (MinerFilter filter : filters) {
-            filterTags.appendTag(filter.write(new NBTTagCompound()));
-        }
+        filters.forEach(filter -> filterTags.appendTag(filter.write(new NBTTagCompound())));
         if (filterTags.tagCount() != 0) {
             nbtTags.setTag("filters", filterTags);
         }
@@ -1055,10 +1042,8 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
         ItemDataUtils.setBoolean(itemStack, "inverse", inverse);
 
         NBTTagList filterTags = new NBTTagList();
+        filters.forEach(filter -> filterTags.appendTag(filter.write(new NBTTagCompound())));
 
-        for (MinerFilter filter : filters) {
-            filterTags.appendTag(filter.write(new NBTTagCompound()));
-        }
 
         if (filterTags.tagCount() != 0) {
             ItemDataUtils.setList(itemStack, "filters", filterTags);

@@ -228,9 +228,8 @@ public class MekanismJEI implements IModPlugin {
             Map<ItemStack, List<ItemStack>> items = Maps.newHashMap();
             ItemStack hdpe = new ItemStack(MekanismItems.HDPE_SHEET);
             items.put(hdpe, Lists.newArrayList(new ItemStack(MekanismItems.HDPE_REINFORCED_ELYTRA)));
-            for (Map.Entry<ItemStack, List<ItemStack>> entry : items.entrySet()) {
-                ItemStack repairMaterial = entry.getKey();
-                for (ItemStack ingredient : entry.getValue()) {
+            items.forEach((repairMaterial, value) -> {
+                value.forEach(ingredient -> {
                     ItemStack damaged1 = ingredient.copy();
                     damaged1.setItemDamage(damaged1.getMaxDamage());
                     ItemStack damaged2 = ingredient.copy();
@@ -239,8 +238,8 @@ public class MekanismJEI implements IModPlugin {
                     damaged3.setItemDamage(247);
                     registry.addRecipes(ImmutableList.of(factory.createAnvilRecipe(damaged1, Collections.singletonList(repairMaterial), Collections.singletonList(damaged2))), VanillaRecipeCategoryUid.ANVIL);
                     registry.addRecipes(ImmutableList.of(factory.createAnvilRecipe(damaged2, Collections.singletonList(damaged2), Collections.singletonList(damaged3))), VanillaRecipeCategoryUid.ANVIL);
-                }
-            }
+                });
+            });
         }
         /**
          * ADD END
