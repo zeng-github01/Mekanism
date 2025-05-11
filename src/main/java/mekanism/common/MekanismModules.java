@@ -52,7 +52,7 @@ public class MekanismModules {
     //Pants
     public static final ModuleData<ModuleLocomotiveBoostingUnit> LOCOMOTIVE_BOOSTING_UNIT = ModuleHelper.register("locomotive_boosting_unit", ModuleLocomotiveBoostingUnit::new, builder -> builder.maxStackSize(4).rarity(EnumRarity.RARE).handlesModeChange());
     public static final ModuleData<?> GYROSCOPIC_STABILIZATION_UNIT = ModuleHelper.registerMarker("gyroscopic_stabilization_unit", builder -> builder.rarity(EnumRarity.RARE));
-    public static final ModuleData<ModuleHydrostaticRepulsorUnit> HYDROSTATIC_REPULSOR_UNIT = ModuleHelper.register("hydrostatic_repulsor_unit", ModuleHydrostaticRepulsorUnit::new, builder -> builder.maxStackSize(3).rarity(EnumRarity.RARE));
+    public static final ModuleData<ModuleHydrostaticRepulsorUnit> HYDROSTATIC_REPULSOR_UNIT = ModuleHelper.register("hydrostatic_repulsor_unit", ModuleHydrostaticRepulsorUnit::new, builder -> builder.maxStackSize(4).rarity(EnumRarity.RARE));
     public static final ModuleData<?> MOTORIZED_SERVO_UNIT = ModuleHelper.registerMarker("motorized_servo_unit", builder -> builder.maxStackSize(5).rarity(EnumRarity.RARE));
 
     //Boots

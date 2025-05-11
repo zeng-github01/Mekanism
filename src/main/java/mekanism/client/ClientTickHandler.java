@@ -248,12 +248,6 @@ public class ClientTickHandler {
                     }
                 }
             }
-
-            if (minecraft.currentScreen == null && MekKeyHandler.getIsKeyPressed(MekanismKeyHandler.moduleTweakerKey)) {
-                if (minecraft.player != null && ModuleTweakerContainer.hasTweakableItem(minecraft.player)) {
-                    minecraft.displayGuiScreen(new GuiModuleTweaker(minecraft.player.inventory));
-                }
-            }
         }
     }
 

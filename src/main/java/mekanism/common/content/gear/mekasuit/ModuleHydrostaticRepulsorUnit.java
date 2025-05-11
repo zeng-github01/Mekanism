@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 @ParametersAreNotNullByDefault
 public class ModuleHydrostaticRepulsorUnit extends EnchantmentBasedModule<ModuleHydrostaticRepulsorUnit> {
 
-    public static final int BOOST_STACKS = 3;
+    public static final int BOOST_STACKS = 4;
 
     private IModuleConfigItem<Boolean> swimBoost;
 

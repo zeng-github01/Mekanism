@@ -77,6 +77,10 @@ public class Coord4D {
         return new Coord4D(tileEntity.getPos(), tileEntity.getWorld());
     }
 
+    public static Coord4D get(Entity entity) {
+        return new Coord4D(entity);
+    }
+
     /**
      * Returns a new Coord4D from a tag compound.
      *

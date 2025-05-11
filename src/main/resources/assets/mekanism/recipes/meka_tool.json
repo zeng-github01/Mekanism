@@ -26,12 +26,8 @@
       "type": "forge:ore_dict"
     },
     "O": {
-      "nbt": {
-        "tier": 0
-      },
       "item": "mekanism:basicblock2",
-      "data": 4,
-      "type": "mekanism:item_nbt"
+      "data": 3
     }
   }
 }

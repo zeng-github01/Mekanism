@@ -10,6 +10,7 @@ import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.entity.EntityRobit;
 import mekanism.common.inventory.InventoryPersonalChest;
+import mekanism.common.inventory.ModuleTweakerContainer;
 import mekanism.common.inventory.container.*;
 import mekanism.common.inventory.container.robit.*;
 import mekanism.common.item.ItemDictionary;
@@ -287,6 +288,7 @@ public class CommonProxy implements IGuiProvider {
             case 74 -> new ContainerHybridStorage(player.inventory, (TileEntityHybridStorage) tileEntity);
             case 75 -> new ContainerModificationStation(player.inventory, (TileEntityModificationStation) tileEntity);
             case 76 -> new ContainerSPS(player.inventory, (TileEntityContainerBlock) tileEntity);
+            case 77 -> new ModuleTweakerContainer(player.inventory);
             default -> null;
         };
     }

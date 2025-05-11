@@ -125,8 +125,4 @@ public class GuiModuleTweaker extends GuiMekanism<ModuleTweakerContainer> {
         return inventorySlots.inventorySlots.get(index).getStack();
     }
 
-    @Override
-    protected void handleMouseClick(Slot slotIn, int slotId, int mouseButton, ClickType type) {
-        //Overlays prevent clicks to pick up items
-    }
 }

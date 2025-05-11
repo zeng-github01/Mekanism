@@ -1,6 +1,7 @@
 package mekanism.client;
 
 import baubles.api.BaublesApi;
+import mekanism.api.Coord4D;
 import mekanism.api.gas.IGasItem;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.KeySync;
@@ -9,9 +10,11 @@ import mekanism.common.MekanismLang;
 import mekanism.common.MekanismSounds;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.integration.MekanismHooks;
+import mekanism.common.inventory.ModuleTweakerContainer;
 import mekanism.common.item.interfaces.IModeItem;
 import mekanism.common.network.PacketBaublesModeChange.BaublesModeChangMessage;
 import mekanism.common.network.PacketModeChange.ModeChangMessage;
+import mekanism.common.network.PacketOpenGui.OpenGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
@@ -108,6 +111,10 @@ public class MekanismKeyHandler extends MekKeyHandler {
             MekanismConfig.current().client.enableHUD.set(!MekanismConfig.current().client.enableHUD.val());
         } else if (kb == boostKey) {
             MekanismClient.updateKey(boostKey, KeySync.BOOST);
+        } else if (kb == moduleTweakerKey) {
+            if (player != null && ModuleTweakerContainer.hasTweakableItem(player)) {
+                Mekanism.packetHandler.sendToServer(new OpenGui(Coord4D.get(player), 0, 77));
+            }
         }
     }
 

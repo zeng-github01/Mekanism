@@ -9,6 +9,7 @@ import mekanism.client.entity.ParticleLaser;
 import mekanism.client.gui.*;
 import mekanism.client.gui.chemical.*;
 import mekanism.client.gui.robit.*;
+import mekanism.client.newgui.GuiModuleTweaker;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.render.RenderFirstPersonMekaSuitArms;
 import mekanism.client.render.RenderTickHandler;
@@ -824,6 +825,7 @@ public class ClientProxy extends CommonProxy {
             case 74 -> new GuiHybridStorage(player.inventory, (TileEntityHybridStorage) tileEntity);
             case 75 -> new GuiModificationStation(player.inventory, (TileEntityModificationStation) tileEntity);
             case 76 -> new GuiSPS(player.inventory, (TileEntitySPS) tileEntity);
+            case 77 -> new GuiModuleTweaker(player.inventory);
             default -> null;
         };
     }
