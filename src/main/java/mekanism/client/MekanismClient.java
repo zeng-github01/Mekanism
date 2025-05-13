@@ -33,7 +33,7 @@ public class MekanismClient extends Mekanism {
     public static void updateKey(boolean pressed, int type) {
         if (Minecraft.getMinecraft().player != null) {
             UUID playerUUID = Minecraft.getMinecraft().player.getUniqueID();
-            boolean down =  Minecraft.getMinecraft().currentScreen == null && pressed;
+            boolean down = Minecraft.getMinecraft().currentScreen == null && pressed;
             if (down != Mekanism.keyMap.has(playerUUID, type)) {
                 Mekanism.packetHandler.sendToServer(new KeyMessage(type, down));
                 Mekanism.keyMap.update(playerUUID, type, down);

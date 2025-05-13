@@ -81,6 +81,9 @@ public class TileEntityDigitalAssemblyTable extends TileEntityMultiblockBasicMac
 
     @Override
     public void setupVariableValues() {
+        if (getRecipes() == null) {
+            return;
+        }
         boolean update = BASE_TICKS_REQUIRED != getRecipe().ticks;
         BASE_TICKS_REQUIRED = getRecipe().ticks;
         if (update) {
@@ -114,11 +117,8 @@ public class TileEntityDigitalAssemblyTable extends TileEntityMultiblockBasicMac
         }
         DigitalAssemblyTableRecipe recipe = getRecipe();
         ChargeUtils.discharge(1, this);
-
-        if (canOperate(recipe)) {
-            double energy = MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy);
-            getProcess(recipe, isMachiningTools(), energy);
-        }
+        double energy = recipe != null ? MekanismUtils.getEnergyPerTick(this, BASE_ENERGY_PER_TICK + recipe.extraEnergy) : 0;
+        getProcess(recipe, isMachiningTools(), energy);
 
         if (prevEnergy != getEnergy() || lastInputFluid != inputFluidTank.getFluidAmount() || lastInputGas != inputGasTank.getStored() || lastOutputGas != outputGasTank.getStored() || lastOutputFluid != outputFluidTank.getFluidAmount() || lastoperatingTicks != operatingTicks) {
             SPacketUpdateTileEntity packet = this.getUpdatePacket();

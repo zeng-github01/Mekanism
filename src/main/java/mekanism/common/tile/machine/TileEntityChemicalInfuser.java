@@ -75,21 +75,22 @@ public class TileEntityChemicalInfuser extends TileEntityBasicMachine<ChemicalPa
     @Override
     public void onAsyncUpdateServer() {
         super.onAsyncUpdateServer();
-            ChargeUtils.discharge(3, this);
-            TileUtils.receiveGasItem(inventory.get(0), leftTank);
-            TileUtils.receiveGasItem(inventory.get(1), rightTank);
-            TileUtils.drawGas(inventory.get(2), centerTank);
-            ChemicalInfuserRecipe recipe = getRecipe();
-            if (canOperate(recipe)){
-                getProcess(recipe,true,energyPerTick * getUpgradedUsage(recipe),true,false);
-            }
-            prevEnergy = getEnergy();
+        ChargeUtils.discharge(3, this);
+        TileUtils.receiveGasItem(inventory.get(0), leftTank);
+        TileUtils.receiveGasItem(inventory.get(1), rightTank);
+        TileUtils.drawGas(inventory.get(2), centerTank);
+        ChemicalInfuserRecipe recipe = getRecipe();
+        double energy = recipe != null ? energyPerTick * getUpgradedUsage(recipe) : 0;
+        getProcess(recipe, true, energy, true, false);
+        prevEnergy = getEnergy();
     }
 
     @Override
     protected void setUpOtherActions() {
         double prev = getEnergy();
-        setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(getRecipe()));
+        if (getRecipe() != null) {
+            setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(getRecipe()));
+        }
         clientEnergyUsed = prev - getEnergy();
     }
 

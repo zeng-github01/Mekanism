@@ -70,9 +70,8 @@ public class TileEntityLargeChemicalInfuser extends TileEntityMultiblockBasicMac
         TileUtils.receiveGasItem(inventory.get(1), rightTank);
         TileUtils.drawGas(inventory.get(2), centerTank);
         ChemicalInfuserRecipe recipe = getRecipe();
-        if (canOperate(recipe)){
-            getProcess(recipe, true, energyPerTick * getUpgradedUsage(recipe) * Thread(), true, false);
-        }
+        double energy = recipe != null ? energyPerTick * getUpgradedUsage(recipe) * Thread() : 0;
+        getProcess(recipe, true, energy, true, false);
         prevEnergy = getEnergy();
         if (needsPacket) {
             Mekanism.packetHandler.sendUpdatePacket(this);
@@ -107,7 +106,9 @@ public class TileEntityLargeChemicalInfuser extends TileEntityMultiblockBasicMac
     @Override
     protected void setUpOtherActions() {
         double prev = getEnergy();
-        setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(getRecipe()) * Thread());
+        if (getRecipe() != null) {
+            setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(getRecipe()) * Thread());
+        }
         clientEnergyUsed = prev - getEnergy();
     }
 

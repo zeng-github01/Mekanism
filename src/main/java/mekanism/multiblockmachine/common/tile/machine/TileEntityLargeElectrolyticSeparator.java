@@ -69,6 +69,9 @@ public class TileEntityLargeElectrolyticSeparator extends TileEntityMultiblockBa
 
     @Override
     public void setupVariableValues() {
+        if (getRecipe() == null){
+            return;
+        }
         boolean update = BASE_ENERGY_PER_TICK != getRecipe().energyUsage;
         BASE_ENERGY_PER_TICK = getRecipe().energyUsage;
         if (update) {
@@ -79,7 +82,9 @@ public class TileEntityLargeElectrolyticSeparator extends TileEntityMultiblockBa
     @Override
     public void setUpOtherActions() {
         double prev = getEnergy();
-        setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(getRecipe()));
+        if (getRecipe() != null) {
+            setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(getRecipe()));
+        }
         clientEnergyUsed = prev - getEnergy();
     }
 
@@ -123,9 +128,9 @@ public class TileEntityLargeElectrolyticSeparator extends TileEntityMultiblockBa
             MekanismUtils.saveChunk(this);
         }
         SeparatorRecipe recipe = getRecipe();
-        if (canOperate(recipe)){
-            getProcess(recipe, true, energyPerTick * getUpgradedUsage(recipe) * Thread(), true, false);
-        }
+
+        double energy = recipe != null ? energyPerTick * getUpgradedUsage(recipe) * Thread() : 0;
+        getProcess(recipe, true, energy, true, false);
         prevEnergy = getEnergy();
         if (needsPacket) {
             Mekanism.packetHandler.sendUpdatePacket(this);

@@ -107,6 +107,9 @@ public class TileEntityElectrolyticSeparator extends TileEntityBasicMachine<Flui
 
     @Override
     public void setupVariableValues() {
+        if (getRecipe() == null){
+            return;
+        }
         boolean update = BASE_ENERGY_PER_TICK != getRecipe().energyUsage;
         BASE_ENERGY_PER_TICK = getRecipe().energyUsage;
         if (update) {
@@ -117,7 +120,9 @@ public class TileEntityElectrolyticSeparator extends TileEntityBasicMachine<Flui
     @Override
     public void setUpOtherActions() {
         double prev = getEnergy();
-        setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(getRecipe()));
+        if (getRecipe() != null) {
+            setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(getRecipe()));
+        }
         clientEnergyUsed = prev - getEnergy();
     }
 

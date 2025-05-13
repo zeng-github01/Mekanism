@@ -119,7 +119,9 @@ public class TileEntityIsotopicCentrifuge extends TileEntityBasicMachine<GasInpu
     @Override
     public void setUpOtherActions() {
         double prev = getEnergy();
-        setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(getRecipe()));
+        if (getRecipe() != null) {
+            setEnergy(getEnergy() - energyPerTick * getUpgradedUsage(getRecipe()));
+        }
         clientEnergyUsed = prev - getEnergy();
     }
 

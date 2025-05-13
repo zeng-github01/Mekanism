@@ -68,21 +68,7 @@ public abstract class TileEntityChanceMachine<RECIPE extends ChanceMachineRecipe
         super.onAsyncUpdateServer();
         ChargeUtils.discharge(1, this);
         RECIPE recipe = getRecipe();
-        if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyPerTick) {
-            setActive(true);
-            electricityStored.addAndGet(-energyPerTick);
-            if ((operatingTicks + 1) < ticksRequired) {
-                operatingTicks++;
-            } else {
-                MultipleActions(recipe);
-                operatingTicks = 0;
-            }
-        } else if (prevEnergy >= getEnergy()) {
-            setActive(false);
-        }
-        if (!canOperate(recipe)) {
-            operatingTicks = 0;
-        }
+       getProcess(recipe);
         prevEnergy = getEnergy();
     }
 
