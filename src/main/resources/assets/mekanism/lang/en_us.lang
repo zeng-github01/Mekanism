@@ -2150,3 +2150,12 @@ tile.PRC.Creative.Factory=Creative Pressurized Factory
 tile.Oxidizer.Creative.Factory=Creative Oxidizer Factory
 tile.Nucleosynthesizer.Creative.Factory=Creative Nucleosynthesizer Factory
 tile.Washer.Creative.Factory=Creative Washer Factory
+
+item.cardboard_helmet.name=Cardboard Helmet
+item.cardboard_chestplate.name=Cardboard Chestplate
+item.cardboard_leggings.name=Cardboard Leggings
+item.cardboard_boots.name=Cardboard Boots
+tooltip.holdForDescription=Summary
+item.mekanism.cardboard_armor.tooltip.summary=Wearable equipment for increased style and stealth.
+item.mekanism.cardboard_armor.tooltip.condition1=When full set equipped
+item.mekanism.cardboard_armor.tooltip.behaviour1=Sneak to activate an inconspicuous disguise.

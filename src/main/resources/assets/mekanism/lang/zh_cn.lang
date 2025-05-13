@@ -2124,3 +2124,12 @@ tile.PRC.Creative.Factory=创造加压工厂
 tile.Oxidizer.Creative.Factory=创造氧化工厂
 tile.Nucleosynthesizer.Creative.Factory=创造反质子工厂
 tile.Washer.Creative.Factory=创造清洗工厂
+
+item.cardboard_helmet.name=纸板头盔
+item.cardboard_chestplate.name=纸板胸甲
+item.cardboard_leggings.name=纸板护腿
+item.cardboard_boots.name=纸板靴子
+tooltip.holdForDescription=可查看概要
+item.mekanism.cardboard_armor.tooltip.summary=可穿戴的装备，让你隐蔽的同时不失风度。
+item.mekanism.cardboard_armor.tooltip.condition1=全套装备时
+item.mekanism.cardboard_armor.tooltip.behaviour1=潜行使自己进入伪装状态。

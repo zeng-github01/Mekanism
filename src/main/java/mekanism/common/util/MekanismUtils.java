@@ -1151,7 +1151,8 @@ public final class MekanismUtils {
         TEXTURE_BLOCKS("textures/blocks"),
         TEXTURE_ITEMS("textures/items"),
         MODEL("models"),
-        INFUSE("infuse");
+        INFUSE("infuse"),
+        ARMOR("armor");
 
 
         private String prefix;

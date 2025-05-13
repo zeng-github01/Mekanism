@@ -1,0 +1,16 @@
+{
+      "result": {"item": "mekanism:cardboard_chestplate"},
+      "pattern": [
+            "S S",
+            "SSS",
+            "SSS"
+      ],
+      "type": "forge:ore_shaped",
+      "key": {"S": {
+            "ores": [
+                  "pulpWood",
+                  "dustWood"
+            ],
+            "type": "mekanism:multi_ore"
+      }}
+}

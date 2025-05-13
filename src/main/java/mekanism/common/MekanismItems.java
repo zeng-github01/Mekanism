@@ -2,11 +2,9 @@ package mekanism.common;
 
 import mekanism.api.EnumColor;
 import mekanism.common.item.*;
-import mekanism.common.item.armor.ItemMekaSuitBodyArmor;
-import mekanism.common.item.armor.ItemMekaSuitBoots;
-import mekanism.common.item.armor.ItemMekaSuitHelmet;
-import mekanism.common.item.armor.ItemMekaSuitPants;
+import mekanism.common.item.armor.*;
 import mekanism.common.tier.AlloyTier;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -143,6 +141,11 @@ public class MekanismItems {
     public static final Item HDPE_ROD = new ItemMekanism().setRarity(EnumRarity.UNCOMMON);
     public static final Item HDPE_SHEET = new ItemMekanism().setRarity(EnumRarity.UNCOMMON);
     public static final Item HDPE_STICK = new ItemMekanism().setRarity(EnumRarity.UNCOMMON);
+
+    public static final Item CARDBOARD_HELMET = new ItemMekaCardboardHelmetArmor();
+    public static final Item CARDBOARD_CHESTPLATE = new ItemMekaCardboardArmor(1, EntityEquipmentSlot.CHEST);
+    public static final Item CARDBOARD_LEGGINGS = new ItemMekaCardboardArmor(2, EntityEquipmentSlot.LEGS);
+    public static final Item CARDBOARD_BOOTS = new ItemMekaCardboardArmor(3, EntityEquipmentSlot.FEET);
     /**
      * ADD END
      */
@@ -281,6 +284,10 @@ public class MekanismItems {
         registry.register(init(HDPE_SHEET, "hdpe_sheet"));
         registry.register(init(HDPE_STICK, "hdpe_stick"));
 
+        registry.register(init(CARDBOARD_HELMET,"cardboard_helmet"));
+        registry.register(init(CARDBOARD_CHESTPLATE,"cardboard_chestplate"));
+        registry.register(init(CARDBOARD_LEGGINGS,"cardboard_leggings"));
+        registry.register(init(CARDBOARD_BOOTS,"cardboard_boots"));
         /**
          * ADD END
          */

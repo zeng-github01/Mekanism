@@ -1,0 +1,15 @@
+{
+      "result": {"item": "mekanism:cardboard_helmet"},
+      "pattern": [
+            "SSS",
+            "S S"
+      ],
+      "type": "forge:ore_shaped",
+      "key": {"S": {
+            "ores": [
+                  "pulpWood",
+                  "dustWood"
+            ],
+            "type": "mekanism:multi_ore"
+      }}
+}

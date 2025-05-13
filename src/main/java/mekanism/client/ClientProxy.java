@@ -311,7 +311,7 @@ public class ClientProxy extends CommonProxy {
         registerItemRender(MekanismItems.MODULE_SHEARING);
         registerItemRender(MekanismItems.MODULE_SILK_TOUCH);
         registerItemRender(MekanismItems.MODULE_FORTUNE);
-       registerItemRender(MekanismItems.MODULE_BLASTING);
+        registerItemRender(MekanismItems.MODULE_BLASTING);
         registerItemRender(MekanismItems.MODULE_VEIN_MINING);
         registerItemRender(MekanismItems.MODULE_TELEPORTATION);
 
@@ -343,6 +343,11 @@ public class ClientProxy extends CommonProxy {
         registerItemRender(MekanismItems.HDPE_ROD);
         registerItemRender(MekanismItems.HDPE_SHEET);
         registerItemRender(MekanismItems.HDPE_STICK);
+
+        registerItemRender(MekanismItems.CARDBOARD_HELMET);
+        registerItemRender(MekanismItems.CARDBOARD_CHESTPLATE);
+        registerItemRender(MekanismItems.CARDBOARD_LEGGINGS);
+        registerItemRender(MekanismItems.CARDBOARD_BOOTS);
 
         /**
          * ADD END
