@@ -320,6 +320,8 @@ public class ItemBlockMultiblockMachine extends ItemBlock implements IEnergizedI
         return false;
     }
 
+
+
     @Override
     @Optional.Method(modid = MekanismHooks.REDSTONEFLUX_MOD_ID)
     public int receiveEnergy(ItemStack theItem, int energy, boolean simulate) {

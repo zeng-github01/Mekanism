@@ -82,11 +82,11 @@ public class ModuleChargeDistributionUnit implements ICustomModule<ModuleChargeD
             stacks.addAll(chargeBaublesInventory(player));
         }
         for (ItemStack stack : stacks) {
-            if (canCharge(module, player, stack)) {
-                charge(stack, module, player);
-            }
             if (module.getContainerEnergy() <= 0) {
                 break;
+            }
+            if (canCharge(module, player, stack)) {
+                charge(stack, module, player);
             }
         }
     }

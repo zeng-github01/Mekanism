@@ -72,17 +72,9 @@ public abstract class TileEntityMultiblockGenerator extends TileEntityEffectsBlo
                 world.setBlockToAir(getPos());
             }
         }
-    }
-
-    @Override
-    public void addTileSyncTask() {
         CableUtils.emit(this);
     }
 
-    @Override
-    public boolean supportsAsync() {
-        return false;
-    }
 
     @Override
     public double getMaxOutput() {

@@ -71,6 +71,7 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
     @Override
     public void onUpdateServer(){
         super.onUpdateServer();
+        CableUtils.emit(this);
         if (fluidEject && getReactor() != null && getReactor().getSteamTank().getFluid() != null) {
             IFluidTank tank = getReactor().getSteamTank();
             EmitUtils.forEachSide(getWorld(), getPos(), EnumSet.allOf(EnumFacing.class), (tile, side) -> {
@@ -84,10 +85,6 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
         }
     }
 
-    @Override
-    public void addTileSyncTask(){
-        CableUtils.emit(this);
-    }
 
 
 

@@ -49,8 +49,8 @@ public abstract class TileEntityGenerator extends TileEntityEffectsBlock impleme
     }
 
     @Override
-    public void onAsyncUpdateServer() {
-        super.onAsyncUpdateServer();
+    public void onUpdateServer() {
+        super.onUpdateServer();
         if (MekanismConfig.current().general.destroyDisabledBlocks.val()) {
             GeneratorType type = GeneratorType.get(getBlockType(), getBlockMetadata());
             if (type != null && !type.isEnabled()) {
@@ -58,12 +58,9 @@ public abstract class TileEntityGenerator extends TileEntityEffectsBlock impleme
                 world.setBlockToAir(getPos());
             }
         }
-    }
-
-    @Override
-    public void addTileSyncTask() {
         CableUtils.emit(this);
     }
+
 
 
     @Override
