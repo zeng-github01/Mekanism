@@ -6,6 +6,7 @@ import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
+import mekanism.client.gui.element.slot.*;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
 import mekanism.client.gui.element.tab.GuiTransporterConfigTab;
@@ -28,11 +29,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiFormulaicAssemblicator extends GuiMekanismTile<TileEntityFormulaicAssemblicator> implements IJeiNoShowRecipe{
+public class GuiFormulaicAssemblicator extends GuiMekanismTile<TileEntityFormulaicAssemblicator> implements IJeiNoShowRecipe {
 
     private GuiButton encodeFormulaButton;
     private GuiButton stockControlButton;
@@ -50,32 +50,33 @@ public class GuiFormulaicAssemblicator extends GuiMekanismTile<TileEntityFormula
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 159, 15));
-        addGuiElement(new GuiEnergyInfo(() -> {
-            String multiplier = MekanismUtils.getEnergyDisplay(tileEntity.energyPerTick);
-            return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
-        }, this, resource));
-        addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 151, 75).with(SlotOverlay.POWER));
+        addGuiElement(new GuiEnergyInfo(tileEntity, this, resource));
+        addGuiElement(new GuiEnergySlot(this, resource, 151, 75, tileEntity));
         ySize += 64;
         addGuiElement(new GuiPlayerSlot(this, resource, 7, 147));
         for (int y = 0; y < 2; y++) {
             for (int x = 0; x < 9; x++) {
-                addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 7 + x * 18, 97 + y * 18));
+                addGuiElement(new GuiInputSlot(this, resource, 7 + x * 18, 97 + y * 18, tileEntity));
             }
         }
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
-                addGuiElement(new GuiSlot(SlotType.NORMAL, this, getGuiLocation(), 25 + x * 18, 16 + y * 18));
+                addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 25 + x * 18, 16 + y * 18));
             }
         }
-        addGuiElement(new GuiSlot(SlotType.OUTPUT_LARGE_WIDE, this, getGuiLocation(), 115, 16));
+        addGuiElement(new GuiOutputSlot(SlotType.OUTPUT_LARGE_WIDE, this, getGuiLocation(), 115, 16, new GuiSlot.ISlotInfoHandler() {
+            @Override
+            public boolean getSlotCanTip() {
+                return tileEntity.getOuputSlot();
+            }
+        }));
         addGuiElement(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override
             public double getProgress() {
                 return (double) tileEntity.operatingTicks / tileEntity.ticksRequired;
             }
         }, GuiProgress.ProgressBar.TALL_RIGHT, this, getGuiLocation(), 85, 42));
-        addGuiElement(new GuiSlot(SlotType.EXTRA, this, getGuiLocation(), 5, 25).with(SlotOverlay.FORMULA));
+        addGuiElement(new GuiExtraSlot(this, getGuiLocation(), 5, 25, tileEntity).with(SlotOverlay.FORMULA));
     }
 
     @Override

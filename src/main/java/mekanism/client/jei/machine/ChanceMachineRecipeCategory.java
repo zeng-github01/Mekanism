@@ -8,6 +8,9 @@ import mekanism.client.gui.element.GuiProgress.ProgressBar;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.common.recipe.machines.ChanceMachineRecipe;
 import mekanism.common.recipe.outputs.ChanceOutput;
@@ -26,9 +29,9 @@ public class ChanceMachineRecipeCategory<RECIPE extends ChanceMachineRecipe<RECI
 
     @Override
     protected void addGuiElements() {
-        guiElements.add(new GuiSlot(SlotType.INPUT, this, guiLocation, 55, 16));
-        guiElements.add(new GuiSlot(SlotType.POWER, this, guiLocation, 55, 52).with(SlotOverlay.POWER));
-        guiElements.add(new GuiSlot(SlotType.OUTPUT_WIDE, this, guiLocation, 111, 30));
+        guiElements.add(new GuiInputSlot(this, guiLocation, 55, 16));
+        guiElements.add(new GuiEnergySlot(this, guiLocation, 55, 52));
+        guiElements.add(new GuiOutputSlot(SlotType.OUTPUT_WIDE, this, guiLocation, 111, 30));
         guiElements.add(new GuiPowerBar(this, new IPowerInfoHandler() {
             @Override
             public double getLevel() {

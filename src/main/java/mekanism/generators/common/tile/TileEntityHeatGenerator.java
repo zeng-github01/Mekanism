@@ -5,10 +5,7 @@ import mekanism.api.Coord4D;
 import mekanism.api.IHeatTransfer;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
-import mekanism.common.base.FluidHandlerWrapper;
-import mekanism.common.base.IComparatorSupport;
-import mekanism.common.base.IFluidHandlerWrapper;
-import mekanism.common.base.ISustainedData;
+import mekanism.common.base.*;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.*;
@@ -28,7 +25,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
 
-public class TileEntityHeatGenerator extends TileEntityGenerator implements IFluidHandlerWrapper, ISustainedData, IHeatTransfer, IComparatorSupport {
+public class TileEntityHeatGenerator extends TileEntityGenerator implements IFluidHandlerWrapper, ISustainedData, IHeatTransfer, IComparatorSupport, IMachineSlotTip {
 
     private static final String[] methods = new String[]{"getEnergy", "getOutput", "getMaxEnergy", "getEnergyNeeded", "getFuel", "getFuelNeeded"};
     /**
@@ -350,4 +347,18 @@ public class TileEntityHeatGenerator extends TileEntityGenerator implements IFlu
         return false;
     }
 
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(1).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
+    }
 }

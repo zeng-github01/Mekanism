@@ -6,6 +6,7 @@ import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.bar.GuiBar;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
 import mekanism.client.gui.element.tab.GuiSideHolder;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
@@ -46,7 +47,12 @@ public class GuiRobitMain extends GuiMekanism {
     public GuiRobitMain(InventoryPlayer inventory, EntityRobit entity) {
         super(new ContainerRobitMain(inventory, entity));
         robit = entity;
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER, this, getGuiLocation(), 152, 16).with(GuiSlot.SlotOverlay.POWER));
+        addGuiElement(new GuiEnergySlot(this, getGuiLocation(), 152, 16, new GuiSlot.ISlotInfoHandler() {
+            @Override
+            public boolean getSlotCanTip() {
+                return robit.inventory.get(27).isEmpty();
+            }
+        }));
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
         addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 27, 16, 122, 56));
         addGuiElement(new GuiSideHolder(this, getGuiLocation(), 176, 6, 25, 106));

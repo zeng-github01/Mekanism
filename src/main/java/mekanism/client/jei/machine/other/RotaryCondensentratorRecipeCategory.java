@@ -6,6 +6,8 @@ import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.client.jei.MekanismJEI;
 import mezz.jei.api.IGuiHelper;
@@ -31,10 +33,10 @@ public class RotaryCondensentratorRecipeCategory extends BaseRecipeCategory<Rota
     protected void addGuiElements() {
         guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 133, 13));
         guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 25, 13));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.INPUT, this, guiLocation, 4, 24).with(GuiSlot.SlotOverlay.PLUS));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, guiLocation, 4, 55).with(GuiSlot.SlotOverlay.MINUS));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.INPUT, this, guiLocation, 154, 24));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, guiLocation, 154, 55));
+        guiElements.add(new GuiInputSlot( this, guiLocation, 4, 24).with(GuiSlot.SlotOverlay.PLUS));
+        guiElements.add(new GuiOutputSlot( this, guiLocation, 4, 55).with(GuiSlot.SlotOverlay.MINUS));
+        guiElements.add(new GuiInputSlot( this, guiLocation, 154, 24));
+        guiElements.add(new GuiOutputSlot( this, guiLocation, 154, 55));
     }
 
     @Override

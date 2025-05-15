@@ -1,47 +1,42 @@
 package mekanism.client.gui.element;
 
 import mekanism.client.gui.IGuiWrapper;
-import mekanism.client.render.MekanismRenderer;
-import mekanism.client.sound.SoundHandler;
+import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.util.function.IntSupplier;
-import java.util.function.Supplier;
+import java.util.ArrayList;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiSlot extends GuiElement {
 
-    private final int xLocation;
-    private final int yLocation;
-    private final int textureX;
-    private final int textureY;
-    private final int width;
-    private final int height;
-    private SlotOverlay overlay = null;
-    @Nullable
-    private IClickable onClick;
-    @Nullable
-    private IntSupplier overlayColorSupplier;
-    private Supplier<SlotOverlay> overlaySupplier;
+    protected final int xLocation;
+    protected final int yLocation;
+    protected SlotOverlay overlay = null;
+    protected final SlotType type;
+    protected final ISlotInfoHandler handler;
+
 
     public GuiSlot(SlotType type, IGuiWrapper gui, ResourceLocation def, int x, int y) {
-        super(MekanismUtils.getResource(ResourceType.SLOT, "Slot_Icon.png"), gui, def);
+        this(type, gui, def, x, y, new ISlotInfoHandler() {
+            @Override
+            public boolean getSlotCanTip() {
+                return false;
+            }
+        });
+    }
 
+
+    public GuiSlot(SlotType type, IGuiWrapper gui, ResourceLocation def, int x, int y, ISlotInfoHandler handler) {
+        super(MekanismUtils.getResource(ResourceType.SLOT, "Slot_Icon.png"), gui, def);
         xLocation = x;
         yLocation = y;
-
-        width = type.width;
-        height = type.height;
-
-        textureX = type.textureX;
-        textureY = type.textureY;
+        this.type = type;
+        this.handler = handler;
     }
 
     public GuiSlot with(SlotOverlay overlay) {
@@ -50,68 +45,70 @@ public class GuiSlot extends GuiElement {
     }
 
 
-    public GuiSlot with(Supplier<SlotOverlay> overlaySupplier) {
-        this.overlaySupplier = overlaySupplier;
-        return this;
-    }
-
     @Override
     public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + xLocation, guiHeight + yLocation, width, height);
+        return new Rectangle4i(guiWidth + xLocation, guiHeight + yLocation, type.width, type.height);
     }
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         mc.renderEngine.bindTexture(RESOURCE);
-        guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, textureX, textureY, width, height);
-        if (overlaySupplier != null) {
-            overlay = overlaySupplier.get();
-        }
+        guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, type.textureX, type.textureY, type.width, type.height);
         if (overlay != null) {
             int w = overlay.width;
             int h = overlay.height;
-            int xLocationOverlay = xLocation + (width - w) / 2;
-            int yLocationOverlay = yLocation + (height - h) / 2;
+            int xLocationOverlay = xLocation + (type.width - w) / 2;
+            int yLocationOverlay = yLocation + (type.height - h) / 2;
             guiObj.drawTexturedRect(guiWidth + xLocationOverlay, guiHeight + yLocationOverlay, overlay.textureX, overlay.textureY, w, h);
         }
         mc.renderEngine.bindTexture(defaultLocation);
     }
 
     @Override
+    protected boolean inBounds(int xAxis, int yAxis) {
+        return xAxis >= xLocation && xAxis <= xLocation + type.width && yAxis >= yLocation && yAxis <= yLocation + type.height;
+    }
+
+
+    @Override
     public void renderForeground(int xAxis, int yAxis) {
-        if (overlayColorSupplier != null) {
-            GlStateManager.pushMatrix();
-            GlStateManager.translate(0, 0, 10);
-            int xPos = xLocation + 1;
-            int yPos = yLocation + 1;
-            GuiUtils.fill(xPos, yPos, xPos + 16, yPos + 16, overlayColorSupplier.getAsInt());
-            GlStateManager.popMatrix();
-            MekanismRenderer.resetColor();
+        mc.renderEngine.bindTexture(RESOURCE);
+        if (inBounds(xAxis, yAxis) && handler.getSlotCanTip()) {
+            List<String> strings = new ArrayList<>();
+            switch (type) {
+                case POWER -> {
+                    strings.add(LangUtils.localize("mekanism.gui.slot.power"));
+                    strings.add(LangUtils.localize("mekanism.gui.slot.power.tooltip"));
+                    displayTooltips(strings, xAxis, yAxis);
+                }
+                case INPUT -> {
+                    strings.add(LangUtils.localize("mekanism.gui.slot.input"));
+                    strings.add(LangUtils.localize("mekanism.gui.slot.input.tooltip"));
+                    displayTooltips(strings, xAxis, yAxis);
+                }
+                case EXTRA -> {
+                    strings.add(LangUtils.localize("mekanism.gui.slot.extra"));
+                    strings.add(LangUtils.localize("mekanism.gui.slot.extra.tooltip"));
+                    displayTooltips(strings, xAxis, yAxis);
+                }
+                case OUTPUT, OUTPUT_LARGE, OUTPUT_WIDE, OUTPUT_LARGE_WIDE -> {
+                    strings.add(LangUtils.localize("mekanism.gui.slot.output"));
+                    strings.add(LangUtils.localize("mekanism.gui.slot.output.tooltip"));
+                    displayTooltips(strings, xAxis, yAxis);
+                }
+            }
         }
+
+        mc.renderEngine.bindTexture(defaultLocation);
     }
 
     @Override
     public void preMouseClicked(int xAxis, int yAxis, int button) {
     }
 
-    public GuiSlot click(IClickable onClick) {
-        this.onClick = onClick;
-        return this;
-    }
-
-    public GuiSlot overlayColor(IntSupplier colorSupplier) {
-        overlayColorSupplier = colorSupplier;
-        return this;
-    }
 
     @Override
     public void mouseClicked(int xAxis, int yAxis, int button) {
-        if (onClick != null && button == 0) {
-            if (xAxis >= xLocation + 1 && yAxis >= yLocation + 1 && xAxis < xLocation + width - 1 && yAxis < yLocation + height - 1) {
-                onClick.onClick(this, xAxis, yAxis);
-                SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
-            }
-        }
     }
 
     public enum SlotType {
@@ -173,5 +170,10 @@ public class GuiSlot extends GuiElement {
             textureX = x;
             textureY = y;
         }
+    }
+
+    public abstract static class ISlotInfoHandler {
+
+        public abstract boolean getSlotCanTip();
     }
 }

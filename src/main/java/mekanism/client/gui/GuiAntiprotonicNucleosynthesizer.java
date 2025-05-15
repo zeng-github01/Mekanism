@@ -3,10 +3,11 @@ package mekanism.client.gui;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
-import mekanism.client.gui.element.GuiSlot.SlotOverlay;
-import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
 import mekanism.client.gui.element.tab.GuiTransporterConfigTab;
@@ -36,14 +37,13 @@ public class GuiAntiprotonicNucleosynthesizer extends GuiMekanismTile<TileEntity
         addGuiElement(new GuiEnergyInfo(() -> {
             double extra = tileEntity.getRecipe() != null ? tileEntity.getRecipe().extraEnergy : 0;
             String multiplier = MekanismUtils.getEnergyDisplay(MekanismUtils.getEnergyPerTick(tileEntity, tileEntity.BASE_ENERGY_PER_TICK + extra));
-            return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+            return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t", LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getNeedEnergy()));
         }, this, resource));
         addGuiElement(new GuiGasGauge(() -> tileEntity.inputGasTank, GuiGauge.Type.STANDARD, this, resource, 28, 10).withColor(GuiGauge.TypeColor.RED));
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
-        addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 53, 34));
-        addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 140, 34).with(SlotOverlay.POWER));
-        addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 115, 34));
+        addGuiElement(new GuiInputSlot(this, resource, 53, 34, tileEntity));
+        addGuiElement(new GuiEnergySlot(this, resource, 140, 34, tileEntity));
+        addGuiElement(new GuiOutputSlot(this, resource, 115, 34, tileEntity));
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {

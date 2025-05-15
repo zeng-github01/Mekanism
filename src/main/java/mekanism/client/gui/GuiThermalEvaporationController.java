@@ -3,6 +3,7 @@ package mekanism.client.gui;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.inventory.container.ContainerThermalEvaporationController;
 import mekanism.common.tile.multiblock.TileEntityThermalEvaporationController;
@@ -44,10 +45,10 @@ public class GuiThermalEvaporationController extends GuiMekanismTile<TileEntityT
                 return Math.min(1, tileEntity.getTemperature() / MekanismConfig.current().general.evaporationMaxTemp.val());
             }
         }, resource, 46, 62));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 27, 19));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 27, 50));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 131, 19));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 131, 50));
+        addGuiElement(new GuiNormalSlot( this, resource, 27, 19));
+        addGuiElement(new GuiNormalSlot( this, resource, 27, 50));
+        addGuiElement(new GuiNormalSlot( this, resource, 131, 19));
+        addGuiElement(new GuiNormalSlot( this, resource, 131, 50));
         addGuiElement(new GuiInnerScreen(this, resource, 48, 19, 80, 40));
         addGuiElement(new GuiPlayerSlot(this, resource));
     }

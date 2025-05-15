@@ -315,4 +315,19 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
     public Object[] invoke(int method, Object[] args) throws NoSuchMethodException {
         return new Object[0];
     }
+
+    @Override
+    public boolean getEnergySlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
+    }
 }

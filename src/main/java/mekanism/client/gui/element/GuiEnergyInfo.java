@@ -2,15 +2,18 @@ package mekanism.client.gui.element;
 
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.common.config.MekanismConfig;
+import mekanism.common.tile.prefab.TileEntityMachine;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import mekanism.common.util.UnitDisplayUtils.EnergyType;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
@@ -21,6 +24,17 @@ public class GuiEnergyInfo extends GuiElement {
     public GuiEnergyInfo(IInfoHandler handler, IGuiWrapper gui, ResourceLocation def) {
         super(MekanismUtils.getResource(ResourceType.TAB, "Energy_Info.png"), gui, def);
         infoHandler = handler;
+    }
+
+    public GuiEnergyInfo(TileEntity entity, IGuiWrapper gui, ResourceLocation def) {
+        this(() -> {
+            if (entity instanceof TileEntityMachine machine) {
+                String multiplier = MekanismUtils.getEnergyDisplay(machine.energyPerTick);
+                return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t", LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(machine.getNeedEnergy()));
+            }else {
+                return new ArrayList<>();
+            }
+        }, gui, def);
     }
 
     @Override

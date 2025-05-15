@@ -31,7 +31,11 @@ import mekanism.common.content.matrix.SynchronizedMatrixData;
 import mekanism.common.content.tank.SynchronizedTankData;
 import mekanism.common.content.transporter.PathfinderCache;
 import mekanism.common.content.transporter.TransporterManager;
-import mekanism.common.entity.*;
+import mekanism.common.entity.EntityBalloon;
+import mekanism.common.entity.EntityFlame;
+import mekanism.common.entity.EntityObsidianTNT;
+import mekanism.common.entity.EntityRobit;
+import mekanism.common.entity.baby.*;
 import mekanism.common.fixers.MekanismDataFixers;
 import mekanism.common.frequency.Frequency;
 import mekanism.common.frequency.FrequencyManager;
@@ -70,7 +74,6 @@ import net.minecraft.dispenser.IBehaviorDispenseItem;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.launchwrapper.Launch;
@@ -80,14 +83,17 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeEnd;
+import net.minecraft.world.biome.BiomeHell;
 import net.minecraft.world.biome.BiomeProvider;
+import net.minecraft.world.biome.BiomeSnow;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.terraingen.BiomeEvent;
 import net.minecraftforge.event.world.ChunkDataEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -101,13 +107,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.*;
-import java.util.Map.Entry;
 
 @Mod(modid = Tags.MOD_ID, useMetadata = true, guiFactory = "mekanism.client.gui.ConfigGuiFactory", acceptedMinecraftVersions = "[1.12,1.13)", version = Tags.VERSION)
 @Mod.EventBusSubscriber()
@@ -213,8 +219,8 @@ public class Mekanism {
         MekanismBlocks.registerBlocks(event.getRegistry());
     }
 
-        @SubscribeEvent
-        public static void registerItems(RegistryEvent.Register<Item> event) {
+    @SubscribeEvent
+    public static void registerItems(RegistryEvent.Register<Item> event) {
         // Register items and itemBlocks
         MekanismItems.registerItems(event.getRegistry());
         MekanismBlocks.registerItemBlocks(event.getRegistry());
@@ -225,11 +231,16 @@ public class Mekanism {
 
     @SubscribeEvent
     public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
-        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "ObsidianTNT"), EntityObsidianTNT.class, "ObsidianTNT", 0, Mekanism.instance, 64, 5, true);
-        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "Robit"), EntityRobit.class, "Robit", 1, Mekanism.instance, 64, 2, true);
-        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "Balloon"), EntityBalloon.class, "Balloon", 2, Mekanism.instance, 64, 1, true);
-        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "BabySkeleton"), EntityBabySkeleton.class, "BabySkeleton", 3, Mekanism.instance, 64, 5, true, 0xFFFFFF, 0x800080);
-        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "Flame"), EntityFlame.class, "Flame", 4, Mekanism.instance, 64, 5, true);
+        int id = 0;
+        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "ObsidianTNT"), EntityObsidianTNT.class, "ObsidianTNT", id++, Mekanism.instance, 64, 5, true);
+        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "Robit"), EntityRobit.class, "Robit", id++, Mekanism.instance, 64, 2, true);
+        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "Balloon"), EntityBalloon.class, "Balloon", id++, Mekanism.instance, 64, 1, true);
+        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "BabySkeleton"), EntityBabySkeleton.class, "BabySkeleton", id++, Mekanism.instance, 64, 5, true, 0xFFFFFF, 0x800080);
+        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "Flame"), EntityFlame.class, "Flame", id++, Mekanism.instance, 64, 5, true);
+        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "BabyCreeper"), EntityBabyCreeper.class, "BabyCreeper", id++, Mekanism.instance, 64, 5, true, 0x31E02F, 0x1E1E1E);
+        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "BabyEnderman"), EntityBabyEnderman.class, "BabyEnderman", id++, Mekanism.instance, 64, 5, true, 0x242424, 0x1E1E1E);
+        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "BabyStray"), EntityBabyStray.class, "BabyStray", id++, Mekanism.instance, 64, 5, true, 0x7B9394, 0xF2FAFA);
+        EntityRegistry.registerModEntity(new ResourceLocation(MODID, "BabyWitherSkeleton"), EntityBabyWitherSkeleton.class, "BabyWitherSkeleton", id++, Mekanism.instance, 64, 5, true, 0x303030, 0x525454);
     }
 
     @SubscribeEvent
@@ -515,6 +526,22 @@ public class Mekanism {
             BiomeProvider.allowedBiomes.forEach(biome -> {
                 if (biome.getSpawnableList(EnumCreatureType.MONSTER) != null && !biome.getSpawnableList(EnumCreatureType.MONSTER).isEmpty()) {
                     EntityRegistry.addSpawn(EntityBabySkeleton.class, 40, 1, 3, EnumCreatureType.MONSTER, biome);
+                    EntityRegistry.addSpawn(EntityBabyCreeper.class, 40, 1, 3, EnumCreatureType.MONSTER, biome);
+                    EntityRegistry.addSpawn(EntityBabyEnderman.class, 5, 1, 3, EnumCreatureType.MONSTER, biome);
+                }
+            });
+            ForgeRegistries.BIOMES.forEach(biome -> {
+                if (biome.getSpawnableList(EnumCreatureType.MONSTER) != null && !biome.getSpawnableList(EnumCreatureType.MONSTER).isEmpty()) {
+                    if (biome instanceof BiomeSnow) {
+                        EntityRegistry.addSpawn(EntityBabyStray.class, 40, 1, 3, EnumCreatureType.MONSTER, biome);
+                    }
+                    if (biome instanceof BiomeEnd) {
+                        EntityRegistry.addSpawn(EntityBabyEnderman.class, 5, 1, 3, EnumCreatureType.MONSTER, biome);
+                    }
+                    if (biome instanceof BiomeHell) {
+                        EntityRegistry.addSpawn(EntityBabyEnderman.class, 1, 1, 3, EnumCreatureType.MONSTER, biome);
+                        EntityRegistry.addSpawn(EntityBabyWitherSkeleton.class, 1, 1, 3, EnumCreatureType.MONSTER, biome);
+                    }
                 }
             });
         }
@@ -564,7 +591,7 @@ public class Mekanism {
         }
 
 
-        ModuleHelper.get().setSupported(MekanismItems.MEKA_TOOL, MekanismModules.ATTACK_AMPLIFICATION_UNIT, MekanismModules.SILK_TOUCH_UNIT, MekanismModules.FORTUNE_UNIT, MekanismModules.BLASTING_UNIT,MekanismModules.VEIN_MINING_UNIT,MekanismModules.FARMING_UNIT, MekanismModules.SHEARING_UNIT, MekanismModules.TELEPORTATION_UNIT, MekanismModules.EXCAVATION_ESCALATION_UNIT);
+        ModuleHelper.get().setSupported(MekanismItems.MEKA_TOOL, MekanismModules.ATTACK_AMPLIFICATION_UNIT, MekanismModules.SILK_TOUCH_UNIT, MekanismModules.FORTUNE_UNIT, MekanismModules.BLASTING_UNIT, MekanismModules.VEIN_MINING_UNIT, MekanismModules.FARMING_UNIT, MekanismModules.SHEARING_UNIT, MekanismModules.TELEPORTATION_UNIT, MekanismModules.EXCAVATION_ESCALATION_UNIT);
 
         ModuleHelper.get().setSupported(MekanismItems.MEKASUIT_HELMET, MekanismModules.ELECTROLYTIC_BREATHING_UNIT, MekanismModules.INHALATION_PURIFICATION_UNIT, MekanismModules.VISION_ENHANCEMENT_UNIT, MekanismModules.NUTRITIONAL_INJECTION_UNIT);
 
@@ -762,6 +789,4 @@ public class Mekanism {
         MekanismHUD.onDrawScreenPre(event);
         MekanismStatusOverlay.INSTANCE.render(event);
     }
-
-
 }

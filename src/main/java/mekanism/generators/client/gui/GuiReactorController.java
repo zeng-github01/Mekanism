@@ -5,6 +5,7 @@ import mekanism.client.gui.element.GuiEnergyInfo;
 import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotType;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.generators.client.gui.element.GuiReactorTab;
@@ -31,7 +32,7 @@ public class GuiReactorController extends GuiMekanismTile<TileEntityReactorContr
                     LangUtils.localize("gui.storing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()),
                     LangUtils.localize("gui.producing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getReactor().getPassiveGeneration(false, true)) + "/t")
                     : new ArrayList<>(), this, resource));
-            addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 79, 38));
+            addGuiElement(new GuiNormalSlot(this, resource, 79, 38));
             addGuiElement(new GuiReactorTab(this, tileEntity, ReactorTab.HEAT, resource));
             addGuiElement(new GuiReactorTab(this, tileEntity, ReactorTab.FUEL, resource));
             addGuiElement(new GuiReactorTab(this, tileEntity, ReactorTab.STAT, resource));

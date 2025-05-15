@@ -4,7 +4,7 @@ import mekanism.api.Coord4D;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.GuiPlayerSlot;
-import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.common.Mekanism;
 import mekanism.common.OreDictCache;
 import mekanism.common.content.miner.MOreDictFilter;
@@ -27,8 +27,8 @@ public class GuiMOreDictFilter extends GuiOreDictFilter<MOreDictFilter, TileEnti
         filter = ((MOreDictFilter) tileEntity.filters.get(index)).clone();
         updateStackList(filter.getOreDictName());
         addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 34, 19, 109, 41));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 11, 18));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 148, 18));
+        addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 11, 18));
+        addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 148, 18));
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
     }
 
@@ -37,8 +37,8 @@ public class GuiMOreDictFilter extends GuiOreDictFilter<MOreDictFilter, TileEnti
         isNew = true;
         filter = new MOreDictFilter();
         addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 34, 19, 109, 41));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 11, 18));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 148, 18));
+        addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 11, 18));
+        addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 148, 18));
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
     }
 

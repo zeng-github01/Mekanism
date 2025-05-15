@@ -332,4 +332,19 @@ public class TileEntityIsotopicCentrifuge extends TileEntityBasicMachine<GasInpu
             updateDelay = 10;
         }
     }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(2).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
+    }
 }

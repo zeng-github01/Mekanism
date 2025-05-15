@@ -82,10 +82,10 @@ public class TileEntityChemicalOxidizer extends TileEntityUpgradeableMachine<Ite
 
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
-        factory.gasOutTank.setGas(gasTank.getGas());
-        factory.inventory.set(5, inventory.get(0));
-        factory.inventory.set(1, inventory.get(1));
-        factory.inventory.set(0, inventory.get(3));
+        setOutputGasTank(factory,gasTank);
+        setInputSlotItem(factory, inventory.get(0));
+        setEnergySlotItem(factory, inventory.get(1));
+        setUpgradeSlot(factory, inventory.get(3));
     }
 
     @Override
@@ -234,4 +234,20 @@ public class TileEntityChemicalOxidizer extends TileEntityUpgradeableMachine<Ite
     public Object[] invoke(int method, Object[] args) throws NoSuchMethodException {
         return new Object[0];
     }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(2).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return inventory.get(0).isEmpty();
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
+    }
+
 }

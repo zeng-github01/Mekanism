@@ -6,6 +6,7 @@ import mekanism.api.IHeatTransfer;
 import mekanism.api.TileNetworkList;
 import mekanism.client.render.bloom.BloomRenderResistiveHeater;
 import mekanism.common.Mekanism;
+import mekanism.common.base.IMachineSlotTip;
 import mekanism.common.base.IRedstoneControl;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.capabilities.Capabilities;
@@ -24,7 +25,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
 
-public class TileEntityResistiveHeater extends TileEntityEffectsBlock implements IHeatTransfer, IComputerIntegration, IRedstoneControl, ISecurityTile {
+public class TileEntityResistiveHeater extends TileEntityEffectsBlock implements IHeatTransfer, IComputerIntegration, IRedstoneControl, ISecurityTile, IMachineSlotTip {
 
     private static final int[] SLOTS = {0};
 
@@ -328,5 +329,20 @@ public class TileEntityResistiveHeater extends TileEntityEffectsBlock implements
                 new BloomRenderResistiveHeater(this);
             }
         }
+    }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(0).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
     }
 }

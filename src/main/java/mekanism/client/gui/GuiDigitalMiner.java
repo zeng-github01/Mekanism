@@ -6,7 +6,8 @@ import mekanism.api.TileNetworkList;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
-import mekanism.client.gui.element.GuiSlot.SlotType;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
 import mekanism.client.gui.element.tab.GuiVisualsTab;
@@ -64,15 +65,15 @@ public class GuiDigitalMiner extends GuiMekanismTile<TileEntityDigitalMiner> {
             if (perTick > tileEntity.getMaxEnergy()) {
                 ret.add(TextFormatting.RED + LangUtils.localize("mekanism.gui.insufficientbuffer"));
             }
-            ret.add(LangUtils.localize("mekanism.gui.bufferfree") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+            ret.add(LangUtils.localize("mekanism.gui.bufferfree") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getNeedEnergy()));
             return ret;
         }, this, resource));
-        addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 151, 19).with(SlotOverlay.POWER));
+        addGuiElement(new GuiEnergySlot(this, resource, 151, 19, tileEntity));
         addGuiElement(new GuiInnerScreen(this, resource, 7, 19, 78, 69));
         addGuiElement(new GuiPlayerSlot(this, resource, 7, 159));
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 9; x++) {
-                addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 7 + x * 18, 91 + y * 18));
+                addGuiElement(new GuiNormalSlot(this, resource, 7 + x * 18, 91 + y * 18));
             }
         }
         ySize += 76;

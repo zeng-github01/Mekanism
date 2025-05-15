@@ -48,7 +48,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class TileEntityDigitalAssemblyTable extends TileEntityMultiblockBasicMachine<CompositeInput, CompositeOutput, DigitalAssemblyTableRecipe>
-        implements IGasHandler, IFluidHandlerWrapper, ITankManager, ISustainedData, IAdvancedBoundingBlock {
+        implements IGasHandler, IFluidHandlerWrapper, ITankManager, ISustainedData, IAdvancedBoundingBlock,IMachineSlotTip {
 
     private static Random Rand = new Random();
     private final EjectSpeedController fluidSpeedController = new EjectSpeedController();
@@ -901,4 +901,18 @@ public class TileEntityDigitalAssemblyTable extends TileEntityMultiblockBasicMac
         }
     }
 
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(1).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return inventory.get(14).isEmpty();
+    }
 }

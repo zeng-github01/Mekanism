@@ -2,6 +2,8 @@ package mekanism.client.gui.robit;
 
 import mekanism.client.gui.element.GuiProgress;
 import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.common.entity.EntityRobit;
 import mekanism.common.inventory.container.robit.ContainerRobitCrafting;
 import mekanism.common.util.LangUtils;
@@ -16,10 +18,10 @@ public class GuiRobitCrafting extends GuiRobit {
         super(entity, new ContainerRobitCrafting(inventory, entity));
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
-                addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 29 + x * 18, 16 + y * 18));
+                addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 29 + x * 18, 16 + y * 18));
             }
         }
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL_LARGE, this, getGuiLocation(), 119, 30));
+        addGuiElement(new GuiOutputSlot(GuiSlot.SlotType.NORMAL_LARGE, this, getGuiLocation(), 119, 30));
         addGuiElement(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override
             public double getProgress() {

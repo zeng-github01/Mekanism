@@ -537,6 +537,10 @@ key.mekanism.module_tweaker=模块调节器
 # Entities
 entity.Robit.name=机器人
 entity.BabySkeleton.name=骷髅射手宝宝
+entity.BabyCreeper.name=爬行者宝宝
+entity.BabyEnderman.name=末影人宝宝
+entity.BabyStray.name=流髑宝宝
+entity.BabyWitherSkeleton.name=凋灵骷髅宝宝
 
 # Config Gui
 mekanism.configgui.ctgy.general=通用机械常规设定
@@ -2133,3 +2137,12 @@ tooltip.holdForDescription=可查看概要
 item.mekanism.cardboard_armor.tooltip.summary=可穿戴的装备，让你隐蔽的同时不失风度。
 item.mekanism.cardboard_armor.tooltip.condition1=全套装备时
 item.mekanism.cardboard_armor.tooltip.behaviour1=潜行使自己进入伪装状态。
+
+mekanism.gui.slot.power=能量插槽
+mekanism.gui.slot.power.tooltip=可以放入能量板，能量立方，红石等物品供给能量消耗。
+mekanism.gui.slot.input=输入槽
+mekanism.gui.slot.input.tooltip=可以输入不同的物品/气体/流体
+mekanism.gui.slot.extra=额外槽
+mekanism.gui.slot.extra.tooltip=用于放置工作所需的第二种材料。
+mekanism.gui.slot.output=输出槽
+mekanism.gui.slot.output.tooltip=用于输出不同的物品/气体/流体

@@ -9,6 +9,7 @@ import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
 import mekanism.common.base.IAdvancedBoundingBlock;
 import mekanism.common.base.IComparatorSupport;
+import mekanism.common.base.IMachineSlotTip;
 import mekanism.common.base.ISustainedData;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.config.MekanismConfig;
@@ -28,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 
-public class TileEntityLargeGasGenerator extends TileEntityMultiblockGenerator implements IAdvancedBoundingBlock, IGasHandler, ISustainedData, IComparatorSupport {
+public class TileEntityLargeGasGenerator extends TileEntityMultiblockGenerator implements IAdvancedBoundingBlock, IGasHandler, ISustainedData, IComparatorSupport, IMachineSlotTip {
 
     private static final String[] methods = new String[]{"getEnergy", "getOutput", "getMaxEnergy", "getEnergyNeeded", "getGas", "getGasNeeded"};
     public int MAX_GAS = 486000;
@@ -493,4 +494,18 @@ public class TileEntityLargeGasGenerator extends TileEntityMultiblockGenerator i
         }
     }
 
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(1).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
+    }
 }

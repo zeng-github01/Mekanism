@@ -13,10 +13,9 @@ import mekanism.client.newgui.GuiModuleTweaker;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.render.RenderFirstPersonMekaSuitArms;
 import mekanism.client.render.RenderTickHandler;
-import mekanism.client.render.entity.RenderBalloon;
-import mekanism.client.render.entity.RenderFlame;
-import mekanism.client.render.entity.RenderObsidianTNTPrimed;
-import mekanism.client.render.entity.RenderRobit;
+import mekanism.client.render.entity.*;
+import mekanism.client.render.entity.baby.RenderBabyCreeper;
+import mekanism.client.render.entity.baby.RenderBabyEnderman;
 import mekanism.client.render.item.ItemLayerWrapper;
 import mekanism.client.render.item.RenderEnergyCubeItem;
 import mekanism.client.render.item.basicblock.RenderBasicBlockItem;
@@ -48,7 +47,11 @@ import mekanism.common.block.states.BlockStatePlastic.PlasticBlockStateMapper;
 import mekanism.common.block.states.BlockStateTransmitter.TransmitterStateMapper;
 import mekanism.common.block.states.BlockStateTransmitter.TransmitterType;
 import mekanism.common.config.MekanismConfig;
-import mekanism.common.entity.*;
+import mekanism.common.entity.EntityBalloon;
+import mekanism.common.entity.EntityFlame;
+import mekanism.common.entity.EntityObsidianTNT;
+import mekanism.common.entity.EntityRobit;
+import mekanism.common.entity.baby.*;
 import mekanism.common.inventory.InventoryPersonalChest;
 import mekanism.common.item.*;
 import mekanism.common.network.PacketPortableTeleporter.PortableTeleporterMessage;
@@ -80,6 +83,8 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderSkeleton;
+import net.minecraft.client.renderer.entity.RenderStray;
+import net.minecraft.client.renderer.entity.RenderWitherSkeleton;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumDyeColor;
@@ -1024,6 +1029,11 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityBalloon.class, RenderBalloon::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityBabySkeleton.class, RenderSkeleton::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityFlame.class, RenderFlame::new);
+
+        RenderingRegistry.registerEntityRenderingHandler(EntityBabyCreeper.class, RenderBabyCreeper::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityBabyEnderman.class, RenderBabyEnderman::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityBabyStray.class, RenderStray::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityBabyWitherSkeleton.class, RenderWitherSkeleton::new);
     }
 
     @Override
@@ -1106,4 +1116,5 @@ public class ClientProxy extends CommonProxy {
                 }
         );
     }
+
 }

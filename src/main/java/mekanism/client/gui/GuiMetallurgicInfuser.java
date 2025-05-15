@@ -5,9 +5,11 @@ import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
-import mekanism.client.gui.element.GuiSlot.SlotOverlay;
-import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.bar.GuiBar;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiExtraSlot;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
 import mekanism.client.gui.element.tab.GuiTransporterConfigTab;
@@ -30,11 +32,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgicInfuser> implements IJeiNoShowRecipe{
+public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgicInfuser> implements IJeiNoShowRecipe {
 
     private GuiDisableableButton toggleButton;
 
@@ -47,15 +48,11 @@ public class GuiMetallurgicInfuser extends GuiMekanismTile<TileEntityMetallurgic
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
-        addGuiElement(new GuiEnergyInfo(() -> {
-            String multiplier = MekanismUtils.getEnergyDisplay(tileEntity.energyPerTick);
-            return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
-        }, this, resource));
-        addGuiElement(new GuiSlot(SlotType.EXTRA, this, resource, 16, 34));
-        addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 50, 42));
-        addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 142, 34).with(SlotOverlay.POWER));
-        addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 108, 42));
+        addGuiElement(new GuiEnergyInfo(tileEntity, this, resource));
+        addGuiElement(new GuiExtraSlot(this, resource, 16, 34, tileEntity));
+        addGuiElement(new GuiInputSlot(this, resource, 50, 42, tileEntity));
+        addGuiElement(new GuiEnergySlot(this, resource, 142, 34, tileEntity));
+        addGuiElement(new GuiOutputSlot(this, resource, 108, 42, tileEntity));
         addGuiElement(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {

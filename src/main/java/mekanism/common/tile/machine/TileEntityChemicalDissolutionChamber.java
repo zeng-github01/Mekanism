@@ -140,12 +140,12 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
 
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
-        factory.gasTank.setGas(injectTank.getGas());
-        factory.gasOutTank.setGas(outputTank.getGas());
-        factory.inventory.set(0, inventory.get(4));
-        factory.inventory.set(1, inventory.get(3));
-        factory.inventory.set(5, inventory.get(1));
-        factory.inventory.set(4, inventory.get(0));
+        setInputGasTank(factory,injectTank);
+        setOutputGasTank(factory,outputTank);
+        setUpgradeSlot(factory, inventory.get(4));
+        setEnergySlotItem(factory, inventory.get(3));
+        setInputSlotItem(factory, inventory.get(1));
+        setExtraSlotItem(factory, inventory.get(0));
 
     }
 
@@ -352,5 +352,20 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
             Mekanism.packetHandler.sendUpdatePacket(this);
             updateDelay = 10;
         }
+    }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(3).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return inventory.get(1).isEmpty();
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
     }
 }

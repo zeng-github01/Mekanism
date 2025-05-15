@@ -5,6 +5,7 @@ import mekanism.api.IConfigCardAccess.ISpecialConfigData;
 import mekanism.api.TileNetworkList;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.*;
+import mekanism.common.base.IMachineSlotTip;
 import mekanism.common.base.IRedstoneControl;
 import mekanism.common.base.ISideConfiguration;
 import mekanism.common.base.ISustainedData;
@@ -35,7 +36,7 @@ import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 
-public class TileEntityOredictionificator extends TileEntityContainerBlock implements IRedstoneControl, ISpecialConfigData, ISustainedData, ISecurityTile, ISideConfiguration {
+public class TileEntityOredictionificator extends TileEntityContainerBlock implements IRedstoneControl, ISpecialConfigData, ISustainedData, ISecurityTile, ISideConfiguration, IMachineSlotTip {
 
 
     public static List<String> possibleFilters = Arrays.asList("ingot", "ore", "dust", "nugget");
@@ -63,6 +64,21 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
         ejectorComponent.setOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(2));
         ejectorComponent.setInputOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(3));
         doAutoSync = false;
+    }
+
+    @Override
+    public boolean getEnergySlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return inventory.get(0).isEmpty();
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return inventory.get(1).isEmpty();
     }
 
     @Override
@@ -350,6 +366,8 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
     public boolean canSetFacing(@Nonnull EnumFacing facing) {
         return facing != EnumFacing.DOWN && facing != EnumFacing.UP;
     }
+
+
 
     public static class OredictionificatorFilter implements IFilter {
 

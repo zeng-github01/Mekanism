@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileEntityRotaryCondensentrator extends TileEntityMachine implements ISustainedData, IFluidHandlerWrapper, IGasHandler, IUpgradeInfoHandler, ITankManager,
-        IComparatorSupport, ISideConfiguration, IConfigCardAccess {
+        IComparatorSupport, ISideConfiguration, IConfigCardAccess,IMachineSlotTip {
 
     public static final int MAX_FLUID = 10000;
     public GasTank gasTank = new GasTank(MAX_FLUID);
@@ -398,5 +398,20 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
     @Override
     public TileComponentEjector getEjector() {
         return ejectorComponent;
+    }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(4).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
     }
 }

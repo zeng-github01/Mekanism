@@ -71,6 +71,27 @@ public class TileEntityMetallurgicInfuser extends TileEntityUpgradeableMachine<I
         ejectorComponent.setInputExtraOutputData(TransmissionType.ITEM, configComponent.getOutputs(TransmissionType.ITEM).get(9));
     }
 
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(4).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return inventory.get(2).isEmpty();
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return inventory.get(3).isEmpty();
+    }
+
+    @Override
+    public boolean getExtraSlot() {
+        return inventory.get(1).isEmpty();
+    }
+
     @Override
     public void onAsyncUpdateServer() {
         super.onAsyncUpdateServer();
@@ -101,11 +122,11 @@ public class TileEntityMetallurgicInfuser extends TileEntityUpgradeableMachine<I
 
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
-        factory.inventory.set(5, inventory.get(2));
-        factory.inventory.set(1, inventory.get(4));
-        factory.inventory.set(5 + 3, inventory.get(3));
-        factory.inventory.set(0, inventory.get(0));
-        factory.inventory.set(4, inventory.get(1));
+        setInputSlotItem(factory, inventory.get(2));
+        setEnergySlotItem(factory, inventory.get(4));
+        setOutputSlotItem(factory, inventory.get(3));
+        setUpgradeSlot(factory, inventory.get(0));
+        setExtraSlotItem(factory, inventory.get(1));
     }
 
     @Override

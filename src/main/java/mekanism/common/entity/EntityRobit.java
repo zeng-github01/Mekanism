@@ -88,7 +88,7 @@ public class EntityRobit extends EntityCreature implements IInventory, ISustaine
 
     public EntityRobit(World world) {
         super(world);
-        setSize(0.5F, 0.5F);
+        setSize(0.625F, 0.65625F);
         getNavigator().setCanSwim(false);
         tasks.addTask(1, new RobitAIPickup(this, 1.0F));
         tasks.addTask(2, new RobitAIFollow(this, 1.0F, 4.0F, 2.0F));

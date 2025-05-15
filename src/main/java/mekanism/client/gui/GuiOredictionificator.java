@@ -8,6 +8,8 @@ import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
 import mekanism.client.gui.element.GuiSlot.SlotType;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
 import mekanism.client.gui.element.tab.GuiTransporterConfigTab;
@@ -53,8 +55,8 @@ public class GuiOredictionificator extends GuiMekanismTile<TileEntityOredictioni
                 return tileEntity.didProcess ? 1 : 0;
             }
         }, ProgressBar.LARGE_RIGHT, this, resource, 62, 118));
-        addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 25, 114));
-        addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 133, 114));
+        addGuiElement(new GuiInputSlot( this, resource, 25, 114, tileEntity));
+        addGuiElement(new GuiOutputSlot(this, resource, 133, 114, tileEntity));
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         ySize += 64;

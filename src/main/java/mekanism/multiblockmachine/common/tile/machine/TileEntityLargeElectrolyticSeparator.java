@@ -42,7 +42,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 
 public class TileEntityLargeElectrolyticSeparator extends TileEntityMultiblockBasicMachine<FluidInput, ChemicalPairOutput, SeparatorRecipe>
-        implements IFluidHandlerWrapper, ISustainedData, IGasHandler, IUpgradeInfoHandler, ITankManager, IAdvancedBoundingBlock {
+        implements IFluidHandlerWrapper, ISustainedData, IGasHandler, IUpgradeInfoHandler, ITankManager, IAdvancedBoundingBlock,IMachineSlotTip {
 
     private static final String[] methods = new String[]{"getEnergy", "getOutput", "getMaxEnergy", "getEnergyNeeded", "getWater", "getWaterNeeded", "getHydrogen",
             "getHydrogenNeeded", "getOxygen", "getOxygenNeeded"};
@@ -733,4 +733,18 @@ public class TileEntityLargeElectrolyticSeparator extends TileEntityMultiblockBa
     }
 
 
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(3).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return inventory.get(0).isEmpty();
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
+    }
 }

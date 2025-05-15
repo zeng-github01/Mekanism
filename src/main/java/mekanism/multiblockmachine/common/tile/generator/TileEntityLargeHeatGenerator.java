@@ -29,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 
-public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator implements IAdvancedBoundingBlock, IFluidHandlerWrapper, ISustainedData, IHeatTransfer, IComparatorSupport {
+public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator implements IAdvancedBoundingBlock, IFluidHandlerWrapper, ISustainedData, IHeatTransfer, IComparatorSupport,IMachineSlotTip {
 
     private static final String[] methods = new String[]{"getEnergy", "getOutput", "getMaxEnergy", "getEnergyNeeded", "getFuel", "getFuelNeeded"};
 
@@ -490,4 +490,18 @@ public class TileEntityLargeHeatGenerator extends TileEntityMultiblockGenerator 
         }
     }
 
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(1).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
+    }
 }

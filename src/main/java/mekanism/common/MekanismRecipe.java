@@ -456,9 +456,8 @@ public class MekanismRecipe {
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.RECYCLER)) {
             if (MekanismConfig.current().mekce.EnableAddArrItemRecyclerRecipe.val()) {
                 getRegistriesStacks().forEach(RecipeHandler::addRecyclerRecipe);
-
             } else {
-                RecipeHandler.addRecyclerRecipe(new ItemStack(Blocks.DIRT));
+                RecipeHandler.addRecyclerRecipe(new ItemStack(Blocks.STONE));
             }
         }
 

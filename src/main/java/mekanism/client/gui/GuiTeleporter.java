@@ -10,6 +10,7 @@ import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiPowerBar.IPowerInfoHandler;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
 import mekanism.client.render.MekanismRenderer;
@@ -95,7 +96,7 @@ public class GuiTeleporter extends GuiMekanismTile<TileEntityTeleporter> {
             }
         }, resource, 158, 26));
 
-        addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 152, 6).with(SlotOverlay.POWER));
+        addGuiElement(new GuiEnergySlot( this, resource, 152, 6, tileEntity));
         addGuiElement(scrollList = new GuiScrollList(this, resource, 28, 37, 120, 4));
         if (tileEntity.frequency != null) {
             privateMode = !tileEntity.frequency.publicFreq;

@@ -9,6 +9,7 @@ import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.gui.element.gauge.GuiGauge.Type;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
 import mekanism.common.inventory.container.ContainerAmbientAccumulator;
@@ -30,7 +31,7 @@ public class GuiAmbientAccumulator extends GuiMekanismTile<TileEntityAmbientAccu
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
         addGuiElement(new GuiInnerScreen(this, resource, 7, 13, 80, 65));
         addGuiElement(new GuiGasGauge(() -> tileEntity.collectedGas, Type.WIDE, this, getGuiLocation(), 102, 13).withColor(GuiGauge.TypeColor.ORANGE));
-        addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 126,66).with(SlotOverlay.PLUS));
+        addGuiElement(new GuiOutputSlot(this, resource, 126,66,tileEntity).with(SlotOverlay.PLUS));
         ySize += 5;
         addGuiElement(new GuiPlayerSlot(this, resource,7,88));
     }

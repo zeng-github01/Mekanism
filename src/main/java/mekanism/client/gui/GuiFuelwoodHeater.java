@@ -1,7 +1,7 @@
 package mekanism.client.gui;
 
 import mekanism.client.gui.element.*;
-import mekanism.client.gui.element.GuiSlot.SlotType;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.inventory.container.ContainerFuelwoodHeater;
@@ -25,7 +25,7 @@ public class GuiFuelwoodHeater extends GuiMekanismTile<TileEntityFuelwoodHeater>
     public GuiFuelwoodHeater(InventoryPlayer inventory, TileEntityFuelwoodHeater tile) {
         super(tile, new ContainerFuelwoodHeater(inventory, tile));
         ResourceLocation resource = getGuiLocation();
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 14, 28));
+        addGuiElement(new GuiNormalSlot(this, resource, 14, 28));
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
         addGuiElement(new GuiHeatInfo(() -> {
             TemperatureUnit unit = TemperatureUnit.values()[MekanismConfig.current().general.tempUnit.val().ordinal()];

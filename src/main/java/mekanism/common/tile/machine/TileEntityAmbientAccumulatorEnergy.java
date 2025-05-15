@@ -8,10 +8,7 @@ import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.SideData;
 import mekanism.common.Upgrade;
 import mekanism.common.Upgrade.IUpgradeInfoHandler;
-import mekanism.common.base.IComparatorSupport;
-import mekanism.common.base.ISideConfiguration;
-import mekanism.common.base.ISustainedData;
-import mekanism.common.base.ITankManager;
+import mekanism.common.base.*;
 import mekanism.common.block.states.BlockStateMachine;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.recipe.RecipeHandler;
@@ -33,7 +30,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class TileEntityAmbientAccumulatorEnergy extends TileEntityMachine implements ISustainedData, IGasHandler,
-        IUpgradeInfoHandler, ITankManager, IComparatorSupport, ISideConfiguration, IConfigCardAccess {
+        IUpgradeInfoHandler, ITankManager, IComparatorSupport, ISideConfiguration, IConfigCardAccess, IMachineSlotTip {
 
     public static final int MAX_GAS = GasTankTier.BASIC.getBaseStorage();
     public GasTank outputTank = new GasTank(MAX_GAS);
@@ -280,4 +277,19 @@ public class TileEntityAmbientAccumulatorEnergy extends TileEntityMachine implem
         return ejectorComponent;
     }
 
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(1).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
+    }
 }

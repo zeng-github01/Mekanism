@@ -18,4 +18,6 @@ public class TileEntityCellSeparator extends TileEntityChanceMachine<CellSeparat
     public Map<ItemStackInput, CellSeparatorRecipe> getRecipes() {
         return Recipe.CELL_SEPARATOR.get();
     }
+
+
 }

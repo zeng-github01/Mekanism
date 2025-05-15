@@ -6,6 +6,10 @@ import mekanism.client.gui.IJeiNoShowRecipe;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiExtraSlot;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
 import mekanism.common.util.LangUtils;
@@ -37,16 +41,15 @@ public class GuiLargeChemicalInfuser extends GuiMekanismTile<TileEntityLargeChem
         addGuiElement(new GuiPowerBarHorizontal(this, tileEntity, resource, 115 - 2, 74 + 11));
         addGuiElement(new GuiEnergyInfo(() -> {
             String usage = MekanismUtils.getEnergyDisplay(tileEntity.clientEnergyUsed);
-            return Arrays.asList(LangUtils.localize("gui.using") + ": " + usage + "/t",
-                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+            return Arrays.asList(LangUtils.localize("gui.using") + ": " + usage + "/t", LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getNeedEnergy()));
         }, this, resource));
         addGuiElement(new GuiGasGauge(() -> tileEntity.leftTank, GuiGauge.Type.STANDARD, this, resource, 25, 13 + 11).withColor(GuiGauge.TypeColor.RED));
         addGuiElement(new GuiGasGauge(() -> tileEntity.centerTank, GuiGauge.Type.STANDARD, this, resource, 79, 4 + 11).withColor(GuiGauge.TypeColor.BLUE));
         addGuiElement(new GuiGasGauge(() -> tileEntity.rightTank, GuiGauge.Type.STANDARD, this, resource, 133, 13 + 11).withColor(GuiGauge.TypeColor.ORANGE));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER, this, resource, 154, 4 + 11).with(GuiSlot.SlotOverlay.POWER));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.EXTRA, this, resource, 154, 55 + 11).with(GuiSlot.SlotOverlay.MINUS));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.INPUT, this, resource, 4, 55 + 11).with(GuiSlot.SlotOverlay.MINUS));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, resource, 79, 64 + 11).with(GuiSlot.SlotOverlay.PLUS));
+        addGuiElement(new GuiEnergySlot(this, resource, 154, 4 + 11, tileEntity));
+        addGuiElement(new GuiExtraSlot(this, resource, 154, 55 + 11,tileEntity).with(GuiSlot.SlotOverlay.MINUS));
+        addGuiElement(new GuiInputSlot( this, resource, 4, 55 + 11, tileEntity).with(GuiSlot.SlotOverlay.MINUS));
+        addGuiElement(new GuiOutputSlot(this, resource, 79, 64 + 11, tileEntity).with(GuiSlot.SlotOverlay.PLUS));
         addGuiElement(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override
             public double getProgress() {

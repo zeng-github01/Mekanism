@@ -60,5 +60,4 @@ public class TileEntityOrganicFarm extends TileEntityFarmMachine<FarmRecipe> {
         return true;
     }
 
-
 }

@@ -3,10 +3,9 @@ package mekanism.client.gui;
 import mekanism.client.gui.element.GuiContainerEditMode;
 import mekanism.client.gui.element.GuiPlayerArmmorSlot;
 import mekanism.client.gui.element.GuiPlayerSlot;
-import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
-import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.common.inventory.container.ContainerFluidTank;
 import mekanism.common.tile.TileEntityFluidTank;
@@ -25,8 +24,8 @@ public class GuiFluidTank extends GuiMekanismTile<TileEntityFluidTank> {
         addGuiElement(new GuiContainerEditMode(this, tileEntity, resource));
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
         addGuiElement(new GuiFluidGauge(() -> tileEntity.fluidTank, GuiFluidGauge.Type.WIDE, this, resource, 48, 18));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 145, 18).with(SlotOverlay.INPUT));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 145, 50).with(SlotOverlay.OUTPUT));
+        addGuiElement(new GuiNormalSlot(this, resource, 145, 18).with(SlotOverlay.INPUT));
+        addGuiElement(new GuiNormalSlot(this, resource, 145, 50).with(SlotOverlay.OUTPUT));
         addGuiElement(new GuiPlayerSlot(this, resource));
         addGuiElement(new GuiPlayerArmmorSlot(this, resource, -26, 62, true));
     }

@@ -85,11 +85,11 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityUpgradeab
 
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
-        factory.gasTank.setGas(inputGasTank.getGas());
-        factory.inventory.set(5, inventory.get(0));
-        factory.inventory.set(1, inventory.get(1));
-        factory.inventory.set(5 + 3, inventory.get(2));
-        factory.inventory.set(0, inventory.get(3));
+        setInputGasTank(factory, inputGasTank);
+        setInputSlotItem(factory, inventory.get(0));
+        setEnergySlotItem(factory, inventory.get(1));
+        setOutputSlotItem(factory, inventory.get(2));
+        setUpgradeSlot(factory, inventory.get(3));
     }
 
     @Override
@@ -248,6 +248,21 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityUpgradeab
     @Override
     public void readSustainedData(ItemStack itemStack) {
         inputGasTank.setGas(GasStack.readFromNBT(ItemDataUtils.getCompound(itemStack, "inputGasTank")));
+    }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(1).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return inventory.get(0).isEmpty();
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return inventory.get(2).isEmpty();
     }
 
 }

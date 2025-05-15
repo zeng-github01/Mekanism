@@ -46,7 +46,7 @@ public abstract class TileEntityDoubleElectricMachine<RECIPE extends DoubleMachi
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.OUTPUT, new int[]{2}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.ENERGY, new int[]{3}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.EXTRA, new int[]{1}));
-        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT_EXTRA, new int[]{1, 0}));
+        configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT_EXTRA, new int[]{0, 1}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData(new int[]{0, 2}, new boolean[]{false, true}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT_ENHANCED, new int[]{0}));
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT_ENHANCED_OUTPUT_ENHANCED, new int[]{0, 2}, new boolean[]{false, true}));
@@ -66,11 +66,11 @@ public abstract class TileEntityDoubleElectricMachine<RECIPE extends DoubleMachi
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
         //Double Machine
-        factory.inventory.set(5, inventory.get(0));
-        factory.inventory.set(4, inventory.get(1));
-        factory.inventory.set(5 + 3, inventory.get(2));
-        factory.inventory.set(1, inventory.get(3));
-        factory.inventory.set(0, inventory.get(4));
+        setInputSlotItem(factory, inventory.get(0));
+        setExtraSlotItem(factory, inventory.get(1));
+        setOutputSlotItem(factory, inventory.get(2));
+        setEnergySlotItem(factory, inventory.get(3));
+        setUpgradeSlot(factory, inventory.get(4));
     }
 
 
@@ -164,5 +164,25 @@ public abstract class TileEntityDoubleElectricMachine<RECIPE extends DoubleMachi
             case 6 -> new Object[]{maxEnergy - getEnergy()};
             default -> throw new NoSuchMethodException();
         };
+    }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(3).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return inventory.get(0).isEmpty();
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return inventory.get(3).isEmpty();
+    }
+
+    @Override
+    public boolean getExtraSlot() {
+        return inventory.get(1).isEmpty();
     }
 }

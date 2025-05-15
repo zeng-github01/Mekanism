@@ -5,6 +5,10 @@ import mekanism.client.gui.element.GuiProgress;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiExtraSlot;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.client.jei.MekanismJEI;
 import mekanism.common.recipe.RecipeHandler.Recipe;
@@ -26,10 +30,10 @@ public class ChemicalInfuserRecipeCategory<WRAPPER extends ChemicalInfuserRecipe
         guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 25, 13).withColor(GuiGauge.TypeColor.RED));
         guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 79, 4).withColor(GuiGauge.TypeColor.BLUE));
         guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 133, 13).withColor(GuiGauge.TypeColor.ORANGE));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.POWER, this, guiLocation, 154, 4).with(GuiSlot.SlotOverlay.POWER));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.EXTRA, this, guiLocation, 154, 55).with(GuiSlot.SlotOverlay.MINUS));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.INPUT, this, guiLocation, 4, 55).with(GuiSlot.SlotOverlay.MINUS));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, guiLocation, 79, 64).with(GuiSlot.SlotOverlay.PLUS));
+        guiElements.add(new GuiEnergySlot(this, guiLocation, 154, 4));
+        guiElements.add(new GuiExtraSlot( this, guiLocation, 154, 55).with(GuiSlot.SlotOverlay.MINUS));
+        guiElements.add(new GuiInputSlot( this, guiLocation, 4, 55).with(GuiSlot.SlotOverlay.MINUS));
+        guiElements.add(new GuiOutputSlot( this, guiLocation, 79, 64).with(GuiSlot.SlotOverlay.PLUS));
 
         guiElements.add(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override

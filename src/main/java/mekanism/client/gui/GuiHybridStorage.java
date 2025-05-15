@@ -6,6 +6,9 @@ import mekanism.client.gui.element.gauge.GuiEnergyGauge;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
 import mekanism.common.inventory.container.ContainerHybridStorage;
@@ -38,18 +41,18 @@ public class GuiHybridStorage extends GuiMekanismTile<TileEntityHybridStorage> {
         addGuiElement(new GuiEnergyGauge(() -> tileEntity, GuiEnergyGauge.Type.STANDARD, this, resource, 259, 197).withColor(GuiGauge.TypeColor.AQUA));
         addGuiElement(new GuiEnergyInfo(() -> Arrays.asList(LangUtils.localize("gui.storing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()),
                 LangUtils.localize("gui.maxOutput") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t"), this, resource));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.INPUT, this, resource, 7, 178).with(GuiSlot.SlotOverlay.PLUS));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, resource, 7, 258).with(GuiSlot.SlotOverlay.MINUS));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.INPUT, this, resource, 34, 178).with(GuiSlot.SlotOverlay.PLUS));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, resource, 34, 258).with(GuiSlot.SlotOverlay.MINUS));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 232, 178).with(GuiSlot.SlotOverlay.INPUT));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 232, 258).with(GuiSlot.SlotOverlay.OUTPUT));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.INPUT, this, resource, 259, 178).with(GuiSlot.SlotOverlay.MINUS));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, resource, 259, 258).with(GuiSlot.SlotOverlay.PLUS));
+        addGuiElement(new GuiInputSlot( this, resource, 7, 178, tileEntity).with(GuiSlot.SlotOverlay.PLUS));
+        addGuiElement(new GuiOutputSlot(this, resource, 7, 258, tileEntity).with(GuiSlot.SlotOverlay.MINUS));
+        addGuiElement(new GuiInputSlot( this, resource, 34, 178, tileEntity).with(GuiSlot.SlotOverlay.PLUS));
+        addGuiElement(new GuiOutputSlot(this, resource, 34, 258, tileEntity).with(GuiSlot.SlotOverlay.MINUS));
+        addGuiElement(new GuiNormalSlot(this, resource, 232, 178).with(GuiSlot.SlotOverlay.INPUT));
+        addGuiElement(new GuiNormalSlot(this, resource, 232, 258).with(GuiSlot.SlotOverlay.OUTPUT));
+        addGuiElement(new GuiInputSlot( this, resource, 259, 178, tileEntity).with(GuiSlot.SlotOverlay.MINUS));
+        addGuiElement(new GuiOutputSlot(this, resource, 259, 258, tileEntity).with(GuiSlot.SlotOverlay.PLUS));
 
         for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 15; x++) {
-                addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 7 + x * 18, 25 + y * 18));
+                addGuiElement(new GuiNormalSlot(this, resource, 7 + x * 18, 25 + y * 18));
             }
         }
 

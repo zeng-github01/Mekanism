@@ -6,6 +6,8 @@ import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.client.jei.MekanismJEI;
 import mekanism.common.recipe.RecipeHandler.Recipe;
@@ -30,8 +32,8 @@ public class ChemicalWasherRecipeCategory<WRAPPER extends ChemicalWasherRecipeWr
         guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 5, 13).withColor(GuiGauge.TypeColor.RED));
         guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 26, 13).withColor(GuiGauge.TypeColor.RED));
         guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 133, 13).withColor(GuiGauge.TypeColor.BLUE));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.POWER, this, guiLocation, 154, 13).with(GuiSlot.SlotOverlay.POWER));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, guiLocation, 154, 55).with(GuiSlot.SlotOverlay.MINUS));
+        guiElements.add(new GuiEnergySlot(this, guiLocation, 154, 13));
+        guiElements.add(new GuiOutputSlot(this, guiLocation, 154, 55).with(GuiSlot.SlotOverlay.MINUS));
         guiElements.add(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override
             public double getProgress() {

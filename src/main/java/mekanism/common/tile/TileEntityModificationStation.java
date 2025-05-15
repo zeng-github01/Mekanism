@@ -5,6 +5,7 @@ import mekanism.api.gear.IModule;
 import mekanism.api.gear.ModuleData;
 import mekanism.common.Upgrade;
 import mekanism.common.base.IBoundingBlock;
+import mekanism.common.base.IMachineSlotTip;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.content.gear.IModuleContainerItem;
 import mekanism.common.content.gear.IModuleItem;
@@ -18,7 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import org.jetbrains.annotations.NotNull;
 
-public class TileEntityModificationStation extends TileEntityOperationalMachine implements IBoundingBlock {
+public class TileEntityModificationStation extends TileEntityOperationalMachine implements IBoundingBlock, IMachineSlotTip {
 
 
     public TileEntityModificationStation() {
@@ -121,4 +122,18 @@ public class TileEntityModificationStation extends TileEntityOperationalMachine 
         return false;
     }
 
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(1).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
+    }
 }

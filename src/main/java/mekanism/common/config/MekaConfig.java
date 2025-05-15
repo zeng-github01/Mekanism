@@ -56,6 +56,7 @@ public class MekaConfig extends BaseConfig {
     public DoubleOption mekaToolEnergyUsageTeleport = new DoubleOption(this, "meka", "mekaToolEnergyUsageTeleport", 1000, "Cost in Joules of using the Meka-Tool to teleport 10 blocks.");
     public DoubleOption mekaEnergyUsageHealthRegeneration = new DoubleOption(this, "meka", "mekaEnergyUsageHealthRegeneration", 100, "How much energy regeneration is needed for a health regeneration");
 
+
     public final Map<DamageSource, FloatOption> mekaSuitDamageRatios = create();
 
     public final Map<DamageSource, FloatOption> create() {

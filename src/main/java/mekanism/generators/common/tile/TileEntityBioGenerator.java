@@ -5,10 +5,7 @@ import mekanism.api.TileNetworkList;
 import mekanism.common.FluidSlot;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismItems;
-import mekanism.common.base.FluidHandlerWrapper;
-import mekanism.common.base.IComparatorSupport;
-import mekanism.common.base.IFluidHandlerWrapper;
-import mekanism.common.base.ISustainedData;
+import mekanism.common.base.*;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.*;
 import net.minecraft.inventory.Container;
@@ -29,7 +26,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
 
-public class TileEntityBioGenerator extends TileEntityGenerator implements IFluidHandlerWrapper, ISustainedData, IComparatorSupport {
+public class TileEntityBioGenerator extends TileEntityGenerator implements IFluidHandlerWrapper, ISustainedData, IComparatorSupport, IMachineSlotTip {
 
     private static final String[] methods = new String[]{"getEnergy", "getOutput", "getMaxEnergy", "getEnergyNeeded", "getBioFuel", "getBioFuelNeeded"};
     private static FluidTankInfo[] ALL_TANKS = new FluidTankInfo[0];
@@ -275,5 +272,20 @@ public class TileEntityBioGenerator extends TileEntityGenerator implements IFlui
     @Override
     public int getRedstoneLevel() {
         return Container.calcRedstoneFromInventory(this);
+    }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(1).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
     }
 }

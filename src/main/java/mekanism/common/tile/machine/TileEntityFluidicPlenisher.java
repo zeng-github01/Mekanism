@@ -38,7 +38,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class TileEntityFluidicPlenisher extends TileEntityElectricBlock implements IComputerIntegration, IConfigurable, IFluidHandlerWrapper, ISustainedTank,
-        IUpgradeTile, IRedstoneControl, ISecurityTile, IComparatorSupport {
+        IUpgradeTile, IRedstoneControl, ISecurityTile, IComparatorSupport,IMachineSlotTip {
 
     private static final String[] methods = new String[]{"reset"};
     private static EnumSet<EnumFacing> dirs = EnumSet.complementOf(EnumSet.of(EnumFacing.UP));
@@ -420,5 +420,20 @@ public class TileEntityFluidicPlenisher extends TileEntityElectricBlock implemen
     @Override
     public int getRedstoneLevel() {
         return MekanismUtils.redstoneLevelFromContents(fluidTank.getFluidAmount(), fluidTank.getCapacity());
+    }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(2).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
     }
 }

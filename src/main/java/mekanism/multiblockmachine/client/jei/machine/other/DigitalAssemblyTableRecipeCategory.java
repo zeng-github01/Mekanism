@@ -7,6 +7,9 @@ import mekanism.client.gui.element.bar.GuiBar;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.slot.GuiExtraSlot;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.client.jei.MekanismJEI;
 import mekanism.common.recipe.RecipeHandler;
@@ -33,13 +36,13 @@ public class DigitalAssemblyTableRecipeCategory<WRAPPER extends DigitalAssemblyT
     protected void addGuiElements() {
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 3; x++) {
-                guiElements.add(new GuiSlot(GuiSlot.SlotType.INPUT, this, guiLocation, 66 + x * 18, 15 + y * 18));
+                guiElements.add(new GuiInputSlot( this, guiLocation, 66 + x * 18, 15 + y * 18));
             }
         }
         for (int y = 0; y < 3; y++) {
-            guiElements.add(new GuiSlot(GuiSlot.SlotType.EXTRA, this, guiLocation, 48, 15 + y * 18));
+            guiElements.add(new GuiExtraSlot(this, guiLocation, 48, 15 + y * 18));
         }
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, guiLocation, 162, 33));
+        guiElements.add(new GuiOutputSlot(this, guiLocation, 162, 33));
         guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 6, 12).withColor(GuiGauge.TypeColor.RED));
         guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 27, 12).withColor(GuiGauge.TypeColor.YELLOW));
         guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 183, 12).withColor(GuiGauge.TypeColor.ORANGE));

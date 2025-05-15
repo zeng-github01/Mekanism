@@ -4,6 +4,8 @@ import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
 import mekanism.common.util.LangUtils;
@@ -27,8 +29,8 @@ public class GuiLargeGasGenerator extends GuiMekanismTile<TileEntityLargeGasGene
                 LangUtils.localize("gui.maxOutput") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t"), this, resource));
         addGuiElement(new GuiGasGauge(() -> tileEntity.fuelTank, GuiGauge.Type.WIDE, this, resource, 55, 18));
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, resource, 16, 34).with(GuiSlot.SlotOverlay.MINUS));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER, this, resource, 142, 34).with(GuiSlot.SlotOverlay.POWER));
+        addGuiElement(new GuiNormalSlot(this, resource, 16, 34).with(GuiSlot.SlotOverlay.MINUS));
+        addGuiElement(new GuiEnergySlot( this, resource, 142, 34, tileEntity));
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
     }

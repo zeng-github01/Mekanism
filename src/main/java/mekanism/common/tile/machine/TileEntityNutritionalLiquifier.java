@@ -62,6 +62,21 @@ public class TileEntityNutritionalLiquifier extends TileEntityBasicMachine<ItemS
     }
 
     @Override
+    public boolean getEnergySlot() {
+        return inventory.get(1).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return inventory.get(0).isEmpty();
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
+    }
+
+    @Override
     public void onUpdateClient() {
         super.onUpdateClient();
         if (updateDelay > 0) {

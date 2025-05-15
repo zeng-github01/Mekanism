@@ -11,6 +11,7 @@ import mekanism.common.MekanismBlocks;
 import mekanism.common.PacketHandler;
 import mekanism.common.Upgrade;
 import mekanism.common.base.IComparatorSupport;
+import mekanism.common.base.IMachineSlotTip;
 import mekanism.common.base.IRedstoneControl;
 import mekanism.common.base.IUpgradeTile;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
@@ -49,7 +50,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 
 public class TileEntityTeleporter extends TileEntityElectricBlock implements IComputerIntegration, IChunkLoader, IFrequencyHandler, IRedstoneControl, ISecurityTile,
-        IUpgradeTile, IComparatorSupport {
+        IUpgradeTile, IComparatorSupport, IMachineSlotTip {
 
     private static final String[] methods = new String[]{"getEnergy", "canTeleport", "getMaxEnergy", "teleport", "setFrequency", "setDefaultColor"};
     public static List<EnumColor> colors = Arrays.asList(EnumColor.values());
@@ -580,5 +581,20 @@ public class TileEntityTeleporter extends TileEntityElectricBlock implements ICo
     @Override
     public int getRedstoneLevel() {
         return shouldRender ? 15 : 0;
+    }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(0).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
     }
 }

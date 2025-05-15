@@ -83,11 +83,11 @@ public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasIn
 
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
-        factory.gasTank.setGas(inputTank.getGas());
-        factory.gasOutTank.setGas(outputTank.getGas());
-        factory.fluidTank.setFluid(fluidTank.getFluid());
-        factory.inventory.set(1, inventory.get(3));
-        factory.inventory.set(0, inventory.get(4));
+        setInputGasTank(factory, inputTank);
+        setOutputGasTank(factory, outputTank);
+        setInputFluidTank(factory, fluidTank);
+        setEnergySlotItem(factory, inventory.get(3));
+        setUpgradeSlot(factory, inventory.get(4));
     }
 
     @Override
@@ -333,5 +333,20 @@ public class TileEntityChemicalWasher extends TileEntityUpgradeableMachine<GasIn
     @Override
     public Object[] invoke(int method, Object[] args) throws NoSuchMethodException {
         return new Object[0];
+    }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(3).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
     }
 }

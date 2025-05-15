@@ -12,6 +12,9 @@ import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.client.jei.MekanismJEI;
 import mekanism.common.recipe.RecipeHandler.Recipe;
@@ -41,10 +44,10 @@ public class ElectrolyticSeparatorRecipeCategory<WRAPPER extends ElectrolyticSep
                 return 1F;
             }
         }, guiLocation, 164, 15));
-        guiElements.add(new GuiSlot(SlotType.INPUT, this, guiLocation, 25, 34));
-        guiElements.add(new GuiSlot(SlotType.OUTPUT, this, guiLocation, 58, 51));
+        guiElements.add(new GuiInputSlot(this, guiLocation, 25, 34));
+        guiElements.add(new GuiOutputSlot( this, guiLocation, 58, 51));
         guiElements.add(new GuiSlot(SlotType.AQUA, this, guiLocation, 100, 51));
-        guiElements.add(new GuiSlot(SlotType.POWER, this, guiLocation, 142, 34).with(SlotOverlay.POWER));
+        guiElements.add(new GuiEnergySlot(this, guiLocation, 142, 34));
         guiElements.add(new GuiProgress(new IProgressInfoHandler() {
             @Override
             public double getProgress() {

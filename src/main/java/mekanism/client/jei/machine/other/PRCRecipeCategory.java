@@ -12,6 +12,9 @@ import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.client.jei.MekanismJEI;
 import mekanism.common.recipe.RecipeHandler.Recipe;
@@ -32,9 +35,9 @@ public class PRCRecipeCategory<WRAPPER extends PRCRecipeWrapper<PressurizedRecip
 
     @Override
     protected void addGuiElements() {
-        guiElements.add(new GuiSlot(SlotType.INPUT, this, guiLocation, 53, 34));
-        guiElements.add(new GuiSlot(SlotType.POWER, this, guiLocation, 140, 18).with(SlotOverlay.POWER));
-        guiElements.add(new GuiSlot(SlotType.OUTPUT, this, guiLocation, 115, 34));
+        guiElements.add(new GuiInputSlot(this, guiLocation, 53, 34));
+        guiElements.add(new GuiEnergySlot(this, guiLocation, 140, 18));
+        guiElements.add(new GuiOutputSlot(this, guiLocation, 115, 34));
         guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 5, 10).withColor(GuiGauge.TypeColor.YELLOW));
         guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 28, 10).withColor(GuiGauge.TypeColor.RED));
         guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.SMALL, this, guiLocation, 140, 40).withColor(GuiGauge.TypeColor.BLUE));

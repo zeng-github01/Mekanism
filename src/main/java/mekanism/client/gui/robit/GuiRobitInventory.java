@@ -1,6 +1,7 @@
 package mekanism.client.gui.robit;
 
 import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.common.entity.EntityRobit;
 import mekanism.common.inventory.container.robit.ContainerRobitInventory;
 import mekanism.common.util.LangUtils;
@@ -15,7 +16,7 @@ public class GuiRobitInventory extends GuiRobit {
         super(entity, new ContainerRobitInventory(inventory, entity));
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 9; x++) {
-                addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 7 + x * 18, 17 + y * 18));
+                addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 7 + x * 18, 17 + y * 18));
             }
         }
     }

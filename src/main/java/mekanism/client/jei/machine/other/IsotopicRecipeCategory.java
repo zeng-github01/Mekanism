@@ -5,6 +5,8 @@ import mekanism.client.gui.element.GuiProgress;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.client.jei.MekanismJEI;
 import mekanism.common.recipe.RecipeHandler.Recipe;
@@ -25,8 +27,8 @@ public class IsotopicRecipeCategory<WRAPPER extends IsotopicRecipeWrapper<Isotop
     protected void addGuiElements() {
         guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 25, 13).withColor(GuiGauge.TypeColor.RED));
         guiElements.add(GuiGasGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 133, 13).withColor(GuiGauge.TypeColor.BLUE));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.INPUT, this, guiLocation, 4, 55).with(GuiSlot.SlotOverlay.MINUS));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, guiLocation, 154, 55).with(GuiSlot.SlotOverlay.PLUS));
+        guiElements.add(new GuiInputSlot( this, guiLocation, 4, 55).with(GuiSlot.SlotOverlay.MINUS));
+        guiElements.add(new GuiOutputSlot(this, guiLocation, 154, 55).with(GuiSlot.SlotOverlay.PLUS));
         guiElements.add(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override
             public double getProgress() {

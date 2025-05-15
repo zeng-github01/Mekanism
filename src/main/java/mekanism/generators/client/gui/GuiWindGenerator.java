@@ -5,6 +5,7 @@ import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.common.base.IRedstoneControl;
 import mekanism.common.config.MekanismConfig;
@@ -32,7 +33,7 @@ public class GuiWindGenerator extends GuiMekanismTile<TileEntityWindGenerator> {
                         MekanismUtils.getEnergyDisplay(tileEntity.getActive() ? MekanismConfig.current().generators.windGenerationMin.val() * tileEntity.getCurrentMultiplier() : 0) + "/t",
                 LangUtils.localize("gui.maxOutput") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t"), this, resource));
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
-        addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 142, 34).with(SlotOverlay.POWER));
+        addGuiElement(new GuiEnergySlot( this, resource, 142, 34, tileEntity));
         addGuiElement(new GuiPlayerSlot(this, resource));
         addGuiElement(new GuiSlot(SlotType.STATE_HOLDER, this, resource, 18, 35));
         addGuiElement(new GuiInnerScreen(this, resource, 48, 21, 80, 44));

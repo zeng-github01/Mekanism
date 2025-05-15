@@ -18,4 +18,5 @@ public class TileEntityAlloy extends TileEntityDoubleElectricMachine<AlloyRecipe
     public Map<DoubleMachineInput, AlloyRecipe> getRecipes() {
         return Recipe.ALLOY.get();
     }
+
 }

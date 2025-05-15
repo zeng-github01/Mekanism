@@ -6,6 +6,7 @@ import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.common.Mekanism;
 import mekanism.common.content.transporter.TMaterialFilter;
 import mekanism.common.network.PacketLogisticalSorterGui.LogisticalSorterGuiMessage;
@@ -25,7 +26,7 @@ public class GuiTMaterialFilter extends GuiMaterialFilter<TMaterialFilter, TileE
         super(player, tile);
         origFilter = (TMaterialFilter) tileEntity.filters.get(index);
         filter = ((TMaterialFilter) tileEntity.filters.get(index)).clone();
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 11, 18));
+        addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 11, 18));
         addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 33, 18, 111, 43));
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
     }
@@ -34,7 +35,7 @@ public class GuiTMaterialFilter extends GuiMaterialFilter<TMaterialFilter, TileE
         super(player, tile);
         isNew = true;
         filter = new TMaterialFilter();
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 11, 18));
+        addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 11, 18));
         addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 33, 18, 111, 43));
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
     }

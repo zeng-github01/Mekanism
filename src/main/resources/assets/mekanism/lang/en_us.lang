@@ -533,6 +533,10 @@ key.mekanism.module_tweaker=Module Tweaker
 # Entities
 entity.Robit.name=Robit
 entity.BabySkeleton.name=Baby Skeleton
+entity.BabyCreeper.name=Baby Creeper
+entity.BabyEnderman.name=Baby Enderman
+entity.BabyStray.name=Baby Stray
+entity.BabyWitherSkeleton.name=Baby Wither Skeleton
 
 # Config Gui
 mekanism.configgui.ctgy.general=General Settings
@@ -2159,3 +2163,12 @@ tooltip.holdForDescription=Summary
 item.mekanism.cardboard_armor.tooltip.summary=Wearable equipment for increased style and stealth.
 item.mekanism.cardboard_armor.tooltip.condition1=When full set equipped
 item.mekanism.cardboard_armor.tooltip.behaviour1=Sneak to activate an inconspicuous disguise.
+
+mekanism.gui.slot.power=Energy slot
+mekanism.gui.slot.power.tooltip=Items such as energy boards, energy cubes, and redstone can be incorporated to supply energy consumption.
+mekanism.gui.slot.input=Input Slot
+mekanism.gui.slot.input.tooltip=Different items/gases/fluids can be input.
+mekanism.gui.slot.extra=Extra slot
+mekanism.gui.slot.extra.tooltip=Used to place the second type of material needed for work.
+mekanism.gui.slot.output=Output slot
+mekanism.gui.slot.output.tooltip=Used to output different items/gases/fluids

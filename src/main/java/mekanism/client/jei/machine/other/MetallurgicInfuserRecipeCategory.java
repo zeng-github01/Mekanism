@@ -11,6 +11,10 @@ import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.bar.GuiBar;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiExtraSlot;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.machines.MetallurgicInfuserRecipe;
@@ -37,10 +41,10 @@ public class MetallurgicInfuserRecipeCategory<WRAPPER extends MetallurgicInfuser
 
     @Override
     protected void addGuiElements() {
-        guiElements.add(new GuiSlot(SlotType.EXTRA, this, guiLocation, 16, 34));
-        guiElements.add(new GuiSlot(SlotType.INPUT, this, guiLocation, 50, 42));
-        guiElements.add(new GuiSlot(SlotType.POWER, this, guiLocation, 142, 34).with(SlotOverlay.POWER));
-        guiElements.add(new GuiSlot(SlotType.OUTPUT, this, guiLocation, 108, 42));
+        guiElements.add(new GuiExtraSlot(this, guiLocation, 16, 34));
+        guiElements.add(new GuiInputSlot(this, guiLocation, 50, 42));
+        guiElements.add(new GuiEnergySlot(this, guiLocation, 142, 34));
+        guiElements.add(new GuiOutputSlot( this, guiLocation, 108, 42));
         guiElements.add(new GuiPowerBar(this, new IPowerInfoHandler() {
             @Override
             public double getLevel() {

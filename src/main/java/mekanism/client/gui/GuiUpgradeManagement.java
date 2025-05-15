@@ -3,6 +3,7 @@ package mekanism.client.gui;
 import mekanism.api.Coord4D;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
@@ -52,7 +53,7 @@ public class GuiUpgradeManagement extends GuiMekanism {
         super(new ContainerUpgradeManagement(inventory, tile));
         tileEntity = tile;
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 153, 6).with(GuiSlot.SlotOverlay.UPGRADE));
+        addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 153, 6).with(GuiSlot.SlotOverlay.UPGRADE));
         addGuiElement(new GuiProgress(
                 new GuiProgress.IProgressInfoHandler() {
                     @Override

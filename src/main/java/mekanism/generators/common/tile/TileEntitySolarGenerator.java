@@ -2,6 +2,7 @@ package mekanism.generators.common.tile;
 
 import io.netty.buffer.ByteBuf;
 import mekanism.api.TileNetworkList;
+import mekanism.common.base.IMachineSlotTip;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.ChargeUtils;
 import mekanism.common.util.MekanismUtils;
@@ -14,7 +15,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
 
-public class TileEntitySolarGenerator extends TileEntityGenerator {
+public class TileEntitySolarGenerator extends TileEntityGenerator implements IMachineSlotTip {
 
     private static final String[] methods = new String[]{"getEnergy", "getOutput", "getMaxEnergy", "getEnergyNeeded", "getSeesSun"};
 
@@ -184,5 +185,20 @@ public class TileEntitySolarGenerator extends TileEntityGenerator {
     @Override
     public double getMaxOutput() {
         return peakOutput;
+    }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(0).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
     }
 }

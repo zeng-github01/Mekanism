@@ -8,6 +8,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Reference2BooleanArrayMap;
 import it.unimi.dsi.fastutil.objects.Reference2BooleanMap;
+import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.energy.IEnergizedItem;
 import mekanism.api.gear.ICustomModule;
@@ -31,6 +32,7 @@ import mekanism.common.entity.EntityMeka;
 import mekanism.common.lib.attribute.AttributeCache;
 import mekanism.common.lib.radial.IGenericRadialModeItem;
 import mekanism.common.lib.radial.data.NestingRadialData;
+import mekanism.common.network.PacketPortalFX;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.block.Block;
@@ -209,8 +211,8 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
                     //Try to extract full energy, even if we have a lower damage amount this is fine as that just means
                     // we don't have enough energy, but we will remove as much as we can, which is how much corresponds
                     // to the amount of damage we will actually do
-                    energyContainer.extract(stack,MekanismConfig.current().meka.mekaToolEnergyUsageWeapon.val() * (unitDamage / 4D),true);
-                };
+                    energyContainer.extract(stack, MekanismConfig.current().meka.mekaToolEnergyUsageWeapon.val() * (unitDamage / 4D), true);
+                }
             }
         }
         return false;
@@ -330,8 +332,8 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
                         double bonusDamage = unitDamage * energy / (energyCost);
                         if (bonusDamage > 0) {
                             Multimap<String, AttributeModifier> builder = HashMultimap.create();
-                            builder.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier",MekanismConfig.current().meka.mekaToolBaseDamage.val() + bonusDamage, 0));
-                            builder.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", MekanismConfig.current().meka.mekaToolAttackSpeed.val(),0));
+                            builder.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", MekanismConfig.current().meka.mekaToolBaseDamage.val() + bonusDamage, 0));
+                            builder.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", MekanismConfig.current().meka.mekaToolAttackSpeed.val(), 0));
                             return builder;
                         }
                         //Use cached attribute map for just doing the base damage
@@ -377,7 +379,7 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
                         }
                         player.setPositionAndUpdate(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5);
                         player.fallDistance = 0.0F;
-                        //  Mekanism.packetHandler.sendToAllTracking(new PacketPortalFX(pos.above()), world, pos); 传送粒子
+                        Mekanism.packetHandler.sendToAllTracking(new PacketPortalFX.PortalFXMessage(new Coord4D(pos, world)), new Coord4D(pos, world));
                         world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
                         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
                     }

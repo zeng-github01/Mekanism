@@ -5,6 +5,8 @@ import mekanism.client.gui.element.GuiSlot.SlotOverlay;
 import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
 import mekanism.common.inventory.container.ContainerElectricPump;
@@ -26,16 +28,12 @@ public class GuiElectricPump extends GuiMekanismTile<TileEntityElectricPump> {
     public GuiElectricPump(InventoryPlayer inventory, TileEntityElectricPump tile) {
         super(tile, new ContainerElectricPump(inventory, tile));
         ResourceLocation resource = getGuiLocation();
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 27, 19));
-        addGuiElement(new GuiSlot(SlotType.NORMAL, this, resource, 27, 50));
-        addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 142, 34).with(SlotOverlay.POWER));
+        addGuiElement(new GuiNormalSlot(this, resource, 27, 19));
+        addGuiElement(new GuiNormalSlot(this, resource, 27, 50));
+        addGuiElement(new GuiEnergySlot(this, resource, 142, 34,tileEntity));
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
         addGuiElement(new GuiFluidGauge(() -> tileEntity.fluidTank, GuiGauge.Type.STANDARD, this, resource, 6, 13));
-        addGuiElement(new GuiEnergyInfo(() -> {
-            String multiplier = MekanismUtils.getEnergyDisplay(tileEntity.energyPerTick);
-            return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
-        }, this, resource));
+        addGuiElement(new GuiEnergyInfo(tileEntity, this, resource));
         addGuiElement(new GuiSecurityTab(this, tileEntity, resource));
         addGuiElement(new GuiRedstoneControl(this, tileEntity, resource));
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));

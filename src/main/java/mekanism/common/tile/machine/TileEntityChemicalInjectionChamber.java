@@ -62,4 +62,5 @@ public class TileEntityChemicalInjectionChamber extends TileEntityAdvancedElectr
     public boolean useStatisticalMechanics() {
         return true;
     }
+
 }

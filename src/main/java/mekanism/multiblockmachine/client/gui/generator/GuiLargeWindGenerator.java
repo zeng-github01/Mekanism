@@ -5,6 +5,7 @@ import mekanism.api.TileNetworkList;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.*;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiSideHolder;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
@@ -46,7 +47,7 @@ public class GuiLargeWindGenerator extends GuiMekanismTile<TileEntityLargeWindGe
                         MekanismUtils.getEnergyDisplay(tileEntity.getActive() ? MekanismConfig.current().generators.windGenerationMin.val() * tileEntity.getCurrentMultiplier() : 0) + "/t",
                 LangUtils.localize("gui.maxOutput") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t"), this, resource));
         addGuiElement(new GuiPowerBarLong(this, tileEntity, resource, 164, 9));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER, this, resource, 142, 34 + 2).with(GuiSlot.SlotOverlay.POWER));
+        addGuiElement(new GuiEnergySlot(this, resource, 142, 34 + 2, tileEntity));
         addGuiElement(new GuiPlayerSlot(this, resource, 7, 83 + 9));
         addGuiElement(new GuiSlot(GuiSlot.SlotType.STATE_HOLDER, this, resource, 18, 35 + 2));
         addGuiElement(new GuiInnerScreen(this, resource, 48, 21, 80, 62));

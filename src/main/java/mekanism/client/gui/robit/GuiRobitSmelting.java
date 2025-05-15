@@ -2,6 +2,10 @@ package mekanism.client.gui.robit;
 
 import mekanism.client.gui.element.GuiProgress;
 import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.GuiSlot.*;
+import mekanism.client.gui.element.slot.GuiExtraSlot;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.common.entity.EntityRobit;
 import mekanism.common.inventory.container.robit.ContainerRobitSmelting;
 import mekanism.common.util.LangUtils;
@@ -15,15 +19,30 @@ public class GuiRobitSmelting extends GuiRobit {
 
     public GuiRobitSmelting(InventoryPlayer inventory, EntityRobit entity) {
         super(entity, new ContainerRobitSmelting(inventory, entity));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 55, 16));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 55, 52));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL_LARGE, this, getGuiLocation(), 111, 30));
+        addGuiElement(new GuiInputSlot(this, getGuiLocation(), 55, 16, new ISlotInfoHandler() {
+            @Override
+            public boolean getSlotCanTip() {
+                return robit.inventory.get(28).isEmpty();
+            }
+        }));
+        addGuiElement(new GuiExtraSlot(this, getGuiLocation(), 55, 52, new ISlotInfoHandler() {
+            @Override
+            public boolean getSlotCanTip() {
+                return robit.inventory.get(29).isEmpty();
+            }
+        }));
+        addGuiElement(new GuiOutputSlot(SlotType.OUTPUT_LARGE, this, getGuiLocation(), 111, 30, new GuiSlot.ISlotInfoHandler() {
+            @Override
+            public boolean getSlotCanTip() {
+                return robit.inventory.get(30).isEmpty();
+            }
+        }));
         addGuiElement(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override
             public double getProgress() {
                 return (double) robit.furnaceCookTime / 200;
             }
-        }, GuiProgress.ProgressBar.TALL_RIGHT, this, getGuiLocation(), 78, 34,true,false));
+        }, GuiProgress.ProgressBar.TALL_RIGHT, this, getGuiLocation(), 78, 34, true, false));
     }
 
     @Override

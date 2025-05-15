@@ -89,13 +89,13 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
 
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
-        factory.gasTank.setGas(gasTank.getGas());
-        factory.inventory.set(5, inventory.get(0));
-        factory.inventory.set(4, inventory.get(1));
-        factory.inventory.set(5 + 3, inventory.get(3));
-        factory.inventory.set(11, inventory.get(4));
-        factory.inventory.set(1, inventory.get(2));
-        factory.inventory.set(0, inventory.get(5));
+        setInputGasTank(factory,gasTank);
+        setInputSlotItem(factory, inventory.get(0));
+        setExtraSlotItem(factory, inventory.get(1));
+        setOutputSlotItem(factory, inventory.get(3));
+        setSecondaryOutputSlotItem(factory, inventory.get(4));
+        setEnergySlotItem(factory, inventory.get(2));
+        setUpgradeSlot(factory, inventory.get(5));
     }
 
     @Nullable
@@ -347,6 +347,26 @@ public abstract class TileEntityFarmMachine<RECIPE extends FarmMachineRecipe<REC
     @Override
     public void readSustainedData(ItemStack itemStack) {
         GasUtils.readSustainedData(gasTank, itemStack);
+    }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(2).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return inventory.get(0).isEmpty();
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return inventory.get(3).isEmpty();
+    }
+
+    @Override
+    public boolean getExtraSlot() {
+        return inventory.get(1).isEmpty();
     }
 
 

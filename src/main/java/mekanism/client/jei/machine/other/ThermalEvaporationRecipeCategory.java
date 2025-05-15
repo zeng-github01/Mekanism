@@ -5,6 +5,8 @@ import mekanism.client.gui.element.GuiRateBarHorizontal;
 import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.machines.ThermalEvaporationRecipe;
@@ -26,10 +28,10 @@ public class ThermalEvaporationRecipeCategory<WRAPPER extends ThermalEvaporation
     protected void addGuiElements() {
         guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 6, 13));
         guiElements.add(GuiFluidGauge.getDummy(GuiGauge.Type.STANDARD, this, guiLocation, 152, 13));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.INPUT, this, guiLocation, 27, 19));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.INPUT, this, guiLocation, 27, 50));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, guiLocation, 131, 19));
-        guiElements.add(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, guiLocation, 131, 50));
+        guiElements.add(new GuiInputSlot( this, guiLocation, 27, 19));
+        guiElements.add(new GuiInputSlot( this, guiLocation, 27, 50));
+        guiElements.add(new GuiOutputSlot(this, guiLocation, 131, 19));
+        guiElements.add(new GuiOutputSlot(this, guiLocation, 131, 50));
         guiElements.add(new GuiInnerScreen(this, guiLocation, 48, 19, 80, 40));
         guiElements.add(new GuiRateBarHorizontal(this, new GuiRateBarHorizontal.IRateInfoHandler() {
             @Override

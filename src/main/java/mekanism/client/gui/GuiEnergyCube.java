@@ -1,9 +1,13 @@
 package mekanism.client.gui;
 
-import mekanism.client.gui.element.*;
+import mekanism.client.gui.element.GuiEnergyInfo;
+import mekanism.client.gui.element.GuiPlayerArmmorSlot;
+import mekanism.client.gui.element.GuiPlayerSlot;
+import mekanism.client.gui.element.GuiRedstoneControl;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
-import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.gauge.GuiEnergyGauge;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
 import mekanism.client.gui.element.tab.GuiTransporterConfigTab;
@@ -31,8 +35,8 @@ public class GuiEnergyCube extends GuiMekanismTile<TileEntityEnergyCube> {
         addGuiElement(new GuiEnergyGauge(() -> tileEntity, GuiEnergyGauge.Type.WIDE, this, resource, 55, 18));
         addGuiElement(new GuiEnergyInfo(() -> Arrays.asList(LangUtils.localize("gui.storing") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getEnergy(), tileEntity.getMaxEnergy()),
                 LangUtils.localize("gui.maxOutput") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxOutput()) + "/t"), this, resource));
-        addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 16, 34).with(SlotOverlay.MINUS));
-        addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 142, 34).with(SlotOverlay.PLUS));
+        addGuiElement(new GuiInputSlot(this, resource, 16, 34,tileEntity).with(SlotOverlay.MINUS));
+        addGuiElement(new GuiOutputSlot(this, resource, 142, 34, tileEntity).with(SlotOverlay.PLUS));
         addGuiElement(new GuiPlayerSlot(this, resource));
         addGuiElement(new GuiPlayerArmmorSlot(this, resource, 176, 37, false));
     }

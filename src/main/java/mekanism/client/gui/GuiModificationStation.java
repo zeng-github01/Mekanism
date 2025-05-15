@@ -1,6 +1,9 @@
 package mekanism.client.gui;
 
 import mekanism.client.gui.element.*;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.common.inventory.container.ContainerModificationStation;
 import mekanism.common.tile.TileEntityModificationStation;
 import mekanism.common.util.LangUtils;
@@ -16,14 +19,10 @@ public class GuiModificationStation extends GuiMekanismTile<TileEntityModificati
         super(tile, new ContainerModificationStation(inventory, tile));
         ResourceLocation resource = getGuiLocation();
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
-        addGuiElement(new GuiEnergyInfo(() -> {
-            String multiplier = MekanismUtils.getEnergyDisplay(tileEntity.energyPerTick);
-            return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
-        }, this, resource));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.INPUT, this, resource, 25, 33).with(GuiSlot.SlotOverlay.MODULE));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER, this, resource, 140, 33).with(GuiSlot.SlotOverlay.POWER));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, resource, 115, 33));
+        addGuiElement(new GuiEnergyInfo(tileEntity, this, resource));
+        addGuiElement(new GuiInputSlot( this, resource, 25, 33, tileEntity).with(GuiSlot.SlotOverlay.MODULE));
+        addGuiElement(new GuiEnergySlot( this, resource, 140, 33,tileEntity));
+        addGuiElement(new GuiOutputSlot( this, resource, 115, 33, tileEntity));
         addGuiElement(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override
             public double getProgress() {

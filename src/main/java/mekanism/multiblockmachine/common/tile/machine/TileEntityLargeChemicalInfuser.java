@@ -7,6 +7,7 @@ import mekanism.api.gas.*;
 import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
 import mekanism.common.base.IAdvancedBoundingBlock;
+import mekanism.common.base.IMachineSlotTip;
 import mekanism.common.base.ISustainedData;
 import mekanism.common.base.ITankManager;
 import mekanism.common.capabilities.Capabilities;
@@ -35,7 +36,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 
 public class TileEntityLargeChemicalInfuser extends TileEntityMultiblockBasicMachine<ChemicalPairInput, GasOutput, ChemicalInfuserRecipe>
-        implements IGasHandler, ISustainedData, Upgrade.IUpgradeInfoHandler, ITankManager, IAdvancedBoundingBlock {
+        implements IGasHandler, ISustainedData, Upgrade.IUpgradeInfoHandler, ITankManager, IAdvancedBoundingBlock, IMachineSlotTip {
 
     public GasTank leftTank = new GasTank(8192000);
     public GasTank rightTank = new GasTank(8192000);
@@ -584,4 +585,18 @@ public class TileEntityLargeChemicalInfuser extends TileEntityMultiblockBasicMac
         }
     }
 
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(3).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
+    }
 }

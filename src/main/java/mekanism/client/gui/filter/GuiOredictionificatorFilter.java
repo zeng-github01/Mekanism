@@ -3,7 +3,7 @@ package mekanism.client.gui.filter;
 import mekanism.api.Coord4D;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiPlayerSlot;
-import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
 import mekanism.common.inventory.container.ContainerFilter;
@@ -38,7 +38,7 @@ public class GuiOredictionificatorFilter extends GuiTextFilterBase<Oredictionifi
         filter = tileEntity.filters.get(index).clone();
         updateRenderStack();
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 44, 18));
+        addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 44, 18));
     }
 
     public GuiOredictionificatorFilter(EntityPlayer player, TileEntityOredictionificator tile) {
@@ -46,7 +46,7 @@ public class GuiOredictionificatorFilter extends GuiTextFilterBase<Oredictionifi
         filter = new OredictionificatorFilter();
         isNew = true;
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 44, 18));
+        addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 44, 18));
     }
 
     @Override

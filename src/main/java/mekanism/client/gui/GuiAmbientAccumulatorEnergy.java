@@ -4,6 +4,8 @@ import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge.Type;
 import mekanism.client.gui.element.gauge.GuiGauge.TypeColor;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
@@ -27,13 +29,12 @@ public class GuiAmbientAccumulatorEnergy extends GuiMekanismTile<TileEntityAmbie
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
         addGuiElement(new GuiEnergyInfo(() -> {
             String usage = MekanismUtils.getEnergyDisplay(tileEntity.clientEnergyUsed);
-            return Arrays.asList(LangUtils.localize("gui.using") + ": " + usage + "/t",
-                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+            return Arrays.asList(LangUtils.localize("gui.using") + ": " + usage + "/t", LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getNeedEnergy()));
         }, this, resource));
         addGuiElement(new GuiGasGauge(() -> tileEntity.outputTank, Type.WIDE, this, getGuiLocation(), 95, 13).withColor(TypeColor.ORANGE));
         addGuiElement(new GuiPowerBarLong(this, tileEntity, resource, 165, 9));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER, this, resource, 135, 66).with(GuiSlot.SlotOverlay.POWER));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, resource, 102, 66).with(GuiSlot.SlotOverlay.PLUS));
+        addGuiElement(new GuiEnergySlot(this, resource, 135, 66,tileEntity));
+        addGuiElement(new GuiOutputSlot(this, resource, 102, 66,tileEntity).with(GuiSlot.SlotOverlay.PLUS));
         addGuiElement(new GuiInnerScreen(this, resource, 7, 13, 80, 65));
         addGuiElement(new GuiPlayerSlot(this, resource,7,88));
         ySize += 5;

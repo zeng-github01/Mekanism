@@ -5,6 +5,7 @@ import mekanism.client.MekKeyHandler;
 import mekanism.client.MekanismKeyHandler;
 import mekanism.client.model.ModelPackage;
 import mekanism.common.CardboardArmorHandler;
+import mekanism.common.Mekanism;
 import mekanism.common.MekanismItems;
 import mekanism.common.util.LangUtils;
 import net.minecraft.client.model.ModelBiped;
@@ -29,6 +30,8 @@ public class ItemMekaCardboardArmor extends ItemArmor {
 
     public ItemMekaCardboardArmor(int renderIndexIn, EntityEquipmentSlot equipmentSlotIn) {
         super(MekaCardboard, renderIndexIn, equipmentSlotIn);
+        setMaxStackSize(1);
+        setCreativeTab(Mekanism.tabMekanism);
     }
 
     @Override

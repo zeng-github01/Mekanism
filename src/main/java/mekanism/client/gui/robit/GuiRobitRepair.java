@@ -1,7 +1,7 @@
 package mekanism.client.gui.robit;
 
 import io.netty.buffer.Unpooled;
-import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.common.entity.EntityRobit;
 import mekanism.common.inventory.container.robit.ContainerRobitRepair;
 import mekanism.common.util.LangUtils;
@@ -37,9 +37,9 @@ public class GuiRobitRepair extends GuiRobit implements IContainerListener {
         super(entity, new ContainerRobitRepair(inventory, entity));
         playerInventory = inventory;
         repairContainer = (ContainerRobitRepair) inventorySlots;
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 26, 46));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 75, 46));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 133, 46));
+        addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 26, 46));
+        addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 75, 46));
+        addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 133, 46));
     }
 
     @Override

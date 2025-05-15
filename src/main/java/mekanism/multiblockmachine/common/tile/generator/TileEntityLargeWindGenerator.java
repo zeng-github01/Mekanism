@@ -6,6 +6,7 @@ import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
 import mekanism.common.base.IAdvancedBoundingBlock;
+import mekanism.common.base.IMachineSlotTip;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.CableUtils;
 import mekanism.common.util.ChargeUtils;
@@ -34,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator implements IAdvancedBoundingBlock {
+public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator implements IAdvancedBoundingBlock, IMachineSlotTip {
 
     public static final float SPEED = 32F;
     public static final float SPEED_SCALED = 256F / SPEED;
@@ -656,5 +657,20 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
                 new BloomRenderLargeWindGenerator(this);
             }
         }
+    }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(0).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
     }
 }

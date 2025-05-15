@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Set;
 
 public class TileEntityElectricPump extends TileEntityElectricBlock implements IFluidHandlerWrapper, ISustainedTank, IConfigurable, IRedstoneControl, IUpgradeTile,
-        ITankManager, IComputerIntegration, ISecurityTile, IComparatorSupport {
+        ITankManager, IComputerIntegration, ISecurityTile, IComparatorSupport,IMachineSlotTip {
 
     private static final int[] UPSLOTS = {0};
     private static final int[] DOWNSLOTS = {1};
@@ -456,5 +456,20 @@ public class TileEntityElectricPump extends TileEntityElectricBlock implements I
     @Override
     public int getRedstoneLevel() {
         return MekanismUtils.redstoneLevelFromContents(fluidTank.getFluidAmount(), fluidTank.getCapacity());
+    }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(2).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
     }
 }

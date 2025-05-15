@@ -7,6 +7,10 @@ import mekanism.client.gui.element.bar.GuiBar;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiExtraSlot;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiUpgradeTab;
 import mekanism.common.util.LangUtils;
@@ -28,14 +32,13 @@ public class GuiDigitalAssemblyTable extends GuiMekanismTile<TileEntityDigitalAs
         ResourceLocation resource = getGuiLocation();
         ySize += 11;
         xSize += 52;
-        addGuiElement(new GuiSecurityTab(this, tileEntity, resource,52,0));
-        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource,52,0));
-        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource,52,0));
+        addGuiElement(new GuiSecurityTab(this, tileEntity, resource, 52, 0));
+        addGuiElement(new GuiRedstoneControl(this, tileEntity, resource, 52, 0));
+        addGuiElement(new GuiUpgradeTab(this, tileEntity, resource, 52, 0));
         addGuiElement(new GuiEnergyInfo(() -> {
             double extra = tileEntity.getRecipe() != null ? tileEntity.getRecipe().extraEnergy : 0;
             String multiplier = MekanismUtils.getEnergyDisplay(MekanismUtils.getEnergyPerTick(tileEntity, tileEntity.BASE_ENERGY_PER_TICK + extra));
-            return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+            return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t", LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getNeedEnergy()));
         }, this, resource));
         addGuiElement(new GuiFluidGauge(() -> tileEntity.inputFluidTank, GuiGauge.Type.STANDARD, this, resource, 6, 12).withColor(GuiGauge.TypeColor.RED));
         addGuiElement(new GuiGasGauge(() -> tileEntity.inputGasTank, GuiGauge.Type.STANDARD, this, resource, 27, 12).withColor(GuiGauge.TypeColor.YELLOW));
@@ -43,14 +46,14 @@ public class GuiDigitalAssemblyTable extends GuiMekanismTile<TileEntityDigitalAs
         addGuiElement(new GuiFluidGauge(() -> tileEntity.outputFluidTank, GuiGauge.Type.STANDARD, this, resource, 204, 12).withColor(GuiGauge.TypeColor.BLUE));
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 3; x++) {
-                addGuiElement(new GuiSlot(GuiSlot.SlotType.INPUT, this, resource, 66 + x * 18, 15 + y * 18));
+                addGuiElement(new GuiInputSlot( this, resource, 66 + x * 18, 15 + y * 18, tileEntity));
             }
         }
         for (int y = 0; y < 3; y++) {
-            addGuiElement(new GuiSlot(GuiSlot.SlotType.EXTRA, this, resource, 48, 15 + y * 18));
+            addGuiElement(new GuiExtraSlot(this, resource, 48, 15 + y * 18,tileEntity));
         }
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, resource, 162, 33));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER, this, resource, 199, 93));
+        addGuiElement(new GuiOutputSlot(this, resource, 162, 33, tileEntity));
+        addGuiElement(new GuiEnergySlot(this, resource, 199, 93, tileEntity));
         addGuiElement(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override
             public double getProgress() {

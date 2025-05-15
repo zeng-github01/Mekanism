@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.common.base.IBoundingBlock;
+import mekanism.common.base.IMachineSlotTip;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.ChargeUtils;
 import mekanism.common.util.MekanismUtils;
@@ -14,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nonnull;
 
-public class TileEntityWindGenerator extends TileEntityGenerator implements IBoundingBlock {
+public class TileEntityWindGenerator extends TileEntityGenerator implements IBoundingBlock , IMachineSlotTip {
 
     public static final float SPEED = 32F;
     public static final float SPEED_SCALED = 256F / SPEED;
@@ -180,5 +181,20 @@ public class TileEntityWindGenerator extends TileEntityGenerator implements IBou
     @Override
     public boolean isItemValidForSlot(int slot, @Nonnull ItemStack stack) {
         return ChargeUtils.canBeCharged(stack);
+    }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(0).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
     }
 }

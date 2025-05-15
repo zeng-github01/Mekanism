@@ -6,7 +6,7 @@ import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.GuiPlayerSlot;
-import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
 import mekanism.common.content.transporter.TItemStackFilter;
@@ -39,7 +39,7 @@ public class GuiTItemStackFilter extends GuiItemStackFilter<TItemStackFilter, Ti
         super(player, tile);
         origFilter = (TItemStackFilter) tileEntity.filters.get(index);
         filter = ((TItemStackFilter) tileEntity.filters.get(index)).clone();
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 11, 18));
+        addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 11, 18));
         addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 33, 18, 93, 43));
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
     }
@@ -48,7 +48,7 @@ public class GuiTItemStackFilter extends GuiItemStackFilter<TItemStackFilter, Ti
         super(player, tile);
         isNew = true;
         filter = new TItemStackFilter();
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 11, 18));
+        addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 11, 18));
         addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 33, 18, 93, 43));
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
     }

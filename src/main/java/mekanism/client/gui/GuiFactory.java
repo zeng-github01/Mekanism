@@ -6,6 +6,10 @@ import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
 import mekanism.client.gui.element.bar.GuiBar;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiExtraSlot;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.gui.element.tab.*;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.Mekanism;
@@ -73,26 +77,44 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         addGuiElement(new GuiPlayerSlot(this, resource, 7 + xPlayerOffset, 83 + ymove));
         //slot
         //Energy
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER, this, resource, 6, 12).with(GuiSlot.SlotOverlay.POWER));
+        addGuiElement(new GuiEnergySlot(this, resource, 6, 12, tileEntity));
         //Extra
         if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.DOUBLE
                 || tileEntity.getRecipeType() == RecipeType.INFUSING
                 || tileEntity.GasInputMachine()) {
-            addGuiElement(new GuiSlot(GuiSlot.SlotType.EXTRA, this, resource, 6, 56));
+            addGuiElement(new GuiExtraSlot(this, resource, 6, 56, tileEntity));
         }
         //Input and Output
         int Slotlocation = tileEntity.tier == FactoryTier.BASIC ? 54 : tileEntity.tier == FactoryTier.ADVANCED ? 34 : tileEntity.tier == FactoryTier.ELITE ? 28 : 26;
         int xDistance = tileEntity.tier == FactoryTier.BASIC ? 38 : tileEntity.tier == FactoryTier.ADVANCED ? 26 : 19;
         for (int i = 0; i < tileEntity.tier.processes; i++) {
             if (!tileEntity.NoItemInputMachine()) {
-                addGuiElement(new GuiSlot(GuiSlot.SlotType.INPUT, this, resource, Slotlocation + (i * xDistance), 12));
+                int finalI = i;
+                addGuiElement(new GuiInputSlot(this, resource, Slotlocation + (i * xDistance), 12, new GuiSlot.ISlotInfoHandler() {
+                    @Override
+                    public boolean getSlotCanTip() {
+                        return tileEntity.inventory.get(tileEntity.getInputSlot(finalI)).isEmpty();
+                    }
+                }));
             }
             if (tileEntity.OuputItemMachine()) {
-                addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, resource, Slotlocation + (i * xDistance), 56));
+                int finalI = i;
+                addGuiElement(new GuiOutputSlot(this, resource, Slotlocation + (i * xDistance), 56, new GuiSlot.ISlotInfoHandler() {
+                    @Override
+                    public boolean getSlotCanTip() {
+                        return tileEntity.inventory.get(tileEntity.getOutputSlot(finalI)).isEmpty();
+                    }
+                }));
             }
 
             if (tileEntity.getRecipeType().getFuelType() == MachineFuelType.FARM || tileEntity.getRecipeType().getFuelType() == MachineFuelType.CHANCE) {
-                addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT, this, resource, Slotlocation + (i * xDistance), 77));
+                int finalI = i;
+                addGuiElement(new GuiOutputSlot(this, resource, Slotlocation + (i * xDistance), 77, new GuiSlot.ISlotInfoHandler() {
+                    @Override
+                    public boolean getSlotCanTip() {
+                        return tileEntity.inventory.get(tileEntity.getSecondaryOutputSlot(finalI)).isEmpty();
+                    }
+                }));
             }
         }
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
@@ -119,8 +141,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
                     }
                 }
             }
-            return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+            return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t", LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getNeedEnergy()));
         }, this, resource));
 
 

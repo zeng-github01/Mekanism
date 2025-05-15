@@ -7,10 +7,12 @@ import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiProgress.IProgressInfoHandler;
 import mekanism.client.gui.element.GuiProgress.ProgressBar;
 import mekanism.client.gui.element.GuiSlot.SlotOverlay;
-import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
 import mekanism.client.gui.element.tab.GuiTransporterConfigTab;
@@ -35,7 +37,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCondensentrator> implements IJeiNoShowRecipe{
+public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCondensentrator> implements IJeiNoShowRecipe {
 
     protected Timeticks time;
 
@@ -50,16 +52,15 @@ public class GuiRotaryCondensentrator extends GuiMekanismTile<TileEntityRotaryCo
         addGuiElement(new GuiUpgradeTab(this, tileEntity, resource));
         addGuiElement(new GuiSideConfigurationTab(this, tileEntity, resource));
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
-        addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 4, 24).with(SlotOverlay.PLUS));
-        addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 4, 55).with(SlotOverlay.MINUS));
-        addGuiElement(new GuiSlot(SlotType.INPUT, this, resource, 154, 24));
-        addGuiElement(new GuiSlot(SlotType.OUTPUT, this, resource, 154, 55));
-        addGuiElement(new GuiSlot(SlotType.POWER, this, resource, 154, 4).with(SlotOverlay.POWER));
+        addGuiElement(new GuiInputSlot(this, resource, 4, 24, tileEntity).with(SlotOverlay.PLUS));
+        addGuiElement(new GuiOutputSlot(this, resource, 4, 55, tileEntity).with(SlotOverlay.MINUS));
+        addGuiElement(new GuiInputSlot(this, resource, 154, 24, tileEntity));
+        addGuiElement(new GuiOutputSlot(this, resource, 154, 55, tileEntity));
+        addGuiElement(new GuiEnergySlot(this, resource, 154, 4, tileEntity));
         addGuiElement(new GuiPowerBarHorizontal(this, tileEntity, resource, 115 - 2, 74));
         addGuiElement(new GuiEnergyInfo(() -> {
             String usage = MekanismUtils.getEnergyDisplay(tileEntity.clientEnergyUsed);
-            return Arrays.asList(LangUtils.localize("gui.using") + ": " + usage + "/t",
-                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
+            return Arrays.asList(LangUtils.localize("gui.using") + ": " + usage + "/t", LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getNeedEnergy()));
         }, this, resource));
 
         addGuiElement(new GuiFluidGauge(() -> tileEntity.fluidTank, GuiGauge.Type.STANDARD, this, resource, 133, 13).withColor(GuiGauge.TypeColor.RED));

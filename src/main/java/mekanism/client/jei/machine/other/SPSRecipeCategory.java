@@ -15,7 +15,6 @@ public class SPSRecipeCategory extends BaseRecipeCategory<SPSRecipeWrapper> {
 
     public SPSRecipeCategory(IGuiHelper helper) {
         super(helper, "mekanism:gui/Null.png", "mekanism.sps", "tile.MachineBlock4.sps.name", null, 3, 12, 168, 63);
-
     }
 
     @Override

@@ -78,6 +78,21 @@ public class TileEntityPRC extends TileEntityUpgradeableMachine<PressurizedInput
     }
 
     @Override
+    public boolean getEnergySlot() {
+        return inventory.get(1).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return inventory.get(0).isEmpty();
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return inventory.get(2).isEmpty();
+    }
+
+    @Override
     public void onAsyncUpdateServer() {
         super.onAsyncUpdateServer();
         PressurizedRecipe recipe = getRecipe();
@@ -101,7 +116,7 @@ public class TileEntityPRC extends TileEntityUpgradeableMachine<PressurizedInput
 
     @Override
     public void setupVariableValues() {
-        if (getRecipes() == null){
+        if (getRecipes() == null) {
             return;
         }
         boolean update = BASE_TICKS_REQUIRED != getRecipe().ticks;
@@ -113,13 +128,13 @@ public class TileEntityPRC extends TileEntityUpgradeableMachine<PressurizedInput
 
     @Override
     protected void upgradeInventory(TileEntityFactory factory) {
-        factory.gasTank.setGas(inputGasTank.getGas());
-        factory.gasOutTank.setGas(outputGasTank.getGas());
-        factory.fluidTank.setFluid(inputFluidTank.getFluid());
-        factory.inventory.set(5, inventory.get(0));
-        factory.inventory.set(1, inventory.get(1));
-        factory.inventory.set(5 + 3, inventory.get(2));
-        factory.inventory.set(0, inventory.get(3));
+        setInputGasTank(factory, inputGasTank);
+        setOutputGasTank(factory, outputGasTank);
+        setInputFluidTank(factory, inputFluidTank);
+        setInputSlotItem(factory, inventory.get(0));
+        setEnergySlotItem(factory, inventory.get(1));
+        setOutputSlotItem(factory, inventory.get(2));
+        setUpgradeSlot(factory, inventory.get(3));
     }
 
     @Override

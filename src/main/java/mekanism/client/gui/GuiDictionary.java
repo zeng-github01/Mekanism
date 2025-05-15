@@ -3,6 +3,7 @@ package mekanism.client.gui;
 import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.GuiScrollList;
 import mekanism.client.gui.element.GuiSlot;
+import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.sound.SoundHandler;
 import mekanism.common.OreDictCache;
@@ -28,7 +29,7 @@ public class GuiDictionary extends GuiMekanism {
         super(new ContainerDictionary(inventory));
         addGuiElement(scrollList = new GuiScrollList(this, getGuiLocation(), 8, 30, 160, 4));
         addGuiElement(new GuiPlayerSlot(this, getGuiLocation()));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.NORMAL, this, getGuiLocation(), 5, 5));
+        addGuiElement(new GuiNormalSlot(this, getGuiLocation(), 5, 5));
     }
 
     @Override

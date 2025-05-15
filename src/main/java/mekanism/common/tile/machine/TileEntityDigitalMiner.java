@@ -71,7 +71,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class TileEntityDigitalMiner extends TileEntityElectricBlock implements IUpgradeTile, IRedstoneControl, IActiveState, ISustainedData, IChunkLoader, IAdvancedBoundingBlock, IHasVisualization {
+public class TileEntityDigitalMiner extends TileEntityElectricBlock implements IUpgradeTile, IRedstoneControl, IActiveState, ISustainedData, IChunkLoader, IAdvancedBoundingBlock, IHasVisualization,IMachineSlotTip {
 
     private static final int[] INV_SLOTS = IntStream.range(0, 28).toArray();
 
@@ -1253,4 +1253,18 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
         }
     }
 
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(27).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
+    }
 }

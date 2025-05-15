@@ -4,6 +4,10 @@ package mekanism.client.gui;
 import mekanism.api.gas.GasStack;
 import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.bar.GuiBar;
+import mekanism.client.gui.element.slot.GuiEnergySlot;
+import mekanism.client.gui.element.slot.GuiExtraSlot;
+import mekanism.client.gui.element.slot.GuiInputSlot;
+import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.client.gui.element.tab.GuiSecurityTab;
 import mekanism.client.gui.element.tab.GuiSideConfigurationTab;
 import mekanism.client.gui.element.tab.GuiTransporterConfigTab;
@@ -21,11 +25,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> extends GuiMekanismTile<TileEntityFarmMachine<RECIPE>> implements  IJeiNoShowRecipe {
+public class GuiFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> extends GuiMekanismTile<TileEntityFarmMachine<RECIPE>> implements IJeiNoShowRecipe {
 
     public GuiFarmMachine(InventoryPlayer inventory, TileEntityFarmMachine<RECIPE> tile) {
         super(tile, new ContainerFarmMachine<>(inventory, tile));
@@ -37,15 +40,11 @@ public class GuiFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> extends Gu
         addGuiElement(new GuiTransporterConfigTab(this, 34, tileEntity, resource));
         addGuiElement(new GuiPowerBar(this, tileEntity, resource, 164, 15));
         addGuiElement(new GuiBar(this, getGuiLocation(), 60, 36, 8, 14));
-        addGuiElement(new GuiEnergyInfo(() -> {
-            String multiplier = MekanismUtils.getEnergyDisplay(tileEntity.energyPerTick);
-            return Arrays.asList(LangUtils.localize("gui.using") + ": " + multiplier + "/t",
-                    LangUtils.localize("gui.needed") + ": " + MekanismUtils.getEnergyDisplay(tileEntity.getMaxEnergy() - tileEntity.getEnergy()));
-        }, this, resource));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.INPUT, this, resource, 55, 16));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.POWER, this, resource, 30, 34).with(GuiSlot.SlotOverlay.POWER));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.EXTRA, this, resource, 55, 52));
-        addGuiElement(new GuiSlot(GuiSlot.SlotType.OUTPUT_WIDE, this, resource, 111, 30));
+        addGuiElement(new GuiEnergyInfo(tileEntity, this, resource));
+        addGuiElement(new GuiInputSlot(this, resource, 55, 16, tileEntity));
+        addGuiElement(new GuiEnergySlot(this, resource, 30, 34, tileEntity));
+        addGuiElement(new GuiExtraSlot(this, resource, 55, 52, tileEntity));
+        addGuiElement(new GuiOutputSlot(GuiSlot.SlotType.OUTPUT_WIDE, this, resource, 111, 30, tileEntity));
         addGuiElement(new GuiProgress(new GuiProgress.IProgressInfoHandler() {
             @Override
             public double getProgress() {
@@ -81,8 +80,8 @@ public class GuiFarmMachine<RECIPE extends FarmMachineRecipe<RECIPE>> extends Gu
             if (inputgas || energy || outslot) {
                 this.displayTooltips(info, xAxis, yAxis);
             }
-        }else if (xAxis >= 60 && xAxis <= 60 + 8 && yAxis >= 36 && yAxis <= 36 + 14){
-            this.displayTooltip(tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored()) : LangUtils.localize("gui.none"),xAxis,yAxis);
+        } else if (xAxis >= 60 && xAxis <= 60 + 8 && yAxis >= 36 && yAxis <= 36 + 14) {
+            this.displayTooltip(tileEntity.gasTank.getGas() != null ? tileEntity.gasTank.getGas().getGas().getLocalizedName() + ": " + (tileEntity.gasTank.getStored() == Integer.MAX_VALUE ? LangUtils.localize("gui.infinite") : tileEntity.gasTank.getStored()) : LangUtils.localize("gui.none"), xAxis, yAxis);
         }
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }

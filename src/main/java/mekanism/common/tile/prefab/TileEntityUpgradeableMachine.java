@@ -1,5 +1,6 @@
 package mekanism.common.tile.prefab;
 
+import mekanism.api.gas.GasTank;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismBlocks;
@@ -12,6 +13,8 @@ import mekanism.common.recipe.machines.MachineRecipe;
 import mekanism.common.recipe.outputs.MachineOutput;
 import mekanism.common.tier.BaseTier;
 import mekanism.common.tile.factory.TileEntityFactory;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidTank;
 
 import java.util.Objects;
 
@@ -65,9 +68,14 @@ public abstract class TileEntityUpgradeableMachine<INPUT extends MachineInput<IN
         factory.upgradeComponent.readFrom(upgradeComponent);
         factory.upgradeComponent.setUpgradeSlot(0);
         factory.ejectorComponent.readFrom(ejectorComponent);
+
         factory.ejectorComponent.setOutputData(TransmissionType.ITEM, factory.configComponent.getOutputs(TransmissionType.ITEM).get(2));
         factory.ejectorComponent.setInputOutputData(TransmissionType.ITEM, factory.configComponent.getOutputs(TransmissionType.ITEM).get(6));
+        factory.ejectorComponent.setInputExtraOutputData(TransmissionType.ITEM, factory.configComponent.getOutputs(TransmissionType.ITEM).get(11));
+
         factory.ejectorComponent.setOutputData(TransmissionType.GAS, factory.configComponent.getOutputs(TransmissionType.GAS).get(2));
+        factory.ejectorComponent.setInputOutputData(TransmissionType.GAS, factory.configComponent.getOutputs(TransmissionType.GAS).get(3));
+
         factory.setRecipeType(type);
         factory.upgradeComponent.setSupported(Upgrade.GAS, type.fuelEnergyUpgrades());
         factory.securityComponent.readFrom(securityComponent);
@@ -87,6 +95,42 @@ public abstract class TileEntityUpgradeableMachine<INPUT extends MachineInput<IN
     }
 
     protected abstract void upgradeInventory(TileEntityFactory factory);
+
+    protected void setUpgradeSlot(TileEntityFactory factory, ItemStack stack) {
+        factory.inventory.set(0, stack);
+    }
+
+    protected void setEnergySlotItem(TileEntityFactory factory, ItemStack stack) {
+        factory.inventory.set(1, stack);
+    }
+
+    protected void setExtraSlotItem(TileEntityFactory factory, ItemStack stack) {
+        factory.inventory.set(4, stack);
+    }
+
+    protected void setInputSlotItem(TileEntityFactory factory, ItemStack stack) {
+        factory.inventory.set(TileEntityFactory.getSlotsWithTier(factory.tier)[0], stack);
+    }
+
+    protected void setOutputSlotItem(TileEntityFactory factory, ItemStack stack) {
+        factory.inventory.set(TileEntityFactory.getOutputSlotsWithTier(factory.tier)[0], stack);
+    }
+
+    protected void setSecondaryOutputSlotItem(TileEntityFactory factory, ItemStack stack) {
+        factory.inventory.set(TileEntityFactory.getSecondaryOutputSlotsWithTier(factory.tier)[0], stack);
+    }
+
+    protected void setInputGasTank(TileEntityFactory factory, GasTank gasTank) {
+        factory.gasTank.setGas(gasTank.getGas());
+    }
+
+    protected void setInputFluidTank(TileEntityFactory factory, FluidTank fluidTank) {
+        factory.fluidTank.setFluid(fluidTank.getFluid());
+    }
+
+    protected void setOutputGasTank(TileEntityFactory factory, GasTank gasTank) {
+        factory.gasOutTank.setGas(gasTank.getGas());
+    }
 
 
 }

@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class TileEntityLargeChemicalWasher extends TileEntityMultiblockBasicMachine<GasInput, GasOutput, WasherRecipe> implements IGasHandler, IFluidHandlerWrapper, ISustainedData, Upgrade.IUpgradeInfoHandler, ITankManager, IAdvancedBoundingBlock {
+public class TileEntityLargeChemicalWasher extends TileEntityMultiblockBasicMachine<GasInput, GasOutput, WasherRecipe> implements IGasHandler, IFluidHandlerWrapper, ISustainedData, Upgrade.IUpgradeInfoHandler, ITankManager, IAdvancedBoundingBlock,IMachineSlotTip {
 
     public static int WATER_USAGE = 5;
     public FluidTank fluidTank = new FluidTankSync(5120000);
@@ -570,4 +570,18 @@ public class TileEntityLargeChemicalWasher extends TileEntityMultiblockBasicMach
     }
 
 
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(3).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
+    }
 }

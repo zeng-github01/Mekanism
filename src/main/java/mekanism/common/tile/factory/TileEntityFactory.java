@@ -60,7 +60,7 @@ import static mekanism.common.tile.machine.TileEntityChemicalWasher.WATER_USAGE;
 
 //TODO:过于重复，待更改
 public class TileEntityFactory extends TileEntityMachine implements IComputerIntegration, ISideConfiguration, IGasHandler, ISpecialConfigData, ITierUpgradeable,
-        ISustainedData, IComparatorSupport, ITankManager, IFluidHandlerWrapper {
+        ISustainedData, IComparatorSupport, ITankManager, IFluidHandlerWrapper,IMachineSlotTip {
     private static final String[] methods = new String[]{"getEnergy", "getProgress", "facing", "canOperate", "getMaxEnergy", "getEnergyNeeded"};
     /**
      * How long it takes this factory to switch recipe types.
@@ -290,6 +290,16 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             case ULTIMATE -> new int[]{14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31};
             case CREATIVE ->
                     new int[]{16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37};
+        };
+    }
+
+    public static int[] getSecondaryOutputSlotsWithTier(FactoryTier tier) {
+        return switch (tier) {
+            case BASIC -> new int[]{11, 12, 13};
+            case ADVANCED -> new int[]{15, 16, 17, 18, 19};
+            case ELITE -> new int[]{19, 20, 21, 22, 23, 24, 25};
+            case ULTIMATE -> new int[]{23, 24, 25, 26, 27, 28, 29, 30, 31};
+            case CREATIVE -> new int[]{27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37};
         };
     }
 
@@ -577,7 +587,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     public boolean NoItemMachine() {
         return !recipeType.getCanInputItem() && !recipeType.getCanOuputItem();
     }
-    public boolean OuputItemMachine(){
+
+    public boolean OuputItemMachine() {
         return recipeType.getCanOuputItem();
     }
 
@@ -1850,6 +1861,26 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             }
         }
 
+    }
+
+    @Override
+    public boolean getEnergySlot() {
+        return inventory.get(1).isEmpty();
+    }
+
+    @Override
+    public boolean getInputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getOuputSlot() {
+        return false;
+    }
+
+    @Override
+    public boolean getExtraSlot() {
+        return inventory.get(4).isEmpty();
     }
 
     /**
