@@ -93,7 +93,6 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.terraingen.BiomeEvent;
 import net.minecraftforge.event.world.ChunkDataEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -475,7 +474,6 @@ public class Mekanism {
         InfuseRegistry.registerInfuseType(new InfuseType("OBSIDIAN", new ResourceLocation(Mekanism.MODID, "blocks/infuse/Obsidian")).setTranslationKey("obsidian"));
 
         Capabilities.registerCapabilities();
-
         hooks.hookPreInit();
         MinecraftForge.EVENT_BUS.register(Mekanism.EXECUTE_MANAGER);
         Mekanism.EXECUTE_MANAGER.init();

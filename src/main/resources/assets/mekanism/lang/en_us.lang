@@ -2172,3 +2172,8 @@ mekanism.gui.slot.extra=Extra slot
 mekanism.gui.slot.extra.tooltip=Used to place the second type of material needed for work.
 mekanism.gui.slot.output=Output slot
 mekanism.gui.slot.output.tooltip=Used to output different items/gases/fluids
+
+tooltip.mekanism.warning=Warning:
+tooltip.mekanism.note=Note:
+tooltip.mekanism.note.cardboard=Some mods have changed the collision box options, which might cause issues with modifying the collision box after crouching.
+

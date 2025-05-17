@@ -2146,3 +2146,7 @@ mekanism.gui.slot.extra=额外槽
 mekanism.gui.slot.extra.tooltip=用于放置工作所需的第二种材料。
 mekanism.gui.slot.output=输出槽
 mekanism.gui.slot.output.tooltip=用于输出不同的物品/气体/流体
+
+tooltip.mekanism.warning=警告:
+tooltip.mekanism.note=注意:
+tooltip.mekanism.note.cardboard=一些mod修改了碰撞箱选项，这可能会导致蹲下后无法正常修改碰撞箱

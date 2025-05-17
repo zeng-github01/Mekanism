@@ -10,29 +10,9 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 @Mod.EventBusSubscriber(modid = Mekanism.MODID)
 public class CardboardArmorHandler {
-
-    @SubscribeEvent
-    public static void playerHitboxChangesWhenHidingAsBox(TickEvent.PlayerTickEvent event) {
-        Entity entity = event.player;
-        if (entity instanceof EntityPlayer player) {
-            if (player.isAddedToWorld()) {
-                if (testForStealth(player)) {
-                    player.setSize(0.6F, 0.8F);
-                    player.eyeHeight = 0.6F;
-                } else {
-                    player.setSize(0.6F, 1.8F);
-                    player.eyeHeight = 1.62F;
-                }
-            } else {
-                player.setSize(0.6F, 1.8F);
-                player.eyeHeight = 1.62F;
-            }
-        }
-    }
 
     @SubscribeEvent
     public static void playersStealthWhenWearingCardboard(PlayerEvent.Visibility event) {
