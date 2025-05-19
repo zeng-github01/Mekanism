@@ -5,6 +5,10 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Chunk3D - an integer-based way to keep track of and perform operations on chunks in a Minecraft-based environment. This also takes in account the dimension the chunk
  * is in.
@@ -50,6 +54,30 @@ public class Chunk3D {
         x = coord.x >> 4;
         z = coord.z >> 4;
         dimensionId = coord.dimensionId;
+    }
+
+
+
+    /**
+     * Calculates the set of chunks in a given radius around this chunk.
+     *
+     * @param chunkRadius Radius in chunks.
+     *
+     * @return Set of chunks in the given radius centered on this chunk.
+     */
+    public Set<Chunk3D> expand(int chunkRadius) {
+        if (chunkRadius < 0) {
+            throw new IllegalArgumentException("Chunk radius cannot be negative.");
+        } else if (chunkRadius == 1) {
+            return Collections.singleton(this);
+        }
+        Set<Chunk3D> ret = new HashSet<>();
+        for (int i = x - chunkRadius; i <= x + chunkRadius; i++) {
+            for (int j = z - chunkRadius; j <= z + chunkRadius; j++) {
+                ret.add(new Chunk3D(i, j, dimensionId));
+            }
+        }
+        return ret;
     }
 
     /**

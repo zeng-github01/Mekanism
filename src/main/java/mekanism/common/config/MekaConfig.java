@@ -38,10 +38,7 @@ public class MekaConfig extends BaseConfig {
     public DoubleOption mekaSuitEnergyUsageItemAttraction = new DoubleOption(this, "meka", "energyUsageItemAttraction", 250, "Energy usage (Joules) of MekaSuit per tick of attracting a single item.");
     public DoubleOption mekaToolBaseEnergyCapacity = new DoubleOption(this, "meka", "mekaToolbaseEnergyCapacity", 16000000, "Energy capacity (Joules) of the Meka-Tool without any installed upgrades. Quadratically scaled by upgrades.");
     public DoubleOption mekaToolBaseChargeRate = new DoubleOption(this, "meka", "mekaToolBaseChargeRate", 100000, "Amount (joules) of energy the Meka-Tool can accept per tick. Quadratically scaled by upgrades.");
-    public DoubleOption mekaSuitMinimumRadiationTime = new DoubleOption(this, "meka", "mekaSuitMinimumRadiationTime", 10);
-    public DoubleOption mekaSuitEnergyUsageMinimumRadiationImmunity = new DoubleOption(this, "meka", "mekaSuitEnergyUsageMinimumRadiationImmunity", 10000D, "How much energy can set up one immunity radiation");
-    public DoubleOption mekaSuitRadiationImmunityTime = new DoubleOption(this, "meka", "mekaSuitRadiationImmunityTime", 3600D, "Set the duration of one immunity radiation", 0, Double.MAX_VALUE);
-    public DoubleOption mekaSuitModuleRadiationresistance = new DoubleOption(this, "meka", "mekaSuitModuleRadiationresistance", 20D, "Resistance of a radiation shielding unit");
+    public DoubleOption mekaSuitModuleRadiationresistance = new DoubleOption(this, "meka", "mekaSuitModuleRadiationresistance", 20D, "Resistance of a radiation shielding unit(NuclearCraft)");
     public DoubleOption mekaToolEnergyUsageShearEntity = new DoubleOption(this, "meka", "mekaToolEnergyUsageShearEntity", 10, "Cost in Joules of using the Meka-Tool to shear entities.");
     public BooleanOption mekaToolExtendedMining = new BooleanOption(this, "meka", "mekaToolExtendedMining", true, "Enable the 'Extended Vein Mining' mode for the Meka-Tool. (Allows vein mining everything not just ores/logs)");
     public DoubleOption mekaToolEnergyUsageHoe = new DoubleOption(this, "meka", "mekaToolEnergyUsageHoe", 10, "Cost in Joules of using the Meka-Tool as a hoe.");

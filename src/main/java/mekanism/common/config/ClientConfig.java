@@ -87,6 +87,10 @@ public class ClientConfig extends BaseConfig {
 
     public final BooleanOption whiteRadialText = new BooleanOption(this,"client","whiteRadialText",false,"If enabled tries to force all radial menu text to be white.");
 
+    public final IntOption radiationParticleCount = new IntOption(this,"client","radiationParticleCount",100,"How many particles spawn when rendering radiation effects (scaled by radiation level).");
+
+    public final IntOption radiationParticleRadius = new IntOption(this,"client","radiationParticleRadius",30,"How far (in blocks) from the player radiation particles can spawn.");
+
     @Override
     public void write(ByteBuf config) {
         throw new UnsupportedOperationException("Client config shouldn't be synced");

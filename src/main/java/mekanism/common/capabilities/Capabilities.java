@@ -9,10 +9,14 @@ import mekanism.api.gas.IGasHandler;
 import mekanism.api.gas.ITubeConnection;
 import mekanism.api.lasers.ILaserDissipation;
 import mekanism.api.lasers.ILaserReceptor;
+import mekanism.api.radiation.capability.IRadiationEntity;
+import mekanism.api.radiation.capability.IRadiationShielding;
 import mekanism.api.transmitters.IBlockableConnection;
 import mekanism.api.transmitters.IGridTransmitter;
 import mekanism.common.base.ILogisticalTransporter;
 import mekanism.common.base.ITileNetwork;
+import mekanism.common.lib.radiation.capability.DefaultRadiationEntity;
+import mekanism.common.lib.radiation.capability.DefaultRadiationShielding;
 import net.darkhax.tesla.api.ITeslaConsumer;
 import net.darkhax.tesla.api.ITeslaHolder;
 import net.darkhax.tesla.api.ITeslaProducer;
@@ -87,6 +91,13 @@ public class Capabilities {
     @CapabilityInject(ITeslaHolder.class)
     public static Capability<ITeslaHolder> TESLA_HOLDER_CAPABILITY = null;
 
+
+    @CapabilityInject(IRadiationShielding.class)
+    public static Capability<IRadiationShielding> RADIATION_SHIELDING_CAPABILITY = null;
+
+    @CapabilityInject(IRadiationEntity.class)
+    public static Capability<IRadiationEntity> RADIATION_ENTITY_CAPABILITY = null;
+
     public static void registerCapabilities() {
         DefaultStrictEnergyStorage.register();
         DefaultStrictEnergyAcceptor.register();
@@ -108,5 +119,8 @@ public class Capabilities {
         DefaultEvaporationSolar.register();
         DefaultLaserReceptor.register();
         DefaultLaserDissipation.register();
+
+        DefaultRadiationShielding.register();
+        DefaultRadiationEntity.register();
     }
 }

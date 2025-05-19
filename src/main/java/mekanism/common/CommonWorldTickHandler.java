@@ -3,11 +3,15 @@ package mekanism.common;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import mekanism.common.frequency.FrequencyManager;
+import mekanism.common.lib.radiation.RadiationManager;
 import mekanism.common.multiblock.MultiblockManager;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraft.world.gen.ChunkProviderServer;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -41,6 +45,7 @@ public class CommonWorldTickHandler {
         }
     }
 
+
     @SubscribeEvent
     public void onTick(WorldTickEvent event) {
         if (event.side == Side.SERVER) {
@@ -57,6 +62,9 @@ public class CommonWorldTickHandler {
             if (!FrequencyManager.loaded) {
                 FrequencyManager.load(world);
             }
+            if (!RadiationManager.loaded){
+                RadiationManager.INSTANCE.createOrLoad(world);
+            }
         }
     }
 
@@ -64,6 +72,7 @@ public class CommonWorldTickHandler {
         if (!world.isRemote) {
             MultiblockManager.tick(world);
             FrequencyManager.tick(world);
+            RadiationManager.INSTANCE.tickServerWorld(world);
             if (chunkRegenMap == null) {
                 return;
             }
@@ -91,6 +100,30 @@ public class CommonWorldTickHandler {
                     chunkRegenMap.remove(dimensionId);
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onTick(TickEvent.ServerTickEvent event) {
+        if (event.side.isServer() && event.phase == Phase.END) {
+            serverTick();
+        }
+    }
+
+    private void serverTick() {
+        RadiationManager.INSTANCE.tickServer();
+    }
+
+    @SubscribeEvent
+    public void onTickEnd(WorldTickEvent event) {
+        if (event.side.isServer() && event.phase == Phase.END) {
+            tickEndNew((WorldServer) event.world);
+        }
+    }
+
+    private void tickEndNew(WorldServer world){
+        if (!world.isRemote) {
+            RadiationManager.INSTANCE.tickServerWorld(world);
         }
     }
 }

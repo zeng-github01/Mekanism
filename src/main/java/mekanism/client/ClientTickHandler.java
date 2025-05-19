@@ -12,6 +12,8 @@ import mekanism.client.gui.IJeiNoShowRecipe;
 import mekanism.client.newgui.GuiModuleTweaker;
 import mekanism.client.render.hud.MekanismStatusOverlay;
 import mekanism.client.render.lib.ScrollIncrementer;
+import mekanism.client.sound.GeigerSound;
+import mekanism.client.sound.SoundHandler;
 import mekanism.common.CommonPlayerTickHandler;
 import mekanism.common.KeySync;
 import mekanism.common.Mekanism;
@@ -29,6 +31,7 @@ import mekanism.common.item.interfaces.IJetpackItem;
 import mekanism.common.item.interfaces.IJetpackItem.JetpackMode;
 import mekanism.common.item.interfaces.IModeItem;
 import mekanism.common.lib.radial.IGenericRadialModeItem;
+import mekanism.common.lib.radiation.RadiationManager;
 import mekanism.common.network.PacketModeChange.ModeChangMessage;
 import mekanism.common.network.PacketPortableTeleporter.PortableTeleporterMessage;
 import mekanism.common.network.PacketPortableTeleporter.PortableTeleporterPacketType;
@@ -175,6 +178,12 @@ public class ClientTickHandler {
                 initHoliday = true;
             }
 
+            //Reboot player sounds if needed
+            SoundHandler.restartSounds();
+
+
+            RadiationManager.INSTANCE.tickClient(minecraft.player);
+
 
             UUID playerUUID = minecraft.player.getUniqueID();
 
@@ -248,6 +257,16 @@ public class ClientTickHandler {
                     }
                 }
             }
+
+            if (MekanismConfig.current().client.enablePlayerSounds.val()) {
+                RadiationManager.RadiationScale scale = RadiationManager.INSTANCE.getClientScale();
+                if (scale != RadiationManager.RadiationScale.NONE && !SoundHandler.radiationSoundMap.containsKey(scale)) {
+                    GeigerSound sound = GeigerSound.create(minecraft.player, scale);
+                    SoundHandler.radiationSoundMap.put(scale, sound);
+                    SoundHandler.playSound(sound);
+                }
+            }
+
         }
     }
 

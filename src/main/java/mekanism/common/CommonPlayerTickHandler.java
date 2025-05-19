@@ -17,6 +17,7 @@ import mekanism.common.item.ItemScubaTank;
 import mekanism.common.item.armor.ItemMekaSuitArmor;
 import mekanism.common.item.interfaces.IJetpackItem;
 import mekanism.common.item.interfaces.IJetpackItem.JetpackMode;
+import mekanism.common.lib.radiation.RadiationManager;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -83,6 +84,10 @@ public class CommonPlayerTickHandler {
 
     public void tickEnd(EntityPlayer player) {
         Mekanism.playerState.updateStepAssist(player);
+
+        if (player instanceof EntityPlayerMP mp) {
+            RadiationManager.INSTANCE.tickServer(mp);
+        }
 
         ItemStack currentItem = player.inventory.getCurrentItem();
         if (isFlamethrowerOn(player, currentItem)) {

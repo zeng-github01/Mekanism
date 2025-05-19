@@ -3,13 +3,16 @@ package mekanism.client.render;
 import mekanism.api.Coord4D;
 import mekanism.api.MekanismAPI;
 import mekanism.api.Pos3D;
+import mekanism.api.radiation.capability.IRadiationEntity;
 import mekanism.client.render.particle.EntityJetpackFlameFX;
 import mekanism.client.render.particle.EntityJetpackSmokeFX;
 import mekanism.client.render.particle.EntityScubaBubbleFX;
 import mekanism.common.Mekanism;
+import mekanism.common.capabilities.Capabilities;
 import mekanism.common.content.gear.IBlastingItem;
 import mekanism.common.content.gear.IModuleContainerItem;
 import mekanism.common.item.ItemFlamethrower;
+import mekanism.common.lib.radiation.RadiationManager;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -50,6 +53,7 @@ public class RenderTickHandler {
     public Random rand = new Random();
     public Minecraft mc = Minecraft.getMinecraft();
 
+    public static double prevRadiation = 0;
 
     @SubscribeEvent
     public void filterTooltips(ItemTooltipEvent event) {
@@ -175,6 +179,25 @@ public class RenderTickHandler {
                             }
                         }
                     });
+                }
+
+                if (MekanismUtils.isPlayingMode(player)) {
+                    if (player.hasCapability(Capabilities.RADIATION_ENTITY_CAPABILITY, null)) {
+                        IRadiationEntity c = player.getCapability(Capabilities.RADIATION_ENTITY_CAPABILITY, null);
+                        double radiation = c.getRadiation();
+                        double severity = RadiationManager.RadiationScale.getScaledDoseSeverity(radiation) * 0.8;
+                        if (prevRadiation < severity) {
+                            prevRadiation = Math.min(severity, prevRadiation + 0.01);
+                        }
+                        if (prevRadiation > severity) {
+                            prevRadiation = Math.max(severity, prevRadiation - 0.01);
+                        }
+                        if (severity > RadiationManager.BASELINE) {
+                            int effect = (int) (prevRadiation * 255);
+                            int color = (0x701E1E << 8) + effect;
+                            MekanismRenderer.renderColorOverlay(0, 0, mc.displayWidth, mc.displayHeight, color);
+                        }
+                    }
                 }
             }
         }

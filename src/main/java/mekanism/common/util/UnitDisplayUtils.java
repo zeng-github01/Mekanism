@@ -1,5 +1,9 @@
 package mekanism.common.util;
 
+import mekanism.api.text.ILangEntry;
+import mekanism.api.text.TextComponentGroup;
+import mekanism.common.MekanismLang;
+
 /**
  * Code taken from UE and modified to fit Mekanism.
  */
@@ -237,4 +241,69 @@ public class UnitDisplayUtils {
         F,
         STP
     }
+
+    public static String getDisplayShort(double value, RadiationUnit unit, int decimalPlaces) {
+        return getDisplayBase(value, unit, decimalPlaces, true);
+    }
+
+    public static String getDisplayBase(double value, Unit unit, int decimalPlaces, boolean spaceBetweenSymbol) {
+        String spaceStr = spaceBetweenSymbol ? " " : "";
+        if (value == 0) {
+            return new TextComponentGroup().getString(value + spaceStr + unit.getSymbol()).getFormattedText();
+        }
+        boolean negative = value < 0;
+        if (negative) {
+            value = Math.abs(value);
+        }
+        for (int i = 0; i < MeasurementUnit.values().length; i++) {
+            MeasurementUnit lowerMeasure = MeasurementUnit.values()[i];
+            String symbolStr = spaceStr + lowerMeasure.symbol;
+            if (lowerMeasure.below(value) && lowerMeasure.ordinal() == 0) {
+                return new TextComponentGroup().getString(roundDecimals(negative, lowerMeasure.process(value), decimalPlaces) + symbolStr + unit.getSymbol()).getFormattedText();
+            }
+            if (lowerMeasure.ordinal() + 1 >= MeasurementUnit.values().length) {
+                return new TextComponentGroup().getString(roundDecimals(negative, lowerMeasure.process(value), decimalPlaces) + symbolStr + unit.getSymbol()).getFormattedText();
+            }
+            if (i + 1 < MeasurementUnit.values().length) {
+                MeasurementUnit upperMeasure = MeasurementUnit.values()[i + 1];
+                if ((lowerMeasure.above(value) && upperMeasure.below(value)) || lowerMeasure.value == value) {
+                    return new TextComponentGroup().getString(roundDecimals(negative, lowerMeasure.process(value), decimalPlaces) + symbolStr + unit.getSymbol()).getFormattedText();
+                }
+            }
+        }
+        return new TextComponentGroup().getString(roundDecimals(negative, value, decimalPlaces) + spaceStr + unit.getSymbol()).getFormattedText();
+    }
+
+    private interface Unit {
+
+        String getSymbol();
+
+        ILangEntry getLabel();
+    }
+
+    public enum RadiationUnit implements UnitDisplayUtils.Unit {
+        SV("Sv"),
+        SVH("Sv/h");
+
+        private final String symbol;
+
+        RadiationUnit(String symbol) {
+            this.symbol = symbol;
+        }
+
+        @Override
+        public String getSymbol() {
+            return symbol;
+        }
+
+        @Override
+        public ILangEntry getLabel() {
+            return MekanismLang.ERROR;
+        }
+    }
+
+    public static double roundDecimals(boolean negative, double d, int decimalPlaces) {
+        return negative ? roundDecimals(-d, decimalPlaces) : roundDecimals(d, decimalPlaces);
+    }
+
 }

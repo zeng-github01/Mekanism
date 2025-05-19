@@ -2,7 +2,12 @@ package mekanism.common.command;
 
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import mekanism.api.Coord4D;
+import mekanism.api.EnumColor;
 import mekanism.api.MekanismAPI;
+import mekanism.common.MekanismLang;
+import mekanism.common.lib.radiation.RadiationManager;
+import mekanism.common.util.UnitDisplayUtils;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -12,10 +17,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.server.command.CommandTreeBase;
 
@@ -207,4 +215,35 @@ public class CommandMek extends CommandTreeBase {
 
         void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException;
     }
+
+
+    //TODO
+    private static int addRadiation(ICommandSender source,World world, double magnitude) {
+        return addRadiation(source, source.getPositionVector(), world, magnitude);
+    }
+
+    private static int addRadiation(ICommandSender source, Vec3d pos, World world, double magnitude) {
+        Coord4D location = new Coord4D(pos.x, pos.y, pos.z, world.provider.getDimension());
+        MekanismAPI.getRadiationManager().radiate(location, magnitude);
+        source.sendMessage(MekanismLang.COMMAND_RADIATION_ADD.translateColored(EnumColor.GREY, RadiationManager.RadiationScale.getSeverityColor(magnitude),
+                UnitDisplayUtils.getDisplayShort(magnitude, UnitDisplayUtils.RadiationUnit.SVH, 3), EnumColor.INDIGO, getPosition(location.getPos()), EnumColor.INDIGO,
+                location.dimensionId));
+        return 0;
+    }
+
+    private static int getRadiationLevel(ICommandSender source, World world) {
+        return getRadiationLevel(source, source.getPositionVector(), world);
+    }
+
+    private static int getRadiationLevel(ICommandSender source, Vec3d pos, World world) {
+        Coord4D location = new Coord4D(pos.x, pos.y, pos.z, world.provider.getDimension());
+        double magnitude = MekanismAPI.getRadiationManager().getRadiationLevel(location);
+        source.sendMessage(MekanismLang.COMMAND_RADIATION_GET.translateColored(EnumColor.GREY, EnumColor.INDIGO, getPosition(location.getPos()), EnumColor.INDIGO, location.dimensionId, RadiationManager.RadiationScale.getSeverityColor(magnitude), UnitDisplayUtils.getDisplayShort(magnitude, UnitDisplayUtils.RadiationUnit.SVH, 3)));
+        return 0;
+    }
+
+    private static ITextComponent getPosition(BlockPos pos) {
+        return MekanismLang.GENERIC_BLOCK_POS.translate(pos.getX(), pos.getY(), pos.getZ());
+    }
+
 }

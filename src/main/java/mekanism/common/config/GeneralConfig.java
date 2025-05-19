@@ -133,7 +133,7 @@ public class GeneralConfig extends BaseConfig {
     public final IntOption disassemblerDamageMax = new IntOption(this, "general", "DisassemblerDamageMax", 20,
             "The amount of damage the Atomic Disassembler does when it has at least DisassemblerEnergyUsageWeapon power stored. (Value is in number of half hearts)");
 
-    public final FloatOption disassemblerAttackSpeed = new FloatOption(this,"general","DisassemblerAttackSpeed",-2.4F,"Attack speed of the Atomic Disassembler.",-4F,100);
+    public final FloatOption disassemblerAttackSpeed = new FloatOption(this, "general", "DisassemblerAttackSpeed", -2.4F, "Attack speed of the Atomic Disassembler.", -4F, 100);
 
     public final DoubleOption disassemblerBatteryCapacity = new DoubleOption(this, "general", "DisassemblerBatteryCapacity", 1000000,
             "Maximum amount (joules) of energy the Atomic Disassembler can contain", 0, Double.MAX_VALUE).setRequiresGameRestart(true);
@@ -284,6 +284,12 @@ public class GeneralConfig extends BaseConfig {
 
     public final IntOption nutritionalPasteMBPerFood = new IntOption(this, "general", "mbPerFood", 50, "How much mB of Nutritional Paste equates to one 'half-food.'");
     public final FloatOption nutritionalPasteSaturation = new FloatOption(this, "general", "saturation", 0.8F, "Saturation level of Nutritional Paste when eaten.");
+    public final DoubleOption radiationNegativeEffectsMinSeverity = new DoubleOption(this, "general", "negativeEffectsMinSeverity", 0.1D, "Defines the minimum severity radiation dosage severity (scale of 0 to 1) for which negative effects can take place. Set to 1 to disable negative effects completely.", 0, 1);
+    public final DoubleOption radiationTargetDecayRate = new DoubleOption(this, "general", "targetDecayRate", 0.9995D, "Radiated objects and entities are multiplied by this constant roughly once per second to represent their dosage decay.");
+    public final DoubleOption radiationSourceDecayRate = new DoubleOption(this, "general", "sourceDecayRate", 0.9995D, "Radiation sources are multiplied by this constant roughly once per second to represent their emission decay. At the default rate, it takes roughly 10 hours to remove a 1,000 Sv/h (crazy high) source.");
+    public final IntOption radiationChunkCheckRadius = new IntOption(this, "general", "chunkCheckRadius", 5, "The radius of chunks checked when running radiation calculations. The algorithm is efficient, but don't abuse it by making this crazy high.", 1, 100);
+    public final BooleanOption radiationEnabled = new BooleanOption(this,"general","radiationEnabled",true,"Enable worldwide radiation effects. Don't be a downer and disable this.");
+
 
     public final TypeConfigManager<MachineType> machinesManager = new TypeConfigManager<>(this, "machines", MachineType.class, MachineType::getValidMachines, MachineType::getBlockName);
     public final EnumMap<BaseTier, TierConfig> tiers = TierConfig.create(this);

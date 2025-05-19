@@ -146,6 +146,14 @@ public class MekanismItems {
     public static final Item CARDBOARD_CHESTPLATE = new ItemMekaCardboardArmor(1, EntityEquipmentSlot.CHEST);
     public static final Item CARDBOARD_LEGGINGS = new ItemMekaCardboardArmor(2, EntityEquipmentSlot.LEGS);
     public static final Item CARDBOARD_BOOTS = new ItemMekaCardboardArmor(3, EntityEquipmentSlot.FEET);
+
+    public static final Item DOSIMETER = new ItemDosimeter();
+    public static final Item GEIGER_COUNTER =new ItemGeigerCounter();
+
+    public static final Item HAZMAT_MASK = new ItemHazmatSuitArmor(0,EntityEquipmentSlot.HEAD);
+    public static final Item HAZMAT_GOWN = new ItemHazmatSuitArmor(1,EntityEquipmentSlot.CHEST);
+    public static final Item HAZMAT_PANTS = new ItemHazmatSuitArmor(2,EntityEquipmentSlot.LEGS);
+    public static final Item HAZMAT_BOOTS = new ItemHazmatSuitArmor(3,EntityEquipmentSlot.FEET);
     /**
      * ADD END
      */
@@ -288,6 +296,13 @@ public class MekanismItems {
         registry.register(init(CARDBOARD_CHESTPLATE,"cardboard_chestplate"));
         registry.register(init(CARDBOARD_LEGGINGS,"cardboard_leggings"));
         registry.register(init(CARDBOARD_BOOTS,"cardboard_boots"));
+        registry.register(init(DOSIMETER,"dosimeter"));
+        registry.register(init(GEIGER_COUNTER,"geiger_counter"));
+
+        registry.register(init(HAZMAT_MASK,"hazmat_mask"));
+        registry.register(init(HAZMAT_GOWN,"hazmat_gown"));
+        registry.register(init(HAZMAT_PANTS,"hazmat_pants"));
+        registry.register(init(HAZMAT_BOOTS,"hazmat_boots"));
         /**
          * ADD END
          */

@@ -1,8 +1,9 @@
 package mekanism.client.sound;
 
 import mekanism.common.config.MekanismConfig;
-import net.minecraft.client.audio.ITickableSound;
-import net.minecraft.client.audio.PositionedSound;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.*;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -18,6 +19,7 @@ public abstract class PlayerSound extends PositionedSound implements ITickableSo
 
     @Nonnull
     private WeakReference<EntityPlayer> playerReference;
+    private int subtitleFrequency;
     private float lastX;
     private float lastY;
     private float lastZ;
@@ -26,10 +28,16 @@ public abstract class PlayerSound extends PositionedSound implements ITickableSo
     private float fadeDownStep = 0.1f;
 
     private boolean donePlaying = false;
+    private int consecutiveTicks;
 
     public PlayerSound(@Nonnull EntityPlayer player, @Nonnull ResourceLocation sound) {
+        this(player, sound, 60);
+    }
+
+    public PlayerSound(@Nonnull EntityPlayer player, @Nonnull ResourceLocation sound, int subtitleFrequency) {
         super(sound, SoundCategory.PLAYERS);
         this.playerReference = new WeakReference<>(player);
+        this.subtitleFrequency = subtitleFrequency;
         this.lastX = (float) player.posX;
         this.lastY = (float) player.posY;
         this.lastZ = (float) player.posZ;
@@ -44,6 +52,11 @@ public abstract class PlayerSound extends PositionedSound implements ITickableSo
     @Nullable
     private EntityPlayer getPlayer() {
         return playerReference.get();
+    }
+
+    protected void setFade(float fadeUpStep, float fadeDownStep) {
+        this.fadeUpStep = fadeUpStep;
+        this.fadeDownStep = fadeDownStep;
     }
 
     @Override
@@ -82,6 +95,7 @@ public abstract class PlayerSound extends PositionedSound implements ITickableSo
         if (player == null || player.isDead) {
             this.donePlaying = true;
             this.volume = 0.0F;
+            consecutiveTicks = 0;
             return;
         }
 
@@ -89,6 +103,18 @@ public abstract class PlayerSound extends PositionedSound implements ITickableSo
             if (volume < 1.0F) {
                 // If we weren't max volume, start fading up
                 volume = Math.min(1.0F, volume + fadeUpStep);
+            }
+            if (consecutiveTicks % subtitleFrequency == 0) {
+                SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
+                for (ISoundEventListener soundEventListener : soundHandler.sndManager.listeners) {
+                    SoundEventAccessor soundEventAccessor = createAccessor(soundHandler);
+                    if (soundEventAccessor != null) {
+                        soundEventListener.soundPlay(this, soundEventAccessor);
+                    }
+                }
+                consecutiveTicks = 1;
+            } else {
+                consecutiveTicks++;
             }
         } else if (volume > 0.0F) {
             // Not yet fully muted, fade down

@@ -279,10 +279,20 @@ public class Coord4D {
      * @return the distance to the defined Coord4D
      */
     public int distanceTo(Coord4D obj) {
+        return (int) MathHelper.sqrt(distanceToSquared(obj));
+    }
+
+    /**
+     * Gets the distance to a defined Coord4D squared.
+     *
+     * @param obj the Coord4D to find the distance to
+     * @return the squared distance to the defined Coord4D
+     */
+    public double distanceToSquared(Coord4D obj) {
         int subX = x - obj.x;
         int subY = y - obj.y;
         int subZ = z - obj.z;
-        return (int) MathHelper.sqrt(subX * subX + subY * subY + subZ * subZ);
+        return subX * subX + subY * subY + subZ * subZ;
     }
 
     /**

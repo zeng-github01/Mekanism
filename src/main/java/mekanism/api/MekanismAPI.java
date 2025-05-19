@@ -1,6 +1,8 @@
 package mekanism.api;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import mekanism.api.gear.IModuleHelper;
+import mekanism.api.radiation.IRadiationManager;
 import mekanism.api.util.BlockInfo;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
@@ -32,6 +34,7 @@ public class MekanismAPI {
     //Ignore all mod blocks
     private static Set<String> cardboardBoxModIgnore = new ObjectOpenHashSet<>();
     private static MekanismRecipeHelper helper = null;
+    private static IRadiationManager RADIATION_MANAGER;
 
     public static boolean isBlockCompatible(@Nonnull Block block, int meta) {
         if (cardboardBoxModIgnore.contains(Objects.requireNonNull(block.getRegistryName()).getNamespace())) {
@@ -118,6 +121,23 @@ public class MekanismAPI {
         public void removeModBlacklist(@Nonnull String modid) {
             removeBoxBlacklistMod(modid);
         }
+    }
+
+
+    /**
+     * Gets Mekanism's {@link IRadiationManager}.
+     */
+    public static IRadiationManager getRadiationManager() {
+        // Harmless race
+        if (RADIATION_MANAGER == null) {
+            try {
+                Class<?> clazz = Class.forName("mekanism.common.lib.radiation.RadiationManager");
+                RADIATION_MANAGER = (IRadiationManager) clazz.getField("INSTANCE").get(null);
+            } catch (ReflectiveOperationException ex) {
+                logger.fatal("Error retrieving RadiationManager, Mekanism may be absent, damaged, or outdated.");
+            }
+        }
+        return RADIATION_MANAGER;
     }
 
 

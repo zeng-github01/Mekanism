@@ -2177,3 +2177,17 @@ tooltip.mekanism.warning=Warning:
 tooltip.mekanism.note=Note:
 tooltip.mekanism.note.cardboard=Some mods have changed the collision box options, which might cause issues with modifying the collision box after crouching.
 
+item.dosimeter.name=Dosimeter
+item.geiger_counter.name=Geiger Counter
+gui.mekanism.radiation_exposure=Radiation Exposure:
+gui.mekanism.radiation_dose=Radiation Dose:
+
+sound_event.mekanism.item.geiger_elevated=Elevated Geiger Counter clicks
+sound_event.mekanism.item.geiger_fast=Constant Geiger Counter clicks
+sound_event.mekanism.item.geiger_medium=Geiger Counter clicks
+sound_event.mekanism.item.geiger_slow=Geiger counter clicks slowly
+
+item.hazmat_mask.name=Hazmat Mask
+item.hazmat_gown.name=Hazmat Gown
+item.hazmat_pants.name=Hazmat Pants
+item.hazmat_boots.name=Hazmat Boots

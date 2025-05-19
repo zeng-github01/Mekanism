@@ -8,6 +8,7 @@ import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
 import mekanism.common.base.IUpgradeTile;
 import mekanism.common.config.MekanismConfig;
+import mekanism.common.lib.radiation.RadiationManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,6 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.sound.PlaySoundEvent;
+import net.minecraftforge.client.event.sound.SoundLoadEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -26,6 +28,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
@@ -54,9 +58,12 @@ public class SoundHandler {
     private static Set<UUID> gasmaskSounds = new ObjectOpenHashSet<>();
     private static Set<UUID> flamethrowerSounds = new ObjectOpenHashSet<>();
     private static Set<UUID> gravitationalModulationSounds = new ObjectOpenHashSet<>();
+    public static final Map<RadiationManager.RadiationScale, GeigerSound> radiationSoundMap = new EnumMap<>(RadiationManager.RadiationScale.class);
 
     private static Long2ObjectMap<ISound> soundMap = new Long2ObjectOpenHashMap<>();
     private static boolean IN_MUFFLED_CHECK = false;
+    private static SoundManager soundEngine;
+    private static boolean hadPlayerSounds;
 
     public static void clearPlayerSounds() {
         jetpackSounds.clear();
@@ -161,6 +168,23 @@ public class SoundHandler {
             soundMap.remove(posKey);
         }
     }
+
+
+    @SubscribeEvent
+    public static void onSoundEngineSetup(SoundLoadEvent event) {
+        //Grab the sound engine, so that we are able to play sounds. We use this event rather than requiring the use of an AT
+        if (soundEngine == null) {
+            //Note: We include a null check as the constructor for SoundEngine is public and calls this event
+            // And we do not want to end up grabbing a modders variant of this
+            soundEngine = event.getManager();
+        }
+    }
+
+
+
+
+
+
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onTilePlaySound(PlaySoundEvent event) {
@@ -326,4 +350,36 @@ public class SoundHandler {
             return original.getAttenuationType();
         }
     }
+
+    public static void restartSounds() {
+        boolean hasPlayerSounds = playerSoundsEnabled();
+        if (hasPlayerSounds != hadPlayerSounds) {
+            hadPlayerSounds = hasPlayerSounds;
+            if (hasPlayerSounds) {
+                //If player sounds were muted and are no longer muted, then we want to try and restart all our sounds
+                radiationSoundMap.values().forEach(SoundHandler::restartSounds);
+            }
+        }
+    }
+
+    private static void restartSounds(PlayerSound... sounds) {
+        for (PlayerSound sound : sounds) {
+            if (!sound.isDonePlaying() && soundEngine != null && !soundEngine.invPlayingSounds.containsKey(sound)) {
+                //Note: We need to directly check the instanceToChannel, because isActive will give wrong results as it doesn't
+                // get cleared out of the soundDeleteTime map. We also don't restart sounds if they marked themselves as stopped
+                // as the cases we have that is if the player is no longer present or the player died, in which case the sound will
+                // be removed and restarted as needed
+                playSound(sound);
+            }
+        }
+    }
+
+    private static boolean playerSoundsEnabled() {
+        return getVolume(SoundCategory.MASTER) > 0 && getVolume(SoundCategory.PLAYERS) > 0;
+    }
+
+    private static float getVolume(SoundCategory category) {
+        return Minecraft.getMinecraft().gameSettings.getSoundLevel(category);
+    }
+
 }

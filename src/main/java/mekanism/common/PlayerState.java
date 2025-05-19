@@ -10,12 +10,14 @@ import mekanism.client.sound.SoundHandler;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.content.gear.ModuleHelper;
 import mekanism.common.content.gear.mekasuit.ModuleGravitationalModulatingUnit;
+import mekanism.common.lib.radiation.RadiationManager;
 import mekanism.common.network.PacketFlyingSync.FlyingSyncMessage;
 import mekanism.common.network.PacketGearStateUpdate.GearStateUpdateMessage;
 import mekanism.common.network.PacketGearStateUpdate.GearType;
 import mekanism.common.network.PacketResetPlayerClient.ResetPlayerClientMessage;
 import mekanism.common.network.PacketStepHeightSync.StepHeightSyncMessage;
 import mekanism.common.util.MekanismUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -57,13 +59,11 @@ public class PlayerState {
         activeFlamethrowers.remove(uuid);
         if (isRemote) {
             SoundHandler.clearPlayerSounds(uuid);
+            if (Minecraft.getMinecraft().player == null || Minecraft.getMinecraft().player.getUniqueID().equals(uuid)) {
+                SoundHandler.radiationSoundMap.clear();
+            }
         }
-        /*
-        if (Minecraft.getMinecraft().player == null || Minecraft.getMinecraft().player.getUniqueID().equals(uuid)) {
-            SoundHandler.radiationSoundMap.clear();
-        }
-        RadiationManager.get().resetPlayer(uuid);
-         */
+        RadiationManager.INSTANCE.resetPlayer(uuid);
         if (!isRemote) {
             Mekanism.packetHandler.sendToAll(new ResetPlayerClientMessage(uuid));
         }

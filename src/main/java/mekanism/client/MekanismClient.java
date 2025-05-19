@@ -3,12 +3,15 @@ package mekanism.client;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mekanism.api.MekanismAPI;
 import mekanism.api.MekanismAPI.BoxBlacklistEvent;
+import mekanism.client.render.RenderTickHandler;
 import mekanism.client.render.obj.TransmitterModel;
+import mekanism.client.sound.SoundHandler;
 import mekanism.client.voice.VoiceClient;
 import mekanism.common.Mekanism;
 import mekanism.common.base.IModule;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.content.boiler.SynchronizedBoilerData;
+import mekanism.common.lib.radiation.RadiationManager;
 import mekanism.common.network.PacketKey.KeyMessage;
 import mekanism.common.security.SecurityData;
 import net.minecraft.client.Minecraft;
@@ -64,6 +67,9 @@ public class MekanismClient extends Mekanism {
 
         Mekanism.playerState.clear(true);
         Mekanism.activeVibrators.clear();
+        RadiationManager.INSTANCE.resetClient();
+        SoundHandler.radiationSoundMap.clear();
+        RenderTickHandler.prevRadiation = 0;
 
         SynchronizedBoilerData.clientHotMap.clear();
 

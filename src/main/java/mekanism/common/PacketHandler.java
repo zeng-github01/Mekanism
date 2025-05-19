@@ -219,6 +219,7 @@ public class PacketHandler {
         netHandler.registerMessage(PacketShowModeChange.class, PacketShowModeChange.ShowModeChangeMessage.class, 44, Side.CLIENT);
         netHandler.registerMessage(PacketOpenGui.class, PacketOpenGui.OpenGui.class, 45, Side.CLIENT);
         netHandler.registerMessage(PacketOpenGui.class, PacketOpenGui.OpenGui.class, 45, Side.SERVER);
+        netHandler.registerMessage(PacketRadiationData.class, PacketRadiationData.PacketRadiationDataMessage.class, 46, Side.CLIENT);
     }
 
     @Optional.Method(modid = MekanismHooks.Baubles_MOD_ID)

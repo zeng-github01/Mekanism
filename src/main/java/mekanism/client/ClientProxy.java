@@ -110,6 +110,7 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
@@ -353,6 +354,14 @@ public class ClientProxy extends CommonProxy {
         registerItemRender(MekanismItems.CARDBOARD_CHESTPLATE);
         registerItemRender(MekanismItems.CARDBOARD_LEGGINGS);
         registerItemRender(MekanismItems.CARDBOARD_BOOTS);
+
+        registerItemRender(MekanismItems.DOSIMETER);
+        registerItemRender(MekanismItems.GEIGER_COUNTER);
+
+        registerItemRender(MekanismItems.HAZMAT_MASK);
+        registerItemRender(MekanismItems.HAZMAT_GOWN);
+        registerItemRender(MekanismItems.HAZMAT_PANTS);
+        registerItemRender(MekanismItems.HAZMAT_BOOTS);
 
         /**
          * ADD END
@@ -1041,6 +1050,8 @@ public class ClientProxy extends CommonProxy {
         return Minecraft.getMinecraft().playerController.getBlockReachDistance();
     }
 
+
+
     @Override
     public boolean isPaused() {
         if (FMLClientHandler.instance().getClient().isSingleplayer() && !FMLClientHandler.instance().getClient().getIntegratedServer().getPublic()) {
@@ -1115,6 +1126,10 @@ public class ClientProxy extends CommonProxy {
                     }
                 }
         );
+
+        Particle.registerParticles();
     }
+
+
 
 }

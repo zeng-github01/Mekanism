@@ -411,5 +411,37 @@
             }],
             "subtitle": "sound_event.mekanismmultiblockmachine.tile.machine.digitalassemblytable",
             "category": "block"
+      },
+      "item.geiger_slow": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:geiger_slow"
+            }],
+            "subtitle": "sound_event.mekanism.item.geiger_slow",
+            "category": "player"
+      },
+      "item.geiger_medium": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:geiger_medium"
+            }],
+            "subtitle": "sound_event.mekanism.item.geiger_medium",
+            "category": "player"
+      },
+      "item.geiger_elevated": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:geiger_elevated"
+            }],
+            "subtitle": "sound_event.mekanism.item.geiger_elevated",
+            "category": "player"
+      },
+      "item.geiger_fast": {
+            "sounds": [{
+                  "stream": false,
+                  "name": "mekanism:geiger_fast"
+            }],
+            "subtitle": "sound_event.mekanism.item.geiger_fast",
+            "category": "player"
       }
 }

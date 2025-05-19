@@ -42,6 +42,7 @@ import mekanism.common.frequency.FrequencyManager;
 import mekanism.common.integration.IMCHandler;
 import mekanism.common.integration.MekanismHooks;
 import mekanism.common.integration.multipart.MultipartMekanism;
+import mekanism.common.lib.radiation.RadiationManager;
 import mekanism.common.multiblock.MultiblockManager;
 import mekanism.common.network.PacketDataRequest.DataRequestMessage;
 import mekanism.common.network.PacketSimpleGui;
@@ -420,6 +421,8 @@ public class Mekanism {
         PathfinderCache.reset();
         TransmitterNetworkRegistry.reset();
         ModuleHelper.get().resetSupportedContainers();
+
+        RadiationManager.INSTANCE.reset();
     }
 
     @EventHandler
@@ -495,6 +498,7 @@ public class Mekanism {
         MinecraftForge.EVENT_BUS.register(new CommonPlayerTracker());
         MinecraftForge.EVENT_BUS.register(new CommonPlayerTickHandler());
 
+        MinecraftForge.EVENT_BUS.register(RadiationManager.INSTANCE);
 
         //Initialization notification
         logger.info("Version " + versionNumber + " initializing...");

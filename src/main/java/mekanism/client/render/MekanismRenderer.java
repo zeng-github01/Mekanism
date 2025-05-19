@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -228,6 +229,9 @@ public class MekanismRenderer {
 
     private static float getBlue(int color) {
         return (color & 0xFF) / 255.0F;
+    }
+    public static float getAlpha(int color) {
+        return (color >> 24 & 0xFF) / 255.0F;
     }
 
     public static void color(int color) {
@@ -572,5 +576,31 @@ public class MekanismRenderer {
             this.lightmapLastY = lightmapLastY;
             this.glowEnabled = glowEnabled;
         }
+    }
+
+    public static void renderColorOverlay(int x, int y, int width, int height, int color) {
+        float r = getRed(color);
+        float g = getGreen(color);
+        float b = getBlue(color);
+        float a = getAlpha(color);
+        GlStateManager.disableDepth();
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.shadeModel(GL11.GL_SMOOTH);
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+        bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
+        bufferbuilder.pos( width, y, 0).color(r, g, b, a).endVertex();
+        bufferbuilder.pos( x, y, 0).color(r, g, b, a).endVertex();
+        bufferbuilder.pos( x, height, 0).color(r, g, b, a).endVertex();
+        bufferbuilder.pos( width, height, 0).color(r, g, b, a).endVertex();
+        tessellator.draw();
+        GlStateManager.shadeModel(GL11.GL_FLAT);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
+        GlStateManager.enableDepth();
     }
 }
