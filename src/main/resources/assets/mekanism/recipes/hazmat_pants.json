@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "mekanism:hazmat_pants"
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "A A"
+  ],
+  "type": "mekanism:ore_shaped",
+  "key": {
+    "A": {
+      "ore": "ingotLead",
+      "type": "forge:ore_dict"
+    },
+    "B": {
+      "ore": "dyeOrange",
+      "type": "forge:ore_dict"
+    }
+  }
+}

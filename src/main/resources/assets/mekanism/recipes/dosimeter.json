@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "mekanism:dosimeter"
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "A": {
+      "ore": "ingotLead",
+      "type": "forge:ore_dict"
+    },
+    "B": {
+      "item": "minecraft:redstone"
+    }
+  }
+}

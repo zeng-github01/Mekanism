@@ -3,9 +3,9 @@
             "item": "mekanism:module_inhalation_purification_unit"
       },
       "pattern": [
-            "CDC",
+            "CEC",
             "CBC",
-            "AAA"
+            "ADA"
       ],
       "type": "mekanism:ore_shaped",
       "key": {
@@ -22,6 +22,9 @@
             },
             "D": {
                   "item":"mekanism:gasmask"
+            },
+            "E": {
+                  "item":"mekanism:hazmat_mask"
             }
       }
 }

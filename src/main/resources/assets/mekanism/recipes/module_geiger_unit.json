@@ -1,6 +1,6 @@
 {
       "result": {
-            "item": "mekanism:module_dosimeter_unit"
+            "item": "mekanism:module_geiger_unit"
       },
       "pattern": [
             "ABA",
@@ -14,7 +14,7 @@
                   "type": "forge:ore_dict"
             },
             "B": {
-                  "item": "mekanism:dosimeter"
+                  "item": "mekanism:geiger_counter"
             },
             "C": {
                   "item": "mekanism:modulebase"
