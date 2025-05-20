@@ -36,6 +36,10 @@ public class GasStack {
         amount = quantity;
     }
 
+    public GasStack(Gas gas){
+        this(gas,1);
+    }
+
     private GasStack() {
     }
 

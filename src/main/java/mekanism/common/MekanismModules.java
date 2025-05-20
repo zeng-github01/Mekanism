@@ -5,7 +5,6 @@ import mekanism.common.content.gear.ModuleHelper;
 import mekanism.common.content.gear.mekasuit.*;
 import mekanism.common.content.gear.mekatool.*;
 import mekanism.common.content.gear.shared.ModuleEnergyUnit;
-import mekanism.common.content.gear.shared.ModuleRadiationShieldingUnit;
 import mekanism.common.integration.MekanismHooks;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.EnumRarity;
@@ -19,7 +18,7 @@ public class MekanismModules {
     //Shared Armor
     // public static final ModuleData<ModuleColorModulationUnit> COLOR_MODULATION_UNIT = ModuleHelper.register("color_modulation_unit", ModuleColorModulationUnit::new, builder -> builder.rarity(EnumRarity.UNCOMMON).noDisable());
     public static final ModuleData<?> LASER_DISSIPATION_UNIT = ModuleHelper.registerMarker("laser_dissipation_unit", builder -> builder.rarity(EnumRarity.UNCOMMON));
-    public static final ModuleData<ModuleRadiationShieldingUnit> RADIATION_SHIELDING_UNIT = ModuleHelper.register("radiation_shielding_unit", ModuleRadiationShieldingUnit::new, builder -> builder.maxStackSize(4).rarity(EnumRarity.UNCOMMON));
+    public static final ModuleData<?> RADIATION_SHIELDING_UNIT = ModuleHelper.registerMarker("radiation_shielding_unit",  builder -> builder.rarity(EnumRarity.UNCOMMON));
 
     //Meka-Tool
     public static final ModuleData<ModuleExcavationEscalationUnit> EXCAVATION_ESCALATION_UNIT = ModuleHelper.register("excavation_escalation_unit", ModuleExcavationEscalationUnit::new, builder -> builder.maxStackSize(4).rarity(EnumRarity.UNCOMMON).handlesModeChange().rendersHUD());

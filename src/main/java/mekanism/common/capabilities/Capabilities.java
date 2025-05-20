@@ -17,6 +17,7 @@ import mekanism.common.base.ILogisticalTransporter;
 import mekanism.common.base.ITileNetwork;
 import mekanism.common.lib.radiation.capability.DefaultRadiationEntity;
 import mekanism.common.lib.radiation.capability.DefaultRadiationShielding;
+import nc.capability.radiation.resistance.IRadiationResistance;
 import net.darkhax.tesla.api.ITeslaConsumer;
 import net.darkhax.tesla.api.ITeslaHolder;
 import net.darkhax.tesla.api.ITeslaProducer;
@@ -97,6 +98,10 @@ public class Capabilities {
 
     @CapabilityInject(IRadiationEntity.class)
     public static Capability<IRadiationEntity> RADIATION_ENTITY_CAPABILITY = null;
+
+    @CapabilityInject(IRadiationResistance.class)
+    public static Capability<IRadiationResistance> NC_CAPABILITY_RADIATION_RESISTANCE = null;
+
 
     public static void registerCapabilities() {
         DefaultStrictEnergyStorage.register();

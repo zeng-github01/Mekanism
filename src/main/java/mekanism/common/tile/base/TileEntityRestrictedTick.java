@@ -1,15 +1,22 @@
 package mekanism.common.tile.base;
 
+import mekanism.api.Coord4D;
+import mekanism.api.MekanismAPI;
+import mekanism.api.NBTConstants;
+import mekanism.api.gas.IGasHandler;
+import mekanism.common.tile.interfaces.ITileRadioactive;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
 
 
 /**
  * 限制性TICK，防止被各种Tick玩意加速
  */
-public abstract class TileEntityRestrictedTick extends TileEntitySynchronized implements ITickable {
+public abstract class TileEntityRestrictedTick extends TileEntitySynchronized implements ITickable, ITileRadioactive {
 
     protected int ticksExisted = 0;
     private long lastUpdateWorldTick = -1;
+    private float radiationScale;
 
     @Override
     public final void update() {
@@ -20,7 +27,55 @@ public abstract class TileEntityRestrictedTick extends TileEntitySynchronized im
         lastUpdateWorldTick = currentTick;
         doRestrictedTick();
         ticksExisted++;
+        if (!isRemote()) {
+            updateRadiationScale();
+        }
     }
 
     public abstract void doRestrictedTick();
+
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
+
+    @Override
+    public void invalidate() {
+        super.invalidate();
+        if (!isRemote() && MekanismAPI.getRadiationManager().isRadiationEnabled() && shouldDumpRadiation()) {
+            if (this instanceof IGasHandler handler && handler.getTankInfo() != handler.NONE) {
+                //If we are on a server and radiation is enabled dump all gas tanks with radioactive materials
+                // Note: we handle clearing radioactive contents later in drop calculation due to when things are written to NBT
+                MekanismAPI.getRadiationManager().dumpRadiation(new Coord4D(pos, world), handler.getTankInfo(), false);
+            }
+        }
+    }
+
+    private void updateRadiationScale() {
+        if (shouldDumpRadiation()) {
+            if (this instanceof IGasHandler handler && handler.getTankInfo() != handler.NONE) {
+                float scale = ITileRadioactive.calculateRadiationScale(handler.getTankInfo());
+                if (Math.abs(scale - radiationScale) > 0.05F) {
+                    radiationScale = scale;
+                    markNoUpdateSync();
+                }
+            }
+        }
+    }
+
+    @Override
+    public float getRadiationScale() {
+        return MekanismAPI.getRadiationManager().isRadiationEnabled() ? radiationScale : 0;
+    }
+
+    @Override
+    public void readCustomNBT(NBTTagCompound compound) {
+        super.readCustomNBT(compound);
+        radiationScale = compound.getFloat(NBTConstants.RADIATION);
+    }
+
+    @Override
+    public void writeCustomNBT(NBTTagCompound compound) {
+        super.writeCustomNBT(compound);
+        compound.setFloat(NBTConstants.RADIATION, radiationScale);
+    }
 }

@@ -1,10 +1,14 @@
 package mekanism.common.item.armor;
 
+import ic2.api.item.IHazmatLike;
 import mekanism.common.Mekanism;
 import mekanism.common.capabilities.ItemCapabilityWrapper;
+import mekanism.common.capabilities.radiation.item.NCRadiationShieldingHandler;
 import mekanism.common.capabilities.radiation.item.RadiationShieldingHandler;
+import mekanism.common.integration.MekanismHooks;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
@@ -12,10 +16,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.Optional.*;
 
 import javax.annotation.Nonnull;
 
-public class ItemHazmatSuitArmor extends ItemArmor {
+@Interface(iface = "ic2.api.item.IHazmatLike", modid = MekanismHooks.IC2_MOD_ID)
+public class ItemHazmatSuitArmor extends ItemArmor implements IHazmatLike{
 
     public static ArmorMaterial MekHazmat = EnumHelper.addArmorMaterial("mekhazmat", "mekanism:hazmat", 0, new int[]{0, 0, 0, 0}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
 
@@ -47,7 +53,8 @@ public class ItemHazmatSuitArmor extends ItemArmor {
 
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
-        return new ItemCapabilityWrapper(stack, RadiationShieldingHandler.create(item -> getShieldingByArmor(armorType)));
+        return new ItemCapabilityWrapper(stack, RadiationShieldingHandler.create(item -> getShieldingByArmor(armorType)),
+                NCRadiationShieldingHandler.create(item -> getShieldingByArmor(armorType) * 100, item -> getShieldingByArmor(armorType) * 100));
     }
 
     @Override
@@ -63,5 +70,11 @@ public class ItemHazmatSuitArmor extends ItemArmor {
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         return isEnchantable(stack) && super.canApplyAtEnchantingTable(stack, enchantment);
+    }
+
+    @Override
+    @Method(modid = MekanismHooks.IC2_MOD_ID)
+    public boolean addsProtection(EntityLivingBase entityLivingBase, EntityEquipmentSlot entityEquipmentSlot, ItemStack itemStack) {
+        return true;
     }
 }

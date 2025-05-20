@@ -2191,3 +2191,9 @@ item.hazmat_mask.name=Hazmat Mask
 item.hazmat_gown.name=Hazmat Gown
 item.hazmat_pants.name=Hazmat Pants
 item.hazmat_boots.name=Hazmat Boots
+
+death.attack.mekanism.radiation=%s was killed by radiation poisoning.
+death.attack.mekanism.radiation.player=%s was killed by radiation poisoning whilst trying to escape %s.
+
+chemical.mekanism.attribute.radiation= - Radioactivity:
+

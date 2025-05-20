@@ -80,7 +80,6 @@ public class PacketTileEntity implements IMessageHandler<TileEntityMessage, IMes
         @Override
         public void fromBytes(ByteBuf dataStream) {
             coord4D = Coord4D.read(dataStream);
-
             storedBuffer = dataStream.copy();
         }
     }

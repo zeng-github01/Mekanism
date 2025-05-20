@@ -601,4 +601,10 @@ public class TileEntityQuantumEntangloporter extends TileEntityElectricBlock imp
     public TileComponentUpgrade getComponent() {
         return this.upgradeComponent;
     }
+
+    @Override
+    protected boolean shouldDumpRadiation() {
+        //Note: The QE doesn't support radioactive substances but override this method anyway
+        return false;
+    }
 }

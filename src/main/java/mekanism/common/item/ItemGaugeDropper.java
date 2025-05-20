@@ -1,5 +1,7 @@
 package mekanism.common.item;
 
+import mekanism.api.Coord4D;
+import mekanism.api.MekanismAPI;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.api.gas.IGasItem;
@@ -84,6 +86,10 @@ public class ItemGaugeDropper extends ItemMekanism implements IGasItem {
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (player.isSneaking() && !world.isRemote) {
+            GasStack gas = getGas(stack);
+            if (gas != null){
+                MekanismAPI.getRadiationManager().dumpRadiation(new Coord4D(player), gas);
+            }
             setGas(stack, null);
             FluidUtil.getFluidHandler(stack).drain(CAPACITY, true);
             ((EntityPlayerMP) player).sendContainerToPlayer(player.openContainer);

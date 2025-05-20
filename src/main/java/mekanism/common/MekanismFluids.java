@@ -121,10 +121,10 @@ public class MekanismFluids {
         /**
          *Radioactive material
          * */
-        GasRegistry.register(NuclearWaste).setRadiation(true).registerFluid();
-        GasRegistry.register(Plutonium).setRadiation(true);
-        GasRegistry.register(Polonium).setRadiation(true);
-        GasRegistry.register(SpentNuclearWaste).setRadiation(true);
+        GasRegistry.register(NuclearWaste).setRadiation(0.01).registerFluid();
+        GasRegistry.register(Plutonium).setRadiation(0.02);
+        GasRegistry.register(Polonium).setRadiation(0.05);
+        GasRegistry.register(SpentNuclearWaste).setRadiation(0.01);
 
         GasRegistry.register(Biofuel).setVisible(false);
         //color gas

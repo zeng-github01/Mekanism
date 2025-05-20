@@ -1,11 +1,14 @@
 package mekanism.common.base;
 
+import mekanism.api.Coord4D;
+import mekanism.api.MekanismAPI;
 import mekanism.api.gas.GasStack;
 import mekanism.api.gas.GasTank;
 import mekanism.common.item.ItemGaugeDropper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidUtil;
 
@@ -57,6 +60,10 @@ public interface ITankManager {
                         dropper.setGas(stack, new GasStack(dropper.getGas(stack).getGas(), dropperStored - toExtract));
                         ((EntityPlayerMP) player).sendContainerToPlayer(player.openContainer);
                     } else if (button == 2) { //Dump the tank
+                        GasStack gas = gasTank.getGas();
+                        if (gas != null){
+                            MekanismAPI.getRadiationManager().dumpRadiation(new Coord4D(player), gas);
+                        }
                         gasTank.setGas(null);
                     }
                 } else if (tank instanceof FluidTank fluidTank) {

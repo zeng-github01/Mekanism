@@ -3,6 +3,7 @@ package mekanism.common.tile.transmitter;
 import io.netty.buffer.ByteBuf;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
+import mekanism.api.math.MathUtils;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.block.states.BlockStateTransmitter.TransmitterType;
 import mekanism.common.capabilities.Capabilities;
@@ -331,5 +332,10 @@ public class TileEntityPressurizedTube extends TileEntityTransmitter<IGasHandler
             return Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
         }
         return super.getCapability(capability, side);
+    }
+
+    @Override
+    public int getRadiationParticleCount() {
+        return MathUtils.clampToInt(3 * getRadiationScale());
     }
 }

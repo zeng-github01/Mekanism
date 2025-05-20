@@ -1,5 +1,8 @@
 package mekanism.common.block;
 
+import mekanism.client.Particle;
+import mekanism.common.tile.interfaces.ITileRadioactive;
+import mekanism.common.util.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockFlowerPot;
@@ -15,8 +18,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 public abstract class BlockMekanismContainer extends BlockContainer {
 
@@ -93,4 +99,36 @@ public abstract class BlockMekanismContainer extends BlockContainer {
     public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, EntityPlayer player) {
         return getDropItem(state, world, pos);
     }
+
+    @Override
+    @Deprecated
+    public float getPlayerRelativeBlockHardness(IBlockState state, @Nonnull EntityPlayer player, @Nonnull World world, @Nonnull BlockPos pos) {
+        float speed = super.getPlayerRelativeBlockHardness(state, player, world, pos);
+        TileEntity tile = world.getTileEntity(pos);
+        if (tile instanceof ITileRadioactive rad && rad.getRadiationScale() > 0) {
+            return speed / 5F;
+        }
+        return speed;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Deprecated
+    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
+        super.randomDisplayTick(state, world, pos, random);
+        TileEntity tile = WorldUtils.getTileEntity(world, pos);
+        if (tile instanceof ITileRadioactive rad) {
+            int count = rad.getRadiationParticleCount();
+            if (count > 0) {
+                //Update count to be randomized but store it instead of calculating our max number each time we loop
+                count = random.nextInt(count);
+                for (int i = 0; i < count; i++) {
+                    double randX = pos.getX() - 0.1 + random.nextDouble() * 1.2;
+                    double randY = pos.getY() - 0.1 + random.nextDouble() * 1.2;
+                    double randZ = pos.getZ() - 0.1 + random.nextDouble() * 1.2;
+                    world.spawnParticle(Particle.radiation, randX, randY, randZ, 0, 0, 0);
+                }
+            }
+        }
+    }
+
 }

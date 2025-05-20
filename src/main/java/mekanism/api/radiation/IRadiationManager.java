@@ -6,6 +6,7 @@ import mekanism.api.Chunk3D;
 import mekanism.api.Coord4D;
 import mekanism.api.gas.GasStack;
 import mekanism.api.gas.GasTank;
+import mekanism.api.gas.GasTankInfo;
 import mekanism.api.gas.IGasHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -109,6 +110,24 @@ public interface IRadiationManager {
      */
     void radiate(EntityLivingBase entity, double magnitude);
 
+    /**
+     * Helper to "dump" any radioactive gases stored in the given gas tanks.
+     *
+     * @param coord            Location to dump radiation at.
+     * @param gasTanks         Tanks to process.
+     * @param clearRadioactive {@code true} to clear any gas tanks that have radioactive substances.
+     */
+    void dumpRadiation(Coord4D coord, GasTankInfo[] gasTanks, boolean clearRadioactive);
 
-
+    /**
+     * Checks if the given {@link GasStack} is radioactive and if it is dumps a proportionate amount of radiation at the given location.
+     *
+     * @param coord Location to dump radiation at.
+     * @param stack Stack to check.
+     *
+     * @return {@code true} if the stack was radioactive and radiation got dumped.
+     *
+     * @apiNote If radiation is disabled this may still return {@code true}.
+     */
+    boolean dumpRadiation(Coord4D coord, GasStack stack);
 }

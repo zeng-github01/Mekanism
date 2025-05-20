@@ -158,6 +158,10 @@ public class TileComponentUpgrade implements ITileComponent {
     public void setSupported(Upgrade upgrade) {
         setSupported(upgrade, true);
     }
+    public void removeSupported(Upgrade upgrade) {
+        setSupported(upgrade, false);
+    }
+
 
     public void setSupported(Upgrade upgrade, boolean isSupported) {
         if (isSupported) {

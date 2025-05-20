@@ -268,4 +268,10 @@ public abstract class TileEntityMultiblock<T extends SynchronizedData<T>> extend
     public T getSynchronizedData() {
         return structure;
     }
+
+    @Override
+    protected boolean shouldDumpRadiation() {
+        //We handle dumping radiation separately for multiblocks
+        return false;
+    }
 }

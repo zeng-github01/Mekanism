@@ -43,9 +43,9 @@ public class TileEntitySPS extends TileEntityMachine implements IGasHandler, ISi
 
     public TileEntitySPS() {
         super("machine.sps", BlockStateMachine.MachineType.SPS, 0);
-        upgradeComponent.setSupported(Upgrade.SPEED, false);
-        upgradeComponent.setSupported(Upgrade.ENERGY, false);
-        upgradeComponent.setSupported(Upgrade.MUFFLING, false);
+        upgradeComponent.removeSupported(Upgrade.SPEED);
+        upgradeComponent.removeSupported(Upgrade.ENERGY);
+        upgradeComponent.removeSupported(Upgrade.MUFFLING);
 
         configComponent = new TileComponentConfig(this, TransmissionType.ENERGY, TransmissionType.GAS);
 

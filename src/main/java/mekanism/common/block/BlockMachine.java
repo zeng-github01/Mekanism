@@ -198,6 +198,7 @@ public abstract class BlockMachine extends BlockMekanismContainer {
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
+        super.randomDisplayTick(state,world,pos,random);
         TileEntityBasicBlock tileEntity = (TileEntityBasicBlock) world.getTileEntity(pos);
         if (tileEntity instanceof TileEntityFluidTank) {
             return;

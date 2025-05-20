@@ -25,9 +25,9 @@ public class TileEntityModificationStation extends TileEntityOperationalMachine 
     public TileEntityModificationStation() {
         super("null", MachineType.MODIFICATION_STATION, 0, 40);
         inventory = NonNullListSynchronized.withSize(4, ItemStack.EMPTY);
-        upgradeComponent.setSupported(Upgrade.MUFFLING, false);
-        upgradeComponent.setSupported(Upgrade.SPEED, false);
-        upgradeComponent.setSupported(Upgrade.ENERGY, false);
+        upgradeComponent.removeSupported(Upgrade.MUFFLING);
+        upgradeComponent.removeSupported(Upgrade.SPEED);
+        upgradeComponent.removeSupported(Upgrade.ENERGY);
     }
 
     @Override

@@ -27,7 +27,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -354,6 +356,14 @@ public class CommonPlayerTickHandler {
             this.energyCost = energyCost;
         }
 
+    }
+
+    @SubscribeEvent
+    public void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
+        World world = event.getEntityLiving().getEntityWorld();
+        if (!world.isRemote && !(event.getEntityLiving() instanceof EntityPlayer)) {
+            RadiationManager.INSTANCE.updateEntityRadiation(event.getEntityLiving());
+        }
     }
 
 }

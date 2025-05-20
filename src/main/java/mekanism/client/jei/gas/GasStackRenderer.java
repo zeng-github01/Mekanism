@@ -1,9 +1,11 @@
 package mekanism.client.jei.gas;
 
+import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasStack;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.util.LangUtils;
+import mekanism.common.util.UnitDisplayUtils;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
@@ -158,6 +160,9 @@ public class GasStackRenderer implements IIngredientRenderer<GasStack> {
         } else if (tooltipMode == TooltipMode.SHOW_AMOUNT) {
             String amount = LangUtils.localizeWithFormat("jei.tooltip.liquid.amount", gasStack.amount);
             tooltip.add(TextFormatting.GRAY + amount);
+        }
+        if (gasType.isRadiation()){
+            tooltip.add(EnumColor.GREY + LangUtils.localize("chemical.mekanism.attribute.radiation") + EnumColor.INDIGO + UnitDisplayUtils.getDisplayShort(gasType.getRadioactivity(), UnitDisplayUtils.RadiationUnit.SVH, 2));
         }
         return tooltip;
     }

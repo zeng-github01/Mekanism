@@ -2165,3 +2165,8 @@ item.hazmat_mask.name=防辐射面具
 item.hazmat_gown.name=防辐射外衣
 item.hazmat_pants.name=防辐射护腿
 item.hazmat_boots.name=防辐射靴子
+
+death.attack.mekanism.radiation=%s 因辐射中毒死了
+death.attack.mekanism.radiation.player=%s 在试图逃离 %s 时死于辐射中毒
+
+chemical.mekanism.attribute.radiation= - 放射性：

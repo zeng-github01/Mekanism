@@ -33,6 +33,7 @@ public class Gas {
     private int tint = 0xFFFFFF;
 
     private boolean radiation = false;
+    private double radioactivity = 0;
 
     private boolean isRegisterFluid = false;
 
@@ -108,6 +109,10 @@ public class Gas {
         return radiation;
     }
 
+    public double getRadioactivity() {
+        return radioactivity;
+    }
+
     public boolean isRegisterFluid(){
         return isRegisterFluid;
     }
@@ -120,12 +125,12 @@ public class Gas {
      */
     public Gas setVisible(boolean v) {
         visible = v;
-
         return this;
     }
 
-    public Gas setRadiation(boolean v) {
-        radiation = v;
+    public Gas setRadiation(double r) {
+        radiation = true;
+        radioactivity = r;
         return this;
     }
 

@@ -80,7 +80,7 @@ public class CommandMek extends CommandTreeBase {
         rules.setOrCreateGameRule("doMobSpawning", "false");
         rules.setOrCreateGameRule("doDaylightCycle", "false");
         rules.setOrCreateGameRule("doWeatherCycle", "false");
-        rules.setOrCreateGameRule("keepInventory","true");
+        rules.setOrCreateGameRule("keepInventory", "true");
         server.getEntityWorld().setWorldTime(2000);
         CommandGameRule.notifyGameRuleChange(rules, "", server);
         CommandBase.notifyCommandListener(sender, this, "cmd.mek.testrules");
@@ -218,7 +218,7 @@ public class CommandMek extends CommandTreeBase {
 
 
     //TODO
-    private static int addRadiation(ICommandSender source,World world, double magnitude) {
+    private static int addRadiation(ICommandSender source, World world, double magnitude) {
         return addRadiation(source, source.getPositionVector(), world, magnitude);
     }
 
