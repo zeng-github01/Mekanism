@@ -2,7 +2,8 @@ package mekanism.client.gui.robit;
 
 import mekanism.client.gui.element.GuiProgress;
 import mekanism.client.gui.element.GuiSlot;
-import mekanism.client.gui.element.GuiSlot.*;
+import mekanism.client.gui.element.GuiSlot.ISlotInfoHandler;
+import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.slot.GuiExtraSlot;
 import mekanism.client.gui.element.slot.GuiInputSlot;
 import mekanism.client.gui.element.slot.GuiOutputSlot;

@@ -52,7 +52,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Optional.InterfaceList({

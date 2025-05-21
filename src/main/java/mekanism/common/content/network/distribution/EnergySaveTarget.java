@@ -2,7 +2,6 @@ package mekanism.common.content.network.distribution;
 
 import mcp.MethodsReturnNonnullByDefault;
 import mekanism.api.energy.IEnergizedItem;
-
 import mekanism.common.lib.distribution.SplitInfo;
 import mekanism.common.lib.distribution.Target;
 import net.minecraft.item.ItemStack;

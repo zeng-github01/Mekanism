@@ -5,15 +5,12 @@ import mcp.MethodsReturnNonnullByDefault;
 import mekanism.api.Chunk3D;
 import mekanism.api.Coord4D;
 import mekanism.api.gas.GasStack;
-import mekanism.api.gas.GasTank;
 import mekanism.api.gas.GasTankInfo;
-import mekanism.api.gas.IGasHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
 
 /**
  * The RadiationManager handles radiation across all in-game dimensions. Radiation exposure levels are provided in _sieverts, defining a rate of accumulation of

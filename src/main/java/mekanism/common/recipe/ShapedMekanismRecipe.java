@@ -1,7 +1,6 @@
 package mekanism.common.recipe;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -27,7 +26,6 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 public class ShapedMekanismRecipe extends ShapedOreRecipe {

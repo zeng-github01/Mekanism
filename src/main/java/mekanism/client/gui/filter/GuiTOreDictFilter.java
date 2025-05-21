@@ -5,7 +5,6 @@ import mekanism.client.gui.button.GuiColorButton;
 import mekanism.client.gui.button.GuiDisableableButton;
 import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.GuiPlayerSlot;
-import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.common.Mekanism;
 import mekanism.common.OreDictCache;

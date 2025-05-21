@@ -12,7 +12,6 @@ import mekanism.common.content.gear.Module;
 import mekanism.common.inventory.ModuleTweakerContainer;
 import mekanism.common.inventory.container.slot.SlotOverlay;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Keyboard;

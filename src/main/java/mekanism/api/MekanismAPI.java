@@ -1,7 +1,6 @@
 package mekanism.api;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import mekanism.api.gear.IModuleHelper;
 import mekanism.api.radiation.IRadiationManager;
 import mekanism.api.util.BlockInfo;
 import net.minecraft.block.Block;

@@ -2,8 +2,6 @@ package mekanism.generators.client.gui;
 
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.*;
-import mekanism.client.gui.element.GuiSlot.SlotOverlay;
-import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGauge.Type;
 import mekanism.client.gui.element.slot.GuiEnergySlot;

@@ -2,7 +2,10 @@ package mekanism.multiblockmachine.client.gui.machine;
 
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.IJeiNoShowRecipe;
-import mekanism.client.gui.element.*;
+import mekanism.client.gui.element.GuiEnergyInfo;
+import mekanism.client.gui.element.GuiPlayerSlot;
+import mekanism.client.gui.element.GuiProgress;
+import mekanism.client.gui.element.GuiRedstoneControl;
 import mekanism.client.gui.element.bar.GuiBar;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGasGauge;

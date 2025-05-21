@@ -7,6 +7,7 @@ import mekanism.api.radial.mode.IRadialMode;
 import mekanism.api.radial.mode.NestedRadialMode;
 import mekanism.api.text.IHasTextComponent;
 import net.minecraft.dispenser.IBlockSource;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -339,6 +340,14 @@ public interface ICustomModule<MODULE extends ICustomModule<MODULE>> {
             float f1 = MathHelper.cos(pFacing * ((float) Math.PI / 180F));
             return new Vec3d(vec3.x * (double) f1 - vec3.z * (double) f, vec3.y, vec3.z * (double) f1 + vec3.x * (double) f);
         }
+    }
+
+
+    default void tickEntityServer(IModule<MODULE> module, Entity item) {
+    }
+
+
+    default void tickEntityClient(IModule<MODULE> module, Entity item) {
     }
 }
 

@@ -2,7 +2,6 @@ package mekanism.multiblockmachine.client.jei.machine.other;
 
 import mekanism.api.gas.GasStack;
 import mekanism.client.gui.element.GuiProgress;
-import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.bar.GuiBar;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGasGauge;

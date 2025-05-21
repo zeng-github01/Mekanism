@@ -5,6 +5,7 @@ import mekanism.common.content.gear.ModuleHelper;
 import mekanism.common.content.gear.mekasuit.*;
 import mekanism.common.content.gear.mekatool.*;
 import mekanism.common.content.gear.shared.ModuleEnergyUnit;
+import mekanism.common.content.gear.shared.ModuleMagneticUnit;
 import mekanism.common.integration.MekanismHooks;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.EnumRarity;
@@ -14,11 +15,11 @@ public class MekanismModules {
 
     //Shared
     public static final ModuleData<ModuleEnergyUnit> ENERGY_UNIT = ModuleHelper.register("energy_unit", ModuleEnergyUnit::new, builder -> builder.maxStackSize(8).rarity(EnumRarity.UNCOMMON).noDisable());
-    public static final ModuleData<?> MAGNETIC_UNIT = ModuleHelper.registerMarker("magnetic_unit", builder -> builder.rarity(EnumRarity.UNCOMMON).canEnable(!Loader.isModLoaded(MekanismHooks.MekanismMixinHelp_MOD_ID)).notEnabled("need.installation.mod"));
+    public static final ModuleData<ModuleMagneticUnit> MAGNETIC_UNIT = ModuleHelper.register("magnetic_unit", ModuleMagneticUnit::new, builder -> builder.rarity(EnumRarity.UNCOMMON).canEnable(!Loader.isModLoaded(MekanismHooks.MekanismMixinHelp_MOD_ID)).notEnabled("need.installation.mod"));
     //Shared Armor
     // public static final ModuleData<ModuleColorModulationUnit> COLOR_MODULATION_UNIT = ModuleHelper.register("color_modulation_unit", ModuleColorModulationUnit::new, builder -> builder.rarity(EnumRarity.UNCOMMON).noDisable());
     public static final ModuleData<?> LASER_DISSIPATION_UNIT = ModuleHelper.registerMarker("laser_dissipation_unit", builder -> builder.rarity(EnumRarity.UNCOMMON));
-    public static final ModuleData<?> RADIATION_SHIELDING_UNIT = ModuleHelper.registerMarker("radiation_shielding_unit",  builder -> builder.rarity(EnumRarity.UNCOMMON));
+    public static final ModuleData<?> RADIATION_SHIELDING_UNIT = ModuleHelper.registerMarker("radiation_shielding_unit", builder -> builder.rarity(EnumRarity.UNCOMMON));
 
     //Meka-Tool
     public static final ModuleData<ModuleExcavationEscalationUnit> EXCAVATION_ESCALATION_UNIT = ModuleHelper.register("excavation_escalation_unit", ModuleExcavationEscalationUnit::new, builder -> builder.maxStackSize(4).rarity(EnumRarity.UNCOMMON).handlesModeChange().rendersHUD());
@@ -27,7 +28,7 @@ public class MekanismModules {
     public static final ModuleData<ModuleShearingUnit> SHEARING_UNIT = ModuleHelper.register("shearing_unit", ModuleShearingUnit::new, builder -> builder.rarity(EnumRarity.UNCOMMON).exclusive(ModuleData.ExclusiveFlag.INTERACT_ENTITY, ModuleData.ExclusiveFlag.INTERACT_BLOCK));
     public static final ModuleData<?> SILK_TOUCH_UNIT = ModuleHelper.registerEnchantBased("silk_touch_unit", () -> Enchantments.SILK_TOUCH, builder -> builder.rarity(EnumRarity.RARE).exclusive(ModuleData.ExclusiveFlag.OVERRIDE_DROPS));
     public static final ModuleData<?> FORTUNE_UNIT = ModuleHelper.registerEnchantBased("fortune_unit", () -> Enchantments.FORTUNE, builder -> builder.maxStackSize(3).rarity(EnumRarity.RARE).exclusive(ModuleData.ExclusiveFlag.OVERRIDE_DROPS));
-     public static final ModuleData<ModuleBlastingUnit> BLASTING_UNIT = ModuleHelper.register("blasting_unit", ModuleBlastingUnit::new,  builder -> builder.maxStackSize(4).rarity(EnumRarity.RARE).handlesModeChange().rendersHUD());
+    public static final ModuleData<ModuleBlastingUnit> BLASTING_UNIT = ModuleHelper.register("blasting_unit", ModuleBlastingUnit::new, builder -> builder.maxStackSize(4).rarity(EnumRarity.RARE).handlesModeChange().rendersHUD());
     public static final ModuleData<ModuleVeinMiningUnit> VEIN_MINING_UNIT = ModuleHelper.register("vein_mining_unit", ModuleVeinMiningUnit::new, builder -> builder.maxStackSize(4).rarity(EnumRarity.RARE).handlesModeChange().rendersHUD());
     public static final ModuleData<ModuleTeleportationUnit> TELEPORTATION_UNIT = ModuleHelper.register("teleportation_unit", ModuleTeleportationUnit::new, builder -> builder.rarity(EnumRarity.EPIC).exclusive(ModuleData.ExclusiveFlag.INTERACT_ANY));
 

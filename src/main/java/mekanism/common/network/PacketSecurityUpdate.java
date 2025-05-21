@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import mekanism.client.MekanismClient;
 import mekanism.common.Mekanism;
 import mekanism.common.PacketHandler;
-import mekanism.common.frequency.Frequency;
 import mekanism.common.network.PacketSecurityUpdate.SecurityUpdateMessage;
 import mekanism.common.security.SecurityData;
 import mekanism.common.security.SecurityFrequency;

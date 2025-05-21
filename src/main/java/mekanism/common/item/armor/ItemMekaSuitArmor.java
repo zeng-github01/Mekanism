@@ -38,7 +38,6 @@ import mekanism.common.item.interfaces.IModeItem;
 import mekanism.common.util.ItemDataUtils;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
-import nc.item.energy.ItemEnergyCapabilityProvider;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -518,7 +517,7 @@ public abstract class ItemMekaSuitArmor extends ItemArmor implements IEnergizedI
         return new ItemCapabilityWrapper(stack, new TeslaItemWrapper(), new ForgeEnergyItemWrapper(),
                 LaserDissipationHandler.create(item -> isModuleEnabled(item, MekanismModules.LASER_DISSIPATION_UNIT) ? laserDissipation : 0, item -> isModuleEnabled(item, MekanismModules.LASER_DISSIPATION_UNIT) ? laserRefraction : 0),
                 RadiationShieldingHandler.create(item -> isModuleEnabled(item, MekanismModules.RADIATION_SHIELDING_UNIT) ? ItemHazmatSuitArmor.getShieldingByArmor(armorType) : 0),
-                NCRadiationShieldingHandler.create(item -> isModuleEnabled(item, MekanismModules.RADIATION_SHIELDING_UNIT) ? ItemHazmatSuitArmor.getShieldingByArmor(armorType) * 100 : 0,item -> isModuleEnabled(item, MekanismModules.RADIATION_SHIELDING_UNIT) ? ItemHazmatSuitArmor.getShieldingByArmor(armorType) * 100 : 0));
+                NCRadiationShieldingHandler.create(item -> isModuleEnabled(item, MekanismModules.RADIATION_SHIELDING_UNIT) ? ItemHazmatSuitArmor.getShieldingByArmor(armorType) * 100 : 0, item -> isModuleEnabled(item, MekanismModules.RADIATION_SHIELDING_UNIT) ? ItemHazmatSuitArmor.getShieldingByArmor(armorType) * 100 : 0));
     }
 
     @Override
@@ -528,12 +527,8 @@ public abstract class ItemMekaSuitArmor extends ItemArmor implements IEnergizedI
 
     @Override
     public Entity createEntity(World world, Entity location, ItemStack itemstack) {
-        EntityMeka item = new EntityMeka(world, location, itemstack);
-        item.isImmuneToFire = true;
-        if (isModuleEnabled(itemstack, MekanismModules.MAGNETIC_UNIT)) {
-            item.setNoPickupDelay();
-        }
-        return item;
+        return new EntityMeka(world, location, itemstack);
+
     }
 
 

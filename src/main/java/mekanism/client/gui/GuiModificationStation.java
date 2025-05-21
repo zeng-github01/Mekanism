@@ -7,11 +7,8 @@ import mekanism.client.gui.element.slot.GuiOutputSlot;
 import mekanism.common.inventory.container.ContainerModificationStation;
 import mekanism.common.tile.TileEntityModificationStation;
 import mekanism.common.util.LangUtils;
-import mekanism.common.util.MekanismUtils;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-
-import java.util.Arrays;
 
 public class GuiModificationStation extends GuiMekanismTile<TileEntityModificationStation> implements IJeiNoShowRecipe{
 

@@ -51,6 +51,7 @@ public class TileEntityRadioactiveWasteBarrel extends TileEntityBasicBlock imple
         }
     }
 
+
     @Override
     public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
         if (canReceiveGas(side, stack.getGas())) {

@@ -13,7 +13,10 @@ import mekanism.client.newgui.GuiModuleTweaker;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.client.render.RenderFirstPersonMekaSuitArms;
 import mekanism.client.render.RenderTickHandler;
-import mekanism.client.render.entity.*;
+import mekanism.client.render.entity.RenderBalloon;
+import mekanism.client.render.entity.RenderFlame;
+import mekanism.client.render.entity.RenderObsidianTNTPrimed;
+import mekanism.client.render.entity.RenderRobit;
 import mekanism.client.render.entity.baby.RenderBabyCreeper;
 import mekanism.client.render.entity.baby.RenderBabyEnderman;
 import mekanism.client.render.item.ItemLayerWrapper;
@@ -110,7 +113,6 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
@@ -303,9 +305,7 @@ public class ClientProxy extends CommonProxy {
 
 
         registerItemRender(MekanismItems.MODULE_ENERGY);
-        if (Mekanism.hooks.MekanismMixinHelp) {
             registerItemRender(MekanismItems.MODULE_MAGNETIC);
-        }
 
         // registerItemRender(MekanismItems.MODULE_COLOR_MODULATION);
         registerItemRender(MekanismItems.MODULE_LASER_DISSIPATION);

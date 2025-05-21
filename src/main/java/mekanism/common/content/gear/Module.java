@@ -25,6 +25,7 @@ import mekanism.common.item.interfaces.IModeItem.DisplayChange;
 import mekanism.common.util.ItemDataUtils;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -387,5 +388,15 @@ public final class Module<MODULE extends ICustomModule<MODULE>> implements IModu
             message = new TextComponentGroup().string(modeName).translation(MekanismLang.GENERIC_STORED.getTranslationKey()).string(MekanismLang.MODULE_DISABLED_LOWER.getTranslationKey(), EnumColor.DARK_RED.textFormatting);
         }
         player.sendMessage(new TextComponentGroup(EnumColor.GREY.textFormatting).string(Mekanism.LOG_TAG, TextFormatting.DARK_BLUE).string(" ").appendSibling(message));
+    }
+
+    public void tickItem(Entity item) {
+        if (isEnabled()){
+            if (item.world.isRemote) {
+                customModule.tickEntityClient(this, item);
+            }else {
+                customModule.tickEntityServer(this, item);
+            }
+        }
     }
 }

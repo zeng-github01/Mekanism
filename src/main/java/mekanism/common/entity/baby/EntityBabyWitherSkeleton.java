@@ -1,12 +1,10 @@
 package mekanism.common.entity.baby;
 
-import mekanism.common.Mekanism;
 import net.minecraft.entity.monster.EntityWitherSkeleton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityBabyWitherSkeleton extends EntityWitherSkeleton implements IBabyEntity {

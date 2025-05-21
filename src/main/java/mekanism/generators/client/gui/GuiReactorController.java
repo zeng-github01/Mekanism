@@ -3,8 +3,6 @@ package mekanism.generators.client.gui;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.element.GuiEnergyInfo;
 import mekanism.client.gui.element.GuiPlayerSlot;
-import mekanism.client.gui.element.GuiSlot;
-import mekanism.client.gui.element.GuiSlot.SlotType;
 import mekanism.client.gui.element.slot.GuiNormalSlot;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;

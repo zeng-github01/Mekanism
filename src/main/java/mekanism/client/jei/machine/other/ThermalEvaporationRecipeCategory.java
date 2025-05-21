@@ -2,7 +2,6 @@ package mekanism.client.jei.machine.other;
 
 import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.GuiRateBarHorizontal;
-import mekanism.client.gui.element.GuiSlot;
 import mekanism.client.gui.element.gauge.GuiFluidGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;
 import mekanism.client.gui.element.slot.GuiInputSlot;

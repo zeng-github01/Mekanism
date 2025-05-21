@@ -582,10 +582,7 @@ public class Mekanism {
         Item[] addMekaSuitModules = {MekanismItems.MEKASUIT_HELMET, MekanismItems.MEKASUIT_BODYARMOR, MekanismItems.MEKASUIT_PANTS, MekanismItems.MEKASUIT_BOOTS};
 
         for (Item stack : addModulesToAll) {
-            ModuleHelper.get().setSupported(stack, MekanismModules.ENERGY_UNIT);
-            if (Mekanism.hooks.MekanismMixinHelp) {
-                ModuleHelper.get().setSupported(stack, MekanismModules.MAGNETIC_UNIT);
-            }
+            ModuleHelper.get().setSupported(stack, MekanismModules.ENERGY_UNIT, MekanismModules.MAGNETIC_UNIT);
         }
 
         for (Item stack : addMekaSuitModules) {

@@ -1,6 +1,5 @@
 package mekanism.client.jei;
 
-import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.client.gui.*;
 import mekanism.client.gui.chemical.*;

@@ -457,11 +457,7 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
 
     @Override
     public Entity createEntity(World world, Entity location, ItemStack itemstack) {
-        EntityMeka item = new EntityMeka(world, location, itemstack);
-        if (isModuleEnabled(itemstack, MekanismModules.MAGNETIC_UNIT)) {
-            item.setNoPickupDelay();
-        }
-        return item;
+        return new EntityMeka(world, location, itemstack);
     }
 
     @Override
