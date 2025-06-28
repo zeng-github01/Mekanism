@@ -122,37 +122,29 @@ public final class FluidContainerUtils {
             }
         });
 
-        ItemStack inputCopy = handler.getContainer();
-        if (FluidUtil.getFluidContained(inputCopy) == null && !inputCopy.isEmpty()) {
-            if (!inventory.get(outSlot).isEmpty() && (!ItemHandlerHelper.canItemStacksStack(inventory.get(outSlot), inputCopy) ||
-                    inventory.get(outSlot).getCount() == inventory.get(outSlot).getMaxStackSize())) {
-                return stored;
+        if (ret == null) return stored;
+        ItemStack resultContainer = handler.getContainer();
+        if (!resultContainer.isEmpty()) {
+            ItemStack outStack = inventory.get(outSlot);
+            if (!outStack.isEmpty() && (!ItemHandlerHelper.canItemStacksStack(outStack, resultContainer) ||
+                        outStack.getCount() >= outStack.getMaxStackSize())) {
+                    return stored;
             }
         }
-
-        if (ret != null) {
-            if (stored == null) {
-                stored = ret;
-            } else {
-                stored.amount += ret.amount;
-            }
-            needed -= ret.amount;
-            tileEntity.markDirty();
-        }
-
-        if (FluidUtil.getFluidContained(inputCopy) == null || needed == 0) {
-            if (!inputCopy.isEmpty()) {
-                if (inventory.get(outSlot).isEmpty()) {
-                    inventory.set(outSlot, inputCopy);
-                } else if (ItemHandlerHelper.canItemStacksStack(inventory.get(outSlot), inputCopy)) {
-                    inventory.get(outSlot).grow(1);
-                }
-            }
-            inventory.get(inSlot).shrink(1);
-            tileEntity.markDirty();
+        if (stored == null) {
+            stored = ret;
         } else {
-            inventory.set(inSlot, inputCopy);
+            stored.amount += ret.amount;
         }
+        if (!resultContainer.isEmpty()) {
+            if (inventory.get(outSlot).isEmpty()) {
+                inventory.set(outSlot, resultContainer);
+            } else {
+                inventory.get(outSlot).grow(1);
+            }
+        }
+        inventory.get(inSlot).shrink(1);
+        tileEntity.markDirty();
         return stored;
     }
 
