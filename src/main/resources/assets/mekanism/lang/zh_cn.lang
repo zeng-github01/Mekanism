@@ -1615,10 +1615,6 @@ advancements.mekanismgenerators.wind_generator.title=大风车呀直溜溜地转
 #subtitle mekanism
 sound_event.mekanism.item.flamethrower.active=火焰喷射器：喷射
 sound_event.mekanism.item.flamethrower.idle=火焰喷射器：嘶嘶
-sound_event.mekanism.item.geiger_elevated=盖革计数器：读数升高
-sound_event.mekanism.item.geiger_fast=盖革计数器：读数不变
-sound_event.mekanism.item.geiger_medium=盖革计数器：计数
-sound_event.mekanism.item.geiger_slow=盖革计数器：缓慢计数
 sound_event.mekanism.item.gravitational_modulation_unit=重力：改变
 sound_event.mekanism.item.hydraulic=液压：换档
 sound_event.mekanism.item.jetpack=喷气背包：喷射
@@ -2168,5 +2164,7 @@ item.hazmat_boots.name=防辐射靴子
 
 death.attack.mekanism.radiation=%s 因辐射中毒死了
 death.attack.mekanism.radiation.player=%s 在试图逃离 %s 时死于辐射中毒
+death.attack.mekanism.smartattackdamage=%s 因自动范围攻击死亡
+death.attack.mekanism.smartattackdamage.player=%s 在试图逃离 %s 时被 %s 的自动范围攻击导致死亡
 
 chemical.mekanism.attribute.radiation= - 放射性：

@@ -556,5 +556,14 @@ public class GuiUtils {
         }
     }
 
+    public static void drawOutline(int x, int y, int width, int height, int color) {
+        fill( x, y, width, 1, color);
+        fill( x, y + height - 1, width, 1, color);
+        if (height > 2) {
+            fill( x, y + 1, 1, height - 2, color);
+            fill( x + width - 1, y + 1, 1, height - 2, color);
+        }
+    }
+
 
 }

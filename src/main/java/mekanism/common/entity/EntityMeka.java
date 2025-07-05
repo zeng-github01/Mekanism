@@ -25,6 +25,7 @@ public class EntityMeka extends EntityItem {
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float damage) {
+        if (this.world.isRemote || this.isDead) return false;
         return source.getDamageType().equals("outOfWorld");
     }
 

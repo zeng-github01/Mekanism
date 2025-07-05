@@ -59,8 +59,12 @@ public class Coord4D {
         this.dimensionId = dimension;
     }
 
+    public Coord4D(BlockPos pos, int world) {
+        this(pos.getX(), pos.getY(), pos.getZ(), world);
+    }
+
     public Coord4D(BlockPos pos, World world) {
-        this(pos.getX(), pos.getY(), pos.getZ(), world.provider.getDimension());
+        this(pos, world.provider.getDimension());
     }
 
     public Coord4D(RayTraceResult mop, World world) {

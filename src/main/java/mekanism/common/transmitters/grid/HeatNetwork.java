@@ -69,9 +69,9 @@ public class HeatNetwork extends DynamicNetwork<IHeatTransfer, HeatNetwork, Void
         double newHeatLost = 0;
         double newHeatTransferred = 0;
 
-        if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+        if (FMLCommonHandler.instance().getEffectiveSide() != null && FMLCommonHandler.instance().getEffectiveSide().isServer()) {
             for (IGridTransmitter<IHeatTransfer, HeatNetwork, Void> transmitter : transmitters) {
-                if (transmitter instanceof TransmitterImpl<?,?,?>  imp) {
+                if (transmitter instanceof TransmitterImpl<?, ?, ?> imp) {
                     IHeatTransfer heatTransmitter = imp.getTileEntity().getCapability(Capabilities.HEAT_TRANSFER_CAPABILITY, null);
                     if (heatTransmitter != null) {
                         double[] d = heatTransmitter.simulateHeat();

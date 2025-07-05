@@ -398,7 +398,6 @@ public class Mekanism {
             voiceManager.start();
         }
         CommandMek.register(event);
-        ModuleHelper.get().processSupportedContainers();
     }
 
     @EventHandler
@@ -420,7 +419,7 @@ public class Mekanism {
         TransporterManager.reset();
         PathfinderCache.reset();
         TransmitterNetworkRegistry.reset();
-        ModuleHelper.get().resetSupportedContainers();
+     //   ModuleHelper.get().resetSupportedContainers();
 
         RadiationManager.INSTANCE.reset();
     }
@@ -428,7 +427,6 @@ public class Mekanism {
     @EventHandler
     public void loadComplete(FMLInterModComms.IMCEvent event) {
         new IMCHandler().onIMCEvent(event.getMessages());
-
     }
 
     @EventHandler
@@ -553,6 +551,7 @@ public class Mekanism {
 
         hooks.hookInit();
         imcQueue();
+
         //Packet registrations
         packetHandler.initialize();
 
@@ -579,11 +578,12 @@ public class Mekanism {
 
     private void imcQueue() {
         Item[] addModulesToAll = {MekanismItems.MEKASUIT_HELMET, MekanismItems.MEKASUIT_BODYARMOR, MekanismItems.MEKASUIT_PANTS, MekanismItems.MEKASUIT_BOOTS, MekanismItems.MEKA_TOOL};
-        Item[] addMekaSuitModules = {MekanismItems.MEKASUIT_HELMET, MekanismItems.MEKASUIT_BODYARMOR, MekanismItems.MEKASUIT_PANTS, MekanismItems.MEKASUIT_BOOTS};
+        Item[] addMekaSuitModules = new Item[]{MekanismItems.MEKASUIT_HELMET, MekanismItems.MEKASUIT_BODYARMOR, MekanismItems.MEKASUIT_PANTS, MekanismItems.MEKASUIT_BOOTS};
 
         for (Item stack : addModulesToAll) {
             ModuleHelper.get().setSupported(stack, MekanismModules.ENERGY_UNIT, MekanismModules.MAGNETIC_UNIT);
         }
+
 
         for (Item stack : addMekaSuitModules) {
             ModuleHelper.get().setSupported(stack, /*MekanismModules.COLOR_MODULATION_UNIT,*/ MekanismModules.LASER_DISSIPATION_UNIT, MekanismModules.RADIATION_SHIELDING_UNIT);
@@ -616,7 +616,7 @@ public class Mekanism {
             SmeltingRecipe recipe = new SmeltingRecipe(new ItemStackInput(key), new ItemStackOutput(value));
             Recipe.ENERGIZED_SMELTER.put(recipe);
         });
-
+        ModuleHelper.get().processSupportedContainers();
         hooks.hookPostInit();
 
         MinecraftForge.EVENT_BUS.post(new BoxBlacklistEvent());

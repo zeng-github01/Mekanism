@@ -1650,10 +1650,6 @@ advancements.mekanismgenerators.wind_generator.title=Spin Baby Spin
 #subtitle mekanism
 sound_event.mekanism.item.flamethrower.active=Flamethrower burns
 sound_event.mekanism.item.flamethrower.idle=Flamethrower hisses
-sound_event.mekanism.item.geiger_elevated=Elevated Geiger Counter clicks
-sound_event.mekanism.item.geiger_fast=Constant Geiger Counter clicks
-sound_event.mekanism.item.geiger_medium=Geiger Counter clicks
-sound_event.mekanism.item.geiger_slow=Geiger counter clicks slowly
 sound_event.mekanism.item.gravitational_modulation_unit=Gravity modulates
 sound_event.mekanism.item.hydraulic=Hydraulic shifts
 sound_event.mekanism.item.jetpack=Jetpack burns
@@ -2194,6 +2190,8 @@ item.hazmat_boots.name=Hazmat Boots
 
 death.attack.mekanism.radiation=%s was killed by radiation poisoning.
 death.attack.mekanism.radiation.player=%s was killed by radiation poisoning whilst trying to escape %s.
+death.attack.mekanism.smartattackdamage=%s Died from an auto-area attack
+death.attack.mekanism.smartattackdamage.player=%s Killed by %s's auto-area attack while attempting to flee %s.
 
 chemical.mekanism.attribute.radiation= - Radioactivity:
 

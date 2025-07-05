@@ -9,6 +9,8 @@ import mekanism.api.gas.GasTankInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -127,4 +129,8 @@ public interface IRadiationManager {
      * @apiNote If radiation is disabled this may still return {@code true}.
      */
     boolean dumpRadiation(Coord4D coord, GasStack stack);
+
+    default void dumpRadiation(BlockPos pos, World world, GasStack stack){
+        dumpRadiation(new Coord4D(pos,world),stack);
+    }
 }

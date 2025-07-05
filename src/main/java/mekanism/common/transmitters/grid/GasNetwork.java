@@ -142,30 +142,28 @@ public class GasNetwork extends DynamicNetwork<IGasHandler, GasNetwork, GasStack
 
     @Override
     public void preTick() {
-        if (!FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-            return;
-        }
-        super.onUpdate();
+        if (FMLCommonHandler.instance().getEffectiveSide() != null && FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+            super.onUpdate();
+            prevTransferAmount = 0;
+            if (transferDelay == 0) {
+                didTransfer = false;
+            } else {
+                transferDelay--;
+            }
 
-        prevTransferAmount = 0;
-        if (transferDelay == 0) {
-            didTransfer = false;
-        } else {
-            transferDelay--;
-        }
+            int stored = buffer != null ? buffer.amount : 0;
+            if (stored != prevStored) {
+                needsUpdate = true;
+            }
 
-        int stored = buffer != null ? buffer.amount : 0;
-        if (stored != prevStored) {
-            needsUpdate = true;
-        }
+            prevStored = stored;
+            if (didTransfer != prevTransfer || needsUpdate) {
+                MinecraftForge.EVENT_BUS.post(new GasTransferEvent(this, buffer, didTransfer));
+                needsUpdate = false;
+            }
 
-        prevStored = stored;
-        if (didTransfer != prevTransfer || needsUpdate) {
-            MinecraftForge.EVENT_BUS.post(new GasTransferEvent(this, buffer, didTransfer));
-            needsUpdate = false;
+            prevTransfer = didTransfer;
         }
-
-        prevTransfer = didTransfer;
     }
 
     @Override
@@ -177,21 +175,21 @@ public class GasNetwork extends DynamicNetwork<IGasHandler, GasNetwork, GasStack
 
     @Override
     public void onUpdate() {
-        if (!FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-            return;
+        if (FMLCommonHandler.instance().getEffectiveSide() != null && FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+            if (buffer == null) {
+                return;
+            }
+            prevTransferAmount = tickEmit(buffer);
+            if (prevTransferAmount > 0) {
+                didTransfer = true;
+                transferDelay = 2;
+            }
+            buffer.amount -= prevTransferAmount;
+            if (buffer.amount <= 0) {
+                buffer = null;
+            }
         }
-        if (buffer == null) {
-            return;
-        }
-        prevTransferAmount = tickEmit(buffer);
-        if (prevTransferAmount > 0) {
-            didTransfer = true;
-            transferDelay = 2;
-        }
-        buffer.amount -= prevTransferAmount;
-        if (buffer.amount <= 0) {
-            buffer = null;
-        }
+
     }
 
     private void collectTargets(GasStack stack) {

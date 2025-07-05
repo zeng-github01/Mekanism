@@ -277,7 +277,7 @@ public abstract class DynamicNetwork<ACCEPTOR, NETWORK extends DynamicNetwork<AC
     }
 
     public void onUpdate() {
-        if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+        if (FMLCommonHandler.instance().getEffectiveSide() != null && FMLCommonHandler.instance().getEffectiveSide().isServer()) {
             Iterator<DelayQueue> i = updateQueue.iterator();
 
             try {

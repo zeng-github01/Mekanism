@@ -94,7 +94,13 @@ public class TransmitterNetworkRegistry {
 
             }
         }
-        networks.forEach(DynamicNetwork::tick);
+        // 为什么会崩溃2？
+        try {
+            networks.forEach(DynamicNetwork::tick);
+        } catch (Exception ignored) {
+
+        }
+
     }
 
     public void removeInvalidTransmitters() {

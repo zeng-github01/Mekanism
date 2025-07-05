@@ -451,6 +451,14 @@ public abstract class ItemMekaSuitArmor extends ItemArmor implements IEnergizedI
         return multimap;
     }
 
+    @Nonnull
+    @Override
+    public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
+        Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot, stack);
+        getModules(stack).forEach(module -> module.multimapModule(multimap, slot, stack));
+        return multimap;
+    }
+
 
     //TODO - 1.18: Switch this to a record
     private static class FoundArmorDetails {

@@ -1,5 +1,6 @@
 package mekanism.common.content.gear;
 
+import com.google.common.collect.Multimap;
 import mcp.MethodsReturnNonnullByDefault;
 import mekanism.api.EnumColor;
 import mekanism.api.NBTConstants;
@@ -27,7 +28,9 @@ import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.ITextComponent;
@@ -311,7 +314,6 @@ public final class Module<MODULE extends ICustomModule<MODULE>> implements IModu
     }
 
 
-
     @Nullable
     public ITextComponent getModeScrollComponent(ItemStack stack) {
         return customModule.getModeScrollComponent(this, stack);
@@ -326,7 +328,6 @@ public final class Module<MODULE extends ICustomModule<MODULE>> implements IModu
     public boolean handlesModeChange() {
         return data.handlesModeChange() && handleModeChange.get() && (isEnabled() || customModule.canChangeModeWhenDisabled(this));
     }
-
 
 
     @Override
@@ -391,12 +392,24 @@ public final class Module<MODULE extends ICustomModule<MODULE>> implements IModu
     }
 
     public void tickItem(Entity item) {
-        if (isEnabled()){
+        if (isEnabled()) {
             if (item.world.isRemote) {
                 customModule.tickEntityClient(this, item);
-            }else {
+            } else {
                 customModule.tickEntityServer(this, item);
             }
+        }
+    }
+
+    public void multimapModule(Multimap<String, AttributeModifier> multimap, EntityEquipmentSlot slot, ItemStack stack) {
+        if (isEnabled()) {
+            customModule.multimapModule(this, stack, slot, multimap);
+        }
+    }
+
+    public void hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker){
+        if (isEnabled()) {
+            customModule.hitEntity(this,stack,target,attacker);
         }
     }
 }

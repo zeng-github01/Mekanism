@@ -1,9 +1,12 @@
 package mekanism.client.newgui;
 
 import mekanism.client.gui.element.GuiUtils;
+import mekanism.client.newgui.element.window.GuiWindow;
 import mekanism.client.newgui.element.GuiElement;
+
 import mekanism.client.newgui.warning.WarningTracker.WarningType;
 import mekanism.common.Mekanism;
+import mekanism.common.inventory.container.SelectedWindowData;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderItem;
@@ -62,7 +65,7 @@ public interface IGuiWrapper {
         return 0;
     }
 
-    /*
+
     default void addWindow(GuiWindow window) {
         Mekanism.logger.error("Tried to call 'addWindow' but unsupported in {}", getClass().getName());
     }
@@ -71,7 +74,6 @@ public interface IGuiWrapper {
         Mekanism.logger.error("Tried to call 'removeWindow' but unsupported in {}", getClass().getName());
     }
 
-     */
 
     default boolean currentlyQuickCrafting() {
         return false;
@@ -121,11 +123,11 @@ public interface IGuiWrapper {
         GuiUtils.renderItem(getItemRenderer(), stack, xAxis, yAxis, scale, getFont(), text, true);
     }
 
-    /*
+
     default void setSelectedWindow(SelectedWindowData selectedWindow) {
         Mekanism.logger.error("Tried to call 'setSelectedWindow' but unsupported in {}", getClass().getName());
     }
-     */
+
 
     default void addFocusListener(GuiElement element) {
         Mekanism.logger.error("Tried to call 'addFocusListener' but unsupported in {}", getClass().getName());

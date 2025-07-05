@@ -206,7 +206,7 @@ public class ItemAtomicDisassembler extends ItemEnergized implements IItemHUDPro
             IEnergizedItem energyContainer = this;
             double energy = energyContainer == null ? 0 : energyContainer.getEnergy(stack);
             double energyCost = MekanismConfig.current().general.disassemblerEnergyUsageWeapon.val();
-            if (energy >= (energyCost)) {
+            if (energy >= energyCost) {
                 Multimap<String, AttributeModifier> builder = HashMultimap.create();
                 builder.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", MekanismConfig.current().general.disassemblerDamageMax.val(), 0));
                 builder.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", MekanismConfig.current().general.disassemblerAttackSpeed.val(), 0));

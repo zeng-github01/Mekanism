@@ -1,5 +1,6 @@
 package mekanism.api.gear;
 
+import com.google.common.collect.Multimap;
 import mekanism.api.functions.FloatSupplier;
 import mekanism.api.gear.config.ModuleConfigItemCreator;
 import mekanism.api.radial.RadialData;
@@ -9,7 +10,9 @@ import mekanism.api.text.IHasTextComponent;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
@@ -348,6 +351,13 @@ public interface ICustomModule<MODULE extends ICustomModule<MODULE>> {
 
 
     default void tickEntityClient(IModule<MODULE> module, Entity item) {
+    }
+
+
+    default void multimapModule(IModule<MODULE> module, ItemStack stack, EntityEquipmentSlot slot, Multimap<String, AttributeModifier> multimap) {
+    }
+
+    default void hitEntity(IModule<MODULE> module, ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
     }
 }
 

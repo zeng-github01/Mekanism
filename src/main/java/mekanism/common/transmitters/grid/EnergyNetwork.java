@@ -108,18 +108,16 @@ public class EnergyNetwork extends DynamicNetwork<EnergyAcceptorWrapper, EnergyN
         super.onUpdate();
         clearJoulesTransmitted();
 
-        if (!FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-            return;
-        }
-
-        double currentPowerScale = getPowerScale();
-        if (Math.abs(currentPowerScale - lastPowerScale) > 0.01 || (currentPowerScale != lastPowerScale && (currentPowerScale == 0 || currentPowerScale == 1))) {
-            needsUpdate = true;
-        }
-        if (needsUpdate) {
-            MinecraftForge.EVENT_BUS.post(new EnergyTransferEvent(this, currentPowerScale));
-            lastPowerScale = currentPowerScale;
-            needsUpdate = false;
+        if (FMLCommonHandler.instance().getEffectiveSide() != null && FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+            double currentPowerScale = getPowerScale();
+            if (Math.abs(currentPowerScale - lastPowerScale) > 0.01 || (currentPowerScale != lastPowerScale && (currentPowerScale == 0 || currentPowerScale == 1))) {
+                needsUpdate = true;
+            }
+            if (needsUpdate) {
+                MinecraftForge.EVENT_BUS.post(new EnergyTransferEvent(this, currentPowerScale));
+                lastPowerScale = currentPowerScale;
+                needsUpdate = false;
+            }
         }
     }
 
@@ -132,12 +130,11 @@ public class EnergyNetwork extends DynamicNetwork<EnergyAcceptorWrapper, EnergyN
 
     @Override
     public void onUpdate() {
-        if (!FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-            return;
-        }
-        if (buffer.amount > 0) {
-            joulesTransmitted = tickEmit(buffer.amount);
-            buffer.amount -= joulesTransmitted;
+        if (FMLCommonHandler.instance().getEffectiveSide() != null && FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+            if (buffer.amount > 0) {
+                joulesTransmitted = tickEmit(buffer.amount);
+                buffer.amount -= joulesTransmitted;
+            }
         }
     }
 

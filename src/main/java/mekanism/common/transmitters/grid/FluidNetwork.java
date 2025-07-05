@@ -127,7 +127,7 @@ public class FluidNetwork extends DynamicNetwork<IFluidHandler, FluidNetwork, Fl
     @Override
     public void preTick() {
         super.onUpdate();
-        if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+        if (FMLCommonHandler.instance().getEffectiveSide() != null && FMLCommonHandler.instance().getEffectiveSide().isServer()) {
             prevTransferAmount = 0;
             if (transferDelay == 0) {
                 didTransfer = false;
@@ -156,21 +156,20 @@ public class FluidNetwork extends DynamicNetwork<IFluidHandler, FluidNetwork, Fl
 
     @Override
     public void onUpdate() {
-        if (!FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-            return;
-        }
-        if (buffer == null) {
-            return;
-        }
-        prevTransferAmount = tickEmit(buffer);
-        if (prevTransferAmount > 0) {
-            didTransfer = true;
-            transferDelay = 2;
-        }
-        if (buffer != null) {
-            buffer.amount -= prevTransferAmount;
-            if (buffer.amount <= 0) {
-                buffer = null;
+        if (FMLCommonHandler.instance().getEffectiveSide() != null && FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+            if (buffer == null) {
+                return;
+            }
+            prevTransferAmount = tickEmit(buffer);
+            if (prevTransferAmount > 0) {
+                didTransfer = true;
+                transferDelay = 2;
+            }
+            if (buffer != null) {
+                buffer.amount -= prevTransferAmount;
+                if (buffer.amount <= 0) {
+                    buffer = null;
+                }
             }
         }
     }

@@ -57,7 +57,7 @@ public class ModuleExcavationEscalationUnit implements ICustomModule<ModuleExcav
     @Override
     public void init(IModule<ModuleExcavationEscalationUnit> module, ModuleConfigItemCreator configItemCreator) {
         excavationMode = configItemCreator.createConfigItem("excavation_mode", MekanismLang.MODULE_EFFICIENCY,
-                new ModuleEnumData<>(ExcavationMode.class, module.getInstalledCount() + 2, ExcavationMode.NORMAL));
+                new ModuleEnumData<>(ExcavationMode.NORMAL, module.getInstalledCount() + 2));
     }
 
 

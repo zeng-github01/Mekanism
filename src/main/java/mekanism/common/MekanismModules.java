@@ -60,4 +60,5 @@ public class MekanismModules {
     public static final ModuleData<ModuleMagneticAttractionUnit> MAGNETIC_ATTRACTION_UNIT = ModuleHelper.register("magnetic_attraction_unit", ModuleMagneticAttractionUnit::new, builder -> builder.maxStackSize(4).rarity(EnumRarity.RARE).handlesModeChange());
     public static final ModuleData<?> FROST_WALKER_UNIT = ModuleHelper.registerEnchantBased("frost_walker_unit", () -> Enchantments.FROST_WALKER, builder -> builder.maxStackSize(2).rarity(EnumRarity.RARE));
 
+
 }
