@@ -69,6 +69,7 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
         ejectorComponent = new TileComponentEjector(this);
         ejectorComponent.setOutputData(TransmissionType.GAS, configComponent.getOutputs(TransmissionType.GAS).get(2));
         ejectorComponent.setInputOutputData(TransmissionType.GAS, configComponent.getOutputs(TransmissionType.GAS).get(3));
+        upgradeComponent.removeSupported(Upgrade.ENERGY);
     }
 
     @Override
@@ -330,4 +331,10 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
     public boolean getOuputSlot() {
         return false;
     }
+
+    @Override
+    public boolean sideIsConsumer(EnumFacing side) {
+        return false;
+    }
+
 }

@@ -1,3 +1,4 @@
+/*
 package mekanism.common.inventory.container;
 
 import com.mojang.realmsclient.util.Pair;
@@ -26,6 +27,7 @@ public class SelectedWindowData {
     /**
      * It is expected to only call this with a piece of extra data that is valid. If it is not valid this end up treating it as zero instead.
      */
+/*
     public SelectedWindowData(@Nonnull WindowType type, byte extraData) {
         this.type = Objects.requireNonNull(type);
         this.extraData = this.type.isValid(extraData) ? extraData : 0;
@@ -50,6 +52,7 @@ public class SelectedWindowData {
     /**
      * @apiNote Only call this on the client.
      */
+/*
     public void updateLastPosition(int x, int y) {
         String saveName = type.getSaveName(extraData);
         if (saveName != null) {
@@ -70,6 +73,7 @@ public class SelectedWindowData {
     /**
      * @apiNote Only call this on the client.
      */
+/*
     public Pair<Integer, Integer> getLastPosition() {
         String saveName = type.getSaveName(extraData);
         if (saveName != null) {
@@ -94,6 +98,7 @@ public class SelectedWindowData {
         /**
          * For use by windows that don't actually have any server side specific logic required, or don't persist their position.
          */
+/*
         UNSPECIFIED(null);
 
         @Nullable
@@ -133,3 +138,4 @@ public class SelectedWindowData {
     }
 
 }
+ */

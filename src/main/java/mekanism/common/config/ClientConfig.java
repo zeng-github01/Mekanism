@@ -1,15 +1,11 @@
 package mekanism.common.config;
 
-import com.mojang.realmsclient.util.Pair;
+
 import io.netty.buffer.ByteBuf;
 import mekanism.common.config.options.BooleanOption;
 import mekanism.common.config.options.DoubleOption;
 import mekanism.common.config.options.FloatOption;
 import mekanism.common.config.options.IntOption;
-import mekanism.common.inventory.container.SelectedWindowData;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Thiakil on 15/03/2019.
@@ -95,21 +91,6 @@ public class ClientConfig extends BaseConfig {
     public final IntOption radiationParticleCount = new IntOption(this, "client", "radiationParticleCount", 100, "How many particles spawn when rendering radiation effects (scaled by radiation level).");
 
     public final IntOption radiationParticleRadius = new IntOption(this, "client", "radiationParticleRadius", 30, "How far (in blocks) from the player radiation particles can spawn.");
-
-    public final Map<String, Pair<IntOption, IntOption>> lastWindowPositions = create();
-
-    public Map<String, Pair<IntOption, IntOption>> create() {
-        Map<String, Pair<IntOption, IntOption>> map = new HashMap<>();
-        for (SelectedWindowData.WindowType windowType : SelectedWindowData.WindowType.values()) {
-            for (String savePath : windowType.getSavePaths()) {
-                map.put(savePath, Pair.of(
-                        new IntOption(this, "client", "x"),
-                        new IntOption(this, "client", "y")
-                ));
-            }
-        }
-        return map;
-    }
 
 
     @Override

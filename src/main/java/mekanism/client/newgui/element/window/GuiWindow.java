@@ -1,3 +1,4 @@
+/*
 package mekanism.client.newgui.element.window;
 
 import com.mojang.realmsclient.util.Pair;
@@ -228,6 +229,7 @@ public class GuiWindow extends GuiTexturedElement {
     /**
      * @apiNote Only used if not a {@link #isFocusOverlay()}
      */
+/*
     protected int getTitlePadStart() {
         return 12;
     }
@@ -235,6 +237,7 @@ public class GuiWindow extends GuiTexturedElement {
     /**
      * @apiNote Only used if not a {@link #isFocusOverlay()}
      */
+/*
     protected int getTitlePadEnd() {
         return 0;
     }
@@ -253,3 +256,5 @@ public class GuiWindow extends GuiTexturedElement {
         }
     }
 }
+
+*/

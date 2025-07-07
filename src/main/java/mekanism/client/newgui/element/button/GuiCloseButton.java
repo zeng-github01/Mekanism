@@ -1,3 +1,4 @@
+/*
 package mekanism.client.newgui.element.button;
 
 import mekanism.client.newgui.element.window.GuiWindow;
@@ -23,3 +24,5 @@ public class GuiCloseButton extends MekanismImageButton {
         return false;
     }
 }
+
+ */
