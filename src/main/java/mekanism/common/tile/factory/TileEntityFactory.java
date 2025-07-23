@@ -60,7 +60,7 @@ import static mekanism.common.tile.machine.TileEntityChemicalWasher.WATER_USAGE;
 
 //TODO:过于重复，待更改
 public class TileEntityFactory extends TileEntityMachine implements IComputerIntegration, ISideConfiguration, IGasHandler, ISpecialConfigData, ITierUpgradeable,
-        ISustainedData, IComparatorSupport, ITankManager, IFluidHandlerWrapper,IMachineSlotTip {
+        ISustainedData, IComparatorSupport, ITankManager, IFluidHandlerWrapper, IMachineSlotTip {
     private static final String[] methods = new String[]{"getEnergy", "getProgress", "facing", "canOperate", "getMaxEnergy", "getEnergyNeeded"};
     /**
      * How long it takes this factory to switch recipe types.
@@ -1395,6 +1395,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     @Override
     public GasTankInfo[] getTankInfo() {
         return switch (recipeType) {
+            case NUCLEOSYNTHESIZER -> new GasTankInfo[]{gasTank};
             case Dissolution, WASHER, PRC -> new GasTankInfo[]{gasTank, gasOutTank};
             case OXIDIZER -> new GasTankInfo[]{gasOutTank};
             default -> IGasHandler.NONE;

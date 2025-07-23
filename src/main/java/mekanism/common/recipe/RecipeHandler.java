@@ -840,6 +840,8 @@ public final class RecipeHandler {
                     toCheck = pressurizedInput.getGas().getGas();
                 } else if (entry.getKey() instanceof CompositeInput compositeInput) {
                     toCheck = compositeInput.gasInput.getGas();
+                }else if (entry.getKey() instanceof NucleosynthesizerInput nucleosynthesizerInput){
+                    toCheck = nucleosynthesizerInput.getGas().getGas();
                 }
                 if (toCheck == input) {
                     return true;
