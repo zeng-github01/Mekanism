@@ -11,7 +11,7 @@ public interface ITileRadioactive {
         if (MekanismAPI.getRadiationManager().isRadiationEnabled() && tanks != IGasHandler.NONE) {
             float summedScale = 0;
             for (GasTankInfo tank : tanks) {
-                if (tank.getGas() != null && tank.getGas().getGas() != null && tank.getGas().getGas().isRadiation()) {
+                if (tank != null && tank.getGas() != null && tank.getGas().getGas() != null && tank.getGas().getGas().isRadiation()) {
                     //TODO: Eventually we may want to debate doing this based on the radioactivity
                     // but for now this will work well
                     summedScale += tank.getStored() / (float) tank.getMaxGas();

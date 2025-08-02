@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 
-import javax.annotation.Nonnull;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
@@ -22,8 +21,8 @@ public class GuiElementHolder extends GuiScalableElement {
     }
 
     @Override
-    public void renderButton( int mouseX, int mouseY, float partialTicks) {
-        renderBackgroundTexture( getResource(), sideWidth, sideHeight);
+    public void renderButton(int mouseX, int mouseY, float partialTicks) {
+        renderBackgroundTexture(getResource(), sideWidth, sideHeight);
     }
 
     @Override

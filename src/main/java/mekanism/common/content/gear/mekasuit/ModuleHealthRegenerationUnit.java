@@ -14,7 +14,8 @@ public class ModuleHealthRegenerationUnit implements ICustomModule<ModuleHealthR
     @Override
     public void tickServer(IModule<ModuleHealthRegenerationUnit> module, EntityPlayer player) {
         if (player.getHealth() < player.getMaxHealth() && module.hasEnoughEnergy(MekanismConfig.current().meka.mekaEnergyUsageHealthRegeneration.val())) {
-            player.heal(module.getInstalledCount());
+            float health = ((float) module.getInstalledCount() / module.getData().getMaxStackSize()) * player.getMaxHealth();
+            player.heal(health);
             module.useEnergy(player, MekanismConfig.current().meka.mekaEnergyUsageHealthRegeneration.val());
         }
     }

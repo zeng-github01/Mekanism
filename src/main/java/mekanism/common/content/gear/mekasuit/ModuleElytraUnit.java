@@ -7,7 +7,6 @@ import mekanism.common.MekanismModules;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-;
 
 @ParametersAreNotNullByDefault
 public class ModuleElytraUnit implements ICustomModule<ModuleElytraUnit> {
