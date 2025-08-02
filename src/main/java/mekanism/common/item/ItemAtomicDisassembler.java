@@ -102,7 +102,7 @@ public class ItemAtomicDisassembler extends ItemEnergized implements IItemHUDPro
         }
         double energyRequired = getDestroyEnergy(stack, state.getBlock().blockHardness);
         double energyAvailable = energyContainer.extract(stack, energyRequired, false);
-        if (energyAvailable > energyRequired) {
+        if (energyAvailable < energyRequired) {
             return DisassemblerMode.NORMAL.getEfficiency() * (float) (energyAvailable / energyRequired);
         }
         return getMode(stack).getEfficiency();
