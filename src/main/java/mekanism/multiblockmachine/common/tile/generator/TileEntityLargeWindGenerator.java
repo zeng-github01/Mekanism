@@ -18,12 +18,16 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -34,6 +38,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Map;
 
 public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator implements IAdvancedBoundingBlock, IMachineSlotTip {
 
@@ -114,18 +119,33 @@ public class TileEntityLargeWindGenerator extends TileEntityMultiblockGenerator 
     }
 
     private void RangeStops() {
-        //If there is a large wind turbine within a radius of 50 tiles, the machine will stop working
-        //It shouldn't happen
-        BlockPos.MutableBlockPos testPos = new BlockPos.MutableBlockPos();
-        for (int yPos = 0; yPos <= 50; yPos++) {
-            for (int xPos = -50; xPos <= 50; xPos++) {
-                for (int zPos = -50; zPos <= 50; zPos++) {
-                    if (yPos == 0 && xPos == 0 && zPos == 0) {
-                        break;
-                    }
-                    testPos.setPos(getPos().getX() + xPos, getPos().getY() + yPos, getPos().getZ() + zPos);
-                    if (getWorld().getTileEntity(testPos) instanceof TileEntityLargeWindGenerator) {
-                        machineStop2 = true;
+        if (machineStop2) {
+            return;
+        }
+
+        World world = getWorld();
+        BlockPos currentPos = getPos();
+        ChunkPos currentChunk = new ChunkPos(currentPos);
+
+        for (int chunkX = currentChunk.x - 1; chunkX <= currentChunk.x + 1; chunkX++) {
+            for (int chunkZ = currentChunk.z - 1; chunkZ <= currentChunk.z + 1; chunkZ++) {
+
+                Chunk chunk = world.getChunkProvider().getLoadedChunk(chunkX, chunkZ);
+                if (chunk == null) {
+                    continue;
+                }
+
+                Map<BlockPos, TileEntity> tileEntityMap = chunk.getTileEntityMap();
+
+                for (TileEntity tileEntity : tileEntityMap.values()) {
+                    if (tileEntity instanceof TileEntityLargeWindGenerator && tileEntity != this) {
+                        BlockPos tilePos = tileEntity.getPos();
+
+                        double distanceSquared = currentPos.distanceSq(tilePos);
+                        if (distanceSquared <= 50.0 * 50.0) {
+                            machineStop2 = true;
+                            return;
+                        }
                     }
                 }
             }
