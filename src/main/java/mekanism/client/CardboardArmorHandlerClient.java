@@ -53,38 +53,7 @@ public class CardboardArmorHandlerClient {
                 renderPlayer.getMainModel().bipedLeftArm.isHidden = !showModel;
                 renderPlayer.getMainModel().bipedRightLeg.isHidden = !showModel;
                 renderPlayer.getMainModel().bipedLeftLeg.isHidden = !showModel;
-                ;
-            } else {
-                renderPlayer.getMainModel().bipedLeftArmwear.showModel = !showModel;
-                renderPlayer.getMainModel().bipedRightArmwear.showModel = !showModel;
-                renderPlayer.getMainModel().bipedLeftLegwear.showModel = !showModel;
-                renderPlayer.getMainModel().bipedRightLegwear.showModel = !showModel;
-                renderPlayer.getMainModel().bipedBodyWear.showModel = !showModel;
-
-                renderPlayer.getMainModel().bipedLeftArmwear.isHidden = showModel;
-                renderPlayer.getMainModel().bipedRightArmwear.isHidden = showModel;
-                renderPlayer.getMainModel().bipedLeftLegwear.isHidden = showModel;
-                renderPlayer.getMainModel().bipedRightLegwear.isHidden = showModel;
-                renderPlayer.getMainModel().bipedBodyWear.isHidden = showModel;
-
-                renderPlayer.getMainModel().bipedHead.showModel = !showModel;
-                renderPlayer.getMainModel().bipedHeadwear.showModel = !showModel;
-                renderPlayer.getMainModel().bipedBody.showModel = !showModel;
-                renderPlayer.getMainModel().bipedRightArm.showModel = !showModel;
-                renderPlayer.getMainModel().bipedLeftArm.showModel = !showModel;
-                renderPlayer.getMainModel().bipedRightLeg.showModel = !showModel;
-                renderPlayer.getMainModel().bipedLeftLeg.showModel = !showModel;
-
-                renderPlayer.getMainModel().bipedHead.isHidden = showModel;
-                renderPlayer.getMainModel().bipedHeadwear.isHidden = showModel;
-                renderPlayer.getMainModel().bipedBody.isHidden = showModel;
-                renderPlayer.getMainModel().bipedRightArm.isHidden = showModel;
-                renderPlayer.getMainModel().bipedLeftArm.isHidden = showModel;
-                renderPlayer.getMainModel().bipedRightLeg.isHidden = showModel;
-                renderPlayer.getMainModel().bipedLeftLeg.isHidden = showModel;
             }
-
-
         }
     }
 }

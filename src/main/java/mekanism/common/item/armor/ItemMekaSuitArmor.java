@@ -203,7 +203,12 @@ public abstract class ItemMekaSuitArmor extends ItemArmor implements IEnergizedI
                 gasItem.setGas(FullStack, new GasStack(MekanismFluids.Hydrogen, gasItem.getMaxGas(FullStack)));
             }
         }
+        addALLItemStack(FullStack);
         items.add(FullStack);
+    }
+
+    public void addALLItemStack(ItemStack stack){
+
     }
 
     @Override
@@ -520,6 +525,7 @@ public abstract class ItemMekaSuitArmor extends ItemArmor implements IEnergizedI
     }
 
 
+    //TODO
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
         return new ItemCapabilityWrapper(stack, new TeslaItemWrapper(), new ForgeEnergyItemWrapper(),

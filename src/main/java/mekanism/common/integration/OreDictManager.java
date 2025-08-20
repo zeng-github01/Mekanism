@@ -16,6 +16,7 @@ import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.util.StackUtils;
 import mekanism.common.world.DummyWorld;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -434,8 +435,10 @@ public final class OreDictManager {
         final DummyWorld finalDummyWorld = dummyWorld;
         OreDictionary.getOres("logWood", false).parallelStream().forEach(logEntry -> {
             if (logEntry.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
-                IntStream.range(0, 16).parallel()
-                        .forEach(j -> addSawmillLog(tempCrafting, new ItemStack(logEntry.getItem(), 1, j), finalDummyWorld));
+                NonNullList<ItemStack> logVariants = NonNullList.create();
+                Block logBlock = Block.getBlockFromItem(logEntry.getItem());
+                logBlock.getSubBlocks(logBlock.getCreativeTab(), logVariants);
+                logVariants.forEach(stack -> addSawmillLog(tempCrafting,StackUtils.size(stack, 1), finalDummyWorld));
             } else {
                 addSawmillLog(tempCrafting, StackUtils.size(logEntry, 1), finalDummyWorld);
             }
