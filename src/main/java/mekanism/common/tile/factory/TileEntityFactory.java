@@ -1394,13 +1394,14 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     @Nonnull
     @Override
     public GasTankInfo[] getTankInfo() {
-        return switch (recipeType) {
-            case NUCLEOSYNTHESIZER -> new GasTankInfo[]{gasTank};
-            case Dissolution, WASHER, PRC -> new GasTankInfo[]{gasTank, gasOutTank};
-            case OXIDIZER -> new GasTankInfo[]{gasOutTank};
-            default -> IGasHandler.NONE;
-        };
-
+        if (recipeType.getCanInputGas() && recipeType.getCanOuputGas()){
+            return new GasTankInfo[]{gasTank, gasOutTank};
+        }else if (recipeType.getCanInputGas()){
+            return new GasTankInfo[]{gasTank};
+        }else if (recipeType.getCanOuputGas()){
+            return new GasTankInfo[]{gasOutTank};
+        }
+        return  IGasHandler.NONE;
     }
 
     @Override

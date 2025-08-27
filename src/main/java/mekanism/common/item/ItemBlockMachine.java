@@ -43,6 +43,7 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -816,6 +817,11 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
                 displayChange.sendMessage(player, () -> new TextComponentGroup().translation("mekanism.tooltip.portableTank.bucketMode", LangUtils.onOffColoured(newState)));
             }
         }
+    }
+
+    @Override
+    public boolean supportsSlotType(ItemStack stack, @Nonnull EntityEquipmentSlot slotType) {
+        return IModeItem.super.supportsSlotType(stack, slotType) && MachineType.get(stack) == MachineType.FLUID_TANK;
     }
 
     @Nonnull

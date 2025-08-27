@@ -14,13 +14,9 @@ public class ScrollIncrementer {
         this.discrete = discrete;
     }
 
-    private long getTime() {
-        World level = Minecraft.getMinecraft().world;
-        return level == null ? -1 : level.getTotalWorldTime();
-    }
 
     public int scroll(double delta) {
-        long time = getTime();
+        long time = Minecraft.getMinecraft().ingameGUI.getUpdateCounter();
         if (time - lastScrollTime > 20) {
             scrollDelta = 0;
         }
@@ -34,7 +30,7 @@ public class ScrollIncrementer {
         return shift;
     }
 
-    public static int clamp(int pValue, int pMin, int pMax) {
-        return Math.min(Math.max(pValue, pMin), pMax);
+    public int clamp(int value, int min, int max) {
+        return Math.min(Math.max(value, min), max);
     }
 }

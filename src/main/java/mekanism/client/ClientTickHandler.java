@@ -289,21 +289,19 @@ public class ClientTickHandler {
 
     @SubscribeEvent
     public void onMouseEvent(MouseEvent event) {
-        if (minecraft.player != null && minecraft.player.isSneaking()) {
-            if (MekanismConfig.current().client.allowModeScroll.val()) {
-                handleModeScroll(event, Mouse.getEventDWheel());
+        if (MekanismConfig.current().client.allowModeScroll.val() && minecraft.player != null && minecraft.player.isSneaking()) {
+            double delta = event.getDwheel();
+            if (delta != 0 && IModeItem.isModeItem(minecraft.player, EntityEquipmentSlot.MAINHAND)) {
+                int shift = scrollIncrementer.scroll(delta);
+                if (shift != 0) {
+                    MekanismStatusOverlay.INSTANCE.setTimer();
+                    Mekanism.packetHandler.sendToServer(new ModeChangMessage(EntityEquipmentSlot.MAINHAND, shift));
+                }
+                event.setCanceled(true);
             }
         }
     }
 
-    private void handleModeScroll(Event event, double delta) {
-        if (delta != 0 && IModeItem.isModeItem(minecraft.player, EntityEquipmentSlot.MAINHAND)) {
-            int shift = scrollIncrementer.scroll(delta);
-            MekanismStatusOverlay.INSTANCE.setTimer();
-            Mekanism.packetHandler.sendToServer(new ModeChangMessage(EntityEquipmentSlot.MAINHAND, shift));
-            event.setCanceled(true);
-        }
-    }
 
     @SubscribeEvent
     public void onFogLighting(EntityViewRenderEvent.FogColors event) {
