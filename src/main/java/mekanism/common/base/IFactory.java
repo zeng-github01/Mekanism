@@ -475,7 +475,7 @@ public interface IFactory {
         }
 
         public boolean supportsGas() {
-            return fuelType == MachineFuelType.ADVANCED || this == Dissolution || this == Crystallizer || this == PRC || this == WASHER || fuelType == MachineFuelType.FARM || this == NUCLEOSYNTHESIZER;
+            return getCanInputGas() || getCanOuputGas();
         }
 
         public boolean getCanInputItem() {

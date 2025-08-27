@@ -606,7 +606,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
 
     public boolean GasMachine() {
-        return recipeType.getCanInputGas() || recipeType.getCanOuputGas();
+        return recipeType.supportsGas();
     }
 
     public boolean inputFluidMachine() {
