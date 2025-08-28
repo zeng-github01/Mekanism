@@ -2,6 +2,7 @@ package mekanism.common.tile.machine;
 
 import io.netty.buffer.ByteBuf;
 import mekanism.api.Coord4D;
+import mekanism.api.IConfigCardAccess;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
@@ -9,20 +10,21 @@ import mekanism.common.Mekanism;
 import mekanism.common.SideData;
 import mekanism.common.Upgrade;
 import mekanism.common.Upgrade.IUpgradeInfoHandler;
-import mekanism.common.base.IBoundingBlock;
-import mekanism.common.base.ISustainedData;
-import mekanism.common.base.ITankManager;
-import mekanism.common.block.states.BlockStateMachine;
+import mekanism.common.base.*;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.config.MekanismConfig;
+import mekanism.common.integration.computer.IComputerIntegration;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.GasInput;
 import mekanism.common.recipe.machines.SolarNeutronRecipe;
 import mekanism.common.recipe.outputs.GasOutput;
+import mekanism.common.security.ISecurityTile;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
+import mekanism.common.tile.component.TileComponentSecurity;
+import mekanism.common.tile.component.TileComponentUpgrade;
 import mekanism.common.tile.component.config.DataType;
-import mekanism.common.tile.prefab.TileEntityBasicMachine;
+import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.util.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -36,21 +38,40 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
-public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasInput, GasOutput, SolarNeutronRecipe> implements IBoundingBlock, IGasHandler, ISustainedData, ITankManager, IUpgradeInfoHandler {
+public class TileEntitySolarNeutronActivator extends TileEntityContainerBlock implements IUpgradeTile, IRedstoneControl, ISecurityTile, IElectricMachine<GasInput, GasOutput, SolarNeutronRecipe>, IComputerIntegration, ISideConfiguration, IConfigCardAccess,
+        IMachineSlotTip, IBoundingBlock, IGasHandler, ISustainedData, ITankManager, IUpgradeInfoHandler, IComparatorSupport, IActiveState {
 
     public static final int MAX_GAS = 10000;
-
     public GasTank inputTank = new GasTank(MAX_GAS);
     public GasTank outputTank = new GasTank(MAX_GAS);
     private SolarNeutronRecipe cachedRecipe;
     private int currentRedstoneLevel;
     private boolean isActive;
+    private long lastActive = -1;
     private boolean needsRainCheck;
+    public TileComponentEjector ejectorComponent;
+    public TileComponentConfig configComponent;
+    public int operatingTicks;
+
+    public int BASE_TICKS_REQUIRED;
+
+    public int ticksRequired;
+    private final int RECENT_THRESHOLD = 100;
+    public TileComponentUpgrade upgradeComponent;
+    public TileComponentSecurity securityComponent = new TileComponentSecurity(this);
+    private RedstoneControl controlType = RedstoneControl.DISABLED;
 
     public TileEntitySolarNeutronActivator() {
-        super("SolarNeutronActivator", BlockStateMachine.MachineType.SOLAR_NEUTRON_ACTIVATOR, 2, 1);
+        this(1);
+    }
 
+    public TileEntitySolarNeutronActivator(int baseTicksRequired) {
+        super("SolarNeutronActivator");
+        ticksRequired = BASE_TICKS_REQUIRED = baseTicksRequired;
+        upgradeComponent = new TileComponentUpgrade(this, 2);
+        upgradeComponent.setSupported(Upgrade.ENERGY, false);
         configComponent = new TileComponentConfig(this, TransmissionType.ITEM, TransmissionType.GAS);
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.NONE, InventoryUtils.EMPTY));
         configComponent.addOutput(TransmissionType.ITEM, new SideData(DataType.INPUT, new int[]{0}));
@@ -69,7 +90,6 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
         ejectorComponent = new TileComponentEjector(this);
         ejectorComponent.setOutputData(TransmissionType.GAS, configComponent.getOutputs(TransmissionType.GAS).get(2));
         ejectorComponent.setInputOutputData(TransmissionType.GAS, configComponent.getOutputs(TransmissionType.GAS).get(3));
-        upgradeComponent.removeSupported(Upgrade.ENERGY);
     }
 
     @Override
@@ -77,6 +97,18 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
         super.validate();
         // Cache the flag to know if rain matters where this block is placed
         needsRainCheck = world.provider.getBiomeForCoords(getPos()).canRain();
+    }
+
+    @Override
+    public void onUpdateClient() {
+        super.onUpdateClient();
+        if (!isActive && lastActive > 0) {
+            long updateDiff = world.getTotalWorldTime() - lastActive;
+            if (updateDiff > RECENT_THRESHOLD) {
+                MekanismUtils.updateBlock(world, getPos());
+                lastActive = -1;
+            }
+        }
     }
 
     @Override
@@ -153,7 +185,23 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
     public void handlePacketData(ByteBuf dataStream) {
         super.handlePacketData(dataStream);
         if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-            isActive = dataStream.readBoolean();
+            boolean newActive = dataStream.readBoolean();
+            boolean stateChange = newActive != isActive;
+            isActive = newActive;
+            if (stateChange && !isActive) {
+                // Switched off; note the time
+                lastActive = world.getTotalWorldTime();
+            } else if (stateChange && isActive) {
+                // Switching on; if lastActive is not currently set, trigger a lighting update
+                // and make sure lastActive is clear
+                if (lastActive == -1) {
+                    MekanismUtils.updateBlock(world, getPos());
+                }
+                lastActive = -1;
+            }
+            controlType = RedstoneControl.values()[dataStream.readInt()];
+            operatingTicks = dataStream.readInt();
+            ticksRequired = dataStream.readInt();
             TileUtils.readTankData(dataStream, inputTank);
             TileUtils.readTankData(dataStream, outputTank);
         }
@@ -163,6 +211,9 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
     public TileNetworkList getNetworkedData(TileNetworkList data) {
         super.getNetworkedData(data);
         data.add(isActive);
+        data.add(controlType.ordinal());
+        data.add(operatingTicks);
+        data.add(ticksRequired);
         TileUtils.addTankData(data, inputTank);
         TileUtils.addTankData(data, outputTank);
         return data;
@@ -172,6 +223,8 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
     public void readCustomNBT(NBTTagCompound nbtTags) {
         super.readCustomNBT(nbtTags);
         isActive = nbtTags.getBoolean("isActive");
+        controlType = RedstoneControl.values()[nbtTags.getInteger("controlType")];
+        operatingTicks = nbtTags.getInteger("operatingTicks");
         inputTank.read(nbtTags.getCompoundTag("inputTank"));
         outputTank.read(nbtTags.getCompoundTag("outputTank"));
     }
@@ -181,6 +234,8 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
     public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
         nbtTags.setBoolean("isActive", isActive);
+        nbtTags.setInteger("controlType", controlType.ordinal());
+        nbtTags.setInteger("operatingTicks", operatingTicks);
         nbtTags.setTag("inputTank", inputTank.write(new NBTTagCompound()));
         nbtTags.setTag("outputTank", outputTank.write(new NBTTagCompound()));
     }
@@ -239,7 +294,7 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
         if (isCapabilityDisabled(capability, side)) {
             return false;
         }
-        return capability == Capabilities.GAS_HANDLER_CAPABILITY || super.hasCapability(capability, side);
+        return capability == Capabilities.GAS_HANDLER_CAPABILITY || capability == Capabilities.CONFIG_CARD_CAPABILITY || super.hasCapability(capability, side);
     }
 
     @Override
@@ -248,9 +303,18 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
             return null;
         } else if (capability == Capabilities.GAS_HANDLER_CAPABILITY) {
             return Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
+        } else if (capability == Capabilities.CONFIG_CARD_CAPABILITY) {
+            return Capabilities.CONFIG_CARD_CAPABILITY.cast(this);
         }
         return super.getCapability(capability, side);
     }
+
+
+    @Override
+    public boolean isCapabilityDisabled(@Nonnull Capability<?> capability, EnumFacing side) {
+        return configComponent.isCapabilityDisabled(capability, side, facing) || super.isCapabilityDisabled(capability, side);
+    }
+
 
     @Override
     public void writeSustainedData(ItemStack itemStack) {
@@ -266,6 +330,11 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
     public void readSustainedData(ItemStack itemStack) {
         inputTank.setGas(GasStack.readFromNBT(ItemDataUtils.getCompound(itemStack, "inputTank")));
         outputTank.setGas(GasStack.readFromNBT(ItemDataUtils.getCompound(itemStack, "outputTank")));
+    }
+
+    @Override
+    public boolean canSetFacing(@Nonnull EnumFacing facing) {
+        return facing != EnumFacing.DOWN && facing != EnumFacing.UP;
     }
 
 
@@ -302,6 +371,12 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
         return stack.getItem() instanceof IGasItem;
     }
 
+    @Nonnull
+    @Override
+    public int[] getSlotsForFace(@Nonnull EnumFacing side) {
+        return configComponent.getOutput(TransmissionType.ITEM, side, facing).availableSlots;
+    }
+
     @Override
     public int getRedstoneLevel() {
         return MekanismUtils.redstoneLevelFromContents(inputTank.getStored(), inputTank.getMaxGas());
@@ -333,8 +408,70 @@ public class TileEntitySolarNeutronActivator extends TileEntityBasicMachine<GasI
     }
 
     @Override
-    public boolean sideIsConsumer(EnumFacing side) {
+    public TileComponentConfig getConfig() {
+        return configComponent;
+    }
+
+    @Override
+    public EnumFacing getOrientation() {
+        return facing;
+    }
+
+    @Override
+    public TileComponentEjector getEjector() {
+        return ejectorComponent;
+    }
+
+    public void MultipleActions(SolarNeutronRecipe recipe) {
+        MultipleActions(recipe, ticksRequired);
+    }
+
+    @Override
+    public RedstoneControl getControlType() {
+        return controlType;
+    }
+
+    @Override
+    public void setControlType(RedstoneControl type) {
+        controlType = Objects.requireNonNull(type);
+        MekanismUtils.saveChunk(this);
+    }
+
+    @Override
+    public boolean canPulse() {
         return false;
     }
+
+    @Override
+    public TileComponentUpgrade getComponent() {
+        return upgradeComponent;
+    }
+
+    @Override
+    public TileComponentSecurity getSecurity() {
+        return securityComponent;
+    }
+
+    @Override
+    public boolean getActive() {
+        return isActive;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        boolean stateChange = isActive != active;
+        if (stateChange) {
+            isActive = active;
+            Mekanism.packetHandler.sendUpdatePacket(this);
+        }
+    }
+
+    @Override
+    public boolean wasActiveRecently() {
+        // If the machine is currently active or it flipped off within our threshold,
+        // we'll consider it recently active.
+        return isActive || (lastActive > 0 && (world.getTotalWorldTime() - lastActive) < RECENT_THRESHOLD);
+    }
+
 
 }

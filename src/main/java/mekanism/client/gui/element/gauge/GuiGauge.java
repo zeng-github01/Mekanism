@@ -18,6 +18,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public abstract class GuiGauge<T> extends GuiElement {
 
@@ -50,6 +53,11 @@ public abstract class GuiGauge<T> extends GuiElement {
     public abstract TextureAtlasSprite getIcon();
 
     public abstract String getTooltipText();
+
+    public List<String> getTooltipTexts() {
+        return new ArrayList<>();
+    }
+
 
     protected void applyRenderColor() {
     }
@@ -133,12 +141,17 @@ public abstract class GuiGauge<T> extends GuiElement {
                     }
                 }
             } else {
-                guiObj.displayTooltip(getTooltipText(), xAxis, yAxis);
+                if (getTooltipText() != null && !getTooltipText().isEmpty()) {
+                    guiObj.displayTooltip(getTooltipText(), xAxis, yAxis);
+                }
+                if (getTooltipTexts() != null && !getTooltipTexts().isEmpty()) {
+                    guiObj.displayTooltips(getTooltipTexts(), xAxis, yAxis);
+                }
             }
         }
     }
 
-    public GuiGauge withColor(TypeColor color) {
+    public GuiGauge<T> withColor(TypeColor color) {
         this.typecolor = color;
         return this;
     }

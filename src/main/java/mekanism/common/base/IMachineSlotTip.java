@@ -11,5 +11,5 @@ public interface IMachineSlotTip {
 
     default boolean getExtraSlot(){
         return false;
-    };
+    }
 }

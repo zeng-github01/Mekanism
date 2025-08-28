@@ -1,16 +1,21 @@
 package mekanism.client.gui.element.gauge;
 
+import mekanism.api.EnumColor;
 import mekanism.api.gas.Gas;
+import mekanism.api.gas.GasStack;
 import mekanism.api.gas.GasTank;
 import mekanism.api.math.MathUtils;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.client.gui.IGuiWrapper;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.util.LangUtils;
+import mekanism.common.util.UnitDisplayUtils;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiGasGauge extends GuiTankGauge<Gas, GasTank> {
@@ -53,11 +58,26 @@ public class GuiGasGauge extends GuiTankGauge<Gas, GasTank> {
 
     @Override
     public String getTooltipText() {
+      return "";
+    }
+
+    @Override
+    public List<String> getTooltipTexts(){
+        List<String> list = super.getTooltipTexts();
         if (dummy) {
-            return dummyType.getLocalizedName();
+            list.add(dummyType.getLocalizedName());
+        }else {
+            GasStack stack = infoHandler.getTank().getGas();
+            if (stack != null){
+                list.add(stack.getGas().getLocalizedName() + ": " + infoHandler.getTank().getStored());
+                if (stack.getGas().isRadiation()){
+                    list.add(EnumColor.GREY + LangUtils.localize("chemical.mekanism.attribute.radiation") + EnumColor.INDIGO + UnitDisplayUtils.getDisplayShort(stack.getGas().getRadioactivity(), UnitDisplayUtils.RadiationUnit.SVH, 2));
+                }
+            }else {
+                list.add(LangUtils.localize("gui.empty"));
+            }
         }
-        return (infoHandler.getTank().getGas() != null) ? infoHandler.getTank().getGas().getGas().getLocalizedName() + ": " + infoHandler.getTank().getStored()
-                : LangUtils.localize("gui.empty");
+        return list;
     }
 
     @Override

@@ -1,26 +1,23 @@
 package mekanism.client.gui.button;
 
+import com.blakebr0.cucumber.lib.Pos3d;
 import mekanism.api.EnumColor;
 import mekanism.api.RelativeSide;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.MekanismBlocks;
 import mekanism.common.SideData;
-import mekanism.common.block.states.BlockStateTransmitter.TransmitterType;
-import mekanism.common.tile.TileEntityGlowPanel;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.prefab.TileEntityBasicBlock;
-import mekanism.common.tile.transmitter.TileEntitySidedPipe;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -37,7 +34,6 @@ public class GuiSideDataButton extends GuiButton {
     private final int slotPosMapIndex;
 
     private final ItemStack otherBlockItem;
-    protected RenderItem itemRender;
 
     public GuiSideDataButton(int id, int x, int y, int slotPosMapIndex, Supplier<SideData> sideDataSupplier, Supplier<EnumColor> colorSupplier, TileEntityBasicBlock tile, RelativeSide side) {
         super(id, x, y, 22, 22, "");
@@ -49,29 +45,10 @@ public class GuiSideDataButton extends GuiButton {
             EnumFacing globalSide = side.getDirection(tile.facing);
             BlockPos otherBlockPos = tile.getPos().offset(globalSide);
             IBlockState blockOnSide = tileWorld.getBlockState(otherBlockPos);
+            RayTraceResult target = new RayTraceResult(new Pos3d(tile), globalSide, otherBlockPos);
             if (blockOnSide.getBlock() != Blocks.AIR) {
                 if (blockOnSide.getBlock() != MekanismBlocks.BoundingBlock) {
-                    otherBlockItem = blockOnSide.getBlock().getItem(tileWorld, otherBlockPos, blockOnSide);
-                    NBTTagCompound tag = new NBTTagCompound();
-                    if (tileWorld.getTileEntity(otherBlockPos) instanceof TileEntityBasicBlock BasicBlock) {
-                        BasicBlock.writeToNBT(tag);
-                    }
-                    if (tileWorld.getTileEntity(otherBlockPos) instanceof TileEntitySidedPipe sidedPipe){
-                        for (TransmitterType type : TransmitterType.values()) {
-                            if (type.getTransmission().equals(sidedPipe.getTransmitterType().getTransmission())){
-                                sidedPipe.writeToNBT(tag);
-                                otherBlockItem.setItemDamage(sidedPipe.getTransmitterType().ordinal());
-                            }
-                        }
-                    }
-                    if (tileWorld.getTileEntity(otherBlockPos) instanceof TileEntityGlowPanel glowPanel){
-                        for (EnumColor color : EnumColor.DYES){
-                            if (color.getMetaValue() == glowPanel.colour.getMetaValue()){
-                                otherBlockItem.setItemDamage(glowPanel.colour.getMetaValue());
-                            }
-                        }
-                    }
-                    otherBlockItem.setTagCompound(tag);
+                    otherBlockItem = blockOnSide.getBlock().getPickBlock(blockOnSide, target, tileWorld, otherBlockPos, Minecraft.getMinecraft().player);
                 } else {
                     otherBlockItem = ItemStack.EMPTY;
                 }
@@ -115,7 +92,6 @@ public class GuiSideDataButton extends GuiButton {
             }
         }
     }
-
 
 
     public int getSlotPosMapIndex() {
