@@ -212,6 +212,9 @@ public abstract class TileEntityBasicMachine<INPUT extends MachineInput<INPUT>, 
             ItemStack internalStack = inventory.get(inputSlotID);
             int maxCanExtract = Math.min(externalStack.getCount(), externalStack.getMaxStackSize());
             if (internalStack.isEmpty()) {
+                if (!isItemValidForSlot(inputSlotID,externalStack)){
+                    continue;
+                }
                 // Extract external item and insert to internal.
                 ItemStack extracted = external.extractItem(externalSlotId, maxCanExtract, false);
                 inventory.set(inputSlotID, extracted);

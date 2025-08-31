@@ -1394,14 +1394,14 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     @Nonnull
     @Override
     public GasTankInfo[] getTankInfo() {
-        if (recipeType.getCanInputGas() && recipeType.getCanOuputGas()){
+        if (recipeType.getCanInputGas() && recipeType.getCanOuputGas()) {
             return new GasTankInfo[]{gasTank, gasOutTank};
-        }else if (recipeType.getCanInputGas()){
+        } else if (recipeType.getCanInputGas()) {
             return new GasTankInfo[]{gasTank};
-        }else if (recipeType.getCanOuputGas()){
+        } else if (recipeType.getCanOuputGas()) {
             return new GasTankInfo[]{gasOutTank};
         }
-        return  IGasHandler.NONE;
+        return IGasHandler.NONE;
     }
 
     @Override
@@ -1725,6 +1725,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
                 int maxCanExtract = Math.min(externalStack.getCount(), externalStack.getMaxStackSize());
                 if (internalStack.isEmpty()) {
                     // Extract external item and insert to internal.
+                    if (!isItemValidForSlot(internalSlotId, externalStack)) {
+                        continue;
+                    }
                     ItemStack extracted = external.extractItem(externalSlotId, maxCanExtract, false);
                     inventory.set(internalSlotId, extracted);
                     successAtLeastOnce = true;
