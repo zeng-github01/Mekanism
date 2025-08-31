@@ -1756,7 +1756,7 @@ module.gravitational_modulating_unit.desc=Using experimental technologies and th
 tooltip.module.jump_boost.name=Jump Boost:
 tooltip.module.step_assist.name=Step Assist:
 tooltip.meka_head.storedEnergy=MekaSuit Helmet Energy:
-tooltip.meka_body.storedEnergy==MekaSuit Bodyarmor Energy:
+tooltip.meka_body.storedEnergy=MekaSuit Bodyarmor Energy:
 tooltip.meka_legs.storedEnergy=MekaSuit Pants Energy:
 tooltip.meka_feet.storedEnergy=MekaSuit Boots Energy:
 tooltip.autoeatgas.stored=Automatic Feeding Unit Storage:
@@ -1845,7 +1845,7 @@ item.hdpe_elytra.name=HDPE Reinforced Elytra
 
 item.module_attack_amplification_unit.name=Attack Amplification Unit
 item.module_charge_distribution_unit.name=Charge Distribution Unit
-item.module_dosimeter_unit.name==Dosimeter Unit
+item.module_dosimeter_unit.name=Dosimeter Unit
 item.module_electrolytic_breathing_unit.name=Electrolytic Breathing Unit
 item.module_elytra_unit.name=Elytra Unit
 item.module_energy_unit.name=Energy Unit
