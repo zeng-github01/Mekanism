@@ -7,7 +7,6 @@ import mekanism.api.gear.IModule;
 import mekanism.api.gear.config.IModuleConfigItem;
 import mekanism.api.gear.config.ModuleConfigItemCreator;
 import mekanism.api.gear.config.ModuleEnumData;
-import mekanism.client.MekKeyHandler;
 import mekanism.client.MekanismKeyHandler;
 import mekanism.common.MekanismLang;
 import mekanism.common.config.MekanismConfig;
@@ -57,7 +56,7 @@ public class ModuleGravitationalModulatingUnit implements ICustomModule<ModuleGr
     @Override
     public void tickClient(IModule<ModuleGravitationalModulatingUnit> module, EntityPlayer player) {
         //Client side handling of boost as movement needs to be applied on both the server and the client
-        if (player.capabilities.isFlying && MekKeyHandler.getIsKeyPressed(MekanismKeyHandler.boostKey) && module.canUseEnergy(player, MekanismConfig.current().meka.mekaSuitEnergyUsageGravitationalModulation.val() * (4), false)) {
+        if (player.capabilities.isFlying && MekanismKeyHandler.boostKey.isKeyDown() && module.canUseEnergy(player, MekanismConfig.current().meka.mekaSuitEnergyUsageGravitationalModulation.val() * (4), false)) {
             float boost = getBoost();
             if (boost > 0) {
                 moveRelative(player, boost, new Vec3d(0, 0, 1));
