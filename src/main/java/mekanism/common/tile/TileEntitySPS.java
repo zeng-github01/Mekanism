@@ -131,6 +131,11 @@ public class TileEntitySPS extends TileEntityMachine implements IGasHandler, ISi
 
 
     @Override
+    public boolean canInsertItem(int i, @Nonnull ItemStack itemStack, @Nonnull EnumFacing side) {
+        return false;
+    }
+
+    @Override
     public boolean canExtractItem(int slotID, @Nonnull ItemStack itemstack, @Nonnull EnumFacing side) {
         return false;
     }
@@ -203,10 +208,15 @@ public class TileEntitySPS extends TileEntityMachine implements IGasHandler, ISi
         return new Object[]{inputTank, outputTank};
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public int[] getSlotsForFace(@NotNull EnumFacing side) {
-        return configComponent.getOutput(TransmissionType.ITEM, side, facing).availableSlots;
+        return InventoryUtils.EMPTY;
+    }
+
+    @Override
+    public boolean handleInventory() {
+        return false;
     }
 
     @Override
@@ -288,4 +298,5 @@ public class TileEntitySPS extends TileEntityMachine implements IGasHandler, ISi
     public boolean isCapabilityDisabled(@Nonnull Capability<?> capability, EnumFacing side) {
         return configComponent.isCapabilityDisabled(capability, side, facing) || super.isCapabilityDisabled(capability, side);
     }
+
 }
