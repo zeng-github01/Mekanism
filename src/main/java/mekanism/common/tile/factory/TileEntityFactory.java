@@ -318,6 +318,13 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     }
 
     @Override
+    public boolean CanInstalled(){
+        //阻止机器在工作的时候安装工厂升级
+        return !isActive;
+    }
+
+
+    @Override
     public boolean upgrade(BaseTier upgradeTier) {
         if (tier == FactoryTier.ELITE || tier == FactoryTier.ULTIMATE) {
             if (upgradeTier.ordinal() != tier.ordinal() + 1) {
