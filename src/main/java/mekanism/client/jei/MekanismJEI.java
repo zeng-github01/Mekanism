@@ -158,6 +158,7 @@ public class MekanismJEI implements IModPlugin {
         }
         addRecipeCategory(registry, MachineType.AMBIENT_ACCUMULATOR, new AmbientGasCategory(guiHelper));
         addRecipeCategory(registry, MachineType.SPS, new SPSRecipeCategory(guiHelper));
+        registry.addRecipeCategories(new ItemStackToEnergyRecipeCategory(guiHelper));
         /**
          * ADD END
          */
@@ -222,6 +223,7 @@ public class MekanismJEI implements IModPlugin {
         }
         RecipeRegistryHelper.registerAmbientAccumulator(registry);
         RecipeRegistryHelper.registerSPS(registry);
+        RecipeRegistryHelper.registerItemStackToEnergyRecipe(registry);
 
         if (Mekanism.hooks.MekanismMixinHelp) {
             IVanillaRecipeFactory factory = registry.getJeiHelpers().getVanillaRecipeFactory();

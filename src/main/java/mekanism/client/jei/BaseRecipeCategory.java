@@ -45,6 +45,12 @@ public abstract class BaseRecipeCategory<WRAPPER extends IRecipeWrapper> impleme
 
     private final IDrawable background;
 
+
+
+    protected static IDrawable createIcon(IGuiHelper helper, ResourceLocation iconRL) {
+        return helper.drawableBuilder(iconRL, 0, 0, 18, 18).setTextureSize(18, 18).build();
+    }
+
     protected BaseRecipeCategory(IGuiHelper helper, String guiTexture, String name, String unlocalized, @Nullable ProgressBar progress, int xOffset, int yOffset, int width, int height) {
         guiHelper = helper;
         guiLocation = new ResourceLocation(guiTexture);

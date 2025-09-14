@@ -66,8 +66,6 @@ public class ClientConfig extends BaseConfig {
 
     public final BooleanOption largeWindGeneratorisGlobalRenderer = new BooleanOption(this, "client", "largeWindGeneratorisGlobalRenderer", true);
 
-    public final BooleanOption GasTOP = new BooleanOption(this, "client", "GasTop", true, "If true, the shutdown requires The One Probe item to sneak up to display the amount inside the gas tank");
-
     public final BooleanOption windGeneratorItem = new BooleanOption(this, "client", "WindGenerator", true, "Wind turbine blade rotation [item]");
 
     public final BooleanOption windGeneratorRotating = new BooleanOption(this, "client", "windGeneratorRotating", true, "Wind turbine blade rotation [block]");
@@ -92,6 +90,7 @@ public class ClientConfig extends BaseConfig {
 
     public final IntOption radiationParticleRadius = new IntOption(this, "client", "radiationParticleRadius", 30, "How far (in blocks) from the player radiation particles can spawn.");
 
+    public final BooleanOption MultiBlockCore = new BooleanOption(this,"client","multiBlockCore",true,"In the side configuration options, display the core components of multiple blocks [limited to mek].");
 
     @Override
     public void write(ByteBuf config) {

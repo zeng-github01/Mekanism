@@ -120,6 +120,7 @@ public final class RecipeHandler {
      */
     public static void addMetallurgicInfuserRecipe(InfuseType infuse, int amount, ItemStack input, ItemStack output) {
         addRecipe(Recipe.METALLURGIC_INFUSER, new MetallurgicInfuserRecipe(new InfusionInput(infuse, amount, input), output));
+        addRecipe(Recipe.INFUSER_RECIPE,  new MetallurgicInfuserRecipe(new InfusionInput(infuse, amount, input), output));
     }
 
     /**
@@ -241,8 +242,9 @@ public final class RecipeHandler {
     }
 
     public static void addAmbientGas(int dimensionID) {
-        addAmbientGas(dimensionID,new GasStack(MekanismFluids.UnstableDimensional, 1), 1F / 5F);
+        addAmbientGas(dimensionID, new GasStack(MekanismFluids.UnstableDimensional, 1), 1F / 5F);
     }
+
     public static void addAmbientGas(int dimensionID, GasStack outputGas, double chance) {
         addRecipe(Recipe.AMBIENT_ACCUMULATOR, new AmbientGasRecipe(dimensionID, outputGas, chance));
         addRecipe(Recipe.AMBIENT_ACCUMULATOR_ENERGY, new AmbientGasRecipe(dimensionID, outputGas, chance));
@@ -333,8 +335,8 @@ public final class RecipeHandler {
         addRecipe(Recipe.FUSION_COOLING, new FusionCoolingRecipe(inputFluid, outputFluid));
     }
 
-    public static void addFusionCoolingRecipe(FluidStack inputFluid, FluidStack outputFluid,double energy) {
-        addRecipe(Recipe.FUSION_COOLING, new FusionCoolingRecipe(inputFluid, outputFluid,energy));
+    public static void addFusionCoolingRecipe(FluidStack inputFluid, FluidStack outputFluid, double energy) {
+        addRecipe(Recipe.FUSION_COOLING, new FusionCoolingRecipe(inputFluid, outputFluid, energy));
     }
 
     public static void addDigitalAssemblyTableRecipe(
@@ -343,6 +345,10 @@ public final class RecipeHandler {
         addRecipe(Recipe.DIGITAL_ASSEMBLY_TABLE, new DigitalAssemblyTableRecipe(input, input2, input3, input4, input5, input6, input7, input8, input9, inputFluid, inputGas, outputItem, outputFluid, outputGas, extraEnergy, ticks));
     }
 
+
+    public static void addItemStackToEnergyRecipe(ItemStack input, double outputEnergy) {
+        addRecipe(Recipe.ENERGY_RECIPE, new ItemStackToEnergyRecipe(input, outputEnergy));
+    }
 
     /**
      * Add End
@@ -534,6 +540,20 @@ public final class RecipeHandler {
         return getRecipe(input, recipes);
     }
 
+    @Nullable
+    public static ItemStackToEnergyRecipe getItemStackToEnergyRecipe(@Nonnull ItemStack input) {
+        return getItemStackToEnergyRecipe(new ItemStackInput(input));
+    }
+
+    @Nullable
+    public static ItemStackToEnergyRecipe getItemStackToEnergyRecipe(@Nonnull ItemStackInput input) {
+        return getRecipe(input, Recipe.ENERGY_RECIPE);
+    }
+
+    @Nullable
+    public static MetallurgicInfuserRecipe getInfuserRecipe(@Nonnull InfusionInput input) {
+        return getRecipe(input, Recipe.INFUSER_RECIPE);
+    }
 
     /**
      * Gets the whether the input ItemStack is in a recipe
@@ -710,6 +730,10 @@ public final class RecipeHandler {
         public static final Recipe<CompositeInput, CompositeOutput, DigitalAssemblyTableRecipe> DIGITAL_ASSEMBLY_TABLE = new Recipe<>(
                 "DigitalAssemblyTable", CompositeInput.class, CompositeOutput.class, DigitalAssemblyTableRecipe.class);
 
+
+        public static final Recipe<ItemStackInput, EnergyOutput, ItemStackToEnergyRecipe> ENERGY_RECIPE = new Recipe<>("ItemStackToEnergy", ItemStackInput.class, EnergyOutput.class, ItemStackToEnergyRecipe.class);
+        public static final Recipe<InfusionInput, ItemStackOutput, MetallurgicInfuserRecipe> INFUSER_RECIPE = new Recipe<>("ItemStackToInfuseType", InfusionInput.class, ItemStackOutput.class, MetallurgicInfuserRecipe.class);
+
         /**
          * ADD END
          */
@@ -840,7 +864,7 @@ public final class RecipeHandler {
                     toCheck = pressurizedInput.getGas().getGas();
                 } else if (entry.getKey() instanceof CompositeInput compositeInput) {
                     toCheck = compositeInput.gasInput.getGas();
-                }else if (entry.getKey() instanceof NucleosynthesizerInput nucleosynthesizerInput){
+                } else if (entry.getKey() instanceof NucleosynthesizerInput nucleosynthesizerInput) {
                     toCheck = nucleosynthesizerInput.getGas().getGas();
                 }
                 if (toCheck == input) {

@@ -467,6 +467,8 @@ public class MekanismRecipe {
             DimensionManager.getRegisteredDimensions().keySet().forEach(dimensionType -> RecipeHandler.addAmbientGas(dimensionType.getId()));
         }
 
+        RecipeHandler.addItemStackToEnergyRecipe(new ItemStack(Items.REDSTONE),MekanismConfig.current().general.ENERGY_PER_REDSTONE.val());
+        RecipeHandler.addItemStackToEnergyRecipe(new ItemStack(Blocks.REDSTONE_BLOCK),MekanismConfig.current().general.ENERGY_PER_REDSTONE_BLOCK.val());
         /**
          * ADD END
          */

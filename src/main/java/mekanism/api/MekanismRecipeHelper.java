@@ -212,4 +212,6 @@ public interface MekanismRecipeHelper {
                                  ItemStack outputSolid, FluidStack outputFluid, GasStack outputGas, double extraEnergy, int ticks);
 
     void addFusionCoolingRecipe(FluidStack inputFluid, FluidStack outputFluid,double energy);
+
+    void addItemStackToEnergyRecipe(ItemStack stack ,double energy);
 }

@@ -743,6 +743,7 @@ gui.upgrades.uninstall=卸载单个升级，按住Shift以卸载所有。
 gui.chemicalInfuser.short=化学灌注器
 gui.chemicalDissolutionChamber.short=化学溶解室
 gui.thermalEvaporationController.short=热力蒸馏控制器
+conversion.mekanism.energy=物品到能量
 gui.dimension2=维度需求id
 gui.dimension2Name=维度需求名称
 gui.dimensionId=当前维度id

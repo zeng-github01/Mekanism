@@ -228,9 +228,9 @@ public class APIHandler implements MekanismRecipeHelper {
 
 
     @Override
-    public void addAmbientGas(int dimensionID, GasStack outputGas,double chance) {
+    public void addAmbientGas(int dimensionID, GasStack outputGas, double chance) {
         checkPhase();
-        RecipeHandler.addAmbientGas(dimensionID, outputGas,chance);
+        RecipeHandler.addAmbientGas(dimensionID, outputGas, chance);
     }
 
     @Override
@@ -247,17 +247,23 @@ public class APIHandler implements MekanismRecipeHelper {
     }
 
     @Override
-    public void addFusionCoolingRecipe(FluidStack inputFluid, FluidStack outputFluid,double energy) {
+    public void addFusionCoolingRecipe(FluidStack inputFluid, FluidStack outputFluid, double energy) {
         checkPhase();
-        RecipeHandler.addFusionCoolingRecipe(inputFluid, outputFluid,energy);
+        RecipeHandler.addFusionCoolingRecipe(inputFluid, outputFluid, energy);
     }
 
     @Override
-    public void addDigitalAssemblyTableRecipe(ItemStack input, ItemStack input2, ItemStack input3, ItemStack input4, ItemStack input5, ItemStack input6, ItemStack input7, ItemStack input8,ItemStack input9,
-                                               FluidStack inputFluid, GasStack inputGas,
-                                              ItemStack outputItem, FluidStack outputFluid, GasStack outputGas, double extraEnergy, int ticks){
+    public void addDigitalAssemblyTableRecipe(ItemStack input, ItemStack input2, ItemStack input3, ItemStack input4, ItemStack input5, ItemStack input6, ItemStack input7, ItemStack input8, ItemStack input9,
+                                              FluidStack inputFluid, GasStack inputGas,
+                                              ItemStack outputItem, FluidStack outputFluid, GasStack outputGas, double extraEnergy, int ticks) {
         checkPhase();
-        RecipeHandler.addDigitalAssemblyTableRecipe(input,input2,input3,input4,input5,input6,input7,input8,input9,inputFluid,inputGas,outputItem,outputFluid,outputGas,extraEnergy,ticks);
+        RecipeHandler.addDigitalAssemblyTableRecipe(input, input2, input3, input4, input5, input6, input7, input8, input9, inputFluid, inputGas, outputItem, outputFluid, outputGas, extraEnergy, ticks);
+    }
+
+    @Override
+    public void addItemStackToEnergyRecipe(ItemStack input, double outputEnergy) {
+        checkPhase();
+        RecipeHandler.addItemStackToEnergyRecipe(input,outputEnergy);
     }
     /**
      * ADD END

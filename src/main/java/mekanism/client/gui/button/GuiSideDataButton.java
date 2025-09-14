@@ -6,6 +6,7 @@ import mekanism.api.RelativeSide;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.MekanismBlocks;
 import mekanism.common.SideData;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.prefab.TileEntityBasicBlock;
 import mekanism.common.util.MekanismUtils;
@@ -47,7 +48,7 @@ public class GuiSideDataButton extends GuiButton {
             IBlockState blockOnSide = tileWorld.getBlockState(otherBlockPos);
             RayTraceResult target = new RayTraceResult(new Pos3D(tile), globalSide, otherBlockPos);
             if (blockOnSide.getBlock() != Blocks.AIR) {
-                if (blockOnSide.getBlock() != MekanismBlocks.BoundingBlock) {
+                if (blockOnSide.getBlock() != MekanismBlocks.BoundingBlock || MekanismConfig.current().client.MultiBlockCore.val()) {
                     otherBlockItem = blockOnSide.getBlock().getPickBlock(blockOnSide, target, tileWorld, otherBlockPos, Minecraft.getMinecraft().player);
                 } else {
                     otherBlockItem = ItemStack.EMPTY;
