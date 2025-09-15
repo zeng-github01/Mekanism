@@ -65,4 +65,17 @@ public abstract class Option<THISTYPE extends Option> {
         //noinspection unchecked
         return (THISTYPE) this;
     }
+
+    public THISTYPE setRequiresWorldRestart() {
+        this.requiresWorldRestart = true;
+        //noinspection unchecked
+        return (THISTYPE) this;
+    }
+
+
+    public THISTYPE setRequiresGameRestart() {
+        this.requiresGameRestart = true;
+        //noinspection unchecked
+        return (THISTYPE) this;
+    }
 }

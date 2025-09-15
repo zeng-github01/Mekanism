@@ -290,6 +290,8 @@ public class GeneralConfig extends BaseConfig {
     public final IntOption radiationChunkCheckRadius = new IntOption(this, "general", "chunkCheckRadius", 5, "The radius of chunks checked when running radiation calculations. The algorithm is efficient, but don't abuse it by making this crazy high.", 1, 100);
     public final BooleanOption radiationEnabled = new BooleanOption(this,"general","radiationEnabled",true,"Enable worldwide radiation effects. Don't be a downer and disable this.");
 
+    public final StringListOption validOredictionificatorFilters = new StringListOption(this,"general","validItemFilters", new String[]{"ingot", "ore", "dust", "nugget"}, "The list of valid tag prefixes for the Oredictionificator. Note: It is highly recommended to only include well known/defined tag prefixes otherwise it is very easy to potentially add in accidental conversions of things that are not actually equivalent.").setRequiresGameRestart();
+
 
     public final TypeConfigManager<MachineType> machinesManager = new TypeConfigManager<>(this, "machines", MachineType.class, MachineType::getValidMachines, MachineType::getBlockName);
     public final EnumMap<BaseTier, TierConfig> tiers = TierConfig.create(this);

@@ -401,6 +401,12 @@ public final class OreDictManager {
             RecipeHandler.addPRCRecipe(StackUtils.size(sawdust, 1), new FluidStack(FluidRegistry.WATER, 20), new GasStack(MekanismFluids.Oxygen, 20),
                     ItemStack.EMPTY, new GasStack(MekanismFluids.Hydrogen, 20), 0, 30);
         }
+
+        for (ItemStack input : OreDictionary.getOres("blockRedstone", false)) {
+            if (!RecipeHandler.Recipe.ENERGY_RECIPE.containsRecipe(input)){
+                RecipeHandler.addItemStackToEnergyRecipe(input,MekanismConfig.current().general.ENERGY_PER_REDSTONE_BLOCK.val());
+            }
+        }
     }
 
     @Method(modid = MekanismHooks.IC2_MOD_ID)
