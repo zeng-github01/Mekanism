@@ -275,7 +275,7 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
 
     private void setMinY() {
         if (!minField.getText().isEmpty()) {
-            int toUse = Math.max(0, Math.min(Integer.parseInt(minField.getText()), tileEntity.maxY));
+            int toUse = Math.max(MekanismConfig.current().mekce.DigitalMinerMinY.val(), Math.min(Integer.parseInt(minField.getText()), tileEntity.maxY));
             Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, TileNetworkList.withContents(7, toUse)));
             minField.setText("");
         }
@@ -283,7 +283,7 @@ public class GuiDigitalMinerConfig extends GuiFilterHolder<TileEntityDigitalMine
 
     private void setMaxY() {
         if (!maxField.getText().isEmpty()) {
-            int toUse = Math.max(tileEntity.minY, Math.min(Integer.parseInt(maxField.getText()), 255));
+            int toUse = Math.max(tileEntity.minY, Math.min(Integer.parseInt(maxField.getText()), MekanismConfig.current().mekce.DigitalMinerMaxY.val()));
             Mekanism.packetHandler.sendToServer(new TileEntityMessage(tileEntity, TileNetworkList.withContents(8, toUse)));
             maxField.setText("");
         }

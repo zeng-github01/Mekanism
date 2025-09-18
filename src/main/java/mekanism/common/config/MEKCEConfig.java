@@ -101,6 +101,9 @@ public class MEKCEConfig extends BaseConfig {
     public final BooleanOption EnableTheDefaultConfiguration = new BooleanOption(this,"mekce","EnableTheDefaultConfiguration",true,"Allows the machine to use the default configuration surface, which is empty by default if false");
     public final BooleanOption EnableAddArrItemRecyclerRecipe = new BooleanOption(this,"mekce","EnableAddArrItemRecyclerRecipe",true,"If true, all items are iterated through and added to the Recycler recipe").setRequiresGameRestart(true);
     public final BooleanOption EnableRecyclerRecipeInJei = new BooleanOption(this,"mekce","EnableRecyclerRecipeInJei",true,"If true, the Recycler recipe is allowed to be displayed within the jei").setRequiresGameRestart(true);
+
+    public final IntOption DigitalMinerMinY = new IntOption(this,"mekce","DigitalMinerMinY",0,"The minimum Y value of DigitalMiner");
+    public final IntOption DigitalMinerMaxY = new IntOption(this,"mekce","DigitalMinerMaxY",255,"The maximum Y value of DigitalMiner");
     @Override
     public void load(Configuration config) {
         super.load(config);
