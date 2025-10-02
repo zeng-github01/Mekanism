@@ -192,6 +192,7 @@ public class MekanismRecipe {
             RecipeHandler.addPrecisionSawmillRecipe(new ItemStack(Blocks.JUNGLE_FENCE_GATE), new ItemStack(Blocks.PLANKS, 2, 3), new ItemStack(Items.STICK, 4), 1);
             RecipeHandler.addPrecisionSawmillRecipe(new ItemStack(Blocks.ACACIA_FENCE_GATE), new ItemStack(Blocks.PLANKS, 2, 4), new ItemStack(Items.STICK, 4), 1);
             RecipeHandler.addPrecisionSawmillRecipe(new ItemStack(Blocks.DARK_OAK_FENCE_GATE), new ItemStack(Blocks.PLANKS, 2, 5), new ItemStack(Items.STICK, 4), 1);
+            RecipeHandler.addPrecisionSawmillRecipe(new ItemStack(Blocks.MELON_BLOCK),new ItemStack(Items.MELON,9));
         }
 
         if (MekanismConfig.current().general.machinesManager.isEnabled(BlockStateMachine.MachineType.METALLURGIC_INFUSER)) {
@@ -467,8 +468,8 @@ public class MekanismRecipe {
             DimensionManager.getRegisteredDimensions().keySet().forEach(dimensionType -> RecipeHandler.addAmbientGas(dimensionType.getId()));
         }
 
-        RecipeHandler.addItemStackToEnergyRecipe(new ItemStack(Items.REDSTONE),MekanismConfig.current().general.ENERGY_PER_REDSTONE.val());
-        RecipeHandler.addItemStackToEnergyRecipe(new ItemStack(Blocks.REDSTONE_BLOCK),MekanismConfig.current().general.ENERGY_PER_REDSTONE_BLOCK.val());
+        RecipeHandler.addItemStackToEnergyRecipe(new ItemStack(Items.REDSTONE), MekanismConfig.current().general.ENERGY_PER_REDSTONE.val());
+        RecipeHandler.addItemStackToEnergyRecipe(new ItemStack(Blocks.REDSTONE_BLOCK), MekanismConfig.current().general.ENERGY_PER_REDSTONE_BLOCK.val());
         /**
          * ADD END
          */
