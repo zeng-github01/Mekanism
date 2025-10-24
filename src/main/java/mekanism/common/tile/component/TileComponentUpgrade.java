@@ -4,11 +4,9 @@ import io.netty.buffer.ByteBuf;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
-import mekanism.common.base.IGuiProvider;
 import mekanism.common.base.ITileComponent;
 import mekanism.common.base.IUpgradeItem;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
-import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.EnumMap;
@@ -36,10 +34,6 @@ public class TileComponentUpgrade implements ITileComponent {
      * The inventory slot the upgrade slot of this component occupies.
      */
     private int upgradeSlot;
-    private int guiIDs;
-    private Block block;
-    private int meta;
-    private IGuiProvider guiProvider;
 
     public TileComponentUpgrade(TileEntityContainerBlock tile, int slot) {
         tileEntity = tile;
@@ -49,27 +43,12 @@ public class TileComponentUpgrade implements ITileComponent {
         tile.components.add(this);
     }
 
-    public TileComponentUpgrade(TileEntityContainerBlock tile, int slot, IGuiProvider guiProvider, Block block, int meta, int guiid) {
-        tileEntity = tile;
-        upgradeSlot = slot;
-        setSupported(Upgrade.SPEED);
-        setSupported(Upgrade.ENERGY);
-        tile.components.add(this);
-        this.block = block;
-        this.meta = meta;
-        this.guiProvider = guiProvider;
-        guiIDs = guiid;
-    }
 
-    public TileComponentUpgrade(TileEntityContainerBlock tile, int slot, Upgrade upgrade, IGuiProvider guiProvider, Block block, int meta, int guiid) {
+    public TileComponentUpgrade(TileEntityContainerBlock tile, int slot, Upgrade upgrade) {
         tileEntity = tile;
         upgradeSlot = slot;
         setSupported(upgrade);
         tile.components.add(this);
-        this.guiProvider = guiProvider;
-        this.block = block;
-        this.meta = meta;
-        guiIDs = guiid;
     }
 
 
@@ -158,6 +137,7 @@ public class TileComponentUpgrade implements ITileComponent {
     public void setSupported(Upgrade upgrade) {
         setSupported(upgrade, true);
     }
+
     public void removeSupported(Upgrade upgrade) {
         setSupported(upgrade, false);
     }
@@ -225,19 +205,4 @@ public class TileComponentUpgrade implements ITileComponent {
     }
 
 
-    public int getid() {
-        return guiIDs;
-    }
-
-    public IGuiProvider guiProvider() {
-        return guiProvider;
-    }
-
-    public int getMeta() {
-        return meta;
-    }
-
-    public Block getBlock() {
-        return block;
-    }
 }

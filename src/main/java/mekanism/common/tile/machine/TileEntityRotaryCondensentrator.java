@@ -19,6 +19,7 @@ import mekanism.common.tile.component.TileComponentEjector;
 import mekanism.common.tile.component.config.DataType;
 import mekanism.common.tile.prefab.TileEntityMachine;
 import mekanism.common.util.*;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -412,5 +413,10 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
     @Override
     public boolean getOuputSlot() {
         return false;
+    }
+
+    @Override
+    public int getBlockGuiID(Block block, int metadata) {
+        return MachineType.get(block, metadata) != null ? MachineType.get(block, metadata).guiId : -1;
     }
 }

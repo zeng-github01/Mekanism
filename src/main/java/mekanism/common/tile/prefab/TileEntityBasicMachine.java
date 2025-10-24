@@ -16,6 +16,7 @@ import mekanism.common.tile.component.SideConfig;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
 import mekanism.common.util.MekanismUtils;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -357,5 +358,8 @@ public abstract class TileEntityBasicMachine<INPUT extends MachineInput<INPUT>, 
         MultipleActions(recipe, ticksRequired);
     }
 
-
+    @Override
+    public int getBlockGuiID(Block block, int metadata) {
+        return MachineType.get(block, metadata) != null ? MachineType.get(block, metadata).guiId : -1;
+    }
 }

@@ -9,8 +9,6 @@ import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
 import mekanism.common.base.IGuiProvider;
 import mekanism.common.base.IUpgradeTile;
-import mekanism.common.block.BlockMachine;
-import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.inventory.container.ContainerUpgradeManagement;
 import mekanism.common.network.PacketRemoveUpgrade.RemoveUpgradeMessage;
 import mekanism.common.network.PacketSimpleGui;
@@ -19,7 +17,6 @@ import mekanism.common.tile.component.TileComponentUpgrade;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
-import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -79,18 +76,11 @@ public class GuiUpgradeManagement extends GuiMekanism {
     protected void actionPerformed(GuiButton guibutton) throws IOException {
         super.actionPerformed(guibutton);
         TileEntity tile = (TileEntity) tileEntity;
-        Block block = tileEntity.getComponent().getBlock();
-        int meta = tileEntity.getComponent().getMeta();
         if (guibutton.id == backButton.id) {
-            if (tile.getBlockType() instanceof BlockMachine) {
-                int guiId = MachineType.get(tile.getBlockType(), tile.getBlockMetadata()).guiId;
-                Mekanism.packetHandler.sendToServer(new SimpleGuiMessage(Coord4D.get(tile), 0, guiId));
-            } else if (tile.getBlockType() == block && tile.getBlockMetadata() == meta) {
-                int guiId = tileEntity.getComponent().getid();
-                List<IGuiProvider> handlers = PacketSimpleGui.handlers;
-                int hand = handlers.indexOf(tileEntity.getComponent().guiProvider());
-                Mekanism.packetHandler.sendToServer(new SimpleGuiMessage(Coord4D.get(tile), hand, guiId));
-            }
+            int guiId = tileEntity.getBlockGuiID(tile.getBlockType(), tile.getBlockMetadata());
+            List<IGuiProvider> handlers = PacketSimpleGui.handlers;
+            int hand = handlers.indexOf(tileEntity.guiProvider());
+            Mekanism.packetHandler.sendToServer(new SimpleGuiMessage(Coord4D.get(tile), hand, guiId));
         } else if (guibutton.id == removeButton.id) {
             if (selectedType != null) {
                 Mekanism.packetHandler.sendToServer(new RemoveUpgradeMessage(Coord4D.get(tile), selectedType.ordinal(), Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? 1 : 0));

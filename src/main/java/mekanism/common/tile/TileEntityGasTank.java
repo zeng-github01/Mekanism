@@ -22,6 +22,7 @@ import mekanism.common.tile.component.TileComponentSecurity;
 import mekanism.common.tile.component.config.DataType;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.util.*;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -396,9 +397,14 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
             return langKey;
         }
     }
+
     @Override
     protected boolean shouldDumpRadiation() {
         return tier != GasTankTier.CREATIVE;
     }
 
+    @Override
+    public int getBlockGuiID(Block block, int metadata) {
+        return 10;
+    }
 }

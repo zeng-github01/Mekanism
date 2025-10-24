@@ -21,6 +21,7 @@ import mekanism.common.tile.component.TileComponentSecurity;
 import mekanism.common.tile.component.config.DataType;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.util.*;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -441,5 +442,10 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
     @Override
     public TileComponentEjector getEjector() {
         return ejectorComponent;
+    }
+
+    @Override
+    public int getBlockGuiID(Block block, int metadata) {
+        return MachineType.get(block, metadata) != null ? MachineType.get(block, metadata).guiId : -1;
     }
 }

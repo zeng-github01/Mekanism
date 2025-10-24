@@ -1,7 +1,11 @@
 package mekanism.common.base;
 
+import mekanism.common.Mekanism;
+import mekanism.common.MekanismBlocks;
+import mekanism.common.block.BlockMachine;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
+import net.minecraft.block.Block;
 import net.minecraft.util.EnumFacing;
 
 /**
@@ -9,7 +13,7 @@ import net.minecraft.util.EnumFacing;
  *
  * @author AidanBrady
  */
-public interface ISideConfiguration {
+public interface ISideConfiguration extends IGetBackMachine{
 
     /**
      * Gets the tile's configuration component.
@@ -31,4 +35,5 @@ public interface ISideConfiguration {
      * @return this machine's ejector
      */
     TileComponentEjector getEjector();
+
 }

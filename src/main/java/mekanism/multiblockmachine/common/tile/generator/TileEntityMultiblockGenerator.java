@@ -5,8 +5,10 @@ import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
+import mekanism.common.base.IGuiProvider;
 import mekanism.common.base.IRedstoneControl;
 import mekanism.common.base.IUpgradeTile;
+import mekanism.common.block.states.BlockStateMachine;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.integration.computer.IComputerIntegration;
 import mekanism.common.security.ISecurityTile;
@@ -17,6 +19,7 @@ import mekanism.common.util.CableUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.multiblockmachine.common.MekanismMultiblockMachine;
 import mekanism.multiblockmachine.common.block.states.BlockStateMultiblockMachineGenerator.MultiblockMachineGeneratorType;
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -51,7 +54,7 @@ public abstract class TileEntityMultiblockGenerator extends TileEntityEffectsBlo
         super("gen." + soundPath, type.getBlockName(), maxEnergy);
         output = out;
         controlType = RedstoneControl.DISABLED;
-        upgradeComponent = new TileComponentUpgrade(this, slot, Upgrade.THREAD, MekanismMultiblockMachine.proxy, type.blockType.getBlock(), type.meta, type.guiId);
+        upgradeComponent = new TileComponentUpgrade(this, slot, Upgrade.THREAD);
     }
 
     public int Thread() {
@@ -184,4 +187,15 @@ public abstract class TileEntityMultiblockGenerator extends TileEntityEffectsBlo
             setEnergy(Math.min(getMaxEnergy(), getEnergy()));
         }
     }
+
+    @Override
+    public int getBlockGuiID(Block block, int metadata) {
+        return MultiblockMachineGeneratorType.get(block, metadata) != null ? MultiblockMachineGeneratorType.get(block, metadata).guiId : -1;
+    }
+
+    @Override
+    public IGuiProvider guiProvider(){
+        return MekanismMultiblockMachine.proxy;
+    }
+
 }

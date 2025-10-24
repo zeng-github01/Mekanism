@@ -13,6 +13,7 @@ import mekanism.common.HashList;
 import mekanism.common.Mekanism;
 import mekanism.common.Upgrade;
 import mekanism.common.base.*;
+import mekanism.common.block.states.BlockStateMachine;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.chunkloading.IChunkLoader;
@@ -1266,5 +1267,11 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
     @Override
     public boolean getOuputSlot() {
         return false;
+    }
+
+
+    @Override
+    public int getBlockGuiID(Block block, int metadata) {
+        return BlockStateMachine.MachineType.get(block, metadata) != null ? BlockStateMachine.MachineType.get(block, metadata).guiId : -1;
     }
 }

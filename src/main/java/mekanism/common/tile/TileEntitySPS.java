@@ -19,6 +19,7 @@ import mekanism.common.tile.component.TileComponentEjector;
 import mekanism.common.tile.component.config.DataType;
 import mekanism.common.tile.prefab.TileEntityMachine;
 import mekanism.common.util.*;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -234,6 +235,7 @@ public class TileEntitySPS extends TileEntityMachine implements IGasHandler, ISi
         return ejectorComponent;
     }
 
+
     @Override
     public void handlePacketData(ByteBuf dataStream) {
         super.handlePacketData(dataStream);
@@ -299,4 +301,8 @@ public class TileEntitySPS extends TileEntityMachine implements IGasHandler, ISi
         return configComponent.isCapabilityDisabled(capability, side, facing) || super.isCapabilityDisabled(capability, side);
     }
 
+    @Override
+    public int getBlockGuiID(Block block, int metadata) {
+        return BlockStateMachine.MachineType.get(block, metadata) != null ? BlockStateMachine.MachineType.get(block, metadata).guiId : -1;
+    }
 }

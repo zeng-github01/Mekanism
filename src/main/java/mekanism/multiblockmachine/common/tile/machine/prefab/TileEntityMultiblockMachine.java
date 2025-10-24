@@ -4,6 +4,7 @@ package mekanism.multiblockmachine.common.tile.machine.prefab;
 import io.netty.buffer.ByteBuf;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Upgrade;
+import mekanism.common.base.IGuiProvider;
 import mekanism.common.base.IRedstoneControl;
 import mekanism.common.base.IUpgradeTile;
 import mekanism.common.security.ISecurityTile;
@@ -13,6 +14,7 @@ import mekanism.common.tile.prefab.TileEntityEffectsBlock;
 import mekanism.common.util.MekanismUtils;
 import mekanism.multiblockmachine.common.MekanismMultiblockMachine;
 import mekanism.multiblockmachine.common.block.states.BlockStateMultiblockMachine.MultiblockMachineType;
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -39,7 +41,7 @@ public abstract class TileEntityMultiblockMachine extends TileEntityEffectsBlock
     public TileEntityMultiblockMachine(String sound, MultiblockMachineType type, int slot) {
         super(sound, type.getBlockName(), type.getStorage());
         energyPerTick = BASE_ENERGY_PER_TICK = type.getUsage();
-        upgradeComponent = new TileComponentUpgrade(this, slot, MekanismMultiblockMachine.proxy, type.typeBlock.getBlock(), type.meta, type.guiId);
+        upgradeComponent = new TileComponentUpgrade(this, slot);
         upgradeComponent.setSupported(Upgrade.MUFFLING);
     }
 
@@ -139,5 +141,15 @@ public abstract class TileEntityMultiblockMachine extends TileEntityEffectsBlock
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
         return INFINITE_EXTENT_AABB;
+    }
+
+    @Override
+    public int getBlockGuiID(Block block, int metadata) {
+        return MultiblockMachineType.get(block, metadata) != null ? MultiblockMachineType.get(block, metadata).guiId : -1;
+    }
+
+    @Override
+    public IGuiProvider guiProvider() {
+        return MekanismMultiblockMachine.proxy;
     }
 }
