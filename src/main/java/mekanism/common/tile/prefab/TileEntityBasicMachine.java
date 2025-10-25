@@ -57,6 +57,10 @@ public abstract class TileEntityBasicMachine<INPUT extends MachineInput<INPUT>, 
         super("machine." + soundPath, type, upgradeSlot, baseTicksRequired);
     }
 
+    public TileEntityBasicMachine(String soundPath, String name, double energyStorge, double energUsage, int upgradeSlot, int baseTicksRequired) {
+        super("machine." + soundPath, name, energyStorge, energUsage, upgradeSlot, baseTicksRequired);
+    }
+
     @Override
     public boolean sideIsConsumer(EnumFacing side) {
         return configComponent.hasSideForData(TransmissionType.ENERGY, facing, 1, side);
