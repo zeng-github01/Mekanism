@@ -49,11 +49,7 @@ public class GuiSideDataButton extends GuiButton {
             RayTraceResult target = new RayTraceResult(new Pos3D(tile), globalSide, otherBlockPos);
             if (blockOnSide.getBlock() != Blocks.AIR) {
                 if (blockOnSide.getBlock() != MekanismBlocks.BoundingBlock || MekanismConfig.current().client.MultiBlockCore.val()) {
-                    if (blockOnSide.getBlock() == tile.getBlockType()){
-                        otherBlockItem = ItemStack.EMPTY;
-                    }else {
-                        otherBlockItem = blockOnSide.getBlock().getPickBlock(blockOnSide, target, tileWorld, otherBlockPos, Minecraft.getMinecraft().player);
-                    }
+                    otherBlockItem = blockOnSide.getBlock().getPickBlock(blockOnSide, target, tileWorld, otherBlockPos, Minecraft.getMinecraft().player);
                 } else {
                     otherBlockItem = ItemStack.EMPTY;
                 }
