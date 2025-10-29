@@ -82,9 +82,9 @@ public class RenderDigitalAssemblyTable extends RenderTileEntityTime<TileEntityD
             GlStateManager.translate((float) x, (float) y, (float) z);
             bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
             DisplayInteger[] displayEnergyList1 = getEnergy1DisplayList(tileEntity.facing);
-            displayEnergyList1[tileEntity.getScaledEnergyLevel(stages - 1)].render();
+            displayEnergyList1[Math.min(stages - 1,tileEntity.getScaledEnergyLevel(stages - 1))].render();
             DisplayInteger[] displayEnergyList2 = getEnergy2DisplayList(tileEntity.facing);
-            displayEnergyList2[tileEntity.getScaledEnergyLevel(stages - 1)].render();
+            displayEnergyList2[Math.min(stages - 1,tileEntity.getScaledEnergyLevel(stages - 1))].render();
             MekanismRenderer.disableGlow(glowInfo);
             GlStateManager.enableLighting();
             GlStateManager.disableBlend();

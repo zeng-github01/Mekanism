@@ -1,7 +1,7 @@
 package mekanism.common.tile.machine;
 
 import io.netty.buffer.ByteBuf;
-import mekanism.api.IConfigCardAccess;
+import mekanism.api.IConfigCardAccess.ISpecialConfigData;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
 import mekanism.api.transmitters.TransmissionType;
@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileEntityRotaryCondensentrator extends TileEntityMachine implements ISustainedData, IFluidHandlerWrapper, IGasHandler, IUpgradeInfoHandler, ITankManager,
-        IComparatorSupport, ISideConfiguration, IConfigCardAccess,IMachineSlotTip {
+        IComparatorSupport, ISideConfiguration, ISpecialConfigData, IMachineSlotTip {
 
     public static final int MAX_FLUID = 10000;
     public GasTank gasTank = new GasTank(MAX_FLUID);
@@ -84,7 +84,6 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
         ejectorComponent.setOutputData(TransmissionType.GAS, configComponent.getOutputs(TransmissionType.GAS).get(1));
         ejectorComponent.setOutputData(TransmissionType.FLUID, configComponent.getOutputs(TransmissionType.FLUID).get(1));
     }
-
 
 
     @Override
@@ -193,7 +192,7 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
             if (type == 0) {
                 mode = mode == 0 ? 1 : 0;
             }
-            playersUsing.forEach(player ->  Mekanism.packetHandler.sendTo(new TileEntityMessage(this), (EntityPlayerMP) player));
+            playersUsing.forEach(player -> Mekanism.packetHandler.sendTo(new TileEntityMessage(this), (EntityPlayerMP) player));
             return;
         }
 
@@ -275,7 +274,7 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
         if (isCapabilityDisabled(capability, side)) {
             return false;
         }
-        return capability == Capabilities.GAS_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == Capabilities.CONFIG_CARD_CAPABILITY || super.hasCapability(capability, side);
+        return capability == Capabilities.GAS_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == Capabilities.CONFIG_CARD_CAPABILITY || capability == Capabilities.SPECIAL_CONFIG_DATA_CAPABILITY || super.hasCapability(capability, side);
     }
 
     @Override
@@ -288,6 +287,8 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
             return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new FluidHandlerWrapper(this, side));
         } else if (capability == Capabilities.CONFIG_CARD_CAPABILITY) {
             return Capabilities.CONFIG_CARD_CAPABILITY.cast(this);
+        } else if (capability == Capabilities.SPECIAL_CONFIG_DATA_CAPABILITY) {
+            return Capabilities.SPECIAL_CONFIG_DATA_CAPABILITY.cast(this);
         }
         return super.getCapability(capability, side);
     }
@@ -418,5 +419,21 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
     @Override
     public int getBlockGuiID(Block block, int metadata) {
         return MachineType.get(block, metadata) != null ? MachineType.get(block, metadata).guiId : -1;
+    }
+
+    @Override
+    public NBTTagCompound getConfigurationData(NBTTagCompound nbtTags) {
+        nbtTags.setInteger("mode", mode);
+        return nbtTags;
+    }
+
+    @Override
+    public void setConfigurationData(NBTTagCompound nbtTags) {
+        mode = nbtTags.getInteger("mode");
+    }
+
+    @Override
+    public String getDataType() {
+        return getName();
     }
 }

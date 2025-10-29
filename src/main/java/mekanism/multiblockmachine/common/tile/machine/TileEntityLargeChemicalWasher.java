@@ -173,6 +173,7 @@ public class TileEntityLargeChemicalWasher extends TileEntityMultiblockBasicMach
 
     public int getUpgradedUsage() {
         int possibleProcess = Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val());
+        possibleProcess *= 256;
         possibleProcess = Math.min(Math.min(inputTank.getStored(), outputTank.getNeeded()), possibleProcess);
         possibleProcess = Math.min((int) (getEnergy() / energyPerTick), possibleProcess);
         return Math.min(fluidTank.getFluidAmount() / WATER_USAGE, possibleProcess);

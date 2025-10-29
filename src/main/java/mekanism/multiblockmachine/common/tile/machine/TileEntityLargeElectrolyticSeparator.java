@@ -42,7 +42,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 
 public class TileEntityLargeElectrolyticSeparator extends TileEntityMultiblockBasicMachine<FluidInput, ChemicalPairOutput, SeparatorRecipe>
-        implements IFluidHandlerWrapper, ISustainedData, IGasHandler, IUpgradeInfoHandler, ITankManager, IAdvancedBoundingBlock,IMachineSlotTip {
+        implements IFluidHandlerWrapper, ISustainedData, IGasHandler, IUpgradeInfoHandler, ITankManager, IAdvancedBoundingBlock, IMachineSlotTip {
 
     private static final String[] methods = new String[]{"getEnergy", "getOutput", "getMaxEnergy", "getEnergyNeeded", "getWater", "getWaterNeeded", "getHydrogen",
             "getHydrogenNeeded", "getOxygen", "getOxygenNeeded"};
@@ -69,7 +69,7 @@ public class TileEntityLargeElectrolyticSeparator extends TileEntityMultiblockBa
 
     @Override
     public void setupVariableValues() {
-        if (getRecipe() == null){
+        if (getRecipe() == null) {
             return;
         }
         boolean update = BASE_ENERGY_PER_TICK != getRecipe().energyUsage;
@@ -206,7 +206,7 @@ public class TileEntityLargeElectrolyticSeparator extends TileEntityMultiblockBa
             possibleProcess = leftTank.getNeeded() / recipe.recipeOutput.rightGas.amount;
             possibleProcess = Math.min(rightTank.getNeeded() / recipe.recipeOutput.leftGas.amount, possibleProcess);
         }
-        possibleProcess = Math.min(Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val()), possibleProcess);
+        possibleProcess = Math.min(Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val()) * 256, possibleProcess);
         possibleProcess = Math.min((int) (getEnergy() / energyPerTick), possibleProcess);
         return Math.min(fluidTank.getFluidAmount() / recipe.recipeInput.ingredient.amount, possibleProcess);
     }

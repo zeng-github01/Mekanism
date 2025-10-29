@@ -41,7 +41,6 @@ public class TileEntityLargeChemicalInfuser extends TileEntityMultiblockBasicMac
     public GasTank leftTank = new GasTank(8192000);
     public GasTank rightTank = new GasTank(8192000);
     public GasTank centerTank = new GasTank(8192000);
-    public int gasOutput = 256;
     public ChemicalInfuserRecipe cachedRecipe;
     public int updateDelay;
     public boolean needsPacket;
@@ -154,6 +153,8 @@ public class TileEntityLargeChemicalInfuser extends TileEntityMultiblockBasicMac
 
     public int getUpgradedUsage(ChemicalInfuserRecipe recipe) {
         int possibleProcess = Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val());
+        //在原有的基础上在乘256倍速,便于和终极燃气拉开距离
+        possibleProcess *= 256;
         if (leftTank.getGasType() == recipe.recipeInput.leftGas.getGas()) {
             possibleProcess = Math.min(leftTank.getStored() / recipe.recipeInput.leftGas.amount, possibleProcess);
             possibleProcess = Math.min(rightTank.getStored() / recipe.recipeInput.rightGas.amount, possibleProcess);
