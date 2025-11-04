@@ -217,7 +217,7 @@ public abstract class TileEntityBasicMachine<INPUT extends MachineInput<INPUT>, 
             ItemStack internalStack = inventory.get(inputSlotID);
             int maxCanExtract = Math.min(externalStack.getCount(), externalStack.getMaxStackSize());
             if (internalStack.isEmpty()) {
-                if (!isItemValidForSlot(inputSlotID,externalStack)){
+                if (!isItemValidForSlot(inputSlotID, externalStack)) {
                     continue;
                 }
                 // Extract external item and insert to internal.
@@ -306,11 +306,11 @@ public abstract class TileEntityBasicMachine<INPUT extends MachineInput<INPUT>, 
     protected void setClearOperatingTicks() {
     }
 
-    protected void setFinish(){
+    protected void setFinish() {
 
     }
 
-    protected void setNoFinish(){
+    protected void setNoFinish() {
 
     }
 
@@ -327,7 +327,6 @@ public abstract class TileEntityBasicMachine<INPUT extends MachineInput<INPUT>, 
     }
 
 
-
     public void getProcess(RECIPE recipe, boolean canOperate, double energyTick, boolean clear, boolean defaultEnergy) {
         if (canOperate(recipe) && MekanismUtils.canFunction(this) && getEnergy() >= energyTick && canOperate) {
             setupVariableValues();
@@ -342,7 +341,7 @@ public abstract class TileEntityBasicMachine<INPUT extends MachineInput<INPUT>, 
                 setFinish();
             }
             setUpOtherActions();
-        } else{
+        } else {
             setNoFinish();
             if (prevEnergy >= getEnergy()) {
                 setActive(false);

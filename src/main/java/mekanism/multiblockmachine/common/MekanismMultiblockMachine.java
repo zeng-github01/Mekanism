@@ -30,6 +30,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
+//TODO:移植到单独的mod
 @Mod(modid = MekanismMultiblockMachine.MODID, useMetadata = true, guiFactory = "mekanism.multiblockmachine.client.gui.MultiblockMachineGuiFactory")
 @Mod.EventBusSubscriber()
 public class MekanismMultiblockMachine implements IModule {

@@ -155,7 +155,7 @@ public class TileEntityElectricPump extends TileEntityElectricBlock implements I
         List<Coord4D> tempPumpList = Arrays.asList(recurringNodes.toArray(new Coord4D[0]));
         Collections.shuffle(tempPumpList);
 
-        //First see if there are any fluid blocks touching the pump - if so, sucks and adds the location to the recurring list
+            //First see if there are any fluid blocks touching the pump - if so, sucks and adds the location to the recurring list
         for (EnumFacing orientation : EnumFacing.VALUES) {
             Coord4D wrapper = Coord4D.get(this).offset(orientation);
             FluidStack fluid = MekanismUtils.getFluid(world, wrapper, hasFilter());

@@ -239,7 +239,6 @@ public class TileEntityOredictionificator extends TileEntityContainerBlock imple
         data.add(didProcess);
         data.add(filters.size());
         filters.forEach(filter -> filter.write(data));
-
         return data;
     }
 

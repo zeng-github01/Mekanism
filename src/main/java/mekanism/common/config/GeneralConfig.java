@@ -288,9 +288,9 @@ public class GeneralConfig extends BaseConfig {
     public final DoubleOption radiationTargetDecayRate = new DoubleOption(this, "general", "targetDecayRate", 0.9995D, "Radiated objects and entities are multiplied by this constant roughly once per second to represent their dosage decay.");
     public final DoubleOption radiationSourceDecayRate = new DoubleOption(this, "general", "sourceDecayRate", 0.9995D, "Radiation sources are multiplied by this constant roughly once per second to represent their emission decay. At the default rate, it takes roughly 10 hours to remove a 1,000 Sv/h (crazy high) source.");
     public final IntOption radiationChunkCheckRadius = new IntOption(this, "general", "chunkCheckRadius", 5, "The radius of chunks checked when running radiation calculations. The algorithm is efficient, but don't abuse it by making this crazy high.", 1, 100);
-    public final BooleanOption radiationEnabled = new BooleanOption(this,"general","radiationEnabled",true,"Enable worldwide radiation effects. Don't be a downer and disable this.");
+    public final BooleanOption radiationEnabled = new BooleanOption(this, "general", "radiationEnabled", true, "Enable worldwide radiation effects. Don't be a downer and disable this.");
 
-    public final StringListOption validOredictionificatorFilters = new StringListOption(this,"general","validItemFilters", new String[]{"ingot", "ore", "dust", "nugget"}, "The list of valid tag prefixes for the Oredictionificator. Note: It is highly recommended to only include well known/defined tag prefixes otherwise it is very easy to potentially add in accidental conversions of things that are not actually equivalent.").setRequiresGameRestart();
+    public final StringListOption validOredictionificatorFilters = new StringListOption(this, "general", "validItemFilters", new String[]{"ingot", "ore", "dust", "nugget"}, "The list of valid tag prefixes for the Oredictionificator. Note: It is highly recommended to only include well known/defined tag prefixes otherwise it is very easy to potentially add in accidental conversions of things that are not actually equivalent.").setRequiresGameRestart();
 
 
     public final TypeConfigManager<MachineType> machinesManager = new TypeConfigManager<>(this, "machines", MachineType.class, MachineType::getValidMachines, MachineType::getBlockName);
@@ -301,4 +301,7 @@ public class GeneralConfig extends BaseConfig {
             "Displayed temperature unit in Mekanism GUIs.");
     int maxVolume = 18 * 18 * 18;
     public final IntOption dynamicTankFluidPerTank = new IntOption(this, "general", "DynamicTankFluidPerTank", 300_000, "Amount of fluid (mB) that each block of the dynamic tank contributes to the volume. Max = volume * fluidPerTank", 1, Integer.MAX_VALUE / maxVolume);
+
+    public final DoubleOption dumpExcessKeepRatio = new DoubleOption(this, "general", "dumpExcessKeepRatio", 0.9D, "The percentage of a tank's capacity to leave contents in when set to dumping excess.", 0.001D, 1D);
+
 }

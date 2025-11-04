@@ -3,6 +3,7 @@ package mekanism.common.tile;
 import io.netty.buffer.ByteBuf;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
+import mekanism.api.math.MathUtils;
 import mekanism.api.transmitters.TransmissionType;
 import mekanism.common.Mekanism;
 import mekanism.common.SideData;
@@ -11,6 +12,7 @@ import mekanism.common.base.IRedstoneControl;
 import mekanism.common.base.ISideConfiguration;
 import mekanism.common.base.ITierUpgradeable;
 import mekanism.common.capabilities.Capabilities;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.integration.computer.IComputerIntegration;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.security.ISecurityTile;
@@ -116,12 +118,16 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
         if (tier != GasTankTier.CREATIVE) {
             if (dumping == GasMode.DUMPING) {
                 gasTank.draw(tier.getStorage() / 400, true);
-            }
-            if (dumping == GasMode.DUMPING_EXCESS && gasTank.getNeeded() < tier.getOutput()) {
-                gasTank.draw(tier.getOutput() - gasTank.getNeeded(), true);
+            }else if (dumping == GasMode.DUMPING_EXCESS) {
+                int target = MathUtils.clampToInt(gasTank.getMaxGas() * MekanismConfig.current().general.dumpExcessKeepRatio.val());
+                int stored = gasTank.getStored();
+                if (target < stored) {
+                gasTank.draw(Math.min(stored - target, tier.getOutput()), true);
+                }
             }
         }
     }
+
 
     @Override
     public boolean upgrade(BaseTier upgradeTier) {

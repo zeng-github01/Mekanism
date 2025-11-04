@@ -41,7 +41,7 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
     public GasTank outputTank = new GasTank(MAX_GAS);
     public double injectUsage = BASE_INJECT_USAGE;
     public int injectUsageThisTick;
-    public int operatingTicks = 0;
+
     public DissolutionRecipe cachedRecipe;
     public float prevScale;
     public int updateDelay;
