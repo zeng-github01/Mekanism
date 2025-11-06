@@ -45,7 +45,7 @@ import java.util.List;
 
 
 @SideOnly(Side.CLIENT)
-public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
+public class GuiFactory extends GuiMekanismTile<TileEntityFactory> implements IJeiFactoryRecipe {
 
     private GuiButton infuserDumpButton = null;
     private GuiButton FactoryOldSortingButton;
@@ -182,7 +182,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
         }
     }
 
-
+    @Override
     public boolean getJeiRecipe(int mouseX, int mouseY) {
         int xAxis = mouseX - guiLeft;
         int yAxis = mouseY - guiTop;
@@ -199,6 +199,7 @@ public class GuiFactory extends GuiMekanismTile<TileEntityFactory> {
 
     public static final String SMELTING = "minecraft.smelting";
 
+    @Override
     public List<String> getRecipe() {
         if (tileEntity.getRecipeType() == RecipeType.SMELTING) {
             return Arrays.asList(SMELTING, RecipeHandler.Recipe.ENERGIZED_SMELTER.getJEICategory());
