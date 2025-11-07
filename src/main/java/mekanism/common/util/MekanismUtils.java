@@ -291,7 +291,7 @@ public final class MekanismUtils {
     }
 
     public static float fractionUpgrades(IUpgradeTile mgmt, Upgrade type) {
-        return (float) mgmt.getComponent().getUpgrades(type) / (float) type.getMax();
+        return (float) mgmt.getComponent().getUpgrades(type) / (float) type.getMaxInstalled();
     }
 
     /**
@@ -375,7 +375,7 @@ public final class MekanismUtils {
     public static double getMaxEnergy(ItemStack itemStack, double def) {
         Map<Upgrade, Integer> upgrades = Upgrade.buildMap(ItemDataUtils.getDataMap(itemStack));
         float numUpgrades = upgrades.get(Upgrade.ENERGY) == null ? 0 : (float) upgrades.get(Upgrade.ENERGY);
-        return def * Math.pow(MekanismConfig.current().general.maxUpgradeMultiplier.val(), numUpgrades / (float) Upgrade.ENERGY.getMax());
+        return def * Math.pow(MekanismConfig.current().general.maxUpgradeMultiplier.val(), numUpgrades / (float) Upgrade.ENERGY.getMaxInstalled());
     }
 
 

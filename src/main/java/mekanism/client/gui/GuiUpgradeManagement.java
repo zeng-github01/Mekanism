@@ -130,7 +130,7 @@ public class GuiUpgradeManagement extends GuiMekanism {
             }else {
                 renderScaledText(typeName, 92, 8,0x00CD00,55);
             }
-            renderText(LangUtils.localize("gui.upgrades.amount") + ": " + amount + "/" + selectedType.getMax(), 92, 16, 0.6F, true);
+            renderText(LangUtils.localize("gui.upgrades.amount") + ": " + amount + "/" + selectedType.getMaxInstalled(), 92, 16, 0.6F, true);
             int text = 0;
             for (String s : selectedType.getInfo((TileEntity) tileEntity)) {
                 renderText(s, 92, 22 + (6 * text++), 0.6F, true);

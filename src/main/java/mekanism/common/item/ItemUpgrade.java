@@ -31,7 +31,7 @@ public class ItemUpgrade extends ItemMekanism implements IUpgradeItem {
     public ItemUpgrade(Upgrade type) {
         super();
         upgrade = type;
-        setMaxStackSize(type.getItemMax());
+        setMaxStackSize(type.getMaxItemStackSize());
         setRarity(EnumRarity.UNCOMMON);
     }
 
@@ -60,7 +60,7 @@ public class ItemUpgrade extends ItemMekanism implements IUpgradeItem {
             if (tile instanceof IUpgradeTile upgradeTile) {
                 TileComponentUpgrade component = upgradeTile.getComponent();
                 if (component.supports(type)) {
-                    if (!world.isRemote && component.getUpgrades(type) < type.getMax()) {
+                    if (!world.isRemote && component.getUpgrades(type) < type.getMaxInstalled()) {
                         int added = component.addUpgrades(type, stack.getCount());
                         if (added > 0) {
                             stack.shrink(added);
