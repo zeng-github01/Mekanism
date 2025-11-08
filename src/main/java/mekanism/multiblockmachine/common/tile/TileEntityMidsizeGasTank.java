@@ -5,6 +5,7 @@ import io.netty.buffer.ByteBuf;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
+import mekanism.api.math.MathUtils;
 import mekanism.common.Mekanism;
 import mekanism.common.base.IAdvancedBoundingBlock;
 import mekanism.common.base.IComparatorSupport;
@@ -74,13 +75,6 @@ public class TileEntityMidsizeGasTank extends TileEntityContainerBlock implement
         if (gasTank.getGas() != null && MekanismUtils.canFunction(this) && dumping != GasMode.DUMPING) {
             Mekanism.EXECUTE_MANAGER.addSyncTask(() -> handleTank(gasTank, getOutputTank()));
         }
-        if (dumping == GasMode.DUMPING) {
-            gasTank.draw(GasStorage / 400, true);
-        }
-        if (dumping == GasMode.DUMPING_EXCESS && gasTank.getNeeded() < GasOut) {
-            gasTank.draw(GasOut - gasTank.getNeeded(), true);
-        }
-
         int newGasAmount = gasTank.getStored();
         if (newGasAmount != currentGasAmount) {
             MekanismUtils.saveChunk(this);
@@ -269,6 +263,15 @@ public class TileEntityMidsizeGasTank extends TileEntityContainerBlock implement
         if (tank.getGas() != null && tank.getGas().getGas() != null) {
             GasStack toSend = tank.getGas().copy().withAmount(Math.min(tank.getStored(), GasOut));
             tank.draw(GasUtils.emit(toSend, tile, Collections.singleton(facing)), true);
+        }
+        if (dumping == GasMode.DUMPING) {
+            gasTank.draw(GasStorage / 400, true);
+        }else if (dumping == GasMode.DUMPING_EXCESS) {
+            int target = MathUtils.clampToInt(gasTank.getMaxGas() * MekanismConfig.current().general.dumpExcessKeepRatio.val());
+            int stored = gasTank.getStored();
+            if (target < stored) {
+                gasTank.draw(Math.min(stored - target, GasOut), true);
+            }
         }
     }
 

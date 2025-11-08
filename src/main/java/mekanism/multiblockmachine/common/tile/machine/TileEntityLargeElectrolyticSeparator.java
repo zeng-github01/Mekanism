@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.*;
+import mekanism.api.math.MathUtils;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismFluids;
 import mekanism.common.Upgrade;
@@ -174,10 +175,18 @@ public class TileEntityLargeElectrolyticSeparator extends TileEntityMultiblockBa
             } else {
                 tank.draw(dumpAmount, true);
             }
-            if (mode == GasMode.DUMPING_EXCESS && tank.getNeeded() < output) {
-                tank.draw(output - tank.getNeeded(), true);
+            if (mode == GasMode.DUMPING_EXCESS) {
+                int target = getDumpingExcessTarget(tank);
+                int stored = tank.getStored();
+                if (target < stored) {
+                    tank.draw(Math.min(stored - target, MekanismConfig.current().multiblock.MultiblockGasTankOutput.val()), true);
+                }
             }
         }
+    }
+
+    private int getDumpingExcessTarget(GasTank tank) {
+        return MathUtils.clampToInt(tank.getMaxGas() * MekanismConfig.current().general.dumpExcessKeepRatio.val());
     }
 
     private void ejectGas(Set<EnumFacing> outputSides, GasTank tank, EjectSpeedController speedController, int tankIdx, TileEntity tile) {

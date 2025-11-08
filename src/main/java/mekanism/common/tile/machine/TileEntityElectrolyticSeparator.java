@@ -21,6 +21,7 @@ import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.inputs.FluidInput;
 import mekanism.common.recipe.machines.SeparatorRecipe;
 import mekanism.common.recipe.outputs.ChemicalPairOutput;
+import mekanism.common.tier.GasTankTier;
 import mekanism.common.tile.TileEntityGasTank.GasMode;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
@@ -181,7 +182,7 @@ public class TileEntityElectrolyticSeparator extends TileEntityBasicMachine<Flui
                 int target = getDumpingExcessTarget(tank);
                 int stored = tank.getStored();
                 if (target < stored) {
-                    tank.draw(Math.min(stored - target, 1024), true);
+                    tank.draw(Math.min(stored - target, GasTankTier.BASIC.getBaseOutput()), true);
                 }
             }
         }
