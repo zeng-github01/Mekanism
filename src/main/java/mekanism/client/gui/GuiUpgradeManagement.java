@@ -55,9 +55,9 @@ public class GuiUpgradeManagement extends GuiMekanism {
                 new GuiProgress.IProgressInfoHandler() {
                     @Override
                     public double getProgress() {
-                        return (double) tileEntity.getComponent().upgradeTicks / TileComponentUpgrade.UPGRADE_TICKS_REQUIRED;
+                        return Math.max(Math.min((double) tileEntity.getComponent().upgradeTicks / TileComponentUpgrade.UPGRADE_TICKS_REQUIRED, 1.0D), 0.0D);
                     }
-                }, GuiProgress.ProgressBar.INSTALLING, this, getGuiLocation(), 153, 25,false));
+                }, GuiProgress.ProgressBar.INSTALLING, this, getGuiLocation(), 153, 25, false));
         addGuiElement(new GuiInnerScreen(this, getGuiLocation(), 90, 6, 59, 50));
         addGuiElement(new GuiElementScreen(this, getGuiLocation(), 24, 56, 125, 14));
         addGuiElement(new GuiElementScreen(this, getGuiLocation(), 24, 6, 66, 50));
@@ -126,9 +126,9 @@ public class GuiUpgradeManagement extends GuiMekanism {
             String typeName = selectedType.getName() + " " + LangUtils.localize("gui.upgrade");
             int length = fontRenderer.getStringWidth(typeName);
             if (length <= 55) {
-                renderText(typeName,92, 8, 0.6F, true);
-            }else {
-                renderScaledText(typeName, 92, 8,0x00CD00,55);
+                renderText(typeName, 92, 8, 0.6F, true);
+            } else {
+                renderScaledText(typeName, 92, 8, 0x00CD00, 55);
             }
             renderText(LangUtils.localize("gui.upgrades.amount") + ": " + amount + "/" + selectedType.getMaxInstalled(), 92, 16, 0.6F, true);
             int text = 0;
@@ -140,8 +140,8 @@ public class GuiUpgradeManagement extends GuiMekanism {
             Upgrade[] supported = tileEntity.getComponent().getSupportedTypes().toArray(new Upgrade[0]);
             if (supported.length > supportedIndex) {
                 renderUpgrade(supported[supportedIndex], 80, 57, 0.8F, true);
-                renderScaledText(supported[supportedIndex].getName(), 96, 59, 0x404040,47);
-               // fontRenderer.drawString(supported[supportedIndex].getName(), 96, 59, 0x404040);
+                renderScaledText(supported[supportedIndex].getName(), 96, 59, 0x404040, 47);
+                // fontRenderer.drawString(supported[supportedIndex].getName(), 96, 59, 0x404040);
             }
         }
         Upgrade[] upgrades = getCurrentUpgrades().toArray(new Upgrade[0]);
@@ -155,8 +155,8 @@ public class GuiUpgradeManagement extends GuiMekanism {
             Upgrade upgrade = upgrades[index];
             int xPos = 25;
             int yPos = 7 + (i * 12);
-            renderScaledText(upgrade.getName(), xPos + 12, yPos + 2, 0x404040,44);
-         //   fontRenderer.drawString(upgrade.getName(), xPos + 12, yPos + 2, 0x404040);
+            renderScaledText(upgrade.getName(), xPos + 12, yPos + 2, 0x404040, 44);
+            //   fontRenderer.drawString(upgrade.getName(), xPos + 12, yPos + 2, 0x404040);
             renderUpgrade(upgrade, xPos + 2, yPos + 2, 0.5F, true);
             if (overUpgradeType(xAxis, yAxis, xPos, yPos)) {
                 this.displayTooltips(MekanismUtils.splitTooltip(upgrade.getDescription(), upgrade.getStack()), xAxis, yAxis);

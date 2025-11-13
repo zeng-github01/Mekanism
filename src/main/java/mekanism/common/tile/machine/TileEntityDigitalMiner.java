@@ -49,7 +49,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityShulkerBox;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3i;
@@ -62,8 +61,6 @@ import net.minecraftforge.common.util.Constants.WorldEvents;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
@@ -82,7 +79,6 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
     public ThreadMinerSearch searcher = new ThreadMinerSearch(this);
     public final double BASE_ENERGY_USAGE = MachineType.DIGITAL_MINER.getUsage();
     public double energyUsage = BASE_ENERGY_USAGE;
-    private boolean rendererInitialized = false;
     private int radius;
 
     public boolean inverse;
@@ -809,12 +805,6 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
         return false;
     }
 
-    @Nonnull
-    @Override
-    @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getRenderBoundingBox() {
-        return INFINITE_EXTENT_AABB;
-    }
 
     @Override
     public void onPlace() {
@@ -1246,9 +1236,8 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
     @Override
     public void validate() {
         super.validate();
-        if (isRemote() && !rendererInitialized) {
-            rendererInitialized = true;
-            if (Mekanism.hooks.Bloom) {
+        if (isRemote()) {
+            if (Mekanism.hooks.Bloom&& MekanismConfig.current().client.enableBloom.val()) {
                 new BloomRenderDigitalMiner(this);
             }
         }

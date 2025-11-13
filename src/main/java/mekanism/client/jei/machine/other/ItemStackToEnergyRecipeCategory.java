@@ -65,7 +65,6 @@ public class ItemStackToEnergyRecipeCategory<WRAPPER extends ItemStackToEnergyRe
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
         itemStacks.init(0, true, 25 - xOffset, 35 - yOffset);
         itemStacks.set(0, tempRecipe.getInput().ingredient);
-
     }
 
     @Override

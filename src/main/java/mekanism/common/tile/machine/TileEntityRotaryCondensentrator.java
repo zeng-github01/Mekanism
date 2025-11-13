@@ -164,6 +164,7 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
             possibleProcess = Math.min(Math.min(fluidTank.getFluidAmount(), gasTank.getNeeded()), possibleProcess);
         }
         possibleProcess = Math.min((int) (getEnergy() / energyPerTick), possibleProcess);
+        possibleProcess = Math.max(possibleProcess,1);
         return Math.min(mode == 0 ? gasTank.getStored() : fluidTank.getFluidAmount(), possibleProcess);
     }
 

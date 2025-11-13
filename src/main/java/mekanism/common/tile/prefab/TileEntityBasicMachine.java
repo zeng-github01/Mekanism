@@ -12,9 +12,9 @@ import mekanism.common.integration.computer.IComputerIntegration;
 import mekanism.common.recipe.inputs.MachineInput;
 import mekanism.common.recipe.machines.MachineRecipe;
 import mekanism.common.recipe.outputs.MachineOutput;
-import mekanism.common.tile.component.SideConfig;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
+import mekanism.common.util.InventoryUtils;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -22,7 +22,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nonnull;
@@ -126,33 +125,29 @@ public abstract class TileEntityBasicMachine<INPUT extends MachineInput<INPUT>, 
     }
 
     private void outputItems(int dataIndex, int outputSlotID) {
-        SideConfig config = configComponent.getConfig(TransmissionType.ITEM);
-        EnumFacing[] translatedFacings = MekanismUtils.getBaseOrientations(facing);
-        for (EnumFacing facing : EnumFacing.VALUES) {
-            if (config.get(translatedFacings[facing.ordinal()]) == dataIndex) {
-                BlockPos offset = getPos().offset(facing);
-                TileEntity te = getWorld().getTileEntity(offset);
-                if (te == null) {
-                    continue;
-                }
-                IItemHandler itemHandler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing);
-                if (itemHandler == null) {
-                    continue;
-                }
-                try {
-                    outputToExternal(itemHandler, outputSlotID);
-                } catch (Exception e) {
-                    Mekanism.logger.error("Exception when insert item: ", e);
-                }
+        if (!configComponent.isEjecting(TransmissionType.ITEM)) {
+            return;
+        }
+        for (EnumFacing facing :configComponent.getSidesForData(TransmissionType.ITEM,facing,dataIndex)){
+            BlockPos offset = getPos().offset(facing);
+            TileEntity te = getWorld().getTileEntity(offset);
+            if (!InventoryUtils.isItemHandler(te, facing.getOpposite())) {
+                continue;
+            }
+            IItemHandler itemHandler = InventoryUtils.getItemHandler(te, facing.getOpposite());
+            if (itemHandler == null) {
+                continue;
+            }
+            try {
+                outputToExternal(itemHandler, outputSlotID);
+            }catch (Exception e) {
+                Mekanism.logger.error("Exception when insert item: ", e);
             }
         }
     }
 
     private synchronized void outputToExternal(IItemHandler external, int outputSlotID) {
         for (int externalSlotId = 0; externalSlotId < external.getSlots(); externalSlotId++) {
-            if (!configComponent.isEjecting(TransmissionType.ITEM)) {
-                break;
-            }
             ItemStack externalStack = external.getStackInSlot(externalSlotId);
             int slotLimit = external.getSlotLimit(externalSlotId);
             if (!externalStack.isEmpty() && externalStack.getCount() >= slotLimit) {
@@ -186,31 +181,26 @@ public abstract class TileEntityBasicMachine<INPUT extends MachineInput<INPUT>, 
         }
     }
 
-
     private void InputItems(int dataIndex, int inputSlotID) {
-        SideConfig config = configComponent.getConfig(TransmissionType.ITEM);
-        EnumFacing[] translatedFacings = MekanismUtils.getBaseOrientations(facing);
-        for (EnumFacing facing : EnumFacing.VALUES) {
-            if (config.get(translatedFacings[facing.ordinal()]) == dataIndex) {
-                BlockPos offset = getPos().offset(facing);
-                TileEntity te = getWorld().getTileEntity(offset);
-                if (te == null) {
-                    continue;
-                }
-                IItemHandler itemHandler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing);
-                if (itemHandler == null) {
-                    continue;
-                }
-                inputFromExternal(itemHandler, inputSlotID);
+        for (EnumFacing facing : configComponent.getSidesForData(TransmissionType.ITEM, facing, dataIndex)) {
+            BlockPos offset = getPos().offset(facing);
+            TileEntity te = getWorld().getTileEntity(offset);
+            if (!InventoryUtils.isItemHandler(te, facing.getOpposite())) {
+                continue;
             }
+            IItemHandler itemHandler = InventoryUtils.getItemHandler(te, facing.getOpposite());
+            if (itemHandler == null) {
+                continue;
+            }
+            inputFromExternal(itemHandler, inputSlotID);
         }
     }
 
     private synchronized void inputFromExternal(IItemHandler external, int inputSlotID) {
         boolean successAtLeastOnce = false;
         external:
-        for (int externalSlotId = 0; externalSlotId < external.getSlots(); externalSlotId++) {
-            ItemStack externalStack = external.getStackInSlot(externalSlotId);
+        for (int i = external.getSlots() - 1; i >= 0; i--) {
+            ItemStack externalStack = external.getStackInSlot(i);
             if (externalStack.isEmpty()) {
                 continue;
             }
@@ -220,35 +210,27 @@ public abstract class TileEntityBasicMachine<INPUT extends MachineInput<INPUT>, 
                 if (!isItemValidForSlot(inputSlotID, externalStack)) {
                     continue;
                 }
-                // Extract external item and insert to internal.
-                ItemStack extracted = external.extractItem(externalSlotId, maxCanExtract, false);
+                ItemStack extracted = external.extractItem(i, maxCanExtract, false);
                 inventory.set(inputSlotID, extracted);
                 successAtLeastOnce = true;
                 // If there are no more items in the current slot, check the next external slot.
-                if (external.getStackInSlot(externalSlotId).isEmpty()) {
+                if (external.getStackInSlot(i).isEmpty()) {
                     continue external;
                 }
                 continue;
             }
-
             if (internalStack.getCount() >= internalStack.getMaxStackSize() || !matchStacks(internalStack, externalStack)) {
                 continue;
             }
-
-            int extractAmt = Math.min(
-                    internalStack.getMaxStackSize() - internalStack.getCount(),
-                    maxCanExtract);
-
-            // Extract external item and insert to internal.
-            ItemStack extracted = external.extractItem(externalSlotId, extractAmt, false);
+            int extractAmt = Math.min(internalStack.getMaxStackSize() - internalStack.getCount(), maxCanExtract);
+            ItemStack extracted = external.extractItem(i, extractAmt, false);
             inventory.set(inputSlotID, copyStackWithSize(extracted, internalStack.getCount() + extracted.getCount()));
             successAtLeastOnce = true;
             // If there are no more items in the current slot, check the next external slot.
-            if (external.getStackInSlot(externalSlotId).isEmpty()) {
+            if (external.getStackInSlot(i).isEmpty()) {
                 continue external;
             }
         }
-
 
         if (successAtLeastOnce) {
             incrementSuccessCounter(60, 5);

@@ -1152,7 +1152,9 @@ public final class MekanismUtils {
         TEXTURE_ITEMS("textures/items"),
         MODEL("models"),
         INFUSE("infuse"),
-        ARMOR("armor");
+        ARMOR("armor"),
+        RENDER_MACHINE("render/machine"),
+        ;
 
 
         private String prefix;
@@ -1377,6 +1379,9 @@ public final class MekanismUtils {
     public interface VeinEnergyFunction {
         double calc(float hardness, int distance, IBlockState state);
     }
+
+
+
 
 }
 

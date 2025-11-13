@@ -13,6 +13,13 @@ public class StringListOption extends Option<StringListOption> {
     private String[] value;
     private final String[] defaultValue;
 
+
+    public StringListOption(BaseConfig owner, String key, String[] defaultValue, @Nullable String comment) {
+        super(owner, key, comment);
+        this.defaultValue = defaultValue;
+        this.value = defaultValue;
+    }
+
     public StringListOption(BaseConfig owner, String category, String key, String[] defaultValue, @Nullable String comment) {
         super(owner, category, key, comment);
         this.defaultValue = defaultValue;
@@ -30,6 +37,9 @@ public class StringListOption extends Option<StringListOption> {
     @SuppressWarnings("Duplicates")//types are different
     @Override
     public void load(Configuration config) {
+        if (category.isEmpty()){
+            return;
+        }
         Property prop;
         prop = config.get(this.category, this.key, this.defaultValue, this.comment);
         prop.setRequiresMcRestart(this.requiresGameRestart);

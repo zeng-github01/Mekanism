@@ -42,6 +42,7 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
     public double injectUsage = BASE_INJECT_USAGE;
     public int injectUsageThisTick;
 
+
     public DissolutionRecipe cachedRecipe;
     public float prevScale;
     public int updateDelay;
@@ -169,7 +170,7 @@ public class TileEntityChemicalDissolutionChamber extends TileEntityUpgradeableM
 
 
     public double getScaledProgress() {
-        return (double) operatingTicks / (double) ticksRequired;
+        return Math.max(Math.min((double) operatingTicks / (double) ticksRequired, 1.0D),0.0D);
     }
 
     public DissolutionRecipe getRecipe() {

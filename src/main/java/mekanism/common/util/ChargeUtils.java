@@ -65,10 +65,11 @@ public final class ChargeUtils {
                 storer.setEnergy(storer.getEnergy() + MekanismConfig.current().general.ENERGY_PER_REDSTONE_BLOCK.val());
                 stack.shrink(1);
             }*/ else if (RecipeHandler.Recipe.ENERGY_RECIPE.containsRecipe(stack) && RecipeHandler.getItemStackToEnergyRecipe(stack) != null) {
+                int itemAmount = RecipeHandler.getItemStackToEnergyRecipe(stack).getInput().ingredient.getCount();
                 double getEnergy = storer.getEnergy() + RecipeHandler.getItemStackToEnergyRecipe(stack).getOutput().energyOutput;
-                if (getEnergy <= storer.getMaxEnergy()) {
+                if (stack.getCount() >= itemAmount && getEnergy <= storer.getMaxEnergy()) {
                     storer.setEnergy(getEnergy);
-                    stack.shrink(1);
+                    stack.shrink(itemAmount);
                 }
             }
         }

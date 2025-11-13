@@ -41,7 +41,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
 
 @EventBusSubscriber(modid = Mekanism.MODID)
 public final class OreDictManager {

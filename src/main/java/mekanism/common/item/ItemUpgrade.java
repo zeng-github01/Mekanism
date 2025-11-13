@@ -4,6 +4,7 @@ import mekanism.api.EnumColor;
 import mekanism.common.Upgrade;
 import mekanism.common.base.IUpgradeItem;
 import mekanism.common.base.IUpgradeTile;
+import mekanism.common.tile.TileEntityBoundingBlock;
 import mekanism.common.tile.component.TileComponentUpgrade;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
@@ -57,6 +58,15 @@ public class ItemUpgrade extends ItemMekanism implements IUpgradeItem {
             TileEntity tile = world.getTileEntity(pos);
             ItemStack stack = player.getHeldItem(hand);
             Upgrade type = getUpgradeType(stack);
+            //看看目标是不是虚拟方块，
+            if (tile instanceof TileEntityBoundingBlock block) {
+                //如果是虚拟方块,且主方块不是空的
+                if (block.getMainTile() != null) {
+                    //设置tile到为虚拟方块的主方块
+                    tile = block.getMainTile();
+                }
+            }
+
             if (tile instanceof IUpgradeTile upgradeTile) {
                 TileComponentUpgrade component = upgradeTile.getComponent();
                 if (component.supports(type)) {

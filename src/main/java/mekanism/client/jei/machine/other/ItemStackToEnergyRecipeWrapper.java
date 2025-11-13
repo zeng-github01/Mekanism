@@ -11,6 +11,7 @@ import java.util.List;
 
 public class ItemStackToEnergyRecipeWrapper<RECIPE extends ItemStackToEnergyRecipe> extends MekanismRecipeWrapper<RECIPE> {
 
+
     public ItemStackToEnergyRecipeWrapper(RECIPE recipe) {
         super(recipe);
     }

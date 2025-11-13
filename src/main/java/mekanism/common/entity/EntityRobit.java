@@ -198,10 +198,11 @@ public class EntityRobit extends EntityCreature implements IInventory, ISustaine
                     setEnergy(getEnergy() + MekanismConfig.current().general.ENERGY_PER_REDSTONE_BLOCK.val());
                     stack.shrink(1);
                 }*/ else if (RecipeHandler.Recipe.ENERGY_RECIPE.containsRecipe(stack) && RecipeHandler.getItemStackToEnergyRecipe(stack) != null) {
+                    int itemAmount = RecipeHandler.getItemStackToEnergyRecipe(stack).getInput().ingredient.getCount();
                     double getEnergy = getEnergy() + RecipeHandler.getItemStackToEnergyRecipe(stack).getOutput().energyOutput;
-                    if (getEnergy <= MAX_ELECTRICITY) {
+                    if (stack.getCount() >= itemAmount && getEnergy <= MAX_ELECTRICITY) {
                         setEnergy(getEnergy);
-                        stack.shrink(1);
+                        stack.shrink(itemAmount);
                     }
                 }
             }
