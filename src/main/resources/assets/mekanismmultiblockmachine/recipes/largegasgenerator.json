@@ -1,6 +1,6 @@
 {
   "result": {
-    "item": "mekanismmultiblockmachine:largewindgenerator"
+    "item": "mekanismmultiblockmachine:largegasgenerator"
   },
   "pattern": [
     "ABA",
@@ -14,25 +14,23 @@
       "type": "forge:ore_dict"
     },
     "B": {
-      "item": "mekanismgenerators:turbineblade"
+      "ore": "alloyUltimate",
+      "type": "forge:ore_dict"
     },
     "C": {
       "item": "mekanism:basicblock",
       "data": 8
     },
     "D": {
+      "item": "mekanismmultiblockmachine:advanced_electrolysis_core"
+    },
+    "E": {
       "item": "mekanism:machineblock4",
       "data": 10
     },
-    "E": {
+    "F": {
       "ore":"blockSteel",
       "type": "forge:ore_dict"
-    },
-    "F": {
-      "nbt": {"tier": 3},
-      "item": "mekanism:basicblock2",
-      "data": 4,
-      "type": "mekanism:item_nbt"
     }
   }
 }
