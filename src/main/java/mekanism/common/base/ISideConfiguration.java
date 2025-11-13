@@ -1,11 +1,7 @@
 package mekanism.common.base;
 
-import mekanism.common.Mekanism;
-import mekanism.common.MekanismBlocks;
-import mekanism.common.block.BlockMachine;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
-import net.minecraft.block.Block;
 import net.minecraft.util.EnumFacing;
 
 /**

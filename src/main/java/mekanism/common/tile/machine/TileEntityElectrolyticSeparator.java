@@ -21,6 +21,7 @@ import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.inputs.FluidInput;
 import mekanism.common.recipe.machines.SeparatorRecipe;
 import mekanism.common.recipe.outputs.ChemicalPairOutput;
+import mekanism.common.tier.GasTankTier;
 import mekanism.common.tile.TileEntityGasTank.GasMode;
 import mekanism.common.tile.component.TileComponentConfig;
 import mekanism.common.tile.component.TileComponentEjector;
@@ -181,7 +182,7 @@ public class TileEntityElectrolyticSeparator extends TileEntityBasicMachine<Flui
                 int target = getDumpingExcessTarget(tank);
                 int stored = tank.getStored();
                 if (target < stored) {
-                    tank.draw(Math.min(stored - target, 1024), true);
+                    tank.draw(Math.min(stored - target, GasTankTier.BASIC.getBaseOutput()), true);
                 }
             }
         }
@@ -219,6 +220,7 @@ public class TileEntityElectrolyticSeparator extends TileEntityBasicMachine<Flui
         }
         possibleProcess = Math.min(Math.min((int) Math.pow(2, upgradeComponent.getUpgrades(Upgrade.SPEED)), MekanismConfig.current().mekce.MAXspeedmachines.val()), possibleProcess);
         possibleProcess = Math.min((int) (getEnergy() / energyPerTick), possibleProcess);
+        possibleProcess = Math.max(possibleProcess,1);
         return Math.min(fluidTank.getFluidAmount() / recipe.recipeInput.ingredient.amount, possibleProcess);
     }
 

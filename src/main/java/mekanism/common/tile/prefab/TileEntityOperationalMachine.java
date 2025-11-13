@@ -33,7 +33,7 @@ public abstract class TileEntityOperationalMachine extends TileEntityMachine imp
     }
 
     public double getScaledProgress() {
-        return Math.min((double) operatingTicks / ticksRequired, 1F);
+        return Math.max(Math.min((double) operatingTicks / ticksRequired, 1.0D),0.0D);
     }
 
     @Override

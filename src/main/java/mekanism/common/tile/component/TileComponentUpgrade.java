@@ -66,7 +66,7 @@ public class TileComponentUpgrade implements ITileComponent {
             if (!tileEntity.inventory.get(upgradeSlot).isEmpty() && tileEntity.inventory.get(upgradeSlot).getItem() instanceof IUpgradeItem upgradeItem) {
                 Upgrade type = upgradeItem.getUpgradeType(tileEntity.inventory.get(upgradeSlot));
 
-                if (supports(type) && getUpgrades(type) < type.getMax()) {
+                if (supports(type) && getUpgrades(type) < type.getMaxInstalled()) {
                     if (upgradeTicks < UPGRADE_TICKS_REQUIRED) {
                         upgradeTicks++;
                     } else if (upgradeTicks == UPGRADE_TICKS_REQUIRED) {
@@ -106,8 +106,8 @@ public class TileComponentUpgrade implements ITileComponent {
 
     public int addUpgrades(Upgrade upgrade, int maxAvailable) {
         int installed = getUpgrades(upgrade);
-        if (installed < upgrade.getMax()) {
-            int toAdd = Math.min(upgrade.getMax() - installed, maxAvailable);
+        if (installed < upgrade.getMaxInstalled()) {
+            int toAdd = Math.min(upgrade.getMaxInstalled() - installed, maxAvailable);
             if (toAdd > 0) {
                 this.upgrades.put(upgrade, installed + toAdd);
                 tileEntity.recalculateUpgradables(upgrade);

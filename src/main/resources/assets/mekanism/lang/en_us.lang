@@ -1292,6 +1292,9 @@ gui.editrate=Edit Rate
 gui.Plasma=Plasma
 gui.Case=Case
 
+conversion.mekanism.gasflue.base=Power generation by gas combustion
+chemical.mekanism.attribute.fuel.burn_ticks= - Burn Time:
+chemical.mekanism.attribute.fuel.energy_density= - Energy Density:
 # Config Gui
 mekanism.configgui.ctgy.generators.general=General Settings
 mekanism.configgui.ctgy.generators.generators=Generator Settings

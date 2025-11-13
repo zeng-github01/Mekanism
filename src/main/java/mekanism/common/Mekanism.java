@@ -154,7 +154,6 @@ public class Mekanism {
     public static Configuration configurationtools;
 
     public static Configuration configurationMultiblockMachine;
-    public static Configuration configurationmekaweapons;
     public static Configuration configurationMeka;
     /**
      * Mekanism version number
@@ -445,7 +444,6 @@ public class Mekanism {
         configurationgenerators = new Configuration(new File("config/mekanism/MekanismGenerators.cfg"));
         configurationtools = new Configuration(new File("config/mekanism/MekanismTools.cfg"));
         configurationMultiblockMachine = new Configuration(new File("config/mekanism/MekanismMultiblockMachine.cfg"));
-        configurationmekaweapons = new Configuration(new File("config/mekanism/MekanismWeapons.cfg"));
         configurationMeka = new Configuration(new File("config/mekanism/MekaSuitArmor.cfg"));
 
 

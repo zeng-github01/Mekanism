@@ -118,11 +118,11 @@ public class TileEntityGasTank extends TileEntityContainerBlock implements IGasH
         if (tier != GasTankTier.CREATIVE) {
             if (dumping == GasMode.DUMPING) {
                 gasTank.draw(tier.getStorage() / 400, true);
-            }else if (dumping == GasMode.DUMPING_EXCESS) {
+            } else if (dumping == GasMode.DUMPING_EXCESS) {
                 int target = MathUtils.clampToInt(gasTank.getMaxGas() * MekanismConfig.current().general.dumpExcessKeepRatio.val());
                 int stored = gasTank.getStored();
                 if (target < stored) {
-                gasTank.draw(Math.min(stored - target, tier.getOutput()), true);
+                    gasTank.draw(Math.min(stored - target, tier.getOutput()), true);
                 }
             }
         }
