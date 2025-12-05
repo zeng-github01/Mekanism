@@ -17,6 +17,7 @@ import mekanism.client.render.hud.MekaSuitEnergyLevel;
 import mekanism.client.render.hud.MekanismHUD;
 import mekanism.client.render.hud.MekanismStatusOverlay;
 import mekanism.common.base.IModule;
+import mekanism.common.block.PortalHelper;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.chunkloading.ChunkManager;
 import mekanism.common.command.CommandMek;
@@ -216,6 +217,7 @@ public class Mekanism {
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         // Register blocks and tile entities
         MekanismBlocks.registerBlocks(event.getRegistry());
+       // event.getRegistry().register(PortalHelper.BlockPortalOverride.instance);
     }
 
     @SubscribeEvent
@@ -786,4 +788,5 @@ public class Mekanism {
         MekanismHUD.onDrawScreenPre(event);
         MekanismStatusOverlay.INSTANCE.render(event);
     }
+
 }

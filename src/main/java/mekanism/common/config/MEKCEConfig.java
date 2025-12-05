@@ -104,6 +104,9 @@ public class MEKCEConfig extends BaseConfig {
 
     public final IntOption DigitalMinerMinY = new IntOption(this,"DigitalMinerMinY",0,"The minimum Y value of DigitalMiner");
     public final IntOption DigitalMinerMaxY = new IntOption(this,"DigitalMinerMaxY",255,"The maximum Y value of DigitalMiner");
+    public final BooleanOption BananaRadiation = new BooleanOption(this,"BananaRadiation",false,"When the player consumes a mineral item containing bananas, they gain a small amount of radiation.");
+    public final DoubleOption BananaRadiationMeasurement = new DoubleOption(this,"BananaRadiationMeasurement",0.000000078,"The radiation level of each banana",0,Double.MAX_VALUE);
+
     @Override
     public void load(Configuration config) {
         super.load(config);
