@@ -48,8 +48,7 @@ public class TileEntityDynamicTank extends TileEntityMultiblock<SynchronizedTank
     public float prevScale;
 
     public TileEntityDynamicTank() {
-        super("DynamicTank");
-        inventory = NonNullListSynchronized.withSize(SLOTS.length, ItemStack.EMPTY);
+        this("DynamicTank");
     }
 
     public TileEntityDynamicTank(String name) {
