@@ -288,18 +288,23 @@ public class TileEntityLargeWindGenerator extends TileEntityGenerator implements
             head2 = head2.east(4);
         }
 
-        if (world.canSeeSky(head) && world.canSeeSky(head2)) {
-            int minY = MekanismConfig.current().multiblock.LargeWindGenerationMinY.val();
-            int maxY = MekanismConfig.current().multiblock.LargeWindGenerationMaxY.val();
-            float clampedY = (float) Math.min(maxY, Math.max(minY, head.getY()));
-            float minG = (float) MekanismConfig.current().multiblock.LargeWindGenerationMin.val();
-            float maxG = (float) MekanismConfig.current().multiblock.LargeWindGenerationMax.val();
-            //Prevents the possibility of writing opposite values; https://github.com/Thorfusion/Mekanism-Community-Edition/issues/150
-            int rangeY = maxY < minY ? minY - maxY : maxY - minY;
-            float rangG = maxG < minG ? minG - maxG : maxG - minG;
-            float slope = rangG / rangeY;
-            float toGen = minG + (slope * (clampedY - minY));
-            return toGen / minG;
+        //这是为了防止主线程等待机器的异步，然后机器等待区块的加载,然后区块又在等待主线程,造成循环等待加载
+        Chunk chunkCheckA = world.getChunkProvider().getLoadedChunk(head.getX() >> 4, head.getZ() >> 4);
+        Chunk chunkCheckB = world.getChunkProvider().getLoadedChunk(head2.getX() >> 4, head2.getZ() >> 4);
+        if (chunkCheckA != null && chunkCheckB != null && !chunkCheckA.isEmpty() && !chunkCheckB.isEmpty()) {
+            if (world.canSeeSky(head) && world.canSeeSky(head2)) {
+                int minY = MekanismConfig.current().multiblock.LargeWindGenerationMinY.val();
+                int maxY = MekanismConfig.current().multiblock.LargeWindGenerationMaxY.val();
+                float clampedY = (float) Math.min(maxY, Math.max(minY, head.getY()));
+                float minG = (float) MekanismConfig.current().multiblock.LargeWindGenerationMin.val();
+                float maxG = (float) MekanismConfig.current().multiblock.LargeWindGenerationMax.val();
+                //Prevents the possibility of writing opposite values; https://github.com/Thorfusion/Mekanism-Community-Edition/issues/150
+                int rangeY = maxY < minY ? minY - maxY : maxY - minY;
+                float rangG = maxG < minG ? minG - maxG : maxG - minG;
+                float slope = rangG / rangeY;
+                float toGen = minG + (slope * (clampedY - minY));
+                return toGen / minG;
+            }
         }
         return 0;
     }
