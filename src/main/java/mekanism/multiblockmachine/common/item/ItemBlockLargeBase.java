@@ -107,8 +107,7 @@ public abstract class ItemBlockLargeBase extends ItemBlock implements IEnergized
             if (itemstack.getItem() instanceof ISustainedInventory inventory) {
                 list.add(EnumColor.AQUA + LangUtils.localize("tooltip.inventory") + ": " + EnumColor.GREY + LangUtils.transYesNo(inventory.getInventory(itemstack) != null && inventory.getInventory(itemstack).tagCount() != 0));
             }
-
-            if (itemstack.getItem() instanceof ItemBlock block && block.getBlock() != null && block.getBlock() instanceof ITileEntityProvider machine && machine.createNewTileEntity(Minecraft.getMinecraft().world, itemstack.getMetadata()) != null && machine.createNewTileEntity(Minecraft.getMinecraft().world, itemstack.getMetadata()) instanceof IUpgradeTile && ItemDataUtils.hasData(itemstack, "upgrades")) {
+            if (ItemDataUtils.hasData(itemstack, "upgrades")) {
                 Upgrade.buildMap(ItemDataUtils.getDataMap(itemstack)).forEach((key, value) -> list.add(key.getColor() + "- " + key.getName() + (key.canMultiply() ? ": " + EnumColor.GREY + "x" + value : "")));
             }
         } else {
