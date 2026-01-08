@@ -387,7 +387,7 @@ public interface IFactory {
                     }
                 }
                 if (((Map.Entry<?, ?>) obj).getKey() instanceof ItemStackInput input) {
-                    if (ItemHandlerHelper.canItemStacksStack(input.ingredient, stack)) {
+                    if (StackUtils.equalsWildcardWithNBT(input.ingredient, stack)) {
                         return true;
                     }
                 }

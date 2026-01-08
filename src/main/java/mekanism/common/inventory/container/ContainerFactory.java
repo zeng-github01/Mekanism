@@ -237,7 +237,7 @@ public class ContainerFactory extends ContainerMekanism<TileEntityFactory> {
                     }
                     if (((Map.Entry<?, ?>) obj).getKey() instanceof ItemStackInput input) {
                         ItemStack stack = input.ingredient;
-                        if (ItemHandlerHelper.canItemStacksStack(stack, itemstack)) {
+                        if (StackUtils.equalsWildcardWithNBT(stack, itemstack)) {
                             return true;
                         }
                     }
