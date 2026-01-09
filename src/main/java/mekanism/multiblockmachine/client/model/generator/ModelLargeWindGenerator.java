@@ -18,8 +18,9 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class ModelLargeWindGenerator extends ModelBase {
 
-    public static ResourceLocation OVERLAY_OFF = MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER, "WindGenerator/LargeWindGenerator_OFF.png");
-
+    public static final ResourceLocation OVERLAY_OFF = MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER, "WindGenerator/LargeWindGenerator_OFF.png");
+    public static final ResourceLocation OVERLAY_ON_0 = MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER, "WindGenerator/LargeWindGenerator_ON_0.png");
+    public static final ResourceLocation OVERLAY_ON_1 = MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER, "WindGenerator/LargeWindGenerator_ON_1.png");
     ModelRenderer doll_up;
     ModelRenderer cube_r1;
     ModelRenderer cube_r2;
@@ -1936,7 +1937,7 @@ public class ModelLargeWindGenerator extends ModelBase {
             GlStateManager.disableAlpha();
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            manager.bindTexture(on ? MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER, "WindGenerator/LargeWindGenerator_ON_" + getTick(tick) + ".png") : OVERLAY_OFF);
+            manager.bindTexture(on ? (getTick(tick) == 0 ? OVERLAY_ON_0 : OVERLAY_ON_1) : OVERLAY_OFF);
             GlStateManager.scale(1.001F, 1.001F, 1.001F);
             GlStateManager.translate(-0.0011F, -0.0011F, -0.0011F);
             MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
@@ -1954,7 +1955,7 @@ public class ModelLargeWindGenerator extends ModelBase {
         GlStateManager.disableAlpha();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        manager.bindTexture(on ? MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER, "WindGenerator/LargeWindGenerator_ON_" + getTick(tick) + ".png") : OVERLAY_OFF);
+        manager.bindTexture(on ? (getTick(tick) == 0 ? OVERLAY_ON_0 : OVERLAY_ON_1) : OVERLAY_OFF);
         GlStateManager.scale(1.0011F, 1.0011F, 1.0011F);
         GlStateManager.translate(-0.0012F, -0.0012F, -0.0012F);
         MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
@@ -2024,4 +2025,5 @@ public class ModelLargeWindGenerator extends ModelBase {
         }
         return 0;
     }
+
 }

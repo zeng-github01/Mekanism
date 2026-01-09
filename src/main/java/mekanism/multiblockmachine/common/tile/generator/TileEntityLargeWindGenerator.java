@@ -754,4 +754,9 @@ public class TileEntityLargeWindGenerator extends TileEntityGenerator implements
         }
     }
 
+    @Override
+    public boolean hasFastRenderer() {
+        return true;
+    }
+
 }
