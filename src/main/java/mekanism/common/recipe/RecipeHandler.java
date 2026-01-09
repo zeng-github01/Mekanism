@@ -328,6 +328,10 @@ public final class RecipeHandler {
         addRecyclerRecipe(input, new ItemStack(MekanismItems.Scrap, 1), 1F / 6F);
     }
 
+    public static void addRecyclerRecipe(ItemStack input, double chance) {
+        addRecyclerRecipe(input, new ItemStack(MekanismItems.Scrap, 1), chance);
+    }
+
     public static void addRecyclerRecipe(ItemStack input, ItemStack primaryOutput, double chance) {
         addRecipe(Recipe.RECYCLER, new RecyclerRecipe(input, primaryOutput, chance));
     }
@@ -343,7 +347,6 @@ public final class RecipeHandler {
     public static void addFusionCoolingRecipe(FluidStack inputFluid, FluidStack outputFluid, double energy) {
         addRecipe(Recipe.FUSION_COOLING, new FusionCoolingRecipe(inputFluid, outputFluid, energy));
     }
-
 
 
     public static void addItemStackToEnergyRecipe(ItemStack input, double outputEnergy) {
@@ -725,7 +728,6 @@ public final class RecipeHandler {
                 "FusionCooling", FluidInput.class, FluidOutput.class, FusionCoolingRecipe.class);
 
 
-
         public static final Recipe<ItemStackInput, EnergyOutput, ItemStackToEnergyRecipe> ENERGY_RECIPE = new Recipe<>("ItemStackToEnergy", ItemStackInput.class, EnergyOutput.class, ItemStackToEnergyRecipe.class);
         //TODO
         public static final Recipe<InfusionInput, ItemStackOutput, MetallurgicInfuserRecipe> INFUSER_RECIPE = new Recipe<>("ItemStackToInfuseType", InfusionInput.class, ItemStackOutput.class, MetallurgicInfuserRecipe.class);
@@ -863,7 +865,7 @@ public final class RecipeHandler {
                     toCheck = advancedMachineInput.gasType;
                 } else if (entry.getKey() instanceof PressurizedInput pressurizedInput) {
                     toCheck = pressurizedInput.getGas().getGas();
-                }  else if (entry.getKey() instanceof NucleosynthesizerInput nucleosynthesizerInput) {
+                } else if (entry.getKey() instanceof NucleosynthesizerInput nucleosynthesizerInput) {
                     toCheck = nucleosynthesizerInput.getGas().getGas();
                 } else if (entry.getKey() instanceof GasAndFluidInput gasAndFluidInput) {
                     toCheck = gasAndFluidInput.ingredientGas.getGas();

@@ -11,6 +11,7 @@ import mekanism.api.infuse.InfuseType;
 import mekanism.common.block.states.BlockStateMachine;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.recipe.RecipeHandler;
+import mekanism.common.recipe.inputs.ItemStackInput;
 import mekanism.common.util.StackUtils;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.init.Blocks;
@@ -461,6 +462,11 @@ public class MekanismRecipe {
                 getRegistriesStacks().forEach(RecipeHandler::addRecyclerRecipe);
             } else {
                 RecipeHandler.addRecyclerRecipe(new ItemStack(Blocks.STONE));
+            }
+            ItemStack Substrate = new ItemStack(MekanismItems.Substrate);
+            if (RecipeHandler.Recipe.RECYCLER.containsRecipe(Substrate)) {
+                RecipeHandler.Recipe.RECYCLER.remove(RecipeHandler.Recipe.RECYCLER.get().get(new ItemStackInput(Substrate)));
+                RecipeHandler.addRecyclerRecipe(Substrate, 0.5);
             }
         }
 
