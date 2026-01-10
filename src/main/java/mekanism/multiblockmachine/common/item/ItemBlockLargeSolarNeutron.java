@@ -2,7 +2,6 @@ package mekanism.multiblockmachine.common.item;
 
 import mekanism.api.EnumColor;
 import mekanism.common.Mekanism;
-import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.LangUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -16,15 +15,10 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class ItemBlockLargeGasGenerator extends ItemBlockLargeBaseEnergy {
+public class ItemBlockLargeSolarNeutron extends ItemBlockLargeBase{
 
-    public ItemBlockLargeGasGenerator(Block block) {
-        super(block, "LargeGasGenerator");
-    }
-
-    @Override
-    public double getMachineStorage() {
-        return MekanismConfig.current().general.FROM_H2.val() * 1000 * MekanismConfig.current().multiblock.LargeGasGeneratorProcesses.val();
+    public ItemBlockLargeSolarNeutron(Block block) {
+        super(block, "LargeSolarNeutronActivator");
     }
 
     @Override
