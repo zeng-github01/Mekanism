@@ -447,6 +447,8 @@ public class ClientProxy extends CommonProxy {
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(MekanismBlocks.MachineBlock3), 9, getInventoryMRL("isotopic_centrifuge"));
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(MekanismBlocks.MachineBlock3), 10, getInventoryMRL("nutritional_liquifier"));
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(MekanismBlocks.MachineBlock3), 13, getInventoryMRL("antiprotonic_nucleosynthesizer"));
+
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(MekanismBlocks.SuperFumo), 0, getInventoryMRL("SuperFumo"));
         /**
          * ADD END
          * */

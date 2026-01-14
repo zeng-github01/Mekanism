@@ -2,16 +2,19 @@ package mekanism.common;
 
 
 import mekanism.api.EnumColor;
-import mekanism.api.gas.GasRegistry;
-import mekanism.api.gas.GasStack;
-import mekanism.api.gas.OreGas;
+import mekanism.api.energy.IEnergizedItem;
+import mekanism.api.gas.*;
 import mekanism.api.infuse.InfuseObject;
 import mekanism.api.infuse.InfuseRegistry;
 import mekanism.api.infuse.InfuseType;
 import mekanism.common.block.states.BlockStateMachine;
 import mekanism.common.config.MekanismConfig;
+import mekanism.common.content.gear.IModuleContainerItem;
+import mekanism.common.item.armor.ItemMekaSuitBodyArmor;
+import mekanism.common.item.armor.ItemMekaSuitHelmet;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.ItemStackInput;
+import mekanism.common.util.GasUtils;
 import mekanism.common.util.StackUtils;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.init.Blocks;
@@ -503,6 +506,51 @@ public class MekanismRecipe {
         }
         return stacks;
     }
+
+
+    public static void SuperFumoReciperRegister() {
+        ItemStack SuperFumo = new ItemStack(MekanismBlocks.SuperFumo);
+        ItemStack helmet = new ItemStack(MekanismItems.MEKASUIT_HELMET);
+        ItemStack bodyarmor = new ItemStack(MekanismItems.MEKASUIT_BODYARMOR);
+        ItemStack pants = new ItemStack(MekanismItems.MEKASUIT_PANTS);
+        ItemStack boots = new ItemStack(MekanismItems.MEKASUIT_BOOTS);
+        ItemStack tool = new ItemStack(MekanismItems.MEKA_TOOL);
+
+        addAllModule(helmet);
+        addAllModule(bodyarmor);
+        addAllModule(pants);
+        addAllModule(boots);
+        addAllModule(tool);
+
+        addEnergy(helmet);
+        addEnergy(bodyarmor);
+        addEnergy(pants);
+        addEnergy(boots);
+        addEnergy(tool);
+
+        if (helmet.getItem() instanceof ItemMekaSuitHelmet item){
+            item.setGas(helmet, new GasStack(MekanismFluids.NutritionalPaste, item.getMaxGas(helmet)));
+        }
+        if (bodyarmor.getItem() instanceof ItemMekaSuitBodyArmor item){
+            item.setGas(bodyarmor, new GasStack(MekanismFluids.Hydrogen, item.getMaxGas(bodyarmor)));
+        }
+
+        GameRegistry.addShapedRecipe(Mekanism.rl("super_fumo"), null, SuperFumo, "A B", " C ", "D E", 'A', helmet, 'B', bodyarmor, 'C', tool, 'D', pants, 'E', boots);
+    }
+
+
+    public static void addAllModule(ItemStack stack){
+        if (stack.getItem() instanceof IModuleContainerItem item) {
+            item.setAllModule(stack);
+        }
+    }
+
+    public static void addEnergy(ItemStack stack){
+        if (stack.getItem() instanceof IEnergizedItem item) {
+            item.setEnergy(stack, item.getMaxEnergy(stack));
+        }
+    }
+
 
 
 }

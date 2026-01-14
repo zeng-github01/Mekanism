@@ -2172,3 +2172,5 @@ death.attack.mekanism.smartattackdamage=%s 因自动范围攻击死亡
 death.attack.mekanism.smartattackdamage.player=%s 在试图逃离 %s 时被 %s 的自动范围攻击导致死亡
 
 chemical.mekanism.attribute.radiation= - 放射性：
+
+tile.SuperFumo.name=超级FuMo
