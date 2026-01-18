@@ -344,11 +344,26 @@ public final class MekanismUtils {
      * @return max secondary energy per tick
      */
     public static double getSecondaryEnergyPerTickMean(IUpgradeTile mgmt, int def) {
-        if (mgmt.getComponent().supports(Upgrade.GAS)) {
+        if (mgmt.supportsUpgrade(Upgrade.GAS)) {
             return def * Math.pow(MekanismConfig.current().general.maxUpgradeMultiplier.val(), 2 * fractionUpgrades(mgmt, Upgrade.SPEED) - fractionUpgrades(mgmt, Upgrade.GAS));
         }
         return def * Math.pow(MekanismConfig.current().general.maxUpgradeMultiplier.val(), fractionUpgrades(mgmt, Upgrade.SPEED));
     }
+
+    public static long getBaseUsage(IUpgradeTile tile, int def) {
+        if (tile.supportsUpgrades()) {
+            //getGasPerTickMean * required ticks (not rounded)
+            if (tile.supportsUpgrade(Upgrade.GAS)) {
+                // def * (upgradeMultiplier ^ ((2 * speed - gas) / 8)) * (upgradeMultiplier ^ (-speed / 8)) =
+                // def * upgradeMultiplier ^ ((speed - gas) / 8)
+                //TODO: We may want to validate this provides the numbers we desire if we ever end up with any machines
+                // that use this that are not statistical and have gas upgrades so would go through this code path
+                return Math.round(def * Math.pow(MekanismConfig.current().general.maxUpgradeMultiplier.val(),   fractionUpgrades(tile, Upgrade.SPEED) - fractionUpgrades(tile, Upgrade.GAS)));
+            }
+        }
+        return def;
+    }
+
 
     /**
      * Gets the maximum energy for a machine via it's upgrades.

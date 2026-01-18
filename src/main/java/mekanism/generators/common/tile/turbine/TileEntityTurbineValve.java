@@ -90,7 +90,7 @@ public class TileEntityTurbineValve extends TileEntityTurbineCasing implements I
 
     @Method(modid = MekanismHooks.IC2_MOD_ID)
     public void register() {
-        if (!isRemote()) {
+        if (!isRemote() && world != null) {
             IEnergyTile registered = EnergyNet.instance.getTile(world, getPos());
             if (registered != this) {
                 if (registered != null && ic2Registered) {
@@ -106,7 +106,7 @@ public class TileEntityTurbineValve extends TileEntityTurbineCasing implements I
 
     @Method(modid = MekanismHooks.IC2_MOD_ID)
     public void deregister() {
-        if (!isRemote()) {
+        if (!isRemote() && world != null) {
             IEnergyTile registered = EnergyNet.instance.getTile(world, getPos());
             if (registered != null && ic2Registered) {
                 MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(registered));

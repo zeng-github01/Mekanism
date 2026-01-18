@@ -4,7 +4,9 @@ import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeConfigProvider;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeHitEntityData;
+import mekanism.api.energy.IStrictEnergyStorage;
 import mekanism.common.capabilities.Capabilities;
+import mekanism.common.tile.TileEntityAdvancedBoundingBlock;
 import mekanism.common.tile.base.TileEntitySynchronized;
 import mekanism.common.util.CapabilityUtils;
 import mekanism.common.util.WorldUtils;
@@ -27,6 +29,10 @@ public class ProbeConfigProvider implements IProbeConfigProvider {
     public void getProbeConfig(IProbeConfig config, EntityPlayer entityPlayer, World world, IBlockState iBlockState, IProbeHitData data) {
         TileEntity tile = WorldUtils.getTileEntity(world, data.getPos());
         if (CapabilityUtils.hasCapability(tile, Capabilities.ENERGY_STORAGE_CAPABILITY, null)) {
+            config.setRFMode(0);
+        }else if (tile instanceof TileEntityAdvancedBoundingBlock block && block.getInv() != null){
+            config.setRFMode(0);
+        }else if (tile instanceof IStrictEnergyStorage){
             config.setRFMode(0);
         }
         if (tile instanceof TileEntitySynchronized) {
