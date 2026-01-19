@@ -431,7 +431,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             electricityStored.set(Double.MAX_VALUE);
         }
         if (recipeType == RecipeType.Dissolution) {
-            secondaryEnergyThisTick = Math.max(BASE_INJECT_USAGE * tier.processes, StatUtils.inversePoisson(BASE_INJECT_USAGE * tier.processes));
+            secondaryEnergyThisTick = Math.max(BASE_INJECT_USAGE, StatUtils.inversePoisson(BASE_INJECT_USAGE));
         } else {
             secondaryEnergyThisTick = recipeType.fuelEnergyUpgrades() ? StatUtils.inversePoisson(secondaryEnergyPerTick) : (int) Math.ceil(secondaryEnergyPerTick);
         }
