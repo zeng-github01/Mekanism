@@ -987,6 +987,7 @@ mekanism.tooltip.mektool.off=关
 tooltip.configurationCard.got=已从%s获取配置数据
 tooltip.configurationCard.set=已导入%s的配置数据
 tooltip.configurationCard.unequal=配置格式不符规则
+tooltip.configuration_card.mekanism.cleared=已清除配置卡
 
 tooltip.balloon=气球
 

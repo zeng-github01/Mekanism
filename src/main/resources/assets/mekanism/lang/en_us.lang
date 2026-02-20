@@ -985,6 +985,7 @@ mekanism.tooltip.mektool.off=off
 tooltip.configurationCard.got=Retrieved configuration data from %s
 tooltip.configurationCard.set=Injected configuration data of type %s
 tooltip.configurationCard.unequal=Unequal configuration data formats
+tooltip.configuration_card.mekanism.cleared=Cleared Configuration Card
 
 tooltip.balloon=Balloon
 

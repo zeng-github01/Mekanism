@@ -383,18 +383,94 @@ public class BlockStateMachine extends ExtendedBlockState {
 
     public static class MachineBlockStateMapper extends StateMapperBase {
 
+        // use int-packed keys to avoid allocating strings during cache build and lookups
+        private final Int2ReferenceMap<ModelResourceLocation> cache = new Int2ReferenceOpenHashMap<>();
+
+        public MachineBlockStateMapper() {
+            buildCache();
+        }
+
+        private void buildCache() {
+            for (MachineType type : MachineType.values()) {
+                if (!type.isValidMachine()) {
+                    continue;
+                }
+
+                boolean hasActive = type.hasActiveTexture();
+                boolean hasRotations = type.hasRotations();
+                boolean isFactory = type.isFactory();
+
+                List<Boolean> activeOptions = hasActive ? Arrays.asList(Boolean.FALSE, Boolean.TRUE) : Collections.singletonList(null);
+                EnumFacing[] facings = hasRotations ? EnumFacing.values() : new EnumFacing[]{null};
+                RecipeType[] recipes = isFactory ? RecipeType.values() : new RecipeType[]{null};
+
+                for (Boolean activeVal : activeOptions) {
+                    for (EnumFacing facingVal : facings) {
+                        EnumFacing useFacing = facingVal;
+                        if (useFacing != null && !type.canRotateTo(useFacing)) {
+                            useFacing = EnumFacing.NORTH;
+                        }
+                        for (RecipeType recipeVal : recipes) {
+                            StringBuilder builder = new StringBuilder();
+                            String nameOverride = null;
+
+                            if (hasActive) {
+                                builder.append(activeProperty.getName()).append("=").append(activeVal);
+                            }
+
+                            if (hasRotations) {
+                                if (builder.length() > 0) builder.append(",");
+                                builder.append(BlockStateFacing.facingProperty.getName()).append("=").append((useFacing != null ? useFacing : EnumFacing.NORTH).getName());
+                            }
+
+                            if (isFactory && recipeVal != null) {
+                                nameOverride = type.getName() + "_" + recipeVal.getName();
+                            }
+
+                            if (builder.length() == 0) {
+                                builder.append("normal");
+                            }
+
+                            ResourceLocation baseLocation = new ResourceLocation(Mekanism.MODID, nameOverride != null ? nameOverride : type.getName());
+                            int key = makeKey(type, useFacing, activeVal, recipeVal);
+                            cache.put(key, new ModelResourceLocation(baseLocation, builder.toString()));
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * Pack (typeOrdinal in bits 0-7) | (recipeOrdinal in bits 8-15) | (facingIndex in bits 16-18) | (activeBit in bit 19)
+         * facingIndex: 0 = null/normal, 1..6 = EnumFacing.ordinal()+1
+         */
+        private int makeKey(MachineType type, EnumFacing facing, Boolean active, RecipeType recipe) {
+            int typeOrd = type.ordinal() & 0xFF;
+            int recipeOrd = (recipe != null ? recipe.ordinal() : 0) & 0xFF;
+            int facingIndex = 0;
+            if (facing != null) {
+                facingIndex = (facing.ordinal() + 1) & 0x07;
+            }
+            int activeBit = (active != null && active) ? 1 : 0;
+            return typeOrd | (recipeOrd << 8) | (facingIndex << 16) | (activeBit << 19);
+        }
+
         @Nonnull
         @Override
         protected ModelResourceLocation getModelResourceLocation(@Nonnull IBlockState state) {
             BlockMachine block = (BlockMachine) state.getBlock();
             MachineType type = state.getValue(block.getTypeProperty());
+
             StringBuilder builder = new StringBuilder();
             String nameOverride = null;
 
+            Boolean activeVal = null;
+            EnumFacing facingVal = null;
+            RecipeType recipeVal = null;
+
             if (type.hasActiveTexture()) {
-                builder.append(activeProperty.getName());
-                builder.append("=");
-                builder.append(state.getValue(activeProperty));
+                activeVal = state.getValue(activeProperty);
+                builder.append(activeProperty.getName()).append("=").append(activeVal);
             }
 
             if (type.hasRotations()) {
@@ -402,24 +478,30 @@ public class BlockStateMachine extends ExtendedBlockState {
                 if (!type.canRotateTo(facing)) {
                     facing = EnumFacing.NORTH;
                 }
-                if (builder.length() > 0) {
-                    builder.append(",");
-                }
-                builder.append(BlockStateFacing.facingProperty.getName());
-                builder.append("=");
-                builder.append(facing.getName());
+                facingVal = facing;
+                if (builder.length() > 0) builder.append(",");
+                builder.append(BlockStateFacing.facingProperty.getName()).append("=").append(facing.getName());
             }
 
-            if (type == MachineType.BASIC_FACTORY || type == MachineType.ADVANCED_FACTORY || type == MachineType.ELITE_FACTORY || type == MachineType.ULTIMATE_FACTORY || type == MachineType.CREATIVE_FACTORY) {
-                RecipeType recipe = state.getValue(recipeProperty);
-                nameOverride = type.getName() + "_" + recipe.getName();
+            if (type.isFactory()) {
+                recipeVal = state.getValue(recipeProperty);
+                nameOverride = type.getName() + "_" + recipeVal.getName();
             }
 
             if (builder.length() == 0) {
                 builder.append("normal");
             }
+
+            int key = makeKey(type, facingVal, activeVal, recipeVal);
+            ModelResourceLocation cached = cache.get(key);
+            if (cached != null) {
+                return cached;
+            }
+
+            // fallback (rare) - construct on the fly
             ResourceLocation baseLocation = new ResourceLocation(Mekanism.MODID, nameOverride != null ? nameOverride : type.getName());
             return new ModelResourceLocation(baseLocation, builder.toString());
         }
     }
 }
+
