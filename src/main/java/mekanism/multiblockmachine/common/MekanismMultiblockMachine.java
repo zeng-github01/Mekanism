@@ -27,7 +27,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
         @Mod.CustomProperty(k = "license", v = "EUPL-1.2"),
         @Mod.CustomProperty(k = "issueTrackerUrl", v = "https://github.com/sddsd2332/Mekanism-CE-Unofficial-1.12.2/issues"),
         @Mod.CustomProperty(k = "iconFile", v = "assets/mekanism/icon.png"),
-        @Mod.CustomProperty(k = "backgroundFile", v = "assets/mekanism/background.png")
+        @Mod.CustomProperty(k = "backgroundFile", v = "assets/mekanismmultiblockmachine/background.png")
 })
 @Mod.EventBusSubscriber()
 public class MekanismMultiblockMachine implements IModule {
