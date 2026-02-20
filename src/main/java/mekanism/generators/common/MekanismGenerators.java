@@ -46,7 +46,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
-@Mod(modid = MekanismGenerators.MODID, useMetadata = true, guiFactory = "mekanism.generators.client.gui.GeneratorsGuiFactory")
+@Mod(modid = MekanismGenerators.MODID, useMetadata = true, guiFactory = "mekanism.generators.client.gui.GeneratorsGuiFactory",customProperties = {
+        @Mod.CustomProperty(k = "license", v = "EUPL-1.2"),
+        @Mod.CustomProperty(k = "issueTrackerUrl", v = "https://github.com/sddsd2332/Mekanism-CE-Unofficial-1.12.2/issues"),
+        @Mod.CustomProperty(k = "iconFile", v = "assets/mekanism/icon.png"),
+        @Mod.CustomProperty(k = "backgroundFile", v = "assets/mekanism/background.png")
+})
 @Mod.EventBusSubscriber()
 public class MekanismGenerators implements IModule {
 

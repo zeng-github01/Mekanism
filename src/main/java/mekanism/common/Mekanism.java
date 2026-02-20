@@ -17,7 +17,6 @@ import mekanism.client.render.hud.MekaSuitEnergyLevel;
 import mekanism.client.render.hud.MekanismHUD;
 import mekanism.client.render.hud.MekanismStatusOverlay;
 import mekanism.common.base.IModule;
-import mekanism.common.block.PortalHelper;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.chunkloading.ChunkManager;
 import mekanism.common.command.CommandMek;
@@ -116,7 +115,17 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.util.*;
 
-@Mod(modid = Tags.MOD_ID, useMetadata = true, guiFactory = "mekanism.client.gui.ConfigGuiFactory", acceptedMinecraftVersions = "[1.12,1.13)", version = Tags.VERSION)
+@Mod(modid = Tags.MOD_ID,
+        useMetadata = true,
+        guiFactory = "mekanism.client.gui.ConfigGuiFactory",
+        acceptedMinecraftVersions = "[1.12,1.13)",
+        version = Tags.VERSION,
+        customProperties = {
+                @Mod.CustomProperty(k = "license", v = "EUPL-1.2"),
+                @Mod.CustomProperty(k = "issueTrackerUrl", v = "https://github.com/sddsd2332/Mekanism-CE-Unofficial-1.12.2/issues"),
+                @Mod.CustomProperty(k = "iconFile", v = "assets/mekanism/icon.png"),
+                @Mod.CustomProperty(k = "backgroundFile", v = "assets/mekanism/background.png")
+        })
 @Mod.EventBusSubscriber()
 public class Mekanism {
 
