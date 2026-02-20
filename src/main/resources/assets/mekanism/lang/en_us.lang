@@ -2201,3 +2201,4 @@ death.attack.mekanism.smartattackdamage.player=%s Killed by %s's auto-area attac
 chemical.mekanism.attribute.radiation= - Radioactivity:
 
 tile.SuperFumo.name=Super FuMo
+mekanism.module.info=Using a Modification Station, modules can be installed on the various MekaSuit pieces and on the Meka-Tool.

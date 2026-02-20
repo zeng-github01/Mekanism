@@ -19,14 +19,17 @@ import mekanism.common.base.IFactory.RecipeType;
 import mekanism.common.base.ITierItem;
 import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.config.MekanismConfig;
+import mekanism.common.content.gear.ModuleHelper;
 import mekanism.common.inventory.container.robit.ContainerRobitInventory;
 import mekanism.common.item.ItemBlockEnergyCube;
 import mekanism.common.item.ItemBlockGasTank;
 import mekanism.common.recipe.RecipeHandler.Recipe;
+import mekanism.common.util.LangUtils;
 import mezz.jei.api.*;
 import mezz.jei.api.ISubtypeRegistry.ISubtypeInterpreter;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
+import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IIngredientType;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.IVanillaRecipeFactory;
@@ -246,6 +249,6 @@ public class MekanismJEI implements IModPlugin {
         /**
          * ADD END
          */
-
+        registry.addIngredientInfo(ModuleHelper.INSTANCE.getAll().stream().map(data -> data.getModuleData().getStack()).collect(Collectors.toList()), VanillaTypes.ITEM, LangUtils.localize("mekanism.module.info"));
     }
 }

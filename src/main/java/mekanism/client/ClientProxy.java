@@ -462,7 +462,7 @@ public class ClientProxy extends CommonProxy {
             String resource = "mekanism:" + type.getName();
             RecipeType recipePointer = null;
 
-            if (type == MachineType.BASIC_FACTORY || type == MachineType.ADVANCED_FACTORY || type == MachineType.ELITE_FACTORY || type == MachineType.ULTIMATE_FACTORY || type == MachineType.CREATIVE_FACTORY) {
+            if (type.isFactory()) {
                 recipePointer = RecipeType.values()[0];
                 resource = "mekanism:" + type.getName() + "_" + recipePointer.getName();
             }
@@ -482,7 +482,7 @@ public class ClientProxy extends CommonProxy {
                     machineResources.put(resource, model);
                     modelsToAdd.add(model);
 
-                    if (type == MachineType.BASIC_FACTORY || type == MachineType.ADVANCED_FACTORY || type == MachineType.ELITE_FACTORY || type == MachineType.ULTIMATE_FACTORY || type == MachineType.CREATIVE_FACTORY) {
+                    if (type.isFactory()) {
                         if (recipePointer.ordinal() < RecipeType.values().length - 1) {
                             recipePointer = RecipeType.values()[recipePointer.ordinal() + 1];
                             resource = "mekanism:" + type.getName() + "_" + recipePointer.getName();
@@ -592,7 +592,7 @@ public class ClientProxy extends CommonProxy {
             MachineType type = MachineType.get(stack);
             if (type != null) {
                 String resource = "mekanism:" + type.getName();
-                if (type == MachineType.BASIC_FACTORY || type == MachineType.ADVANCED_FACTORY || type == MachineType.ELITE_FACTORY || type == MachineType.ULTIMATE_FACTORY || type == MachineType.CREATIVE_FACTORY) {
+                if (type.isFactory()) {
                     RecipeType recipe = ((ItemBlockMachine) stack.getItem()).getRecipeTypeOrNull(stack);
                     if (recipe != null) {
                         resource = "mekanism:" + type.getName() + "_" + recipe.getName();

@@ -2175,3 +2175,4 @@ death.attack.mekanism.smartattackdamage.player=%s 在试图逃离 %s 时被 %s �
 chemical.mekanism.attribute.radiation= - 放射性：
 
 tile.SuperFumo.name=超级FuMo
+mekanism.module.info=利用改造站，可以将模块安装在多种MekaSuit装备以及Meka工具上
