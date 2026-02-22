@@ -11,6 +11,7 @@ import mekanism.client.gui.chemical.*;
 import mekanism.client.gui.robit.*;
 import mekanism.client.newgui.GuiModuleTweaker;
 import mekanism.client.render.MekanismRenderer;
+import mekanism.client.render.RenderArm;
 import mekanism.client.render.RenderFirstPersonMekaSuitArms;
 import mekanism.client.render.RenderTickHandler;
 import mekanism.client.render.entity.RenderBalloon;
@@ -932,7 +933,13 @@ public class ClientProxy extends CommonProxy {
         MinecraftForge.EVENT_BUS.register(new ClientConnectionHandler());
         //  MinecraftForge.EVENT_BUS.register(new ClientPlayerTracker());
         MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
-        MinecraftForge.EVENT_BUS.register(new RenderFirstPersonMekaSuitArms());
+        //单检查到Cleanroom的时候，使用Cleanroom的盔甲渲染事件
+        if (Mekanism.hooks.CLEANROOM){
+            MinecraftForge.EVENT_BUS.register(new RenderArm());
+        }else {
+            MinecraftForge.EVENT_BUS.register(new RenderFirstPersonMekaSuitArms());
+        }
+
         MinecraftForge.EVENT_BUS.register(new RenderTickHandler());
         MinecraftForge.EVENT_BUS.register(SoundHandler.class);
 
