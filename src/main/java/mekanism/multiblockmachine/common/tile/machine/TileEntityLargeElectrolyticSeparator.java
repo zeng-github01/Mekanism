@@ -785,4 +785,9 @@ public class TileEntityLargeElectrolyticSeparator extends TileEntityBasicMachine
             updateDelay = 10;
         }
     }
+
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
 }

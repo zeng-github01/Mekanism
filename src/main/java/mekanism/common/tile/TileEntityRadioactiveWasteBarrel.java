@@ -204,4 +204,9 @@ public class TileEntityRadioactiveWasteBarrel extends TileEntityBasicBlock imple
     public int getRedstoneLevel() {
         return MekanismUtils.redstoneLevelFromContents(gasTank.getStored(), gasTank.getMaxGas());
     }
+
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
 }

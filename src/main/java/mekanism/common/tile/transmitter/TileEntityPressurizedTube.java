@@ -338,4 +338,9 @@ public class TileEntityPressurizedTube extends TileEntityTransmitter<IGasHandler
     public int getRadiationParticleCount() {
         return MathUtils.clampToInt(3 * getRadiationScale());
     }
+
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
 }

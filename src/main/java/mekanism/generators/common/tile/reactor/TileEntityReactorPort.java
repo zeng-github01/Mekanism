@@ -373,4 +373,9 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
         }
         return EnumActionResult.PASS;
     }
+
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
 }

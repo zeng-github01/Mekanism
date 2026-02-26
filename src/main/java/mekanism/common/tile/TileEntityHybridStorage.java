@@ -666,4 +666,9 @@ public class TileEntityHybridStorage extends TileEntityElectricBlock implements 
     public int getBlockGuiID(Block block, int metadata) {
         return MachineType.get(block, metadata) != null ? MachineType.get(block, metadata).guiId : -1;
     }
+
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
 }

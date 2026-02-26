@@ -269,4 +269,9 @@ public class TileEntityBoilerValve extends TileEntityBoilerCasing implements IFl
     public EnumActionResult onRightClick(EntityPlayer player, EnumFacing side) {
         return EnumActionResult.PASS;
     }
+
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
 }

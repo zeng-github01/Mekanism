@@ -660,4 +660,9 @@ public class TileEntityLargeChemicalWasher extends TileEntityBasicMachine<GasAnd
             updateDelay = 10;
         }
     }
+
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
 }

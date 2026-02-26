@@ -345,4 +345,9 @@ public class TileEntityGasGenerator extends TileEntityGenerator implements IGasH
     public int getMaxBurnTicks() {
         return maxBurnTicks;
     }
+
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
 }

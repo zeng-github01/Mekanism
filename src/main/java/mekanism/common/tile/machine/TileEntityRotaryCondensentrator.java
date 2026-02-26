@@ -437,4 +437,9 @@ public class TileEntityRotaryCondensentrator extends TileEntityMachine implement
     public String getDataType() {
         return getName();
     }
+
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
 }

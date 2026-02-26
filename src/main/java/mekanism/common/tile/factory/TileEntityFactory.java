@@ -313,12 +313,8 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         return ItemStack.areItemStackTagsEqual(stack, other);
     }
 
-    @Override
-    public boolean CanInstalled() {
-        //阻止机器在工作的时候安装工厂升级
-        return !isActive;
-    }
 
+    public boolean isUpgrade = true;
 
     @Override
     public boolean upgrade(BaseTier upgradeTier) {
@@ -326,77 +322,81 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
             if (upgradeTier.ordinal() != tier.ordinal() + 1) {
                 return false;
             }
+            isUpgrade = false;
             world.setBlockToAir(getPos());
             world.setBlockState(getPos(), MekanismBlocks.MachineBlock3.getStateFromMeta(4 + tier.ordinal() + 1), 3);
         } else if (tier == FactoryTier.BASIC || tier == FactoryTier.ADVANCED) {
             if (upgradeTier.ordinal() != tier.ordinal() + 1) {
                 return false;
             }
+            isUpgrade = false;
             world.setBlockToAir(getPos());
             world.setBlockState(getPos(), MekanismBlocks.MachineBlock.getStateFromMeta(5 + tier.ordinal() + 1), 3);
         } else return false;
 
-        TileEntityFactory factory = Objects.requireNonNull((TileEntityFactory) world.getTileEntity(getPos()));
+        if (world.getTileEntity(getPos()) instanceof TileEntityFactory factory){
+            //Basic
+            factory.facing = facing;
+            factory.clientFacing = clientFacing;
+            factory.ticker = ticker;
+            factory.redstone = redstone;
+            factory.redstoneLastTick = redstoneLastTick;
+            factory.doAutoSync = doAutoSync;
 
-        //Basic
-        factory.facing = facing;
-        factory.clientFacing = clientFacing;
-        factory.ticker = ticker;
-        factory.redstone = redstone;
-        factory.redstoneLastTick = redstoneLastTick;
-        factory.doAutoSync = doAutoSync;
+            //Electric
+            factory.electricityStored.set(electricityStored.get());
 
-        //Electric
-        factory.electricityStored.set(electricityStored.get());
+            //Factory
+            System.arraycopy(progress, 0, factory.progress, 0, tier.processes);
 
-        //Factory
-        System.arraycopy(progress, 0, factory.progress, 0, tier.processes);
+            factory.recipeTicks = recipeTicks;
+            factory.isActive = isActive;
+            factory.prevEnergy = prevEnergy;
+            factory.gasTank.setGas(gasTank.getGas());
+            factory.gasOutTank.setGas(gasOutTank.getGas());
+            factory.fluidTank.setFluid(fluidTank.getFluid());
+            factory.sorting = sorting;
+            factory.Factoryoldsorting = Factoryoldsorting;
+            factory.setControlType(getControlType());
+            factory.upgradeComponent.readFrom(upgradeComponent);
+            factory.ejectorComponent.readFrom(ejectorComponent);
+            factory.configComponent.readFrom(configComponent);
+            factory.ejectorComponent.setOutputData(TransmissionType.ITEM, factory.configComponent.getOutputs(TransmissionType.ITEM).get(2));
+            factory.ejectorComponent.setInputOutputData(TransmissionType.ITEM, factory.configComponent.getOutputs(TransmissionType.ITEM).get(6));
+            factory.ejectorComponent.setOutputData(TransmissionType.GAS, factory.configComponent.getOutputs(TransmissionType.GAS).get(2));
+            factory.setRecipeType(recipeType);
+            factory.upgradeComponent.setSupported(Upgrade.GAS, recipeType.fuelEnergyUpgrades());
+            factory.securityComponent.readFrom(securityComponent);
+            factory.infuseStored.copyFrom(infuseStored);
 
-        factory.recipeTicks = recipeTicks;
-        factory.isActive = isActive;
-        factory.prevEnergy = prevEnergy;
-        factory.gasTank.setGas(gasTank.getGas());
-        factory.gasOutTank.setGas(gasOutTank.getGas());
-        factory.fluidTank.setFluid(fluidTank.getFluid());
-        factory.sorting = sorting;
-        factory.Factoryoldsorting = Factoryoldsorting;
-        factory.setControlType(getControlType());
-        factory.upgradeComponent.readFrom(upgradeComponent);
-        factory.ejectorComponent.readFrom(ejectorComponent);
-        factory.configComponent.readFrom(configComponent);
-        factory.ejectorComponent.setOutputData(TransmissionType.ITEM, factory.configComponent.getOutputs(TransmissionType.ITEM).get(2));
-        factory.ejectorComponent.setInputOutputData(TransmissionType.ITEM, factory.configComponent.getOutputs(TransmissionType.ITEM).get(6));
-        factory.ejectorComponent.setOutputData(TransmissionType.GAS, factory.configComponent.getOutputs(TransmissionType.GAS).get(2));
-        factory.setRecipeType(recipeType);
-        factory.upgradeComponent.setSupported(Upgrade.GAS, recipeType.fuelEnergyUpgrades());
-        factory.securityComponent.readFrom(securityComponent);
-        factory.infuseStored.copyFrom(infuseStored);
-
-        for (int i = 0; i < tier.processes + 5; i++) {
-            factory.inventory.set(i, inventory.get(i));
-        }
-
-        for (int i = 0; i < tier.processes; i++) {
-            int output = getOutputSlot(i);
-            if (!inventory.get(output).isEmpty()) {
-                int newOutput = 5 + factory.tier.processes + i;
-                factory.inventory.set(newOutput, inventory.get(output));
+            for (int i = 0; i < tier.processes + 5; i++) {
+                factory.inventory.set(i, inventory.get(i));
             }
-        }
 
-        for (int i = 0; i < tier.processes; i++) {
-            int SecondaryOutput = getSecondaryOutputSlot(i);
-            if (!inventory.get(SecondaryOutput).isEmpty()) {
-                int newSecondaryOutput = 5 + tier.processes * 2 + i;
-                factory.inventory.set(newSecondaryOutput, inventory.get(SecondaryOutput));
+            for (int i = 0; i < tier.processes; i++) {
+                int output = getOutputSlot(i);
+                if (!inventory.get(output).isEmpty()) {
+                    int newOutput = 5 + factory.tier.processes + i;
+                    factory.inventory.set(newOutput, inventory.get(output));
+                }
             }
-        }
 
-        factory.upgradeComponent.getSupportedTypes().forEach(factory::recalculateUpgradables);
-        factory.upgraded = true;
-        factory.markNoUpdateSync();
-        Mekanism.packetHandler.sendUpdatePacket(factory);
-        return true;
+            for (int i = 0; i < tier.processes; i++) {
+                int SecondaryOutput = getSecondaryOutputSlot(i);
+                if (!inventory.get(SecondaryOutput).isEmpty()) {
+                    int newSecondaryOutput = 5 + tier.processes * 2 + i;
+                    factory.inventory.set(newSecondaryOutput, inventory.get(SecondaryOutput));
+                }
+            }
+
+            factory.upgradeComponent.getSupportedTypes().forEach(factory::recalculateUpgradables);
+            factory.upgraded = true;
+            factory.isUpgrade = true;
+            factory.markNoUpdateSync();
+            Mekanism.packetHandler.sendUpdatePacket(factory);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -2110,5 +2110,11 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     @Override
     public int getBlockGuiID(Block block, int metadata) {
         return MachineType.get(block, metadata) != null ? MachineType.get(block, metadata).guiId : -1;
+    }
+
+    //TODO:如果是升级，则取消辐射排放
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return isUpgrade;
     }
 }

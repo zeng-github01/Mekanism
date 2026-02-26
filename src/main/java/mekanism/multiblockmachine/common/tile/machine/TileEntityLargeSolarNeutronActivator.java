@@ -728,4 +728,8 @@ public class TileEntityLargeSolarNeutronActivator extends TileEntityContainerBlo
         return LangUtils.localize("tile.LargeSolarNeutronActivator.name");
     }
 
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
 }

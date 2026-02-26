@@ -514,4 +514,9 @@ public class TileEntityElectrolyticSeparator extends TileEntityBasicMachine<Flui
     public boolean getOuputSlot() {
         return false;
     }
+
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
 }

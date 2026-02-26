@@ -646,4 +646,9 @@ public class TileEntityLargeChemicalInfuser extends TileEntityBasicMachine<Chemi
             updateDelay = 10;
         }
     }
+
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
 }

@@ -548,7 +548,10 @@ public class TileEntityLargeGasGenerator extends TileEntityGenerator implements 
         return maxBurnTicks;
     }
 
-
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
 }
 
 

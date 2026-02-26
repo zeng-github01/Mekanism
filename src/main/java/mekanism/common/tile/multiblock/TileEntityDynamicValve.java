@@ -236,4 +236,9 @@ public class TileEntityDynamicValve extends TileEntityDynamicTank implements IFl
     public EnumActionResult onRightClick(EntityPlayer player, EnumFacing side) {
         return EnumActionResult.PASS;
     }
+
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
 }

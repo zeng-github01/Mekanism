@@ -349,4 +349,8 @@ public class TileEntityIsotopicCentrifuge extends TileEntityBasicMachine<GasInpu
         return false;
     }
 
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
 }

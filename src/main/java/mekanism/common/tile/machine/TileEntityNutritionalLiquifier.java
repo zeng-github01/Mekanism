@@ -284,4 +284,8 @@ public class TileEntityNutritionalLiquifier extends TileEntityBasicMachine<ItemS
         }
     }
 
+    @Override
+    protected boolean shouldDumpRadiation() {
+        return true;
+    }
 }
