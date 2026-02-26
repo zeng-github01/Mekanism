@@ -3,7 +3,9 @@ package mekanism.common;
 
 import mekanism.api.EnumColor;
 import mekanism.api.energy.IEnergizedItem;
-import mekanism.api.gas.*;
+import mekanism.api.gas.GasRegistry;
+import mekanism.api.gas.GasStack;
+import mekanism.api.gas.OreGas;
 import mekanism.api.infuse.InfuseObject;
 import mekanism.api.infuse.InfuseRegistry;
 import mekanism.api.infuse.InfuseType;
@@ -14,7 +16,6 @@ import mekanism.common.item.armor.ItemMekaSuitBodyArmor;
 import mekanism.common.item.armor.ItemMekaSuitHelmet;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.ItemStackInput;
-import mekanism.common.util.GasUtils;
 import mekanism.common.util.StackUtils;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.init.Blocks;
@@ -303,10 +304,12 @@ public class MekanismRecipe {
                     new ItemStack(MekanismItems.Substrate, 8), new GasStack(MekanismFluids.Oxygen, 10), 200, 400);
             RecipeHandler.addPRCRecipe(new ItemStack(Items.COAL, 1, OreDictionary.WILDCARD_VALUE), new FluidStack(FluidRegistry.WATER, 100), new GasStack(MekanismFluids.Oxygen, 100),
                     new ItemStack(MekanismItems.OtherDust, 1, 3), new GasStack(MekanismFluids.Hydrogen, 100), 0, 100);
-            RecipeHandler.addPRCRecipe(new ItemStack(MekanismItems.OtherDust, 1, 7), new FluidStack(FluidRegistry.WATER, 10000), new GasStack(MekanismFluids.Plutonium, 1000),
-                    new ItemStack(MekanismItems.PlutoniumPellet, 1), new GasStack(MekanismFluids.SpentNuclearWaste, 1000), 10000, 2000);
-            RecipeHandler.addPRCRecipe(new ItemStack(MekanismItems.OtherDust, 1, 7), new FluidStack(FluidRegistry.WATER, 10000), new GasStack(MekanismFluids.Polonium, 1000),
-                    new ItemStack(MekanismItems.PoloniumPellet, 1), new GasStack(MekanismFluids.SpentNuclearWaste, 1000), 10000, 2000);
+
+            OreDictionary.getOres("dustFluorite").forEach(ore -> {
+                RecipeHandler.addPRCRecipe(StackUtils.size(ore, 1), new FluidStack(FluidRegistry.WATER, 10000), new GasStack(MekanismFluids.Plutonium, 1000), new ItemStack(MekanismItems.PlutoniumPellet, 1), new GasStack(MekanismFluids.SpentNuclearWaste, 1000), 10000, 2000);
+                RecipeHandler.addPRCRecipe(StackUtils.size(ore, 1), new FluidStack(FluidRegistry.WATER, 10000), new GasStack(MekanismFluids.Polonium, 1000), new ItemStack(MekanismItems.PoloniumPellet, 1), new GasStack(MekanismFluids.SpentNuclearWaste, 1000), 10000, 2000);
+            });
+
             RecipeHandler.addPRCRecipe(new ItemStack(MekanismItems.CosmicMatter, 64), FluidRegistry.getFluidStack("liquidsuperheatedsodium", 10000), new GasStack(MekanismFluids.UnstableDimensional, 10000),
                     ItemStack.EMPTY, new GasStack(MekanismFluids.Antimatter, 100), 100000, 24000);
             RecipeHandler.addPRCRecipe(new ItemStack(MekanismItems.ScrapBox, 64), FluidRegistry.getFluidStack("liquidfusionfuel", 10000), new GasStack(MekanismFluids.UnstableDimensional, 10000),
@@ -528,10 +531,10 @@ public class MekanismRecipe {
         addEnergy(boots);
         addEnergy(tool);
 
-        if (helmet.getItem() instanceof ItemMekaSuitHelmet item){
+        if (helmet.getItem() instanceof ItemMekaSuitHelmet item) {
             item.setGas(helmet, new GasStack(MekanismFluids.NutritionalPaste, item.getMaxGas(helmet)));
         }
-        if (bodyarmor.getItem() instanceof ItemMekaSuitBodyArmor item){
+        if (bodyarmor.getItem() instanceof ItemMekaSuitBodyArmor item) {
             item.setGas(bodyarmor, new GasStack(MekanismFluids.Hydrogen, item.getMaxGas(bodyarmor)));
         }
 
@@ -539,18 +542,17 @@ public class MekanismRecipe {
     }
 
 
-    public static void addAllModule(ItemStack stack){
+    public static void addAllModule(ItemStack stack) {
         if (stack.getItem() instanceof IModuleContainerItem item) {
             item.setAllModule(stack);
         }
     }
 
-    public static void addEnergy(ItemStack stack){
+    public static void addEnergy(ItemStack stack) {
         if (stack.getItem() instanceof IEnergizedItem item) {
             item.setEnergy(stack, item.getMaxEnergy(stack));
         }
     }
-
 
 
 }
