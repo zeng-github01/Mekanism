@@ -29,6 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -81,6 +82,7 @@ public final class MekanismHooks {
     public boolean CraftTweakerLoaded = false;
     public boolean CyclicLoaded = false;
     public boolean IC2Loaded = false;
+    public boolean IC2CLoaded = false;
     public boolean MALoaded = false;
     public boolean MCMPLoaded = false;
     public boolean MetallurgyLoaded = false;
@@ -135,7 +137,9 @@ public final class MekanismHooks {
         GC = Loader.isModLoaded(GC_MOD_ID);
         AR = Loader.isModLoaded(AR_MOD_ID);
         CLEANROOM = Mods.CLR.isPresent();
+        IC2CLoaded = !Loader.instance().getActiveModList().stream().filter(container -> IC2_MOD_ID.equals(container.getModId())).map(ModContainer::getMetadata).filter(metadata -> metadata != null && metadata.version != null).anyMatch(metadata -> metadata.version.contains("ex"));
     }
+
 
     public enum Mods {
         GTCeU(GTCEU_MOD_ID) {
