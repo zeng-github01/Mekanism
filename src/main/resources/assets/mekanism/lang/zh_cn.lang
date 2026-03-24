@@ -2176,3 +2176,17 @@ chemical.mekanism.attribute.radiation= - 放射性：
 
 tile.SuperFumo.name=超级FuMo
 mekanism.module.info=利用改造站，可以将模块安装在多种MekaSuit装备以及Meka工具上
+item.mekafishingrod.name=Meka钓鱼竿
+
+module.mekanism.fishing_collecting_unit=水下收集模块
+item.module_fishing_collecting_unit.name=水下收集模块
+description.mekanism.fishing_collecting_unit=提高钓鱼时的幸运度
+module.mekanism.fishing_speed_unit=钓饵模块
+item.module_fishing_speed_unit.name=钓饵模块
+description.mekanism.fishing_speed_unit=提升钓鱼速度
+module.mekanism.fishing_intelligent_unit=智能钓鱼模块
+item.module_fishing_intelligent_unit.name=智能钓鱼模块
+description.mekanism.fishing_intelligent_unit=当钓上鱼时自动收杆并抛竿
+module.mekanism.fishing_multiple_unit=多重捕捞模块
+item.module_fishing_multiple_unit.name=多重捕捞模块
+description.mekanism.fishing_multiple_unit=当钓鱼成功时，能够掉起多个物品或者鱼

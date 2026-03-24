@@ -2202,3 +2202,18 @@ chemical.mekanism.attribute.radiation= - Radioactivity:
 
 tile.SuperFumo.name=Super FuMo
 mekanism.module.info=Using a Modification Station, modules can be installed on the various MekaSuit pieces and on the Meka-Tool.
+
+item.mekafishingrod.name=Meka Fishing Rod
+
+module.mekanism.fishing_collecting_unit=Underwater Collection Module
+item.module_fishing_collecting_unit.name=Underwater Collection Module
+description.mekanism.fishing_collecting_unit=Increase luck while fishing
+module.mekanism.fishing_speed_unit=Bait Module
+item.module_fishing_speed_unit.name=Bait Module
+description.mekanism.fishing_speed_unit=Increase fishing speed
+module.mekanism.fishing_intelligent_unit=Intelligent Fishing Module
+item.module_fishing_intelligent_unit.name=Intelligent Fishing Module
+description.mekanism.fishing_intelligent_unit=Automatically reel in and cast the rod when a fish is caught
+module.mekanism.fishing_multiple_unit=Multiple Catching Module
+item.module_fishing_multiple_unit.name=Multiple Catching Module
+description.mekanism.fishing_multiple_unit=When fishing is successful, it is possible to catch multiple items or fish.

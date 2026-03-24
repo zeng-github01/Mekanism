@@ -586,7 +586,7 @@ public class Mekanism {
     }
 
     private void imcQueue() {
-        Item[] addModulesToAll = {MekanismItems.MEKASUIT_HELMET, MekanismItems.MEKASUIT_BODYARMOR, MekanismItems.MEKASUIT_PANTS, MekanismItems.MEKASUIT_BOOTS, MekanismItems.MEKA_TOOL};
+        Item[] addModulesToAll = {MekanismItems.MEKASUIT_HELMET, MekanismItems.MEKASUIT_BODYARMOR, MekanismItems.MEKASUIT_PANTS, MekanismItems.MEKASUIT_BOOTS, MekanismItems.MEKA_TOOL, MekanismItems.MEKA_FISHING_ROD};
         Item[] addMekaSuitModules = new Item[]{MekanismItems.MEKASUIT_HELMET, MekanismItems.MEKASUIT_BODYARMOR, MekanismItems.MEKASUIT_PANTS, MekanismItems.MEKASUIT_BOOTS};
 
         for (Item stack : addModulesToAll) {
@@ -612,6 +612,8 @@ public class Mekanism {
         ModuleHelper.get().setSupported(MekanismItems.MEKASUIT_PANTS, MekanismModules.LOCOMOTIVE_BOOSTING_UNIT, MekanismModules.GYROSCOPIC_STABILIZATION_UNIT, MekanismModules.HYDROSTATIC_REPULSOR_UNIT, MekanismModules.MOTORIZED_SERVO_UNIT);
 
         ModuleHelper.get().setSupported(MekanismItems.MEKASUIT_BOOTS, MekanismModules.HYDRAULIC_PROPULSION_UNIT, MekanismModules.MAGNETIC_ATTRACTION_UNIT, MekanismModules.FROST_WALKER_UNIT);
+
+        ModuleHelper.get().setSupported(MekanismItems.MEKA_FISHING_ROD, MekanismModules.FISHING_COLLECTING_UNIT, MekanismModules.FISHING_SPEED_UNIT, MekanismModules.FISHING_INTELLIGENT_UNIT, MekanismModules.FISHING_MULTIPLE_UNIT);
     }
 
 

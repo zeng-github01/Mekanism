@@ -75,7 +75,7 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
 
 
     public ItemMekaTool() {
-        super(MekanismConfig.current().general.toolBatteryCapacity.val());
+        super(MekanismConfig.current().meka.mekaToolBaseEnergyCapacity.val());
         setRarity(EnumRarity.EPIC);
         setMaxStackSize(1);
         setNoRepair();

@@ -21,6 +21,7 @@ import mekanism.common.network.PacketFlyingSync.FlyingSyncMessage;
 import mekanism.common.network.PacketGearStateUpdate.GearStateUpdateMessage;
 import mekanism.common.network.PacketKey.KeyMessage;
 import mekanism.common.network.PacketLogisticalSorterGui.LogisticalSorterGuiMessage;
+import mekanism.common.network.PacketMekaFishHook.PacketMekaFishHookMessage;
 import mekanism.common.network.PacketModeChange.ModeChangMessage;
 import mekanism.common.network.PacketNewFilter.NewFilterMessage;
 import mekanism.common.network.PacketOredictionificatorGui.OredictionificatorGuiMessage;
@@ -220,6 +221,7 @@ public class PacketHandler {
         netHandler.registerMessage(PacketOpenGui.class, PacketOpenGui.OpenGui.class, 45, Side.CLIENT);
         netHandler.registerMessage(PacketOpenGui.class, PacketOpenGui.OpenGui.class, 45, Side.SERVER);
         netHandler.registerMessage(PacketRadiationData.class, PacketRadiationData.PacketRadiationDataMessage.class, 46, Side.CLIENT);
+        netHandler.registerMessage(PacketMekaFishHook.class, PacketMekaFishHookMessage.class, 47, Side.CLIENT);
     }
 
     @Optional.Method(modid = MekanismHooks.Baubles_MOD_ID)

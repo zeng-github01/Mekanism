@@ -306,7 +306,7 @@ public class ClientProxy extends CommonProxy {
 
 
         registerItemRender(MekanismItems.MODULE_ENERGY);
-            registerItemRender(MekanismItems.MODULE_MAGNETIC);
+        registerItemRender(MekanismItems.MODULE_MAGNETIC);
 
         // registerItemRender(MekanismItems.MODULE_COLOR_MODULATION);
         registerItemRender(MekanismItems.MODULE_LASER_DISSIPATION);
@@ -346,6 +346,7 @@ public class ClientProxy extends CommonProxy {
 
         registerItemRender(MekanismItems.MODULE_HEALTH_REGENERATION);
         registerItemRender(MekanismItems.MEKA_TOOL);
+        registerItemRender(MekanismItems.MEKA_FISHING_ROD);
         registerItemRender(MekanismItems.HDPE_PELLET);
         registerItemRender(MekanismItems.HDPE_ROD);
         registerItemRender(MekanismItems.HDPE_SHEET);
@@ -363,6 +364,11 @@ public class ClientProxy extends CommonProxy {
         registerItemRender(MekanismItems.HAZMAT_GOWN);
         registerItemRender(MekanismItems.HAZMAT_PANTS);
         registerItemRender(MekanismItems.HAZMAT_BOOTS);
+
+        registerItemRender(MekanismItems.MODULE_FISHING_COLLECTING);
+        registerItemRender(MekanismItems.MODULE_FISHING_SPEED);
+        registerItemRender(MekanismItems.MODULE_FISHING_INTELLIGENT);
+        registerItemRender(MekanismItems.MODULE_FISHING_MULTIPLE);
 
         /**
          * ADD END
@@ -388,11 +394,12 @@ public class ClientProxy extends CommonProxy {
         Item.getItemFromBlock(MekanismBlocks.MachineBlock2).setTileEntityItemStackRenderer(new RenderMachineItem());
         Item.getItemFromBlock(MekanismBlocks.MachineBlock3).setTileEntityItemStackRenderer(new RenderMachineItem());
         Item.getItemFromBlock(MekanismBlocks.BasicBlock2).setTileEntityItemStackRenderer(new RenderBasicBlockItem());
-
         Item.getItemFromBlock(MekanismBlocks.BasicBlock3).setTileEntityItemStackRenderer(new RenderBasicBlockItem());
         Item.getItemFromBlock(MekanismBlocks.MachineBlock4).setTileEntityItemStackRenderer(new RenderMachineItem());
         MekanismItems.ArmoredFreeRunners.setTileEntityItemStackRenderer(new RenderArmoredFreeRunners());
         MekanismItems.MEKA_TOOL.setTileEntityItemStackRenderer(new RenderMekaTool());
+        MekanismItems.MEKA_FISHING_ROD.setTileEntityItemStackRenderer(new RenderMekaFishingRod());
+
     }
 
     private ModelResourceLocation getInventoryMRL(String type) {
@@ -934,9 +941,9 @@ public class ClientProxy extends CommonProxy {
         //  MinecraftForge.EVENT_BUS.register(new ClientPlayerTracker());
         MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
         //单检查到Cleanroom的时候，使用Cleanroom的盔甲渲染事件
-        if (Mekanism.hooks.CLEANROOM){
+        if (Mekanism.hooks.CLEANROOM) {
             MinecraftForge.EVENT_BUS.register(new RenderArm());
-        }else {
+        } else {
             MinecraftForge.EVENT_BUS.register(new RenderFirstPersonMekaSuitArms());
         }
 
@@ -1007,6 +1014,10 @@ public class ClientProxy extends CommonProxy {
         ModelResourceLocation ArmorFreeRunnerRL = getInventoryMRL("ArmoredFreeRunners");
         modelRegistry.putObject(ArmorFreeRunnerRL, RenderArmoredFreeRunners.model = new ItemLayerWrapper(modelRegistry.getObject(FreeRunnerRL)));
 
+
+        ModelResourceLocation MekaFishingRod = getInventoryMRL("mekafishingrod");
+        modelRegistry.putObject(MekaFishingRod, RenderMekaFishingRod.model = new ItemLayerWrapper(modelRegistry.getObject(MekaFishingRod)));
+
         ModelResourceLocation Meka_Tool = getInventoryMRL("meka_tool");
         modelRegistry.putObject(Meka_Tool, RenderMekaTool.model = new ItemLayerWrapper(modelRegistry.getObject(Meka_Tool)));
 
@@ -1058,7 +1069,6 @@ public class ClientProxy extends CommonProxy {
     public double getReach(EntityPlayer player) {
         return Minecraft.getMinecraft().playerController.getBlockReachDistance();
     }
-
 
 
     @Override
@@ -1138,7 +1148,6 @@ public class ClientProxy extends CommonProxy {
 
         Particle.registerParticles();
     }
-
 
 
 }
