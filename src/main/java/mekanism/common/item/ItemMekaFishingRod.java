@@ -364,7 +364,9 @@ public class ItemMekaFishingRod extends ItemFishingRod implements IEnergizedItem
     public void autoFish(World world, EntityPlayer player, EnumHand hand) {
         EntityFishHook fishHook = player.fishEntity;
         if (fishHook == null) {
-            fish(world, player, hand);
+            if (world.isRemote) {
+                fish(world, player, hand);
+            }
         } else {
             //如果钓到奇怪的玩意上，或者浮漂抖动
             if (fishHook.ticksCatchable > 0 || fishHook.caughtEntity != null) {
@@ -374,22 +376,21 @@ public class ItemMekaFishingRod extends ItemFishingRod implements IEnergizedItem
         }
     }
 
+
+    @SideOnly(Side.CLIENT)
     public void fish(World world, EntityPlayer player, EnumHand hand) {
-        if (world.isRemote) {
-            EntityPlayer mcplayer = Minecraft.getMinecraft().player;
-            if (player.getUniqueID().equals(mcplayer.getUniqueID())) {
-                NetHandlerPlayClient nethandler = Minecraft.getMinecraft().getConnection();
-                if (nethandler != null) {
-                    //通知服务器使用物品
-                    nethandler.sendPacket(new CPacketPlayerTryUseItem(hand));
-                } else {
-                    //客户端使用物品
-                    player.getHeldItemMainhand().useItemRightClick(world, player, hand);
-                }
+        EntityPlayer mcplayer = Minecraft.getMinecraft().player;
+        if (player.getUniqueID().equals(mcplayer.getUniqueID())) {
+            NetHandlerPlayClient nethandler = Minecraft.getMinecraft().getConnection();
+            if (nethandler != null) {
+                //通知服务器使用物品
+                nethandler.sendPacket(new CPacketPlayerTryUseItem(hand));
+            } else {
+                //客户端使用物品
+                player.getHeldItemMainhand().useItemRightClick(world, player, hand);
             }
         }
     }
-
 
 
 }
