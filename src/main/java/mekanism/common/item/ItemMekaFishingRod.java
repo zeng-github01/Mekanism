@@ -28,8 +28,6 @@ import mekanism.common.item.interfaces.IModeItem;
 import mekanism.common.util.ItemDataUtils;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -42,7 +40,6 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
 import net.minecraft.util.math.MathHelper;
@@ -348,6 +345,9 @@ public class ItemMekaFishingRod extends ItemFishingRod implements IEnergizedItem
         if (!isSelected) {
             return;
         }
+        if (worldIn.isRemote) {
+            return;
+        }
         //如果不是玩家
         if (!(entityIn instanceof EntityPlayer player)) {
             return;
@@ -359,35 +359,15 @@ public class ItemMekaFishingRod extends ItemFishingRod implements IEnergizedItem
         }
     }
 
-    public boolean isClient = false;
-
     public void autoFish(World world, EntityPlayer player, EnumHand hand) {
         EntityFishHook fishHook = player.fishEntity;
         if (fishHook == null) {
-            if (world.isRemote) {
-                fish(world, player, hand);
-            }
+            player.getHeldItem(hand).useItemRightClick(world, player, hand);
         } else {
             //如果钓到奇怪的玩意上，或者浮漂抖动
             if (fishHook.ticksCatchable > 0 || fishHook.caughtEntity != null) {
                 //通知收杆
-                player.getHeldItemMainhand().useItemRightClick(world, player, hand);
-            }
-        }
-    }
-
-
-    @SideOnly(Side.CLIENT)
-    public void fish(World world, EntityPlayer player, EnumHand hand) {
-        EntityPlayer mcplayer = Minecraft.getMinecraft().player;
-        if (player.getUniqueID().equals(mcplayer.getUniqueID())) {
-            NetHandlerPlayClient nethandler = Minecraft.getMinecraft().getConnection();
-            if (nethandler != null) {
-                //通知服务器使用物品
-                nethandler.sendPacket(new CPacketPlayerTryUseItem(hand));
-            } else {
-                //客户端使用物品
-                player.getHeldItemMainhand().useItemRightClick(world, player, hand);
+                player.getHeldItem(hand).useItemRightClick(world, player, hand);
             }
         }
     }
