@@ -4,10 +4,10 @@ import mekanism.common.inventory.slot.SlotEnergy.SlotDischarge;
 import mekanism.common.inventory.slot.SlotOutput;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.inputs.ItemStackInput;
+import mekanism.common.recipe.inputs.MachineInput;
 import mekanism.common.recipe.machines.BasicMachineRecipe;
 import mekanism.common.tile.prefab.TileEntityElectricMachine;
 import mekanism.common.util.ChargeUtils;
-import mekanism.common.util.StackUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -75,7 +75,7 @@ public class ContainerElectricMachine<RECIPE extends BasicMachineRecipe<RECIPE>>
 
     private boolean isInputItem(ItemStack itemstack) {
         for (ItemStackInput input : tileEntity.getRecipes().keySet()) {
-            if (StackUtils.equalsWildcardWithNBT(input.ingredient, itemstack)) {
+            if (MachineInput.inputItemMatches(input.ingredient, itemstack)) {
                 return true;
             }
         }

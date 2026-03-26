@@ -25,7 +25,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
@@ -44,6 +46,7 @@ import java.util.Optional;
  * @author AidanBrady
  */
 public final class MekanismHooks {
+    private static final String FOODSPOILING_TAG = "foodspoiling";
 
     public static final String COFH_API_MOD_ID = "cofhapi";
     public static final String IC2_MOD_ID = "ic2";
@@ -75,6 +78,7 @@ public final class MekanismHooks {
     public static final String GC_MOD_ID = "galacticraftcore";
     public static final String AR_MOD_ID = "advancedrocketry";
     public static final String CLEANROOM_MOD_ID = "cleanroom";
+    public static final String FOOD_SPOILING_MOD_ID = "foodspoiling";
 
     public boolean AE2Loaded = false;
     public boolean BuildCraftLoaded = false;
@@ -104,6 +108,7 @@ public final class MekanismHooks {
     public boolean GC = false;
     public boolean AR = false;
     public boolean CLEANROOM = false;
+    public boolean FoodSpoiling= false;
 
     public void hookPreInit() {
         AE2Loaded = Loader.isModLoaded(APPLIED_ENERGISTICS_2_MOD_ID);
@@ -138,6 +143,7 @@ public final class MekanismHooks {
         AR = Loader.isModLoaded(AR_MOD_ID);
         CLEANROOM = Mods.CLR.isPresent();
         IC2CLoaded = !Loader.instance().getActiveModList().stream().filter(container -> IC2_MOD_ID.equals(container.getModId())).map(ModContainer::getMetadata).filter(metadata -> metadata != null && metadata.version != null).anyMatch(metadata -> metadata.version.contains("ex"));
+        FoodSpoiling = Loader.isModLoaded(FOOD_SPOILING_MOD_ID);
     }
 
 
@@ -251,7 +257,38 @@ public final class MekanismHooks {
             CrafttweakerIntegration.applyRecipeChanges();
             Mekanism.logger.info("Hooked into Craft Tweaker successfully.");
         }
+        if (FoodSpoiling) {
+            registerFoodSpoilingCompatibleMatchers();
+        }
         Wrenches.initialise();
+    }
+
+    private void registerFoodSpoilingCompatibleMatchers() {
+        MachineInput.ItemStackIngredientMatcher matcher = (definition, test) -> {
+            if (!StackUtils.equalsWildcard(definition, test)) {
+                return false;
+            }
+            NBTTagCompound definitionTag = getComparableTag(definition);
+            NBTTagCompound testTag = getComparableTag(test);
+            return definitionTag == null ? testTag == null : definitionTag.equals(testTag);
+        };
+        int registeredMatchers = 0;
+        for (Item item : ForgeRegistries.ITEMS) {
+            if (item instanceof ItemFood) {
+                MachineInput.addCustomItemMatcher(item.getClass(), matcher);
+                registeredMatchers++;
+            }
+        }
+        Mekanism.logger.info("Registered FoodSpoiling-compatible matchers for {} ItemFood classes.", registeredMatchers);
+    }
+
+    private static NBTTagCompound getComparableTag(ItemStack stack) {
+        if (!stack.hasTagCompound()) {
+            return null;
+        }
+        NBTTagCompound comparableTag = stack.getTagCompound().copy();
+        comparableTag.removeTag(FOODSPOILING_TAG);
+        return comparableTag.isEmpty() ? null : comparableTag;
     }
 
     @Method(modid = MekanismHooks.IC2_MOD_ID)

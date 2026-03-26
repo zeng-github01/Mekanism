@@ -54,6 +54,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static mekanism.common.tile.machine.TileEntityChemicalDissolutionChamber.BASE_INJECT_USAGE;
+import static mekanism.common.tile.prefab.TileEntityAdvancedElectricMachine.ceilSecondaryEnergyPerTick;
 
 //TODO:过于重复，待更改
 public class TileEntityFactory extends TileEntityMachine implements IComputerIntegration, ISideConfiguration, IGasHandler, ISpecialConfigData, ITierUpgradeable,
@@ -433,7 +434,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         if (recipeType == RecipeType.Dissolution) {
             secondaryEnergyThisTick = Math.max(BASE_INJECT_USAGE, StatUtils.inversePoisson(BASE_INJECT_USAGE));
         } else {
-            secondaryEnergyThisTick = recipeType.fuelEnergyUpgrades() ? StatUtils.inversePoisson(secondaryEnergyPerTick) : (int) Math.ceil(secondaryEnergyPerTick);
+            secondaryEnergyThisTick = recipeType.fuelEnergyUpgrades() ? StatUtils.inversePoisson(secondaryEnergyPerTick) : ceilSecondaryEnergyPerTick(secondaryEnergyPerTick);
         }
         for (int process = 0; process < tier.processes; process++) {
             PressurizedRecipe PRCrecipe = recipeType.getPressurizedRecipe(inventory.get(getInputSlot(process)), fluidTank.getFluid(), gasTank.getGas());
