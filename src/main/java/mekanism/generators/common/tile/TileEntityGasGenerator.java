@@ -210,6 +210,9 @@ public class TileEntityGasGenerator extends TileEntityGenerator implements IGasH
 
     @Override
     public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
+        if (stack == null || stack.getGas() == null) {
+            return 0;
+        }
         boolean isTankEmpty = fuelTank.getGas() == null;
         if (canReceiveGas(side, stack.getGas()) && (isTankEmpty || fuelTank.getGas().isGasEqual(stack))) {
             int fuelReceived = fuelTank.receive(stack, doTransfer);

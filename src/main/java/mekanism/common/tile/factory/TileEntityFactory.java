@@ -1362,6 +1362,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
+        if (stack == null || stack.getGas() == null) {
+            return 0;
+        }
         if (GasMachine() && canReceiveGas(side, stack.getGas())) {
             return gasTank.receive(stack, doTransfer);
         }

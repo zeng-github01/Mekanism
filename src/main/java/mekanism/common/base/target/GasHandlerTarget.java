@@ -13,6 +13,9 @@ public class GasHandlerTarget extends Target<IGasHandler, Integer, GasStack> {
 
     @Override
     protected void acceptAmount(EnumFacing side, SplitInfo<Integer> splitInfo, Integer amount) {
+        if (extra == null || extra.getGas() == null || amount == null || amount <= 0) {
+            return;
+        }
         splitInfo.send(handlers.get(side).receiveGas(side, new GasStack(extra.getGas(), amount), true));
     }
 

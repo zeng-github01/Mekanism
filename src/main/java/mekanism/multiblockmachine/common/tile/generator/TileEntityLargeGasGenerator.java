@@ -220,8 +220,12 @@ public class TileEntityLargeGasGenerator extends TileEntityGenerator implements 
 
     @Override
     public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
-        boolean isTankEmpty = fuelTank.getGas() == null;
-        if (canReceiveGas(side, stack.getGas()) && (isTankEmpty || fuelTank.getGas().isGasEqual(stack))) {
+        if (stack == null || stack.getGas() == null) {
+            return 0;
+        }
+        GasStack tankGas = fuelTank.getGas();
+        boolean isTankEmpty = tankGas == null;
+        if (canReceiveGas(side, stack.getGas()) && (isTankEmpty || tankGas.isGasEqual(stack))) {
             return fuelTank.receive(stack, doTransfer);
         }
         return 0;
@@ -249,7 +253,7 @@ public class TileEntityLargeGasGenerator extends TileEntityGenerator implements 
 
     @Override
     public boolean canReceiveGas(EnumFacing side, Gas type) {
-        return RecipeHandler.Recipe.GAS_FUEL_TO_ENERGY_RECIPE.containsRecipe(type) && side != facing && side != EnumFacing.UP && side != EnumFacing.DOWN;
+        return type != null && RecipeHandler.Recipe.GAS_FUEL_TO_ENERGY_RECIPE.containsRecipe(type) && side != facing && side != EnumFacing.UP && side != EnumFacing.DOWN;
     }
 
     @Override

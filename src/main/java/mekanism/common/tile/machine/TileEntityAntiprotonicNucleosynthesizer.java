@@ -192,6 +192,9 @@ public class TileEntityAntiprotonicNucleosynthesizer extends TileEntityUpgradeab
 
     @Override
     public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
+        if (stack == null || stack.getGas() == null) {
+            return 0;
+        }
         if (canReceiveGas(side, stack.getGas())) {
             return inputGasTank.receive(stack, doTransfer);
         }

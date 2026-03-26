@@ -124,6 +124,9 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
 
     @Override
     public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
+        if (stack == null || stack.getGas() == null) {
+            return 0;
+        }
         if (getReactor() != null) {
             if (stack.getGas() == MekanismFluids.Deuterium) {
                 return getReactor().getDeuteriumTank().receive(stack, doTransfer);

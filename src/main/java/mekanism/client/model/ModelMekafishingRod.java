@@ -7,14 +7,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelMekafishingRodRight extends ModelBase {
+public class ModelMekafishingRod extends ModelBase {
 
     ModelRenderer body;
     ModelRenderer bottom_connector_r1;
     ModelRenderer spool_r1;
     ModelRenderer connector_r1;
     ModelRenderer connector_r2;
-    ModelRenderer wheel_handle_r1;
     ModelRenderer wheel_r1;
     ModelRenderer bait_module;
     ModelRenderer body_r1;
@@ -25,8 +24,15 @@ public class ModelMekafishingRodRight extends ModelBase {
     ModelRenderer body_r3;
     ModelRenderer body_r4;
     ModelRenderer body_r5;
+    ModelRenderer collection_module2;
+    ModelRenderer body_r6;
+    ModelRenderer intelligent_module2;
+    ModelRenderer a;
+    ModelRenderer wheel_handle_r1;
+    ModelRenderer b;
+    ModelRenderer wheel_handle_r2;
 
-    public ModelMekafishingRodRight() {
+    public ModelMekafishingRod() {
         textureWidth = 32;
         textureHeight = 32;
 
@@ -66,12 +72,6 @@ public class ModelMekafishingRodRight extends ModelBase {
         body.addChild(connector_r2);
         setRotationAngle(connector_r2, -0.2618F, 0.0F, 0.0F);
         connector_r2.cubeList.add(new ModelBox(connector_r2, 12, 18, -0.5F, -5.0F, -1.0F, 1, 5, 1, 0.0F, false));
-
-        wheel_handle_r1 = new ModelRenderer(this);
-        wheel_handle_r1.setRotationPoint(0.0F, -7.5F, 0.5F);
-        body.addChild(wheel_handle_r1);
-        setRotationAngle(wheel_handle_r1, -0.7854F, 0.0F, 0.0F);
-        wheel_handle_r1.cubeList.add(new ModelBox(wheel_handle_r1, 20, 0, -3.5F, -1.5F, 0.5F, 2, 1, 1, 0.0F, false));
 
         wheel_r1 = new ModelRenderer(this);
         wheel_r1.setRotationPoint(0.0F, -7.5F, 0.5F);
@@ -125,21 +125,66 @@ public class ModelMekafishingRodRight extends ModelBase {
         catching_module.addChild(body_r5);
         setRotationAngle(body_r5, 0.7854F, 0.0F, 0.0F);
         body_r5.cubeList.add(new ModelBox(body_r5, 20, 2, -1.0F, -1.0F, -1.0F, 2, 1, 1, 0.0F, false));
+
+        collection_module2 = new ModelRenderer(this);
+        collection_module2.setRotationPoint(0.0F, 24.0F, 0.0F);
+
+
+        body_r6 = new ModelRenderer(this);
+        body_r6.setRotationPoint(-1.0F, -11.0F, -1.0F);
+        collection_module2.addChild(body_r6);
+        setRotationAngle(body_r6, 0.0F, -0.7854F, 0.0F);
+        body_r6.cubeList.add(new ModelBox(body_r6, 12, 9, -1.0F, -2.0F, -1.0F, 2, 2, 2, 0.0F, false));
+
+        intelligent_module2 = new ModelRenderer(this);
+        intelligent_module2.setRotationPoint(0.0F, 24.0F, -1.0F);
+        intelligent_module2.cubeList.add(new ModelBox(intelligent_module2, 12, 0, -2.0F, -11.0F, -1.0F, 2, 3, 2, 0.0F, false));
+
+        a = new ModelRenderer(this);
+        a.setRotationPoint(0.0F, 24.0F, 0.0F);
+
+
+        wheel_handle_r1 = new ModelRenderer(this);
+        wheel_handle_r1.setRotationPoint(0.0F, -7.5F, 0.5F);
+        a.addChild(wheel_handle_r1);
+        setRotationAngle(wheel_handle_r1, -0.7854F, 0.0F, 0.0F);
+        wheel_handle_r1.cubeList.add(new ModelBox(wheel_handle_r1, 20, 0, -3.5F, -1.5F, 0.5F, 2, 1, 1, 0.0F, false));
+
+        b = new ModelRenderer(this);
+        b.setRotationPoint(0.0F, 24.0F, 0.0F);
+
+
+        wheel_handle_r2 = new ModelRenderer(this);
+        wheel_handle_r2.setRotationPoint(0.0F, -7.5F, 0.5F);
+        b.addChild(wheel_handle_r2);
+        setRotationAngle(wheel_handle_r2, -0.7854F, 0.0F, 0.0F);
+        wheel_handle_r2.cubeList.add(new ModelBox(wheel_handle_r2, 20, 0, 1.5F, -1.5F, 0.5F, 2, 1, 1, 0.0F, false));
     }
 
-    public void render(float size, boolean renderBait, boolean renderIntelligent, boolean renderCollection, boolean renderCatching) {
+    public void render(float size, boolean renderBait, boolean renderIntelligent, boolean renderCollection, boolean renderCatching, boolean isleft) {
         body.render(size);
         if (renderBait) {
             bait_module.render(size);
         }
-        if (renderIntelligent) {
-            intelligent_module.render(size);
-        }
-        if (renderCollection) {
-            collection_module.render(size);
-        }
         if (renderCatching) {
             catching_module.render(size);
+        }
+        if (isleft) {
+            if (renderIntelligent) {
+                intelligent_module.render(size);
+            }
+            if (renderCollection) {
+                collection_module.render(size);
+            }
+            a.render(size);
+        } else {
+            if (renderIntelligent) {
+                intelligent_module2.render(size);
+            }
+            if (renderCollection) {
+                collection_module2.render(size);
+            }
+            b.render(size);
         }
     }
 

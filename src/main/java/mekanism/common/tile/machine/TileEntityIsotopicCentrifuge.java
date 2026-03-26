@@ -209,6 +209,9 @@ public class TileEntityIsotopicCentrifuge extends TileEntityBasicMachine<GasInpu
 
     @Override
     public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
+        if (stack == null || stack.getGas() == null) {
+            return 0;
+        }
         if (canReceiveGas(side, stack.getGas())) {
             int recipeAmount = RecipeHandler.Recipe.ISOTOPIC_CENTRIFUGE.get().get(new GasInput(stack)).recipeInput.ingredient.amount;
             int receivable = inputTank.receive(stack, false);
