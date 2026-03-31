@@ -5,6 +5,7 @@ import mekanism.api.Coord4D;
 import mekanism.common.Mekanism;
 import mekanism.common.PacketHandler;
 import mekanism.common.base.IGuiProvider;
+import mekanism.common.network.PacketDataRequest.DataRequestMessage;
 import mekanism.common.network.PacketSimpleGui.SimpleGuiMessage;
 import mekanism.common.tile.prefab.TileEntityBasicBlock;
 import net.minecraft.client.gui.GuiScreen;
@@ -52,6 +53,8 @@ public class PacketSimpleGui implements IMessageHandler<SimpleGuiMessage, IMessa
                     if (player.openContainer != null) {
                         player.openContainer.windowId = message.windowId;
                     }
+                    //Force-refresh the tile data when switching GUIs so button states aren't stale.
+                    Mekanism.packetHandler.sendToServer(new DataRequestMessage(message.coord4D));
                 }
             }
         }, player);
@@ -86,11 +89,11 @@ public class PacketSimpleGui implements IMessageHandler<SimpleGuiMessage, IMessa
             if (!hasGuiHandler(handler)) {
                 return;
             }
+            playerMP.closeContainer();
             Container container = handlers.get(handler).getServerGui(id, playerMP, world, obj.getPos());
             if (container == null) {
                 return;
             }
-            playerMP.closeContainer();
             playerMP.getNextWindowId();
             int window = playerMP.currentWindowId;
             Mekanism.packetHandler.sendTo(new SimpleGuiMessage(obj, handler, id, window), playerMP);

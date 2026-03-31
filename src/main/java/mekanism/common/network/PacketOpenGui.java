@@ -76,11 +76,11 @@ public class PacketOpenGui implements IMessageHandler<OpenGui, IMessage> {
             if (!hasGuiHandler(handler)) {
                 return;
             }
+            playerMP.closeContainer();
             Container container = handlers.get(handler).getServerGui(id, playerMP, world, playerMP.getPosition());
             if (container == null) {
                 return;
             }
-            playerMP.closeContainer();
             playerMP.getNextWindowId();
             int window = playerMP.currentWindowId;
             Mekanism.packetHandler.sendTo(new OpenGui(obj, handler, id, window), playerMP);

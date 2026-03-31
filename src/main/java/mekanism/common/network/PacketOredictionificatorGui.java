@@ -9,6 +9,7 @@ import mekanism.common.Mekanism;
 import mekanism.common.PacketHandler;
 import mekanism.common.inventory.container.ContainerFilter;
 import mekanism.common.inventory.container.ContainerOredictionificator;
+import mekanism.common.network.PacketDataRequest.DataRequestMessage;
 import mekanism.common.network.PacketOredictionificatorGui.OredictionificatorGuiMessage;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.tile.machine.TileEntityOredictionificator;
@@ -44,14 +45,21 @@ public class PacketOredictionificatorGui implements IMessageHandler<Oredictionif
                 }
             } else if (message.coord4D.getTileEntity(player.world) instanceof TileEntityOredictionificator) {
                 try {
+                    GuiScreen gui = null;
                     if (message.packetType == OredictionificatorGuiPacket.CLIENT) {
-                        FMLCommonHandler.instance().showGuiScreen(OredictionificatorGuiMessage.getGui(message.packetType, message.guiType, player, player.world,
-                                message.coord4D.getPos(), -1));
+                        gui = OredictionificatorGuiMessage.getGui(message.packetType, message.guiType, player, player.world,
+                                message.coord4D.getPos(), -1);
                     } else if (message.packetType == OredictionificatorGuiPacket.CLIENT_INDEX) {
-                        FMLCommonHandler.instance().showGuiScreen(OredictionificatorGuiMessage.getGui(message.packetType, message.guiType, player, player.world,
-                                message.coord4D.getPos(), message.index));
+                        gui = OredictionificatorGuiMessage.getGui(message.packetType, message.guiType, player, player.world,
+                                message.coord4D.getPos(), message.index);
                     }
-                    player.openContainer.windowId = message.windowId;
+                    if (gui != null) {
+                        FMLCommonHandler.instance().showGuiScreen(gui);
+                        if (player.openContainer != null) {
+                            player.openContainer.windowId = message.windowId;
+                        }
+                        Mekanism.packetHandler.sendToServer(new DataRequestMessage(message.coord4D));
+                    }
                 } catch (Exception e) {
                     Mekanism.logger.error("FIXME: Packet handling error", e);
                 }
@@ -105,6 +113,9 @@ public class PacketOredictionificatorGui implements IMessageHandler<Oredictionif
                 container = new ContainerOredictionificator(playerMP.inventory, (TileEntityOredictionificator) obj.getTileEntity(world));
             } else if (guiType == 1) {
                 container = new ContainerFilter(playerMP.inventory, (TileEntityContainerBlock) obj.getTileEntity(world));
+            }
+            if (container == null) {
+                return;
             }
             playerMP.getNextWindowId();
             int window = playerMP.currentWindowId;

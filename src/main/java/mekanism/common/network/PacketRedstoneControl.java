@@ -23,7 +23,7 @@ public class PacketRedstoneControl implements IMessageHandler<RedstoneControlMes
         }
         PacketHandler.handlePacket(() -> {
             TileEntity tileEntity = message.coord4D.getTileEntity(player.world);
-            if (!PacketHandler.canAccessTile(player, tileEntity, true)) {
+            if (!PacketHandler.canAccessTile(player, tileEntity)) {
                 return;
             }
             if (tileEntity instanceof IRedstoneControl control) {

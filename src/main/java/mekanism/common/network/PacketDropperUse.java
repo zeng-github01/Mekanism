@@ -23,7 +23,7 @@ public class PacketDropperUse implements IMessageHandler<DropperUseMessage, IMes
         }
         PacketHandler.handlePacket(() -> {
             TileEntity tileEntity = message.coord4D.getTileEntity(player.world);
-            if (!PacketHandler.canAccessTile(player, tileEntity, true)) {
+            if (!PacketHandler.canAccessTile(player, tileEntity)) {
                 return;
             }
             if (tileEntity instanceof ITankManager tankManager) {

@@ -11,6 +11,7 @@ import mekanism.common.PacketHandler;
 import mekanism.common.inventory.container.ContainerDigitalMiner;
 import mekanism.common.inventory.container.ContainerFilter;
 import mekanism.common.inventory.container.ContainerNull;
+import mekanism.common.network.PacketDataRequest.DataRequestMessage;
 import mekanism.common.network.PacketDigitalMinerGui.DigitalMinerGuiMessage;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.tile.machine.TileEntityDigitalMiner;
@@ -46,14 +47,21 @@ public class PacketDigitalMinerGui implements IMessageHandler<DigitalMinerGuiMes
                 }
             } else if (message.coord4D.getTileEntity(player.world) instanceof TileEntityDigitalMiner) {
                 try {
+                    GuiScreen gui = null;
                     if (message.packetType == MinerGuiPacket.CLIENT) {
-                        FMLCommonHandler.instance().showGuiScreen(DigitalMinerGuiMessage.getGui(message.packetType, message.guiType, player, player.world,
-                                message.coord4D.getPos(), -1));
+                        gui = DigitalMinerGuiMessage.getGui(message.packetType, message.guiType, player, player.world,
+                                message.coord4D.getPos(), -1);
                     } else if (message.packetType == MinerGuiPacket.CLIENT_INDEX) {
-                        FMLCommonHandler.instance().showGuiScreen(DigitalMinerGuiMessage.getGui(message.packetType, message.guiType, player, player.world,
-                                message.coord4D.getPos(), message.index));
+                        gui = DigitalMinerGuiMessage.getGui(message.packetType, message.guiType, player, player.world,
+                                message.coord4D.getPos(), message.index);
                     }
-                    player.openContainer.windowId = message.windowId;
+                    if (gui != null) {
+                        FMLCommonHandler.instance().showGuiScreen(gui);
+                        if (player.openContainer != null) {
+                            player.openContainer.windowId = message.windowId;
+                        }
+                        Mekanism.packetHandler.sendToServer(new DataRequestMessage(message.coord4D));
+                    }
                 } catch (Exception e) {
                     Mekanism.logger.error("FIXME: Packet handling error", e);
                 }
