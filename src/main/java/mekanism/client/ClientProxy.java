@@ -11,6 +11,7 @@ import mekanism.client.gui.chemical.*;
 import mekanism.client.gui.robit.*;
 import mekanism.client.newgui.GuiModuleTweaker;
 import mekanism.client.render.MekanismRenderer;
+import mekanism.client.render.MekanismRenderSelection;
 import mekanism.client.render.RenderArm;
 import mekanism.client.render.RenderFirstPersonMekaSuitArms;
 import mekanism.client.render.RenderTickHandler;
@@ -948,6 +949,7 @@ public class ClientProxy extends CommonProxy {
         }
 
         MinecraftForge.EVENT_BUS.register(new RenderTickHandler());
+        MinecraftForge.EVENT_BUS.register(new MekanismRenderSelection());
         MinecraftForge.EVENT_BUS.register(SoundHandler.class);
 
         new MekanismKeyHandler();

@@ -143,7 +143,7 @@ public class MekanismTools implements IModule {
             Random random = event.getWorld().rand;
             double chance = random.nextDouble();
             if (chance < MekanismConfig.current().tools.armorSpawnRate.val()) {
-                int armorType = random.nextInt(4);
+                int armorType = random.nextInt(5);
                 if (armorType == 0) {
                     setEntityArmorWithChance(random, entity, ToolsItem.GLOWSTONE_SWORD, ToolsItem.GLOWSTONE_HELMET, ToolsItem.GLOWSTONE_CHESTPLATE,
                             ToolsItem.GLOWSTONE_LEGGINGS, ToolsItem.GLOWSTONE_BOOTS);
@@ -156,7 +156,7 @@ public class MekanismTools implements IModule {
                 } else if (armorType == 3) {
                     setEntityArmorWithChance(random, entity, ToolsItem.STEEL_SWORD, ToolsItem.STEEL_HELMET, ToolsItem.STEEL_CHESTPLATE,
                             ToolsItem.STEEL_LEGGINGS, ToolsItem.STEEL_BOOTS);
-                } else if (armorType == 4) {
+                } else {
                     setEntityArmorWithChance(random, entity, ToolsItem.BRONZE_SWORD, ToolsItem.BRONZE_HELMET, ToolsItem.BRONZE_CHESTPLATE,
                             ToolsItem.BRONZE_LEGGINGS, ToolsItem.BRONZE_BOOTS);
                 }

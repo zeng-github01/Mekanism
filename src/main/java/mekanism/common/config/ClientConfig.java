@@ -6,6 +6,7 @@ import mekanism.common.config.options.BooleanOption;
 import mekanism.common.config.options.DoubleOption;
 import mekanism.common.config.options.FloatOption;
 import mekanism.common.config.options.IntOption;
+import mekanism.common.config.options.StringListOption;
 
 /**
  * Created by Thiakil on 15/03/2019.
@@ -36,6 +37,9 @@ public class ClientConfig extends BaseConfig {
     public final BooleanOption opaqueTransmitters = new BooleanOption(this,  "OpaqueTransmitterRender", false,
             "If true, don't render Cables/Pipes/Tubes as transparent and don't render their contents.");
 
+    public final IntOption transmitterInteriorRenderDistance = new IntOption(this, "transmitterInteriorRenderDistance", 64,
+            "Render distance (in blocks) for transparent transmitter interiors. Set to 0 to always render.", 0, 1024);
+
     public final BooleanOption allowModeScroll = new BooleanOption(this,  "allowModeScroll", true,
             "Allow sneak + scroll to change item modes.");
 
@@ -65,11 +69,17 @@ public class ClientConfig extends BaseConfig {
 
     public final BooleanOption windGeneratorRotating = new BooleanOption(this,  "windGeneratorRotating", true, "Wind turbine blade rotation [block]");
 
+    public final IntOption windGeneratorBladeRenderDistance = new IntOption(this, "windGeneratorBladeRenderDistance", 96,
+            "Render distance (in blocks) for wind turbine blades. Set to 0 to always render blades.", 0, 1024);
+
     public final FloatOption hudJitter = new FloatOption(this,  "hudJitter", 6F, "Visual jitter of MekaSuit HUD, seen when moving the player's head. Bigger value = more jitter.", 1F, 100F);
 
     public final FloatOption hudOpacity = new FloatOption(this,  "hudOpacity", 0.4F, "Opacity of HUD used by MekaSuit.", 0F, 1F);
 
     public final BooleanOption largeWindGeneratorRending = new BooleanOption(this,  "largeWindGeneratorRending", true, "Whether to render a model of a large wind turbine，If false, no rendering is done, which may optimize the fps");
+
+    public final IntOption largeWindGeneratorFanRenderDistance = new IntOption(this, "largeWindGeneratorFanRenderDistance", 128,
+            "Render distance (in blocks) for large wind turbine fan blades. Set to 0 to always render blades.", 0, 1024);
 
     public final BooleanOption hudCompassEnabled = new BooleanOption(this,  "mekaSuitHelmetCompass", true, "Display a fancy compass when the MekaSuit is worn.");
 
@@ -88,6 +98,24 @@ public class ClientConfig extends BaseConfig {
     public final IntOption terRange = new IntOption(this,"terRange",256,"Range at which Tile Entity Renderer's added by Mekanism can render at, for example the contents of multiblocks. Vanilla defaults the rendering range for TERs to 64 for most blocks, but uses a range of 256 for beacons and end gateways.", 1, 1024);
 
     public final BooleanOption largeWindGeneratorisGlobalRenderer = new BooleanOption(this,  "largeWindGeneratorisGlobalRenderer", true,"Should large wind turbines always be rendered?");
+
+    public final StringListOption jsonSelectionBoxModIdWhitelist = new StringListOption(this, "JsonSelectionBoxModIdWhitelist", new String[]{"mekanism","mekanismgenerators","mekanismtools","mekanismmultiblockmachine"},
+            "Mod id whitelist for parsing block models (models/block/*.json) into selection boxes. Supports '*' to match all mods. Example: [mekanism,minecraft]");
+
+    public final StringListOption jsonSelectionBoxModelSkipList = new StringListOption(this, "JsonSelectionBoxModelSkipList",
+            new String[]{"mekanism:nothing", "mekanism:basic_cube", "mekanism:machine"},
+            "Model blacklist for JSON selection boxes. Supports '*' wildcard. Example: [mekanism:machine,mekanism:basic_cube,mekanism:block/nothing]");
+
+    public final StringListOption jsonSelectionBoxKeepVisibleInternalEdgesModIdWhitelist = new StringListOption(this,
+            "JsonSelectionBoxKeepVisibleInternalEdgesModIdWhitelist", new String[0],
+            "Mod id whitelist for keeping visible internal wireframe edges while still reducing stitched seam lines. Disables extra view-angle edge filtering. Supports '*' wildcard. Example: [draconicevolution]");
+
+    public final FloatOption jsonSelectionBoxLineWidth = new FloatOption(this, "JsonSelectionBoxLineWidth", 2.0F,
+            "Line width for model-based selection wireframes. Increase for thicker outlines.", 1.0F, 8.0F);
+
+    public final BooleanOption jsonSelectionBoxAutoColorCycle = new BooleanOption(this, "JsonSelectionBoxAutoColorCycle", false,
+            "Whether model-based selection wireframes should automatically cycle through rainbow colors.");
+
     @Override
     public void write(ByteBuf config) {
         throw new UnsupportedOperationException("Client config shouldn't be synced");

@@ -75,7 +75,9 @@ import net.minecraft.dispenser.IBehaviorDispenseItem;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.nbt.NBTTagCompound;
@@ -103,12 +105,14 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.IForgeRegistryModifiable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -274,6 +278,83 @@ public class Mekanism {
         GasConversionHandler.addDefaultGasMappings();
     }
 
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void removeNuclearCraftShieldingRecipes(RegistryEvent.Register<IRecipe> event) {
+        if (!hooks.NuclearCraft) {
+            return;
+        }
+        if (!(event.getRegistry() instanceof IForgeRegistryModifiable)) {
+            return;
+        }
+        @SuppressWarnings("unchecked")
+        IForgeRegistryModifiable<IRecipe> recipeRegistry = (IForgeRegistryModifiable<IRecipe>) event.getRegistry();
+        int removed = removeNuclearCraftShieldingRecipes(recipeRegistry);
+        if (removed > 0) {
+            logger.info("Removed {} NC shielding recipes for Mek armor during recipe registration.", removed);
+        }
+    }
+
+    private static final String NC_SHIELDING_RECIPE_CLASS = "nc.recipe.vanilla.recipe.ShapelessArmorRadShieldingRecipe";
+    private static final String NC_MOD_ID = "nuclearcraft";
+    private static final String NC_RAD_SHIELDING_ITEM = "rad_shielding";
+
+    private static int removeNuclearCraftShieldingRecipes(IForgeRegistryModifiable<IRecipe> recipeRegistry) {
+        List<ResourceLocation> toRemove = new ArrayList<>();
+        for (IRecipe recipe : recipeRegistry.getValuesCollection()) {
+            if (isNuclearCraftShieldingRecipeForBlockedMekArmor(recipe)) {
+                ResourceLocation recipeName = recipe.getRegistryName();
+                if (recipeName != null) {
+                    toRemove.add(recipeName);
+                }
+            }
+        }
+        for (ResourceLocation recipeName : toRemove) {
+            recipeRegistry.remove(recipeName);
+        }
+        return toRemove.size();
+    }
+
+    private static boolean isNuclearCraftShieldingRecipeForBlockedMekArmor(IRecipe recipe) {
+        if (recipe == null) {
+            return false;
+        }
+        ItemStack output = recipe.getRecipeOutput();
+        if (output.isEmpty() || !isMekArmorBlockedForNCShielding(output.getItem())) {
+            return false;
+        }
+        if (NC_SHIELDING_RECIPE_CLASS.equals(recipe.getClass().getName())) {
+            return true;
+        }
+        ResourceLocation recipeName = recipe.getRegistryName();
+        if (recipeName == null || !NC_MOD_ID.equals(recipeName.getNamespace())) {
+            return false;
+        }
+        return containsNuclearCraftRadShieldingIngredient(recipe) || recipe.getClass().getName().contains("RadShielding");
+    }
+
+    private static boolean containsNuclearCraftRadShieldingIngredient(IRecipe recipe) {
+        for (Ingredient ingredient : recipe.getIngredients()) {
+            if (ingredient == null || ingredient == Ingredient.EMPTY) {
+                continue;
+            }
+            for (ItemStack stack : ingredient.getMatchingStacks()) {
+                if (stack.isEmpty()) {
+                    continue;
+                }
+                ResourceLocation itemName = stack.getItem().getRegistryName();
+                if (itemName != null && NC_MOD_ID.equals(itemName.getNamespace()) && NC_RAD_SHIELDING_ITEM.equals(itemName.getPath())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean isMekArmorBlockedForNCShielding(Item item) {
+        return item == MekanismItems.HAZMAT_MASK || item == MekanismItems.HAZMAT_GOWN || item == MekanismItems.HAZMAT_PANTS || item == MekanismItems.HAZMAT_BOOTS ||
+                item == MekanismItems.MEKASUIT_HELMET || item == MekanismItems.MEKASUIT_BODYARMOR || item == MekanismItems.MEKASUIT_PANTS || item == MekanismItems.MEKASUIT_BOOTS;
+    }
+
 
     /**
      * Registers specified items with the Ore Dictionary.
@@ -437,6 +518,22 @@ public class Mekanism {
     @EventHandler
     public void loadComplete(FMLInterModComms.IMCEvent event) {
         new IMCHandler().onIMCEvent(event.getMessages());
+    }
+
+    @EventHandler
+    public void loadComplete(FMLLoadCompleteEvent event) {
+        if (!hooks.NuclearCraft) {
+            return;
+        }
+        if (!(ForgeRegistries.RECIPES instanceof IForgeRegistryModifiable)) {
+            return;
+        }
+        @SuppressWarnings("unchecked")
+        IForgeRegistryModifiable<IRecipe> recipeRegistry = (IForgeRegistryModifiable<IRecipe>) ForgeRegistries.RECIPES;
+        int removed = removeNuclearCraftShieldingRecipes(recipeRegistry);
+        if (removed > 0) {
+            logger.info("Removed {} NC shielding recipes for Mek armor during load complete.", removed);
+        }
     }
 
     @EventHandler

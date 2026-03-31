@@ -11,6 +11,7 @@ import mekanism.common.inventory.container.ContainerNull;
 import mekanism.common.network.PacketLogisticalSorterGui.LogisticalSorterGuiMessage;
 import mekanism.common.tile.TileEntityLogisticalSorter;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
+import mekanism.common.util.MekanismUtils;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -29,10 +30,14 @@ public class PacketLogisticalSorterGui implements IMessageHandler<LogisticalSort
     @Override
     public IMessage onMessage(LogisticalSorterGuiMessage message, MessageContext context) {
         EntityPlayer player = PacketHandler.getPlayer(context);
+        if (player == null) {
+            return null;
+        }
         PacketHandler.handlePacket(() -> {
             if (!player.world.isRemote) {
                 World worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(message.coord4D.dimensionId);
-                if (message.coord4D.getTileEntity(worldServer) instanceof TileEntityLogisticalSorter) {
+                if (worldServer != null && message.coord4D.getTileEntity(worldServer) instanceof TileEntityLogisticalSorter tile
+                        && PacketHandler.canAccessTile(player, tile)) {
                     LogisticalSorterGuiMessage.openServerGui(message.packetType, message.guiType, worldServer, (EntityPlayerMP) player, message.coord4D, message.index);
                 }
             } else if (message.coord4D.getTileEntity(player.world) instanceof TileEntityLogisticalSorter) {
@@ -163,7 +168,7 @@ public class PacketLogisticalSorterGui implements IMessageHandler<LogisticalSort
 
         @Override
         public void fromBytes(ByteBuf dataStream) {
-            packetType = SorterGuiPacket.values()[dataStream.readInt()];
+            packetType = MekanismUtils.getByIndex(SorterGuiPacket.values(), dataStream.readInt(), SorterGuiPacket.SERVER);
 
             coord4D = Coord4D.read(dataStream);
 

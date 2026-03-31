@@ -364,7 +364,7 @@ public class ItemBlockGenerator extends ItemBlock implements IEnergizedItem, ISp
         if (!MekanismConfig.current().general.allowProtection.val()) {
             return SecurityMode.PUBLIC;
         }
-        return SecurityMode.values()[ItemDataUtils.getInt(stack, "security")];
+        return MekanismUtils.getByIndex(SecurityMode.values(), ItemDataUtils.getInt(stack, "security"), SecurityMode.PUBLIC);
     }
 
     @Override

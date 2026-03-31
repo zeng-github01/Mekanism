@@ -350,6 +350,17 @@ public final class MekanismUtils {
         return def * Math.pow(MekanismConfig.current().general.maxUpgradeMultiplier.val(), fractionUpgrades(mgmt, Upgrade.SPEED));
     }
 
+
+    public static double getGasPerTickMeanMultiplier(IUpgradeTile tile) {
+        if (tile.supportsUpgrades()) {
+            if (tile.supportsUpgrade(Upgrade.GAS)) {
+                return Math.pow(MekanismConfig.current().general.maxUpgradeMultiplier.val(), 2 * fractionUpgrades(tile, Upgrade.SPEED) - fractionUpgrades(tile, Upgrade.GAS));
+            }
+            return Math.pow(MekanismConfig.current().general.maxUpgradeMultiplier.val(), fractionUpgrades(tile, Upgrade.SPEED));
+        }
+        return 1;
+    }
+
     public static long getBaseUsage(IUpgradeTile tile, int def) {
         if (tile.supportsUpgrades()) {
             //getGasPerTickMean * required ticks (not rounded)
@@ -496,8 +507,9 @@ public final class MekanismUtils {
      */
     public static void makeBoundingBlock(World world, BlockPos boundingLocation, Coord4D orig) {
         world.setBlockState(boundingLocation, MekanismBlocks.BoundingBlock.getStateFromMeta(0));
-        if (!world.isRemote) {
-            ((TileEntityBoundingBlock) world.getTileEntity(boundingLocation)).setMainLocation(orig.getPos());
+        TileEntity tile = world.getTileEntity(boundingLocation);
+        if (tile instanceof TileEntityBoundingBlock block) {
+            block.setMainLocation(orig.getPos());
         }
     }
 
@@ -510,8 +522,9 @@ public final class MekanismUtils {
      */
     public static void makeAdvancedBoundingBlock(World world, BlockPos boundingLocation, Coord4D orig) {
         world.setBlockState(boundingLocation, MekanismBlocks.BoundingBlock.getStateFromMeta(1));
-        if (!world.isRemote) {
-            ((TileEntityAdvancedBoundingBlock) world.getTileEntity(boundingLocation)).setMainLocation(orig.getPos());
+        TileEntity tile = world.getTileEntity(boundingLocation);
+        if (tile instanceof TileEntityAdvancedBoundingBlock block) {
+            block.setMainLocation(orig.getPos());
         }
     }
 
@@ -1120,6 +1133,28 @@ public final class MekanismUtils {
             return (int) d;
         }
         return Integer.MAX_VALUE;
+    }
+
+    @Nullable
+    public static <TYPE> TYPE getByIndex(TYPE[] elements, int index, @Nullable TYPE fallback) {
+        return index >= 0 && index < elements.length ? elements[index] : fallback;
+    }
+
+    @Nullable
+    public static <TYPE> TYPE getByIndex(List<TYPE> elements, int index, @Nullable TYPE fallback) {
+        return index >= 0 && index < elements.size() ? elements.get(index) : fallback;
+    }
+
+    @Nullable
+    public static UUID parseUUID(@Nullable String uuid) {
+        if (uuid == null || uuid.isEmpty()) {
+            return null;
+        }
+        try {
+            return UUID.fromString(uuid);
+        } catch (IllegalArgumentException ignored) {
+            return null;
+        }
     }
 
     public static double time(IUpgradeTile tile) {

@@ -28,12 +28,14 @@ public class RenderLargeWindGenerator extends RenderFastTileEntityTime<TileEntit
         }
         boolean active = tileEntity.getActive();
         double angle = angle(tileEntity, partialTick, active);
+        int fanRenderDistance = MekanismConfig.current().client.largeWindGeneratorFanRenderDistance.val();
+        boolean renderFans = fanRenderDistance <= 0 || tileEntity.getDistanceSq(rendererDispatcher.entityX, rendererDispatcher.entityY, rendererDispatcher.entityZ) <= (double) fanRenderDistance * fanRenderDistance;
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         bindTexture(MAIN_TEXTURE);
         MekanismRenderer.rotate(tileEntity.facing, 0, 180, 90, 270);
         GlStateManager.rotate(180, 0, 0, 1);
-        model.renderBlock(getTime(), MODEL_SCALE, angle, active, rendererDispatcher.renderEngine, true);
+        model.renderBlock(getTime(), MODEL_SCALE, angle, active, rendererDispatcher.renderEngine, true, renderFans);
         GlStateManager.popMatrix();
     }
 

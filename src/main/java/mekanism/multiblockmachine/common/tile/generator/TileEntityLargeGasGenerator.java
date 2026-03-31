@@ -26,12 +26,14 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 
-public class TileEntityLargeGasGenerator extends TileEntityGenerator implements IAdvancedBoundingBlock, IGasHandler, ISustainedData, IComparatorSupport, IMachineSlotTip, IUpgradeTile {
+public class TileEntityLargeGasGenerator extends TileEntityGenerator implements IAdvancedBoundingBlock, IGasHandler, ISustainedData, IComparatorSupport, IMachineSlotTip, IUpgradeTile, ISpecialSelectionWireframeTile {
 
     private static final String[] methods = new String[]{"getEnergy", "getOutput", "getMaxEnergy", "getEnergyNeeded", "getGas", "getGasNeeded"};
     /**
@@ -115,7 +117,9 @@ public class TileEntityLargeGasGenerator extends TileEntityGenerator implements 
 
     @Override
     public void addTileSyncTask() {
-        CableUtils.emit(this, 3);
+        if (getEnergy() > 0) {
+            CableUtils.emit(this, 3);
+        }
     }
 
     public int getThread() {
@@ -550,6 +554,12 @@ public class TileEntityLargeGasGenerator extends TileEntityGenerator implements 
 
     public int getMaxBurnTicks() {
         return maxBurnTicks;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Class<?> getSelectionWireframeModelClass() {
+        return mekanism.multiblockmachine.client.model.generator.ModelLargeGasGenerator.class;
     }
 
     @Override

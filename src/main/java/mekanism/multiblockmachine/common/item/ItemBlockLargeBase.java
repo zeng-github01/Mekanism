@@ -138,7 +138,7 @@ public abstract class ItemBlockLargeBase extends ItemBlock implements ISustained
                 }
                 if (tileEntity instanceof IRedstoneControl redstoneControl) {
                     if (ItemDataUtils.hasData(stack, "controlType")) {
-                        redstoneControl.setControlType(IRedstoneControl.RedstoneControl.values()[ItemDataUtils.getInt(stack, "controlType")]);
+                        redstoneControl.setControlType(MekanismUtils.getByIndex(IRedstoneControl.RedstoneControl.values(), ItemDataUtils.getInt(stack, "controlType"), IRedstoneControl.RedstoneControl.DISABLED));
                     }
                 }
                 if (tileEntity instanceof ISustainedInventory inventory) {
@@ -196,7 +196,7 @@ public abstract class ItemBlockLargeBase extends ItemBlock implements ISustained
         if (!MekanismConfig.current().general.allowProtection.val()) {
             return ISecurityTile.SecurityMode.PUBLIC;
         }
-        return ISecurityTile.SecurityMode.values()[ItemDataUtils.getInt(stack, "security")];
+        return MekanismUtils.getByIndex(ISecurityTile.SecurityMode.values(), ItemDataUtils.getInt(stack, "security"), ISecurityTile.SecurityMode.PUBLIC);
     }
 
     @Override

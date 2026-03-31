@@ -9,6 +9,7 @@ import mekanism.common.Upgrade;
 import mekanism.common.base.IAdvancedBoundingBlock;
 import mekanism.common.base.IGuiProvider;
 import mekanism.common.base.IMachineSlotTip;
+import mekanism.common.base.ISpecialSelectionWireframeTile;
 import mekanism.common.base.IUpgradeTile;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.tile.component.TileComponentUpgrade;
@@ -16,6 +17,8 @@ import mekanism.common.util.*;
 import mekanism.generators.common.tile.TileEntityGenerator;
 import mekanism.multiblockmachine.client.render.block.generator.bloom.BloomRenderLargeWindGenerator;
 import mekanism.multiblockmachine.common.MekanismMultiblockMachine;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,11 +32,14 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,7 +47,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 
-public class TileEntityLargeWindGenerator extends TileEntityGenerator implements IAdvancedBoundingBlock, IMachineSlotTip, IUpgradeTile {
+public class TileEntityLargeWindGenerator extends TileEntityGenerator implements IAdvancedBoundingBlock, IMachineSlotTip, IUpgradeTile, ISpecialSelectionWireframeTile {
 
     public static final float SPEED = 32F;
     public static final float SPEED_SCALED = 256F / SPEED;
@@ -165,7 +171,9 @@ public class TileEntityLargeWindGenerator extends TileEntityGenerator implements
 
     @Override
     public void addTileSyncTask() {
-        CableUtils.emit(this, 4);
+        if (getEnergy() > 0) {
+            CableUtils.emit(this, 4);
+        }
     }
 
 
@@ -300,10 +308,17 @@ public class TileEntityLargeWindGenerator extends TileEntityGenerator implements
                 float maxG = (float) MekanismConfig.current().multiblock.LargeWindGenerationMax.val();
                 //Prevents the possibility of writing opposite values; https://github.com/Thorfusion/Mekanism-Community-Edition/issues/150
                 int rangeY = maxY < minY ? minY - maxY : maxY - minY;
+                if (rangeY <= 0 || minG <= 0 || Float.isNaN(minG) || Float.isInfinite(minG) || Float.isNaN(maxG) || Float.isInfinite(maxG)) {
+                    return 0;
+                }
                 float rangG = maxG < minG ? minG - maxG : maxG - minG;
                 float slope = rangG / rangeY;
                 float toGen = minG + (slope * (clampedY - minY));
-                return toGen / minG;
+                float multiplier = toGen / minG;
+                if (Float.isNaN(multiplier) || Float.isInfinite(multiplier)) {
+                    return 0;
+                }
+                return multiplier;
             }
         }
         return 0;
@@ -752,6 +767,40 @@ public class TileEntityLargeWindGenerator extends TileEntityGenerator implements
                 new BloomRenderLargeWindGenerator(this);
             }
         }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Class<?> getSelectionWireframeModelClass() {
+        return mekanism.multiblockmachine.client.model.generator.ModelLargeWindGenerator.class;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getSelectionWireframeAnimationCacheKey(IBlockState state, IBlockAccess world, BlockPos pos) {
+        if (!MekanismConfig.current().client.windGeneratorRotating.val()) {
+            return 0;
+        }
+        // Quantize to 0.5 degree to cap cache growth while keeping animation smooth.
+        return Math.floorMod((int) Math.round(getSelectionWireframeAngle() * 2D), 720);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void applySelectionWireframeModelState(Object model, IBlockState state, IBlockAccess world, BlockPos pos) {
+        if (model instanceof mekanism.multiblockmachine.client.model.generator.ModelLargeWindGenerator windModel) {
+            windModel.applySelectionFanAngle(getSelectionWireframeAngle());
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    private double getSelectionWireframeAngle() {
+        double angle = getAngle();
+        if (getActive()) {
+            float partial = Minecraft.getMinecraft().getRenderPartialTicks();
+            angle = (angle + ((getPos().getY() + 46F) / SPEED_SCALED) * partial) % 360D;
+        }
+        return angle < 0D ? angle + 360D : angle;
     }
 
     @Override

@@ -28,11 +28,20 @@ public class PacketConfigurationUpdate implements IMessageHandler<ConfigurationU
     @Override
     public IMessage onMessage(ConfigurationUpdateMessage message, MessageContext context) {
         EntityPlayer player = PacketHandler.getPlayer(context);
+        if (player == null) {
+            return null;
+        }
 
         PacketHandler.handlePacket(() -> {
             TileEntity tile = message.coord4D.getTileEntity(player.world);
+            if (!PacketHandler.canAccessTile(player, tile, true)) {
+                return;
+            }
             if (tile instanceof ISideConfiguration config) {
                 ITileNetwork network = CapabilityUtils.getCapability(tile, Capabilities.TILE_NETWORK_CAPABILITY, null);
+                if (network == null) {
+                    return;
+                }
 
                 if (message.packetType == ConfigurationPacket.EJECT) {
                     config.getConfig().setEjecting(message.transmission, !config.getConfig().isEjecting(message.transmission));
@@ -149,15 +158,15 @@ public class PacketConfigurationUpdate implements IMessageHandler<ConfigurationU
 
         @Override
         public void fromBytes(ByteBuf dataStream) {
-            packetType = ConfigurationPacket.values()[dataStream.readInt()];
+            packetType = MekanismUtils.getByIndex(ConfigurationPacket.values(), dataStream.readInt(), ConfigurationPacket.EJECT);
             coord4D = Coord4D.read(dataStream);
 
             if (packetType == ConfigurationPacket.EJECT) {
-                transmission = TransmissionType.values()[dataStream.readInt()];
+                transmission = MekanismUtils.getByIndex(TransmissionType.values(), dataStream.readInt(), TransmissionType.ITEM);
             } else if (packetType == ConfigurationPacket.SIDE_DATA) {
                 clickType = dataStream.readInt();
                 configIndex = EnumFacing.byIndex(dataStream.readInt());
-                transmission = TransmissionType.values()[dataStream.readInt()];
+                transmission = MekanismUtils.getByIndex(TransmissionType.values(), dataStream.readInt(), TransmissionType.ITEM);
             } else if (packetType == ConfigurationPacket.EJECT_COLOR) {
                 clickType = dataStream.readInt();
             } else if (packetType == ConfigurationPacket.INPUT_COLOR) {

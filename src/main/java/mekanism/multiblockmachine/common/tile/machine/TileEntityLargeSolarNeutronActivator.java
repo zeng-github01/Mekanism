@@ -44,7 +44,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 
 public class TileEntityLargeSolarNeutronActivator extends TileEntityContainerBlock implements IUpgradeTile, IRedstoneControl, ISecurityTile, IElectricMachine<GasInput, GasOutput, SolarNeutronRecipe>, IComputerIntegration, IConfigCardAccess,
-        IMachineSlotTip, IAdvancedBoundingBlock, IGasHandler, ISustainedData, ITankManager, Upgrade.IUpgradeInfoHandler, IComparatorSupport, IActiveState {
+        IMachineSlotTip, IAdvancedBoundingBlock, IGasHandler, ISustainedData, ITankManager, Upgrade.IUpgradeInfoHandler, IComparatorSupport, IActiveState, ISpecialSelectionWireframeTile {
 
     public static final int MAX_GAS = 8192000;
     public GasTank inputTank = new GasTank(MAX_GAS);
@@ -163,9 +163,9 @@ public class TileEntityLargeSolarNeutronActivator extends TileEntityContainerBlo
 
 
     public void addTileSyncTask() {
-        this.gasSpeedController.ensureSize(1, () -> Collections.singletonList(new TankProvider.Gas(outputTank)));
-        handleTank(outputTank, getLeftTankside(), MekanismUtils.getLeft(facing));
-        handleTank(outputTank, getRightTankside(), MekanismUtils.getRight(facing));
+        this.gasSpeedController.ensureSize(2, () -> Arrays.asList(new TankProvider.Gas(outputTank), new TankProvider.Gas(outputTank)));
+        handleTank(outputTank, getLeftTankside(), MekanismUtils.getLeft(facing), 0);
+        handleTank(outputTank, getRightTankside(), MekanismUtils.getRight(facing), 1);
         int newRedstoneLevel = getRedstoneLevel();
         if (newRedstoneLevel != currentRedstoneLevel) {
             world.updateComparatorOutputLevel(pos, getBlockType());
@@ -190,23 +190,23 @@ public class TileEntityLargeSolarNeutronActivator extends TileEntityContainerBlo
     }
 
 
-    private void handleTank(GasTank tank, TileEntity tile, EnumFacing side) {
+    private void handleTank(GasTank tank, TileEntity tile, EnumFacing side, int tankIdx) {
         if (tile != null) {
-            ejectGas(Collections.singleton(side), tank, this.gasSpeedController, tile);
+            ejectGas(Collections.singleton(side), tank, this.gasSpeedController, tankIdx, tile);
         }
     }
 
-    private void ejectGas(Set<EnumFacing> outputSides, GasTank tank, EjectSpeedController speedController, TileEntity tile) {
-        speedController.record(0);
+    private void ejectGas(Set<EnumFacing> outputSides, GasTank tank, EjectSpeedController speedController, int tankIdx, TileEntity tile) {
+        speedController.record(tankIdx);
         if (tank.getGas() == null || tank.getStored() <= 0 || tank.getGas().getGas() == null) {
             return;
         }
-        if (!speedController.canEject(0)) {
+        if (!speedController.canEject(tankIdx)) {
             return;
         }
         GasStack toEmit = tank.getGas().copy().withAmount(Math.min(tank.getMaxGas(), tank.getStored()));
         int emitted = GasUtils.emit(toEmit, tile, outputSides);
-        speedController.eject(0, emitted);
+        speedController.eject(tankIdx, emitted);
         if (emitted <= 0) {
             return;
         }
@@ -256,7 +256,7 @@ public class TileEntityLargeSolarNeutronActivator extends TileEntityContainerBlo
                 }
                 lastActive = -1;
             }
-            controlType = RedstoneControl.values()[dataStream.readInt()];
+            controlType = MekanismUtils.getByIndex(RedstoneControl.values(), dataStream.readInt(), RedstoneControl.DISABLED);
             operatingTicks = dataStream.readInt();
             ticksRequired = dataStream.readInt();
             TileUtils.readTankData(dataStream, inputTank);
@@ -280,7 +280,7 @@ public class TileEntityLargeSolarNeutronActivator extends TileEntityContainerBlo
     public void readCustomNBT(NBTTagCompound nbtTags) {
         super.readCustomNBT(nbtTags);
         isActive = nbtTags.getBoolean("isActive");
-        controlType = RedstoneControl.values()[nbtTags.getInteger("controlType")];
+        controlType = MekanismUtils.getByIndex(RedstoneControl.values(), nbtTags.getInteger("controlType"), RedstoneControl.DISABLED);
         operatingTicks = nbtTags.getInteger("operatingTicks");
         inputTank.read(nbtTags.getCompoundTag("inputTank"));
         outputTank.read(nbtTags.getCompoundTag("outputTank"));
@@ -729,6 +729,12 @@ public class TileEntityLargeSolarNeutronActivator extends TileEntityContainerBlo
     @Override
     public String getName() {
         return LangUtils.localize("tile.LargeSolarNeutronActivator.name");
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Class<?> getSelectionWireframeModelClass() {
+        return mekanism.multiblockmachine.client.model.machine.ModelLargeSolarNeutronActivator.class;
     }
 
     @Override

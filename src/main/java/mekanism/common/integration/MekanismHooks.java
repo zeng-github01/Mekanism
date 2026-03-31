@@ -58,7 +58,8 @@ public final class MekanismHooks {
     public static final String METALLURGY_MOD_ID = "metallurgy";
     public static final String OPENCOMPUTERS_MOD_ID = "opencomputers";
     public static final String GALACTICRAFT_MOD_ID = "Galacticraft API";
-    public static final String WAILA_MOD_ID = "Waila";
+    public static final String WAILA_MOD_ID = "waila";
+    public static final String WAILA_MOD_ID_LEGACY = "Waila";
     public static final String TOP_MOD_ID = "theoneprobe";
     public static final String BUILDCRAFT_MOD_ID = "buildcraftcore";
     public static final String CYCLIC_MOD_ID = "cyclicmagic";
@@ -211,6 +212,8 @@ public final class MekanismHooks {
     public void hookInit() {
         //Integrate with Waila
         FMLInterModComms.sendMessage(WAILA_MOD_ID, "register", "mekanism.common.integration.WailaDataProvider.register");
+        //Legacy ID compatibility for older Waila forks.
+        FMLInterModComms.sendMessage(WAILA_MOD_ID_LEGACY, "register", "mekanism.common.integration.WailaDataProvider.register");
 
         //Register TOP handler
         FMLInterModComms.sendFunctionMessage(TOP_MOD_ID, "getTheOneProbe", "mekanism.common.integration.lookingat.theoneprobe.TOPProvider");

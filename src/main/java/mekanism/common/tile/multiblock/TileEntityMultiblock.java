@@ -236,6 +236,11 @@ public abstract class TileEntityMultiblock<T extends SynchronizedData<T>> extend
     @Override
     public void writeCustomNBT(NBTTagCompound nbtTags) {
         super.writeCustomNBT(nbtTags);
+        // Ensure the serialized cache reflects the latest formed structure state.
+        if (structure != null && structure.inventoryID != null) {
+            cachedID = structure.inventoryID;
+            cachedData.sync(structure);
+        }
         if (cachedID != null) {
             nbtTags.setString("cachedID", cachedID);
             cachedData.save(nbtTags);

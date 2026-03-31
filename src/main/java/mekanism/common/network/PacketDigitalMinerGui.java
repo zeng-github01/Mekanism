@@ -15,6 +15,7 @@ import mekanism.common.network.PacketDigitalMinerGui.DigitalMinerGuiMessage;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.tile.machine.TileEntityDigitalMiner;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
+import mekanism.common.util.MekanismUtils;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -33,10 +34,14 @@ public class PacketDigitalMinerGui implements IMessageHandler<DigitalMinerGuiMes
     @Override
     public IMessage onMessage(DigitalMinerGuiMessage message, MessageContext context) {
         EntityPlayer player = PacketHandler.getPlayer(context);
+        if (player == null) {
+            return null;
+        }
         PacketHandler.handlePacket(() -> {
             if (!player.world.isRemote) {
                 World worldServer = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(message.coord4D.dimensionId);
-                if (message.coord4D.getTileEntity(worldServer) instanceof TileEntityDigitalMiner) {
+                if (worldServer != null && message.coord4D.getTileEntity(worldServer) instanceof TileEntityDigitalMiner tile
+                        && PacketHandler.canAccessTile(player, tile)) {
                     DigitalMinerGuiMessage.openServerGui(message.packetType, message.guiType, worldServer, (EntityPlayerMP) player, message.coord4D, message.index);
                 }
             } else if (message.coord4D.getTileEntity(player.world) instanceof TileEntityDigitalMiner) {
@@ -175,7 +180,7 @@ public class PacketDigitalMinerGui implements IMessageHandler<DigitalMinerGuiMes
 
         @Override
         public void fromBytes(ByteBuf dataStream) {
-            packetType = MinerGuiPacket.values()[dataStream.readInt()];
+            packetType = MekanismUtils.getByIndex(MinerGuiPacket.values(), dataStream.readInt(), MinerGuiPacket.SERVER);
 
             coord4D = Coord4D.read(dataStream);
 

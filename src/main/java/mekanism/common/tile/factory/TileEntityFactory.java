@@ -32,6 +32,7 @@ import mekanism.common.tile.component.config.DataType;
 import mekanism.common.tile.prefab.TileEntityMachine;
 import mekanism.common.util.*;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -319,23 +320,35 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
     @Override
     public boolean upgrade(BaseTier upgradeTier) {
+        IBlockState targetState;
         if (tier == FactoryTier.ELITE || tier == FactoryTier.ULTIMATE) {
             if (upgradeTier.ordinal() != tier.ordinal() + 1) {
                 return false;
             }
-            isUpgrade = false;
-            world.setBlockToAir(getPos());
-            world.setBlockState(getPos(), MekanismBlocks.MachineBlock3.getStateFromMeta(4 + tier.ordinal() + 1), 3);
+            targetState = MekanismBlocks.MachineBlock3.getStateFromMeta(4 + tier.ordinal() + 1);
         } else if (tier == FactoryTier.BASIC || tier == FactoryTier.ADVANCED) {
             if (upgradeTier.ordinal() != tier.ordinal() + 1) {
                 return false;
             }
-            isUpgrade = false;
-            world.setBlockToAir(getPos());
-            world.setBlockState(getPos(), MekanismBlocks.MachineBlock.getStateFromMeta(5 + tier.ordinal() + 1), 3);
+            targetState = MekanismBlocks.MachineBlock.getStateFromMeta(5 + tier.ordinal() + 1);
         } else return false;
+        isUpgrade = false;
+        world.setBlockToAir(getPos());
+        world.setBlockState(getPos(), targetState, 3);
 
-        if (world.getTileEntity(getPos()) instanceof TileEntityFactory factory){
+        TileEntity tile = world.getTileEntity(getPos());
+        if (!(tile instanceof TileEntityFactory)) {
+            MachineType targetType = MachineType.get(targetState);
+            if (targetType != null) {
+                TileEntity created = targetType.create();
+                if (created instanceof TileEntityFactory) {
+                    world.setTileEntity(getPos(), created);
+                    tile = world.getTileEntity(getPos());
+                }
+            }
+        }
+
+        if (tile instanceof TileEntityFactory factory) {
             //Basic
             factory.facing = facing;
             factory.clientFacing = clientFacing;
@@ -596,7 +609,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
         return recipeType.getCanOuputItem();
     }
 
-    public boolean OuputItemSecondaryMachine(){
+    public boolean OuputItemSecondaryMachine() {
         return recipeType.getFuelType() == MachineFuelType.CHANCE || recipeType.getFuelType() == MachineFuelType.FARM;
     }
 
@@ -878,19 +891,22 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
 
     public double getScaledInfuseLevel(int i) {
-        return (double) infuseStored.getAmount() * i / maxInfuse;
+        return maxInfuse <= 0 ? 0 : (double) infuseStored.getAmount() * i / maxInfuse;
     }
 
     public double getScaledGasLevel(int i) {
-        return (double) gasTank.getStored() * i / gasTank.getMaxGas();
+        int maxGas = gasTank.getMaxGas();
+        return maxGas <= 0 ? 0 : (double) gasTank.getStored() * i / maxGas;
     }
 
     public double getScaledGasOutlevel(int i) {
-        return (double) gasOutTank.getStored() * i / gasOutTank.getMaxGas();
+        int maxGas = gasOutTank.getMaxGas();
+        return maxGas <= 0 ? 0 : (double) gasOutTank.getStored() * i / maxGas;
     }
 
     public double getScaledfluidTanklevel(int i) {
-        return (double) fluidTank.getFluidAmount() * i / fluidTank.getCapacity();
+        int capacity = fluidTank.getCapacity();
+        return capacity <= 0 ? 0 : (double) fluidTank.getFluidAmount() * i / capacity;
     }
 
     public int getScaledRecipeProgress(int i) {
@@ -1112,7 +1128,7 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
 
         if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
             RecipeType oldRecipe = recipeType;
-            recipeType = RecipeType.values()[dataStream.readInt()];
+            recipeType = MekanismUtils.getByIndex(RecipeType.values(), dataStream.readInt(), recipeType);
             upgradeComponent.setSupported(Upgrade.GAS, recipeType.fuelEnergyUpgrades());
             recipeTicks = dataStream.readInt();
             sorting = dataStream.readBoolean();
@@ -1157,7 +1173,9 @@ public class TileEntityFactory extends TileEntityMachine implements IComputerInt
     @Override
     public void readCustomNBT(NBTTagCompound nbtTags) {
         super.readCustomNBT(nbtTags);
-        setRecipeType(RecipeType.values()[nbtTags.getInteger("recipeType")]);
+        if (nbtTags.hasKey("recipeType")) {
+            setRecipeType(MekanismUtils.getByIndex(RecipeType.values(), nbtTags.getInteger("recipeType"), recipeType));
+        }
         upgradeComponent.setSupported(Upgrade.GAS, recipeType.fuelEnergyUpgrades());
         recipeTicks = nbtTags.getInteger("recipeTicks");
         sorting = nbtTags.getBoolean("sorting");

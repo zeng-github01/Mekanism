@@ -72,7 +72,7 @@ public class TOPProvider implements Function<ITheOneProbe, Void>, IProbeInfoProv
         return switch (tankMode.get()) {
             case NOT -> false;//Don't display tanks
             case NORMAL -> mode == ProbeMode.NORMAL;
-            case EXTENDED -> mode == ProbeMode.EXTENDED;
+            case EXTENDED -> true;
         };
     }
 

@@ -40,6 +40,8 @@ import mekanism.common.network.PacketStepHeightSync.StepHeightSyncMessage;
 import mekanism.common.network.PacketTileEntity.TileEntityMessage;
 import mekanism.common.network.PacketTransmitterUpdate.TransmitterUpdateMessage;
 import mekanism.common.network.PacketUpdateModuleSettings.UpdateModuleSettingsMessage;
+import mekanism.common.tile.prefab.TileEntityBasicBlock;
+import mekanism.common.util.SecurityUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -160,6 +162,24 @@ public class PacketHandler {
 
     public static void handlePacket(Runnable runnable, EntityPlayer player) {
         Mekanism.proxy.handlePacket(runnable, player);
+    }
+
+    public static boolean canAccessTile(EntityPlayer player, TileEntity tileEntity) {
+        return canAccessTile(player, tileEntity, false);
+    }
+
+    public static boolean canAccessTile(EntityPlayer player, TileEntity tileEntity, boolean requireContainerUser) {
+        if (player == null || tileEntity == null || tileEntity.isInvalid() || tileEntity.getWorld() != player.world) {
+            return false;
+        }
+        if (!SecurityUtils.canAccess(player, tileEntity)) {
+            return false;
+        }
+        // Ensure packets cannot modify arbitrary loaded tiles from long distance.
+        if (player.getDistanceSq(tileEntity.getPos()) > 256) {
+            return false;
+        }
+        return !requireContainerUser || !(tileEntity instanceof TileEntityBasicBlock basic) || basic.playersUsing.contains(player);
     }
 
     public void initialize() {

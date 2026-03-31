@@ -90,13 +90,13 @@ public class TileEntityReactorPort extends TileEntityReactorBlock implements IFl
 
     @Override
     public int fill(EnumFacing from, @Nonnull FluidStack resource, boolean doFill) {
-        return getReactor().getWaterTank().fill(resource, doFill);
+        return getReactor() == null ? 0 : getReactor().getWaterTank().fill(resource, doFill);
     }
 
     @Override
     @Nullable
     public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
-        return getReactor().getSteamTank().drain(maxDrain, doDrain);
+        return getReactor() == null ? null : getReactor().getSteamTank().drain(maxDrain, doDrain);
     }
 
     @Override

@@ -310,7 +310,7 @@ public class TileEntityHybridStorage extends TileEntityElectricBlock implements 
     }
 
     private void energyOupt() {
-        if (configComponent.isEjecting(TransmissionType.ENERGY) && MekanismUtils.canFunction(this)) {
+        if (configComponent.isEjecting(TransmissionType.ENERGY) && MekanismUtils.canFunction(this) && getEnergy() > 0) {
             CableUtils.emit(this);
         }
     }
@@ -337,17 +337,17 @@ public class TileEntityHybridStorage extends TileEntityElectricBlock implements 
     @Override
     public boolean canExtractItem(int slotID, @Nonnull ItemStack itemstack, @Nonnull EnumFacing side) {
         Item gasitem = itemstack.getItem();
-        if (slotID <= 120) {
+        if (slotID <= 119) {
             return true;
         } else if (slotID == 121 || slotID == 123) {
             return gasitem instanceof IGasItem item && item.getGas(itemstack) != null && item.getGas(itemstack).amount == item.getMaxGas(itemstack);
-        } else if (slotID == 122 || slotID == 124) {
+        } else if (slotID == 120 || slotID == 122) {
             return gasitem instanceof IGasItem item && item.getGas(itemstack) == null;
-        } else if (slotID == 126) {
+        } else if (slotID == 125) {
             return true;
-        } else if (slotID == 127) {
+        } else if (slotID == 126) {
             return ChargeUtils.canBeOutputted(itemstack, true);
-        } else if (slotID == 128) {
+        } else if (slotID == 127) {
             return ChargeUtils.canBeOutputted(itemstack, false);
         }
         return false;
@@ -356,21 +356,21 @@ public class TileEntityHybridStorage extends TileEntityElectricBlock implements 
     @Override
     public boolean isItemValidForSlot(int slotID, @Nonnull ItemStack itemstack) {
         Item item = itemstack.getItem();
-        if (slotID <= 120) {
+        if (slotID <= 119) {
             return true;
+        } else if (slotID == 120) {
+            return item instanceof IGasItem gasItem && (gasTank1.getGas() == null || gasItem.canProvideGas(itemstack, gasTank1.getGas().getGas()));
         } else if (slotID == 121) {
             return item instanceof IGasItem gasItem && (gasTank1.getGas() == null || gasItem.canReceiveGas(itemstack, gasTank1.getGas().getGas()));
         } else if (slotID == 122) {
-            return item instanceof IGasItem gasItem && (gasTank1.getGas() == null || gasItem.canProvideGas(itemstack, gasTank1.getGas().getGas()));
+            return item instanceof IGasItem gasItem && (gasTank2.getGas() == null || gasItem.canProvideGas(itemstack, gasTank2.getGas().getGas()));
         } else if (slotID == 123) {
             return item instanceof IGasItem gasItem && (gasTank2.getGas() == null || gasItem.canReceiveGas(itemstack, gasTank2.getGas().getGas()));
         } else if (slotID == 124) {
-            return item instanceof IGasItem gasItem && (gasTank2.getGas() == null || gasItem.canProvideGas(itemstack, gasTank2.getGas().getGas()));
-        } else if (slotID == 125) {
             return FluidContainerUtils.isFluidContainer(itemstack);
-        } else if (slotID == 127) {
+        } else if (slotID == 126) {
             return ChargeUtils.canBeCharged(itemstack);
-        } else if (slotID == 128) {
+        } else if (slotID == 127) {
             return ChargeUtils.canBeDischarged(itemstack);
         }
         return false;
@@ -490,8 +490,8 @@ public class TileEntityHybridStorage extends TileEntityElectricBlock implements 
             TileUtils.readTankData(dataStream, fluidTank);
             TileUtils.readTankData(dataStream, gasTank1);
             TileUtils.readTankData(dataStream, gasTank2);
-            controlType = RedstoneControl.values()[dataStream.readInt()];
-            editMode = ContainerEditMode.values()[dataStream.readInt()];
+            controlType = MekanismUtils.getByIndex(RedstoneControl.values(), dataStream.readInt(), controlType);
+            editMode = MekanismUtils.getByIndex(ContainerEditMode.values(), dataStream.readInt(), editMode);
         }
     }
 
@@ -501,8 +501,8 @@ public class TileEntityHybridStorage extends TileEntityElectricBlock implements 
         fluidTank.readFromNBT(nbtTags.getCompoundTag("fluidTank"));
         gasTank1.read(nbtTags.getCompoundTag("gasTank1"));
         gasTank2.read(nbtTags.getCompoundTag("gasTank2"));
-        controlType = RedstoneControl.values()[nbtTags.getInteger("controlType")];
-        editMode = ContainerEditMode.values()[nbtTags.getInteger("editMode")];
+        controlType = MekanismUtils.getByIndex(RedstoneControl.values(), nbtTags.getInteger("controlType"), controlType);
+        editMode = MekanismUtils.getByIndex(ContainerEditMode.values(), nbtTags.getInteger("editMode"), editMode);
     }
 
 

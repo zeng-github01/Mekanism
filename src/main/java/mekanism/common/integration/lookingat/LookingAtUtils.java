@@ -30,11 +30,11 @@ public class LookingAtUtils {
 
     public static void addInfo(LookingAtHelper info, @Nonnull TileEntity tile, boolean displayTanks, boolean displayFluidTanks) {
         IStrictEnergyStorage energyCapability = CapabilityUtils.getCapability(tile, Capabilities.ENERGY_STORAGE_CAPABILITY, null);
-        if (energyCapability != null) {
+        if (energyCapability != null && energyCapability.getMaxEnergy() > 0) {
             displayEnergy(info, energyCapability);
-        } else if (tile instanceof TileEntityAdvancedBoundingBlock block && block.getInv() != null) {
+        } else if (tile instanceof TileEntityAdvancedBoundingBlock block && block.getInv() != null && block.getInv().getMaxEnergy() > 0) {
             displayEnergy(info, block.getInv());
-        } else if (tile instanceof IStrictEnergyStorage strictEnergyStorage) {
+        } else if (tile instanceof IStrictEnergyStorage strictEnergyStorage && strictEnergyStorage.getMaxEnergy() > 0) {
             displayEnergy(info, strictEnergyStorage);
         }
         if (displayTanks) {
@@ -45,12 +45,12 @@ public class LookingAtUtils {
                 } else if (tile instanceof IFluidHandler handler) {
                     displayFluid(info, handler);
                 }
-                IGasHandler gasCapability = CapabilityUtils.getCapability(tile, Capabilities.GAS_HANDLER_CAPABILITY, null);
-                if (gasCapability != null) {
-                    displayGas(info, gasCapability);
-                } else if (tile instanceof IGasHandler handler) {
-                    displayGas(info, handler);
-                }
+            }
+            IGasHandler gasCapability = CapabilityUtils.getCapability(tile, Capabilities.GAS_HANDLER_CAPABILITY, null);
+            if (gasCapability != null) {
+                displayGas(info, gasCapability);
+            } else if (tile instanceof IGasHandler handler) {
+                displayGas(info, handler);
             }
         }
     }

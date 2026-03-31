@@ -98,7 +98,7 @@ public class ItemConfigurationCard extends ItemMekanism {
                 return EnumActionResult.SUCCESS;
             }
         }
-        return EnumActionResult.SUCCESS;
+        return EnumActionResult.PASS;
     }
 
 
@@ -141,7 +141,10 @@ public class ItemConfigurationCard extends ItemMekanism {
 
     private void setBaseData(NBTTagCompound nbtTags, TileEntity tile) {
         if (tile instanceof IRedstoneControl control) {
-            control.setControlType(RedstoneControl.values()[nbtTags.getInteger("controlType")]);
+            int controlType = nbtTags.getInteger("controlType");
+            if (controlType >= 0 && controlType < RedstoneControl.values().length) {
+                control.setControlType(RedstoneControl.values()[controlType]);
+            }
         }
         if (tile instanceof ISideConfiguration configuration) {
             configuration.getConfig().read(nbtTags);
