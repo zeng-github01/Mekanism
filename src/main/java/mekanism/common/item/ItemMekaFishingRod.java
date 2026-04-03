@@ -25,6 +25,7 @@ import mekanism.common.integration.ic2.IC2ItemManager;
 import mekanism.common.integration.redstoneflux.RFIntegration;
 import mekanism.common.integration.tesla.TeslaItemWrapper;
 import mekanism.common.item.interfaces.IModeItem;
+import mekanism.api.gear.IitemfishRod;
 import mekanism.common.util.ItemDataUtils;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
@@ -61,7 +62,7 @@ import java.util.List;
         @Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = MekanismHooks.IC2_MOD_ID),
         @Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = MekanismHooks.REDSTONEFLUX_MOD_ID)
 })
-public class ItemMekaFishingRod extends ItemFishingRod implements IEnergizedItem, ISpecialElectricItem, IEnergyContainerItem, IModuleContainerItem, IModeItem, Magnetic {
+public class ItemMekaFishingRod extends ItemFishingRod implements IEnergizedItem, ISpecialElectricItem, IEnergyContainerItem, IModuleContainerItem, IModeItem, Magnetic, IitemfishRod {
 
     public final int ENERGY_PER_CONFIGURE = 400;
 

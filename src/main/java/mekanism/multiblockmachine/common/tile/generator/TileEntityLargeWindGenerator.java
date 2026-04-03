@@ -12,6 +12,7 @@ import mekanism.common.base.IMachineSlotTip;
 import mekanism.common.base.ISpecialSelectionWireframeTile;
 import mekanism.common.base.IUpgradeTile;
 import mekanism.common.config.MekanismConfig;
+import mekanism.common.tile.TileEntityBoundingBlock;
 import mekanism.common.tile.component.TileComponentUpgrade;
 import mekanism.common.util.*;
 import mekanism.generators.common.tile.TileEntityGenerator;
@@ -31,6 +32,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -44,6 +46,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -793,6 +796,63 @@ public class TileEntityLargeWindGenerator extends TileEntityGenerator implements
         }
     }
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    public List<Vec3d> computeOcclusionSamplePoints() {
+        List<Vec3d> samplePoints = new ArrayList<>(super.computeOcclusionSamplePoints());
+        World world = getWorld();
+        if (world == null) {
+            return samplePoints;
+        }
+        EnumFacing direction = facing == null ? EnumFacing.NORTH : facing;
+        EnumFacing left = MekanismUtils.getLeft(direction);
+        EnumFacing right = MekanismUtils.getRight(direction);
+        EnumFacing back = direction.getOpposite();
+
+        // Keep the renderer alive when only the upper structure/head-tail bounding blocks are visible.
+        addUpperBoundingProbePoints(world, samplePoints, getPos().up(47));
+        addUpperBoundingProbePoints(world, samplePoints, getPos().up(47).offset(left, 2));
+        addUpperBoundingProbePoints(world, samplePoints, getPos().up(47).offset(right, 2));
+        addUpperBoundingProbePoints(world, samplePoints, getPos().up(47).offset(direction, 2));
+        addUpperBoundingProbePoints(world, samplePoints, getPos().up(47).offset(back, 2));
+
+        BlockPos headCenter = getPos().up(46).offset(direction, 4);
+        BlockPos tailCenter = getPos().up(46).offset(back, 3);
+        addUpperBoundingProbePoints(world, samplePoints, headCenter);
+        addUpperBoundingProbePoints(world, samplePoints, headCenter.offset(left, 2));
+        addUpperBoundingProbePoints(world, samplePoints, headCenter.offset(right, 2));
+        addUpperBoundingProbePoints(world, samplePoints, headCenter.offset(direction, 1));
+        addUpperBoundingProbePoints(world, samplePoints, tailCenter);
+        addUpperBoundingProbePoints(world, samplePoints, tailCenter.offset(left, 2));
+        addUpperBoundingProbePoints(world, samplePoints, tailCenter.offset(right, 2));
+        addUpperBoundingProbePoints(world, samplePoints, tailCenter.offset(back, 1));
+
+        return samplePoints;
+    }
+
+    @SideOnly(Side.CLIENT)
+    private void addUpperBoundingProbePoints(World world, List<Vec3d> samplePoints, BlockPos blockPos) {
+        TileEntity tileEntity = world.getTileEntity(blockPos);
+        if (!(tileEntity instanceof TileEntityBoundingBlock boundingBlock) || !getPos().equals(boundingBlock.getMainPos())) {
+            return;
+        }
+        double x = blockPos.getX();
+        double y = blockPos.getY();
+        double z = blockPos.getZ();
+        samplePoints.add(new Vec3d(x + 0.5D, y + 0.5D, z + 0.5D));
+
+        double min = 0.08D;
+        double max = 0.92D;
+        samplePoints.add(new Vec3d(x + min, y + min, z + min));
+        samplePoints.add(new Vec3d(x + min, y + min, z + max));
+        samplePoints.add(new Vec3d(x + min, y + max, z + min));
+        samplePoints.add(new Vec3d(x + min, y + max, z + max));
+        samplePoints.add(new Vec3d(x + max, y + min, z + min));
+        samplePoints.add(new Vec3d(x + max, y + min, z + max));
+        samplePoints.add(new Vec3d(x + max, y + max, z + min));
+        samplePoints.add(new Vec3d(x + max, y + max, z + max));
+    }
+
     @SideOnly(Side.CLIENT)
     private double getSelectionWireframeAngle() {
         double angle = getAngle();
@@ -805,7 +865,7 @@ public class TileEntityLargeWindGenerator extends TileEntityGenerator implements
 
     @Override
     public boolean hasFastRenderer() {
-        return true;
+        return false;
     }
 
 }

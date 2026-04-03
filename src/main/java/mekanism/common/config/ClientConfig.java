@@ -116,6 +116,15 @@ public class ClientConfig extends BaseConfig {
     public final BooleanOption jsonSelectionBoxAutoColorCycle = new BooleanOption(this, "JsonSelectionBoxAutoColorCycle", false,
             "Whether model-based selection wireframes should automatically cycle through rainbow colors.");
 
+    public final BooleanOption GazeCullingTracking = new BooleanOption(this, "GazeCullingTracking", true,
+            "Cancel rendering the machine when it is not within the player's line of sight.");
+
+    public final BooleanOption GazeCullingOpenGLTracking = new BooleanOption(this, "GazeCullingOpenGLTracking", true,
+            "Use OpenGL occlusion query for tile gaze culling (asynchronous, 1+ frame delayed). Falls back to CPU culling when unsupported.");
+
+    public final IntOption GazeCullingOpenGLQueryInterval = new IntOption(this, "GazeCullingOpenGLQueryInterval", 2,
+            "How many client ticks to wait before issuing a new OpenGL occlusion query for the same tile. Higher values reduce GPU query overhead.", 1, 20);
+
     @Override
     public void write(ByteBuf config) {
         throw new UnsupportedOperationException("Client config shouldn't be synced");
