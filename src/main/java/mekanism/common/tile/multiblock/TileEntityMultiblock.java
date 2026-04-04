@@ -192,8 +192,8 @@ public abstract class TileEntityMultiblock<T extends SynchronizedData<T>> extend
     public void sendPacketToRenderer() {
         if (structure != null) {
             structure.locations.forEach(obj -> {
-                TileEntityMultiblock<T> tileEntity = (TileEntityMultiblock<T>) obj.getTileEntity(world);
-                if (tileEntity != null && tileEntity.isRendering) {
+                TileEntity tile = obj.getTileEntity(world);
+                if (tile instanceof TileEntityMultiblock<?> tileEntity && tileEntity.isRendering) {
                     Mekanism.packetHandler.sendUpdatePacket(tileEntity);
                 }
             });
@@ -251,12 +251,16 @@ public abstract class TileEntityMultiblock<T extends SynchronizedData<T>> extend
                     structure.volHeight = dataStream.readInt();
                     structure.volWidth = dataStream.readInt();
                     structure.volLength = dataStream.readInt();
+                    structure.volume = structure.volHeight * structure.volWidth * structure.volLength;
                     structure.renderLocation = Coord4D.read(dataStream);
                     if (dataStream.readBoolean()) {
                         structure.inventoryID = PacketHandler.readString(dataStream);
                     } else {
                         structure.inventoryID = null;
                     }
+                }
+                if (structure.volume <= 0 && structure.volHeight > 0 && structure.volWidth > 0 && structure.volLength > 0) {
+                    structure.volume = structure.volHeight * structure.volWidth * structure.volLength;
                 }
             }
         }

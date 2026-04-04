@@ -16,6 +16,7 @@ import mekanism.common.content.gear.ModuleHelper;
 import mekanism.common.fixers.MekanismDataFixers.MekFixers;
 import mekanism.common.integration.redstoneflux.RFIntegration;
 import mekanism.common.multiblock.MultiblockManager;
+import mekanism.generators.common.content.fission.SynchronizedFissionData;
 import mekanism.common.network.PacketSimpleGui;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.util.StackUtils;
@@ -70,6 +71,7 @@ public class MekanismGenerators implements IModule {
     public static final int DATA_VERSION = 1;
     public static CreativeTabMekanismGenerators tabMekanismGenerators = new CreativeTabMekanismGenerators();
     public static MultiblockManager<SynchronizedTurbineData> turbineManager = new MultiblockManager<>("industrialTurbine");
+    public static MultiblockManager<SynchronizedFissionData> fissionManager = new MultiblockManager<>("fissionReactor");
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -152,7 +154,6 @@ public class MekanismGenerators implements IModule {
 
         RecipeHandler.addFusionCoolingRecipe(FluidRegistry.getFluidStack("water", 1), FluidRegistry.getFluidStack("steam", 1));
         RecipeHandler.addFusionCoolingRecipe(FluidRegistry.getFluidStack("liquidsodium", 1), FluidRegistry.getFluidStack("liquidsuperheatedsodium", 1));
-        RecipeHandler.addFusionCoolingRecipe(FluidRegistry.getFluidStack("fissilefuel", 1), FluidRegistry.getFluidStack("nuclearwaste", 1), 20);
     }
 
     @Override

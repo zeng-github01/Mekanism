@@ -46,6 +46,9 @@ public class ClientConfig extends BaseConfig {
     public final BooleanOption enableMultiblockFormationParticles = new BooleanOption(this,  "MultiblockFormParticles", true,
             "Set to false to prevent particle spam when loading multiblocks (notification message will display instead).");
 
+    public final BooleanOption renderToolAOEParticles = new BooleanOption(this,  "RenderToolAOEParticles", true,
+            "Show bolts for Meka-Tool area mining behaviors, such as vein mining.");
+
     public final BooleanOption alignHUDLeft = new BooleanOption(this,  "AlignHUDLeft", true,
             "Align HUD with left (if true) or right (if false)");
 

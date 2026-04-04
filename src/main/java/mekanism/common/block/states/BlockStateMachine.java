@@ -137,7 +137,8 @@ public class BlockStateMachine extends ExtendedBlockState {
         HYBRID_STORAGE(MachineBlock.MACHINE_BLOCK_4, 10, "Hybrid_Storage", 74, TileEntityHybridStorage::new, true, false, false, BlockStateUtils.ALL_FACINGS, false, true, true),
         MODIFICATION_STATION(MachineBlock.MACHINE_BLOCK_4, 11, "Modification_Station", 75, TileEntityModificationStation::new, true, true, true, Plane.HORIZONTAL, false, false, false),
         RADIOACTIVE_WASTE_BARREL(MachineBlock.MACHINE_BLOCK_4, 12, "radioactive_waste_barrel", -1, TileEntityRadioactiveWasteBarrel::new, false, false, false, Plane.HORIZONTAL, false, false, false),
-        SPS(MachineBlock.MACHINE_BLOCK_4, 13, "sps", 76, TileEntitySPS::new, true, false, false, Plane.HORIZONTAL, true, false, false);
+        SPS(MachineBlock.MACHINE_BLOCK_4, 13, "sps", 76, TileEntitySPS::new, true, false, false, Plane.HORIZONTAL, true, false, false),
+        DIMENSIONAL_STABILIZER(MachineBlock.MACHINE_BLOCK_4, 14, "dimensional_stabilizer", 79, TileEntityDimensionalStabilizer::new, true, false, true, BlockStateUtils.NO_ROTATION, true, true, true);
 
 
         private static final Map<MachineBlock, Int2ReferenceMap<MachineType>> VALID_METAS = new EnumMap<>(MachineBlock.class);
@@ -287,6 +288,7 @@ public class BlockStateMachine extends ExtendedBlockState {
                 case RECYCLER -> MekanismConfig.current().usage.recycler.val();
                 case AMBIENT_ACCUMULATOR_ENERGY -> MekanismConfig.current().usage.AmbientAccumulatorEnergy.val();
                 case MODIFICATION_STATION -> MekanismConfig.current().usage.modificationStation.val();
+                case DIMENSIONAL_STABILIZER -> 5000;
                 default -> 0;
             };
         }
@@ -338,6 +340,7 @@ public class BlockStateMachine extends ExtendedBlockState {
                 case HYBRID_STORAGE -> MekanismConfig.current().storage.HybridStorageEnergy.val();
                 case MODIFICATION_STATION -> MekanismConfig.current().storage.modificationStation.val();
                 case SPS -> 1000000000; //todo
+                case DIMENSIONAL_STABILIZER -> 40000;
                 default -> 400 * getUsage();
             };
         }

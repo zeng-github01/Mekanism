@@ -52,3 +52,42 @@
 
 ### 验证
 - `./gradlew.bat compileJava -x test` 通过。
+
+---
+
+## 追加：本轮提交摘要（2026-04-04）
+
+### 核心改动（精简）
+- Boiler Valve 渲染状态迁移为高版本三态 `mode=input/output_steam/output_coolant`，并更新对应方块状态映射与 `boiler_valve.json`。
+- 从 1.16 迁移锅炉阀门三态贴图资源（含 `.mcmeta` 与 `-ctm`）。
+- 修复锅炉阀门背包图标错误：物品模型注册为 `BOILER_VALVE` 补充 `mode=input` 变体。
+- Meka-Tool 范围挖掘接入闪电特效：
+  - 新增 `PacketLightningRender`（`TOOL_AOE` 预设）；
+  - `PacketHandler` 注册客户端消息；
+  - `RenderTickHandler` 增加全局 `BoltRenderer` 世界渲染入口；
+  - `ModuleVeinMiningUnit` 在连锁扩展时发送闪电包。
+- 新增客户端开关：`RenderToolAOEParticles`。
+
+### 验证
+- `./gradlew.bat compileJava -x test` 通过（BUILD SUCCESSFUL）。
+
+---
+
+## 追加：SPS 与裂变堆提交摘要（2026-04-04）
+
+### 核心改动（精简）
+- 新增并完善多方块 SPS（保留旧 SPS）：结构校验、同步缓存、端口纹理状态切换、内部闪电/核心渲染、GUI 与 JEI 接入。
+- 多方块 SPS 结构规则对齐高版本：非边框区域支持 `STRUCTURAL_GLASS` 参与成型。
+- 裂变反应堆主流程已接入并按 1.16 方向迁移：成型协议、燃烧/热量/冷却/损伤计算、熔毁与辐射调用链路。
+- 裂变堆端口渲染与模式切换完成（`INPUT / OUTPUT_COOLANT / OUTPUT_WASTE`），并接入 generators 侧 GUI/JEI。
+- 裂变堆相关方块状态、模型与贴图资源在 generators 侧补齐（含端口、控制棒组件、燃料组件等）。
+
+### 关键文件（节选）
+- `src/main/java/mekanism/common/content/sps/SPSUpdateProtocol.java`
+- `src/main/java/mekanism/client/render/tileentity/RenderSPS.java`
+- `src/main/java/mekanism/client/jei/RecipeRegistryHelper.java`
+- `src/main/java/mekanism/generators/common/content/fission/FissionReactorUpdateProtocol.java`
+- `src/main/java/mekanism/generators/common/content/fission/SynchronizedFissionData.java`
+- `src/main/java/mekanism/generators/common/tile/fission/TileEntityFissionReactorPort.java`
+- `src/main/java/mekanism/generators/client/gui/GuiFissionReactor.java`
+- `src/main/java/mekanism/generators/client/jei/GeneratorRecipeRegistryHelper.java`

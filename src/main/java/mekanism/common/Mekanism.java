@@ -28,6 +28,7 @@ import mekanism.common.content.gear.MekaSuitDispenseBehavior;
 import mekanism.common.content.gear.ModuleDispenseBehavior;
 import mekanism.common.content.gear.ModuleHelper;
 import mekanism.common.content.matrix.SynchronizedMatrixData;
+import mekanism.common.content.sps.SynchronizedSPSData;
 import mekanism.common.content.tank.SynchronizedTankData;
 import mekanism.common.content.transporter.PathfinderCache;
 import mekanism.common.content.transporter.TransporterManager;
@@ -180,6 +181,7 @@ public class Mekanism {
     public static MultiblockManager<SynchronizedMatrixData> matrixManager = new MultiblockManager<>("inductionMatrix");
     public static MultiblockManager<SynchronizedBoilerData> boilerManager = new MultiblockManager<>(
             "thermoelectricBoiler");
+    public static MultiblockManager<SynchronizedSPSData> spsManager = new MultiblockManager<>("supercriticalPhaseShifter");
     /**
      * FrequencyManagers for various networks
      */
@@ -457,6 +459,8 @@ public class Mekanism {
         registerTileEntity(TileEntityIsotopicCentrifuge.class, "isotopic_centrifuge");
         registerTileEntity(TileEntityNutritionalLiquifier.class, "nutritional_liquifier");
         registerTileEntity(TileEntitySuperchargedCoil.class, "supercharged_coil");
+        registerTileEntity(TileEntitySPSCasing.class, "sps_casing");
+        registerTileEntity(TileEntitySPSPort.class, "sps_port");
         registerTileEntity(TileEntityOrganicFarm.class, "organic_farm");
         registerTileEntity(TileEntityAntiprotonicNucleosynthesizer.class, "antiprotonic_nucleosynthesizer");
         registerTileEntity(TileEntityStamping.class, "stamping");
@@ -473,6 +477,7 @@ public class Mekanism {
         registerTileEntity(TileEntityModificationStation.class, "Modification_Station");
         registerTileEntity(TileEntityRadioactiveWasteBarrel.class, "radioactive_waste_barrel");
         registerTileEntity(TileEntitySPS.class, "sps");
+        registerTileEntity(TileEntityDimensionalStabilizer.class, "dimensional_stabilizer");
         /**
          * End of adding machine
          */

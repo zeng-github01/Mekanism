@@ -22,6 +22,7 @@ import mekanism.common.network.PacketGearStateUpdate.GearStateUpdateMessage;
 import mekanism.common.network.PacketKey.KeyMessage;
 import mekanism.common.network.PacketLogisticalSorterGui.LogisticalSorterGuiMessage;
 import mekanism.common.network.PacketMekaFishHook.PacketMekaFishHookMessage;
+import mekanism.common.network.PacketLightningRender.LightningRenderMessage;
 import mekanism.common.network.PacketModeChange.ModeChangMessage;
 import mekanism.common.network.PacketNewFilter.NewFilterMessage;
 import mekanism.common.network.PacketOredictionificatorGui.OredictionificatorGuiMessage;
@@ -199,7 +200,7 @@ public class PacketHandler {
         netHandler.registerMessage(PacketPortableTeleporter.class, PortableTeleporterMessage.class, 10, Side.SERVER);
         netHandler.registerMessage(PacketRemoveUpgrade.class, RemoveUpgradeMessage.class, 11, Side.SERVER);
         netHandler.registerMessage(PacketRedstoneControl.class, RedstoneControlMessage.class, 12, Side.SERVER);
-        //FREE ID 13
+        netHandler.registerMessage(PacketLightningRender.class, LightningRenderMessage.class, 13, Side.CLIENT);
         netHandler.registerMessage(PacketLogisticalSorterGui.class, LogisticalSorterGuiMessage.class, 14, Side.CLIENT);
         netHandler.registerMessage(PacketLogisticalSorterGui.class, LogisticalSorterGuiMessage.class, 14, Side.SERVER);
         netHandler.registerMessage(PacketNewFilter.class, NewFilterMessage.class, 15, Side.SERVER);

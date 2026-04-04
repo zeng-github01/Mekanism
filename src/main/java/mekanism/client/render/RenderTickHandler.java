@@ -4,6 +4,7 @@ import mekanism.api.Coord4D;
 import mekanism.api.MekanismAPI;
 import mekanism.api.Pos3D;
 import mekanism.api.radiation.capability.IRadiationEntity;
+import mekanism.client.render.lib.effect.BoltRenderer;
 import mekanism.client.render.particle.EntityJetpackFlameFX;
 import mekanism.client.render.particle.EntityJetpackSmokeFX;
 import mekanism.client.render.particle.EntityScubaBubbleFX;
@@ -14,6 +15,7 @@ import mekanism.common.capabilities.Capabilities;
 import mekanism.common.content.gear.IBlastingItem;
 import mekanism.common.content.gear.IModuleContainerItem;
 import mekanism.common.item.ItemFlamethrower;
+import mekanism.common.lib.effect.BoltEffect;
 import mekanism.common.lib.radiation.RadiationManager;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.block.Block;
@@ -27,6 +29,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHandSide;
@@ -37,6 +40,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -68,8 +72,13 @@ public class RenderTickHandler {
 
     public Random rand = new Random();
     public Minecraft mc = Minecraft.getMinecraft();
+    private static final BoltRenderer BOLT_RENDERER = new BoltRenderer();
 
     public static double prevRadiation = 0;
+
+    public static void renderBolt(Object renderer, BoltEffect bolt) {
+        BOLT_RENDERER.update(renderer, bolt, MekanismRenderer.getPartialTick());
+    }
 
     @SubscribeEvent
     public void filterTooltips(ItemTooltipEvent event) {
@@ -77,6 +86,24 @@ public class RenderTickHandler {
         if (stack.getItem() instanceof IModuleContainerItem containerItem) {
             containerItem.filterTooltips(stack, event.getToolTip());
         }
+    }
+
+    @SubscribeEvent
+    public void renderWorldLast(RenderWorldLastEvent event) {
+        Entity renderViewEntity = mc.getRenderViewEntity();
+        if (renderViewEntity == null) {
+            return;
+        }
+        double viewX = renderViewEntity.lastTickPosX + (renderViewEntity.posX - renderViewEntity.lastTickPosX) * event.getPartialTicks();
+        double viewY = renderViewEntity.lastTickPosY + (renderViewEntity.posY - renderViewEntity.lastTickPosY) * event.getPartialTicks();
+        double viewZ = renderViewEntity.lastTickPosZ + (renderViewEntity.posZ - renderViewEntity.lastTickPosZ) * event.getPartialTicks();
+        if (BOLT_RENDERER.hasBoltsToRender()) {
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(-viewX, -viewY, -viewZ);
+            BOLT_RENDERER.render(event.getPartialTicks());
+            GlStateManager.popMatrix();
+        }
+        DimensionalStabilizerOverlayRenderer.render(mc, renderViewEntity, viewX, viewY, viewZ);
     }
 
     @SubscribeEvent

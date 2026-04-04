@@ -209,3 +209,134 @@
 
 ### 历史阶段编译验证
 - `./gradlew.bat compileJava -x test` 已通过（历史轮次与本轮均通过）。
+
+---
+
+## 追加：本轮累计更新（2026-04-04）
+
+### 范围说明
+本节为本轮新增改动，覆盖：
+- Thermoelectric Boiler 阀门状态渲染向高版本模式迁移；
+- 锅炉阀门物品栏图标缺失/错误显示修复；
+- Meka-Tool 范围挖掘（Vein Mining）闪电特效迁移与接入。
+
+### 主要功能更新
+1. Boiler Valve 状态渲染迁移（高版本模式）
+- 锅炉阀门从旧 `active` 双态贴图迁移为高版本三态：`INPUT / OUTPUT_STEAM / OUTPUT_COOLANT`。
+- 在方块状态层新增 `mode` 枚举属性，并将锅炉阀门模型变体映射到 `mode`。
+- `BlockBasic#getActualState` 改为读取阀门渲染模式（不再依赖旧 active 纹理分支）。
+- `boiler_valve.json` 变体改为 `mode=input/output_steam/output_coolant`。
+- 从 1.16 资源迁移锅炉阀门对应贴图（含 `-ctm` 与 `.mcmeta`）。
+
+2. 锅炉阀门背包图标显示修复
+- 修复原因：物品模型注册阶段未给 `BOILER_VALVE` 指定 `mode`，导致背包模型回落到空/默认变体。
+- 修复方式：在 `ClientProxy` 生成 `BasicBlockType` 物品模型属性时，为 `BOILER_VALVE` 强制追加 `mode=input`。
+- 结果：物品栏与 JEI 中锅炉阀门图标恢复正常显示，不再出现错误贴图块。
+
+3. Meka-Tool 范围挖掘闪电特效迁移
+- 新增客户端渲染包：`PacketLightningRender`，包含 `TOOL_AOE` 预设（参数对齐高版本风格：细闪电、短生命周期、无延迟）。
+- 在网络注册中新增客户端消息（ID `13`）用于闪电特效同步。
+- 在客户端 `RenderTickHandler` 新增全局 `BoltRenderer`：
+  - 增加 `renderBolt(...)` 静态入口用于收包后提交闪电；
+  - 增加 `RenderWorldLastEvent` 阶段统一渲染闪电。
+- 在 `ModuleVeinMiningUnit.findPositions(...)` 中，当 Vein 扩展发现新方块时发送 `TOOL_AOE` 闪电包（服务端发送，客户端渲染）。
+- 新增客户端配置项 `RenderToolAOEParticles`，可开关该特效。
+
+4. 行为说明（当前实现）
+- 闪电特效在发生 Vein 连锁扩展时触发，不是“仅扩展模式触发”。
+- 普通模式下对可连锁目标（如矿脉/原木链）也会出现闪电；扩展模式下普通方块连锁同样触发。
+
+### 关键改动文件
+- `src/main/java/mekanism/common/tile/multiblock/TileEntityBoilerValve.java`
+- `src/main/java/mekanism/common/block/states/BlockStateBasic.java`
+- `src/main/java/mekanism/common/block/BlockBasic.java`
+- `src/main/resources/assets/mekanism/blockstates/boiler_valve.json`
+- `src/main/resources/assets/mekanism/textures/blocks/boiler_valve_input.png`
+- `src/main/resources/assets/mekanism/textures/blocks/boiler_valve_output_steam.png`
+- `src/main/resources/assets/mekanism/textures/blocks/boiler_valve_output_coolant.png`
+- `src/main/java/mekanism/client/ClientProxy.java`
+- `src/main/java/mekanism/common/network/PacketLightningRender.java`
+- `src/main/java/mekanism/common/PacketHandler.java`
+- `src/main/java/mekanism/client/render/RenderTickHandler.java`
+- `src/main/java/mekanism/common/config/ClientConfig.java`
+- `src/main/java/mekanism/common/content/gear/mekatool/ModuleVeinMiningUnit.java`
+
+### 编译验证
+- 执行：`./gradlew.bat compileJava -x test`
+- 结果：`BUILD SUCCESSFUL`
+
+---
+
+## 追加：SPS 多方块与裂变反应堆归档（2026-04-04）
+
+### 范围说明
+本节补充会话内已完成但未写入本文件的两块内容：
+- 多方块 SPS（Supercritical Phase Shifter）；
+- 裂变反应堆（Fission Reactor）与其 GUI/JEI/渲染链路。
+
+### 多方块 SPS（参考高版本行为）
+1. 结构与成型协议
+- 新增/完善 SPS 多方块同步数据、缓存与协议校验链路。
+- 结构外壳/端口检查与高版本摆法对齐。
+- 非边框区域允许使用 `STRUCTURAL_GLASS` 参与成型（边框仍按外壳规则校验）。
+
+2. 端口与工作流程
+- 保留原有 SPS，不破坏旧实现；新增独立多方块 SPS 流程。
+- SPS 端口补齐高版本风格的状态贴图切换。
+- 成型后通过端口接收气体并参与处理流程，工作状态与结构数据同步更新。
+
+3. 内部渲染迁移
+- `RenderSPS` 接入 `BoltRenderer` 与 `BillboardingEffectRenderer`。
+- 补齐核心/轨道/闪电等内部视觉效果，按 SPS 活动状态进行渲染。
+
+4. GUI 与 JEI
+- 新增/完善多方块 SPS GUI 展示。
+- SPS 合成/配方流程已接入 JEI 显示。
+
+### 裂变反应堆（参考 1.16 主流程）
+1. 多方块结构与协议
+- 裂变堆缓存、同步数据与成型协议链路已接入。
+- 内部燃料组件与控制棒组件的轴向/位置约束在成型阶段进行校验。
+- 非边框玻璃规则使用裂变堆专用玻璃块（`TileEntityReactorGlass` 对应）。
+
+2. 反应堆运行与安全逻辑
+- 接入燃烧、产热、冷却、损伤累计等核心运算路径。
+- 接入损伤阈值下的熔毁/爆炸与辐射管理调用链路（按 1.16 方向迁移）。
+- 端口模式支持输入/输出冷却剂/输出废料，并驱动对应渲染状态。
+
+3. 客户端显示与交互
+- 裂变堆主 GUI、统计 GUI、逻辑适配器 GUI 已接入并持续对齐高版本布局。
+- 冷却剂/输出侧信息支持混合显示路径（流体/气体）。
+- 端口方块状态与贴图模式切换已完成（`mode` 变体）。
+- 控制棒组件、燃料组件资源与模型路径已整理到 generators 侧并修正显示问题。
+
+4. JEI 接入
+- generators 侧已注册裂变堆 JEI 类别与配方包装。
+- 裂变堆相关条目可在 generators JEI 注册入口中显示。
+
+### 关键改动文件（节选）
+- `src/main/java/mekanism/common/content/sps/SPSUpdateProtocol.java`
+- `src/main/java/mekanism/common/content/sps/SynchronizedSPSData.java`
+- `src/main/java/mekanism/common/content/sps/SPSCache.java`
+- `src/main/java/mekanism/common/tile/multiblock/TileEntitySPSCasing.java`
+- `src/main/java/mekanism/common/tile/multiblock/TileEntitySPSPort.java`
+- `src/main/java/mekanism/client/render/tileentity/RenderSPS.java`
+- `src/main/java/mekanism/client/gui/GuiSPSMultiblock.java`
+- `src/main/java/mekanism/client/jei/RecipeRegistryHelper.java`
+- `src/main/java/mekanism/client/jei/machine/other/SPSRecipeCategory.java`
+- `src/main/java/mekanism/client/jei/machine/other/SPSRecipeWrapper.java`
+- `src/main/java/mekanism/generators/common/content/fission/FissionReactorUpdateProtocol.java`
+- `src/main/java/mekanism/generators/common/content/fission/SynchronizedFissionData.java`
+- `src/main/java/mekanism/generators/common/content/fission/FissionReactorCache.java`
+- `src/main/java/mekanism/generators/common/tile/fission/TileEntityFissionReactorCasing.java`
+- `src/main/java/mekanism/generators/common/tile/fission/TileEntityFissionReactorPort.java`
+- `src/main/java/mekanism/generators/common/block/states/BlockStateGenerator.java`
+- `src/main/java/mekanism/generators/client/gui/GuiFissionReactor.java`
+- `src/main/java/mekanism/generators/client/gui/GuiFissionReactorStats.java`
+- `src/main/java/mekanism/generators/client/gui/GuiFissionReactorLogicAdapter.java`
+- `src/main/java/mekanism/generators/client/jei/GeneratorRecipeRegistryHelper.java`
+- `src/main/java/mekanism/generators/client/jei/machine/other/FissionReactorRecipeCategory.java`
+- `src/main/java/mekanism/generators/client/jei/machine/other/FissionReactorRecipeWrapper.java`
+- `src/main/java/mekanism/generators/client/jei/GeneratorsJEI.java`
+- `src/main/resources/assets/mekanism/blockstates/sps_port.json`
+- `src/main/resources/assets/mekanismgenerators/blockstates/fission_reactor_port.json`

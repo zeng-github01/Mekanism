@@ -222,7 +222,7 @@ public abstract class BlockBasic extends BlockTileDrops {
             state = state.withProperty(BlockStateBasic.activeProperty, Valve.eject);
         }
         if (tile instanceof TileEntityBoilerValve Valve) {
-            state = state.withProperty(BlockStateBasic.activeProperty, Valve.Eject);
+            state = state.withProperty(BlockStateBasic.boilerValveModeProperty, Valve.getRenderMode());
         }
         return state;
     }

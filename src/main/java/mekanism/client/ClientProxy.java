@@ -222,6 +222,8 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAmbientAccumulatorEnergy.class, new RenderConfigurableMachine<>());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHybridStorage.class, new RenderConfigurableMachine<>());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySPS.class, new RenderConfigurableMachine<>());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySPSCasing.class, new RenderSPS());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySPSPort.class, new RenderSPS());
     }
 
     @Override
@@ -523,6 +525,9 @@ public class ClientProxy extends CommonProxy {
                     }
                     if (type.hasRotations() || type == BasicBlockType.THERMAL_EVAPORATION_CONTROLLER) {
                         entries.add("facing=north");
+                    }
+                    if (type == BasicBlockType.BOILER_VALVE) {
+                        entries.add("mode=input");
                     }
 
                     //TODO: Is this check against bin's needed
@@ -856,6 +861,8 @@ public class ClientProxy extends CommonProxy {
             case 75 -> new GuiModificationStation(player.inventory, (TileEntityModificationStation) tileEntity);
             case 76 -> new GuiSPS(player.inventory, (TileEntitySPS) tileEntity);
             case 77 -> new GuiModuleTweaker(player.inventory);
+            case 78 -> new GuiSPSMultiblock(player.inventory, (TileEntitySPSCasing) tileEntity);
+            case 79 -> new GuiDimensionalStabilizer(player.inventory, (TileEntityDimensionalStabilizer) tileEntity);
             default -> null;
         };
     }
