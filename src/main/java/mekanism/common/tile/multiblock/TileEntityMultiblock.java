@@ -73,34 +73,20 @@ public abstract class TileEntityMultiblock<T extends SynchronizedData<T>> extend
     @Nullable
     public String cachedID = null;
 
-    @SideOnly(Side.CLIENT)
     private static final int MULTIBLOCK_OCCLUSION_CACHE_INTERVAL = 20;
-    @SideOnly(Side.CLIENT)
     private static final int MULTIBLOCK_OCCLUSION_MAX_SAMPLE_BLOCKS = 32;
-    @SideOnly(Side.CLIENT)
     private static final int MULTIBLOCK_OCCLUSION_MAX_GLASS_BLOCKS = 64;
-    @SideOnly(Side.CLIENT)
     private static final int MULTIBLOCK_OCCLUSION_MAX_SAMPLE_POINTS = 320;
-    @SideOnly(Side.CLIENT)
     private static final double MULTIBLOCK_EDGE_PROBE_MIN = 0.02D;
-    @SideOnly(Side.CLIENT)
     private static final double MULTIBLOCK_EDGE_PROBE_MAX = 0.98D;
 
-    @SideOnly(Side.CLIENT)
     private long cachedMultiblockOcclusionTick = Long.MIN_VALUE;
-    @SideOnly(Side.CLIENT)
     private int cachedMultiblockMinX = Integer.MIN_VALUE;
-    @SideOnly(Side.CLIENT)
     private int cachedMultiblockMinY = Integer.MIN_VALUE;
-    @SideOnly(Side.CLIENT)
     private int cachedMultiblockMinZ = Integer.MIN_VALUE;
-    @SideOnly(Side.CLIENT)
     private int cachedMultiblockMaxX = Integer.MIN_VALUE;
-    @SideOnly(Side.CLIENT)
     private int cachedMultiblockMaxY = Integer.MIN_VALUE;
-    @SideOnly(Side.CLIENT)
     private int cachedMultiblockMaxZ = Integer.MIN_VALUE;
-    @SideOnly(Side.CLIENT)
     private MultiblockOcclusionData cachedMultiblockOcclusionData = MultiblockOcclusionData.EMPTY;
 
     public TileEntityMultiblock(String name) {

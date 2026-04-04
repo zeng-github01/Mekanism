@@ -29,7 +29,6 @@ public class GeneratorRecipeRegistryHelper {
                 FissionReactorRecipeWrapper.sodiumCooled()
         ), FissionReactorRecipeCategory.UID);
         registry.addRecipeClickArea(GuiFissionReactor.class, 45, 17, 105, 56, FissionReactorRecipeCategory.UID);
-        registry.addRecipeClickArea(GuiFissionReactorStats.class, 14, 113, 175, 27, FissionReactorRecipeCategory.UID);
         registry.addRecipeCatalyst(BlockStateGenerator.GeneratorType.FISSION_REACTOR_CASING.getStack(), FissionReactorRecipeCategory.UID);
         registry.addRecipeCatalyst(BlockStateGenerator.GeneratorType.FISSION_REACTOR_PORT.getStack(), FissionReactorRecipeCategory.UID);
         registry.addRecipeCatalyst(BlockStateGenerator.GeneratorType.FISSION_REACTOR_LOGIC_ADAPTER.getStack(), FissionReactorRecipeCategory.UID);
