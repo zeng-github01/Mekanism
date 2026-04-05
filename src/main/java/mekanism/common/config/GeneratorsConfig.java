@@ -1,10 +1,10 @@
 package mekanism.common.config;
 
 import io.netty.buffer.ByteBuf;
+import mekanism.common.config.options.BooleanOption;
 import mekanism.common.config.options.DoubleOption;
 import mekanism.common.config.options.IntOption;
 import mekanism.common.config.options.IntSetOption;
-import mekanism.common.config.options.BooleanOption;
 import mekanism.generators.common.block.states.BlockStateGenerator.GeneratorType;
 import net.minecraftforge.common.config.Configuration;
 

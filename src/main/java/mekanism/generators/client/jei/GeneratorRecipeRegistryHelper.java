@@ -5,7 +5,6 @@ import mekanism.common.recipe.inputs.MachineInput;
 import mekanism.common.recipe.machines.MachineRecipe;
 import mekanism.common.recipe.outputs.MachineOutput;
 import mekanism.generators.client.gui.GuiFissionReactor;
-import mekanism.generators.client.gui.GuiFissionReactorStats;
 import mekanism.generators.client.gui.GuiGasGenerator;
 import mekanism.generators.client.gui.GuiReactorHeat;
 import mekanism.generators.client.jei.machine.other.FissionReactorRecipeCategory;

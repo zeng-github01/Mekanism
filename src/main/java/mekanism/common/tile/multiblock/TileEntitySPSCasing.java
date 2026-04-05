@@ -16,11 +16,9 @@ import mekanism.common.util.InventoryUtils;
 import mekanism.common.util.TileUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayDeque;
@@ -29,7 +27,6 @@ import java.util.Queue;
 
 public class TileEntitySPSCasing extends TileEntityMultiblock<SynchronizedSPSData> {
 
-    @SideOnly(Side.CLIENT)
     public final Queue<SPSOrbitEffect> orbitEffects = new ArrayDeque<>();
 
     public TileEntitySPSCasing() {

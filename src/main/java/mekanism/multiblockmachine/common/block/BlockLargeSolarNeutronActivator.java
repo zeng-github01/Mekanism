@@ -1,7 +1,6 @@
 package mekanism.multiblockmachine.common.block;
 
 import mekanism.multiblockmachine.common.registries.MultiblockMachineBlocks;
-
 import mekanism.multiblockmachine.common.tile.machine.TileEntityLargeSolarNeutronActivator;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;

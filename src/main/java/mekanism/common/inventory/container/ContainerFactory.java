@@ -7,7 +7,6 @@ import mekanism.common.block.states.BlockStateMachine.MachineType;
 import mekanism.common.inventory.slot.SlotEnergy.SlotDischarge;
 import mekanism.common.inventory.slot.SlotOutput;
 import mekanism.common.item.ItemBlockMachine;
-import mekanism.common.recipe.inputs.*;
 import mekanism.common.tier.FactoryTier;
 import mekanism.common.tile.factory.TileEntityFactory;
 import mekanism.common.util.ChargeUtils;

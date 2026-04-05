@@ -14,11 +14,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.opengl.GL11;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class BoltRenderer {
 

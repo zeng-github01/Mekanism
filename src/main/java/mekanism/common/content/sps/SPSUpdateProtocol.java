@@ -3,27 +3,19 @@ package mekanism.common.content.sps;
 import mekanism.api.Coord4D;
 import mekanism.common.Mekanism;
 import mekanism.common.block.states.BlockStateBasic.BasicBlockType;
-import mekanism.common.multiblock.IMultiblock;
 import mekanism.common.multiblock.IStructuralMultiblock;
 import mekanism.common.multiblock.MultiblockCache;
 import mekanism.common.multiblock.MultiblockManager;
 import mekanism.common.multiblock.UpdateProtocol;
-import mekanism.common.tile.multiblock.TileEntityMultiblock;
 import mekanism.common.tile.TileEntitySuperchargedCoil;
-import mekanism.common.tile.multiblock.TileEntitySPSPort;
+import mekanism.common.tile.multiblock.TileEntityMultiblock;
 import mekanism.common.tile.multiblock.TileEntitySPSCasing;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class SPSUpdateProtocol extends UpdateProtocol<SynchronizedSPSData> {
 

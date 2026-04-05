@@ -2,11 +2,7 @@ package mekanism.common.config;
 
 
 import io.netty.buffer.ByteBuf;
-import mekanism.common.config.options.BooleanOption;
-import mekanism.common.config.options.DoubleOption;
-import mekanism.common.config.options.FloatOption;
-import mekanism.common.config.options.IntOption;
-import mekanism.common.config.options.StringListOption;
+import mekanism.common.config.options.*;
 
 /**
  * Created by Thiakil on 15/03/2019.

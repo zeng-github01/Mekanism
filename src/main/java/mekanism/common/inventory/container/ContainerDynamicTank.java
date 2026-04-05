@@ -2,8 +2,8 @@ package mekanism.common.inventory.container;
 
 import mekanism.api.gas.IGasItem;
 import mekanism.common.inventory.slot.SlotOutput;
-import mekanism.common.util.FluidContainerUtils;
 import mekanism.common.tile.multiblock.TileEntityDynamicTank;
+import mekanism.common.util.FluidContainerUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;

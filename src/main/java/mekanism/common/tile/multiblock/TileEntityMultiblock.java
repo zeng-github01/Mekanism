@@ -4,9 +4,9 @@ import io.netty.buffer.ByteBuf;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.common.Mekanism;
+import mekanism.common.PacketHandler;
 import mekanism.common.block.states.BlockStateBasic.BasicBlockType;
 import mekanism.common.config.MekanismConfig;
-import mekanism.common.PacketHandler;
 import mekanism.common.multiblock.*;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import mekanism.common.util.MekanismUtils;
@@ -27,12 +27,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public abstract class TileEntityMultiblock<T extends SynchronizedData<T>> extends TileEntityContainerBlock implements IMultiblock<T> {
 

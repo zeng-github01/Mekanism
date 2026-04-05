@@ -9,10 +9,10 @@ import mekanism.common.item.interfaces.IModeItem.DisplayChange;
 import mekanism.common.network.PacketBaublesModeChange.BaublesModeChangMessage;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.items.IItemHandler;
 
 public class PacketBaublesModeChange implements IMessageHandler<BaublesModeChangMessage, IMessage> {
 

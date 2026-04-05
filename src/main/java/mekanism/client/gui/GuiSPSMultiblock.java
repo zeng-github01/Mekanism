@@ -1,5 +1,6 @@
 package mekanism.client.gui;
 
+import mekanism.api.gas.GasTank;
 import mekanism.client.gui.element.GuiInnerScreen;
 import mekanism.client.gui.element.GuiPlayerSlot;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
@@ -12,7 +13,6 @@ import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import mekanism.api.gas.GasTank;
 
 import java.util.ArrayList;
 import java.util.List;

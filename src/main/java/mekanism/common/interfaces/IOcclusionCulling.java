@@ -1,7 +1,7 @@
 package mekanism.common.interfaces;
 
-import mekanism.common.base.IBoundingBlock;
 import mekanism.common.Mekanism;
+import mekanism.common.base.IBoundingBlock;
 import mekanism.common.tile.TileEntityBoundingBlock;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -15,25 +15,10 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.ARBOcclusionQuery;
-import org.lwjgl.opengl.ContextCapabilities;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL33;
-import org.lwjgl.opengl.GLContext;
+import org.lwjgl.opengl.*;
 
 import javax.annotation.Nullable;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.WeakHashMap;
+import java.util.*;
 
 /**
  * Client-side occlusion culling hook for tile entities.
@@ -67,17 +52,11 @@ public interface IOcclusionCulling {
     int OCCLUSION_GPU_QUERY_STALE_TICKS = 200;
     @SideOnly(Side.CLIENT)
     int OCCLUSION_GPU_QUERY_CLEANUP_INTERVAL = 20;
-    @SideOnly(Side.CLIENT)
     Map<IOcclusionCulling, CacheEntry> OCCLUSION_CACHE = Collections.synchronizedMap(new WeakHashMap<>());
-    @SideOnly(Side.CLIENT)
     Map<IOcclusionCulling, GpuQueryState> GPU_QUERY_CACHE = Collections.synchronizedMap(new WeakHashMap<>());
-    @SideOnly(Side.CLIENT)
     long[] GPU_QUERY_LAST_CLEANUP_TICK = new long[]{Long.MIN_VALUE};
-    @SideOnly(Side.CLIENT)
     boolean[] GPU_QUERY_FORCE_DISABLE = new boolean[]{false};
-    @SideOnly(Side.CLIENT)
     boolean[] GPU_QUERY_UNSUPPORTED_LOGGED = new boolean[]{false};
-    @SideOnly(Side.CLIENT)
     boolean[] GPU_QUERY_FALLBACK_LOGGED = new boolean[]{false};
 
     @SideOnly(Side.CLIENT)

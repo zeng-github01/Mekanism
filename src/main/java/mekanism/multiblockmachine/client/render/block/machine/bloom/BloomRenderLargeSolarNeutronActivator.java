@@ -1,7 +1,6 @@
 package mekanism.multiblockmachine.client.render.block.machine.bloom;
 
 import mekanism.common.util.BloomEffect;
-
 import mekanism.multiblockmachine.client.model.machine.ModelLargeSolarNeutronActivator;
 import mekanism.multiblockmachine.client.render.block.machine.RenderLargeSolarNeutronActivator;
 import mekanism.multiblockmachine.common.tile.machine.TileEntityLargeSolarNeutronActivator;

@@ -14,10 +14,10 @@ import mekanism.generators.common.block.states.BlockStateGenerator.GeneratorType
 import mekanism.generators.common.block.states.BlockStateReactor.ReactorBlockStateMapper;
 import mekanism.generators.common.block.states.BlockStateReactor.ReactorBlockType;
 import mekanism.generators.common.tile.*;
-import mekanism.generators.common.tile.reactor.TileEntityReactorController;
-import mekanism.generators.common.tile.reactor.TileEntityReactorLogicAdapter;
 import mekanism.generators.common.tile.fission.TileEntityFissionReactorCasing;
 import mekanism.generators.common.tile.fission.TileEntityFissionReactorLogicAdapter;
+import mekanism.generators.common.tile.reactor.TileEntityReactorController;
+import mekanism.generators.common.tile.reactor.TileEntityReactorLogicAdapter;
 import mekanism.generators.common.tile.turbine.TileEntityTurbineCasing;
 import mekanism.generators.common.tile.turbine.TileEntityTurbineRotor;
 import mekanism.generators.common.tile.turbine.TileEntityTurbineValve;

@@ -1,15 +1,11 @@
 package mekanism.generators.client.gui;
 
-import mekanism.api.math.MathUtils;
 import mekanism.api.TileNetworkList;
 import mekanism.api.gas.GasTank;
+import mekanism.api.math.MathUtils;
 import mekanism.client.gui.GuiMekanismTile;
 import mekanism.client.gui.button.GuiDisableableButton;
-import mekanism.client.gui.element.GuiEnergyInfo;
-import mekanism.client.gui.element.GuiGraph;
-import mekanism.client.gui.element.GuiHeatInfo;
-import mekanism.client.gui.element.GuiInnerScreen;
-import mekanism.client.gui.element.GuiRateBarHorizontal;
+import mekanism.client.gui.element.*;
 import mekanism.client.gui.element.GuiRateBarHorizontal.IRateInfoHandler;
 import mekanism.client.gui.element.gauge.GuiGasGauge;
 import mekanism.client.gui.element.gauge.GuiGauge;

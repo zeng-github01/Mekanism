@@ -21,11 +21,7 @@ import org.lwjgl.input.Mouse;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiMekanism extends GuiContainer implements IGuiWrapper {

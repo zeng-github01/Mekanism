@@ -1,7 +1,6 @@
 package mekanism.multiblockmachine.common.item;
 
 import mekanism.api.EnumColor;
-import mekanism.api.energy.IEnergizedItem;
 import mekanism.client.MekKeyHandler;
 import mekanism.client.MekanismClient;
 import mekanism.client.MekanismKeyHandler;

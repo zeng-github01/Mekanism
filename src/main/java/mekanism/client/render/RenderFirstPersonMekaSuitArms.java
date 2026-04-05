@@ -5,7 +5,6 @@
 package mekanism.client.render;
 
 import mekanism.client.model.mekasuitarmour.ModelMekAsuitBodyArm;
-import mekanism.common.Mekanism;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.item.armor.ItemMekaSuitBodyArmor;
 import mekanism.common.util.MekanismUtils;
