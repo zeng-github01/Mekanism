@@ -27,6 +27,7 @@ import mekanism.common.capabilities.radiation.item.RadiationShieldingHandler;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.content.gear.IModuleContainerItem;
 import mekanism.common.content.gear.Module;
+import mekanism.common.content.gear.shared.ModuleColorModulationUnit;
 import mekanism.common.content.gear.shared.ModuleEnergyUnit;
 import mekanism.common.entity.EntityMeka;
 import mekanism.common.integration.MekanismHooks;
@@ -35,6 +36,7 @@ import mekanism.common.integration.ic2.IC2ItemManager;
 import mekanism.common.integration.redstoneflux.RFIntegration;
 import mekanism.common.integration.tesla.TeslaItemWrapper;
 import mekanism.common.item.interfaces.IModeItem;
+import mekanism.common.lib.Color;
 import mekanism.common.util.ItemDataUtils;
 import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
@@ -248,7 +250,28 @@ public abstract class ItemMekaSuitArmor extends ItemArmor implements IEnergizedI
 
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
-        return "mekanism:render/MekAsuit.png";
+        boolean overlay = "overlay".equals(type);
+        if (slot == EntityEquipmentSlot.LEGS) {
+            return overlay ? "mekanism:render/mekasuitpants_overlay.png" : "mekanism:render/mekasuitpants.png";
+        }
+        return overlay ? "mekanism:render/mekasuit_overlay.png" : "mekanism:render/mekasuit.png";
+    }
+
+    @Nullable
+    public static Color getColorModulation(@NotNull ItemStack stack) {
+        if (stack.getItem() instanceof ItemMekaSuitArmor armor) {
+            IModule<ModuleColorModulationUnit> module = armor.getModule(stack, MekanismModules.COLOR_MODULATION_UNIT);
+            if (module != null) {
+                return module.getCustomInstance().getColor();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public int getColor(ItemStack stack) {
+        Color color = getColorModulation(stack);
+        return color == null ? super.getColor(stack) : color.argb();
     }
 
     @Override

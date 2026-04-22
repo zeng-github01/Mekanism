@@ -1,8 +1,14 @@
 package mekanism.client.model.mekasuitarmour;
 
+import mekanism.client.render.MekanismRenderer;
+import mekanism.client.render.MekanismRenderer.GlowInfo;
+import mekanism.common.util.MekanismUtils;
+import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -10,6 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModelMekAsuitBodyArm extends ModelBiped {
 
     public static final ModelMekAsuitBodyArm armorModel = new ModelMekAsuitBodyArm();
+    private static final ResourceLocation GLOW_TEXTURE = MekanismUtils.getResource(ResourceType.RENDER, "mekasuit_glow.png");
     public final ModelRenderer left_arm_armor;
     ModelRenderer chest_left_arm_exo_brace1_r1;
     ModelRenderer chest_left_arm_exo_brace2_r1;
@@ -97,16 +104,56 @@ public class ModelMekAsuitBodyArm extends ModelBiped {
     public void render(float size) {
         left_arm_armor.render(size);
         right_arm_armor.render(size);
+        if (IMekaSuitBloomModel.shouldRenderDirectGlow()) {
+            renderGlow(size);
+        }
     }
 
     public void leftArmRender(float size) {
         left_arm_armor.rotateAngleX = 0.0F;
         left_arm_armor.render(size);
+        if (IMekaSuitBloomModel.shouldRenderDirectGlow()) {
+            renderGlow(left_arm_armor, size);
+        }
     }
 
     public void rightArmRender(float size) {
         right_arm_armor.rotateAngleX = 0.0F;
         right_arm_armor.render(size);
+        if (IMekaSuitBloomModel.shouldRenderDirectGlow()) {
+            renderGlow(right_arm_armor, size);
+        }
+    }
+
+    public void leftArmRenderBloom(float size) {
+        left_arm_armor.rotateAngleX = 0.0F;
+        renderGlow(left_arm_armor, size);
+    }
+
+    public void rightArmRenderBloom(float size) {
+        right_arm_armor.rotateAngleX = 0.0F;
+        renderGlow(right_arm_armor, size);
+    }
+
+    private void renderGlow(float size) {
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(1.001F, 1.001F, 1.001F);
+        MekanismRenderer.bindTexture(GLOW_TEXTURE);
+        GlowInfo glowInfo = IMekaSuitBloomModel.prepareGlowRender();
+        left_arm_armor.render(size);
+        right_arm_armor.render(size);
+        IMekaSuitBloomModel.finishGlowRender(glowInfo);
+        GlStateManager.popMatrix();
+    }
+
+    private void renderGlow(ModelRenderer arm, float size) {
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(1.001F, 1.001F, 1.001F);
+        MekanismRenderer.bindTexture(GLOW_TEXTURE);
+        GlowInfo glowInfo = IMekaSuitBloomModel.prepareGlowRender();
+        arm.render(size);
+        IMekaSuitBloomModel.finishGlowRender(glowInfo);
+        GlStateManager.popMatrix();
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

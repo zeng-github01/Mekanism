@@ -1,4 +1,3 @@
-/*
 package mekanism.common.content.gear.shared;
 
 import mekanism.api.annotations.ParametersAreNotNullByDefault;
@@ -29,5 +28,3 @@ public class ModuleColorModulationUnit implements ICustomModule<ModuleColorModul
         return Color.argb(color.get());
     }
 }
-
- */

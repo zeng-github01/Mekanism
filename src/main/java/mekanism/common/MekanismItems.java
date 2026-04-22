@@ -96,7 +96,7 @@ public class MekanismItems {
 
     public static final ItemModule MODULE_ENERGY = new ItemModule(MekanismModules.ENERGY_UNIT);
     public static final ItemModule MODULE_MAGNETIC = new ItemModule(MekanismModules.MAGNETIC_UNIT);
-    //public static final ItemModule MODULE_COLOR_MODULATION = new ItemModule(MekanismModules.COLOR_MODULATION_UNIT);
+    public static final ItemModule MODULE_COLOR_MODULATION = new ItemModule(MekanismModules.COLOR_MODULATION_UNIT);
     public static final ItemModule MODULE_LASER_DISSIPATION = new ItemModule(MekanismModules.LASER_DISSIPATION_UNIT);
     public static final ItemModule MODULE_RADIATION_SHIELDING = new ItemModule(MekanismModules.RADIATION_SHIELDING_UNIT);
 
@@ -251,8 +251,7 @@ public class MekanismItems {
 
         registry.register(initModule(MODULE_ENERGY));
         registry.register(initModule(MODULE_MAGNETIC));
-
-        // registry.register(initModule(MODULE_COLOR_MODULATION));
+        registry.register(initModule(MODULE_COLOR_MODULATION));
         registry.register(initModule(MODULE_LASER_DISSIPATION));
         registry.register(initModule(MODULE_RADIATION_SHIELDING));
 

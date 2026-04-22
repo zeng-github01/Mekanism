@@ -5,6 +5,7 @@ import mekanism.common.content.gear.ModuleHelper;
 import mekanism.common.content.gear.mekafishrod.ModuleintelligentUnit;
 import mekanism.common.content.gear.mekasuit.*;
 import mekanism.common.content.gear.mekatool.*;
+import mekanism.common.content.gear.shared.ModuleColorModulationUnit;
 import mekanism.common.content.gear.shared.ModuleEnergyUnit;
 import mekanism.common.content.gear.shared.ModuleMagneticUnit;
 import mekanism.common.integration.MekanismHooks;
@@ -18,7 +19,7 @@ public class MekanismModules {
     public static final ModuleData<ModuleEnergyUnit> ENERGY_UNIT = ModuleHelper.register("energy_unit", ModuleEnergyUnit::new, builder -> builder.maxStackSize(8).rarity(EnumRarity.UNCOMMON).noDisable());
     public static final ModuleData<ModuleMagneticUnit> MAGNETIC_UNIT = ModuleHelper.register("magnetic_unit", ModuleMagneticUnit::new, builder -> builder.rarity(EnumRarity.UNCOMMON).canEnable(!Loader.isModLoaded(MekanismHooks.MekanismMixinHelp_MOD_ID)).notEnabled("need.installation.mod"));
     //Shared Armor
-    // public static final ModuleData<ModuleColorModulationUnit> COLOR_MODULATION_UNIT = ModuleHelper.register("color_modulation_unit", ModuleColorModulationUnit::new, builder -> builder.rarity(EnumRarity.UNCOMMON).noDisable());
+    public static final ModuleData<ModuleColorModulationUnit> COLOR_MODULATION_UNIT = ModuleHelper.register("color_modulation_unit", ModuleColorModulationUnit::new, builder -> builder.rarity(EnumRarity.UNCOMMON).noDisable());
     public static final ModuleData<?> LASER_DISSIPATION_UNIT = ModuleHelper.registerMarker("laser_dissipation_unit", builder -> builder.rarity(EnumRarity.UNCOMMON));
     public static final ModuleData<?> RADIATION_SHIELDING_UNIT = ModuleHelper.registerMarker("radiation_shielding_unit", builder -> builder.rarity(EnumRarity.UNCOMMON));
 

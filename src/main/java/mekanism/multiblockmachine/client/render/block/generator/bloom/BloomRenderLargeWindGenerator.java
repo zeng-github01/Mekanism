@@ -1,5 +1,6 @@
 package mekanism.multiblockmachine.client.render.block.generator.bloom;
 
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.util.BloomEffect;
 import mekanism.multiblockmachine.client.model.generator.ModelLargeWindGenerator;
 import mekanism.multiblockmachine.client.render.block.generator.RenderLargeWindGenerator;
@@ -23,7 +24,11 @@ public class BloomRenderLargeWindGenerator extends BloomEffect<TileEntityLargeWi
     protected void RenderModelBloom() {
         RenderLargeWindGenerator renderer = (RenderLargeWindGenerator) TileEntityRendererDispatcher.instance.renderers.get(TileEntityLargeWindGenerator.class);
         ModelLargeWindGenerator model = renderer.getModel();
-        model.renderBloom(renderer.getTime(), 0.0625F, renderer.angle(tile, Minecraft.getMinecraft().isGamePaused() ? 0 : Minecraft.getMinecraft().getRenderPartialTicks()), tile.getActive(), Minecraft.getMinecraft().renderEngine);
+        float partialTick = Minecraft.getMinecraft().isGamePaused() ? 0 : Minecraft.getMinecraft().getRenderPartialTicks();
+        int fanRenderDistance = MekanismConfig.current().client.largeWindGeneratorFanRenderDistance.val();
+        boolean renderFans = fanRenderDistance <= 0 || tile.getDistanceSq(TileEntityRendererDispatcher.instance.entityX,
+                TileEntityRendererDispatcher.instance.entityY, TileEntityRendererDispatcher.instance.entityZ) <= (double) fanRenderDistance * fanRenderDistance;
+        model.renderBloom(renderer.getTime(), 0.0625F, renderer.angle(tile, partialTick), tile.getActive(), Minecraft.getMinecraft().renderEngine, renderFans);
     }
 
 

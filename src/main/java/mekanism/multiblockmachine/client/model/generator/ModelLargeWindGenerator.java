@@ -1956,6 +1956,10 @@ public class ModelLargeWindGenerator extends ModelBase {
     }
 
     public void renderBloom(double tick, float size, double angle, boolean on, TextureManager manager) {
+        renderBloom(tick, size, angle, on, manager, true);
+    }
+
+    public void renderBloom(double tick, float size, double angle, boolean on, TextureManager manager, boolean renderFans) {
         GlStateManager.pushMatrix();
         GlStateManager.shadeModel(GL11.GL_SMOOTH);
         GlStateManager.disableAlpha();
@@ -1965,7 +1969,7 @@ public class ModelLargeWindGenerator extends ModelBase {
         GlStateManager.scale(1.0011F, 1.0011F, 1.0011F);
         GlStateManager.translate(-0.0012F, -0.0012F, -0.0012F);
         MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
-        doRenderGlow(size, angle, true);
+        doRenderGlow(size, angle, renderFans);
         MekanismRenderer.disableGlow(glowInfo);
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();

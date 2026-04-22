@@ -11,6 +11,7 @@ import mekanism.client.gui.chemical.*;
 import mekanism.client.gui.robit.*;
 import mekanism.client.newgui.GuiModuleTweaker;
 import mekanism.client.render.*;
+import mekanism.client.render.bloom.MekaSuitBloomRenderer;
 import mekanism.client.render.entity.RenderBalloon;
 import mekanism.client.render.entity.RenderFlame;
 import mekanism.client.render.entity.RenderObsidianTNTPrimed;
@@ -55,6 +56,7 @@ import mekanism.common.entity.EntityRobit;
 import mekanism.common.entity.baby.*;
 import mekanism.common.inventory.InventoryPersonalChest;
 import mekanism.common.item.*;
+import mekanism.common.item.armor.ItemMekaSuitArmor;
 import mekanism.common.network.PacketPortableTeleporter.PortableTeleporterMessage;
 import mekanism.common.recipe.machines.*;
 import mekanism.common.tier.BaseTier;
@@ -90,6 +92,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
@@ -306,8 +309,7 @@ public class ClientProxy extends CommonProxy {
 
         registerItemRender(MekanismItems.MODULE_ENERGY);
         registerItemRender(MekanismItems.MODULE_MAGNETIC);
-
-        // registerItemRender(MekanismItems.MODULE_COLOR_MODULATION);
+        registerItemRender(MekanismItems.MODULE_COLOR_MODULATION);
         registerItemRender(MekanismItems.MODULE_LASER_DISSIPATION);
         registerItemRender(MekanismItems.MODULE_RADIATION_SHIELDING);
 
@@ -940,6 +942,12 @@ public class ClientProxy extends CommonProxy {
             EnumColor dye = EnumColor.DYES[stack.getItemDamage()];
             return (int) (dye.getColor(0) * 255) << 16 | (int) (dye.getColor(1) * 255) << 8 | (int) (dye.getColor(2) * 255);
         }, MekanismItems.Balloon);
+        Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) -> {
+            if (tintIndex == 0 && stack.getItem() instanceof ItemMekaSuitArmor && stack.getItem() instanceof ItemArmor armor) {
+                return armor.getColor(stack);
+            }
+            return -1;
+        }, MekanismItems.MEKASUIT_HELMET, MekanismItems.MEKASUIT_BODYARMOR, MekanismItems.MEKASUIT_PANTS, MekanismItems.MEKASUIT_BOOTS);
 
         MinecraftForge.EVENT_BUS.register(new ClientConnectionHandler());
         //  MinecraftForge.EVENT_BUS.register(new ClientPlayerTracker());
@@ -949,6 +957,9 @@ public class ClientProxy extends CommonProxy {
             MinecraftForge.EVENT_BUS.register(new RenderArm());
         } else {
             MinecraftForge.EVENT_BUS.register(new RenderFirstPersonMekaSuitArms());
+        }
+        if (Mekanism.hooks.Bloom) {
+            new MekaSuitBloomRenderer();
         }
 
         MinecraftForge.EVENT_BUS.register(new RenderTickHandler());

@@ -1,6 +1,10 @@
 package mekanism.client.model.mekasuitarmour;
 
 
+import mekanism.client.render.MekanismRenderer;
+import mekanism.client.render.MekanismRenderer.GlowInfo;
+import mekanism.common.util.MekanismUtils;
+import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
@@ -8,12 +12,15 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModuleElytraWing extends ModelBase {
+
+    private static final ResourceLocation GLOW_TEXTURE = MekanismUtils.getResource(ResourceType.RENDER, "mekasuit_glow.png");
     ModelRenderer elytra_left_wing;
     ModelRenderer elytra_left_wing_energy_mesh_led3_r1;
     ModelRenderer elytra_left_wing_energy_mesh_led2_r1;
@@ -127,6 +134,20 @@ public class ModuleElytraWing extends ModelBase {
         GlStateManager.disableRescaleNormal();
         GlStateManager.disableCull();
 
+        renderWings(entityIn, scale);
+    }
+
+    public void renderGlow(Entity entityIn, float scale) {
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(1.001F, 1.001F, 1.001F);
+        MekanismRenderer.bindTexture(GLOW_TEXTURE);
+        GlowInfo glowInfo = IMekaSuitBloomModel.prepareGlowRender();
+        renderWings(entityIn, scale);
+        IMekaSuitBloomModel.finishGlowRender(glowInfo);
+        GlStateManager.popMatrix();
+    }
+
+    private void renderWings(Entity entityIn, float scale) {
         if (entityIn instanceof EntityLivingBase base && base.isChild()) {
             GlStateManager.pushMatrix();
             GlStateManager.scale(0.5F, 0.5F, 0.5F);

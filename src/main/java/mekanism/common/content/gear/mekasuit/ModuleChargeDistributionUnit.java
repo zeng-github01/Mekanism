@@ -3,6 +3,8 @@ package mekanism.common.content.gear.mekasuit;
 import baubles.api.BaublesApi;
 import cofh.redstoneflux.api.IEnergyContainerItem;
 import ic2.api.item.ElectricItem;
+import java.util.ArrayList;
+import java.util.List;
 import mekanism.api.annotations.ParametersAreNotNullByDefault;
 import mekanism.api.energy.EnergizedItemManager;
 import mekanism.api.energy.IEnergizedItem;
@@ -14,6 +16,7 @@ import mekanism.api.gear.config.ModuleConfigItemCreator;
 import mekanism.common.Mekanism;
 import mekanism.common.MekanismLang;
 import mekanism.common.capabilities.Capabilities;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.content.network.distribution.EnergySaveTarget;
 import mekanism.common.integration.MekanismHooks;
 import mekanism.common.integration.forgeenergy.ForgeEnergyIntegration;
@@ -29,9 +32,6 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.IItemHandler;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static mekanism.common.util.ChargeUtils.isIC2Chargeable;
 
@@ -54,7 +54,6 @@ public class ModuleChargeDistributionUnit implements ICustomModule<ModuleChargeD
             chargeInventory(module, player);
         }
 
-
         // distribute suit charge next
         if (chargeSuit.get()) {
             chargeSuit(player);
@@ -70,23 +69,39 @@ public class ModuleChargeDistributionUnit implements ICustomModule<ModuleChargeD
                 total += item.getEnergy(stack);
             }
         }
-        EmitUtils2.sendToAcceptors(saveTarget, total);
-        saveTarget.save();
+        if (saveTarget.getHandlerCount() > 1) {
+            EmitUtils2.sendToAcceptors(saveTarget, total);
+            saveTarget.save();
+        }
     }
 
     private void chargeInventory(IModule<ModuleChargeDistributionUnit> module, EntityPlayer player) {
-        List<ItemStack> stacks = new ArrayList<>();
-        stacks.addAll(player.inventory.offHandInventory);
-        stacks.addAll(player.inventory.mainInventory);
+        IEnergizedItem energyContainer = module.getEnergyContainer();
+        if (energyContainer == null) {
+            return;
+        }
+        ItemStack container = module.getContainer();
+        double toCharge = Math.min(MekanismConfig.current().meka.mekaSuitInventoryChargeRate.val(), energyContainer.getEnergy(container));
+        if (toCharge <= 0) {
+            return;
+        }
+        ItemStack mainHand = player.getHeldItemMainhand();
+        ItemStack offHand = player.getHeldItemOffhand();
+        toCharge = charge(energyContainer, container, mainHand, toCharge);
+        toCharge = charge(energyContainer, container, offHand, toCharge);
+        if (toCharge <= 0) {
+            return;
+        }
+        List<ItemStack> stacks = new ArrayList<>(player.inventory.mainInventory);
         if (Mekanism.hooks.Baubles) {
             stacks.addAll(chargeBaublesInventory(player));
         }
         for (ItemStack stack : stacks) {
-            if (module.getContainerEnergy() <= 0) {
-                break;
-            }
-            if (canCharge(module, player, stack)) {
-                charge(stack, module, player);
+            if (stack != mainHand && stack != offHand) {
+                toCharge = charge(energyContainer, container, stack, toCharge);
+                if (toCharge <= 0) {
+                    return;
+                }
             }
         }
     }
@@ -101,61 +116,88 @@ public class ModuleChargeDistributionUnit implements ICustomModule<ModuleChargeD
         return stacks;
     }
 
-    private boolean canCharge(IModule<ModuleChargeDistributionUnit> module, EntityPlayer player, ItemStack stack) {
-        if (!stack.isEmpty()) {
-            return canCharge(stack, module, player);
-        }
-        return false;
-    }
-
-    //也许这个不行
-    public void charge(ItemStack stack, IModule<ModuleChargeDistributionUnit> module, EntityPlayer player) {
-        if (!stack.isEmpty() && module.getContainerEnergy() > 0) {
-            if (stack.getItem() instanceof IEnergizedItem) {
-                module.useEnergy(player, EnergizedItemManager.charge(stack, module.getContainerEnergy()));
+    /** return rejects */
+    private double charge(IEnergizedItem energyContainer, ItemStack container, ItemStack stack, double amount) {
+        if (!stack.isEmpty() && amount > 0) {
+            if (stack.getItem() instanceof IEnergizedItem item) {
+                double simulatedAccepted = simulateInsert(item, stack, amount);
+                if (simulatedAccepted > 0) {
+                    double extracted = energyContainer.extract(container, simulatedAccepted, true);
+                    if (extracted > 0) {
+                        double inserted = Math.min(extracted, EnergizedItemManager.charge(stack, extracted));
+                        refund(energyContainer, container, extracted - inserted);
+                        return getRemainder(amount, inserted);
+                    }
+                }
             } else if (MekanismUtils.useTesla() && stack.hasCapability(Capabilities.TESLA_CONSUMER_CAPABILITY, null)) {
                 ITeslaConsumer consumer = stack.getCapability(Capabilities.TESLA_CONSUMER_CAPABILITY, null);
-                long stored = TeslaIntegration.toTesla(module.getContainerEnergy());
-                module.useEnergy(player, TeslaIntegration.fromTesla(consumer.givePower(stored, false)));
+                if (consumer != null) {
+                    double simulatedAccepted = clampAccepted(amount, TeslaIntegration.fromTesla(consumer.givePower(TeslaIntegration.toTesla(amount), true)));
+                    if (simulatedAccepted > 0) {
+                        double extracted = energyContainer.extract(container, simulatedAccepted, true);
+                        if (extracted > 0) {
+                            double inserted = clampAccepted(extracted, TeslaIntegration.fromTesla(consumer.givePower(TeslaIntegration.toTesla(extracted), false)));
+                            refund(energyContainer, container, extracted - inserted);
+                            return getRemainder(amount, inserted);
+                        }
+                    }
+                }
             } else if (MekanismUtils.useForge() && stack.hasCapability(CapabilityEnergy.ENERGY, null)) {
                 IEnergyStorage storage = stack.getCapability(CapabilityEnergy.ENERGY, null);
-                if (storage.canReceive()) {
-                    int stored = ForgeEnergyIntegration.toForge(module.getContainerEnergy());
-                    module.useEnergy(player, ForgeEnergyIntegration.fromForge(storage.receiveEnergy(stored, false)));
+                if (storage != null && storage.canReceive()) {
+                    double simulatedAccepted = clampAccepted(amount, ForgeEnergyIntegration.fromForge(storage.receiveEnergy(ForgeEnergyIntegration.toForge(amount), true)));
+                    if (simulatedAccepted > 0) {
+                        double extracted = energyContainer.extract(container, simulatedAccepted, true);
+                        if (extracted > 0) {
+                            double inserted = clampAccepted(extracted, ForgeEnergyIntegration.fromForge(storage.receiveEnergy(ForgeEnergyIntegration.toForge(extracted), false)));
+                            refund(energyContainer, container, extracted - inserted);
+                            return getRemainder(amount, inserted);
+                        }
+                    }
                 }
             } else if (MekanismUtils.useRF() && stack.getItem() instanceof IEnergyContainerItem item) {
-                int toTransfer = RFIntegration.toRF(module.getContainerEnergy());
-                module.useEnergy(player, RFIntegration.fromRF(item.receiveEnergy(stack, toTransfer, false)));
+                double simulatedAccepted = clampAccepted(amount, RFIntegration.fromRF(item.receiveEnergy(stack, RFIntegration.toRF(amount), true)));
+                if (simulatedAccepted > 0) {
+                    double extracted = energyContainer.extract(container, simulatedAccepted, true);
+                    if (extracted > 0) {
+                        double inserted = clampAccepted(extracted, RFIntegration.fromRF(item.receiveEnergy(stack, RFIntegration.toRF(extracted), false)));
+                        refund(energyContainer, container, extracted - inserted);
+                        return getRemainder(amount, inserted);
+                    }
+                }
             } else if (MekanismUtils.useIC2() && isIC2Chargeable(stack)) {
-                double sent = IC2Integration.fromEU(ElectricItem.manager.charge(stack, IC2Integration.toEU(module.getContainerEnergy()), 4, true, false));
-                module.useEnergy(player, sent);
+                double simulatedAccepted = clampAccepted(amount, IC2Integration.fromEU(ElectricItem.manager.charge(stack, IC2Integration.toEU(amount), 4, true, true)));
+                if (simulatedAccepted > 0) {
+                    double extracted = energyContainer.extract(container, simulatedAccepted, true);
+                    if (extracted > 0) {
+                        double inserted = clampAccepted(extracted, IC2Integration.fromEU(ElectricItem.manager.charge(stack, IC2Integration.toEU(extracted), 4, true, false)));
+                        refund(energyContainer, container, extracted - inserted);
+                        return getRemainder(amount, inserted);
+                    }
+                }
             }
         }
+        return amount;
     }
 
-    public boolean canCharge(ItemStack stack, IModule<ModuleChargeDistributionUnit> module, EntityPlayer player) {
-        if (!stack.isEmpty() && module.getContainerEnergy() > 0) {
-            if (stack.getItem() instanceof IEnergizedItem) {
-                return module.canUseEnergy(player, EnergizedItemManager.charge(stack, module.getContainerEnergy()));
-            } else if (MekanismUtils.useTesla() && stack.hasCapability(Capabilities.TESLA_CONSUMER_CAPABILITY, null)) {
-                ITeslaConsumer consumer = stack.getCapability(Capabilities.TESLA_CONSUMER_CAPABILITY, null);
-                long stored = TeslaIntegration.toTesla(module.getContainerEnergy());
-                return module.canUseEnergy(player, TeslaIntegration.fromTesla(consumer.givePower(stored, false)));
-            } else if (MekanismUtils.useForge() && stack.hasCapability(CapabilityEnergy.ENERGY, null)) {
-                IEnergyStorage storage = stack.getCapability(CapabilityEnergy.ENERGY, null);
-                if (storage.canReceive()) {
-                    int stored = ForgeEnergyIntegration.toForge(module.getContainerEnergy());
-                    return module.canUseEnergy(player, ForgeEnergyIntegration.fromForge(storage.receiveEnergy(stored, false)));
-                }
-                return false;
-            } else if (MekanismUtils.useRF() && stack.getItem() instanceof IEnergyContainerItem item) {
-                int toTransfer = RFIntegration.toRF(module.getContainerEnergy());
-                return module.canUseEnergy(player, RFIntegration.fromRF(item.receiveEnergy(stack, toTransfer, false)));
-            } else if (MekanismUtils.useIC2() && isIC2Chargeable(stack)) {
-                double sent = IC2Integration.fromEU(ElectricItem.manager.charge(stack, IC2Integration.toEU(module.getContainerEnergy()), 4, true, false));
-                return module.canUseEnergy(player, sent);
-            }
+    private double simulateInsert(IEnergizedItem item, ItemStack stack, double amount) {
+        if (item.canReceive(stack)) {
+            return Math.min(item.getMaxTransfer(stack), Math.min(item.getMaxEnergy(stack) - item.getEnergy(stack), amount));
         }
-        return false;
+        return 0;
+    }
+
+    private double clampAccepted(double offered, double accepted) {
+        return Math.min(offered, Math.max(0, accepted));
+    }
+
+    private double getRemainder(double offered, double accepted) {
+        return offered - clampAccepted(offered, accepted);
+    }
+
+    private void refund(IEnergizedItem energyContainer, ItemStack container, double amount) {
+        if (amount > 0) {
+            energyContainer.insert(container, amount, true);
+        }
     }
 }

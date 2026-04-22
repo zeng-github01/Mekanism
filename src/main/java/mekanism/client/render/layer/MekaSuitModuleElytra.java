@@ -1,6 +1,7 @@
 package mekanism.client.render.layer;
 
 import mekanism.api.gear.IModule;
+import mekanism.client.model.mekasuitarmour.IMekaSuitBloomModel;
 import mekanism.client.model.mekasuitarmour.ModuleElytraWing;
 import mekanism.common.MekanismModules;
 import mekanism.common.content.gear.ModuleHelper;
@@ -54,6 +55,9 @@ public class MekaSuitModuleElytra implements LayerRenderer<EntityLivingBase> {
             GlStateManager.rotate(-90,1, 0, 0);
             modelElytra.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entity);
             modelElytra.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+            if (IMekaSuitBloomModel.shouldRenderDirectGlow()) {
+                modelElytra.renderGlow(entity, scale);
+            }
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();
         }

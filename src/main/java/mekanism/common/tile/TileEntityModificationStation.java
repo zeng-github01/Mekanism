@@ -19,6 +19,8 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 
 public class TileEntityModificationStation extends TileEntityOperationalMachine implements IBoundingBlock, IMachineSlotTip {
@@ -66,14 +68,41 @@ public class TileEntityModificationStation extends TileEntityOperationalMachine 
         prevEnergy = getEnergy();
     }
 
-    public void removeModule(EntityPlayer player, ModuleData<?> type) {
+    public void removeModule(EntityPlayer player, ModuleData<?> type, boolean removeAll) {
         ItemStack stack = inventory.get(3);
-        if (!stack.isEmpty()) {
-            IModuleContainerItem container = (IModuleContainerItem) stack.getItem();
-            if (container.hasModule(stack, type) && player.inventory.add(1, type.getStack())) {
-                container.removeModule(stack, type);
+        if (stack.isEmpty() || !(stack.getItem() instanceof IModuleContainerItem container)) {
+            return;
+        }
+        IModule<?> module = ModuleHelper.get().load(stack, type);
+        int installed = module == null ? 0 : module.getInstalledCount();
+        if (installed > 0) {
+            int toRemove = removeAll ? installed : 1;
+            ItemStack moduleStack = type.getStack();
+            moduleStack.setCount(toRemove);
+            if (addItemStackToInventory(player, moduleStack)) {
+                for (int i = 0; i < toRemove; i++) {
+                    container.removeModule(stack, type);
+                }
+                setInventorySlotContents(3, stack);
             }
         }
+    }
+
+    private boolean addItemStackToInventory(EntityPlayer player, ItemStack stack) {
+        IItemHandler inventoryHandler = new InvWrapper(player.inventory);
+        ItemStack remaining = stack.copy();
+        for (int slot = 0; slot < inventoryHandler.getSlots(); slot++) {
+            remaining = inventoryHandler.insertItem(slot, remaining, true);
+            if (remaining.isEmpty()) {
+                ItemStack toInsert = stack;
+                for (int insertSlot = 0; insertSlot < inventoryHandler.getSlots() && !toInsert.isEmpty(); insertSlot++) {
+                    toInsert = inventoryHandler.insertItem(insertSlot, toInsert, false);
+                }
+                player.inventory.markDirty();
+                return toInsert.isEmpty();
+            }
+        }
+        return false;
     }
 
     @Override

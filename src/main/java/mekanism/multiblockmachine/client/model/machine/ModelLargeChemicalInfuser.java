@@ -19,6 +19,11 @@ import org.lwjgl.opengl.GL11;
 public class ModelLargeChemicalInfuser extends ModelBase {
 
     public static ResourceLocation OVERLAY_OFF = MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ChemicalInfuser/ChemicalInfuser_OFF.png");
+    private static final ResourceLocation[] LED_ON = createIndexedTextures("ChemicalInfuser/LED/LED_", 4);
+    private static final ResourceLocation[] SCREEN_ON = createIndexedTextures("ChemicalInfuser/Screen/Screen_", 4);
+    private static final ResourceLocation[] GAS_TANK = createIndexedTextures("ChemicalInfuser/Gas/Gas_", 10);
+    private static final ResourceLocation[] LEFT_TANK = createIndexedTextures("ChemicalInfuser/left/left_", 10);
+    private static final ResourceLocation[] RIGHT_TANK = createIndexedTextures("ChemicalInfuser/right/right_", 10);
 
     ModelRenderer Console;
     ModelRenderer portRight_r1;
@@ -178,31 +183,32 @@ public class ModelLargeChemicalInfuser extends ModelBase {
         doRender(size);
         GlStateManager.popMatrix();
         if (isEnableGlow) {
+            int animationFrame = getTick(tick);
             GlStateManager.pushMatrix();
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
             GlStateManager.disableAlpha();
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            manager.bindTexture(on ? MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ChemicalInfuser/LED/LED_" + getTick(tick) + ".png") : OVERLAY_OFF);
+            manager.bindTexture(on ? LED_ON[animationFrame] : OVERLAY_OFF);
             GlStateManager.scale(1.001F, 1.001F, 1.001F);
             GlStateManager.translate(-0.0011F, -0.0011F, -0.0011F);
             MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
             doRender(size); //渲染灯光
             if (on) {
                 GlStateManager.translate(-0.0011F, -0.0011F, -0.0011F);
-                manager.bindTexture(MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ChemicalInfuser/Screen/Screen_" + getTick(tick) + ".png"));
+                manager.bindTexture(SCREEN_ON[animationFrame]);
                 doRender(size);  //渲染屏幕
                 GlStateManager.translate(0F, 0F, -0.0002F);
                 if (gasTank > 0) {
-                    manager.bindTexture(MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ChemicalInfuser/Gas/Gas_" + getNumberTanks(gasTank) + ".png"));
+                    manager.bindTexture(GAS_TANK[getNumberTanks(gasTank)]);
                     doRender(size);//渲染屏幕上的流体数量
                 }
                 if (leftTank > 0) {
-                    manager.bindTexture(MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ChemicalInfuser/left/left_" + getNumberTanks(leftTank) + ".png"));
+                    manager.bindTexture(LEFT_TANK[getNumberTanks(leftTank)]);
                     doRender(size);//渲染屏幕上的流体数量
                 }
                 if (rightTank > 0) {
-                    manager.bindTexture(MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ChemicalInfuser/right/right_" + getNumberTanks(rightTank) + ".png"));
+                    manager.bindTexture(RIGHT_TANK[getNumberTanks(rightTank)]);
                     doRender(size);//渲染屏幕上的流体数量
                 }
             }
@@ -214,31 +220,32 @@ public class ModelLargeChemicalInfuser extends ModelBase {
     }
 
     public void renderBloom(double tick, float size, boolean on, TextureManager manager, double gasTank, double leftTank, double rightTank) {
+        int animationFrame = getTick(tick);
         GlStateManager.pushMatrix();
         GlStateManager.shadeModel(GL11.GL_SMOOTH);
         GlStateManager.disableAlpha();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        manager.bindTexture(on ? MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ChemicalInfuser/LED/LED_" + getTick(tick) + ".png") : OVERLAY_OFF);
+        manager.bindTexture(on ? LED_ON[animationFrame] : OVERLAY_OFF);
         GlStateManager.scale(1.0011F, 1.0011F, 1.0011F);
         GlStateManager.translate(-0.0012F, -0.0012F, -0.0012F);
         MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
         doRender(size); //渲染灯光
         if (on) {
             GlStateManager.translate(-0.0011F, -0.0011F, -0.0011F);
-            manager.bindTexture(MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ChemicalInfuser/Screen/Screen_" + getTick(tick) + ".png"));
+            manager.bindTexture(SCREEN_ON[animationFrame]);
             doRender(size);  //渲染屏幕
             GlStateManager.translate(0F, 0F, -0.0002F);
             if (gasTank > 0) {
-                manager.bindTexture(MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ChemicalInfuser/Gas/Gas_" + getNumberTanks(gasTank) + ".png"));
+                manager.bindTexture(GAS_TANK[getNumberTanks(gasTank)]);
                 doRender(size);//渲染屏幕上的流体数量
             }
             if (leftTank > 0) {
-                manager.bindTexture(MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ChemicalInfuser/left/left_" + getNumberTanks(leftTank) + ".png"));
+                manager.bindTexture(LEFT_TANK[getNumberTanks(leftTank)]);
                 doRender(size);//渲染屏幕上的流体数量
             }
             if (rightTank > 0) {
-                manager.bindTexture(MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ChemicalInfuser/right/right_" + getNumberTanks(rightTank) + ".png"));
+                manager.bindTexture(RIGHT_TANK[getNumberTanks(rightTank)]);
                 doRender(size);//渲染屏幕上的流体数量
             }
         }
@@ -294,6 +301,14 @@ public class ModelLargeChemicalInfuser extends ModelBase {
             return 2;
         } else
             return 3;
+    }
+
+    private static ResourceLocation[] createIndexedTextures(String prefix, int count) {
+        ResourceLocation[] textures = new ResourceLocation[count];
+        for (int i = 0; i < count; i++) {
+            textures[i] = MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, prefix + i + ".png");
+        }
+        return textures;
     }
 
 }

@@ -5,6 +5,7 @@ import gregtech.client.utils.EffectRenderContext;
 import gregtech.client.utils.IBloomEffect;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.base.IBloom;
+import mekanism.common.config.MekanismConfig;
 import mekanism.common.tile.prefab.TileEntityBasicBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -14,6 +15,20 @@ import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class BloomEffect<T extends TileEntityBasicBlock> implements IBloomEffect, IRenderSetup, IBloom {
+
+    private static final IRenderSetup SHARED_RENDER_SETUP = new IRenderSetup() {
+        @Override
+        public void preDraw(@NotNull BufferBuilder bufferBuilder) {
+        }
+
+        @Override
+        public void postDraw(@NotNull BufferBuilder bufferBuilder) {
+        }
+    };
+
+    public static IRenderSetup getSharedRenderSetup() {
+        return SHARED_RENDER_SETUP;
+    }
 
     public T tile;
     public int north;
@@ -27,7 +42,11 @@ public abstract class BloomEffect<T extends TileEntityBasicBlock> implements IBl
         this.south = south;
         this.west = west;
         this.east = east;
-        Bloom(tile, this, this);
+        Bloom(tile, getRenderSetup(), this);
+    }
+
+    protected IRenderSetup getRenderSetup() {
+        return SHARED_RENDER_SETUP;
     }
 
     @Override
@@ -64,10 +83,18 @@ public abstract class BloomEffect<T extends TileEntityBasicBlock> implements IBl
 
     @Override
     public boolean shouldRenderBloomEffect(@NotNull EffectRenderContext context) {
-        double entityX = Minecraft.getMinecraft().getRenderViewEntity().lastTickPosX + (Minecraft.getMinecraft().getRenderViewEntity().posX - Minecraft.getMinecraft().getRenderViewEntity().lastTickPosX) * Minecraft.getMinecraft().getRenderPartialTicks();
-        double entityY = Minecraft.getMinecraft().getRenderViewEntity().lastTickPosY + (Minecraft.getMinecraft().getRenderViewEntity().posY - Minecraft.getMinecraft().getRenderViewEntity().lastTickPosY) * Minecraft.getMinecraft().getRenderPartialTicks();
-        double entityZ = Minecraft.getMinecraft().getRenderViewEntity().lastTickPosZ + (Minecraft.getMinecraft().getRenderViewEntity().posZ - Minecraft.getMinecraft().getRenderViewEntity().lastTickPosZ) * Minecraft.getMinecraft().getRenderPartialTicks();
-        return tile.getDistanceSq(entityX, entityY, entityZ) < tile.getMaxRenderDistanceSquared() && !tile.isInvalid();
+        if (tile == null || tile.isInvalid() || !MekanismConfig.current().client.enableBloom.val()) {
+            return false;
+        }
+        double maxRenderDistanceSq = tile.getMaxRenderDistanceSquared();
+        int customBloomRenderDistance = MekanismConfig.current().client.customBloomRenderDistance.val();
+        if (customBloomRenderDistance > 0) {
+            maxRenderDistanceSq = Math.min(maxRenderDistanceSq, (double) customBloomRenderDistance * customBloomRenderDistance);
+        }
+        if (tile.getDistanceSq(context.cameraX(), context.cameraY(), context.cameraZ()) >= maxRenderDistanceSq) {
+            return false;
+        }
+        return !tile.shouldCullForOcclusion();
     }
 
 

@@ -697,7 +697,7 @@ public class Mekanism {
 
 
         for (Item stack : addMekaSuitModules) {
-            ModuleHelper.get().setSupported(stack, /*MekanismModules.COLOR_MODULATION_UNIT,*/ MekanismModules.LASER_DISSIPATION_UNIT, MekanismModules.RADIATION_SHIELDING_UNIT);
+            ModuleHelper.get().setSupported(stack, MekanismModules.COLOR_MODULATION_UNIT, MekanismModules.LASER_DISSIPATION_UNIT, MekanismModules.RADIATION_SHIELDING_UNIT);
         }
 
 

@@ -1,7 +1,5 @@
-/*
 package mekanism.client.newgui.element.window;
 
-import com.mojang.realmsclient.util.Pair;
 import mekanism.client.gui.element.GuiUtils;
 import mekanism.client.newgui.GuiMekanism;
 import mekanism.client.newgui.IGuiWrapper;
@@ -17,6 +15,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.text.ITextComponent;
+import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.input.Keyboard;
 
 import java.util.function.Consumer;
@@ -24,43 +23,39 @@ import java.util.function.Supplier;
 
 public class GuiWindow extends GuiTexturedElement {
 
-
     private static final Color OVERLAY_COLOR = Color.rgbai(60, 60, 60, 128);
 
     private final SelectedWindowData windowData;
     private boolean dragging = false;
-    private double dragX, dragY;
-    private int prevDX, prevDY;
+    private double dragX;
+    private double dragY;
+    private int prevDX;
+    private int prevDY;
 
     private Consumer<GuiWindow> closeListener;
     private Consumer<GuiWindow> reattachListener;
 
     protected InteractionStrategy interactionStrategy = InteractionStrategy.CONTAINER;
 
-    //TODO - 1.18: Switch this method to returning a record instead of a pair
     private static Pair<Integer, Integer> calculateOpenPosition(IGuiWrapper gui, SelectedWindowData windowData, int x, int y, int width, int height) {
         Pair<Integer, Integer> lastPosition = windowData.getLastPosition();
-        ScaledResolution scaledresolution = new ScaledResolution(minecraft);
-        int lastX = lastPosition.first();
+        ScaledResolution scaledResolution = new ScaledResolution(minecraft);
+        int lastX = lastPosition.getLeft();
         if (lastX != Integer.MAX_VALUE) {
             int guiLeft = gui.getLeft();
             if (guiLeft + lastX < 0) {
-                //If our x position would be off the screen, then we shift it to as close as we can go
                 lastX = -guiLeft;
-            } else if (guiLeft + lastX + width > scaledresolution.getScaledWidth()) {
-                //If our window's end would be off the screen shift it to be as close as we can go
-                lastX = scaledresolution.getScaledWidth() - guiLeft - width;
+            } else if (guiLeft + lastX + width > scaledResolution.getScaledWidth()) {
+                lastX = scaledResolution.getScaledWidth() - guiLeft - width;
             }
         }
-        int lastY = lastPosition.second();
+        int lastY = lastPosition.getRight();
         if (lastY != Integer.MAX_VALUE) {
             int guiTop = gui.getTop();
             if (guiTop + lastY < 0) {
-                //If our y position would be off the screen, then we shift it to as close as we can go
                 lastY = -guiTop;
-            } else if (guiTop + lastY + height > scaledresolution.getScaledHeight()) {
-                //If our window's end would be off the screen shift it to be as close as we can go
-                lastY = scaledresolution.getScaledHeight() - guiTop - height;
+            } else if (guiTop + lastY + height > scaledResolution.getScaledHeight()) {
+                lastY = scaledResolution.getScaledHeight() - guiTop - height;
             }
         }
         return Pair.of(lastX == Integer.MAX_VALUE ? x : lastX, lastY == Integer.MAX_VALUE ? y : lastY);
@@ -71,12 +66,11 @@ public class GuiWindow extends GuiTexturedElement {
     }
 
     public GuiWindow(IGuiWrapper gui, int x, int y, int width, int height, SelectedWindowData windowData) {
-        //Hacky system to calculate proper x and y positions
         this(gui, calculateOpenPosition(gui, windowData, x, y, width, height), width, height, windowData);
     }
 
     private GuiWindow(IGuiWrapper gui, Pair<Integer, Integer> calculatedPosition, int width, int height, SelectedWindowData windowData) {
-        super(GuiMekanism.BASE_BACKGROUND, gui, calculatedPosition.first(), calculatedPosition.second(), width, height);
+        super(GuiMekanism.BASE_BACKGROUND, gui, calculatedPosition.getLeft(), calculatedPosition.getRight(), width, height);
         this.windowData = windowData;
         isOverlay = true;
         active = true;
@@ -99,7 +93,6 @@ public class GuiWindow extends GuiTexturedElement {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         boolean ret = super.mouseClicked(mouseX, mouseY, button);
-        // drag 'safe area'
         if (isMouseOver(mouseX, mouseY)) {
             if (mouseY < y + 18) {
                 dragging = true;
@@ -110,16 +103,14 @@ public class GuiWindow extends GuiTexturedElement {
             }
         } else if (!ret && interactionStrategy.allowContainer()) {
             if (gui() instanceof GuiMekanism<?> gui) {
-                Container c = gui.inventorySlots;
-                if (!(c instanceof IEmptyContainer)) {
-                    // allow interaction with slots
+                Container container = gui.inventorySlots;
+                if (!(container instanceof IEmptyContainer)) {
                     if (mouseX >= getGuiLeft() && mouseX < getGuiLeft() + getGuiWidth() && mouseY >= getGuiTop() + getGuiHeight() - 90) {
                         return false;
                     }
                 }
             }
         }
-        // always return true to prevent background clicking
         return ret || !interactionStrategy.allowAll();
     }
 
@@ -127,10 +118,11 @@ public class GuiWindow extends GuiTexturedElement {
     public void onDrag(double mouseX, double mouseY, double mouseXOld, double mouseYOld) {
         super.onDrag(mouseX, mouseY, mouseXOld, mouseYOld);
         if (dragging) {
-            int newDX = (int) Math.round(mouseX - dragX), newDY = (int) Math.round(mouseY - dragY);
-            ScaledResolution scaledresolution = new ScaledResolution(minecraft);
-            int changeX = Math.max(-x, Math.min(scaledresolution.getScaledWidth() - (x + width), newDX - prevDX));
-            int changeY = Math.max(-y, Math.min(scaledresolution.getScaledHeight() - (y + height), newDY - prevDY));
+            int newDX = (int) Math.round(mouseX - dragX);
+            int newDY = (int) Math.round(mouseY - dragY);
+            ScaledResolution scaledResolution = new ScaledResolution(minecraft);
+            int changeX = Math.max(-x, Math.min(scaledResolution.getScaledWidth() - (x + width), newDX - prevDX));
+            int changeY = Math.max(-y, Math.min(scaledResolution.getScaledHeight() - (y + height), newDY - prevDY));
             prevDX = newDX;
             prevDY = newDY;
             move(changeX, changeY);
@@ -146,12 +138,13 @@ public class GuiWindow extends GuiTexturedElement {
     @Override
     public void renderBackgroundOverlay(int mouseX, int mouseY) {
         if (isFocusOverlay()) {
-            ScaledResolution scaledresolution = new ScaledResolution(minecraft);
-            MekanismRenderer.renderColorOverlay(0, 0, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(), OVERLAY_COLOR.rgba());
+            ScaledResolution scaledResolution = new ScaledResolution(minecraft);
+            MekanismRenderer.renderColorOverlay(0, 0, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(), OVERLAY_COLOR.rgba());
         } else {
             GlStateManager.color(1, 1, 1, 0.75F);
             GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                  GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             GuiUtils.renderBackgroundTexture(GuiMekanism.SHADOW, 4, 4, getButtonX() - 3, getButtonY() - 3, getButtonWidth() + 6, getButtonHeight() + 6, 256, 256);
             MekanismRenderer.resetColor();
         }
@@ -191,7 +184,8 @@ public class GuiWindow extends GuiTexturedElement {
     public void renderBlur() {
         GlStateManager.color(1, 1, 1, 0.3F);
         GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+              GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         GuiUtils.renderBackgroundTexture(GuiMekanism.BLUR, 4, 4, relativeX, relativeY, width, height, 256, 256);
         MekanismRenderer.resetColor();
     }
@@ -202,7 +196,6 @@ public class GuiWindow extends GuiTexturedElement {
         if (closeListener != null) {
             closeListener.accept(this);
         }
-        //Only save new position when we are finally closing a specific window
         windowData.updateLastPosition(relativeX, relativeY);
     }
 
@@ -215,7 +208,6 @@ public class GuiWindow extends GuiTexturedElement {
         if (isFocusOverlay()) {
             super.drawTitleText(text, y);
         } else {
-            //Adjust spacing for close button and any other buttons like side config's auto eject
             int leftShift = getTitlePadStart();
             int xSize = getXSize() - leftShift - getTitlePadEnd();
             int maxLength = xSize - 12;
@@ -226,18 +218,10 @@ public class GuiWindow extends GuiTexturedElement {
         }
     }
 
-    /**
-     * @apiNote Only used if not a {@link #isFocusOverlay()}
-     */
-/*
     protected int getTitlePadStart() {
         return 12;
     }
 
-    /**
-     * @apiNote Only used if not a {@link #isFocusOverlay()}
-     */
-/*
     protected int getTitlePadEnd() {
         return 0;
     }
@@ -256,5 +240,3 @@ public class GuiWindow extends GuiTexturedElement {
         }
     }
 }
-
-*/

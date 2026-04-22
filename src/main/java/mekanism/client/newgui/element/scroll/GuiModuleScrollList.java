@@ -12,6 +12,7 @@ import mekanism.client.render.MekanismRenderer;
 import mekanism.common.MekanismLang;
 import mekanism.common.content.gear.Module;
 import mekanism.common.content.gear.ModuleHelper;
+import mekanism.common.util.LangUtils;
 import mekanism.common.util.MekanismUtils;
 import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.item.ItemStack;
@@ -19,6 +20,7 @@ import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
@@ -50,6 +52,7 @@ public class GuiModuleScrollList extends GuiScrollList {
         this.currentItem = currentItem;
         currentList.clear();
         currentList.addAll(ModuleHelper.get().loadAllTypes(currentItem));
+        currentList.sort(Comparator.comparing(this::getModuleName, String.CASE_INSENSITIVE_ORDER));
         boolean selected = false;
         if (!forceReset && prevSelect != null) {
             for (int i = 0, size = currentList.size(); i < size; i++) {
@@ -151,6 +154,11 @@ public class GuiModuleScrollList extends GuiScrollList {
             }
             consumer.accept(currentList.get(index), elementHeight * i);
         }
+    }
+
+    private String getModuleName(ModuleData<?> moduleData) {
+        String translationKey = moduleData.getTranslationKey();
+        return LangUtils.canLocalize(translationKey) ? LangUtils.localize(translationKey) : moduleData.getStack().getDisplayName();
     }
 
     @Override

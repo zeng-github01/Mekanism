@@ -16,7 +16,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketRemoveModule implements IMessageHandler<RemoveModuleMessage, IMessage> {
 
-
     @Override
     public IMessage onMessage(RemoveModuleMessage message, MessageContext context) {
         EntityPlayer player = PacketHandler.getPlayer(context);
@@ -24,13 +23,17 @@ public class PacketRemoveModule implements IMessageHandler<RemoveModuleMessage, 
             return null;
         }
         PacketHandler.handlePacket(() -> {
-            if (player != null) {
-                TileEntity tileEntity = message.coord4D.getTileEntity(player.world);
-                if (tileEntity instanceof TileEntityModificationStation tile){
-                    tile.removeModule(player, message.moduleType);
-                }
+            if (message.moduleType == null) {
+                return;
             }
-        },player);
+            TileEntity tileEntity = message.coord4D.getTileEntity(player.world);
+            if (!PacketHandler.canAccessTile(player, tileEntity, true)) {
+                return;
+            }
+            if (tileEntity instanceof TileEntityModificationStation tile) {
+                tile.removeModule(player, message.moduleType, message.removeAll);
+            }
+        }, player);
         return null;
     }
 
@@ -38,25 +41,29 @@ public class PacketRemoveModule implements IMessageHandler<RemoveModuleMessage, 
 
         public Coord4D coord4D;
         private ModuleData<?> moduleType;
+        private boolean removeAll;
 
         public RemoveModuleMessage() {
         }
 
-        private RemoveModuleMessage(Coord4D coord, ModuleData<?> moduleType) {
+        public RemoveModuleMessage(Coord4D coord, ModuleData<?> moduleType, boolean removeAll) {
             coord4D = coord;
             this.moduleType = moduleType;
+            this.removeAll = removeAll;
         }
 
         @Override
         public void toBytes(ByteBuf dataStream) {
             coord4D.write(dataStream);
             new PacketBuffer(dataStream).writeString(moduleType.getModuleData().getName());
+            dataStream.writeBoolean(removeAll);
         }
 
         @Override
         public void fromBytes(ByteBuf dataStream) {
             coord4D = Coord4D.read(dataStream);
             moduleType = ModuleHelper.get().getModuleTypeFromName(new PacketBuffer(dataStream).readString(32767));
+            removeAll = dataStream.readBoolean();
         }
 
     }

@@ -1,18 +1,19 @@
-/*
 package mekanism.common.inventory.container;
 
-import com.mojang.realmsclient.util.Pair;
-import mekanism.common.config.MekanismConfig;
-import mekanism.common.config.options.IntOption;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class SelectedWindowData {
+
+    private static final Map<String, Pair<Integer, Integer>> LAST_POSITIONS = new HashMap<>();
 
     public static final SelectedWindowData UNSPECIFIED = new SelectedWindowData(WindowType.UNSPECIFIED);
 
@@ -24,10 +25,6 @@ public class SelectedWindowData {
         this(type, (byte) 0);
     }
 
-    /**
-     * It is expected to only call this with a piece of extra data that is valid. If it is not valid this end up treating it as zero instead.
-     */
-/*
     public SelectedWindowData(@Nonnull WindowType type, byte extraData) {
         this.type = Objects.requireNonNull(type);
         this.extraData = this.type.isValid(extraData) ? extraData : 0;
@@ -49,37 +46,19 @@ public class SelectedWindowData {
         return Objects.hash(type, extraData);
     }
 
-    /**
-     * @apiNote Only call this on the client.
-     */
-/*
     public void updateLastPosition(int x, int y) {
         String saveName = type.getSaveName(extraData);
         if (saveName != null) {
-            Pair<IntOption, IntOption> cachedPosition = MekanismConfig.current().client.lastWindowPositions.get(saveName);
-            if (cachedPosition != null) {
-                IntOption cachedX = cachedPosition.first();
-                if (cachedX.val() != x) {
-                    cachedX.set(x);
-                }
-                IntOption cachedY = cachedPosition.second();
-                if (cachedY.val() != y) {
-                    cachedY.set(y);
-                }
-            }
+            LAST_POSITIONS.put(saveName, Pair.of(x, y));
         }
     }
 
-    /**
-     * @apiNote Only call this on the client.
-     */
-/*
     public Pair<Integer, Integer> getLastPosition() {
         String saveName = type.getSaveName(extraData);
         if (saveName != null) {
-            Pair<IntOption, IntOption> cachedPosition = MekanismConfig.current().client.lastWindowPositions.get(saveName);
+            Pair<Integer, Integer> cachedPosition = LAST_POSITIONS.get(saveName);
             if (cachedPosition != null) {
-                return Pair.of(cachedPosition.first().val(), cachedPosition.second().val());
+                return cachedPosition;
             }
         }
         return Pair.of(Integer.MAX_VALUE, Integer.MAX_VALUE);
@@ -88,17 +67,12 @@ public class SelectedWindowData {
     public enum WindowType {
         COLOR("color"),
         CONFIRMATION("confirmation"),
-     //   CRAFTING("crafting", IQIOCraftingWindowHolder.MAX_CRAFTING_WINDOWS),
         MEKA_SUIT_HELMET("mekaSuitHelmet"),
         RENAME("rename"),
         SKIN_SELECT("skinSelect"),
         SIDE_CONFIG("sideConfig"),
         TRANSPORTER_CONFIG("transporterConfig"),
         UPGRADE("upgrade"),
-        /**
-         * For use by windows that don't actually have any server side specific logic required, or don't persist their position.
-         */
-/*
         UNSPECIFIED(null);
 
         @Nullable
@@ -116,7 +90,7 @@ public class SelectedWindowData {
 
         @Nullable
         String getSaveName(byte extraData) {
-            return maxData == 1 ? saveName : saveName + extraData;
+            return maxData == 1 || saveName == null ? saveName : saveName + extraData;
         }
 
         public List<String> getSavePaths() {
@@ -136,6 +110,4 @@ public class SelectedWindowData {
             return extraData >= 0 && extraData < maxData;
         }
     }
-
 }
- */

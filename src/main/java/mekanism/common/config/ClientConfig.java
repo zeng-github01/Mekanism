@@ -64,6 +64,12 @@ public class ClientConfig extends BaseConfig {
 
     public final BooleanOption enableBloom = new BooleanOption(this,  "enableBloom", false, "Enable the glow texture of MeKCEu, which may cause a performance penalty. (GTCEu or Lumenized installation required)");
 
+    public final IntOption customBloomStyle = new IntOption(this, "customBloomStyle", 0,
+            "Bloom algorithm used for Mekanism's custom glow with GTCEu/Lumenized. 0 = Gaussian (fast), 1 = Unity, 2 = Unreal (slowest).", 0, 2);
+
+    public final IntOption customBloomRenderDistance = new IntOption(this, "customBloomRenderDistance", 64,
+            "Render distance (in blocks) for Mekanism's custom glow. Lower values reduce bloom cost. Set to 0 to follow normal tile render distance.", 0, 512);
+
     public final BooleanOption windGeneratorItem = new BooleanOption(this,  "WindGenerator", true, "Wind turbine blade rotation [item]");
 
     public final BooleanOption windGeneratorRotating = new BooleanOption(this,  "windGeneratorRotating", true, "Wind turbine blade rotation [block]");

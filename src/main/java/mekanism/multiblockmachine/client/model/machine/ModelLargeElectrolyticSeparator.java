@@ -19,6 +19,11 @@ import org.lwjgl.opengl.GL11;
 public class ModelLargeElectrolyticSeparator extends ModelBase {
 
     public static ResourceLocation OVERLAY_OFF = MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ElectrolyticSeparator/ElectrolyticSeparator_OFF.png");
+    private static final ResourceLocation[] LED_ON = createIndexedTextures("ElectrolyticSeparator/ElectrolyticSeparator_LED_ON_", 4);
+    private static final ResourceLocation[] SCREEN_ON = createIndexedTextures("ElectrolyticSeparator/ElectrolyticSeparator_Screen_ON_", 4);
+    private static final ResourceLocation[] FLUID_TANK = createIndexedTextures("ElectrolyticSeparator/Fluid/FluidTank_", 10);
+    private static final ResourceLocation[] LEFT_TANK = createIndexedTextures("ElectrolyticSeparator/Left/LeftTank_", 10);
+    private static final ResourceLocation[] RIGHT_TANK = createIndexedTextures("ElectrolyticSeparator/Right/RightTank_", 10);
 
     ModelRenderer group;
     ModelRenderer group2;
@@ -208,31 +213,32 @@ public class ModelLargeElectrolyticSeparator extends ModelBase {
         doRender(size);
         GlStateManager.popMatrix();
         if (isEnableGlow) {
+            int animationFrame = getTick(tick);
             GlStateManager.pushMatrix();
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
             GlStateManager.disableAlpha();
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            manager.bindTexture(on ? MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ElectrolyticSeparator/ElectrolyticSeparator_LED_ON_" + getTick(tick) + ".png") : OVERLAY_OFF);
+            manager.bindTexture(on ? LED_ON[animationFrame] : OVERLAY_OFF);
             GlStateManager.scale(1.001F, 1.001F, 1.001F);
             GlStateManager.translate(-0.0011F, -0.0011F, -0.0011F);
             MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
             doRender(size); //渲染灯光
             if (on) {
                 GlStateManager.translate(-0.0011F, -0.0011F, -0.0011F);
-                manager.bindTexture(MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ElectrolyticSeparator/ElectrolyticSeparator_Screen_ON_" + getTick(tick) + ".png"));
+                manager.bindTexture(SCREEN_ON[animationFrame]);
                 doRender(size);  //渲染屏幕
                 GlStateManager.translate(0F, 0F, -0.0002F);
                 if (fluidTank > 0) {
-                    manager.bindTexture(MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ElectrolyticSeparator/Fluid/FluidTank_" + getNumberTanks(fluidTank) + ".png"));
+                    manager.bindTexture(FLUID_TANK[getNumberTanks(fluidTank)]);
                     doRender(size);//渲染屏幕上的流体数量
                 }
                 if (leftTank > 0) {
-                    manager.bindTexture(MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ElectrolyticSeparator/Left/LeftTank_" + getNumberTanks(leftTank) + ".png"));
+                    manager.bindTexture(LEFT_TANK[getNumberTanks(leftTank)]);
                     doRender(size);//渲染屏幕上的气体左储罐数量
                 }
                 if (rightTank > 0) {
-                    manager.bindTexture(MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ElectrolyticSeparator/Right/RightTank_" + getNumberTanks(rightTank) + ".png"));
+                    manager.bindTexture(RIGHT_TANK[getNumberTanks(rightTank)]);
                     doRender(size);//渲染屏幕上的气体右储罐数量
                 }
             }
@@ -244,31 +250,32 @@ public class ModelLargeElectrolyticSeparator extends ModelBase {
     }
 
     public void renderBloom(double tick, float size, boolean on, TextureManager manager, double fluidTank, double leftTank, double rightTank) {
+        int animationFrame = getTick(tick);
         GlStateManager.pushMatrix();
         GlStateManager.shadeModel(GL11.GL_SMOOTH);
         GlStateManager.disableAlpha();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        manager.bindTexture(on ? MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ElectrolyticSeparator/ElectrolyticSeparator_LED_ON_" + getTick(tick) + ".png") : OVERLAY_OFF);
+        manager.bindTexture(on ? LED_ON[animationFrame] : OVERLAY_OFF);
         GlStateManager.scale(1.0011F, 1.0011F, 1.0011F);
         GlStateManager.translate(-0.0012F, -0.0012F, -0.0012F);
         MekanismRenderer.GlowInfo glowInfo = MekanismRenderer.enableGlow();
         doRender(size); //渲染灯光
         if (on) {
             GlStateManager.translate(-0.0011F, -0.0011F, -0.0011F);
-            manager.bindTexture(MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ElectrolyticSeparator/ElectrolyticSeparator_Screen_ON_" + getTick(tick) + ".png"));
+            manager.bindTexture(SCREEN_ON[animationFrame]);
             doRender(size);  //渲染屏幕
             GlStateManager.translate(0F, 0F, -0.0002F);
             if (fluidTank > 0) {
-                manager.bindTexture(MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ElectrolyticSeparator/Fluid/FluidTank_" + getNumberTanks(fluidTank) + ".png"));
+                manager.bindTexture(FLUID_TANK[getNumberTanks(fluidTank)]);
                 doRender(size);//渲染屏幕上的流体数量
             }
             if (leftTank > 0) {
-                manager.bindTexture(MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ElectrolyticSeparator/Left/LeftTank_" + getNumberTanks(leftTank) + ".png"));
+                manager.bindTexture(LEFT_TANK[getNumberTanks(leftTank)]);
                 doRender(size);//渲染屏幕上的气体左储罐数量
             }
             if (rightTank > 0) {
-                manager.bindTexture(MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, "ElectrolyticSeparator/Right/RightTank_" + getNumberTanks(rightTank) + ".png"));
+                manager.bindTexture(RIGHT_TANK[getNumberTanks(rightTank)]);
                 doRender(size);//渲染屏幕上的气体右储罐数量
             }
         }
@@ -325,6 +332,14 @@ public class ModelLargeElectrolyticSeparator extends ModelBase {
             return 2;
         } else
             return 3;
+    }
+
+    private static ResourceLocation[] createIndexedTextures(String prefix, int count) {
+        ResourceLocation[] textures = new ResourceLocation[count];
+        for (int i = 0; i < count; i++) {
+            textures[i] = MekanismUtils.getResource(MekanismMultiblockMachine.MODID, ResourceType.RENDER_MACHINE, prefix + i + ".png");
+        }
+        return textures;
     }
 
 }

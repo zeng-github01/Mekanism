@@ -338,7 +338,7 @@ public class ClientTickHandler {
         setModelVisibility(evt.getEntityPlayer(), evt.getRenderer(), true);
     }
 
-    private static void setModelVisibility(EntityPlayer entity, Render<?> entityModel, boolean showModel) {
+    public static void setModelVisibility(EntityPlayer entity, Render<?> entityModel, boolean showModel) {
         if (entityModel instanceof RenderPlayer renderPlayer) {
             if (entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() instanceof ItemMekaSuitHelmet) {
                 renderPlayer.getMainModel().bipedHead.showModel = showModel;

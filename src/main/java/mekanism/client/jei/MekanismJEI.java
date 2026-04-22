@@ -185,6 +185,7 @@ public class MekanismJEI implements IModPlugin {
     @Override
     public void register(IModRegistry registry) {
         registry.addAdvancedGuiHandlers(new GuiElementHandler());
+        registry.addAdvancedGuiHandlers(new NewGuiElementHandler());
 
         //Blacklist
         IIngredientBlacklist ingredientBlacklist = registry.getJeiHelpers().getIngredientBlacklist();

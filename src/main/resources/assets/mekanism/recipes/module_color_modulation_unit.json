@@ -1,0 +1,30 @@
+{
+      "result": {
+            "item": "mekanism:module_color_modulation_unit"
+      },
+      "pattern": [
+            "ABA",
+            "CDC",
+            "EEE"
+      ],
+      "type": "mekanism:ore_shaped",
+      "key": {
+            "A": {
+                  "ore": "dye",
+                  "type": "forge:ore_dict"
+            },
+            "B": {
+                  "item": "mekanism:machineblock2",
+                  "data": 13
+            },
+            "C": {
+                  "item": "minecraft:glowstone_dust"
+            },
+            "D": {
+                  "item": "mekanism:modulebase"
+            },
+            "E": {
+                  "item": "mekanism:hdpe_sheet"
+            }
+      }
+}

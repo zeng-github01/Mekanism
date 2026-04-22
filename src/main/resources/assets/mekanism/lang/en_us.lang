@@ -2,6 +2,14 @@
 # MEKANISM
 ###########
 
+# Added for module color picker window
+gui.mekanism.color_picker=Color Picker
+gui.mekanism.close=Close
+gui.mekanism.rgb=RGB:
+gui.mekanism.rgba=RGBA:
+generic.mekanism.hex=#%s
+module.mekanism.color=ARGB Color
+
 # Items
 tile.ObsidianTNT.name=Obsidian TNT
 item.EnrichedAlloy.name=Enriched Alloy
@@ -2284,3 +2292,5 @@ gui.maxBurnRate=Max Burn Rate
 gui.currentBurnRate=Current Burn Rate
 gui.setRateLimit=Set Rate Limit
 gui.fissionHeatGraph=Heat Graph
+tooltip.remove_all_modules=Hold Shift to remove all installed modules of the selected type
+button.mekanism.confirm=Confirm

@@ -7,13 +7,16 @@ import mekanism.client.newgui.element.GuiElement;
 import mekanism.client.newgui.element.GuiElement.IHoverable;
 import mekanism.client.newgui.element.IGuiEventListener;
 import mekanism.client.newgui.element.Widget;
+import mekanism.client.newgui.element.window.GuiWindow;
 import mekanism.client.newgui.warning.IWarningTracker;
 import mekanism.client.newgui.warning.WarningTracker;
 import mekanism.client.newgui.warning.WarningTracker.WarningType;
 import mekanism.client.render.IFancyFontRenderer;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
+import mekanism.common.inventory.container.SelectedWindowData;
 import mekanism.common.inventory.container.slot.IVirtualSlot;
+import mekanism.common.lib.collection.LRU;
 import mekanism.common.util.MekanismUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -33,9 +36,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
+import org.lwjgl.input.Keyboard;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSlotContainerScreen<CONTAINER> implements IGuiWrapper, IFancyFontRenderer {
@@ -45,7 +50,7 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
     public static final ResourceLocation BLUR = MekanismUtils.getResource(MekanismUtils.ResourceType.GUI, "blur.png");
     //TODO: Look into defaulting this to true
     protected boolean dynamicSlots;
-    //  protected final LRU<GuiWindow> windows = new LRU<>();
+    protected final LRU<GuiWindow> windows = new LRU<>();
     protected final List<GuiElement> focusListeners = new ArrayList<>();
     protected final List<IGuiEventListener> children = Lists.newArrayList();
     protected final List<Widget> buttons = Lists.newArrayList();
@@ -80,7 +85,9 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
             // container as exited if it will be revived when leaving JEI
             // Note: We start by closing all open windows so that any cleanup
             // they need to have done such as saving positions can be done
-            //     windows.forEach(GuiWindow::close);
+            while (!windows.isEmpty()) {
+                windows.iterator().next().close();
+            }
             super.onGuiClosed();
         }
     }
@@ -119,7 +126,7 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
     public void updateScreen() {
         super.updateScreen();
         buttons.stream().filter(child -> child instanceof GuiElement).map(child -> (GuiElement) child).forEach(GuiElement::tick);
-        //  windows.forEach(GuiWindow::tick);
+        windows.forEach(GuiElement::tick);
     }
 
     protected IHoverable getOnHover(ILangEntry translationHelper) {
@@ -159,13 +166,10 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
         }
     }
 
-    /*
     @Override
     protected boolean hasClickedOutside(int mouseX, int mouseY, int guiLeftIn, int guiTopIn) {
         return getWindowHovering(mouseX, mouseY) == null && super.hasClickedOutside(mouseX, mouseY, guiLeftIn, guiTopIn);
     }
-
-     */
 
     @Override
     public void setWorldAndResolution(@Nonnull Minecraft minecraft, int width, int height) {
@@ -192,7 +196,7 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
         //If we keep stale widgets, old and new guiLeft/guiTop coordinate spaces overlap and render/click handling desyncs.
         this.buttons.clear();
         super.setWorldAndResolution(minecraft, width, height);
-        // windows.forEach(window -> window.resize(prevLeft, prevTop, leftPos, topPos));
+        windows.forEach(window -> window.resize(prevLeft, prevTop, guiLeft, guiTop));
         prevElements.forEach(e -> {
             if (e.getLeft() < buttons.size()) {
                 Widget widget = buttons.get(e.getLeft());
@@ -231,15 +235,13 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
         }
         // now render overlays in reverse-order (i.e. back to front)
         zOffset = maxZOffset;
-        /*
         for (LRU<GuiWindow>.LRUIterator iter = getWindowsDescendingIterator(); iter.hasNext(); ) {
             GuiWindow overlay = iter.next();
             zOffset += 150;
             GlStateManager.pushMatrix();
             overlay.onRenderForeground(mouseX, mouseY, zOffset, zOffset);
             if (iter.hasNext()) {
-                // if this isn't the focused window, render a 'blur' effect over it
-                overlay.renderBlur(matrix);
+                overlay.renderBlur();
             }
             GlStateManager.popMatrix();
         }
@@ -254,19 +256,14 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
             }
         }
 
-         */
-
         // translate forwards using RenderSystem. this should never have to happen as we do all the necessary translations with MatrixStacks,
         // but Minecraft has decided to not fully adopt MatrixStacks for many crucial ContainerScreen render operations. should be re-evaluated
         // when mc updates related logic on their end (IMPORTANT)
         GlStateManager.translate(0, 0, maxZOffset);
 
-        /*
         if (tooltipElement != null) {
             tooltipElement.renderToolTip(xAxis, yAxis);
         }
-
-         */
 
         // render item tooltips
         GlStateManager.translate(-guiLeft, -guiTop, 0);
@@ -285,28 +282,18 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
         hasClicked = true;
-        // first try to send the mouse event to our overlays
-        /*
         GuiWindow top = windows.isEmpty() ? null : windows.iterator().next();
         GuiWindow focused = windows.stream().filter(overlay -> overlay.mouseClicked(mouseX, mouseY, button)).findFirst().orElse(null);
         if (focused != null) {
             if (windows.contains(focused)) {
-                //Validate that the focused window is still one of our windows, as if it wasn't focused/on top, and
-                // it is being closed, we don't want to update and mark it as focused, as our defocusing code won't
-                // run as we ran it when we pressed the button
-                setFocused(focused);
-                if (button == 0) {
-                    setDragging(true);
-                }
-                // this check prevents us from moving the window to the top of the stack if the clicked window opened up an additional window
-                if (top != focused) {
+                if (top != null && top != focused) {
                     top.onFocusLost();
                     windows.moveUp(focused);
                     focused.onFocused();
                 }
             }
+            return;
         }
-         */
         // otherwise, we send it to the current element
         for (int i = buttons.size() - 1; i >= 0; i--) {
             IGuiEventListener listener = buttons.get(i);
@@ -325,24 +312,29 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
     @Override
     public void mouseReleased(int mouseX, int mouseY, int button) {
         if (hasClicked) {
-            // always pass mouse released events to windows for drag checks
-            // windows.forEach(w -> w.onRelease(mouseX, mouseY));
+            if (!windows.isEmpty()) {
+                windows.forEach(window -> window.onRelease(mouseX, mouseY));
+                return;
+            }
             super.mouseReleased(mouseX, mouseY, button);
         }
     }
 
-    /* TODO
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        return windows.stream().anyMatch(window -> window.keyPressed(typedChar, keyCode)) ||
-                GuiUtils.checkChildren(buttons, child -> child.keyPressed(typedChar, keyCode)) || super.keyTyped(typedChar, keyCode);
-    }
-
-     */
-
     @Override
     public void keyTyped(char c, int keyCode) throws IOException {
-        GuiUtils.checkChildren(buttons, child -> child.charTyped(c, keyCode));
+        if (!windows.isEmpty()) {
+            GuiWindow top = windows.iterator().next();
+            if (keyCode == Keyboard.KEY_ESCAPE) {
+                top.close();
+                return;
+            }
+            if (top.keyPressed(keyCode, 0, 0) || top.charTyped(c, keyCode)) {
+                return;
+            }
+        }
+        if (GuiUtils.checkChildren(buttons, child -> child.charTyped(c, keyCode))) {
+            return;
+        }
         super.keyTyped(c, keyCode);
     }
 
@@ -353,6 +345,11 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
         if (delta != 0) {
             int mouseX = Mouse.getEventX() * width / mc.displayWidth;
             int mouseY = height - Mouse.getEventY() * height / mc.displayHeight - 1;
+            if (!windows.isEmpty()) {
+                GuiWindow top = windows.iterator().next();
+                top.mouseScrolled(mouseX, mouseY, delta);
+                return;
+            }
             //Top-most element first, matching click ordering.
             for (int i = buttons.size() - 1; i >= 0; i--) {
                 if (buttons.get(i).mouseScrolled(mouseX, mouseY, delta)) {
@@ -369,6 +366,10 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
         super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
+        if (!windows.isEmpty()) {
+            windows.forEach(window -> window.onDrag(mouseX, mouseY, 0, 0));
+            return;
+        }
         buttons.forEach(element -> element.mouseDragged(mouseX, mouseY, 0, clickedMouseButton, timeSinceLastClick));
     }
 
@@ -432,19 +433,17 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
         return isPointInRegion(slot.xPos, slot.yPos, 16, 16, mouseX, mouseY);
     }
 
-    /*
     private boolean overNoButtons(@Nullable GuiWindow window, double mouseX, double mouseY) {
         if (window == null) {
             return buttons.stream().noneMatch(button -> button.isMouseOver(mouseX, mouseY));
         }
         return !window.childrenContainsElement(e -> e.isMouseOver(mouseX, mouseY));
     }
-    */
 
     @Override
     protected boolean isPointInRegion(int x, int y, int width, int height, int mouseX, int mouseY) {
         // overridden to prevent slot interactions when a GuiElement is blocking
-        return super.isPointInRegion(x, y, width, height, mouseX, mouseY) /*&& getWindowHovering(mouseX, mouseY) == null && overNoButtons(null, mouseX, mouseY)*/;
+        return super.isPointInRegion(x, y, width, height, mouseX, mouseY) && getWindowHovering(mouseX, mouseY) == null && overNoButtons(null, mouseX, mouseY);
     }
 
 
@@ -574,7 +573,6 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
         return buttonIn;
     }
 
-    /*
     @Override
     public void addWindow(GuiWindow window) {
         GuiWindow top = windows.isEmpty() ? null : windows.iterator().next();
@@ -603,30 +601,25 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
                     //Otherwise, mark the new window as being focused
                     newTop.onFocused();
                 }
-                //Update the listener to being the window that is now selected or null if none are
-                setFocused(newTop);
             }
         }
     }
 
     protected void lastWindowRemoved() {
-        //Mark that no windows are now selected
-        if (menu instanceof MekanismContainer) {
-            ((MekanismContainer) menu).setSelectedWindow(null);
-        }
     }
 
     @Override
     public void setSelectedWindow(SelectedWindowData selectedWindow) {
-        if (menu instanceof MekanismContainer) {
-            ((MekanismContainer) menu).setSelectedWindow(selectedWindow);
-        }
     }
 
     @Nullable
     @Override
     public GuiWindow getWindowHovering(double mouseX, double mouseY) {
         return windows.stream().filter(w -> w.isMouseOver(mouseX, mouseY)).findFirst().orElse(null);
+    }
+
+    public List<Widget> children() {
+        return buttons;
     }
 
     public Collection<GuiWindow> getWindows() {
@@ -636,7 +629,5 @@ public abstract class GuiMekanism<CONTAINER extends Container> extends VirtualSl
     public LRU<GuiWindow>.LRUIterator getWindowsDescendingIterator() {
         return windows.descendingIterator();
     }
-
-     */
 
 }

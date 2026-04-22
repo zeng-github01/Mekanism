@@ -1,15 +1,23 @@
 package mekanism.client.model.mekasuitarmour;
 
+import mekanism.client.render.MekanismRenderer;
+import mekanism.client.render.MekanismRenderer.GlowInfo;
+import mekanism.common.util.MekanismUtils;
+import mekanism.common.util.MekanismUtils.ResourceType;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelMekAsuitBoot extends ModelBiped {
+public class ModelMekAsuitBoot extends ModelBiped implements IMekaSuitBloomModel {
 
     public static final ModelMekAsuitBoot boot = new ModelMekAsuitBoot();
+    private static final ResourceLocation GLOW_TEXTURE = MekanismUtils.getResource(ResourceType.RENDER, "mekasuit_glow.png");
     ModelRenderer right_boot_armor;
     ModelRenderer shared_boots_leggings_right_leg_exo_frame_r1;
     ModelRenderer shared_boots_leggings_right_leg_exo_plate_r1;
@@ -102,6 +110,25 @@ public class ModelMekAsuitBoot extends ModelBiped {
     public void render(float size) {
         right_boot_armor.render(size);
         left_boot_armor.render(size);
+    }
+
+    @Override
+    public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+        super.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+        if (IMekaSuitBloomModel.shouldRenderDirectGlow()) {
+            renderBloom(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+        }
+    }
+
+    @Override
+    public void renderBloom(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(1.001F, 1.001F, 1.001F);
+        MekanismRenderer.bindTexture(GLOW_TEXTURE);
+        GlowInfo glowInfo = IMekaSuitBloomModel.prepareGlowRender();
+        super.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+        IMekaSuitBloomModel.finishGlowRender(glowInfo);
+        GlStateManager.popMatrix();
     }
 
     public void renderLeft(float size) {

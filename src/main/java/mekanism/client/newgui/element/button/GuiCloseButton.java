@@ -1,9 +1,7 @@
-/*
 package mekanism.client.newgui.element.button;
 
-import mekanism.client.newgui.element.window.GuiWindow;
 import mekanism.client.newgui.IGuiWrapper;
-
+import mekanism.client.newgui.element.window.GuiWindow;
 import mekanism.common.MekanismLang;
 import mekanism.common.util.MekanismUtils;
 
@@ -24,5 +22,3 @@ public class GuiCloseButton extends MekanismImageButton {
         return false;
     }
 }
-
- */

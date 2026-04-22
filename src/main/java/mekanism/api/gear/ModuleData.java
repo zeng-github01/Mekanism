@@ -76,7 +76,7 @@ public class ModuleData<MODULE extends ICustomModule<MODULE>> implements IHasTra
         if (stack == null){
             return new ItemStack(MekanismItems.ModuleBase); //防止有人忘记注册物品类型，然后加上了支持该模块的物品，造成打开模块配置界面崩溃
         }else {
-            return stack;
+            return stack.copy();
         }
     }
 

@@ -13,6 +13,7 @@ import mekanism.common.block.states.BlockStateTransmitter.TransmitterType;
 import mekanism.common.integration.computer.CCPeripheral;
 import mekanism.common.integration.computer.OCDriver;
 import mekanism.common.integration.crafttweaker.CrafttweakerIntegration;
+import mekanism.common.integration.farmersdelightlegacy.FarmersDelightLegacyIntegration;
 import mekanism.common.integration.fluxnetworks.FluxNetworksIntegration;
 import mekanism.common.integration.mysticalagriculture.MysticalAgricultureSeed;
 import mekanism.common.integration.wrenches.Wrenches;
@@ -80,6 +81,7 @@ public final class MekanismHooks {
     public static final String AR_MOD_ID = "advancedrocketry";
     public static final String CLEANROOM_MOD_ID = "cleanroom";
     public static final String FOOD_SPOILING_MOD_ID = "foodspoiling";
+    public static final String FARMERS_DELIGHT_LEGACY_MOD_ID = "farmersdelight";
 
     public boolean AE2Loaded = false;
     public boolean BuildCraftLoaded = false;
@@ -110,6 +112,7 @@ public final class MekanismHooks {
     public boolean AR = false;
     public boolean CLEANROOM = false;
     public boolean FoodSpoiling= false;
+    public boolean FarmersDelightLegacyLoaded = false;
 
     public void hookPreInit() {
         AE2Loaded = Loader.isModLoaded(APPLIED_ENERGISTICS_2_MOD_ID);
@@ -145,6 +148,7 @@ public final class MekanismHooks {
         CLEANROOM = Mods.CLR.isPresent();
         IC2CLoaded = !Loader.instance().getActiveModList().stream().filter(container -> IC2_MOD_ID.equals(container.getModId())).map(ModContainer::getMetadata).filter(metadata -> metadata != null && metadata.version != null).anyMatch(metadata -> metadata.version.contains("ex"));
         FoodSpoiling = Loader.isModLoaded(FOOD_SPOILING_MOD_ID);
+        FarmersDelightLegacyLoaded = Loader.isModLoaded(FARMERS_DELIGHT_LEGACY_MOD_ID);
     }
 
 
@@ -223,6 +227,10 @@ public final class MekanismHooks {
         if (AE2Loaded) {
             registerAE2P2P();
         }
+        if (FarmersDelightLegacyLoaded) {
+            registerFarmersDelightLegacyHeatSources();
+            Mekanism.logger.info("Hooked into Farmer's Delight Legacy successfully.");
+        }
     }
 
     public void hookPostInit() {
@@ -283,6 +291,11 @@ public final class MekanismHooks {
             }
         }
         Mekanism.logger.info("Registered FoodSpoiling-compatible matchers for {} ItemFood classes.", registeredMatchers);
+    }
+
+    @Method(modid = FARMERS_DELIGHT_LEGACY_MOD_ID)
+    private void registerFarmersDelightLegacyHeatSources() {
+        FarmersDelightLegacyIntegration.init();
     }
 
     private static NBTTagCompound getComparableTag(ItemStack stack) {

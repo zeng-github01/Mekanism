@@ -45,6 +45,10 @@ public class GuiScrollList extends GuiElement {
         return selected;
     }
 
+    public void setSelection(int selected) {
+        this.selected = selected >= 0 && selected < textEntries.size() ? selected : -1;
+    }
+
     public void clearSelection() {
         this.selected = -1;
     }

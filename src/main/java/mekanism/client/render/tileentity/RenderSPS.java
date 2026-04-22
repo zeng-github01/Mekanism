@@ -39,6 +39,24 @@ public class RenderSPS extends TileEntitySpecialRenderer<TileEntitySPSCasing> {
 
     private final Minecraft minecraft = Minecraft.getMinecraft();
 
+    public static boolean hasBoltsToRender(TileEntitySPSCasing tile) {
+        if (tile == null || tile.structure == null || !tile.clientHasStructure || !tile.isRendering || tile.structure.renderLocation == null) {
+            return false;
+        }
+        BoltRenderer bolts = BOLT_RENDERERS.get(getRendererKey(tile, tile.structure));
+        return bolts != null && bolts.hasBoltsToRender();
+    }
+
+    public static void renderBloomBolts(TileEntitySPSCasing tile, float partialTick) {
+        if (!hasBoltsToRender(tile)) {
+            return;
+        }
+        BoltRenderer bolts = BOLT_RENDERERS.get(getRendererKey(tile, tile.structure));
+        if (bolts != null) {
+            bolts.render(partialTick);
+        }
+    }
+
     @Override
     public void render(TileEntitySPSCasing tile, double x, double y, double z, float partialTick, int destroyStage, float alpha) {
         if (tile == null || tile.structure == null || !tile.clientHasStructure || !tile.isRendering || tile.structure.renderLocation == null) {
@@ -52,7 +70,7 @@ public class RenderSPS extends TileEntitySpecialRenderer<TileEntitySPSCasing> {
 
         Vec3d center = bounds.getCenter();
         Vec3d renderCenter = center.subtract(tile.getPos().getX(), tile.getPos().getY(), tile.getPos().getZ());
-        Object rendererKey = multiblock.inventoryID != null ? multiblock.inventoryID : tile.getPos();
+        Object rendererKey = getRendererKey(tile, multiblock);
         BoltRenderer bolts = BOLT_RENDERERS.computeIfAbsent(rendererKey, mb -> new BoltRenderer());
         double energyScale = getEnergyScale(multiblock.lastProcessed);
         int targetEffectCount = 0;
@@ -237,6 +255,10 @@ public class RenderSPS extends TileEntitySpecialRenderer<TileEntitySPSCasing> {
             return min;
         }
         return min + RAND.nextDouble() * (max - min);
+    }
+
+    private static Object getRendererKey(TileEntitySPSCasing tile, SynchronizedSPSData multiblock) {
+        return multiblock.inventoryID != null ? multiblock.inventoryID : tile.getPos();
     }
 
     private static class RenderBounds {

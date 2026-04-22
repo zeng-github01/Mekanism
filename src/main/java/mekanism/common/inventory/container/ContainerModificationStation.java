@@ -2,11 +2,13 @@ package mekanism.common.inventory.container;
 
 import mekanism.common.content.gear.IModuleContainerItem;
 import mekanism.common.content.gear.IModuleItem;
+import mekanism.common.inventory.slot.SlotArmor;
 import mekanism.common.inventory.slot.SlotEnergy;
 import mekanism.common.tile.TileEntityModificationStation;
 import mekanism.common.util.ChargeUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -27,14 +29,32 @@ public class ContainerModificationStation extends ContainerMekanism<TileEntityMo
         if (currentSlot != null && currentSlot.getHasStack()) {
             ItemStack slotStack = currentSlot.getStack();
             stack = slotStack.copy();
-            if (ChargeUtils.canBeDischarged(slotStack)) {
-                if (slotID != 1) {
-                    if (!mergeItemStack(slotStack, 1, 2, false)) {
-                        return ItemStack.EMPTY;
-                    }
-                } else if (!mergeItemStack(slotStack, 3, inventorySlots.size(), true)) {
+            if (slotID < 3) {
+                if (!mergeItemStack(slotStack, 3, inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
+            } else if (slotStack.getItem() instanceof IModuleContainerItem) {
+                if (!mergeItemStack(slotStack, 2, 3, false)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (slotStack.getItem() instanceof IModuleItem) {
+                if (!mergeItemStack(slotStack, 1, 2, false)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (ChargeUtils.canBeDischarged(slotStack)) {
+                if (!mergeItemStack(slotStack, 0, 1, false)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (slotID >= 3 && slotID <= 29) {
+                if (!mergeItemStack(slotStack, 30, inventorySlots.size(), false)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (slotID > 29) {
+                if (!mergeItemStack(slotStack, 3, 30, false)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (!mergeItemStack(slotStack, 3, inventorySlots.size(), true)) {
+                return ItemStack.EMPTY;
             }
             if (slotStack.getCount() == 0) {
                 currentSlot.putStack(ItemStack.EMPTY);
@@ -51,18 +71,32 @@ public class ContainerModificationStation extends ContainerMekanism<TileEntityMo
 
     @Override
     protected void addSlots() {
-        addSlotToContainer(new SlotEnergy.SlotDischarge(tileEntity, 1, 141, 34));
-        addSlotToContainer(new Slot(tileEntity, 2, 26, 34) {
+        addSlotToContainer(new SlotEnergy.SlotDischarge(tileEntity, 1, 149, 21));
+        addSlotToContainer(new Slot(tileEntity, 2, 35, 118) {
             @Override
             public boolean isItemValid(ItemStack itemstack) {
                 return itemstack.getItem() instanceof IModuleItem;
             }
         });
-        addSlotToContainer(new Slot(tileEntity, 3, 116, 34) {
+        addSlotToContainer(new Slot(tileEntity, 3, 125, 118) {
             @Override
             public boolean isItemValid(ItemStack itemstack) {
                 return itemstack.getItem() instanceof IModuleContainerItem;
             }
         });
+    }
+
+    @Override
+    protected void addPlayerArmmorSlot(InventoryPlayer inventory) {
+        addSlotToContainer(new SlotArmor(inventory, EntityEquipmentSlot.HEAD, -20, 20 + 5));
+        addSlotToContainer(new SlotArmor(inventory, EntityEquipmentSlot.CHEST, -20, 20 + 23));
+        addSlotToContainer(new SlotArmor(inventory, EntityEquipmentSlot.LEGS, -20, 20 + 41));
+        addSlotToContainer(new SlotArmor(inventory, EntityEquipmentSlot.FEET, -20, 20 + 59));
+        addSlotToContainer(new SlotArmor(inventory, EntityEquipmentSlot.OFFHAND, -20, 20 + 77));
+    }
+
+    @Override
+    protected int getInventorYOffset() {
+        return 148;
     }
 }

@@ -31,6 +31,7 @@ import mekanism.common.network.PacketPortableTeleporter.PortableTeleporterMessag
 import mekanism.common.network.PacketPortalFX.PortalFXMessage;
 import mekanism.common.network.PacketRadialModeChange.RadialModeChangeMessage;
 import mekanism.common.network.PacketRedstoneControl.RedstoneControlMessage;
+import mekanism.common.network.PacketRemoveModule.RemoveModuleMessage;
 import mekanism.common.network.PacketRemoveUpgrade.RemoveUpgradeMessage;
 import mekanism.common.network.PacketResetPlayerClient.ResetPlayerClientMessage;
 import mekanism.common.network.PacketRobit.RobitMessage;
@@ -237,7 +238,7 @@ public class PacketHandler {
         }
         netHandler.registerMessage(PacketUpdateModuleSettings.class, UpdateModuleSettingsMessage.class, 42, Side.CLIENT);
         netHandler.registerMessage(PacketUpdateModuleSettings.class, UpdateModuleSettingsMessage.class, 42, Side.SERVER);
-        // netHandler.registerMessage(PacketRemoveModule.class, RemoveModuleMessage.class, 43, Side.SERVER);
+        netHandler.registerMessage(PacketRemoveModule.class, RemoveModuleMessage.class, 43, Side.SERVER);
         netHandler.registerMessage(PacketShowModeChange.class, PacketShowModeChange.ShowModeChangeMessage.class, 44, Side.CLIENT);
         netHandler.registerMessage(PacketOpenGui.class, PacketOpenGui.OpenGui.class, 45, Side.CLIENT);
         netHandler.registerMessage(PacketOpenGui.class, PacketOpenGui.OpenGui.class, 45, Side.SERVER);

@@ -22,6 +22,9 @@ public class ModelDigitalMiner extends ModelBase {
 
     public static ResourceLocation OVERLAY_ON = MekanismUtils.getResource(ResourceType.RENDER, "DigitalMiner_OverlayOn.png");
     public static ResourceLocation OVERLAY_OFF = MekanismUtils.getResource(ResourceType.RENDER, "DigitalMiner_OverlayOff.png");
+    private static final ResourceLocation OVERLAY_ON_MAY_4TH = MekanismUtils.getResource(ResourceType.RENDER, "DigitalMiner_OverlayOn_MAY_4TH.png");
+    private static final ResourceLocation OVERLAY_ON_APRIL_FOOLS = MekanismUtils.getResource(ResourceType.RENDER, "DigitalMiner_OverlayOn_APRIL_FOOLS.png");
+    private static final ResourceLocation[] OVERLAY_ON_ANIMATED = createIndexedTextures("DigitalMiner_OverlayOn_", 2);
 
     ModelRenderer keyboard;
     ModelRenderer keyboardBottom;
@@ -428,12 +431,12 @@ public class ModelDigitalMiner extends ModelBase {
     public ResourceLocation isON(double tick) {
         if (MekanismConfig.current().client.holidays.val()) {
             if (HolidayManager.MAY_4.isToday()) {
-                return MekanismUtils.getResource(ResourceType.RENDER, "DigitalMiner_OverlayOn_MAY_4TH.png");
+                return OVERLAY_ON_MAY_4TH;
             } else if (HolidayManager.APRIL_FOOLS.isToday()) {
-                return MekanismUtils.getResource(ResourceType.RENDER, "DigitalMiner_OverlayOn_APRIL_FOOLS.png");
+                return OVERLAY_ON_APRIL_FOOLS;
             }
         }
-        return MekanismUtils.getResource(ResourceType.RENDER, "DigitalMiner_OverlayOn_" + getTick(tick) + ".png");
+        return OVERLAY_ON_ANIMATED[getTick(tick)];
     }
 
     public void render(double tick, float size, boolean on, TextureManager manager,boolean isEnableGlow) {
@@ -547,5 +550,13 @@ public class ModelDigitalMiner extends ModelBase {
             return 1;
         }
         return 0;
+    }
+
+    private static ResourceLocation[] createIndexedTextures(String prefix, int count) {
+        ResourceLocation[] textures = new ResourceLocation[count];
+        for (int i = 0; i < count; i++) {
+            textures[i] = MekanismUtils.getResource(ResourceType.RENDER, prefix + i + ".png");
+        }
+        return textures;
     }
 }

@@ -3,6 +3,7 @@ package mekanism.common.tile.multiblock;
 import io.netty.buffer.ByteBuf;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
+import mekanism.client.render.bloom.BloomRenderSPS;
 import mekanism.common.Mekanism;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.content.sps.SPSCache;
@@ -35,6 +36,16 @@ public class TileEntitySPSCasing extends TileEntityMultiblock<SynchronizedSPSDat
 
     protected TileEntitySPSCasing(String name) {
         super(name);
+    }
+
+    @Override
+    public void validate() {
+        super.validate();
+        if (isRemote()) {
+            if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
+                new BloomRenderSPS(this);
+            }
+        }
     }
 
     @Override

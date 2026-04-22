@@ -5,6 +5,7 @@ import mekanism.api.gear.ModuleData;
 import mekanism.api.gear.config.ModuleBooleanData;
 import mekanism.api.gear.config.ModuleConfigData;
 import mekanism.api.gear.config.ModuleEnumData;
+import mekanism.api.gear.config.ModuleIntegerData;
 import mekanism.api.math.MathUtils;
 import mekanism.common.PacketHandler;
 import mekanism.common.content.gear.IModuleContainerItem;
@@ -55,6 +56,8 @@ public class PacketUpdateModuleSettings implements IMessageHandler<UpdateModuleS
             ((ModuleConfigItem<Boolean>) moduleConfigItem).set((boolean) message.value);
         } else if (configData instanceof ModuleEnumData && message.dataType == ModuleDataType.ENUM) {
             moduleConfigItem.set((TYPE) MathUtils.getByIndexMod(((ModuleEnumData<?>) configData).getEnums(), (int) message.value));
+        } else if (configData instanceof ModuleIntegerData && message.dataType == ModuleDataType.INTEGER) {
+            ((ModuleConfigItem<Integer>) moduleConfigItem).set((int) message.value);
         }
     }
 
@@ -64,6 +67,8 @@ public class PacketUpdateModuleSettings implements IMessageHandler<UpdateModuleS
             return new UpdateModuleSettingsMessage(slotId, moduleType, dataIndex, ModuleDataType.BOOLEAN, data.get());
         } else if (configData instanceof ModuleEnumData<?> data) {
             return new UpdateModuleSettingsMessage(slotId, moduleType, dataIndex, ModuleDataType.ENUM, data.get().ordinal());
+        } else if (configData instanceof ModuleIntegerData data) {
+            return new UpdateModuleSettingsMessage(slotId, moduleType, dataIndex, ModuleDataType.INTEGER, data.get());
         }
         throw new IllegalArgumentException("Unknown config data type.");
     }
@@ -71,7 +76,8 @@ public class PacketUpdateModuleSettings implements IMessageHandler<UpdateModuleS
 
     public enum ModuleDataType {
         BOOLEAN,
-        ENUM
+        ENUM,
+        INTEGER
     }
 
     public static class UpdateModuleSettingsMessage implements IMessage {
@@ -103,6 +109,8 @@ public class PacketUpdateModuleSettings implements IMessageHandler<UpdateModuleS
                 dataStream.writeBoolean((boolean) value);
             } else if (dataType == ModuleDataType.ENUM) {
                 dataStream.writeInt((int) value);
+            } else if (dataType == ModuleDataType.INTEGER) {
+                dataStream.writeInt((int) value);
             }
         }
 
@@ -115,6 +123,8 @@ public class PacketUpdateModuleSettings implements IMessageHandler<UpdateModuleS
             if (dataType == ModuleDataType.BOOLEAN) {
                 value = dataStream.readBoolean();
             } else if (dataType == ModuleDataType.ENUM) {
+                value = dataStream.readInt();
+            } else if (dataType == ModuleDataType.INTEGER) {
                 value = dataStream.readInt();
             }
         }

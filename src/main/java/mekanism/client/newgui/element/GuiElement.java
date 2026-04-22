@@ -6,6 +6,7 @@ import mekanism.client.gui.element.GuiUtils;
 import mekanism.client.gui.element.GuiUtils.TilingDirection;
 import mekanism.client.newgui.GuiMekanism;
 import mekanism.client.newgui.IGuiWrapper;
+import mekanism.client.newgui.element.window.GuiWindow;
 import mekanism.client.render.IFancyFontRenderer;
 import mekanism.client.render.MekanismRenderer;
 import mekanism.common.util.MekanismUtils;
@@ -357,7 +358,6 @@ public abstract class GuiElement extends Widget implements IFancyFontRenderer {
     public final boolean isMouseOverCheckWindows(double mouseX, double mouseY) {
         //TODO: Ideally we would have the various places that call this instead check isHovered if we can properly override setting that
         boolean isHovering = isMouseOver(mouseX, mouseY);
-      /*
         if (isHovering) {
             //If the mouse is over this element, check if there is a window that would intercept the mouse
             GuiWindow window = guiObj.getWindowHovering(mouseX, mouseY);
@@ -367,7 +367,6 @@ public abstract class GuiElement extends Widget implements IFancyFontRenderer {
                 isHovering = false;
             }
         }
-       */
         return isHovering;
     }
 
