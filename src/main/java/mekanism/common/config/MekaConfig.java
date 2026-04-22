@@ -14,6 +14,7 @@ public class MekaConfig extends BaseConfig {
 
     public DoubleOption mekaSuitBaseEnergyCapacity = new DoubleOption(this,  "baseEnergyCapacity", 16000000, "Energy capacity (Joules) of MekaSuit items without any installed upgrades. Quadratically scaled by upgrades.");
     public DoubleOption mekaSuitBaseChargeRate = new DoubleOption(this,  "chargeRate", 100000, "Amount (joules) of energy the MekaSuit can accept per tick. Quadratically scaled by upgrades.");
+    public DoubleOption mekaSuitInventoryChargeRate = new DoubleOption(this,  "inventoryChargeRate", 10000, "Amount (joules) of energy the MekaSuit can transfer to inventory items per tick.");
     public DoubleOption mekaSuitBaseJumpEnergyUsage = new DoubleOption(this,  "baseJumpEnergyUsage", 1000, "Energy usage (Joules) of MekaSuit when adding 0.1 to jump motion.");
     public DoubleOption mekaSuitEnergyUsagePotionTick = new DoubleOption(this,  "energyUsagePotionTick", 40000, "Energy usage (Joules) of MekaSuit when lessening a potion effect.");
     public DoubleOption mekaSuitEnergyUsageMagicReduce = new DoubleOption(this,  "energyUsageMagicReduce", 1000, "Energy cost/multiplier in Joules for reducing magic damage via the inhalation purification unit. Energy cost is: MagicDamage * energyUsageMagicPrevent. (1 MagicDamage is 1 half heart).");
