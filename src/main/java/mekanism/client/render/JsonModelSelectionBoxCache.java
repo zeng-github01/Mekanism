@@ -58,6 +58,9 @@ public final class JsonModelSelectionBoxCache {
     }
 
     public static AxisAlignedBB[] getBoxes(IBlockState state, IBlockAccess world, BlockPos pos) {
+        if (!SelectionWireframeRenderer.isSelectionWireframeRenderingEnabled()) {
+            return EMPTY;
+        }
         IBlockState resolvedState = resolveActualState(state, world, pos);
         if (!canParseModId(resolvedState)) {
             return EMPTY;
@@ -93,6 +96,9 @@ public final class JsonModelSelectionBoxCache {
     }
 
     public static OutlineBox[] getWireframes(IBlockState state, IBlockAccess world, BlockPos pos) {
+        if (!SelectionWireframeRenderer.isSelectionWireframeRenderingEnabled()) {
+            return EMPTY_OUTLINES;
+        }
         IBlockState resolvedState = resolveActualState(state, world, pos);
         if (!canParseModId(resolvedState)) {
             return EMPTY_OUTLINES;

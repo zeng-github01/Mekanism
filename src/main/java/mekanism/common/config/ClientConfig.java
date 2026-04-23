@@ -104,6 +104,9 @@ public class ClientConfig extends BaseConfig {
 
     public final BooleanOption largeWindGeneratorisGlobalRenderer = new BooleanOption(this,  "largeWindGeneratorisGlobalRenderer", true,"Should large wind turbines always be rendered?");
 
+    public final BooleanOption enableSelectionWireframeRendering = new BooleanOption(this, "EnableSelectionWireframeRendering", true,
+            "Master switch for Mekanism's model-based selection wireframes and JSON-derived selection boxes. Disable to fall back to normal block selection boxes.");
+
     public final StringListOption jsonSelectionBoxModIdWhitelist = new StringListOption(this, "JsonSelectionBoxModIdWhitelist", new String[]{"mekanism","mekanismgenerators","mekanismtools","mekanismmultiblockmachine","mekceumoremachine"},
             "Mod id whitelist for parsing block models (models/block/*.json) into selection boxes. Supports '*' to match all mods. Example: [mekanism,minecraft]");
 

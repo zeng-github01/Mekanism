@@ -43,6 +43,9 @@ public final class SpecialSelectionWireframeRegistry {
     }
 
     public static JsonModelSelectionBoxCache.OutlineBox[] getWireframes(IBlockState state, IBlockAccess world, BlockPos pos) {
+        if (!SelectionWireframeRenderer.isSelectionWireframeRenderingEnabled()) {
+            return EMPTY_OUTLINES;
+        }
         if (state == null || world == null || pos == null) {
             return EMPTY_OUTLINES;
         }

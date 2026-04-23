@@ -39,6 +39,14 @@ public final class SelectionWireframeRenderer {
     private SelectionWireframeRenderer() {
     }
 
+    public static boolean isSelectionWireframeRenderingEnabled() {
+        try {
+            return MekanismConfig.current().client.enableSelectionWireframeRendering.val();
+        } catch (Exception ignored) {
+            return true;
+        }
+    }
+
     public static float getConfiguredLineWidth() {
         float width = 2.0F;
         try {
