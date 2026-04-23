@@ -282,7 +282,7 @@ public class TileEntityLogisticalTransporter extends TileEntityTransmitter<TileE
     @Override
     protected EnumActionResult onConfigure(EntityPlayer player, int part, EnumFacing side) {
         TransporterUtils.incrementColor(getTransmitter());
-        onPartChanged(null);
+        onPartChanged();
         PathfinderCache.onChanged(new Coord4D(getPos(), getWorld()));
         Mekanism.packetHandler.sendUpdatePacket(this);
         TextComponentGroup msg = new TextComponentGroup(TextFormatting.GRAY).string(Mekanism.LOG_TAG + " ", TextFormatting.DARK_BLUE)

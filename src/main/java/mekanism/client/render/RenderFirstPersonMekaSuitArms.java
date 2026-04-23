@@ -6,6 +6,7 @@ package mekanism.client.render;
 
 import mekanism.client.model.mekasuitarmour.ModelMekAsuitBodyArm;
 import mekanism.client.render.bloom.MekaSuitFirstPersonBloomHelper;
+import mekanism.common.Mekanism;
 import mekanism.common.item.armor.ItemMekaSuitArmor;
 import mekanism.common.config.MekanismConfig;
 import mekanism.common.item.armor.ItemMekaSuitBodyArmor;
@@ -81,7 +82,9 @@ public class RenderFirstPersonMekaSuitArms {
             armor.leftArmRender(0.0625F);
         }
         MekanismRenderer.resetColor();
-        MekaSuitFirstPersonBloomHelper.requestArmBloom(player, rightHand);
+        if (Mekanism.hooks.Bloom) {
+            MekaSuitFirstPersonBloomHelper.requestArmBloom(player, rightHand);
+        }
         GlStateManager.disableBlend();
     }
 
@@ -175,5 +178,4 @@ public class RenderFirstPersonMekaSuitArms {
         return Color.rgbd(color.rd() * tintStrength + tintBase, color.gd() * tintStrength + tintBase, color.bd() * tintStrength + tintBase);
     }
 }
-
 

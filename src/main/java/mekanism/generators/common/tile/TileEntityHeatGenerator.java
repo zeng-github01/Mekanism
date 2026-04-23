@@ -349,7 +349,11 @@ public class TileEntityHeatGenerator extends TileEntityGenerator implements IFlu
         super.validate();
         if (isRemote()) {
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
-                new BloomRenderHeatGenerator(this);
+                try {
+                    new BloomRenderHeatGenerator(this);
+                } catch (LinkageError e) {
+                    mekanism.common.util.BloomDependencyHelper.disableBloom("BloomRenderHeatGenerator", e);
+                }
             }
         }
     }

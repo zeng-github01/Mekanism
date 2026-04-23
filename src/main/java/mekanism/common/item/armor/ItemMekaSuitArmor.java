@@ -564,10 +564,15 @@ public abstract class ItemMekaSuitArmor extends ItemArmor implements IEnergizedI
     //TODO
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
-        return new ItemCapabilityWrapper(stack, new TeslaItemWrapper(), new ForgeEnergyItemWrapper(),
-                LaserDissipationHandler.create(item -> isModuleEnabled(item, MekanismModules.LASER_DISSIPATION_UNIT) ? laserDissipation : 0, item -> isModuleEnabled(item, MekanismModules.LASER_DISSIPATION_UNIT) ? laserRefraction : 0),
-                RadiationShieldingHandler.create(item -> isModuleEnabled(item, MekanismModules.RADIATION_SHIELDING_UNIT) ? ItemHazmatSuitArmor.getShieldingByArmor(armorType) : 0),
-                NCRadiationShieldingHandler.create(item -> isModuleEnabled(item, MekanismModules.RADIATION_SHIELDING_UNIT) ? ItemHazmatSuitArmor.getShieldingByArmor(armorType) * 100 : 0, item -> isModuleEnabled(item, MekanismModules.RADIATION_SHIELDING_UNIT) ? ItemHazmatSuitArmor.getShieldingByArmor(armorType) * 100 : 0, false));
+        List<ItemCapabilityWrapper.ItemCapability> capabilities = new ArrayList<>();
+        capabilities.add(new TeslaItemWrapper());
+        capabilities.add(new ForgeEnergyItemWrapper());
+        capabilities.add(LaserDissipationHandler.create(item -> isModuleEnabled(item, MekanismModules.LASER_DISSIPATION_UNIT) ? laserDissipation : 0, item -> isModuleEnabled(item, MekanismModules.LASER_DISSIPATION_UNIT) ? laserRefraction : 0));
+        capabilities.add(RadiationShieldingHandler.create(item -> isModuleEnabled(item, MekanismModules.RADIATION_SHIELDING_UNIT) ? ItemHazmatSuitArmor.getShieldingByArmor(armorType) : 0));
+        if (mekanism.common.capabilities.Capabilities.NC_CAPABILITY_RADIATION_RESISTANCE != null) {
+            capabilities.add(NCRadiationShieldingHandler.create(item -> isModuleEnabled(item, MekanismModules.RADIATION_SHIELDING_UNIT) ? ItemHazmatSuitArmor.getShieldingByArmor(armorType) * 100 : 0, item -> isModuleEnabled(item, MekanismModules.RADIATION_SHIELDING_UNIT) ? ItemHazmatSuitArmor.getShieldingByArmor(armorType) * 100 : 0, false));
+        }
+        return new ItemCapabilityWrapper(stack, capabilities.toArray(new ItemCapabilityWrapper.ItemCapability[0]));
     }
 
     @Override
@@ -594,4 +599,3 @@ public abstract class ItemMekaSuitArmor extends ItemArmor implements IEnergizedI
 
 
 }
-

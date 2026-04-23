@@ -121,7 +121,7 @@ public final class MekanismHooks {
         CraftTweakerLoaded = Loader.isModLoaded(CRAFTTWEAKER_MOD_ID);
         CyclicLoaded = Loader.isModLoaded(CYCLIC_MOD_ID);
         IC2Loaded = Loader.isModLoaded(IC2_MOD_ID);
-        MCMPLoaded = Loader.isModLoaded(MCMULTIPART_MOD_ID);
+        MCMPLoaded = Mods.MCMP.isPresent();
         MetallurgyLoaded = Loader.isModLoaded(METALLURGY_MOD_ID);
         MALoaded = Loader.isModLoaded(MYSTICALAGRICULTURE_MOD_ID);
         OCLoaded = Loader.isModLoaded(OPENCOMPUTERS_MOD_ID);
@@ -130,7 +130,7 @@ public final class MekanismHooks {
         GroovyScriptLoaded = Loader.isModLoaded(GROOVYSCRIPT_MOD_ID);
         FluxNetWorksLoaded = Loader.isModLoaded(FLUX_NETWORKS_MOD_ID);
         GTCEULoaded = Mods.GTCeU.isPresent();
-        LumenizedLoaded = Loader.isModLoaded(LUMENIZED_MOD_ID);
+        LumenizedLoaded = Mods.Lumenized.isPresent();
         Bloom = LumenizedLoaded || GTCEULoaded;
         NuclearCraft = Loader.isModLoaded(NuclearCraft_MOD_ID);
         Baubles = Loader.isModLoaded(Baubles_MOD_ID);
@@ -166,12 +166,39 @@ public final class MekanismHooks {
                 if (!super.isPresent()) {
                     return detected = false;
                 }
-                try {
-                    Class.forName("gregtech.client.utils.BloomEffectUtil");
-                    return detected = true;
-                } catch (Exception e) {
+                return detected = hasClass("gregtech.client.utils.BloomEffectUtil");
+            }
+        },
+        Lumenized(LUMENIZED_MOD_ID) {
+            private boolean initialized = false;
+            private boolean detected = false;
+
+            @Override
+            public boolean isPresent() {
+                if (initialized) {
+                    return detected;
+                }
+                initialized = true;
+                if (!super.isPresent()) {
                     return detected = false;
                 }
+                return detected = hasClass("gregtech.client.utils.BloomEffectUtil");
+            }
+        },
+        MCMP(MCMULTIPART_MOD_ID) {
+            private boolean initialized = false;
+            private boolean detected = false;
+
+            @Override
+            public boolean isPresent() {
+                if (initialized) {
+                    return detected;
+                }
+                initialized = true;
+                if (!super.isPresent()) {
+                    return detected = false;
+                }
+                return detected = hasClass("mcmultipart.api.multipart.IMultipart");
             }
         },
         CLR(CLEANROOM_MOD_ID){
@@ -186,12 +213,7 @@ public final class MekanismHooks {
                 if (!super.isPresent()) {
                     return detected = false;
                 }
-                try {
-                    Class.forName("net.minecraftforge.client.event.RenderArmEvent");
-                    return detected = true;
-                } catch (Exception e) {
-                    return detected = false;
-                }
+                return detected = hasClass("net.minecraftforge.client.event.RenderArmEvent");
             }
         };
 
@@ -209,6 +231,15 @@ public final class MekanismHooks {
 
         public boolean isPresent() {
             return loaded;
+        }
+
+        protected final boolean hasClass(String className) {
+            try {
+                Class.forName(className, false, MekanismHooks.class.getClassLoader());
+                return true;
+            } catch (ReflectiveOperationException | LinkageError e) {
+                return false;
+            }
         }
     }
 

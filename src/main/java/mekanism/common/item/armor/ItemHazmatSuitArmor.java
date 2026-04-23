@@ -22,6 +22,8 @@ import net.minecraftforge.fml.common.Optional.Interface;
 import net.minecraftforge.fml.common.Optional.Method;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Interface(iface = "ic2.api.item.IHazmatLike", modid = MekanismHooks.IC2_MOD_ID)
 public class ItemHazmatSuitArmor extends ItemArmor implements IHazmatLike {
@@ -56,8 +58,12 @@ public class ItemHazmatSuitArmor extends ItemArmor implements IHazmatLike {
 
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
-        return new ItemCapabilityWrapper(stack, RadiationShieldingHandler.create(item -> getShieldingByArmor(armorType)),
-                NCRadiationShieldingHandler.create(item -> getShieldingByArmor(armorType) * 100, item -> 0, false));
+        List<ItemCapabilityWrapper.ItemCapability> capabilities = new ArrayList<>();
+        capabilities.add(RadiationShieldingHandler.create(item -> getShieldingByArmor(armorType)));
+        if (mekanism.common.capabilities.Capabilities.NC_CAPABILITY_RADIATION_RESISTANCE != null) {
+            capabilities.add(NCRadiationShieldingHandler.create(item -> getShieldingByArmor(armorType) * 100, item -> 0, false));
+        }
+        return new ItemCapabilityWrapper(stack, capabilities.toArray(new ItemCapabilityWrapper.ItemCapability[0]));
     }
 
     @Override

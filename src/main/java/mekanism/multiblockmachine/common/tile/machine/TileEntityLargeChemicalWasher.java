@@ -651,7 +651,11 @@ public class TileEntityLargeChemicalWasher extends TileEntityBasicMachine<GasAnd
         super.validate();
         if (isRemote()) {
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
-                new BloomRenderLargeChemicalWasher(this);
+                try {
+                    new BloomRenderLargeChemicalWasher(this);
+                } catch (LinkageError e) {
+                    mekanism.common.util.BloomDependencyHelper.disableBloom("BloomRenderLargeChemicalWasher", e);
+                }
             }
         }
     }

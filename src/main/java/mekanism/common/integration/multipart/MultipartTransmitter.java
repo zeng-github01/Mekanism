@@ -52,7 +52,7 @@ public class MultipartTransmitter implements IMultipart {
     public void onPartChanged(IPartInfo part, IPartInfo otherPart) {
         TileEntity tile = part.getTile().getTileEntity();
         if (tile instanceof TileEntitySidedPipe pipe) {
-            pipe.onPartChanged(otherPart.getPart());
+            pipe.onPartChanged();
         }
     }
 

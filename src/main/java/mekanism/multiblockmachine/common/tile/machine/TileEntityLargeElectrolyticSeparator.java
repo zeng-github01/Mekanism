@@ -765,7 +765,11 @@ public class TileEntityLargeElectrolyticSeparator extends TileEntityBasicMachine
         super.validate();
         if (isRemote()) {
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
-                new BloomRenderLargeElectrolyticSeparator(this);
+                try {
+                    new BloomRenderLargeElectrolyticSeparator(this);
+                } catch (LinkageError e) {
+                    mekanism.common.util.BloomDependencyHelper.disableBloom("BloomRenderLargeElectrolyticSeparator", e);
+                }
             }
         }
     }

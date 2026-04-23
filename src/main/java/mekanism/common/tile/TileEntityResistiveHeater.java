@@ -327,7 +327,11 @@ public class TileEntityResistiveHeater extends TileEntityEffectsBlock implements
         super.validate();
         if (isRemote()) {
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
-                new BloomRenderResistiveHeater(this);
+                try {
+                    new BloomRenderResistiveHeater(this);
+                } catch (LinkageError e) {
+                    mekanism.common.util.BloomDependencyHelper.disableBloom("BloomRenderResistiveHeater", e);
+                }
             }
         }
     }

@@ -1,11 +1,12 @@
 package mekanism.client.render.bloom;
 
-import gregtech.client.utils.BloomEffectUtil;
 import mekanism.client.model.mekasuitarmour.IMekaSuitBloomModel;
+import mekanism.common.Mekanism;
 import mekanism.client.model.mekasuitarmour.ModelMekAsuitBodyArm;
 import mekanism.common.item.armor.ItemMekaSuitArmor;
 import mekanism.common.item.armor.ItemMekaSuitBodyArmor;
 import mekanism.common.lib.Color;
+import mekanism.common.util.BloomDependencyHelper;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped.ArmPose;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -16,6 +17,10 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 import java.nio.FloatBuffer;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.function.Consumer;
 
 public final class MekaSuitFirstPersonBloomHelper {
 
@@ -25,7 +30,7 @@ public final class MekaSuitFirstPersonBloomHelper {
     }
 
     public static void requestArmBloom(AbstractClientPlayer player, boolean rightHand) {
-        if (player == null || !IMekaSuitBloomModel.shouldUseBloom()) {
+        if (player == null || !Mekanism.hooks.Bloom || !IMekaSuitBloomModel.shouldUseBloom()) {
             return;
         }
         ItemStack chestStack = player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
@@ -33,20 +38,9 @@ public final class MekaSuitFirstPersonBloomHelper {
             return;
         }
         MatrixSnapshot snapshot = MatrixSnapshot.capture();
-        BloomEffectUtil.requestCustomBloom(new BloomEffectUtil.IBloomRenderFast() {
-            @Override
-            public int customBloomStyle() {
-                return mekanism.common.config.MekanismConfig.current().client.customBloomStyle.val();
-            }
-
-            @Override
-            public void preDraw(BufferBuilder bufferBuilder) {
-            }
-
-            @Override
-            public void postDraw(BufferBuilder bufferBuilder) {
-            }
-        }, bufferBuilder -> renderArmBloom(player, rightHand, snapshot));
+        if (!BloomBridge.requestCustomBloom(player, rightHand, snapshot)) {
+            BloomDependencyHelper.disableBloom("MekaSuitFirstPersonBloomHelper");
+        }
     }
 
     private static void renderArmBloom(AbstractClientPlayer player, boolean rightHand, MatrixSnapshot snapshot) {
@@ -119,6 +113,66 @@ public final class MekaSuitFirstPersonBloomHelper {
             GL11.glMatrixMode(GL11.GL_PROJECTION);
             GL11.glPopMatrix();
             GL11.glMatrixMode(previousMatrixMode);
+        }
+    }
+
+    private static final class BloomBridge {
+
+        private static final boolean AVAILABLE;
+        private static final Method REQUEST_CUSTOM_BLOOM_METHOD;
+        private static final Class<?> BLOOM_RENDER_FAST_CLASS;
+
+        static {
+            boolean available = false;
+            Method requestCustomBloomMethod = null;
+            Class<?> bloomRenderFastClass = null;
+            try {
+                ClassLoader classLoader = MekaSuitFirstPersonBloomHelper.class.getClassLoader();
+                Class<?> bloomEffectUtilClass = Class.forName("gregtech.client.utils.BloomEffectUtil", false, classLoader);
+                bloomRenderFastClass = Class.forName("gregtech.client.utils.BloomEffectUtil$IBloomRenderFast", false, classLoader);
+                requestCustomBloomMethod = bloomEffectUtilClass.getMethod("requestCustomBloom", bloomRenderFastClass, Consumer.class);
+                available = true;
+            } catch (ReflectiveOperationException | LinkageError ignored) {
+            }
+            AVAILABLE = available;
+            BLOOM_RENDER_FAST_CLASS = bloomRenderFastClass;
+            REQUEST_CUSTOM_BLOOM_METHOD = requestCustomBloomMethod;
+        }
+
+        private BloomBridge() {
+        }
+
+        private static boolean requestCustomBloom(AbstractClientPlayer player, boolean rightHand, MatrixSnapshot snapshot) {
+            if (!AVAILABLE) {
+                return false;
+            }
+            try {
+                Object renderSetup = Proxy.newProxyInstance(BLOOM_RENDER_FAST_CLASS.getClassLoader(), new Class<?>[]{BLOOM_RENDER_FAST_CLASS}, new BloomRenderSetupHandler());
+                REQUEST_CUSTOM_BLOOM_METHOD.invoke(null, renderSetup, (Consumer<BufferBuilder>) bufferBuilder -> renderArmBloom(player, rightHand, snapshot));
+                return true;
+            } catch (ReflectiveOperationException | LinkageError e) {
+                return false;
+            }
+        }
+    }
+
+    private static final class BloomRenderSetupHandler implements InvocationHandler {
+
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) {
+            String methodName = method.getName();
+            if ("customBloomStyle".equals(methodName)) {
+                return mekanism.common.config.MekanismConfig.current().client.customBloomStyle.val();
+            } else if ("preDraw".equals(methodName) || "postDraw".equals(methodName)) {
+                return null;
+            } else if ("toString".equals(methodName)) {
+                return "MekaSuitFirstPersonBloomHelper";
+            } else if ("hashCode".equals(methodName)) {
+                return System.identityHashCode(proxy);
+            } else if ("equals".equals(methodName)) {
+                return args != null && args.length > 0 && proxy == args[0];
+            }
+            return null;
         }
     }
 }

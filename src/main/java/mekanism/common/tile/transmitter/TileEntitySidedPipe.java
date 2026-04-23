@@ -1,7 +1,6 @@
 package mekanism.common.tile.transmitter;
 
 import io.netty.buffer.ByteBuf;
-import mcmultipart.api.multipart.IMultipart;
 import mekanism.api.Coord4D;
 import mekanism.api.EnumColor;
 import mekanism.api.IConfigurable;
@@ -501,7 +500,7 @@ public abstract class TileEntitySidedPipe extends TileEntityRestrictedTick imple
         refreshConnections();
     }
 
-    public void onPartChanged(IMultipart part) {
+    public void onPartChanged() {
         byte transmittersBefore = currentTransmitterConnections;
         refreshConnections();
         if (transmittersBefore != currentTransmitterConnections) {

@@ -43,7 +43,11 @@ public class TileEntitySPSCasing extends TileEntityMultiblock<SynchronizedSPSDat
         super.validate();
         if (isRemote()) {
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
-                new BloomRenderSPS(this);
+                try {
+                    new BloomRenderSPS(this);
+                } catch (LinkageError e) {
+                    mekanism.common.util.BloomDependencyHelper.disableBloom("BloomRenderSPS", e);
+                }
             }
         }
     }

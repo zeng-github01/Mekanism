@@ -637,7 +637,11 @@ public class TileEntityLargeChemicalInfuser extends TileEntityBasicMachine<Chemi
         super.validate();
         if (isRemote()) {
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
-                new BloomRenderLargeChemicalInfuser(this);
+                try {
+                    new BloomRenderLargeChemicalInfuser(this);
+                } catch (LinkageError e) {
+                    mekanism.common.util.BloomDependencyHelper.disableBloom("BloomRenderLargeChemicalInfuser", e);
+                }
             }
         }
     }

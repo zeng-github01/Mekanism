@@ -513,7 +513,11 @@ public class TileEntityLargeGasGenerator extends TileEntityGenerator implements 
         super.validate();
         if (isRemote()) {
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
-                new BloomRendererLargeGasGenerator(this);
+                try {
+                    new BloomRendererLargeGasGenerator(this);
+                } catch (LinkageError e) {
+                    mekanism.common.util.BloomDependencyHelper.disableBloom("BloomRendererLargeGasGenerator", e);
+                }
             }
         }
     }
@@ -567,5 +571,4 @@ public class TileEntityLargeGasGenerator extends TileEntityGenerator implements 
         return true;
     }
 }
-
 

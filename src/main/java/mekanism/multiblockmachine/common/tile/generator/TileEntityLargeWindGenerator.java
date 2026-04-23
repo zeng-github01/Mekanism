@@ -759,7 +759,11 @@ public class TileEntityLargeWindGenerator extends TileEntityGenerator implements
         super.validate();
         if (isRemote()) {
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
-                new BloomRenderLargeWindGenerator(this);
+                try {
+                    new BloomRenderLargeWindGenerator(this);
+                } catch (LinkageError e) {
+                    mekanism.common.util.BloomDependencyHelper.disableBloom("BloomRenderLargeWindGenerator", e);
+                }
             }
         }
     }

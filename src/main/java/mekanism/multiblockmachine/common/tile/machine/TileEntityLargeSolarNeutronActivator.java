@@ -88,7 +88,11 @@ public class TileEntityLargeSolarNeutronActivator extends TileEntityContainerBlo
         needsRainCheck = world.provider.getBiomeForCoords(getPos()).canRain();
         if (isRemote()) {
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
-                new BloomRenderLargeSolarNeutronActivator(this);
+                try {
+                    new BloomRenderLargeSolarNeutronActivator(this);
+                } catch (LinkageError e) {
+                    mekanism.common.util.BloomDependencyHelper.disableBloom("BloomRenderLargeSolarNeutronActivator", e);
+                }
             }
         }
     }

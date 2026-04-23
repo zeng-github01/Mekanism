@@ -959,7 +959,11 @@ public class ClientProxy extends CommonProxy {
             MinecraftForge.EVENT_BUS.register(new RenderFirstPersonMekaSuitArms());
         }
         if (Mekanism.hooks.Bloom) {
-            new MekaSuitBloomRenderer();
+            try {
+                new MekaSuitBloomRenderer();
+            } catch (LinkageError e) {
+                mekanism.common.util.BloomDependencyHelper.disableBloom("MekaSuitBloomRenderer", e);
+            }
         }
 
         MinecraftForge.EVENT_BUS.register(new RenderTickHandler());

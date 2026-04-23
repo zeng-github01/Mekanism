@@ -1295,7 +1295,11 @@ public class TileEntityDigitalMiner extends TileEntityElectricBlock implements I
         super.validate();
         if (isRemote()) {
             if (Mekanism.hooks.Bloom&& MekanismConfig.current().client.enableBloom.val()) {
-                new BloomRenderDigitalMiner(this);
+                try {
+                    new BloomRenderDigitalMiner(this);
+                } catch (LinkageError e) {
+                    mekanism.common.util.BloomDependencyHelper.disableBloom("BloomRenderDigitalMiner", e);
+                }
             }
         }
     }

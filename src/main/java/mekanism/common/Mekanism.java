@@ -568,7 +568,7 @@ public class Mekanism {
         MinecraftForge.EVENT_BUS.register(MekanismItems.GasMask);
         MinecraftForge.EVENT_BUS.register(MekanismItems.FreeRunners);
 
-        if (Loader.isModLoaded("mcmultipart")) {
+        if (MekanismHooks.Mods.MCMP.isPresent()) {
             //Set up multiparts
             new MultipartMekanism();
         } else {

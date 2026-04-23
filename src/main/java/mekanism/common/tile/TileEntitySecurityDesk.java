@@ -281,7 +281,11 @@ public class TileEntitySecurityDesk extends TileEntityContainerBlock implements 
         super.validate();
         if (isRemote()) {
             if (Mekanism.hooks.Bloom && MekanismConfig.current().client.enableBloom.val()) {
-                new BloomRenderSecurityDesk(this);
+                try {
+                    new BloomRenderSecurityDesk(this);
+                } catch (LinkageError e) {
+                    mekanism.common.util.BloomDependencyHelper.disableBloom("BloomRenderSecurityDesk", e);
+                }
             }
         }
     }
