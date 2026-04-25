@@ -389,7 +389,8 @@ public abstract class BlockGenerator extends BlockMekanismContainer {
         if (type == null) {
             return super.isOpaqueCube(state);
         }
-        return type != GeneratorType.SOLAR_GENERATOR && type != GeneratorType.ADVANCED_SOLAR_GENERATOR && type != GeneratorType.WIND_GENERATOR
+        return type != GeneratorType.HEAT_GENERATOR && type != GeneratorType.SOLAR_GENERATOR && type != GeneratorType.GAS_GENERATOR
+                && type != GeneratorType.BIO_GENERATOR && type != GeneratorType.ADVANCED_SOLAR_GENERATOR && type != GeneratorType.WIND_GENERATOR
                 && type != GeneratorType.TURBINE_ROTOR && type != GeneratorType.FISSION_FUEL_ASSEMBLY && type != GeneratorType.CONTROL_ROD_ASSEMBLY;
     }
 
@@ -400,7 +401,8 @@ public abstract class BlockGenerator extends BlockMekanismContainer {
         if (type == null) {
             return super.isFullCube(state);
         }
-        return type != GeneratorType.SOLAR_GENERATOR && type != GeneratorType.ADVANCED_SOLAR_GENERATOR && type != GeneratorType.WIND_GENERATOR
+        return type != GeneratorType.HEAT_GENERATOR && type != GeneratorType.SOLAR_GENERATOR && type != GeneratorType.GAS_GENERATOR
+                && type != GeneratorType.BIO_GENERATOR && type != GeneratorType.ADVANCED_SOLAR_GENERATOR && type != GeneratorType.WIND_GENERATOR
                 && type != GeneratorType.TURBINE_ROTOR && type != GeneratorType.FISSION_FUEL_ASSEMBLY && type != GeneratorType.CONTROL_ROD_ASSEMBLY;
     }
 
@@ -411,7 +413,8 @@ public abstract class BlockGenerator extends BlockMekanismContainer {
         if (type == null) {
             return super.isFullBlock(state);
         }
-        return type != GeneratorType.SOLAR_GENERATOR && type != GeneratorType.ADVANCED_SOLAR_GENERATOR && type != GeneratorType.WIND_GENERATOR
+        return type != GeneratorType.HEAT_GENERATOR && type != GeneratorType.SOLAR_GENERATOR && type != GeneratorType.GAS_GENERATOR
+                && type != GeneratorType.BIO_GENERATOR && type != GeneratorType.ADVANCED_SOLAR_GENERATOR && type != GeneratorType.WIND_GENERATOR
                 && type != GeneratorType.TURBINE_ROTOR && type != GeneratorType.FISSION_FUEL_ASSEMBLY && type != GeneratorType.CONTROL_ROD_ASSEMBLY;
     }
 
