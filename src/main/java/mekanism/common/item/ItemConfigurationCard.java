@@ -95,8 +95,8 @@ public class ItemConfigurationCard extends ItemMekanism {
                         player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + Mekanism.LOG_TAG + " " + EnumColor.RED + LangUtils.localize("tooltip.configurationCard.unequal") + "."));
                     }
                 }
-                return EnumActionResult.SUCCESS;
             }
+            return EnumActionResult.SUCCESS;
         }
         return EnumActionResult.PASS;
     }
