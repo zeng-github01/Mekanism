@@ -264,8 +264,13 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISpec
     public EnumActionResult onItemUse(EntityPlayer player, World world, @Nonnull BlockPos pos, @Nonnull EnumHand hand, @Nonnull EnumFacing side, float hitX, float hitY, float hitZ) {
         ItemStack stack = player.getHeldItem(hand);
         MachineType type = MachineType.get(stack);
-        if (type == MachineType.FLUID_TANK && getBucketMode(stack) && stack.getCount() > 1) {
-            return EnumActionResult.PASS;
+        if (type == MachineType.FLUID_TANK) {
+            if (stack.getCount() > 1) {
+                return EnumActionResult.PASS;
+            }
+            if (getBucketMode(stack)) {
+                return EnumActionResult.PASS;
+            }
         }
         return super.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
     }
