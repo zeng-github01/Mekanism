@@ -152,6 +152,11 @@ public class TileEntityFissionReactorCasing extends TileEntityMultiblock<Synchro
     @SideOnly(Side.CLIENT)
     private void updateSound() {
         if (!MekanismConfig.current().client.enableMachineSounds.val()) {
+            if (activeSound != null) {
+                SoundHandler.stopTileSound(getPos());
+                activeSound = null;
+                playSoundCooldown = 0;
+            }
             return;
         }
         boolean burning = clientHasStructure && structure != null && structure.lastBurnRate > 0 && structure.shouldPlaySoundAt(getPos());

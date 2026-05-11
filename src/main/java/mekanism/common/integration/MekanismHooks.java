@@ -13,6 +13,7 @@ import mekanism.common.block.states.BlockStateTransmitter.TransmitterType;
 import mekanism.common.integration.computer.CCPeripheral;
 import mekanism.common.integration.computer.OCDriver;
 import mekanism.common.integration.crafttweaker.CrafttweakerIntegration;
+import mekanism.common.integration.actuallyadditions.ActuallyAdditionsSeed;
 import mekanism.common.integration.farmersdelightlegacy.FarmersDelightLegacyIntegration;
 import mekanism.common.integration.fluxnetworks.FluxNetworksIntegration;
 import mekanism.common.integration.mysticalagriculture.MysticalAgricultureSeed;
@@ -67,6 +68,7 @@ public final class MekanismHooks {
     public static final String CYCLIC_MOD_ID = "cyclicmagic";
     public static final String MYSTICALAGRICULTURE_MOD_ID = "mysticalagriculture";
     public static final String MYSTICALCREATIONS_MOD_ID = "mysticalcreations";
+    public static final String ACTUALLYADDITIONS_MOD_ID = "actuallyadditions";
     public static final String CRAFTTWEAKER_MOD_ID = "crafttweaker";
     public static final String GROOVYSCRIPT_MOD_ID = "groovyscript";
     public static final String FLUX_NETWORKS_MOD_ID = "fluxnetworks";
@@ -94,6 +96,7 @@ public final class MekanismHooks {
     public boolean IC2CLoaded = false;
     public boolean MALoaded = false;
     public boolean MCLoaded = false;
+    public boolean AALoaded = false;
     public boolean MCMPLoaded = false;
     public boolean MetallurgyLoaded = false;
     public boolean OCLoaded = false;
@@ -128,6 +131,7 @@ public final class MekanismHooks {
         MetallurgyLoaded = Loader.isModLoaded(METALLURGY_MOD_ID);
         MALoaded = Loader.isModLoaded(MYSTICALAGRICULTURE_MOD_ID);
         MCLoaded = Loader.isModLoaded(MYSTICALCREATIONS_MOD_ID);
+        AALoaded = Loader.isModLoaded(ACTUALLYADDITIONS_MOD_ID);
         OCLoaded = Loader.isModLoaded(OPENCOMPUTERS_MOD_ID);
         RFLoaded = Loader.isModLoaded(REDSTONEFLUX_MOD_ID);
         TeslaLoaded = Loader.isModLoaded(TESLA_MOD_ID);
@@ -297,6 +301,10 @@ public final class MekanismHooks {
         if (MCLoaded) {
             MysticalCreationsSeed.seed();
             Mekanism.logger.info("Hooked into Mystical Creations successfully.");
+        }
+        if (AALoaded) {
+            ActuallyAdditionsSeed.seed();
+            Mekanism.logger.info("Hooked into Actually Additions successfully.");
         }
         if (GroovyScriptLoaded) {
             Mekanism.logger.info("Hooked into Groovy Script successfully.");
