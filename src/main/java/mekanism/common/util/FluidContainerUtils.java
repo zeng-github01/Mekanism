@@ -1,5 +1,7 @@
 package mekanism.common.util;
 
+import mekanism.common.block.states.BlockStateMachine.MachineType;
+import mekanism.common.item.ItemBlockMachine;
 import mekanism.common.tile.prefab.TileEntityContainerBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -19,6 +21,12 @@ import javax.annotation.Nullable;
 public final class FluidContainerUtils {
 
     public static boolean isFluidContainer(ItemStack stack) {
+        if (stack.getItem() instanceof ItemBlockMachine) {
+            MachineType type = MachineType.get(stack);
+            if (type != MachineType.FLUID_TANK) {
+                return false;
+            }
+        }
         return !stack.isEmpty() && stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
     }
 
