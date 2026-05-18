@@ -79,6 +79,7 @@ public class RenderFlame extends Render<EntityFlame> {
         MekanismRenderer.resetColor();
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
+        GlStateManager.shadeModel(GL11.GL_FLAT);
         MekanismRenderer.disableGlow(glowInfo);
         GlStateManager.popMatrix();
     }

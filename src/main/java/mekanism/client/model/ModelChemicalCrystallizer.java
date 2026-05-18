@@ -154,6 +154,7 @@ public class ModelChemicalCrystallizer extends ModelBase {
             Shape1.render(size);
             GlStateManager.disableBlend();
             GlStateManager.enableAlpha();
+            GlStateManager.shadeModel(GL11.GL_FLAT);
         }
     }
 

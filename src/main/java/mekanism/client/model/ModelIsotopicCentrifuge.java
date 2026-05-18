@@ -263,6 +263,7 @@ public class ModelIsotopicCentrifuge extends ModelBase {
             doRenderGlass(size);
             GlStateManager.disableBlend();
             GlStateManager.enableAlpha();
+            GlStateManager.shadeModel(GL11.GL_FLAT);
         }
     }
 

@@ -53,8 +53,7 @@ public class RenderTeleporter extends TileEntitySpecialRenderer<TileEntityTelepo
             GlStateManager.disableBlend();
             GlStateManager.enableAlpha();
             MekanismRenderer.disableGlow(glowInfo);
-            GlStateManager.enableLighting();
-            GlStateManager.disableCull();
+            MekanismRenderer.resetBlockRenderState();
             GlStateManager.popMatrix();
         }
     }

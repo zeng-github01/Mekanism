@@ -52,8 +52,7 @@ public class RenderChemicalDissolutionChamber extends TileEntitySpecialRenderer<
             MekanismRenderer.disableGlow(glowInfo);
             GlStateManager.disableBlend();
             GlStateManager.enableAlpha();
-            GlStateManager.enableLighting();
-            GlStateManager.disableCull();
+            MekanismRenderer.resetBlockRenderState();
             GlStateManager.popMatrix();
         }
 

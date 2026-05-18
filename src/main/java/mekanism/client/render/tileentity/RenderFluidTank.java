@@ -79,10 +79,7 @@ public class RenderFluidTank extends TileEntitySpecialRenderer<TileEntityFluidTa
         }
 
         if (glChanged) {
-            GlStateManager.disableBlend();
-            GlStateManager.enableAlpha();
-            GlStateManager.enableLighting();
-            GlStateManager.disableCull();
+            MekanismRenderer.resetBlockRenderState();
         }
     }
 

@@ -93,10 +93,7 @@ public class RenderDynamicTank extends TileEntitySpecialRenderer<TileEntityDynam
 
             if (glChanged) {
                 setLightmapDisabled(false);
-                GlStateManager.disableBlend();
-                GlStateManager.enableAlpha();
-                GlStateManager.enableLighting();
-                GlStateManager.disableCull();
+                MekanismRenderer.resetBlockRenderState();
             }
         }
     }

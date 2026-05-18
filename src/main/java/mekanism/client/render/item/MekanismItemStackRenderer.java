@@ -49,12 +49,15 @@ public abstract class MekanismItemStackRenderer extends TileEntityItemStackRende
         Tessellator tessellator = Tessellator.getInstance();
         RenderState renderState = MekanismRenderer.pauseRenderer(tessellator);
         GlStateManager.pushMatrix();
-        GlStateManager.translate(0.5F, 0.5F, 0.5F);
-        GlStateManager.rotate(180, 0, 1, 0);
+        try {
+            GlStateManager.translate(0.5F, 0.5F, 0.5F);
+            GlStateManager.rotate(180, 0, 1, 0);
 
-        renderWithTransform(stack);
-
-        GlStateManager.popMatrix();
-        MekanismRenderer.resumeRenderer(tessellator, renderState);
+            renderWithTransform(stack);
+        } finally {
+            GlStateManager.popMatrix();
+            MekanismRenderer.resetItemRenderState();
+            MekanismRenderer.resumeRenderer(tessellator, renderState);
+        }
     }
 }

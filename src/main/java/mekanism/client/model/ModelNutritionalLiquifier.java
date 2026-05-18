@@ -162,6 +162,7 @@ public class ModelNutritionalLiquifier extends ModelBase {
 			glass4.render(size);
 			GlStateManager.disableBlend();
 			GlStateManager.enableAlpha();
+			GlStateManager.shadeModel(GL11.GL_FLAT);
 		}else {
 			glass1.render(size);
 			glass2.render(size);

@@ -208,9 +208,10 @@ public class ModelJetpack extends ModelBase {
         WingbladeR.render(size);
 
         MekanismRenderer.resetColor();
-        GlStateManager.disableCull();
+        GlStateManager.enableCull();
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
+        GlStateManager.shadeModel(GL11.GL_FLAT);
         GlStateManager.popMatrix();
         MekanismRenderer.disableGlow(glowInfo);
     }

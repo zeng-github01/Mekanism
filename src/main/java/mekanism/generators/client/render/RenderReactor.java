@@ -48,6 +48,7 @@ public class RenderReactor extends TileEntitySpecialRenderer<TileEntityReactorCo
             MekanismRenderer.disableGlow(glowInfo);
             GlStateManager.disableBlend();
             GlStateManager.enableAlpha();
+            MekanismRenderer.resetBlockRenderState();
             GlStateManager.popMatrix();
         }
     }

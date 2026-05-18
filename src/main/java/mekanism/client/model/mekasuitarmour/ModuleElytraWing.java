@@ -135,6 +135,7 @@ public class ModuleElytraWing extends ModelBase {
         GlStateManager.disableCull();
 
         renderWings(entityIn, scale);
+        GlStateManager.enableCull();
     }
 
     public void renderGlow(Entity entityIn, float scale) {

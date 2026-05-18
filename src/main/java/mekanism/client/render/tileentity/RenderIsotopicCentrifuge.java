@@ -51,8 +51,7 @@ public class RenderIsotopicCentrifuge extends TileEntitySpecialRenderer<TileEnti
             MekanismRenderer.disableGlow(glowInfo);
             GlStateManager.disableBlend();
             GlStateManager.enableAlpha();
-            GlStateManager.enableLighting();
-            GlStateManager.disableCull();
+            MekanismRenderer.resetBlockRenderState();
             GlStateManager.popMatrix();
         }
 

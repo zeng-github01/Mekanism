@@ -92,10 +92,7 @@ public class RenderThermoelectricBoiler extends TileEntitySpecialRenderer<TileEn
 
             if (glChanged) {
                 setLightmapDisabled(false);
-                GlStateManager.disableBlend();
-                GlStateManager.enableAlpha();
-                GlStateManager.enableLighting();
-                GlStateManager.disableCull();
+                MekanismRenderer.resetBlockRenderState();
             }
         }
     }

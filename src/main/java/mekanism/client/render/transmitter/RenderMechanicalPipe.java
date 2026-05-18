@@ -111,6 +111,7 @@ public class RenderMechanicalPipe extends RenderTransmitterBase<TileEntityMechan
             GlStateManager.enableAlpha();
             GlStateManager.enableLighting();
             GlStateManager.disableCull();
+            GlStateManager.shadeModel(GL11.GL_FLAT);
         }
     }
 

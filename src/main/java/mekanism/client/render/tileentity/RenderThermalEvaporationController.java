@@ -48,10 +48,7 @@ public class RenderThermalEvaporationController extends TileEntitySpecialRendere
 
             if (glChanged) {
                 setLightmapDisabled(false);
-                GlStateManager.disableBlend();
-                GlStateManager.enableAlpha();
-                GlStateManager.enableLighting();
-                GlStateManager.disableCull();
+                MekanismRenderer.resetBlockRenderState();
             }
         }
     }

@@ -67,6 +67,7 @@ public class RenderEnergyCubeItem extends MekanismItemStackRenderer {
 
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
+        GlStateManager.shadeModel(GL11.GL_FLAT);
         GlStateManager.popMatrix();
     }
 

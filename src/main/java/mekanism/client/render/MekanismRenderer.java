@@ -218,6 +218,28 @@ public class MekanismRenderer {
         GlStateManager.color(1, 1, 1, 1);
     }
 
+    public static void resetItemRenderState() {
+        resetColor();
+        GlStateManager.shadeModel(GL11.GL_FLAT);
+        GlStateManager.enableAlpha();
+        GlStateManager.disableBlend();
+        GlStateManager.enableDepth();
+        GlStateManager.depthMask(true);
+        GlStateManager.enableTexture2D();
+        GlStateManager.enableCull();
+    }
+
+    public static void resetBlockRenderState() {
+        resetColor();
+        GlStateManager.shadeModel(GL11.GL_FLAT);
+        GlStateManager.enableAlpha();
+        GlStateManager.disableBlend();
+        GlStateManager.enableLighting();
+        GlStateManager.disableCull();
+        GlStateManager.depthMask(true);
+        GlStateManager.enableTexture2D();
+    }
+
     private static float getRed(int color) {
         return (color >> 16 & 0xFF) / 255.0F;
     }

@@ -217,6 +217,7 @@ public class ModelCustomArmor extends ModelBiped {
                         }
                     }
                 }
+                MekanismRenderer.resetItemRenderState();
                 GlStateManager.popMatrix();
             }
         }

@@ -75,8 +75,7 @@ public class RenderConfigurableMachine<S extends TileEntity & ISideConfiguration
                             GlStateManager.disableBlend();
                             GlStateManager.enableAlpha();
                             MekanismRenderer.disableGlow(glowInfo);
-                            GlStateManager.enableLighting();
-                            GlStateManager.disableCull();
+                            MekanismRenderer.resetBlockRenderState();
                             GlStateManager.popMatrix();
                         }
                     }

@@ -72,10 +72,7 @@ public class RenderIndustrialTurbine extends TileEntitySpecialRenderer<TileEntit
 
                     if (glChanged) {
                         setLightmapDisabled(false);
-                        GlStateManager.disableBlend();
-                        GlStateManager.enableAlpha();
-                        GlStateManager.enableLighting();
-                        GlStateManager.disableCull();
+                        MekanismRenderer.resetBlockRenderState();
                     }
                 }
             }

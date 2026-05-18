@@ -113,6 +113,7 @@ public class ModelFluidTank extends ModelBase {
             MekanismRenderer.resetColor();
             GlStateManager.disableBlend();
             GlStateManager.enableAlpha();
+            GlStateManager.shadeModel(GL11.GL_FLAT);
             GlStateManager.popMatrix();
         }
     }

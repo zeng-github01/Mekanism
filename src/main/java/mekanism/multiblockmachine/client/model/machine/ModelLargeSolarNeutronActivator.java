@@ -368,6 +368,7 @@ public class ModelLargeSolarNeutronActivator extends ModelBase {
             MekanismRenderer.disableGlow(glowInfo);
             GlStateManager.disableBlend();
             GlStateManager.enableAlpha();
+            GlStateManager.shadeModel(GL11.GL_FLAT);
             GlStateManager.popMatrix();
         }
 
@@ -381,6 +382,7 @@ public class ModelLargeSolarNeutronActivator extends ModelBase {
             glass.render(size);
             GlStateManager.disableBlend();
             GlStateManager.enableAlpha();
+            GlStateManager.shadeModel(GL11.GL_FLAT);
             GlStateManager.popMatrix();
         }
 
@@ -407,6 +409,7 @@ public class ModelLargeSolarNeutronActivator extends ModelBase {
         MekanismRenderer.disableGlow(glowInfo);
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
+        GlStateManager.shadeModel(GL11.GL_FLAT);
         GlStateManager.popMatrix();
     }
 

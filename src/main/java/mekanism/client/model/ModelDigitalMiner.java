@@ -458,6 +458,7 @@ public class ModelDigitalMiner extends ModelBase {
             MekanismRenderer.disableGlow(glowInfo);
             GlStateManager.disableBlend();
             GlStateManager.enableAlpha();
+            GlStateManager.shadeModel(GL11.GL_FLAT);
             GlStateManager.popMatrix();
         }
 
@@ -477,6 +478,7 @@ public class ModelDigitalMiner extends ModelBase {
         MekanismRenderer.disableGlow(glowInfo);
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
+        GlStateManager.shadeModel(GL11.GL_FLAT);
         GlStateManager.popMatrix();
     }
 

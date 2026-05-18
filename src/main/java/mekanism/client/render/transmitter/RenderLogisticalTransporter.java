@@ -139,6 +139,7 @@ public class RenderLogisticalTransporter extends RenderTransmitterBase<TileEntit
                     MekanismRenderer.disableGlow(glowInfo);
                     GlStateManager.enableLighting();
                     GlStateManager.disableCull();
+                    GlStateManager.shadeModel(GL11.GL_FLAT);
                     GlStateManager.popMatrix();
                 }
             }

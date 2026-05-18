@@ -245,6 +245,7 @@ public class ModelAntiprotonicNucleosynthesizer extends ModelBase {
             Glass2.render(size);
             GlStateManager.disableBlend();
             GlStateManager.enableAlpha();
+            GlStateManager.shadeModel(GL11.GL_FLAT);
         }
     }
 

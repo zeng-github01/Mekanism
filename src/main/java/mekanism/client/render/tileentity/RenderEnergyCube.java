@@ -81,6 +81,7 @@ public class RenderEnergyCube extends TileEntitySpecialRenderer<TileEntityEnergy
 
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
+        MekanismRenderer.resetBlockRenderState();
         GlStateManager.popMatrix();
         MekanismRenderer.machineRenderer().render(tileEntity, x, y, z, partialTick, destroyStage, alpha);
     }

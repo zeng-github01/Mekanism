@@ -1,6 +1,7 @@
 package mekanism.common.item;
 
 import com.google.common.collect.Multimap;
+import com.wdcftgg.farmersdelightlegacy.api.knife.IKnifeItem;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Reference2BooleanArrayMap;
@@ -27,6 +28,7 @@ import mekanism.common.content.gear.Module;
 import mekanism.common.content.gear.mekatool.*;
 import mekanism.common.content.gear.shared.ModuleEnergyUnit;
 import mekanism.common.entity.EntityMeka;
+import mekanism.common.integration.MekanismHooks;
 import mekanism.common.lib.radial.IGenericRadialModeItem;
 import mekanism.common.lib.radial.data.NestingRadialData;
 import mekanism.common.network.PacketPortalFX;
@@ -59,6 +61,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.IFluidBlock;
+import net.minecraftforge.fml.common.Optional.Interface;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
@@ -69,9 +72,11 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem, IGenericRadialModeItem, Magnetic, IBlastingItem {
+@Interface(iface = "com.wdcftgg.farmersdelightlegacy.api.knife.IKnifeItem", modid = MekanismHooks.FARMERS_DELIGHT_LEGACY_MOD_ID)
+public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem, IGenericRadialModeItem, Magnetic, IBlastingItem, IKnifeItem {
 
     private static final ResourceLocation RADIAL_ID = Mekanism.rl("meka_tool");
+    private static final double CUTTING_BOARD_RECIPE_ENERGY_USAGE = 50;
 
 
     public ItemMekaTool() {
@@ -102,6 +107,23 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
     public boolean canHarvestBlock(IBlockState blockIn) {
         //Allow harvesting everything, things that are unbreakable are caught elsewhere
         return true;
+    }
+
+    @Override
+    public boolean canProcessCuttingBoardRecipe(ItemStack stack, World world, BlockPos pos, IBlockState state, EntityPlayer player, ItemStack inputStack) {
+        return getEnergy(stack) >= CUTTING_BOARD_RECIPE_ENERGY_USAGE && hasCuttingBoardRecipeModule(stack);
+    }
+
+    @Override
+    public void onCuttingBoardRecipeProcessed(ItemStack stack, World world, EntityPlayer player) {
+        if (getEnergy(stack) >= CUTTING_BOARD_RECIPE_ENERGY_USAGE) {
+            extract(stack, CUTTING_BOARD_RECIPE_ENERGY_USAGE, true);
+        }
+    }
+
+    private boolean hasCuttingBoardRecipeModule(ItemStack stack) {
+        return false;
+     //   return isModuleEnabled(stack,MekanismModules.);
     }
 
     @Override

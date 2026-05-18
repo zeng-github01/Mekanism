@@ -247,6 +247,7 @@ public class ModelChemicalDissolutionChamber extends ModelBase {
             glass.render(size);
             GlStateManager.disableBlend();
             GlStateManager.enableAlpha();
+            GlStateManager.shadeModel(GL11.GL_FLAT);
         }
     }
 

@@ -1,5 +1,6 @@
 package mekanism.client.Utils;
 
+import mekanism.client.render.MekanismRenderer;
 import mekanism.common.Mekanism;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -27,9 +28,13 @@ public class ClientUtil {
 
     public static void renderItem(ItemStack stack, int xAxis, int yAxis) {
         if (!stack.isEmpty()) {
+            boolean pushed = false;
+            boolean zLevelChanged = false;
             try {
                 MC.getRenderItem().zLevel += 50F;
+                zLevelChanged = true;
                 GlStateManager.pushMatrix();
+                pushed = true;
                 MC.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
                 MC.getTextureManager().getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
                 GlStateManager.enableRescaleNormal();
@@ -51,15 +56,23 @@ public class ClientUtil {
                 GlStateManager.scale(16, 16F, 16);
                 model = ForgeHooksClient.handleCameraTransforms(model, ItemCameraTransforms.TransformType.GUI, false);
                 renderModelAndEffect(stack, model);
+            } catch (Exception e) {
+                Mekanism.logger.error("Failed to render stack into gui: " + stack, e);
+            } finally {
                 GlStateManager.disableRescaleNormal();
                 RenderHelper.disableStandardItemLighting();
                 GlStateManager.disableDepth();
-                GlStateManager.popMatrix();
+                GlStateManager.disableBlend();
+                GlStateManager.enableAlpha();
+                MekanismRenderer.resetColor();
+                if (pushed) {
+                    GlStateManager.popMatrix();
+                }
                 MC.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
                 MC.getTextureManager().getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).restoreLastBlurMipmap();
-                MC.getRenderItem().zLevel -= 50F;
-            } catch (Exception e) {
-                Mekanism.logger.error("Failed to render stack into gui: " + stack, e);
+                if (zLevelChanged) {
+                    MC.getRenderItem().zLevel -= 50F;
+                }
             }
         }
     }

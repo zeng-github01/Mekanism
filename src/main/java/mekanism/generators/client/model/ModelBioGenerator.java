@@ -90,6 +90,7 @@ public class ModelBioGenerator extends ModelBase {
         glass.render(size);
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
+        GlStateManager.shadeModel(GL11.GL_FLAT);
         GlStateManager.popMatrix();
     }
 

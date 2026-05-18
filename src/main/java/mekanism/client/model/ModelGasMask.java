@@ -262,10 +262,11 @@ public class ModelGasMask extends ModelBase {
         glassbackR.render(size);
         glassbackL.render(size);
 
-        GlStateManager.disableCull();
+        GlStateManager.enableCull();
         MekanismRenderer.resetColor();
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
+        GlStateManager.shadeModel(GL11.GL_FLAT);
         MekanismRenderer.disableGlow(glowInfo);
     }
 

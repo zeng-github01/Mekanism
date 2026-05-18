@@ -67,6 +67,7 @@ public class RenderFluidTankItem {
             MekanismRenderer.disableGlow(glowInfo);
             GlStateManager.disableBlend();
             GlStateManager.enableAlpha();
+            GlStateManager.shadeModel(GL11.GL_FLAT);
             GlStateManager.enableLighting();
             GlStateManager.disableCull();
             GlStateManager.popMatrix();

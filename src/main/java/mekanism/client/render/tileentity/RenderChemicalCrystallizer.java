@@ -53,8 +53,7 @@ public class RenderChemicalCrystallizer extends TileEntitySpecialRenderer<TileEn
             MekanismRenderer.disableGlow(glowInfo);
             GlStateManager.disableBlend();
             GlStateManager.enableAlpha();
-            GlStateManager.enableLighting();
-            GlStateManager.disableCull();
+            MekanismRenderer.resetBlockRenderState();
             GlStateManager.popMatrix();
         }
 
