@@ -2294,3 +2294,6 @@ gui.setRateLimit=Set Rate Limit
 gui.fissionHeatGraph=Heat Graph
 tooltip.remove_all_modules=Hold Shift to remove all installed modules of the selected type
 button.mekanism.confirm=Confirm
+
+item.module_laser_cutter_unit.name=Laser cutting knife
+description.mekanism.laser_cutter_unit=Allow the Meka tool to be used like a knife

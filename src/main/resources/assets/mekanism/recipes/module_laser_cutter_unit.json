@@ -1,0 +1,30 @@
+{
+      "result": {
+            "item": "mekanism:module_laser_cutter_unit"
+      },
+      "pattern": [
+            "ABA",
+            "CDC",
+            " E "
+      ],
+      "type": "mekanism:ore_shaped",
+      "key": {
+            "A": {
+                  "ore": "alloyAdvanced",
+                  "type": "forge:ore_dict"
+            },
+            "B": {
+                  "item": "mekanism:machineblock2",
+                  "data": 13
+            },
+            "C": {
+                  "item": "mekanism:hdpe_sheet"
+            },
+            "D": {
+                  "item": "farmersdelight:diamond_knife"
+            },
+            "E": {
+                  "item": "mekanism:modulebase"
+            }
+      }
+}

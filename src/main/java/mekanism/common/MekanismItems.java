@@ -109,6 +109,7 @@ public class MekanismItems {
     public static final ItemModule MODULE_BLASTING = new ItemModule(MekanismModules.BLASTING_UNIT);
     public static final ItemModule MODULE_VEIN_MINING = new ItemModule(MekanismModules.VEIN_MINING_UNIT);
     public static final ItemModule MODULE_TELEPORTATION = new ItemModule(MekanismModules.TELEPORTATION_UNIT);
+    public static final ItemModule MODULE_LASER_CUTTER = new ItemModule(MekanismModules.LASER_CUTTER_UNIT);
 
     public static final ItemModule MODULE_ELECTROLYTIC_BREATHING = new ItemModule(MekanismModules.ELECTROLYTIC_BREATHING_UNIT);
     public static final ItemModule MODULE_INHALATION_PURIFICATION = new ItemModule(MekanismModules.INHALATION_PURIFICATION_UNIT);
@@ -264,6 +265,9 @@ public class MekanismItems {
         registry.register(initModule(MODULE_BLASTING));
         registry.register(initModule(MODULE_VEIN_MINING));
         registry.register(initModule(MODULE_TELEPORTATION));
+        if (Mekanism.hooks.FarmersDelightLegacyLoaded) {
+            registry.register(initModule(MODULE_LASER_CUTTER));
+        }
 
         registry.register(initModule(MODULE_ELECTROLYTIC_BREATHING));
         registry.register(initModule(MODULE_INHALATION_PURIFICATION));

@@ -323,6 +323,10 @@ public class ClientProxy extends CommonProxy {
         registerItemRender(MekanismItems.MODULE_VEIN_MINING);
         registerItemRender(MekanismItems.MODULE_TELEPORTATION);
 
+        if (Mekanism.hooks.FarmersDelightLegacyLoaded){
+            registerItemRender(MekanismItems.MODULE_LASER_CUTTER);
+        }
+
         registerItemRender(MekanismItems.MODULE_ELECTROLYTIC_BREATHING);
         registerItemRender(MekanismItems.MODULE_INHALATION_PURIFICATION);
         registerItemRender(MekanismItems.MODULE_VISION_ENHANCEMENT);

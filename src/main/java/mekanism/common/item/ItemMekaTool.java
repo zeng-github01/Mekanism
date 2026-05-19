@@ -122,8 +122,7 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
     }
 
     private boolean hasCuttingBoardRecipeModule(ItemStack stack) {
-        return false;
-     //   return isModuleEnabled(stack,MekanismModules.);
+        return isModuleEnabled(stack,MekanismModules.LASER_CUTTER_UNIT);
     }
 
     @Override
