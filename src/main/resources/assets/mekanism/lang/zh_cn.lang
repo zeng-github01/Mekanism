@@ -2268,4 +2268,4 @@ tooltip.remove_all_modules=按住 Shift 可移除所选类型的全部已安装�
 button.mekanism.confirm=确认
 
 item.module_laser_cutter_unit.name=激光切割刀
-description.mekanism.laser_cutter_unit=让meka工具可以向刀一样使用
+description.mekanism.laser_cutter_unit=让meka工具可以像刀一样使用

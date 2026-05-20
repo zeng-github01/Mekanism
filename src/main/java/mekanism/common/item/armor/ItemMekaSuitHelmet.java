@@ -119,7 +119,7 @@ public class ItemMekaSuitHelmet extends ItemMekaSuitArmor implements IGasItem, E
 
     @Override
     public boolean canReceiveGas(ItemStack itemstack, Gas type) {
-        return type == MekanismFluids.NutritionalPaste;
+        return hasModule(itemstack, MekanismModules.NUTRITIONAL_INJECTION_UNIT) && type == MekanismFluids.NutritionalPaste;
     }
 
     @Override
@@ -129,12 +129,18 @@ public class ItemMekaSuitHelmet extends ItemMekaSuitArmor implements IGasItem, E
 
     @Override
     public GasStack getGas(ItemStack itemstack) {
-        return GasStack.readFromNBT(ItemDataUtils.getCompound(itemstack, "gasStored"));
+        return hasModule(itemstack, MekanismModules.NUTRITIONAL_INJECTION_UNIT) ? GasStack.readFromNBT(ItemDataUtils.getCompound(itemstack, "gasStored")) : null;
     }
 
     @Override
     public void setGas(ItemStack itemstack, GasStack stack) {
-        if (stack == null || stack.amount == 0) {
+        if (!hasModule(itemstack, MekanismModules.NUTRITIONAL_INJECTION_UNIT)) {
+            return;
+        }
+        if (stack != null && stack.getGas() != null && stack.getGas() != MekanismFluids.NutritionalPaste) {
+            return;
+        }
+        if (stack == null || stack.amount <= 0) {
             ItemDataUtils.removeData(itemstack, "gasStored");
         } else {
             int amount = Math.max(0, Math.min(stack.amount, getMaxGas(itemstack)));
@@ -145,7 +151,7 @@ public class ItemMekaSuitHelmet extends ItemMekaSuitArmor implements IGasItem, E
 
     @Override
     public int getMaxGas(ItemStack itemstack) {
-        return MekanismConfig.current().meka.mekaSuitNutritionalMaxStorage.val();
+        return hasModule(itemstack, MekanismModules.NUTRITIONAL_INJECTION_UNIT) ? MekanismConfig.current().meka.mekaSuitNutritionalMaxStorage.val() : 0;
     }
 
     @Override

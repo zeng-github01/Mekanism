@@ -19,6 +19,7 @@ import mekanism.api.radial.mode.NestedRadialMode;
 import mekanism.client.MekKeyHandler;
 import mekanism.client.MekanismKeyHandler;
 import mekanism.common.Mekanism;
+import mekanism.common.MekanismItems;
 import mekanism.common.MekanismModules;
 import mekanism.common.OreDictCache;
 import mekanism.common.config.MekanismConfig;
@@ -62,6 +63,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.common.Optional.Interface;
+import net.minecraftforge.fml.common.Optional.Method;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
@@ -110,11 +112,20 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
     }
 
     @Override
+    @Method(modid = MekanismHooks.FARMERS_DELIGHT_LEGACY_MOD_ID)
+    public ItemStack getKnifeJeiInfoStack(ItemStack stack) {
+        return MekanismModules.LASER_CUTTER_UNIT.getStack();
+    }
+
+
+    @Override
+    @Method(modid = MekanismHooks.FARMERS_DELIGHT_LEGACY_MOD_ID)
     public boolean canProcessCuttingBoardRecipe(ItemStack stack, World world, BlockPos pos, IBlockState state, EntityPlayer player, ItemStack inputStack) {
         return getEnergy(stack) >= CUTTING_BOARD_RECIPE_ENERGY_USAGE && hasCuttingBoardRecipeModule(stack);
     }
 
     @Override
+    @Method(modid = MekanismHooks.FARMERS_DELIGHT_LEGACY_MOD_ID)
     public void onCuttingBoardRecipeProcessed(ItemStack stack, World world, EntityPlayer player) {
         if (getEnergy(stack) >= CUTTING_BOARD_RECIPE_ENERGY_USAGE) {
             extract(stack, CUTTING_BOARD_RECIPE_ENERGY_USAGE, true);
@@ -122,7 +133,7 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
     }
 
     private boolean hasCuttingBoardRecipeModule(ItemStack stack) {
-        return isModuleEnabled(stack,MekanismModules.LASER_CUTTER_UNIT);
+        return isModuleEnabled(stack, MekanismModules.LASER_CUTTER_UNIT);
     }
 
     @Override

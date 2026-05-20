@@ -123,7 +123,7 @@ public class ItemMekaSuitBodyArmor extends ItemMekaSuitArmor implements IGasItem
 
     @Override
     public boolean canReceiveGas(ItemStack itemstack, Gas type) {
-        return type == MekanismFluids.Hydrogen;
+        return hasModule(itemstack, MekanismModules.JETPACK_UNIT) && type == MekanismFluids.Hydrogen;
     }
 
     @Override
@@ -133,12 +133,18 @@ public class ItemMekaSuitBodyArmor extends ItemMekaSuitArmor implements IGasItem
 
     @Override
     public GasStack getGas(ItemStack itemstack) {
-        return GasStack.readFromNBT(ItemDataUtils.getCompound(itemstack, "stored"));
+        return hasModule(itemstack, MekanismModules.JETPACK_UNIT) ? GasStack.readFromNBT(ItemDataUtils.getCompound(itemstack, "stored")) : null;
     }
 
     @Override
     public void setGas(ItemStack itemstack, GasStack stack) {
-        if (stack == null || stack.amount == 0) {
+        if (!hasModule(itemstack, MekanismModules.JETPACK_UNIT)) {
+            return;
+        }
+        if (stack != null && stack.getGas() != null && stack.getGas() != MekanismFluids.Hydrogen) {
+            return;
+        }
+        if (stack == null || stack.amount <= 0) {
             ItemDataUtils.removeData(itemstack, "stored");
         } else {
             int amount = Math.max(0, Math.min(stack.amount, getMaxGas(itemstack)));

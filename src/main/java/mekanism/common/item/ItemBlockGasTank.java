@@ -159,7 +159,7 @@ public class ItemBlockGasTank extends ItemBlock implements IGasItem, ISustainedI
         if (itemstack.getCount() > 1) {
             return;
         }
-        if (stack == null || stack.amount == 0) {
+        if (stack == null || stack.amount <= 0) {
             ItemDataUtils.removeData(itemstack, "stored");
         } else {
             int amount = Math.max(0, Math.min(stack.amount, getMaxGas(itemstack)));

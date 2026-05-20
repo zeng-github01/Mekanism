@@ -118,5 +118,6 @@ dependencies {
     compileOnly rfg.deobf(files("libs/Galacticraft-1.12.2-4.0.6.jar"))
     runtimeOnly files("libs/harvestcraft-1.12.2-zg.jar")
     implementation rfg.deobf("curse.maven:catalogue-vintage-1465746:7652301")
-    implementation rfg.deobf("curse.maven:farmers-delight-legacy-1517486:8109223")
+    //implementation rfg.deobf("curse.maven:farmers-delight-legacy-1517486:8109223")
+    implementation rfg.deobf(files("libs/FarmersDelightLegacy-1.0.7-test2-dev.jar"))
 }

@@ -127,8 +127,10 @@ public class ItemCanteen extends ItemMekanism implements IGasItem {
 
     @Override
     public void setGas(ItemStack itemstack, GasStack stack) {
-        if (stack == null || stack.amount == 0) {
+        if (stack == null || stack.amount <= 0) {
             ItemDataUtils.removeData(itemstack, "stored");
+        } else if (stack.getGas() != MekanismFluids.NutritionalPaste) {
+            return;
         } else {
             int amount = Math.max(0, Math.min(stack.amount, getMaxGas(itemstack)));
             GasStack gasStack = new GasStack(stack.getGas(), amount);

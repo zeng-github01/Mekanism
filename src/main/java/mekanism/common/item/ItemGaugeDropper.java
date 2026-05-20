@@ -163,7 +163,7 @@ public class ItemGaugeDropper extends ItemMekanism implements IGasItem {
 
     @Override
     public void setGas(ItemStack itemstack, GasStack stack) {
-        if (stack == null || stack.amount == 0) {
+        if (stack == null || stack.amount <= 0) {
             ItemDataUtils.removeData(itemstack, "gasStack");
         } else {
             int amount = Math.max(0, Math.min(stack.amount, getMaxGas(itemstack)));

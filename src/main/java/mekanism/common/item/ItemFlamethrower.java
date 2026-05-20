@@ -134,8 +134,10 @@ public class ItemFlamethrower extends ItemMekanism implements IGasItem, IModeIte
 
     @Override
     public void setGas(ItemStack itemstack, GasStack stack) {
-        if (stack == null || stack.amount == 0) {
+        if (stack == null || stack.amount <= 0) {
             ItemDataUtils.removeData(itemstack, "stored");
+        } else if (stack.getGas() != MekanismFluids.Hydrogen) {
+            return;
         } else {
             int amount = Math.max(0, Math.min(stack.amount, getMaxGas(itemstack)));
             GasStack gasStack = new GasStack(stack.getGas(), amount);
