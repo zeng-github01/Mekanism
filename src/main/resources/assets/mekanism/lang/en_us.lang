@@ -1968,6 +1968,7 @@ module.mekanism.jetpack_mode=Jetpack Mode
 module.mekanism.jetpack_unit=Jetpack Unit
 module.mekanism.jump_boost=Jump Boost
 module.mekanism.laser_dissipation_unit=Laser Dissipation Unit
+module.mekanism.laser_cutter_unit=Laser Cutter Unit
 module.mekanism.locomotive_boosting_unit=Locomotive Boosting Unit
 module.mekanism.magnetic_attraction=Magnetic Attraction
 module.mekanism.magnetic_attraction_unit=Magnetic Attraction Unit
@@ -2295,5 +2296,5 @@ gui.fissionHeatGraph=Heat Graph
 tooltip.remove_all_modules=Hold Shift to remove all installed modules of the selected type
 button.mekanism.confirm=Confirm
 
-item.module_laser_cutter_unit.name=Laser cutting knife
+item.module_laser_cutter_unit.name=Laser Cutter Unit
 description.mekanism.laser_cutter_unit=Allow the Meka tool to be used like a knife

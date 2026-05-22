@@ -19,7 +19,6 @@ import mekanism.api.radial.mode.NestedRadialMode;
 import mekanism.client.MekKeyHandler;
 import mekanism.client.MekanismKeyHandler;
 import mekanism.common.Mekanism;
-import mekanism.common.MekanismItems;
 import mekanism.common.MekanismModules;
 import mekanism.common.OreDictCache;
 import mekanism.common.config.MekanismConfig;

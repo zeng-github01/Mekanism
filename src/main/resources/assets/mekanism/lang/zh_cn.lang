@@ -1943,6 +1943,7 @@ module.mekanism.jetpack_mode=喷气背包模式
 module.mekanism.jetpack_unit=喷气背包单元
 module.mekanism.jump_boost=跳跃提升
 module.mekanism.laser_dissipation_unit=激光消散单元
+module.mekanism.laser_cutter_unit=激光切割单元
 module.mekanism.locomotive_boosting_unit=动力助推单元
 module.mekanism.magnetic_attraction=磁力吸引
 module.mekanism.magnetic_attraction_unit=磁力吸引装置
@@ -2267,5 +2268,5 @@ gui.mekanism.stabilizer.chunks_loaded=已加载区块
 tooltip.remove_all_modules=按住 Shift 可移除所选类型的全部已安装模块
 button.mekanism.confirm=确认
 
-item.module_laser_cutter_unit.name=激光切割刀
+item.module_laser_cutter_unit.name=激光切割单元
 description.mekanism.laser_cutter_unit=让meka工具可以像刀一样使用
