@@ -42,7 +42,8 @@ public final class DimensionalStabilizerOverlayRenderer {
             return;
         }
         List<TileEntityDimensionalStabilizer> visibleStabilizers = new ArrayList<>();
-        for (TileEntity tileEntity : mc.world.loadedTileEntityList) {
+        List<TileEntity> loadedTiles = new ArrayList<>(mc.world.loadedTileEntityList);
+        for (TileEntity tileEntity : loadedTiles) {
             if (!(tileEntity instanceof TileEntityDimensionalStabilizer stabilizer) || stabilizer.isInvalid()) {
                 continue;
             }
@@ -342,4 +343,3 @@ public final class DimensionalStabilizerOverlayRenderer {
         }
     }
 }
-
