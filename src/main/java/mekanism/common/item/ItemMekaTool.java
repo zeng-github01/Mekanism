@@ -544,4 +544,12 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
             }
         }
     }
+
+
+    @Override
+    public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
+        super.onUpdate(stack, world, entity, itemSlot, isSelected);
+        getModules(stack).forEach(module -> module.onUpdateModule(stack, world, entity, itemSlot, isSelected));
+    }
+
 }

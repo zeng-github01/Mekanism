@@ -342,38 +342,10 @@ public class ItemMekaFishingRod extends ItemFishingRod implements IEnergizedItem
     }
 
     @Override
-    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        if (!isSelected) {
-            return;
-        }
-        if (worldIn.isRemote) {
-            return;
-        }
-        //如果不是玩家
-        if (!(entityIn instanceof EntityPlayer player)) {
-            return;
-        }
-        //如果是主手物品
-        ItemStack mainhand = player.getHeldItemMainhand();
-        if (!mainhand.isEmpty() && isModuleEnabled(mainhand, MekanismModules.FISHING_INTELLIGENT_UNIT)) {
-            autoFish(worldIn, player, EnumHand.MAIN_HAND);
-        }
-    }
-
-    public void autoFish(World world, EntityPlayer player, EnumHand hand) {
-        EntityFishHook fishHook = player.fishEntity;
-        if (fishHook == null) {
-            player.getHeldItem(hand).useItemRightClick(world, player, hand);
-        } else {
-            //如果钓到奇怪的玩意上，或者浮漂抖动
-            if (fishHook.ticksCatchable > 0 || fishHook.caughtEntity != null) {
-                //通知收杆
-                player.getHeldItem(hand).useItemRightClick(world, player, hand);
-            }
-        }
+    public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
+        super.onUpdate(stack, world, entity, itemSlot, isSelected);
+        getModules(stack).forEach(module -> module.onUpdateModule(stack, world, entity, itemSlot, isSelected));
     }
 
 
 }
-
-

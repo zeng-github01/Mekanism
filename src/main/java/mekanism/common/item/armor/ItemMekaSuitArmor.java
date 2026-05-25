@@ -209,7 +209,7 @@ public abstract class ItemMekaSuitArmor extends ItemArmor implements IEnergizedI
         items.add(FullStack);
     }
 
-    public void addALLItemStack(ItemStack stack){
+    public void addALLItemStack(ItemStack stack) {
 
     }
 
@@ -223,6 +223,7 @@ public abstract class ItemMekaSuitArmor extends ItemArmor implements IEnergizedI
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
         super.onUpdate(stack, world, entity, itemSlot, isSelected);
+        getModules(stack).forEach(module -> module.onUpdateModule(stack, world, entity, itemSlot, isSelected));
         NCRadiationShieldingHandler.clearLegacyArmorShieldingTag(stack);
     }
 

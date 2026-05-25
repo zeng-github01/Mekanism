@@ -359,6 +359,14 @@ public interface ICustomModule<MODULE extends ICustomModule<MODULE>> {
 
     default void hitEntity(IModule<MODULE> module, ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
     }
+
+
+
+    default void tickServerUpdate(IModule<MODULE> module,ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
+    }
+
+    default void tickClientUpdate(IModule<MODULE> module,ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
+    }
 }
 
 

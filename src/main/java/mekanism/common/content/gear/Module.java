@@ -35,6 +35,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 import org.jetbrains.annotations.NotNull;
 
@@ -410,6 +411,16 @@ public final class Module<MODULE extends ICustomModule<MODULE>> implements IModu
     public void hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker){
         if (isEnabled()) {
             customModule.hitEntity(this,stack,target,attacker);
+        }
+    }
+
+    public void onUpdateModule(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected){
+        if (isEnabled()) {
+            if (world.isRemote) {
+                customModule.tickClientUpdate(this, stack, world, entity, itemSlot, isSelected);
+            }else {
+                customModule.tickServerUpdate(this, stack, world, entity, itemSlot, isSelected);
+            }
         }
     }
 }
