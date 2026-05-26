@@ -249,11 +249,11 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
     @Override
     public Map<BlockPos, IBlockState> getBlastedBlocksForRendering(World world, EntityPlayer player, ItemStack stack, BlockPos pos, IBlockState state) {
         VeinMiningTargets targets = getVeinMiningTargets(world, player, stack, pos, state);
-        if (targets == null || targets.veinedBlocks.isEmpty()) {
+        if (targets == null || targets.getVeinedBlocks().isEmpty()) {
             return Collections.emptyMap();
         }
-        Map<BlockPos, IBlockState> blocks = new HashMap<>(targets.veinedBlocks.size());
-        for (BlockPos targetPos : targets.veinedBlocks.keySet()) {
+        Map<BlockPos, IBlockState> blocks = new HashMap<>(targets.getVeinedBlocks().size());
+        for (BlockPos targetPos : targets.getVeinedBlocks().keySet()) {
             IBlockState targetState = world.getBlockState(targetPos);
             if (!targetState.getBlock().isAir(targetState, world, targetPos)) {
                 blocks.put(targetPos, targetState);
@@ -262,7 +262,7 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
         return blocks;
     }
 
-    private VeinMiningTargets getVeinMiningTargets(World world, EntityPlayer player, ItemStack stack, BlockPos pos, IBlockState state) {
+    public VeinMiningTargets getVeinMiningTargets(World world, EntityPlayer player, ItemStack stack, BlockPos pos, IBlockState state) {
         Map<BlockPos, IBlockState> blocks = getBlastedBlocks(world, player, stack, pos, state);
         if (blocks.isEmpty() && ModuleVeinMiningUnit.canVeinBlock(state)) {
             Map<BlockPos, IBlockState> fallback = new HashMap<>();
@@ -285,7 +285,7 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
         return new VeinMiningTargets(oreTracker, veinedBlocks, isOre);
     }
 
-    private static class VeinMiningTargets {
+    public static class VeinMiningTargets {
         private final Reference2BooleanMap<Block> oreTracker;
         private final Object2IntMap<BlockPos> veinedBlocks;
         private final boolean isOre;
@@ -295,10 +295,22 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
             this.veinedBlocks = veinedBlocks;
             this.isOre = isOre;
         }
+
+        public Reference2BooleanMap<Block> getOreTracker() {
+            return oreTracker;
+        }
+
+        public Object2IntMap<BlockPos> getVeinedBlocks() {
+            return veinedBlocks;
+        }
+
+        public boolean isOre() {
+            return isOre;
+        }
     }
 
 
-    private Object2IntMap<BlockPos> getVeinedBlocks(World world, ItemStack stack, Map<BlockPos, IBlockState> blocks, Reference2BooleanMap<Block> oreTracker) {
+    public Object2IntMap<BlockPos> getVeinedBlocks(World world, ItemStack stack, Map<BlockPos, IBlockState> blocks, Reference2BooleanMap<Block> oreTracker) {
         IModule<ModuleVeinMiningUnit> veinMiningUnit = getModule(stack, MekanismModules.VEIN_MINING_UNIT);
         if (veinMiningUnit != null && veinMiningUnit.isEnabled()) {
             ModuleVeinMiningUnit customInstance = veinMiningUnit.getCustomInstance();
@@ -322,11 +334,11 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
             double energyRequired = getDestroyEnergy(modDestroyEnergy, state.getBlockHardness(world, pos));
             if (energyContainer.extract(itemstack, energyRequired, false) >= (energyRequired)) {
                 VeinMiningTargets targets = getVeinMiningTargets(world, player, itemstack, pos, state);
-                if (targets != null && !targets.veinedBlocks.isEmpty()) {
+                if (targets != null && !targets.getVeinedBlocks().isEmpty()) {
                     double baseDestroyEnergy = getDestroyEnergy(silk);
-                    MekanismUtils.veinMineArea(energyContainer, energyRequired, world, pos, (EntityPlayerMP) player, itemstack, this, targets.veinedBlocks,
+                    MekanismUtils.veinMineArea(energyContainer, energyRequired, world, pos, (EntityPlayerMP) player, itemstack, this, targets.getVeinedBlocks(),
                             hardness -> getDestroyEnergy(modDestroyEnergy, hardness),
-                            (hardness, distance, bs) -> getDestroyEnergy(baseDestroyEnergy, hardness) * (0.5 * Math.pow(distance, targets.oreTracker.getBoolean(targets.isOre) ? 1.5 : 2)));
+                            (hardness, distance, bs) -> getDestroyEnergy(baseDestroyEnergy, hardness) * (0.5 * Math.pow(distance, targets.getOreTracker().getBoolean(targets.isOre()) ? 1.5 : 2)));
 
                 }
             }
@@ -335,7 +347,7 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
     }
 
 
-    private RayTraceResult doRayTrace(IBlockState state, BlockPos pos, EntityPlayer player) {
+    public RayTraceResult doRayTrace(IBlockState state, BlockPos pos, EntityPlayer player) {
         Vec3d positionEyes = player.getPositionEyes(1.0F);
         Vec3d playerLook = player.getLook(1.0F);
         double blockReachDistance = player.getAttributeMap().getAttributeInstance(EntityPlayer.REACH_DISTANCE).getAttributeValue();
@@ -345,20 +357,20 @@ public class ItemMekaTool extends ItemEnergized implements IModuleContainerItem,
         return res != null ? res : new RayTraceResult(RayTraceResult.Type.MISS, Vec3d.ZERO, EnumFacing.UP, pos);
     }
 
-    private double getDestroyEnergy(boolean silk) {
+    public double getDestroyEnergy(boolean silk) {
         return silk ? MekanismConfig.current().meka.mekaToolEnergyUsageSilk.val() : MekanismConfig.current().meka.mekaToolEnergyUsage.val();
     }
 
-    private double getDestroyEnergy(ItemStack itemStack, float hardness, boolean silk) {
+    public double getDestroyEnergy(ItemStack itemStack, float hardness, boolean silk) {
         return getDestroyEnergy(getDestroyEnergy(itemStack, silk), hardness);
     }
 
-    private double getDestroyEnergy(double baseDestroyEnergy, float hardness) {
+    public double getDestroyEnergy(double baseDestroyEnergy, float hardness) {
         return hardness == 0 ? baseDestroyEnergy / (2) : baseDestroyEnergy;
     }
 
 
-    private double getDestroyEnergy(ItemStack itemStack, boolean silk) {
+    public double getDestroyEnergy(ItemStack itemStack, boolean silk) {
         double destroyEnergy = getDestroyEnergy(silk);
         IModule<ModuleExcavationEscalationUnit> module = getModule(itemStack, MekanismModules.EXCAVATION_ESCALATION_UNIT);
         float efficiency = module == null || !module.isEnabled() ? MekanismConfig.current().meka.mekaToolBaseEfficiency.val() : module.getCustomInstance().getEfficiency();
