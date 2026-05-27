@@ -44,7 +44,7 @@ public class RenderLogisticalTransporter extends RenderTransmitterBase<TileEntit
     private static TextureAtlasSprite torchOffIcon;
     private static TextureAtlasSprite torchOnIcon;
     private ModelTransporterBox modelBox = new ModelTransporterBox();
-    private EntityItem entityItem = new EntityItem(null);
+    private EntityItem entityItem;
     private Render<EntityItem> renderer = Minecraft.getMinecraft().getRenderManager().getEntityClassRenderObject(EntityItem.class);
 
     public static void onStitch(TextureMap map) {
@@ -67,6 +67,15 @@ public class RenderLogisticalTransporter extends RenderTransmitterBase<TileEntit
         boolean pushed = false;
         Collection<TransporterStack> inTransit = transporter.getTransmitter().getTransit();
         if (!inTransit.isEmpty()) {
+            if (!transporter.hasWorld()) {
+                return;
+            }
+            if (entityItem == null || entityItem.world != transporter.getWorld()) {
+                entityItem = new EntityItem(transporter.getWorld());
+            }
+            if (entityItem == null) {
+                return;
+            }
             GlStateManager.pushMatrix();
             pushed = true;
 
