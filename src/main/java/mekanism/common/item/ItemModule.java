@@ -28,8 +28,8 @@ public class ItemModule extends Item implements IModuleItem {
 
     public ItemModule(ModuleData<?> moduleData) {
         super();
-        moduleData.setStack(this);
         this.moduleData = moduleData;
+        moduleData.setStack(this);
     }
 
 
