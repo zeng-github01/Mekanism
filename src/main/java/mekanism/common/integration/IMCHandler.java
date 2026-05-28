@@ -1,11 +1,14 @@
 package mekanism.common.integration;
 
 import mekanism.common.Mekanism;
+import mekanism.api.gas.GasStack;
 import mekanism.common.recipe.RecipeHandler;
 import mekanism.common.recipe.RecipeHandler.Recipe;
 import mekanism.common.recipe.inputs.MachineInput;
 import mekanism.common.recipe.machines.MachineRecipe;
+import mekanism.common.recipe.machines.WasherRecipe;
 import mekanism.common.recipe.outputs.MachineOutput;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.event.FMLInterModComms.IMCMessage;
 
 import java.util.List;
@@ -47,6 +50,9 @@ public class IMCHandler {
 
     private <INPUT extends MachineInput<INPUT>, OUTPUT extends MachineOutput<OUTPUT>, RECIPE extends MachineRecipe<INPUT, OUTPUT, RECIPE>>
     void handleRecipe(Recipe<INPUT, OUTPUT, RECIPE> type, IMCMessage msg, boolean delete) {
+        if (type == Recipe.CHEMICAL_WASHER && handleLegacyChemicalWasherRecipe(msg, delete)) {
+            return;
+        }
         INPUT input = type.createInput(msg.getNBTValue());
         if (input != null && input.isValid()) {
             RECIPE recipe = type.createRecipe(input, msg.getNBTValue());
@@ -64,5 +70,32 @@ public class IMCHandler {
         } else {
             Mekanism.logger.error(msg.getSender() + " attempted to " + (delete ? "remove" : "add") + " recipe of type " + type.getRecipeName() + " with an invalid input.");
         }
+    }
+
+    private boolean handleLegacyChemicalWasherRecipe(IMCMessage msg, boolean delete) {
+        NBTTagCompound nbt = msg.getNBTValue();
+        if (!nbt.hasKey("input") || !nbt.hasKey("output") || nbt.hasKey("ingredientGas") || nbt.hasKey("ingredientFluid")) {
+            return false;
+        }
+
+        GasStack input = GasStack.readFromNBT(nbt.getCompoundTag("input"));
+        GasStack output = GasStack.readFromNBT(nbt.getCompoundTag("output"));
+        if (input != null) {
+            WasherRecipe recipe = new WasherRecipe(input, output);
+            if (output != null && recipe.recipeOutput != null) {
+                if (delete) {
+                    RecipeHandler.removeRecipe(Recipe.CHEMICAL_WASHER, recipe);
+                    Mekanism.logger.info(msg.getSender() + " removed legacy recipe of type " + Recipe.CHEMICAL_WASHER.getRecipeName() + " from the recipe list.");
+                } else {
+                    RecipeHandler.addRecipe(Recipe.CHEMICAL_WASHER, recipe);
+                    Mekanism.logger.info(msg.getSender() + " added legacy recipe of type " + Recipe.CHEMICAL_WASHER.getRecipeName() + " to the recipe list.");
+                }
+            } else {
+                Mekanism.logger.error(msg.getSender() + " attempted to " + (delete ? "remove" : "add") + " legacy recipe of type " + Recipe.CHEMICAL_WASHER.getRecipeName() + " with an invalid output.");
+            }
+        } else {
+            Mekanism.logger.error(msg.getSender() + " attempted to " + (delete ? "remove" : "add") + " legacy recipe of type " + Recipe.CHEMICAL_WASHER.getRecipeName() + " with an invalid input.");
+        }
+        return true;
     }
 }
